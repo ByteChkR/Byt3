@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 namespace Byt3.Serialization
 {
@@ -14,9 +13,8 @@ namespace Byt3.Serialization
         /// </summary>
         /// <param name="s">Input Stream</param>
         /// <returns>Deserialized BasePacket</returns>
-        public override BasePacket DeserializePacket(Stream s)
+        public override BasePacket DeserializePacket(PrimitiveValueWrapper pvw)
         {
-            PrimitiveValueWrapper pvw = new PrimitiveValueWrapper(s);
             object packetType = pvw.ReadString();
             byte[] payload = pvw.ReadBytes();
             return new BasePacket(packetType, payload);
@@ -27,12 +25,10 @@ namespace Byt3.Serialization
         /// </summary>
         /// <param name="s">Target Stream</param>
         /// <param name="obj">BasePacket to Serialize</param>
-        public override void SerializePacket(Stream s, BasePacket obj)
+        public override void SerializePacket(PrimitiveValueWrapper pvw, BasePacket obj)
         {
-            PrimitiveValueWrapper pvw = new PrimitiveValueWrapper(s);
             pvw.Write((string)obj.PacketType);
             pvw.Write(obj.Payload);
-            pvw.CompleteWrite();
         }
 
         /// <summary>

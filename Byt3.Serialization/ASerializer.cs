@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace Byt3.Serialization
+﻿namespace Byt3.Serialization
 {
 
 
@@ -15,14 +12,14 @@ namespace Byt3.Serialization
         /// </summary>
         /// <param name="s">Stream to read from</param>
         /// <returns>The Deserialized Object</returns>
-        internal abstract object Deserialize(Stream s);
+        internal abstract object Deserialize(PrimitiveValueWrapper s);
 
         /// <summary>
         /// Serializes an object into a stream
         /// </summary>
         /// <param name="s">Target Stream</param>
         /// <param name="o">Object to Serialize</param>
-        internal abstract void Serialize(Stream s, object o);
+        internal abstract void Serialize(PrimitiveValueWrapper s, object o);
     }
 
     /// <summary>
@@ -37,21 +34,21 @@ namespace Byt3.Serialization
         /// </summary>
         /// <param name="s">Input Stream</param>
         /// <returns>Deserialized Packet</returns>
-        public abstract T DeserializePacket(Stream s);
+        public abstract T DeserializePacket(PrimitiveValueWrapper s);
 
         /// <summary>
         /// Serializes a Packet to the Stream
         /// </summary>
         /// <param name="s">Target Stream</param>
         /// <param name="obj">Object to Serialize</param>
-        public abstract void SerializePacket(Stream s, T obj);
+        public abstract void SerializePacket(PrimitiveValueWrapper s, T obj);
 
         /// <summary>
         /// Non Generic Override for the ASerializer.
         /// </summary>
         /// <param name="s">Input Stream</param>
         /// <returns>Non Generic Version of the Deserialized Object</returns>
-        internal override object Deserialize(Stream s)
+        internal override object Deserialize(PrimitiveValueWrapper s)
         {
             return DeserializePacket(s);
         }
@@ -62,7 +59,7 @@ namespace Byt3.Serialization
         /// <param name="s">Input Stream</param>
         /// <param name="o">Non Generic version of the Object to Serialize</param>
         /// <returns>Non Generic Version of the Serialized Object</returns>
-        internal override void Serialize(Stream s, object o)
+        internal override void Serialize(PrimitiveValueWrapper s, object o)
         {
             SerializePacket(s, (T) o);
         }

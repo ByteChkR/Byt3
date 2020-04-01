@@ -27,6 +27,23 @@ namespace Byt3.Serialization
         /// </summary>
         private static ABaseSerializer BaseSerializer = new DefaultBaseSerializer();
 
+
+        #region Serializer Add/Set/Remove
+
+        /// <summary>
+        /// Adds a Serializer that can de/serialize objects of the specialized type to the Serializers
+        /// </summary>
+        /// <param name="type">Type that can be de/serialized</param>
+        /// <param name="packetSerializer">The Serializer that can de/serialize objects of type</param>
+        public static void AddSerializer(Type type, ASerializer packetSerializer)
+        {
+            if (CanSerialize(type)) return;
+            object key = BaseSerializer.GetKey(type);
+            KeyTypeCache.Add(key, type);
+            TypeKeyCache.Add(type, key);
+            Serializers.Add(type, packetSerializer);
+        }
+
         /// <summary>
         /// Adds a Serializer that can de/serialize objects of type T to the Serializers
         /// </summary>
@@ -47,6 +64,48 @@ namespace Byt3.Serialization
             BaseSerializer = baseSerializer ?? throw new ArgumentNullException("baseSerializer", "Base serializer is not allowed to be null");
         }
 
+        public static void RemoveSerializer(Type t)
+        {
+            if (Serializers.ContainsKey(t))
+                Serializers.Remove(t);
+        }
+
+        public static void RemoveAllSerializers(bool keepCache = false)
+        {
+            Serializers.Clear();
+            if (keepCache) return;
+            KeyTypeCache.Clear();
+            TypeKeyCache.Clear();
+        }
+
+
+        #endregion
+        
+        #region Write
+
+        private static byte[] MainWrite(object obj)
+        {
+            MemoryStream ms = new MemoryStream();
+            PrimitiveValueWrapper mainStage = new PrimitiveValueWrapper(ms);
+            Serializers[obj.GetType()].Serialize(mainStage, obj);
+            mainStage.CompleteWrite();
+            mainStage.SetInvalid();
+            //Read Payload
+            ms.Position = 0;
+            byte[] buf = new byte[ms.Length];
+            ms.Read(buf, 0, buf.Length);
+            ms.Close();
+            return buf;
+        }
+
+        private static void BaseWrite(Stream stream, BasePacket packet)
+        {
+            PrimitiveValueWrapper baseStage = new PrimitiveValueWrapper(stream);
+            BaseSerializer.Serialize(baseStage, packet);
+            baseStage.CompleteWrite();
+            baseStage.SetInvalid();
+        }
+
         /// <summary>
         /// Writes the object to the Specified Stream
         /// </summary>
@@ -56,15 +115,53 @@ namespace Byt3.Serialization
         {
             if (obj == null) throw new ArgumentNullException("obj", "Can not be null.");
             if (stream == null) throw new ArgumentNullException("stream", "Can not be null.");
-
             if (!CanSerialize(obj.GetType())) throw new SerializationException("Can not Serialize Type: " + obj.GetType());
-            MemoryStream ms = new MemoryStream();
-            Serializers[obj.GetType()].Serialize(ms, obj);
+
+            Type objType = obj.GetType();
+            object key = GetKeyByType(objType);
+
+            byte[] buf = MainWrite(obj);
+
+            BaseWrite(stream, new BasePacket(key, buf));
+        }
+
+        /// <summary>
+        /// Generic Implementation of WritePacket
+        /// </summary>
+        /// <typeparam name="T">Type of Object to Serialize</typeparam>
+        /// <param name="stream">Target Stream</param>
+        /// <param name="obj">Object to Serialize</param>
+        public static void WritePacket<T>(Stream stream, T obj)
+        {
+            WritePacket(stream, (object)obj);
+        }
+
+        #endregion
+        
+        #region Read
+
+
+        private static BasePacket BaseRead(Stream stream)
+        {
+            PrimitiveValueWrapper baseStage = new PrimitiveValueWrapper(stream);
+            BasePacket packet = BaseSerializer.DeserializePacket(baseStage);
+            baseStage.SetInvalid();
+            return packet;
+        }
+
+        private static object MainRead(BasePacket basePacket)
+        {
+            MemoryStream ms = new MemoryStream(basePacket.Payload);
             ms.Position = 0;
-            byte[] buf = new byte[ms.Length];
-            ms.Read(buf, 0, buf.Length);
-            BaseSerializer.Serialize(stream, new BasePacket(GetKeyByType(obj.GetType()), buf));
+            Type packetType = GetTypeByKey(basePacket.PacketType);
+
+            PrimitiveValueWrapper mainStage = new PrimitiveValueWrapper(ms);
+            object ret = Serializers[packetType].Deserialize(mainStage);
+            mainStage.SetInvalid();
+
+
             ms.Close();
+            return ret;
         }
 
         /// <summary>
@@ -75,18 +172,13 @@ namespace Byt3.Serialization
         public static object ReadPacket(Stream stream)
         {
             if (stream == null) throw new ArgumentNullException("stream", "Can not be null.");
-            BasePacket packet = BaseSerializer.DeserializePacket(stream);
 
+            BasePacket basePacket = BaseRead(stream);
 
-            if (!CanSerializeByKey(packet.PacketType))
-                throw new SerializationException("Could not find a deserializer for type key: " + packet.PacketType);
+            if (!CanSerializeByKey(basePacket.PacketType))
+                throw new SerializationException("Could not find a deserializer for type key: " + basePacket.PacketType);
 
-            MemoryStream ms = new MemoryStream(packet.Payload);
-            ms.Position = 0;
-            Type packetType = GetTypeByKey(packet.PacketType);
-            object ret = Serializers[packetType].Deserialize(ms);
-            ms.Close();
-            return ret;
+            return MainRead(basePacket);
         }
 
         /// <summary>
@@ -100,29 +192,9 @@ namespace Byt3.Serialization
             return (T)ReadPacket(stream);
         }
 
-        /// <summary>
-        /// Generic Implementation of WritePacket
-        /// </summary>
-        /// <typeparam name="T">Type of Object to Serialize</typeparam>
-        /// <param name="stream">Target Stream</param>
-        /// <param name="obj">Object to Serialize</param>
-        public static void WritePacket<T>(Stream stream, T obj)
-        {
-            WritePacket(stream, (object)obj);
-        }
-        /// <summary>
-        /// Adds a Serializer that can de/serialize objects of the specialized type to the Serializers
-        /// </summary>
-        /// <param name="type">Type that can be de/serialized</param>
-        /// <param name="packetSerializer">The Serializer that can de/serialize objects of type</param>
-        public static void AddSerializer(Type type, ASerializer packetSerializer)
-        {
-            if (CanSerialize(type)) return;
-            object key = BaseSerializer.GetKey(type);
-            KeyTypeCache.Add(key, type);
-            TypeKeyCache.Add(type, key);
-            Serializers.Add(type, packetSerializer);
-        }
+        #endregion
+
+        #region CanSerialize
 
         /// <summary>
         /// Returns True if the Specified key is in the KeyTypeCache(e.g. has a serializer added)
@@ -153,6 +225,10 @@ namespace Byt3.Serialization
         {
             return CanSerialize(typeof(T));
         }
+
+
+        #endregion
+
 
         /// <summary>
         /// Returns the Type based on the Key.
