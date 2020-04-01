@@ -29,7 +29,7 @@ namespace Byt3.Serialization
         /// <returns>Non Generic Version of the Deserialized Object</returns>
         internal override object Deserialize(Stream s)
         {
-            return Deserialize(s);
+            return DeserializePacket(s);
         }
 
         /// <summary>

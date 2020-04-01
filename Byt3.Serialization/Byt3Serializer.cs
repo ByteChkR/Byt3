@@ -19,12 +19,13 @@ namespace Byt3.Serialization
         /// Cache that gets used to store the map from object => Type
         /// that gets used during Deserialization
         /// </summary>
+        private static readonly Dictionary<Type, object> TypeKeyCache = new Dictionary<Type, object>();
         private static readonly Dictionary<object, Type> KeyTypeCache = new Dictionary<object, Type>();
 
         /// <summary>
         /// The Base Initializer that is beeing used.
         /// </summary>
-        private static ABaseSerializer BaseSerializer= new DefaultBaseSerializer();
+        private static ABaseSerializer BaseSerializer = new DefaultBaseSerializer();
 
         /// <summary>
         /// Adds a Serializer that can de/serialize objects of type T to the Serializers
@@ -57,7 +58,13 @@ namespace Byt3.Serialization
             if (stream == null) throw new ArgumentNullException("stream", "Can not be null.");
 
             if (!CanSerialize(obj.GetType())) throw new SerializationException("Can not Serialize Type: " + obj.GetType());
-            Serializers[obj.GetType()].Serialize(stream, obj);
+            MemoryStream ms = new MemoryStream();
+            Serializers[obj.GetType()].Serialize(ms, obj);
+            ms.Position = 0;
+            byte[] buf = new byte[ms.Length];
+            ms.Read(buf, 0, buf.Length);
+            BaseSerializer.Serialize(stream, new BasePacket(GetKeyByType(obj.GetType()), buf));
+            ms.Close();
         }
 
         /// <summary>
@@ -71,12 +78,12 @@ namespace Byt3.Serialization
             BasePacket packet = BaseSerializer.DeserializePacket(stream);
 
 
-            if (!CanDeserializeByKey(packet.PacketType))
+            if (!CanSerializeByKey(packet.PacketType))
                 throw new SerializationException("Could not find a deserializer for type key: " + packet.PacketType);
-            
+
             MemoryStream ms = new MemoryStream(packet.Payload);
             ms.Position = 0;
-            Type packetType = GetTypeByKey(packet);
+            Type packetType = GetTypeByKey(packet.PacketType);
             object ret = Serializers[packetType].Deserialize(ms);
             ms.Close();
             return ret;
@@ -111,7 +118,9 @@ namespace Byt3.Serialization
         public static void AddSerializer(Type type, ASerializer packetSerializer)
         {
             if (CanSerialize(type)) return;
-            KeyTypeCache.Add(BaseSerializer.GetKey(type), type);
+            object key = BaseSerializer.GetKey(type);
+            KeyTypeCache.Add(key, type);
+            TypeKeyCache.Add(type, key);
             Serializers.Add(type, packetSerializer);
         }
 
@@ -120,7 +129,7 @@ namespace Byt3.Serialization
         /// </summary>
         /// <param name="key">Key of the Type</param>
         /// <returns>true if the Serializer for this type can be found</returns>
-        public static bool CanDeserializeByKey(object key)
+        public static bool CanSerializeByKey(object key)
         {
             return KeyTypeCache.ContainsKey(key);
         }
@@ -132,7 +141,7 @@ namespace Byt3.Serialization
         /// <returns>true if the Serializer for this type can be found</returns>
         public static bool CanSerialize(Type t)
         {
-            return Serializers.ContainsKey(t);
+            return TypeKeyCache.ContainsKey(t);
         }
 
         /// <summary>
@@ -143,6 +152,18 @@ namespace Byt3.Serialization
         public static bool CanSerialize<T>()
         {
             return CanSerialize(typeof(T));
+        }
+
+        /// <summary>
+        /// Returns the Type based on the Key.
+        /// </summary>
+        /// <param name="key">Key of the Type</param>
+        /// <returns>Type mapped to this key</returns>
+        /// <exception cref="Exception">Gets thrown when The KeyTypeCache does not contain the key.</exception>
+        private static object GetKeyByType(Type type)
+        {
+            if (TypeKeyCache.ContainsKey(type)) return TypeKeyCache[type];
+            throw new Exception("Could not Find the Key for Type: " + type);
         }
 
         /// <summary>
