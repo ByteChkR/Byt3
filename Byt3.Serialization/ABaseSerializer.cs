@@ -6,7 +6,7 @@ namespace Byt3.Serialization
     /// <summary>
     /// Abstract Base Serializer is used to Serialize the Base Packet containing a Key Object that has to be unique for all types
     /// </summary>
-    public abstract class ABaseSerializer : ATSerializer<BasePacket>
+    public abstract class ABaseSerializer : ASerializer<BasePacket>
     {
         /// <summary>
         /// Returns the Key that is used to index the serializers.

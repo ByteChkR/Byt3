@@ -130,6 +130,12 @@ namespace Byt3.Serialization
             stream.Read(buf, 0, buf.Length);
             return Encoding.ASCII.GetString(buf);
         }
+
+        public byte ReadByte()
+        {
+            return (byte)stream.ReadByte();
+        }
+
         /// <summary>
         /// Reads a Byte Array from the Underlaying Stream
         /// </summary>
@@ -164,6 +170,89 @@ namespace Byt3.Serialization
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
             return buf.Length;
+        }
+
+        /// <summary>
+        /// Writes an uint to the Stream
+        /// </summary>
+        /// <param name="value">Value to Write</param>
+        /// <returns>Bytes Written</returns>
+        public int Write(uint value)
+        {
+            byte[] buf = BitConverter.GetBytes(value);
+            packetCache.AddRange(buf);
+            return buf.Length;
+        }
+
+        /// <summary>
+        /// Writes a short to the Stream
+        /// </summary>
+        /// <param name="value">Value to Write</param>
+        /// <returns>Bytes Written</returns>
+        public int Write(short value)
+        {
+            byte[] buf = BitConverter.GetBytes(value);
+            packetCache.AddRange(buf);
+            return buf.Length;
+        }
+
+        /// <summary>
+        /// Writes an ushort to the Stream
+        /// </summary>
+        /// <param name="value">Value to Write</param>
+        /// <returns>Bytes Written</returns>
+        public int Write(ushort value)
+        {
+            byte[] buf = BitConverter.GetBytes(value);
+            packetCache.AddRange(buf);
+            return buf.Length;
+        }
+
+        /// <summary>
+        /// Writes an long to the Stream
+        /// </summary>
+        /// <param name="value">Value to Write</param>
+        /// <returns>Bytes Written</returns>
+        public int Write(long value)
+        {
+            byte[] buf = BitConverter.GetBytes(value);
+            packetCache.AddRange(buf);
+            return buf.Length;
+        }
+
+        /// <summary>
+        /// Writes an ulong to the Stream
+        /// </summary>
+        /// <param name="value">Value to Write</param>
+        /// <returns>Bytes Written</returns>
+        public int Write(ulong value)
+        {
+            byte[] buf = BitConverter.GetBytes(value);
+            packetCache.AddRange(buf);
+            return buf.Length;
+        }
+
+        /// <summary>
+        /// Writes a sbyte to the Stream
+        /// </summary>
+        /// <param name="value">Value to Write</param>
+        /// <returns>Bytes Written</returns>
+        public int Write(sbyte value)
+        {
+            byte[] buf = BitConverter.GetBytes(value);
+            packetCache.AddRange(buf);
+            return buf.Length;
+        }
+
+        /// <summary>
+        /// Writes a byte to the Stream
+        /// </summary>
+        /// <param name="value">Value to Write</param>
+        /// <returns>Bytes Written</returns>
+        public int Write(byte value)
+        {
+            packetCache.Add(value);
+            return 1;
         }
 
         /// <summary>

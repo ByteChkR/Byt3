@@ -3,7 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.Serialization", "Byt3.Serialization\Byt3.Serialization.csproj", "{82B2E9A8-5A6F-42CE-847E-EF3CF4EB32F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Serialization", "Byt3.Serialization\Byt3.Serialization.csproj", "{82B2E9A8-5A6F-42CE-847E-EF3CF4EB32F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.PackageHandling", "Byt3.PackageHandling\Byt3.PackageHandling.csproj", "{D4F87B8F-50AE-4BEA-9D7D-AE61660C9587}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{68DFEF09-1EA9-4127-9FD8-05EED1F974C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.PackageHandling.Tests", "Byt3.PackageHandling.Tests\Byt3.PackageHandling.Tests.csproj", "{9A6CE9CC-FAA0-4662-B1D9-2D360E4316DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.Serialization.Tests", "Byt3.Serialization.Tests\Byt3.Serialization.Tests.csproj", "{DD1BEBF5-6A7E-49E5-96D0-546E5B8E3052}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +23,25 @@ Global
 		{82B2E9A8-5A6F-42CE-847E-EF3CF4EB32F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82B2E9A8-5A6F-42CE-847E-EF3CF4EB32F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82B2E9A8-5A6F-42CE-847E-EF3CF4EB32F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4F87B8F-50AE-4BEA-9D7D-AE61660C9587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4F87B8F-50AE-4BEA-9D7D-AE61660C9587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4F87B8F-50AE-4BEA-9D7D-AE61660C9587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4F87B8F-50AE-4BEA-9D7D-AE61660C9587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A6CE9CC-FAA0-4662-B1D9-2D360E4316DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A6CE9CC-FAA0-4662-B1D9-2D360E4316DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A6CE9CC-FAA0-4662-B1D9-2D360E4316DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A6CE9CC-FAA0-4662-B1D9-2D360E4316DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD1BEBF5-6A7E-49E5-96D0-546E5B8E3052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD1BEBF5-6A7E-49E5-96D0-546E5B8E3052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD1BEBF5-6A7E-49E5-96D0-546E5B8E3052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD1BEBF5-6A7E-49E5-96D0-546E5B8E3052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9A6CE9CC-FAA0-4662-B1D9-2D360E4316DA} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
+		{DD1BEBF5-6A7E-49E5-96D0-546E5B8E3052} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1ACABA5F-1D45-4A5D-8E38-B83B3DFDF05A}
