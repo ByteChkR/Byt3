@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Serialization.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.ObjectPipeline", "Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj", "{B456A960-DDCB-4937-A1F8-6AA963DD561A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byte.ObjectPipeline.Tests", "Byte.ObjectPipeline.Tests\Byte.ObjectPipeline.Tests.csproj", "{B98D5906-0843-48D5-A393-6DA7D8A6561D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.ObjectPipeline.Tests", "Byt3.ObjectPipeline.Tests\Byt3.ObjectPipeline.Tests.csproj", "{B98D5906-0843-48D5-A393-6DA7D8A6561D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
