@@ -5,8 +5,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Byt3.Serialization.Tests
 {
     [TestClass]
-    public class Byt3_SerializerTests
+    public class Byt3SerializerTests
     {
+
+        #region Example Packet / Serializer
+
         private class Packet
         {
             public float valfloat;
@@ -47,9 +50,9 @@ namespace Byt3.Serialization.Tests
 
         private class PacketSerializer : ASerializer<Packet>
         {
-            public override Packet DeserializePacket(Stream s)
+
+            public override Packet DeserializePacket(PrimitiveValueWrapper wrapper)
             {
-                PrimitiveValueWrapper wrapper = new PrimitiveValueWrapper(s);
                 Packet p = new Packet();
 
                 p.valfloat = wrapper.ReadFloat();
@@ -72,9 +75,8 @@ namespace Byt3.Serialization.Tests
                 return p;
             }
 
-            public override void SerializePacket(Stream s, Packet obj)
+            public override void SerializePacket(PrimitiveValueWrapper wrapper, Packet obj)
             {
-                PrimitiveValueWrapper wrapper = new PrimitiveValueWrapper(s);
 
                 wrapper.Write(obj.valfloat);
                 wrapper.Write(obj.valdouble);
@@ -93,20 +95,21 @@ namespace Byt3.Serialization.Tests
 
                 wrapper.Write(obj.valstring);
 
-                wrapper.CompleteWrite();
 
             }
         }
 
+        #endregion
+
         [TestMethod]
-        public void TestSerializer()
+        public void Serializer_ReadWriteTest()
         {
 
             Packet p = new Packet(true);
 
             Byt3Serializer.AddSerializer<Packet>(new PacketSerializer());
 
-            MemoryStream stream= new MemoryStream();
+            MemoryStream stream = new MemoryStream();
             Byt3Serializer.WritePacket(stream, p);
             stream.Position = 0;
 

@@ -1,16 +1,17 @@
 using System;
-using System.Reflection.Metadata;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Byt3.PackageHandling.Tests
 {
     [TestClass]
-    public class Byt3_HandlerTests
+    public class Byt3HandlerTests
     {
         internal bool ACalled;
         internal bool BCalled;
         internal bool CCalled;
         internal bool DCalled;
+
+        #region Example Handler / Handle Objects
 
         private class A { }
 
@@ -22,38 +23,40 @@ namespace Byt3.PackageHandling.Tests
 
         private abstract class HandlerHelper<T> : AHandler<T>
         {
-            public Byt3_HandlerTests TestInstance;
+            public Byt3HandlerTests TestInstance;
         }
 
         private class HandlerA : HandlerHelper<A>
         {
-            public override void Handle(A objectToHandle)
+            public override void Handle(A objectToHandle, object context)
             {
                 TestInstance.ACalled = true;
             }
         }
         private class HandlerB : HandlerHelper<B>
         {
-            public override void Handle(B objectToHandle)
+            public override void Handle(B objectToHandle, object context)
             {
                 TestInstance.BCalled = true;
             }
         }
         private class HandlerC : HandlerHelper<C_B>
         {
-            public override void Handle(C_B objectToHandle)
+            public override void Handle(C_B objectToHandle, object context)
             {
                 TestInstance.CCalled = true;
             }
         }
         private class HandlerD : HandlerHelper<D_C>
         {
-            public override void Handle(D_C objectToHandle)
+            public override void Handle(D_C objectToHandle, object context)
             {
                 TestInstance.DCalled = true;
             }
         }
 
+        #endregion
+        
         private Byt3Handler GetHandler(HandlerLookupType type, AHandler fallback)
         {
             ACalled = BCalled = CCalled = DCalled = false;
@@ -72,10 +75,10 @@ namespace Byt3.PackageHandling.Tests
             handler.AddHandler(new HandlerC() { TestInstance = this });
             //handler.AddHandler(new HandlerD());
 
-            Assert.ThrowsException<Exception>(() => handler.Handle(new A()));  //Crash because of Exact only and A is missing
-            handler.Handle(new B()); //Works
-            handler.Handle(new C_B()); //Works
-            Assert.ThrowsException<Exception>(() => handler.Handle(new D_C())); //Crash because no traversal up
+            Assert.ThrowsException<Exception>(() => handler.Handle(new A(), null));  //Crash because of Exact only and A is missing
+            handler.Handle(new B(), null); //Works
+            handler.Handle(new C_B(), null); //Works
+            Assert.ThrowsException<Exception>(() => handler.Handle(new D_C(), null)); //Crash because no traversal up
 
             Assert.IsTrue(BCalled && CCalled);
             Assert.IsFalse(ACalled && DCalled);
@@ -92,10 +95,10 @@ namespace Byt3.PackageHandling.Tests
             //handler.AddHandler(new HandlerD());
 
 
-            handler.Handle(new A()); //Works
-            handler.Handle(new B()); //Works
-            handler.Handle(new C_B()); //Works because traverse up
-            handler.Handle(new D_C()); //Works because traverse up
+            handler.Handle(new A(), null); //Works
+            handler.Handle(new B(), null); //Works
+            handler.Handle(new C_B(), null); //Works because traverse up
+            handler.Handle(new D_C(), null); //Works because traverse up
             Assert.IsTrue(ACalled && BCalled);
             Assert.IsFalse(CCalled && DCalled);
         }
@@ -111,10 +114,10 @@ namespace Byt3.PackageHandling.Tests
             //handler.AddHandler(new HandlerD());
 
 
-            handler.Handle(new A()); //Works because of fallback
-            handler.Handle(new B()); //Works because of fallback
-            handler.Handle(new C_B()); //Works because of fallback
-            handler.Handle(new D_C()); //Works because of fallback
+            handler.Handle(new A(),null); //Works because of fallback
+            handler.Handle(new B(), null); //Works because of fallback
+            handler.Handle(new C_B(), null); //Works because of fallback
+            handler.Handle(new D_C(), null); //Works because of fallback
             Assert.IsFalse(ACalled && BCalled && CCalled && DCalled);
         }
     }

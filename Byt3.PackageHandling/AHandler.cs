@@ -2,16 +2,16 @@
 {
     public abstract class AHandler
     {
-        internal abstract void Handle(object objectToHandle);
+        internal abstract void Handle(object objectToHandle, object context);
     }
 
     public abstract class AHandler<T> : AHandler
     {
-        internal override void Handle(object objectToHandle)
+        internal override void Handle(object objectToHandle, object context)
         {
-            Handle((T)objectToHandle);
+            Handle((T)objectToHandle, context);
         }
 
-        public abstract void Handle(T objectToHandle);
+        public abstract void Handle(T objectToHandle, object context);
     }
 }

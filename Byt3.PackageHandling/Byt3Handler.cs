@@ -19,7 +19,7 @@ namespace Byt3.PackageHandling
             FallbackHandler = fallback ?? new DefaultHandler();
         }
 
-        public void Handle(object objectToHandle)
+        public void Handle(object objectToHandle, object context)
         {
             Type t = objectToHandle.GetType();
             if (!TryGetHandler(t, out AHandler handler))
@@ -27,7 +27,7 @@ namespace Byt3.PackageHandling
                 throw new Exception("Has no Handler for type: " + t.AssemblyQualifiedName);
             }
 
-            handler.Handle(objectToHandle);
+            handler.Handle(objectToHandle, context);
         }
 
         public void AddHandler<T>(AHandler<T> handler)

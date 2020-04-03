@@ -38,7 +38,7 @@ namespace Byt3.Serialization
         /// <returns>Deserialized int</returns>
         public int ReadInt()
         {
-            if(!IsValid)throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+            if (!IsValid) throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
             byte[] buf = new byte[sizeof(int)];
             stream.Read(buf, 0, buf.Length);
             return BitConverter.ToInt32(buf, 0);
@@ -328,6 +328,22 @@ namespace Byt3.Serialization
             int w = Write(buf.Length);
             packetCache.AddRange(buf);
             return buf.Length + w;
+        }
+
+        public void WriteSimpleStruct<T>(T obj) where T : struct
+        {
+            byte[] bytes = StructConverter.StructToBytes(obj);
+
+            Write(bytes);
+        }
+
+        public T ReadSimpleStruct<T>() where T : struct
+        {
+            byte[] bytes = ReadBytes();
+
+            T ret = default(T);
+            StructConverter.BytesToStruct(bytes, ref ret);
+            return ret;
         }
 
         internal void SetInvalid()
