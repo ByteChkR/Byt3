@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Byt3.ObjectPipeline.AssetLoaderFramework.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class AssetLoaderTests
     {
         [TestMethod]
         public void AssetLoader_ExceptionsTest()

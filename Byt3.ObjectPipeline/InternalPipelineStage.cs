@@ -6,10 +6,10 @@ namespace Byt3.ObjectPipeline
 {
     public abstract class PipelineStage
     {
-        internal abstract Type InType { get; }
-        internal abstract Type OutType { get; }
+        public abstract Type InType { get; }
+        public abstract Type OutType { get; }
 
-        internal abstract object Process(object input);
+        public abstract object Process(object input);
 
         protected bool Verified { get; private set; }
         protected List<PipelineStage> Stages = new List<PipelineStage>();

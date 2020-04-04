@@ -5,7 +5,7 @@ namespace Byt3.Threading
 
     public abstract class ThreadWorker : ThreadLoop
     {
-        private readonly ConcurrentQueue<ThreadWorkerItem> Queue;
+        private readonly ConcurrentQueue<ThreadWorkerItem> Queue = new ConcurrentQueue<ThreadWorkerItem>();
 
         public virtual void EnqueueItem(object workItem, OnThreadItemFinish onFinishEvent = null)
         {

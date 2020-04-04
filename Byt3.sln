@@ -19,13 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.AssetLoaderFramework", "Byt3.ObjectPipeline.AssetLoaderFramework\Byt3.ObjectPipeline.AssetLoaderFramework.csproj", "{9420BD3B-E41C-4646-BE00-B5B59B37B66C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.ObjectPipeline.AssetLoaderFramework.Tests", "Byt3.ObjectPipeline.AssetLoaderFramework.Tests\Byt3.ObjectPipeline.AssetLoaderFramework.Tests.csproj", "{62547811-0E78-4321-9027-E51D6014DD2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.AssetLoaderFramework.Tests", "Byt3.ObjectPipeline.AssetLoaderFramework.Tests\Byt3.ObjectPipeline.AssetLoaderFramework.Tests.csproj", "{62547811-0E78-4321-9027-E51D6014DD2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.Threading", "Byt3.Threading\Byt3.Threading.csproj", "{D1B664B0-1742-44B5-BEAF-C88B3B12B402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Threading", "Byt3.Threading\Byt3.Threading.csproj", "{D1B664B0-1742-44B5-BEAF-C88B3B12B402}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.ObjectPipeline.Threading", "Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj", "{14E8DAA6-9557-47BA-9066-0D2ACFD6BDE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.Threading", "Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj", "{14E8DAA6-9557-47BA-9066-0D2ACFD6BDE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingProject", "TestingProject\TestingProject.csproj", "{14090BFB-5064-4C0F-8CBF-991FB2A491A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingProject", "TestingProject\TestingProject.csproj", "{14090BFB-5064-4C0F-8CBF-991FB2A491A6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.BuildSystem", "Byt3.BuildSystem\Byt3.BuildSystem.csproj", "{A3737936-8500-4976-8E8E-10F9B89E34FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{14090BFB-5064-4C0F-8CBF-991FB2A491A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14090BFB-5064-4C0F-8CBF-991FB2A491A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14090BFB-5064-4C0F-8CBF-991FB2A491A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3737936-8500-4976-8E8E-10F9B89E34FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3737936-8500-4976-8E8E-10F9B89E34FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3737936-8500-4976-8E8E-10F9B89E34FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3737936-8500-4976-8E8E-10F9B89E34FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

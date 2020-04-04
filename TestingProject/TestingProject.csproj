@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Byt3.BuildSystem\Byt3.BuildSystem.csproj" />
     <ProjectReference Include="..\Byt3.ObjectPipeline.AssetLoaderFramework\Byt3.ObjectPipeline.AssetLoaderFramework.csproj" />
     <ProjectReference Include="..\Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj" />
     <ProjectReference Include="..\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj" />
