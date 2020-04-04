@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Byt3.Serialization
+namespace Byt3.Serialization.Serializers.Base
 {
     /// <summary>
     /// Default Implementation for the BaseSerializer.

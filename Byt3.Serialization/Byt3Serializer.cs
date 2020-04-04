@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
+using Byt3.Serialization.Serializers;
+using Byt3.Serialization.Serializers.Base;
 
 namespace Byt3.Serialization
 {

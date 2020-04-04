@@ -2,7 +2,7 @@
 
 namespace Byt3.ObjectPipeline
 {
-    public abstract class PipelineStage<I, O> : InternalPipelineStage
+    public abstract class PipelineStage<I, O> : PipelineStage
     {
         internal override Type InType => typeof(I);
         internal override Type OutType => typeof(O);

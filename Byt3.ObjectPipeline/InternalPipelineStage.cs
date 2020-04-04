@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Byt3.ObjectPipeline
 {
-    public abstract class InternalPipelineStage
+    public abstract class PipelineStage
     {
         internal abstract Type InType { get; }
         internal abstract Type OutType { get; }
@@ -12,9 +12,9 @@ namespace Byt3.ObjectPipeline
         internal abstract object Process(object input);
 
         protected bool Verified { get; private set; }
-        protected List<InternalPipelineStage> Stages = new List<InternalPipelineStage>();
+        protected List<PipelineStage> Stages = new List<PipelineStage>();
 
-        public void AddSubStage(InternalPipelineStage stage)
+        public void AddSubStage(PipelineStage stage)
         {
             if (stage == null) throw new ArgumentNullException("stage", "Argument is not allowed to be null.");
             Verified = false;
@@ -30,7 +30,7 @@ namespace Byt3.ObjectPipeline
             }
             else
             {
-                InternalPipelineStage last = Stages.Last();
+                PipelineStage last = Stages.Last();
                 if (last.OutType != stage.InType)
                 {
                     throw new PipelineNotValidException(this,

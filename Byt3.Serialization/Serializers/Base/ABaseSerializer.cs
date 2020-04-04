@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Byt3.Serialization
+namespace Byt3.Serialization.Serializers.Base
 {
     /// <summary>
     /// Abstract Base Serializer is used to Serialize the Base Packet containing a Key Object that has to be unique for all types

@@ -1,10 +1,9 @@
 using System;
 using System.IO;
 using System.Text;
-using Byt3.ObjectPipeline;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Byte.ObjectPipeline.Tests
+namespace Byt3.ObjectPipeline.Tests
 {
     [TestClass]
     public class PipelineTests
@@ -49,7 +48,7 @@ namespace Byte.ObjectPipeline.Tests
         #endregion
 
         [TestMethod]
-        public void Pipeline_TestInvalidStates()
+        public void Pipeline_InvalidStatesTest()
         {
 
             //Argument null not allowed.
@@ -84,15 +83,14 @@ namespace Byte.ObjectPipeline.Tests
         }
 
         [TestMethod]
-        public void Pipeline_TestValidStates()
+        public void Pipeline_ValidStatesTest()
         {
             InterceptFilePathStage interceptFilePathExample = new InterceptFilePathStage();
             InterceptFileReadStage interceptReadStage = new InterceptFileReadStage();
 
             //Delegate Pipeline requires no creation of classes.
             //This implements the same logic as the ToLowerStage class.
-            DelegatePipelineStage<string, string> processTextExample =
-                new DelegatePipelineStage<string, string>(input => input.ToLower());
+            DelegatePipelineStage<string, string> processTextExample = new DelegatePipelineStage<string, string>((input) => input.ToLower());
 
             BytesToTextStage decodeTextExample = new BytesToTextStage();
 
@@ -124,7 +122,7 @@ namespace Byte.ObjectPipeline.Tests
         }
 
         [TestMethod]
-        public void Pipeline_TestUsage()
+        public void Pipeline_UsageTest()
         {
             //Set up the pipelines as in TestValidStates
             Pipeline<string, byte[]> loadFilePipeline = new Pipeline<string, byte[]>();

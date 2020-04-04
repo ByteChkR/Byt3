@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Byt3.Serialization.Serializers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Byt3.Serialization.Tests

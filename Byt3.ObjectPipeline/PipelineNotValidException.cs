@@ -4,9 +4,9 @@ namespace Byt3.ObjectPipeline
 {
     public class PipelineNotValidException : ApplicationException
     {
-        public readonly InternalPipelineStage Pipeline;
+        public readonly PipelineStage Pipeline;
 
-        public PipelineNotValidException(InternalPipelineStage pipeline, string message) : base(message)
+        public PipelineNotValidException(PipelineStage pipeline, string message) : base(message)
         {
             Pipeline = pipeline;
         }

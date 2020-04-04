@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Byt3.PackageHandling
 {
@@ -12,6 +13,7 @@ namespace Byt3.PackageHandling
         private bool ExactOnly => LookupType == HandlerLookupType.None;
         private bool UseFallback => (LookupType & HandlerLookupType.UseFallback) != 0;
         private bool TraverseUp => (LookupType & HandlerLookupType.TraverseUp) != 0;
+        private bool IncludeInterfaces => (LookupType & HandlerLookupType.IncludeInterfaces) != 0;
 
         public Byt3Handler(HandlerLookupType lookupType = HandlerLookupType.TraverseUp, AHandler fallback = null)
         {
@@ -49,7 +51,8 @@ namespace Byt3.PackageHandling
             if (handlers.ContainsKey(t)) return true; //Exact
             if (ExactOnly) return false;
             if (implicitHandlerMap.ContainsKey(t)) return true; //Implicit Hit
-            if (TraverseUp) return TryAddImplicitHandler(t, out AHandler _); //Traverse Up(only fails if UseFallback == false)
+            if (TraverseUp)
+                return TryAddImplicitHandler(t, out AHandler _); //Traverse Up(only fails if UseFallback == false)
             return false;
         }
 
@@ -61,6 +64,17 @@ namespace Byt3.PackageHandling
                 implicitHandlerMap.Add(t, handlers[baseT]); //Connecting the Types
                 implicitHandler = handlers[baseT];
                 return true;
+            }
+
+            if (IncludeInterfaces)
+            {
+                Type[] interfaces = FindInterfaces(t);
+                if (interfaces.Length != 0)
+                {
+                    implicitHandlerMap.Add(t, handlers[interfaces[0]]); //Connecting the Types
+                    implicitHandler = handlers[interfaces[0]];
+                    return true;
+                }
             }
 
             if (UseFallback)
@@ -85,7 +99,7 @@ namespace Byt3.PackageHandling
 
             if (TraverseUp) //Traverse Up
             {
-                if (implicitHandlerMap.ContainsKey(t))//Cache Hit
+                if (implicitHandlerMap.ContainsKey(t)) //Cache Hit
                 {
                     handler = implicitHandlerMap[t];
                     return true;
@@ -107,6 +121,11 @@ namespace Byt3.PackageHandling
             return false;
         }
 
+        private Type[] FindInterfaces(Type t)
+        {
+            return t.FindInterfaces((type, criteria) => handlers.ContainsKey(type), null);
+        }
+
         private Type FindCompatibleBaseType(Type t)
         {
             Type current = t;
@@ -117,14 +136,10 @@ namespace Byt3.PackageHandling
                 {
                     return current;
                 }
-
             } while (current != typeof(object));
 
 
             return null;
         }
-
-
-
     }
 }
