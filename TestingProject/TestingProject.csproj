@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Byt3.ObjectPipeline.AssetLoaderFramework\Byt3.ObjectPipeline.AssetLoaderFramework.csproj" />
+    <ProjectReference Include="..\Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj" />
+    <ProjectReference Include="..\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj" />
+    <ProjectReference Include="..\Byt3.PackageHandling\Byt3.PackageHandling.csproj" />
+    <ProjectReference Include="..\Byt3.Serialization\Byt3.Serialization.csproj" />
+    <ProjectReference Include="..\Byt3.Threading\Byt3.Threading.csproj" />
+  </ItemGroup>
+
+</Project>
