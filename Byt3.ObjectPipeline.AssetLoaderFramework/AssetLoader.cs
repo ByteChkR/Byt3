@@ -19,7 +19,7 @@ namespace Byt3.ObjectPipeline.AssetLoaderFramework
             }
         }
 
-        public void SetFileLoader(Pipeline<string, Stream> fileLoader)
+        public void SetFileLoader(PipelineStage<string, Stream> fileLoader)
         {
             FileLoader = fileLoader ?? throw new InvalidOperationException("File loader Can not be null");
         }

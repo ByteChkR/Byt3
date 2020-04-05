@@ -1,25 +1,34 @@
 ﻿using System;
+using System.Threading;
 using Byt3.BuildSystem;
-using TestingProject.BuildStages;
 
 namespace TestingProject
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            MakeTest();
-            Console.WriteLine("Hello World!");
+            AssemblyGeneratorGenerateModules();
+
+            AssemblyDefinitions defs = AssemblyDefinitions.Load(".\\GeneratedModules\\Byt3.assemblyconfig");
+            AssemblyGeneratorBuildTest(defs);
+            Console.ReadLine();
+            return;
         }
 
-        private static void MakeTest()
+
+
+        private static void AssemblyGeneratorGenerateModules()
         {
-            Builder b = new Builder();
-            b.AddBuilderStage(new TestStage0());
-            b.AddBuilderStage(new TestStage1());
-            b.AddBuilderStage(new TestStage2());
-            b.GenerateBuildSettings(".\\test.build.config");
-            b.LoadBuildSettings(".\\test.build.config");
+            string[] blacklist = new []{"Test"};
+            AssemblyGenerator.GenerateModuleDefinitions(@"D:\Users\Tim\Documents\MasterServer\Byt3", ".\\GeneratedModules\\", false, blacklist);
+            AssemblyGenerator.GenerateAssemblyDefinitions("Byt3", ".\\GeneratedModules\\");
         }
+
+        private static void AssemblyGeneratorBuildTest(AssemblyDefinitions defs)
+        {
+            AssemblyGenerator.GenerateAssembly(defs, $".\\{defs.AssemblyName}_Build\\");
+        }
+
     }
 }

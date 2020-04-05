@@ -3,10 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <StartupObject>TestingProject.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Byt3.BuildSystem\Byt3.BuildSystem.csproj" />
+    <ProjectReference Include="..\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator.csproj" />
     <ProjectReference Include="..\Byt3.ObjectPipeline.AssetLoaderFramework\Byt3.ObjectPipeline.AssetLoaderFramework.csproj" />
     <ProjectReference Include="..\Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj" />
     <ProjectReference Include="..\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj" />

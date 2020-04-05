@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Byt3.Threading
+﻿namespace Byt3.Threading
 {
     internal class ThreadWorkerItem
     {

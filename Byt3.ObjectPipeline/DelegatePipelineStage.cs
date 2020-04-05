@@ -2,6 +2,7 @@
 
 namespace Byt3.ObjectPipeline
 {
+
     public class DelegatePipelineStage<TIn, TOut> : PipelineStage<TIn, TOut>
     {
         public delegate TOut ProcessDel(TIn input);
