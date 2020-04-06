@@ -24,7 +24,7 @@ namespace TestingProject
             "dotnet";
         private static void AssemblyGeneratorGenerateModules()
         {
-            string[] blacklist = new[] { "Test" };
+            string[] blacklist = new[] { "Test", "CLI" };
             ModuleDefinition[] defs = AssemblyGenerator.GenerateModuleDefinitions(@"D:\Users\Tim\Documents\MasterServer\Byt3", ".\\GeneratedModules\\", false, blacklist);
             AssemblyDefinition.Save(".\\GeneratedModules\\Byt3.assemblyconfig",
                 AssemblyGenerator.GenerateAssemblyDefinition("Byt3", defs));
@@ -33,7 +33,7 @@ namespace TestingProject
         private static void AssemblyGeneratorBuildTest(AssemblyDefinition defs)
         {
 
-            AssemblyGenerator.GenerateAssembly(MSBUILD_PATH, defs, $".\\{defs.AssemblyName}_Build\\", AssemblyGeneratorBuildType.Publish,false);
+            AssemblyGenerator.GenerateAssembly(MSBUILD_PATH, defs, $".\\{defs.AssemblyName}_Build\\", AssemblyGeneratorBuildType.Publish,true);
         }
 
     }
