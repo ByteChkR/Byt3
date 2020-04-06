@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.AssemblyGenerator", "L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.CommandRunner", "Libraries\Byt3.CommandRunner\Byt3.CommandRunner.csproj", "{9D91988D-6FA8-4968-B967-CE9746A0A0FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.Serialization", "Utilities\Byt3.Utilities\Byt3.Utilities.Serialization.csproj", "{55B3BD2B-1ABB-4ED0-B24D-4828D83AC824}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.Serialization", "Utilities\Byt3.Utilities.Serialization\Byt3.Utilities.Serialization.csproj", "{55B3BD2B-1ABB-4ED0-B24D-4828D83AC824}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.DotNet", "Utilities\Byt3.Utilities.DotNet\Byt3.Utilities.DotNet.csproj", "{5611097C-4C31-400D-A084-CE78F03A5C07}"
 EndProject

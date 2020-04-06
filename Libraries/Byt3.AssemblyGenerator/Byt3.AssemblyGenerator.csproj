@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.DotNet\Byt3.Utilities.DotNet.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities\Byt3.Utilities.Serialization.csproj" />
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Serialization\Byt3.Utilities.Serialization.csproj" />
   </ItemGroup>
 
 </Project>
