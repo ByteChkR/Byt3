@@ -24,6 +24,7 @@ namespace Byt3.AssemblyGenerator.CLI
             Runner.AddCommand(new SetTargetRuntimeCommand());
             Runner.AddCommand(new BuildConsoleFlagCommand());
             Runner.AddCommand(new BuildCommand());
+            Runner.AddCommand(new DefaultHelpCommand());
 
             Runner.RunCommands(args);
 

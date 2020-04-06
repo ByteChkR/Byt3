@@ -10,20 +10,138 @@ namespace Byt3.AssemblyGenerator
 {
     public static class AssemblyGenerator
     {
-        private static string GetTempFolder()
+
+        #region API Calls
+
+
+
+        public static void GenerateAssembly(string msBuildPath, AssemblyDefinition assemblyDefinitions, string outputFolder, AssemblyGeneratorBuildType buildType, bool lib = true)
         {
-#if Release
-            string ret = Path.GetTempPath(); //Something Like C:\Temp
-#else
-            string ret = Path.GetFullPath(".\\");
-#endif
-            ret = Path.Combine(ret, Path.GetFileNameWithoutExtension(Path.GetTempFileName())); //Something Like C:\Temp\tmp02qa\
-            if (Directory.Exists(ret)) throw new Exception("Temp Dir already exists");
-            Directory.CreateDirectory(ret);
-            return ret;
+            if (msBuildPath == null) throw new ArgumentNullException(nameof(msBuildPath));
+            if (assemblyDefinitions == null) throw new ArgumentNullException(nameof(assemblyDefinitions));
+            if (outputFolder == null) throw new ArgumentNullException(nameof(outputFolder));
 
 
+            Console.WriteLine("Generating Assembly...");
+            string tempFolder = GetTempFolder();
+
+            Tuple<string, List<ModuleDefinition>> project = GenerateProject(msBuildPath, tempFolder, assemblyDefinitions, lib);
+
+
+            string projectDir = Path.GetDirectoryName(project.Item1);
+
+
+            Console.WriteLine($"Copying Files of {project.Item2.Count} Modules");
+            for (int i = 0; i < project.Item2.Count; i++)
+            {
+
+                string defDir = CreateDirectoryInFolderOrThrow(projectDir, project.Item2[i].Name);
+                MoveFiles(defDir, project.Item2[i]);
+            }
+
+            string outDir = "";
+            if (buildType == AssemblyGeneratorBuildType.Build)
+            {
+                outDir = DotNetHelper.BuildProject(msBuildPath, project.Item1, assemblyDefinitions, lib);
+            }
+            else
+            {
+                outDir = DotNetHelper.PublishProject(msBuildPath, project.Item1, assemblyDefinitions, lib);
+            }
+
+            Console.WriteLine("Moving Files to output Directory...");
+            if (Directory.Exists(outputFolder)) Directory.Delete(outputFolder, true);
+
+            Console.WriteLine("Cleaning Output Folder");
+            while (Directory.Exists(outputFolder))
+            {
+                Console.Write(".");
+                //Wait
+            }
+
+            Directory.Move(outDir, outputFolder);
+
+
+            Console.WriteLine("Cleaning Temp Directory");
+            Directory.Delete(tempFolder, true);
+            Console.WriteLine("Cleanup Finished.");
         }
+
+        public static ModuleDefinition GenerateModuleDefinition(string project)
+        {
+            if (project == null) throw new ArgumentNullException(nameof(project));
+            CSharpProject p = ProjectLoader.LoadProject(project);
+            List<CSharpReference> embedFiles = p.EmbeddedReferences;
+            List<CSharpReference> packageFiles = p.PackageReferences;
+            List<CSharpReference> projectFiles = p.ProjectReferences;
+
+            ModuleDefinition def = new ModuleDefinition(
+                Path.GetFileNameWithoutExtension(project),
+                Path.GetDirectoryName(Path.GetFullPath(project)),
+                packageFiles.ToArray(),
+                projectFiles.ToArray(),
+                embedFiles.ToArray());
+
+            return def;
+        }
+        public static ModuleDefinition[] GenerateModuleDefinitions(string folder, string moduleConfigOutputDir, bool isWhiteList = false, string[] exceptionList = null)
+        {
+
+            if (folder == null) throw new ArgumentNullException(nameof(folder));
+            if (moduleConfigOutputDir == null) throw new ArgumentNullException(nameof(moduleConfigOutputDir));
+            Directory.CreateDirectory(moduleConfigOutputDir);
+            string[] projects = Directory.GetFiles(folder, "*.csproj", SearchOption.AllDirectories);
+
+            List<ModuleDefinition> ret = new List<ModuleDefinition>();
+
+            foreach (string project in projects)
+            {
+
+                if (isWhiteList && !ContainsItem(project, exceptionList))
+                {
+                    continue;
+                }
+
+                if (!isWhiteList && ContainsItem(project, exceptionList))
+                {
+                    continue;
+                }
+
+
+                ret.Add(GenerateModuleDefinition(project));
+                //ModuleDefinition.Save(Path.Combine(moduleConfigOutputDir, def.Name) + ".moduleconfig", def);
+            }
+
+            return ret.ToArray();
+        }
+
+
+
+        public static AssemblyDefinition GenerateAssemblyDefinition(string assemblyName, string moduleFolder)
+        {
+            if (assemblyName == null) throw new ArgumentNullException(nameof(assemblyName));
+            if (moduleFolder == null) throw new ArgumentNullException(nameof(moduleFolder));
+
+            string[] files = Directory.GetFiles(moduleFolder, "*.moduleconfig", SearchOption.AllDirectories);
+            return GenerateAssemblyDefinition(assemblyName, files.Select(x => ModuleDefinition.Load(x)).ToArray());
+        }
+
+        public static AssemblyDefinition GenerateAssemblyDefinition(string assemblyName, ModuleDefinition[] modules)
+        {
+            if (assemblyName == null) throw new ArgumentNullException(nameof(assemblyName));
+            if (modules == null) throw new ArgumentNullException(nameof(modules));
+            AssemblyDefinition defs = new AssemblyDefinition(assemblyName);
+            foreach (ModuleDefinition module in modules)
+            {
+                defs.IncludedModules.Add(module);
+            }
+
+            return defs;
+        }
+
+        #endregion
+
+        #region Private Functions
 
         private static CSharpReference PrepareForTransfer(CSharpReference reference, ModuleDefinition original)
         {
@@ -61,21 +179,26 @@ namespace Byt3.AssemblyGenerator
             }
         }
 
-        private static Tuple<string, List<ModuleDefinition>> GenerateProject(string msBuildPath, string workingDir, AssemblyDefinition defintion, bool lib = true)
+        private static Tuple<string, List<ModuleDefinition>> GenerateProject(string msBuildPath, string workingDir, AssemblyDefinition definition, bool lib = true)
         {
+            if (workingDir == null) throw new ArgumentNullException(nameof(workingDir));
+            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            if (!Directory.Exists(workingDir)) throw new DirectoryNotFoundException("Can not find the working directory: " + workingDir);
+
+
             Console.WriteLine("Generating csproject File...");
 
-            DotNetHelper.New(msBuildPath, workingDir, defintion.AssemblyName, lib);
+            DotNetHelper.New(msBuildPath, workingDir, definition.AssemblyName, lib);
 
-            File.Delete(Path.Combine(workingDir, defintion.AssemblyName, lib ? "Class1.cs" : "Program.cs")); //Delete Default Class
+            File.Delete(Path.Combine(workingDir, definition.AssemblyName, lib ? "Class1.cs" : "Program.cs")); //Delete Default Class
 
-            string projectFile = Path.Combine(workingDir, defintion.AssemblyName, defintion.AssemblyName + ".csproj");
+            string projectFile = Path.Combine(workingDir, definition.AssemblyName, definition.AssemblyName + ".csproj");
 
             List<ModuleDefinition> modules = new List<ModuleDefinition>();
-            for (int i = 0; i < defintion.IncludedModules.Count; i++)
+            for (int i = 0; i < definition.IncludedModules.Count; i++)
             {
-                if (modules.Count(x => x.Name == defintion.IncludedModules[i].Name) == 0)
-                    DiscoverModules(defintion.IncludedModules[i], modules);
+                if (modules.Count(x => x.Name == definition.IncludedModules[i].Name) == 0)
+                    DiscoverModules(definition.IncludedModules[i], modules);
             }
 
             Console.WriteLine($"Discovered {modules.Count} Modules.");
@@ -116,6 +239,7 @@ namespace Byt3.AssemblyGenerator
 
         private static void MoveFiles(string targetDir, ModuleDefinition definition)
         {
+            if (definition == null) throw new ArgumentNullException(nameof(definition));
 
             string[] scripts = definition.ScriptFiles;
             string root = definition.RootDirectory;
@@ -142,9 +266,43 @@ namespace Byt3.AssemblyGenerator
 
         }
 
-        private static string PrepareDefinitionDir(string targetDir, string definitionName)
+
+        #endregion
+
+        #region Private Helper Functions
+
+        private static bool ContainsItem(string val, string[] blacklist)
         {
-            string ret = Path.Combine(targetDir, definitionName);
+            if (val == null) throw new ArgumentNullException(nameof(val));
+            if (blacklist == null) throw new ArgumentNullException(nameof(blacklist));
+            for (int i = 0; i < blacklist.Length; i++)
+            {
+                if (blacklist[i] == null) throw new ArgumentNullException(nameof(blacklist), "Item " + i + " is null");
+                if (val.Contains(blacklist[i])) return true;
+            }
+
+            return false;
+        }
+
+        private static string GetTempFolder()
+        {
+#if Release
+            string ret = Path.GetTempPath(); //Something Like C:\Temp
+#else
+            string ret = Path.GetFullPath(".\\");
+#endif
+            ret = Path.Combine(ret, Path.GetFileNameWithoutExtension(Path.GetTempFileName())); //Something Like C:\Temp\tmp02qa\
+            if (Directory.Exists(ret)) throw new Exception("Temp Dir already exists");
+            Directory.CreateDirectory(ret);
+            return ret;
+
+
+        }
+
+
+        private static string CreateDirectoryInFolderOrThrow(string parentFolder, string newFolderName)
+        {
+            string ret = Path.Combine(parentFolder, newFolderName);
             if (Directory.Exists(ret))
             {
                 throw new Exception("Directory Already exists");
@@ -157,123 +315,7 @@ namespace Byt3.AssemblyGenerator
         }
 
 
+        #endregion
 
-        public static void GenerateAssembly(string msBuildPath, AssemblyDefinition assemblyDefinitions, string outputFolder, AssemblyGeneratorBuildType buildType, bool lib = true)
-        {
-            Console.WriteLine("Generating Assembly...");
-            string tempFolder = GetTempFolder();
-
-            Tuple<string, List<ModuleDefinition>> project = GenerateProject(msBuildPath, tempFolder, assemblyDefinitions, lib);
-
-
-            string projectDir = Path.GetDirectoryName(project.Item1);
-
-
-            Console.WriteLine($"Copying Files of {project.Item2.Count} Modules");
-            for (int i = 0; i < project.Item2.Count; i++)
-            {
-
-                string defDir = PrepareDefinitionDir(projectDir, project.Item2[i].Name);
-                MoveFiles(defDir, project.Item2[i]);
-            }
-
-            string outDir = "";
-            if (buildType == AssemblyGeneratorBuildType.Build)
-            {
-                outDir = DotNetHelper.BuildProject(msBuildPath, project.Item1, assemblyDefinitions, lib);
-            }
-            else
-            {
-                outDir = DotNetHelper.PublishProject(msBuildPath, project.Item1, assemblyDefinitions, lib);
-            }
-
-            Console.WriteLine("Moving Files to output Directory...");
-            if (Directory.Exists(outputFolder)) Directory.Delete(outputFolder, true);
-
-            Console.WriteLine("Cleaning Output Folder");
-            while (Directory.Exists(outputFolder))
-            {
-                Console.Write(".");
-                //Wait
-            }
-
-            Directory.Move(outDir, outputFolder);
-
-
-            Console.WriteLine("Cleaning Temp Directory");
-            Directory.Delete(tempFolder, true);
-            Console.WriteLine("Cleanup Finished.");
-        }
-
-        public static ModuleDefinition GenerateModuleDefinition(string project)
-        {
-            CSharpProject p = ProjectLoader.LoadProject(project);
-            List<CSharpReference> embedFiles = p.EmbeddedReferences;
-            List<CSharpReference> packageFiles = p.PackageReferences;
-            List<CSharpReference> projectFiles = p.ProjectReferences;
-
-            ModuleDefinition def = new ModuleDefinition(
-                Path.GetFileNameWithoutExtension(project),
-                Path.GetDirectoryName(Path.GetFullPath(project)),
-                packageFiles.ToArray(),
-                projectFiles.ToArray(),
-                embedFiles.ToArray());
-
-            return def;
-        }
-        public static ModuleDefinition[] GenerateModuleDefinitions(string folder, string moduleConfigOutputDir, bool isWhiteList = false, string[] exceptionList = null)
-        {
-            Directory.CreateDirectory(moduleConfigOutputDir);
-            string[] projects = Directory.GetFiles(folder, "*.csproj", SearchOption.AllDirectories);
-
-            List<ModuleDefinition> ret = new List<ModuleDefinition>();
-
-            foreach (string project in projects)
-            {
-
-                if (isWhiteList && !ContainsItem(project, exceptionList))
-                {
-                    continue;
-                }
-
-                if (!isWhiteList && ContainsItem(project, exceptionList))
-                {
-                    continue;
-                }
-
-
-                ret.Add(GenerateModuleDefinition(project));
-                //ModuleDefinition.Save(Path.Combine(moduleConfigOutputDir, def.Name) + ".moduleconfig", def);
-            }
-
-            return ret.ToArray();
-        }
-
-        private static bool ContainsItem(string val, string[] blacklist)
-        {
-            for (int i = 0; i < blacklist.Length; i++)
-            {
-                if (val.Contains(blacklist[i])) return true;
-            }
-
-            return false;
-        }
-
-        public static AssemblyDefinition GenerateAssemblyDefinition(string assemblyName, string moduleFolder)
-        {
-            string[] files = Directory.GetFiles(moduleFolder, "*.moduleconfig", SearchOption.AllDirectories);
-            return GenerateAssemblyDefinition(assemblyName, files.Select(x => ModuleDefinition.Load(x)).ToArray());
-        }
-
-        public static AssemblyDefinition GenerateAssemblyDefinition(string assemblyName, ModuleDefinition[] modules)
-        {
-            AssemblyDefinition defs = new AssemblyDefinition(assemblyName);
-            foreach (ModuleDefinition module in modules)
-            {
-                defs.IncludedModules.Add(module);
-            }
-
-            return defs;
-        }
     }
 }
