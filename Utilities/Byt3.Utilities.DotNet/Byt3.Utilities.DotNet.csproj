@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Byt3.Utilities.Threading\Byt3.Utilities.Threading.csproj" />
+    <ProjectReference Include="..\Byt3.Utilities\Byt3.Utilities.Serialization.csproj" />
+  </ItemGroup>
+
+</Project>

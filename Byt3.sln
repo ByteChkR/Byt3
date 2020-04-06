@@ -3,31 +3,47 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Serialization", "Byt3.Serialization\Byt3.Serialization.csproj", "{82B2E9A8-5A6F-42CE-847E-EF3CF4EB32F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Serialization", "Libraries\Byt3.Serialization\Byt3.Serialization.csproj", "{82B2E9A8-5A6F-42CE-847E-EF3CF4EB32F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.PackageHandling", "Byt3.PackageHandling\Byt3.PackageHandling.csproj", "{D4F87B8F-50AE-4BEA-9D7D-AE61660C9587}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.PackageHandling", "Libraries\Byt3.PackageHandling\Byt3.PackageHandling.csproj", "{D4F87B8F-50AE-4BEA-9D7D-AE61660C9587}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{68DFEF09-1EA9-4127-9FD8-05EED1F974C7}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{68DFEF09-1EA9-4127-9FD8-05EED1F974C7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.PackageHandling.Tests", "Byt3.PackageHandling.Tests\Byt3.PackageHandling.Tests.csproj", "{9A6CE9CC-FAA0-4662-B1D9-2D360E4316DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.PackageHandling.Tests", "UnitTests\Byt3.PackageHandling.Tests\Byt3.PackageHandling.Tests.csproj", "{9A6CE9CC-FAA0-4662-B1D9-2D360E4316DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Serialization.Tests", "Byt3.Serialization.Tests\Byt3.Serialization.Tests.csproj", "{DD1BEBF5-6A7E-49E5-96D0-546E5B8E3052}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Serialization.Tests", "UnitTests\Byt3.Serialization.Tests\Byt3.Serialization.Tests.csproj", "{DD1BEBF5-6A7E-49E5-96D0-546E5B8E3052}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline", "Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj", "{B456A960-DDCB-4937-A1F8-6AA963DD561A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline", "Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj", "{B456A960-DDCB-4937-A1F8-6AA963DD561A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.Tests", "Byt3.ObjectPipeline.Tests\Byt3.ObjectPipeline.Tests.csproj", "{B98D5906-0843-48D5-A393-6DA7D8A6561D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.Tests", "UnitTests\Byt3.ObjectPipeline.Tests\Byt3.ObjectPipeline.Tests.csproj", "{B98D5906-0843-48D5-A393-6DA7D8A6561D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.AssetLoaderFramework", "Byt3.ObjectPipeline.AssetLoaderFramework\Byt3.ObjectPipeline.AssetLoaderFramework.csproj", "{9420BD3B-E41C-4646-BE00-B5B59B37B66C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.AssetLoaderFramework", "Libraries\Byt3.ObjectPipeline.AssetLoaderFramework\Byt3.ObjectPipeline.AssetLoaderFramework.csproj", "{9420BD3B-E41C-4646-BE00-B5B59B37B66C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.AssetLoaderFramework.Tests", "Byt3.ObjectPipeline.AssetLoaderFramework.Tests\Byt3.ObjectPipeline.AssetLoaderFramework.Tests.csproj", "{62547811-0E78-4321-9027-E51D6014DD2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.AssetLoaderFramework.Tests", "UnitTests\Byt3.ObjectPipeline.AssetLoaderFramework.Tests\Byt3.ObjectPipeline.AssetLoaderFramework.Tests.csproj", "{62547811-0E78-4321-9027-E51D6014DD2B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Threading", "Byt3.Threading\Byt3.Threading.csproj", "{D1B664B0-1742-44B5-BEAF-C88B3B12B402}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Threading", "Libraries\Byt3.Threading\Byt3.Threading.csproj", "{D1B664B0-1742-44B5-BEAF-C88B3B12B402}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.Threading", "Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj", "{14E8DAA6-9557-47BA-9066-0D2ACFD6BDE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.Threading", "Libraries\Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj", "{14E8DAA6-9557-47BA-9066-0D2ACFD6BDE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingProject", "TestingProject\TestingProject.csproj", "{14090BFB-5064-4C0F-8CBF-991FB2A491A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingProject", "Consoles\TestingProject\TestingProject.csproj", "{14090BFB-5064-4C0F-8CBF-991FB2A491A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.AssemblyGenerator", "Byt3.AssemblyGenerator\Byt3.AssemblyGenerator.csproj", "{A3737936-8500-4976-8E8E-10F9B89E34FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.AssemblyGenerator", "Libraries\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator.csproj", "{A3737936-8500-4976-8E8E-10F9B89E34FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.CommandRunner", "Libraries\Byt3.CommandRunner\Byt3.CommandRunner.csproj", "{9D91988D-6FA8-4968-B967-CE9746A0A0FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.Serialization", "Utilities\Byt3.Utilities\Byt3.Utilities.Serialization.csproj", "{55B3BD2B-1ABB-4ED0-B24D-4828D83AC824}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.DotNet", "Utilities\Byt3.Utilities.DotNet\Byt3.Utilities.DotNet.csproj", "{5611097C-4C31-400D-A084-CE78F03A5C07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.Threading", "Utilities\Byt3.Utilities.Threading\Byt3.Utilities.Threading.csproj", "{593025BB-C9DF-448E-B576-238AE96DC6D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{D86E5395-8C96-4F3D-A419-B5DC6BA581DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Consoles", "Consoles", "{A26AFFA5-E059-46E3-8F9D-3B2A7F01367E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{9FFEA284-A8F7-4608-8A05-71452E9A04BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.AssemblyGenerator.CLI", "Consoles\Byt3.AssemblyGenerator.CLI\Byt3.AssemblyGenerator.CLI.csproj", "{4966A001-9063-4C82-B6A7-51C9FB82FAB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,16 +99,48 @@ Global
 		{A3737936-8500-4976-8E8E-10F9B89E34FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3737936-8500-4976-8E8E-10F9B89E34FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3737936-8500-4976-8E8E-10F9B89E34FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D91988D-6FA8-4968-B967-CE9746A0A0FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D91988D-6FA8-4968-B967-CE9746A0A0FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D91988D-6FA8-4968-B967-CE9746A0A0FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D91988D-6FA8-4968-B967-CE9746A0A0FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55B3BD2B-1ABB-4ED0-B24D-4828D83AC824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55B3BD2B-1ABB-4ED0-B24D-4828D83AC824}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55B3BD2B-1ABB-4ED0-B24D-4828D83AC824}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55B3BD2B-1ABB-4ED0-B24D-4828D83AC824}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5611097C-4C31-400D-A084-CE78F03A5C07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5611097C-4C31-400D-A084-CE78F03A5C07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5611097C-4C31-400D-A084-CE78F03A5C07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5611097C-4C31-400D-A084-CE78F03A5C07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{593025BB-C9DF-448E-B576-238AE96DC6D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{593025BB-C9DF-448E-B576-238AE96DC6D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{593025BB-C9DF-448E-B576-238AE96DC6D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{593025BB-C9DF-448E-B576-238AE96DC6D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4966A001-9063-4C82-B6A7-51C9FB82FAB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4966A001-9063-4C82-B6A7-51C9FB82FAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4966A001-9063-4C82-B6A7-51C9FB82FAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4966A001-9063-4C82-B6A7-51C9FB82FAB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{82B2E9A8-5A6F-42CE-847E-EF3CF4EB32F3} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
+		{D4F87B8F-50AE-4BEA-9D7D-AE61660C9587} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
 		{9A6CE9CC-FAA0-4662-B1D9-2D360E4316DA} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
 		{DD1BEBF5-6A7E-49E5-96D0-546E5B8E3052} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
+		{B456A960-DDCB-4937-A1F8-6AA963DD561A} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
 		{B98D5906-0843-48D5-A393-6DA7D8A6561D} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
+		{9420BD3B-E41C-4646-BE00-B5B59B37B66C} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
 		{62547811-0E78-4321-9027-E51D6014DD2B} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
-		{14090BFB-5064-4C0F-8CBF-991FB2A491A6} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
+		{D1B664B0-1742-44B5-BEAF-C88B3B12B402} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
+		{14E8DAA6-9557-47BA-9066-0D2ACFD6BDE7} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
+		{14090BFB-5064-4C0F-8CBF-991FB2A491A6} = {A26AFFA5-E059-46E3-8F9D-3B2A7F01367E}
+		{A3737936-8500-4976-8E8E-10F9B89E34FF} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
+		{9D91988D-6FA8-4968-B967-CE9746A0A0FC} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
+		{55B3BD2B-1ABB-4ED0-B24D-4828D83AC824} = {D86E5395-8C96-4F3D-A419-B5DC6BA581DA}
+		{5611097C-4C31-400D-A084-CE78F03A5C07} = {D86E5395-8C96-4F3D-A419-B5DC6BA581DA}
+		{593025BB-C9DF-448E-B576-238AE96DC6D2} = {D86E5395-8C96-4F3D-A419-B5DC6BA581DA}
+		{4966A001-9063-4C82-B6A7-51C9FB82FAB5} = {A26AFFA5-E059-46E3-8F9D-3B2A7F01367E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1ACABA5F-1D45-4A5D-8E38-B83B3DFDF05A}
