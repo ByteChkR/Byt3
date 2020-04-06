@@ -310,7 +310,7 @@ namespace Byt3.ADL
             }
 
             string messg = message + Utils.NewLine;
-            string mesg = logger.GetMaskPrefix(mask) + messg;
+            string mesg = $"[{logger.GetMaskPrefix(mask)}]{messg}";
 
             lock (Streams)
             {

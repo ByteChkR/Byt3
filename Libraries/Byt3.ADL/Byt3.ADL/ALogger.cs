@@ -41,7 +41,7 @@ namespace Byt3.ADL
 
         public void Log(int mask, string message)
         {
-            Debug.Log(this, mask, $"[{ProjectName}:] {message}");
+            Debug.Log(this, mask, $"[{ProjectName}] {message}");
         }
 
         public string GetMaskPrefix(BitMask mask)
