@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL.Crash\Byt3.ADL.Crash.csproj" />
+    <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
+    <ProjectReference Include="..\..\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
+    <ProjectReference Include="..\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
+    <ProjectReference Include="..\Byt3.ExtPP\Byt3.ExtPP.csproj" />
+  </ItemGroup>
+
+</Project>

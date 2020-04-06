@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Byt3.Enums
+﻿namespace Byt3.Collections.Enums
 {
     public enum INodeState
     {

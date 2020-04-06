@@ -9,9 +9,7 @@ namespace TestingProject
 
         private static void Main(string[] args)
         {
-
-
-
+            
             AssemblyGeneratorGenerateModules();
 
             AssemblyDefinition defs = AssemblyDefinition.Load(".\\GeneratedModules\\Byt3.assemblyconfig");

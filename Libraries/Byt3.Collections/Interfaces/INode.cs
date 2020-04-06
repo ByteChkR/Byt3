@@ -1,5 +1,5 @@
 ﻿using System;
-using Byt3.Enums;
+using Byt3.Collections.Enums;
 
 namespace Byt3.Collections.Interfaces
 {

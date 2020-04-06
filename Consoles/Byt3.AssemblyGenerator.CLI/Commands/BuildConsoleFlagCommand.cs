@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using Byt3.CommandRunner;
+﻿using Byt3.CommandRunner;
 
 namespace Byt3.AssemblyGenerator.CLI.Commands
 {
