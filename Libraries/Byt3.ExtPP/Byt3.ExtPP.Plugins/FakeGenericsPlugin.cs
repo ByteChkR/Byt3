@@ -77,7 +77,7 @@ namespace Byt3.ExtPP.Plugins
             PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Generic Keywords...");
             if (GenParams != null && GenParams.Length > 0)
             {
-                for (var i = GenParams.Length - 1; i >= 0; i--)
+                for (int i = GenParams.Length - 1; i >= 0; i--)
                 {
 
                     PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Keyword {0}{1} with {2} in file {3}", GenericKeyword, i, GenParams[i], file.GetKey());

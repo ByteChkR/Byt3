@@ -1,5 +1,4 @@
-﻿using System;
-using Byt3.ADL;
+﻿using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.Utilities.DotNet;
 
@@ -13,7 +12,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             CommandAction = SetName;
         }
 
-        private void SetName(StartupInfo info, string[] args)
+        private void SetName(StartupArgumentInfo argumentInfo, string[] args)
         {
             if (!Program.HasTarget)
             {

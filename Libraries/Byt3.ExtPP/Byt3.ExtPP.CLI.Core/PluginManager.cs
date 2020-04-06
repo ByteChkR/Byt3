@@ -425,7 +425,7 @@ namespace Byt3.ExtPP.CLI.Core
                 return new PluginInformation[0];
             }
             List<PluginInformation> ret = new List<PluginInformation>();
-            foreach (var inf in info.Cache)
+            foreach (PluginInformation inf in info.Cache)
             {
                 if (inf.Path == pathToLib)
                 {
@@ -453,7 +453,7 @@ namespace Byt3.ExtPP.CLI.Core
                 {
                     return false;
                 }
-                foreach (var name in inf)
+                foreach (PluginInformation name in inf)
                 {
 
                     PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n{0}", name.GetDescription(shortDesc));
@@ -464,7 +464,7 @@ namespace Byt3.ExtPP.CLI.Core
 
             }
 
-            foreach (var name in names)
+            foreach (string name in names)
             {
                 if (TryGetPluginInfoByPathAndPrefix(info, path, name, out PluginInformation val))
                 {
@@ -512,7 +512,7 @@ namespace Byt3.ExtPP.CLI.Core
                 {
                     PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Discovering Files in {0}", info.IncludedDirectories[i]);
                     string[] files = Directory.GetFiles(info.IncludedDirectories[i], "*.dll");
-                    foreach (var file in files)
+                    foreach (string file in files)
                     {
                         List<AbstractPlugin> plugins = FromFile(file);
                         List<string> prefixes = new List<string>();
@@ -531,7 +531,7 @@ namespace Byt3.ExtPP.CLI.Core
 
 
 
-            foreach (var inc in manuallyIncluded)
+            foreach (string inc in manuallyIncluded)
             {
                 AddFile(inc, false);
             }
@@ -554,7 +554,7 @@ namespace Byt3.ExtPP.CLI.Core
         {
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
             Type[] types = asm.GetTypes();
-            foreach (var type in types)
+            foreach (Type type in types)
             {
                 if (!type.IsAbstract && type.IsSubclassOf(typeof(AbstractPlugin)))
                 {
@@ -639,7 +639,7 @@ namespace Byt3.ExtPP.CLI.Core
         /// <returns>the success state of the operation</returns>
         public bool TryGetPathByName(string name, out string path)
         {
-            if (TryGetPluginInfoByName(info, name, out var pli))
+            if (TryGetPluginInfoByName(info, name, out PluginInformation pli))
             {
                 path = pli.Path;
                 return true;
@@ -657,7 +657,7 @@ namespace Byt3.ExtPP.CLI.Core
         /// <returns>the success state of the operation</returns>
         public bool TryGetPathByPrefix(string prefix, out string path)
         {
-            if (TryGetPluginInfoByPrefix(info, prefix, out var pli))
+            if (TryGetPluginInfoByPrefix(info, prefix, out PluginInformation pli))
             {
                 path = pli.Path;
                 return true;

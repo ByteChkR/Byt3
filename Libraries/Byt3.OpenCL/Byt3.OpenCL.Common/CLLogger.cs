@@ -15,11 +15,6 @@ namespace Byt3.OpenCL.Common
         /// <param name="importance">The importance of the debug message</param>
         public static void Log(string message, DebugChannel channel, int importance)
         {
-            if (!DebugHelper.Init)
-            {
-                DebugHelper.ApplySettings(DebugSettings.GetDefault());
-            }
-
             DebugHelper.Log(message, (int) channel, importance);
         }
 

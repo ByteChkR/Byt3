@@ -40,7 +40,7 @@ namespace Byt3.Collections
             : this()
         {
             IsDescending = isdesc;
-            foreach (var item in collection)
+            foreach (T item in collection)
                 Enqueue(item);
         }
 

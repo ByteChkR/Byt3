@@ -17,7 +17,7 @@ namespace Byt3.ExtPP.CLI.Core
         public static List<string> ListAllCommands(this List<CommandInfo> info, string[] prefix)
         {
             List<string> ret = new List<string>();
-            foreach (var cmd in info)
+            foreach (CommandInfo cmd in info)
             {
                 ret.Add("--" + prefix.Unpack("/") + ":" + cmd.ToString());
             }

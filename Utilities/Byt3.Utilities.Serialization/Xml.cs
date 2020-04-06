@@ -30,10 +30,10 @@ namespace Byt3.Utilities.Serialization
         private static string DoSerialize(object obj, Type[] extraTypes = null)
         {
             if (extraTypes == null) extraTypes = new Type[0];
-            using (var ms = new MemoryStream())
-            using (var writer = XmlWriter.Create(ms, WriterSettings))
+            using (MemoryStream ms = new MemoryStream())
+            using (XmlWriter writer = XmlWriter.Create(ms, WriterSettings))
             {
-                var serializer = new XmlSerializer(obj.GetType(), extraTypes);
+                XmlSerializer serializer = new XmlSerializer(obj.GetType(), extraTypes);
                 serializer.Serialize(writer, obj, Namespaces);
                 return Encoding.UTF8.GetString(ms.ToArray());
             }
@@ -52,9 +52,9 @@ namespace Byt3.Utilities.Serialization
 
         private static T DoDeserialize<T>(string data) where T : class
         {
-            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(data)))
+            using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(data)))
             {
-                var serializer = new XmlSerializer(typeof(T));
+                XmlSerializer serializer = new XmlSerializer(typeof(T));
                 return (T)serializer.Deserialize(ms);
             }
         }

@@ -19,7 +19,7 @@ namespace Byt3.ADL
         /// <returns>bitwise length of enum.</returns>
         public static int GetEnumSize(Type enumType)
         {
-            var i = Enum.GetValues(enumType).Cast<int>().Max(); //Maximum Value (32 for LoggingTypes)
+            int i = Enum.GetValues(enumType).Cast<int>().Max(); //Maximum Value (32 for LoggingTypes)
             return i + i - 1; //Actual Bitwise Maximal value. from 000000(0) to 111111(63)
         }
 
@@ -33,8 +33,8 @@ namespace Byt3.ADL
         public static int IntPow(int basis, int exp)
         {
             if (exp == 0) return 1;
-            var ret = basis;
-            for (var i = 1; i < exp; i++) ret *= basis;
+            int ret = basis;
+            for (int i = 1; i < exp; i++) ret *= basis;
             return ret;
         }
 
@@ -45,10 +45,10 @@ namespace Byt3.ADL
         /// <returns></returns>
         public static string ByteArrayToHexString(byte[] bytes)
         {
-            var result = new StringBuilder(bytes.Length * 2);
+            StringBuilder result = new StringBuilder(bytes.Length * 2);
             const string hexAlphabet = "0123456789ABCDEF";
 
-            foreach (var b in bytes)
+            foreach (byte b in bytes)
             {
                 result.Append(hexAlphabet[b >> 4]);
                 result.Append(hexAlphabet[b & 0xF]);
@@ -64,7 +64,7 @@ namespace Byt3.ADL
         /// <returns></returns>
         public static byte[] HexStringToByteArray(string hex)
         {
-            var bytes = new byte[hex.Length / 2];
+            byte[] bytes = new byte[hex.Length / 2];
             int[] hexValue =
             {
                 0x00, 0x01, 0x02, 0x03, 0x04, 0x05,

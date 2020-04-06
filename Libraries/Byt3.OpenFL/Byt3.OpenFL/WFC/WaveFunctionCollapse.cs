@@ -1,6 +1,5 @@
 ﻿using System;
 using Byt3.OpenCL.Common;
-using Byt3.OpenCL.Wrapper;
 
 /*
 The MIT License(MIT)

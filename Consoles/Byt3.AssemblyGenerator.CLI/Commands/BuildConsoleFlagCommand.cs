@@ -10,7 +10,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
 
         }
 
-        private static void BuildConsoleFlag(StartupInfo info, string[] args)
+        private static void BuildConsoleFlag(StartupArgumentInfo argumentInfo, string[] args)
         {
             Program.BuildConsole = true;
         }

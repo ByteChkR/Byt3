@@ -7,13 +7,13 @@ namespace Byt3.ADL.Configs
     ///     even if i can not read the config.
     /// </summary>
     [Serializable]
-    public abstract class AbstractAdlConfig
+    public abstract class AbstractADLConfig
     {
         ///// <summary>
         /////     Used by the Config Manager to read the standard config when reading the actual config file failed.
         ///// </summary>
         ///// <returns></returns>
-        //AbstractAdlConfig GetStandard();
-        public abstract AbstractAdlConfig GetStandard();
+        //AbstractADLConfig GetStandard();
+        public abstract AbstractADLConfig GetStandard();
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Byt3.ADL;
+﻿using Byt3.ADL;
 
 namespace Byt3.PackageHandling
 {

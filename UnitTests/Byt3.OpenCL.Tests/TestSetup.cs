@@ -14,7 +14,7 @@ namespace Byt3.OpenCL.Tests
                 if (_kernelDb == null)
                 {
                     string s = Directory.GetCurrentDirectory();
-                    _kernelDb = new KernelDatabase(Clapi.MainThread, "resources/kernel",
+                    _kernelDb = new KernelDatabase(CLAPI.MainThread, "resources/kernel",
                         Wrapper.TypeEnums.DataTypes.Uchar1);
                 }
 

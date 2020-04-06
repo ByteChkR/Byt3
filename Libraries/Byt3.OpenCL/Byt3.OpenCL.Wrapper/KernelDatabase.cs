@@ -24,13 +24,13 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Public constructor
         /// </summary>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="folderName">Folder name where the kernels are located</param>
         /// <param name="genDataType">The DataTypes used to compile the FL Database</param>
-        public KernelDatabase(Clapi instance, string folderName, TypeEnums.DataTypes genDataType)
+        public KernelDatabase(CLAPI instance, string folderName, TypeEnums.DataTypes genDataType)
         {
             GenDataType = KernelParameter.GetDataString(genDataType);
-            if (!Clapi.DirectoryExists(folderName))
+            if (!CLAPI.DirectoryExists(folderName))
             {
                 throw new Exception(folderName);
             }
@@ -47,9 +47,9 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Initializes the Kernel Database
         /// </summary>
-        private void Initialize(Clapi instance)
+        private void Initialize(CLAPI instance)
         {
-            string[] files = Clapi.GetFiles(folderName, "*.cl");
+            string[] files = CLAPI.GetFiles(folderName, "*.cl");
 
             foreach (string file in files)
             {
@@ -61,11 +61,11 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Manually adds a Program to the database
         /// </summary>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="file">Path fo the file</param>
-        public void AddProgram(Clapi instance, string file)
+        public void AddProgram(CLAPI instance, string file)
         {
-            if (!Clapi.FileExists(file))
+            if (!CLAPI.FileExists(file))
             {
                 throw new Exception(file);
             }
@@ -74,7 +74,7 @@ namespace Byt3.OpenCL.Wrapper
             string path = Path.GetFullPath(file);
 
             Logger.Log(LogType.Log, "Creating CLProgram from file: " + file);
-            ClProgram program = new ClProgram(instance, path, GenDataType);
+            CLProgram program = new CLProgram(instance, path, GenDataType);
 
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
             {

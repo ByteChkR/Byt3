@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using Byt3.ADL;
 using Byt3.CommandRunner;
@@ -14,7 +13,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             CommandAction = Default;
         }
 
-        private  void Default(StartupInfo info, string[] args)
+        private  void Default(StartupArgumentInfo argumentInfo, string[] args)
         {
             string target = "";
             if (args.Length > 0)

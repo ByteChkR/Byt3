@@ -167,16 +167,16 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Casts the supplied value to the specified type
         /// </summary>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="value">the value casted to the required type for the parameter</param>
         /// <returns></returns>
-        public object CastToType(Clapi instance, object value)
+        public object CastToType(CLAPI instance, object value)
         {
             if (IsArray)
             {
                 object[] data = (object[]) value;
 
-                return Clapi.CreateBuffer(instance,
+                return CLAPI.CreateBuffer(instance,
                     Array.ConvertAll(data, x => CastToType(Converters[(int) DataType], x)),
                     Converters[(int) DataType], MemoryFlag.CopyHostPointer | MemoryFlag.ReadOnly);
             }
@@ -216,7 +216,7 @@ namespace Byt3.OpenCL.Wrapper
                 return Convert.ChangeType(value, t);
             }
 
-            return ClTypeConverter.Convert(t, value);
+            return CLTypeConverter.Convert(t, value);
         }
 
 

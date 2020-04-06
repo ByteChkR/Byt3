@@ -11,8 +11,11 @@ namespace TestingProject
 
         private static void Main(string[] args)
         {
-            LogTextStream lts = new LogTextStream(Console.OpenStandardOutput());
-            Debug.AddOutputStream(lts);
+
+            Debug.DefaultInitialization();
+
+
+
             AssemblyGeneratorGenerateModules();
 
             AssemblyDefinition defs = AssemblyDefinition.Load(".\\GeneratedModules\\Byt3.assemblyconfig");

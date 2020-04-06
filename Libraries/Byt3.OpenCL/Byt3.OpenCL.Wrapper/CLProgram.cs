@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Byt3.OpenCL.Common;
+using Byt3.OpenCL.Common.ExtPP.API;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Programs;
 
@@ -10,7 +10,7 @@ namespace Byt3.OpenCL.Wrapper
     /// <summary>
     /// A wrapper class for a OpenCL Program.
     /// </summary>
-    public class ClProgram
+    public class CLProgram
     {
 
         
@@ -27,10 +27,10 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Public Constructor
         /// </summary>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="filePath">The FilePath where the source is located</param>
         /// <param name="genType">The Gen Type used</param>
-        public ClProgram(Clapi instance, string filePath, string genType)
+        public CLProgram(CLAPI instance, string filePath, string genType)
         {
             this.filePath = filePath;
             this.genType = genType;
@@ -93,19 +93,19 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Loads the source and initializes the CLProgram
         /// </summary>
-        private void Initialize(Clapi instance)
+        private void Initialize(CLAPI instance)
         {
             int vnum = GetVectorNum(genType);
             
-            string source = TextProcessorApi.PreprocessSource(filePath, new Dictionary<string, bool>());
+            string source = TextProcessorAPI.PreprocessSource(filePath, new Dictionary<string, bool>());
             string[] kernelNames = FindKernelNames(source);
 
-            ClProgramHandle = Clapi.CreateClProgramFromSource(instance, source);
+            ClProgramHandle = CLAPI.CreateClProgramFromSource(instance, source);
 
 
             foreach (string kernelName in kernelNames)
             {
-                Kernel k = Clapi.CreateKernelFromName(ClProgramHandle, kernelName);
+                Kernel k = CLAPI.CreateKernelFromName(ClProgramHandle, kernelName);
                 int kernelNameIndex = source.IndexOf(" " + kernelName + " ", StringComparison.InvariantCulture);
                 kernelNameIndex = kernelNameIndex == -1
                     ? source.IndexOf(" " + kernelName + "(", StringComparison.InvariantCulture)

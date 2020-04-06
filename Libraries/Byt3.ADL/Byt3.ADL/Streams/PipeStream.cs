@@ -252,7 +252,7 @@ namespace Byt3.ADL.Streams
             if (count == 0)
                 return 0;
 
-            var readLength = 0;
+            int readLength = 0;
 
             lock (_mBuffer)
             {
@@ -299,7 +299,7 @@ namespace Byt3.ADL.Streams
                 _mFlushed = false; // if it were flushed before, it soon will not be.
 
                 // queue up the buffer data
-                for (var i = offset; i < offset + count; i++) _mBuffer.Enqueue(buffer[i]);
+                for (int i = offset; i < offset + count; i++) _mBuffer.Enqueue(buffer[i]);
 
                 Monitor.Pulse(_mBuffer); // signal that write has occured
             }

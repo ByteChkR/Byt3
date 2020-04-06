@@ -36,7 +36,7 @@ namespace Byt3.ExtPP
         /// <param name="keys">The keys that will be set</param>
         public void Set(string[] keys)
         {
-            foreach (var key in keys)
+            foreach (string key in keys)
             {
                 Set(key);
             }
@@ -48,7 +48,7 @@ namespace Byt3.ExtPP
         /// <param name="keys">The keys that will be unset</param>
         public void Unset(string[] keys)
         {
-            foreach (var key in keys)
+            foreach (string key in keys)
             {
                 Unset(key);
             }

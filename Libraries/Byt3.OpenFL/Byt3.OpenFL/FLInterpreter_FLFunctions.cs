@@ -8,7 +8,7 @@ namespace Byt3.OpenFL
     /// <summary>
     /// Partial Class that Contains the Baked FL Functions
     /// </summary>
-    public partial class Interpreter
+    public partial class FLInterpreter
     {
         /// <summary>
         /// The implementation of the command setactive
@@ -45,7 +45,7 @@ namespace Byt3.OpenFL
             }
 
             if (currentArgStack.Peek() == null ||
-                !(currentArgStack.Peek() is ClBufferInfo) && !(currentArgStack.Peek() is decimal))
+                !(currentArgStack.Peek() is CLBufferInfo) && !(currentArgStack.Peek() is decimal))
             {
                 CLLogger.Crash(new FLInvalidFunctionUseException("setactive", "Specify the buffer you want to activate"),
                     true);
@@ -59,7 +59,7 @@ namespace Byt3.OpenFL
             }
             else
             {
-                currentBuffer = (ClBufferInfo) currentArgStack.Pop();
+                currentBuffer = (CLBufferInfo) currentArgStack.Pop();
             }
 
             bool needCopy = false;
@@ -76,7 +76,7 @@ namespace Byt3.OpenFL
             {
                 CLLogger.Log("Updating Channel Buffer", DebugChannel.Log | DebugChannel.EngineOpenFL, 6);
                 activeChannels = temp;
-                Clapi.WriteToBuffer(instance, activeChannelBuffer, activeChannels);
+                CLAPI.WriteToBuffer(instance, activeChannelBuffer, activeChannels);
             }
             else
             {
@@ -100,13 +100,13 @@ namespace Byt3.OpenFL
         {
             if (currentArgStack.Count == 0)
             {
-                Clapi.WriteRandom(instance, currentBuffer.Buffer, Randombytesource, activeChannels, false);
+                CLAPI.WriteRandom(instance, currentBuffer.Buffer, Randombytesource, activeChannels, false);
             }
 
             while (currentArgStack.Count != 0)
             {
                 object obj = currentArgStack.Pop();
-                if (!(obj is ClBufferInfo))
+                if (!(obj is CLBufferInfo))
                 {
                     CLLogger.Crash(
                         new FLInvalidArgumentType("Argument: " + currentArgStack.Count + 1, "MemoyBuffer/Image"),
@@ -114,7 +114,7 @@ namespace Byt3.OpenFL
                     continue;
                 }
 
-                Clapi.WriteRandom(instance, (obj as ClBufferInfo).Buffer, Randombytesource, activeChannels, false);
+                CLAPI.WriteRandom(instance, (obj as CLBufferInfo).Buffer, Randombytesource, activeChannels, false);
             }
         }
 
@@ -125,13 +125,13 @@ namespace Byt3.OpenFL
         {
             if (currentArgStack.Count == 0)
             {
-                Clapi.WriteRandom(instance, currentBuffer.Buffer, Randombytesource, activeChannels, true);
+                CLAPI.WriteRandom(instance, currentBuffer.Buffer, Randombytesource, activeChannels, true);
             }
 
             while (currentArgStack.Count != 0)
             {
                 object obj = currentArgStack.Pop();
-                if (!(obj is ClBufferInfo))
+                if (!(obj is CLBufferInfo))
                 {
                     CLLogger.Crash(
                         new FLInvalidArgumentType("Argument: " + currentArgStack.Count + 1, "MemoyBuffer/Image"),
@@ -139,7 +139,7 @@ namespace Byt3.OpenFL
                     continue;
                 }
 
-                Clapi.WriteRandom(instance, (obj as ClBufferInfo).Buffer, Randombytesource, activeChannels, true);
+                CLAPI.WriteRandom(instance, (obj as CLBufferInfo).Buffer, Randombytesource, activeChannels, true);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Byt3.OpenFL
             else if (currentArgStack.Count == 1)
             {
                 object obj = currentArgStack.Pop();
-                if (!(obj is ClBufferInfo))
+                if (!(obj is CLBufferInfo))
                 {
                     CLLogger.Crash(
                         new FLInvalidArgumentType("Argument: " + currentArgStack.Count + 1, "MemoyBuffer/Image"),
@@ -177,7 +177,7 @@ namespace Byt3.OpenFL
                     return;
                 }
 
-                stepResult.DebugBufferName = (obj as ClBufferInfo).ToString();
+                stepResult.DebugBufferName = (obj as CLBufferInfo).ToString();
             }
             else
             {

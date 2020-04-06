@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Byt3.ADL;
@@ -112,10 +111,10 @@ namespace Byt3.CommandRunner
                 }
             }
 
-            StartupInfo info = new StartupInfo(args);
+            StartupArgumentInfo argumentInfo = new StartupArgumentInfo(args);
 
 
-            if (info.GetCommandEntries("noflag") != 0 || info.GetCommandEntries("noflag") == 0 && info.CommandCount == 0)
+            if (argumentInfo.GetCommandEntries("noflag") != 0 || argumentInfo.GetCommandEntries("noflag") == 0 && argumentInfo.CommandCount == 0)
             {
                 List<AbstractCommand> cmds = _commands.Where(x => x.DefaultCommand).ToList();
                 if (cmds.Count == 0)
@@ -131,25 +130,25 @@ namespace Byt3.CommandRunner
                     Logger.Log(LogType.Log, "Using Command: " + cmds[0].CommandKeys[0]);
                 }
 
-                if (info.GetCommandEntries("noflag") != 0)
-                    for (int j = 0; j < info.GetCommandEntries("noflag"); j++)
+                if (argumentInfo.GetCommandEntries("noflag") != 0)
+                    for (int j = 0; j < argumentInfo.GetCommandEntries("noflag"); j++)
                     {
-                        cmds[0].CommandAction?.Invoke(info, info.GetValues("noflag", j).ToArray());
+                        cmds[0].CommandAction?.Invoke(argumentInfo, argumentInfo.GetValues("noflag", j).ToArray());
                     }
                 else
                 {
-                    cmds[0].CommandAction?.Invoke(info, new string[0]);
+                    cmds[0].CommandAction?.Invoke(argumentInfo, new string[0]);
                 }
             }
 
             for (int i = 0; i < _commands.Count; i++)
             {
-                if (info.GetCommandEntries(_commands[i].CommandKeys[0]) != 0)
+                if (argumentInfo.GetCommandEntries(_commands[i].CommandKeys[0]) != 0)
                 {
-                    for (int j = 0; j < info.GetCommandEntries(_commands[i].CommandKeys[0]); j++)
+                    for (int j = 0; j < argumentInfo.GetCommandEntries(_commands[i].CommandKeys[0]); j++)
                     {
                         didExecute = true;
-                        _commands[i].CommandAction?.Invoke(info, info.GetValues(_commands[i].CommandKeys[0], j).ToArray());
+                        _commands[i].CommandAction?.Invoke(argumentInfo, argumentInfo.GetValues(_commands[i].CommandKeys[0], j).ToArray());
                     }
                 }
             }

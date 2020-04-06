@@ -3,7 +3,7 @@
 namespace Byt3.PackageHandling
 {
     [Flags]
-    public enum HandlerLookupType
+    public enum Byt3HandlerLookupType
     {
         None = 0,
         TraverseUp = 1,

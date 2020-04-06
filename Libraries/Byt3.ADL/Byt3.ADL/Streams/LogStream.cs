@@ -13,15 +13,14 @@ namespace Byt3.ADL.Streams
     /// </summary>
     public class LogStream : Stream
     {
+        
+
+
+
         /// <summary>
         ///     Base stream
         /// </summary>
         protected readonly Stream BaseStream;
-
-        /// <summary>
-        ///     Mask that the system uses to filter logs
-        /// </summary>
-        private BitMask _mask;
 
         /// <summary>
         ///     The match type(how the mask gets compared)
@@ -43,10 +42,9 @@ namespace Byt3.ADL.Streams
         /// <param name="mask"></param>
         /// <param name="maskMatchType"></param>
         /// <param name="setTimeStamp"></param>
-        public LogStream(Stream baseStream, int mask = ~0, MaskMatchType maskMatchType = MaskMatchType.MatchAll,
+        public LogStream(Stream baseStream, MaskMatchType maskMatchType = MaskMatchType.MatchAll,
             bool setTimeStamp = false)
         {
-            _mask = mask;
             _maskMatchType = maskMatchType;
             AddTimeStamp = setTimeStamp;
             BaseStream = baseStream;
@@ -60,19 +58,9 @@ namespace Byt3.ADL.Streams
         {
             if (IsClosed) return;
             if (AddTimeStamp) log.Message = Utils.TimeStamp + log.Message;
-            var buffer = log.Serialize();
+            byte[] buffer = log.Serialize();
             BaseStream.Write(buffer, 0, buffer.Length);
             Flush();
-        }
-
-        /// <summary>
-        ///     Wrapper to make code more readable
-        /// </summary>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        public bool IsContainedInMask(BitMask mask)
-        {
-            return BitMask.IsContainedInMask(_mask, mask, _maskMatchType == MaskMatchType.MatchAll);
         }
 
         #region Properties
@@ -81,16 +69,6 @@ namespace Byt3.ADL.Streams
         ///     If true all the LogChannels/TimeStamp is ignored and only the message will get received.
         /// </summary>
         public bool OverrideChannelTag { get; set; }
-
-
-        /// <summary>
-        ///     The Mask that determines wether this stream will receive a log message
-        /// </summary>
-        public int Mask
-        {
-            get => _mask;
-            set => _mask = value;
-        }
 
         /// <summary>
         ///     Put a timestamp infront of the log.
@@ -107,7 +85,7 @@ namespace Byt3.ADL.Streams
 
         public override void Write(byte[] value, int start, int count)
         {
-            var tmp = new byte[count];
+            byte[] tmp = new byte[count];
             Array.Copy(value, 0, tmp, 0, count);
             BaseStream.Write(tmp, 0, count);
             Flush();

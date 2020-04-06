@@ -75,13 +75,13 @@ namespace Byt3.ExtPP.Plugins
 
             string[] incs = Utils.FindStatements(source.ToArray(), IncludeKeyword);
 
-            foreach (var includes in incs)
+            foreach (string includes in incs)
             {
                 PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Processing Statement: {0}", includes);
                 bool tmp = GetISourceScript(sourceManager, includes, currentPath, out List<ISourceScript> sources);
                 if (tmp)
                 {
-                    foreach (var sourceScript in sources)
+                    foreach (ISourceScript sourceScript in sources)
                     {
                         PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}", Path.GetFileName(sourceScript.GetFileInterface().GetKey()));
 
@@ -112,7 +112,7 @@ namespace Byt3.ExtPP.Plugins
 
         private bool GetISourceScript(ISourceManager manager, string statement, string currentPath, out List<ISourceScript> scripts)
         {
-            var vars = Utils.SplitAndRemoveFirst(statement, Separator);
+            string[] vars = Utils.SplitAndRemoveFirst(statement, Separator);
 
             scripts = new List<ISourceScript>();
             if (vars.Length != 0)
@@ -134,7 +134,7 @@ namespace Byt3.ExtPP.Plugins
                 if (filepath.EndsWith("\\*") || filepath.EndsWith("/*"))
                 {
                     string[] files = IOManager.GetFiles(filepath.Substring(0, filepath.Length - 2));
-                    foreach (var file in files)
+                    foreach (string file in files)
                     {
                         IFileContent cont = new FilePathContent(file);
                         cont.SetKey(key);
@@ -155,9 +155,9 @@ namespace Byt3.ExtPP.Plugins
                 }
 
 
-                for (var index = scripts.Count - 1; index >= 0; index--)
+                for (int index = scripts.Count - 1; index >= 0; index--)
                 {
-                    var sourceScript = scripts[index];
+                    ISourceScript sourceScript = scripts[index];
                     if (sourceScript.GetFileInterface().HasValidFilepath && !Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface()))
                     {
                         PPLogger.Instance.Error("Could not find File: {0}", sourceScript.GetFileInterface());

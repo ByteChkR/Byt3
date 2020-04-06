@@ -7,7 +7,7 @@ namespace Byt3.CommandRunner
     /// <summary>
     /// Small Helper Class that is Handling The Assembly Loading/Getting the Commands from assemblies.
     /// </summary>
-    public static class AssemblyHelper
+    internal static class AssemblyHelper
     {
         /// <summary>
         /// Returns all Commands inside the Assembly

@@ -129,8 +129,8 @@ namespace Byt3.ExtPP
         {
             PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
             int idx = IndexOfFile(script.GetKey());
-            var a = _sources[idx];
-            var ab = _doneState[idx];
+            ISourceScript a = _sources[idx];
+            ProcessStage ab = _doneState[idx];
             _doneState.RemoveAt(idx);
             _doneState.Add(ab);
             _sources.RemoveAt(idx);
@@ -221,7 +221,7 @@ namespace Byt3.ExtPP
         /// <returns>the index of the file or -1 if not found</returns>
         public int IndexOfFile(string key)
         {
-            for (var i = 0; i < _sources.Count; i++)
+            for (int i = 0; i < _sources.Count; i++)
             {
                 if (_sources[i].GetKey() == key)
                 {

@@ -1,6 +1,6 @@
 ﻿namespace Byt3.CommandRunner
 {
-    public abstract class AbstractCmdModuleInfo
+    public abstract class AbstractCommandModuleInfo
     {
         public abstract string ModuleName { get; }
         public virtual string[] Dependencies => new string[0];

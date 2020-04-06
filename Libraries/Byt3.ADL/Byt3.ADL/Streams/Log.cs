@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Byt3.ADL.Streams
@@ -36,7 +37,7 @@ namespace Byt3.ADL.Streams
         /// <returns></returns>
         public byte[] Serialize()
         {
-            var ret = BitConverter.GetBytes(Mask).ToList(); //Mask
+            List<byte> ret = BitConverter.GetBytes(Mask).ToList(); //Mask
             ret.AddRange(BitConverter.GetBytes(Message.Length)); //Message Length
             ret.AddRange(Debug.TextEncoding.GetBytes(Message)); //Message
             return ret.ToArray();
@@ -55,8 +56,8 @@ namespace Byt3.ADL.Streams
             if (buffer.Length < startIndex + sizeof(int) * 2 + 1) return new Log();
 
 
-            var mask = BitConverter.ToInt32(buffer, startIndex);
-            var msgLength = BitConverter.ToInt32(buffer, startIndex + sizeof(int));
+            int mask = BitConverter.ToInt32(buffer, startIndex);
+            int msgLength = BitConverter.ToInt32(buffer, startIndex + sizeof(int));
             if (msgLength == 0)
             {
                 bytesRead = -1;
@@ -65,7 +66,7 @@ namespace Byt3.ADL.Streams
 
             if (msgLength > buffer.Length - startIndex - sizeof(int) * 2) return new Log();
 
-            var message = Debug.TextEncoding.GetString(buffer, startIndex + sizeof(int) * 2, msgLength);
+            string message = Debug.TextEncoding.GetString(buffer, startIndex + sizeof(int) * 2, msgLength);
 
             bytesRead = sizeof(int) * 2 + msgLength;
 

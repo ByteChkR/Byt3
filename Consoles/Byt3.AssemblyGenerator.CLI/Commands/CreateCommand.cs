@@ -1,5 +1,4 @@
-﻿using System;
-using Byt3.ADL;
+﻿using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.Utilities.DotNet;
 
@@ -13,7 +12,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             CommandAction = Create;
         }
 
-        private void Create(StartupInfo info, string[] args)
+        private void Create(StartupArgumentInfo argumentInfo, string[] args)
         {
             AssemblyDefinition definition = new AssemblyDefinition();
             Logger.Log(LogType.Log, "Saving new Assembly Definition to file: " + Program.Target);

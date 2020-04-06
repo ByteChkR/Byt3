@@ -1,6 +1,6 @@
 ﻿namespace Byt3.OpenFL.FLDataObjects
 {
-    public enum FlArgumentType
+    public enum FLArgumentType
     {
         Unknown,
         Buffer,

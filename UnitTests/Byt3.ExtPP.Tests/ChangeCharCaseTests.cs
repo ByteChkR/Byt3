@@ -23,7 +23,7 @@ namespace Byt3.ExtPP.Tests
         public  void ExtPP_Plugins_ChangeCharCase_ToLower_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            var ret = TestHelper.SetUpAndCompile(new List<AbstractPlugin> { new ChangeCharCase() }, "tolower_test.txt");
+            string[] ret = TestHelper.SetUpAndCompile(new List<AbstractPlugin> { new ChangeCharCase() }, "tolower_test.txt");
             Assert.IsTrue(ret[0]== "hello_this_works right?");
         }
 
@@ -31,7 +31,7 @@ namespace Byt3.ExtPP.Tests
         public  void ExtPP_Plugins_ChangeCharCase_ToUpper_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            var ret = TestHelper.SetUpAndCompile(
+            string[] ret = TestHelper.SetUpAndCompile(
                 new List<AbstractPlugin> { new ChangeCharCase() }, 
                 new Settings(new Dictionary<string, string[]>
                 {

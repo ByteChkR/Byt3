@@ -29,7 +29,7 @@ namespace Byt3.ADL.Configs
         {
             Keys = new List<T1>();
             Values = new List<T2>();
-            foreach (var kvp in dict)
+            foreach (KeyValuePair<T1, T2> kvp in dict)
             {
                 Keys.Add(kvp.Key);
                 Values.Add(kvp.Value);
@@ -57,8 +57,8 @@ namespace Byt3.ADL.Configs
         /// <returns>The dictionary with the content of the key and value lists.</returns>
         public Dictionary<T1, T2> ToDictionary()
         {
-            var ret = new Dictionary<T1, T2>();
-            for (var i = 0; i < Keys.Count; i++) ret.Add(Keys[i], Values[i]);
+            Dictionary<T1, T2> ret = new Dictionary<T1, T2>();
+            for (int i = 0; i < Keys.Count; i++) ret.Add(Keys[i], Values[i]);
             return ret;
         }
     }

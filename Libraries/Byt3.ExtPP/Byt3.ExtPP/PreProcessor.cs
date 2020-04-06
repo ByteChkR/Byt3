@@ -34,9 +34,9 @@ namespace Byt3.ExtPP
         {
             get
             {
-                var ret = new List<string>();
+                List<string> ret = new List<string>();
 
-                foreach (var plugin in _plugins)
+                foreach (AbstractPlugin plugin in _plugins)
                 {
                     ret.AddRange(plugin.Cleanup);
                 }
@@ -128,7 +128,7 @@ namespace Byt3.ExtPP
         private void InitializePlugins(Settings settings, IDefinitions def, ISourceManager sourceManager)
         {
             PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Initializing Plugins...");
-            foreach (var plugin in _plugins)
+            foreach (AbstractPlugin plugin in _plugins)
             {
                 PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Initializing Plugin: {0}", plugin.GetType().Name);
 
@@ -153,7 +153,7 @@ namespace Byt3.ExtPP
             long old = Timer.MS;
             PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Starting Compilation of File Tree...");
             List<string> ret = new List<string>();
-            for (var i = src.Length - 1; i >= 0; i--)
+            for (int i = src.Length - 1; i >= 0; i--)
             {
                 string[] sr = src[i].GetSource();
                 if (sr != null && sr.Length != 0)
@@ -190,7 +190,7 @@ namespace Byt3.ExtPP
             PPLogger.Instance.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Finished Initializing {1} Plugins({0}ms)", Timer.MS - old, _plugins.Count);
 
             old = Timer.MS;
-            foreach (var file in files)
+            foreach (IFileContent file in files)
             {
 
                 sm.SetLock(false);
@@ -228,7 +228,7 @@ namespace Byt3.ExtPP
             //Directory.SetCurrentDirectory(dir);
             ISourceScript[] ret = sm.GetList().ToArray();
             PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finishing Up...");
-            foreach (var finishedScript in ret)
+            foreach (ISourceScript finishedScript in ret)
             {
                 PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(finishedScript.GetFileInterface().GetKey()));
                 RunStages(this, ProcessStage.ON_FINISH_UP, finishedScript, sm, definitions);
@@ -313,7 +313,7 @@ namespace Byt3.ExtPP
         /// <param name="source">The source to operate on</param>
         private static void RunLineStage(List<AbstractPlugin> lineStage, ProcessStage stage, string[] source)
         {
-            foreach (var abstractPlugin in lineStage)
+            foreach (AbstractPlugin abstractPlugin in lineStage)
             {
                 for (int i = 0; i < source.Length; i++)
                 {
@@ -346,7 +346,7 @@ namespace Byt3.ExtPP
         /// <returns></returns>
         private bool RunFullScriptStage(List<AbstractPlugin> fullScriptStage, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
         {
-            foreach (var abstractPlugin in fullScriptStage)
+            foreach (AbstractPlugin abstractPlugin in fullScriptStage)
             {
                 bool ret = true;
                 PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Running Plugin: {0}: {1} on file {2}", abstractPlugin, stage, Path.GetFileName(script.GetFileInterface().GetKey()));

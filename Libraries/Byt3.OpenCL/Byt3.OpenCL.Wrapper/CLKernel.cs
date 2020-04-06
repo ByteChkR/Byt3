@@ -12,16 +12,16 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class CLKernel
     {
-        private Clapi _instance;
+        private CLAPI _instance;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="k">The Compiled and Linked Kernel</param>
         /// <param name="name">The name of the kernel</param>
         /// <param name="parameter">The parsed KernelParameter</param>
-        public CLKernel(Clapi instance, Kernel k, string name, KernelParameter[] parameter)
+        public CLKernel(CLAPI instance, Kernel k, string name, KernelParameter[] parameter)
         {
             _instance = instance;
             Kernel = k;

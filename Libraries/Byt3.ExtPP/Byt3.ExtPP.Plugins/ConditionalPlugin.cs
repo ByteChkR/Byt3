@@ -133,7 +133,7 @@ namespace Byt3.ExtPP.Plugins
                         {
 
                             PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", ElseCondition);
-                            var size = GetBlockSize(lastPass, i);
+                            int size = GetBlockSize(lastPass, i);
                             if (elseIsValid)
                             {
                                 solvedFile.AddRange(lastPass.SubArray(i + 1, size));
@@ -232,10 +232,10 @@ namespace Byt3.ExtPP.Plugins
         private int GetBlockSize(IReadOnlyList<string> source, int start)
         {
             PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Finding End of conditional block...");
-            var tolerance = 0;
-            for (var i = start + 1; i < source.Count; i++)
+            int tolerance = 0;
+            for (int i = start + 1; i < source.Count; i++)
             {
-                var line = source[i].Trim();
+                string line = source[i].Trim();
                 if (line.StartsWith(StartCondition))
                 {
                     PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Found nested opening conditional block...");
@@ -346,7 +346,7 @@ namespace Byt3.ExtPP.Plugins
                 exp = expression.Substring(1, expression.Length - 1);
             }
 
-            var val = defs.Check(exp);
+            bool val = defs.Check(exp);
 
             val = neg ? !val : val;
 

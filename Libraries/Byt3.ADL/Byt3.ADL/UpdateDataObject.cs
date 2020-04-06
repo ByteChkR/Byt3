@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net;
-
-namespace Byt3.ADL
+﻿namespace Byt3.ADL
 {
     //public static class UpdateDataObject
     //{

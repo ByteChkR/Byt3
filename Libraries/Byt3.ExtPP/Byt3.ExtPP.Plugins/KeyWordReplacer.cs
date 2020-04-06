@@ -74,7 +74,7 @@ namespace Byt3.ExtPP.Plugins
         public override string LineStage(string source)
         {
             string ret = source;
-            foreach (var keyword in GetKeywords())
+            foreach (KeyValuePair<string, string> keyword in GetKeywords())
             {
                 string key = SurroundingChar + keyword.Key + SurroundingChar;
                 if (ret.Contains(key))

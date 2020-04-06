@@ -3,7 +3,7 @@
     /// <summary>
     /// Enum that is used as a return for the Line Analysis of the FL Interpreter
     /// </summary>
-    public enum LineAnalysisResult
+    public enum FLLineAnalysisResult
     {
         /// <summary>
         /// Everything worked, Increase the Program Counter

@@ -21,9 +21,9 @@ namespace Byt3.ExtPP.Base
         /// <returns>the cleaned list of source code lines</returns>
         public static List<string> RemoveStatements(List<string> source, string[] statements, ILoggable logobj)
         {
-            for (var i = source.Count - 1; i >= 0; i--)
+            for (int i = source.Count - 1; i >= 0; i--)
             {
-                foreach (var t in statements)
+                foreach (string t in statements)
                 {
 
                     if (source[i].Trim().StartsWith(t))
@@ -62,7 +62,7 @@ namespace Byt3.ExtPP.Base
         public static void ReplaceKeyWord(string[] source, string replacement, string keyword)
         {
 
-            for (var i = 0; i < source.Length; i++)
+            for (int i = 0; i < source.Length; i++)
             {
                 if (source[i].Contains(keyword))
                 {
@@ -137,7 +137,7 @@ namespace Byt3.ExtPP.Base
                 return new string[0];
             }
 
-            var ret = statement.Split(new []{ separator }, StringSplitOptions.None);
+            string[] ret = statement.Split(new []{ separator }, StringSplitOptions.None);
 
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }
@@ -253,7 +253,7 @@ namespace Byt3.ExtPP.Base
                 return null;
             }
             object[] ret = new object[obj.Length];
-            for (var index = 0; index < obj.Length; index++)
+            for (int index = 0; index < obj.Length; index++)
             {
 
                 if (t.IsEnum)
@@ -321,11 +321,11 @@ namespace Byt3.ExtPP.Base
             int ret = -1;
 
             string[] ands = input.Split(new []{ '&' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (var and in ands)
+            foreach (string and in ands)
             {
                 string[] ors = and.Split(new []{ '|' }, StringSplitOptions.RemoveEmptyEntries);
                 int r = -1;
-                foreach (var or in ors)
+                foreach (string or in ors)
                 {
                     string enumStr = or.Trim();
                     if (r == -1)

@@ -10,7 +10,7 @@ namespace Byt3.OpenFL
     /// Used to magically convert VectorN into VectorN of different type.
     /// 
     /// </summary>
-    public static class ClTypeConverter
+    public static class CLTypeConverter
     {
         //private delegate decimal ConvertRange(decimal value, decimal max);
         /// <summary>
@@ -215,7 +215,7 @@ namespace Byt3.OpenFL
 
             float oldMax = KernelParameter.GetDataMaxSize(oldName);
             float newMax = KernelParameter.GetDataMaxSize(newName);
-            int w = ClProgram.GetVectorNum(oldName);
+            int w = CLProgram.GetVectorNum(oldName);
             if (w == 1)
             {
                 return System.Convert.ChangeType(

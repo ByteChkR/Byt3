@@ -18,14 +18,14 @@ namespace Byt3.OpenFL.WFC
     /// <summary>
     /// The Implementation of the Wave Collapse Function using a Training Image
     /// </summary>
-    public class WfcOverlayMode : WaveFunctionCollapse
+    public class WFCOverlayMode : WaveFunctionCollapse
     {
         private readonly List<Color> colors;
         private readonly int ground;
         private readonly int n;
         private readonly byte[][] patterns;
 
-        public WfcOverlayMode(Bitmap bitmap, int n, int width, int height, bool periodicInput, bool periodicOutput,
+        public WFCOverlayMode(Bitmap bitmap, int n, int width, int height, bool periodicInput, bool periodicOutput,
             int symmetry, int ground)
             : base(width, height)
         {
@@ -219,9 +219,9 @@ namespace Byt3.OpenFL.WFC
             }
         }
 
-        public WfcOverlayMode(string filename, int n, int width, int height, bool periodicInput, bool periodicOutput,
+        public WFCOverlayMode(string filename, int n, int width, int height, bool periodicInput, bool periodicOutput,
             int symmetry, int ground)
-            : this(new Bitmap(Clapi.GetStream(filename)), n, width, height, periodicInput, periodicOutput, symmetry,
+            : this(new Bitmap(CLAPI.GetStream(filename)), n, width, height, periodicInput, periodicOutput, symmetry,
                 ground)
         {
         }

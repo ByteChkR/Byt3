@@ -288,7 +288,7 @@ namespace Byt3.ExtPP.CLI.Core
                 return true;
             }
 
-            foreach (var file in helpParams)
+            foreach (string file in helpParams)
             {
                 if (file != "self")
                 {
@@ -301,7 +301,7 @@ namespace Byt3.ExtPP.CLI.Core
 
                     List<AbstractPlugin> plugins = CreatePluginChain(new[] { file }, true).ToList();
                     PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.SILENT, "Listing Plugins: ");
-                    foreach (var plugin in plugins)
+                    foreach (AbstractPlugin plugin in plugins)
                     {
                         PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.SILENT, "\n{0}", plugin.ListInfo(true).Unpack("\n"));
                     }
@@ -386,7 +386,7 @@ namespace Byt3.ExtPP.CLI.Core
         {
             List<string> ret = new List<string>();
 
-            foreach (var abstractPlugin in plugins)
+            foreach (AbstractPlugin abstractPlugin in plugins)
             {
                 PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Generating Readme for plugin: {0}", abstractPlugin.GetType().Name);
                 ret.AddRange(abstractPlugin.ToMarkdown());
@@ -514,7 +514,7 @@ namespace Byt3.ExtPP.CLI.Core
         {
             if (PluginAdd != null && PluginAdd.Length != 0)
             {
-                foreach (var s in PluginAdd)
+                foreach (string s in PluginAdd)
                 {
                     PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding: {0}", s);
                     FileAttributes attr = File.GetAttributes(s);
@@ -572,7 +572,7 @@ namespace Byt3.ExtPP.CLI.Core
             {
                 File.Delete(file);
             }
-            LogTextStream lll = new LogTextStream(File.OpenWrite(file), mask, MaskMatchType.MatchAll, timestamp);
+            LogTextStream lll = new LogTextStream(File.OpenWrite(file),  MaskMatchType.MatchAll, timestamp);
             Debug.AddOutputStream(lll);
         }
 
@@ -664,7 +664,7 @@ namespace Byt3.ExtPP.CLI.Core
         {
             if (arg.Contains(':'))
             {
-                var tmp = arg.Split(':').ToList();
+                List<string> tmp = arg.Split(':').ToList();
                 names = tmp.SubArray(1, tmp.Count - 1).ToArray();
                 path = tmp[0];
             }
@@ -843,7 +843,7 @@ namespace Byt3.ExtPP.CLI.Core
 
             string[] names = null;
             string path = "";
-            foreach (var plugin in arg)
+            foreach (string plugin in arg)
             {
                 ParseChainSyntax(plugin, out path, out names);
 
@@ -975,9 +975,9 @@ namespace Byt3.ExtPP.CLI.Core
         private void Process(PreProcessor pp, Settings settings)
         {
             //Run/Execute PreProcessor
-            for (var index = 0; index < Input.Length; index++)
+            for (int index = 0; index < Input.Length; index++)
             {
-                var input = Input[index];
+                string input = Input[index];
                 string[] src = pp.Run(input.Split(',').Select(x => new FilePathContent(x)).OfType<IFileContent>().ToArray(), settings, _defs);
 
                 if (OutputToConsole)
@@ -1009,7 +1009,7 @@ namespace Byt3.ExtPP.CLI.Core
 
             List<CommandHandler> loadOrder = CommandApplyOrder;
 
-            foreach (var commandHandler in loadOrder)
+            foreach (CommandHandler commandHandler in loadOrder)
             {
                 if (commandHandler()) //Command wants us to exit the program(work was finished)
                 {
@@ -1018,29 +1018,6 @@ namespace Byt3.ExtPP.CLI.Core
             }
 
             return true;
-        }
-
-
-
-
-        /// <summary>
-        /// Function that sets up ADL to operate with the DebugLevel enum and more.
-        /// </summary>
-        private static void InitAdl()
-        {
-
-            CrashHandler.Initialize();
-            Debug.LoadConfig((AdlConfig)new AdlConfig().GetStandard());
-            PPLogger.Instance.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]", "[INTERNAL_ERROR]", "[PROGRESS]");
-            PPLogger.Instance.AddPrefixForMask(-1, "[ALL]");
-            LogTextStream lts = new LogTextStream(
-                Console.OpenStandardOutput(),
-                -1,
-                MaskMatchType.MatchAll,
-                false);
-
-            Debug.AddOutputStream(lts);
-
         }
 
 
@@ -1099,8 +1076,6 @@ namespace Byt3.ExtPP.CLI.Core
         /// <param name="args"></param>
         public static void _Main(string[] args)
         {
-
-            InitAdl();
             float start = Timer.MS; // Load assembly
             Console.WriteLine(CliHeader, start);
 
@@ -1108,7 +1083,7 @@ namespace Byt3.ExtPP.CLI.Core
             if (args.Length != 0)
             {
                 string[][] execs = SplitExecutions(args);
-                foreach (var execution in execs)
+                foreach (string[] execution in execs)
                 {
                     new CLI(execution);
                 }

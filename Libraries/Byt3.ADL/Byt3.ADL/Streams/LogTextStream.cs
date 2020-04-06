@@ -11,8 +11,8 @@ namespace Byt3.ADL.Streams
         /// <param name="mask"></param>
         /// <param name="maskMatchType"></param>
         /// <param name="setTimeStamp"></param>
-        public LogTextStream(Stream baseStream, int mask = ~0, MaskMatchType maskMatchType = MaskMatchType.MatchAll,
-            bool setTimeStamp = false) : base(baseStream, mask, maskMatchType, setTimeStamp)
+        public LogTextStream(Stream baseStream, MaskMatchType maskMatchType = MaskMatchType.MatchAll,
+            bool setTimeStamp = false) : base(baseStream, maskMatchType, setTimeStamp)
         {
         }
 
@@ -23,7 +23,7 @@ namespace Byt3.ADL.Streams
         public override void Write(Log log)
         {
             if (AddTimeStamp) log.Message = Utils.TimeStamp + log.Message;
-            var tmp = Debug.TextEncoding.GetBytes(log.Message);
+            byte[] tmp = Debug.TextEncoding.GetBytes(log.Message);
             BaseStream.Write(tmp, 0, tmp.Length);
             Flush();
         }

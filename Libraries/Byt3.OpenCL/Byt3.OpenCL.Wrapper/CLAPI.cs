@@ -20,7 +20,7 @@ namespace Byt3.OpenCL.Wrapper
     /// <summary>
     /// A wrapper class that is handling all the CL operations.
     /// </summary>
-    public class Clapi : IDisposable
+    public class CLAPI : IDisposable
     {
         internal static readonly ALogger<LogType> Logger = new ALogger<LogType>("CL-API");
 
@@ -127,7 +127,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Field that holds the instance of the CL wrapper
         /// </summary>
-        private static Clapi _instance;
+        private static CLAPI _instance;
 
         /// <summary>
         /// The Command queue that the wrapper is using
@@ -142,7 +142,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Private constructor
         /// </summary>
-        private Clapi()
+        private CLAPI()
         {
             InitializeOpenCl();
         }
@@ -150,9 +150,9 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Helpful property for initializing the singleton
         /// </summary>
-        public static Clapi MainThread => _instance ?? (_instance = new Clapi());
+        public static CLAPI MainThread => _instance ?? (_instance = new CLAPI());
 
-        private static void ApiDisposed(Clapi obj)
+        private static void ApiDisposed(CLAPI obj)
         {
             if (obj == _instance)
             {
@@ -173,14 +173,14 @@ namespace Byt3.OpenCL.Wrapper
         /// Returns the Command queue(dont use, its just for debugging if something is wrong)
         /// </summary>
         /// <returns>The Internal Command queue</returns>
-        internal static CommandQueue GetQueue(Clapi instance)
+        internal static CommandQueue GetQueue(CLAPI instance)
         {
             return instance.commandQueue;
         }
 
-        public static Clapi GetInstance()
+        public static CLAPI GetInstance()
         {
-            return new Clapi();
+            return new CLAPI();
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         public static void Reinitialize()
         {
-            _instance = new Clapi();
+            _instance = new CLAPI();
         }
 
         /// <summary>
@@ -334,12 +334,12 @@ namespace Byt3.OpenCL.Wrapper
         /// Writes random values to a MemoryBuffer
         /// </summary>
         /// <typeparam name="T">Type of the values</typeparam>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="buf">MemoryBuffer containing the values to overwrite</param>
         /// <param name="rnd">the RandomFunc delegate providing the random numbers.</param>
         /// <param name="enabledChannels">the channels that are enables(aka. get written with bytes)</param>
         /// <param name="uniform">Should every channel receive the same value on the same pixel?</param>
-        public static void WriteRandom<T>(Clapi instance, MemoryBuffer buf, RandomFunc<T> rnd, byte[] enabledChannels,
+        public static void WriteRandom<T>(CLAPI instance, MemoryBuffer buf, RandomFunc<T> rnd, byte[] enabledChannels,
             bool uniform)
             where T : struct
         {
@@ -358,11 +358,11 @@ namespace Byt3.OpenCL.Wrapper
         /// Writes random values to a Memory Buffer
         /// </summary>
         /// <typeparam name="T">Type of the values</typeparam>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="buf">MemoryBuffer containing the values to overwrite</param>
         /// <param name="rnd">the RandomFunc delegate providing the random numbers.</param>
         /// <param name="enabledChannels">the channels that are enables(aka. get written with bytes)</param>
-        public static void WriteRandom<T>(Clapi instance, MemoryBuffer buf, RandomFunc<T> rnd, byte[] enabledChannels)
+        public static void WriteRandom<T>(CLAPI instance, MemoryBuffer buf, RandomFunc<T> rnd, byte[] enabledChannels)
             where T : struct
         {
             WriteRandom(instance, buf, rnd, enabledChannels, true);
@@ -373,10 +373,10 @@ namespace Byt3.OpenCL.Wrapper
         /// Writes values to a MemoryBuffer
         /// </summary>
         /// <typeparam name="T">Type of the values</typeparam>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="buf">MemoryBuffer containing the values to overwrite</param>
         /// <param name="values">The values to be written to the buffer</param>
-        public static void WriteToBuffer<T>(Clapi instance, MemoryBuffer buf, T[] values) where T : struct
+        public static void WriteToBuffer<T>(CLAPI instance, MemoryBuffer buf, T[] values) where T : struct
         {
             instance.commandQueue.EnqueueWriteBuffer(buf, values);
         }
@@ -385,11 +385,11 @@ namespace Byt3.OpenCL.Wrapper
         /// Writes values to a MemoryBuffer
         /// </summary>
         /// <typeparam name="T">Type of the values</typeparam>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="buf">MemoryBuffer containing the values to overwrite</param>
         /// <param name="size">The count of structs to be read from the buffer</param>
         /// <returns>The content of the buffer</returns>
-        public static T[] ReadBuffer<T>(Clapi instance, MemoryBuffer buf, int size) where T : struct
+        public static T[] ReadBuffer<T>(CLAPI instance, MemoryBuffer buf, int size) where T : struct
         {
             return instance.commandQueue.EnqueueReadBuffer<T>(buf, size);
         }
@@ -397,14 +397,14 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Runs a kernel with a valid FL kernel signature
         /// </summary>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="kernel">The CLKernel to be executed</param>
         /// <param name="image">The image buffer that serves as input</param>
         /// <param name="dimensions">The dimensions of the input buffer</param>
         /// <param name="genTypeMaxVal">The max valuee of the generic type that is used.(byte = 255)</param>
         /// <param name="enabledChannels">The enabled channels for the kernel</param>
         /// <param name="channelCount">The amount of active channels.</param>
-        public static void Run(Clapi instance, CLKernel kernel, MemoryBuffer image, int3 dimensions,
+        public static void Run(CLAPI instance, CLKernel kernel, MemoryBuffer image, int3 dimensions,
             float genTypeMaxVal,
             MemoryBuffer enabledChannels,
             int channelCount)
@@ -412,14 +412,14 @@ namespace Byt3.OpenCL.Wrapper
             kernel.Run(instance.commandQueue, image, dimensions, genTypeMaxVal, enabledChannels, channelCount);
         }
 
-        public static void Run(Clapi instance, CLKernel kernel, int groupSize)
+        public static void Run(CLAPI instance, CLKernel kernel, int groupSize)
         {
             kernel.Run(instance.commandQueue, 1, groupSize);
         }
 
         #region Instance Functions
 
-        internal static Program CreateClProgramFromSource(Clapi instance, string source)
+        internal static Program CreateClProgramFromSource(CLAPI instance, string source)
         {
 
             try
@@ -433,7 +433,7 @@ namespace Byt3.OpenCL.Wrapper
 
         }
 
-        internal static Program CreateClProgramFromSource(Clapi instance, string[] source)
+        internal static Program CreateClProgramFromSource(CLAPI instance, string[] source)
         {
             return instance.context.CreateAndBuildProgramFromString(source);
         }
@@ -442,11 +442,11 @@ namespace Byt3.OpenCL.Wrapper
         /// Creates an empty buffer of type T with the specified size and MemoryFlags
         /// </summary>
         /// <typeparam name="T">The type of the struct</typeparam>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="size">The size of the buffer(Total size in bytes: size*sizeof(T)</param>
         /// <param name="flags">The memory flags for the buffer creation</param>
         /// <returns></returns>
-        public static MemoryBuffer CreateEmpty<T>(Clapi instance, int size, MemoryFlag flags) where T : struct
+        public static MemoryBuffer CreateEmpty<T>(CLAPI instance, int size, MemoryFlag flags) where T : struct
         {
             T[] arr = new T[size];
             return CreateBuffer(instance, arr, flags);
@@ -456,17 +456,17 @@ namespace Byt3.OpenCL.Wrapper
         /// Creates a Buffer with the specified content and Memory Flags
         /// </summary>
         /// <typeparam name="T">Type of the struct</typeparam>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="data">The array of T</param>
         /// <param name="flags">The memory flags for the buffer creation</param>
         /// <returns></returns>
-        public static MemoryBuffer CreateBuffer<T>(Clapi instance, T[] data, MemoryFlag flags) where T : struct
+        public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags) where T : struct
         {
             object[] arr = Array.ConvertAll(data, x => (object)x);
             return CreateBuffer(instance, arr, typeof(T), flags);
         }
 
-        public static MemoryBuffer CreateBuffer(Clapi instance, object[] data, Type t, MemoryFlag flags)
+        public static MemoryBuffer CreateBuffer(CLAPI instance, object[] data, Type t, MemoryFlag flags)
         {
             MemoryBuffer mb =
                 instance.context.CreateBuffer(flags | MemoryFlag.CopyHostPointer, t, data);
@@ -477,11 +477,11 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Creates a buffer with the content of an image and the specified Memory Flags
         /// </summary>
-        /// <param name="instance">Clapi Instance for the current thread</param>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="bmp">The image that holds the data</param>
         /// <param name="flags">The memory flags for the buffer creation</param>
         /// <returns></returns>
-        public static MemoryBuffer CreateFromImage(Clapi instance, Bitmap bmp, MemoryFlag flags)
+        public static MemoryBuffer CreateFromImage(CLAPI instance, Bitmap bmp, MemoryFlag flags)
         {
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
@@ -496,7 +496,7 @@ namespace Byt3.OpenCL.Wrapper
         }
 
 
-        public static void UpdateBitmap(Clapi instance, Bitmap target, byte[] bytes)
+        public static void UpdateBitmap(CLAPI instance, Bitmap target, byte[] bytes)
         {
             BitmapData data = target.LockBits(new Rectangle(0, 0, target.Width, target.Height), ImageLockMode.WriteOnly,
                 PixelFormat.Format32bppArgb);

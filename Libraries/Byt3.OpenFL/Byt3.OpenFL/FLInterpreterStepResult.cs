@@ -7,10 +7,10 @@ namespace Byt3.OpenFL
     /// <summary>
     /// A struct that gets returned every step of the interpreter. Mostly for debuggin purposes and when hitting a break point
     /// </summary>
-    public struct InterpreterStepResult : IEquatable<InterpreterStepResult>
+    public struct FLInterpreterStepResult : IEquatable<FLInterpreterStepResult>
     {
         /// <summary>
-        /// A flag that is set when the Interpreter jumped in the program code in the last step
+        /// A flag that is set when the FLInterpreter jumped in the program code in the last step
         /// </summary>
         public bool HasJumped { get; set; }
 
@@ -54,7 +54,7 @@ namespace Byt3.OpenFL
         /// </summary>
         /// <param name="other">Other</param>
         /// <returns>a Not implemented exception</returns>
-        public bool Equals(InterpreterStepResult other)
+        public bool Equals(FLInterpreterStepResult other)
         {
             return false;
         }

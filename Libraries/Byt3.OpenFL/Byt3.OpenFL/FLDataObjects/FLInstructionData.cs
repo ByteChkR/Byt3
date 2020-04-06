@@ -5,10 +5,10 @@ namespace Byt3.OpenFL.FLDataObjects
     /// <summary>
     /// Contains information on a single FL Instruction
     /// </summary>
-    public struct FlInstructionData
+    public struct FLInstructionData
     {
         public object Instruction;
-        public FlInstructionType InstructionType;
-        public List<FlArgumentData> Arguments;
+        public FLInstructionType InstructionType;
+        public List<FLArgumentData> Arguments;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Byt3.ADL.Tests
@@ -9,9 +10,9 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Mask_IsContainedInMask_Test()
         {
-            var bm1 = new BitMask<char>(1 | 4 | 16);
-            var bm2 = new BitMask<char>(4);
-            var bm3 = new BitMask<char>(2);
+            BitMask<char> bm1 = new BitMask<char>(1 | 4 | 16);
+            BitMask<char> bm2 = new BitMask<char>(4);
+            BitMask<char> bm3 = new BitMask<char>(2);
 
 
             Assert.IsTrue(BitMask.IsContainedInMask(bm1, bm2, false)); //True
@@ -22,8 +23,8 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Mask_GetUniqueMaskSet_Test()
         {
-            var bm = new BitMask<char>(1 | 2 | 8 | 16 | 64);
-            var ret = BitMask.GetUniqueMasksSet(bm);
+            BitMask<char> bm = new BitMask<char>(1 | 2 | 8 | 16 | 64);
+            List<int> ret = BitMask.GetUniqueMasksSet(bm);
 
             Assert.IsTrue(ret.Count == 5);
             Assert.IsTrue(ret.Contains(1));
@@ -36,8 +37,8 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Mask_IsUniqueMask_Test()
         {
-            var bm = new BitMask<char>(2 | 4);
-            var bm1 = new BitMask<char>(8);
+            BitMask<char> bm = new BitMask<char>(2 | 4);
+            BitMask<char> bm1 = new BitMask<char>(8);
 
             Assert.IsTrue(BitMask.IsUniqueMask(bm1));
             Assert.IsFalse(BitMask.IsUniqueMask(bm));
@@ -46,8 +47,8 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Mask_CombineMasks_Test()
         {
-            var bm1 = new BitMask<TestEnum>(TestEnum.B | TestEnum.D | TestEnum.F);
-            var bm2 = new BitMask<TestEnum>(TestEnum.B | TestEnum.E | TestEnum.G);
+            BitMask<TestEnum> bm1 = new BitMask<TestEnum>(TestEnum.B | TestEnum.D | TestEnum.F);
+            BitMask<TestEnum> bm2 = new BitMask<TestEnum>(TestEnum.B | TestEnum.E | TestEnum.G);
             BitMask ret = BitMask.CombineMasks(MaskCombineType.BitAnd, bm1, bm2);
             Assert.IsTrue(ret == 2);
             ret = BitMask.CombineMasks(MaskCombineType.BitOr, bm1, bm2);
@@ -58,7 +59,7 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Mask_RemoveFlags_Test()
         {
-            var bm1 = new BitMask<char>(2 | 8 | 16);
+            BitMask<char> bm1 = new BitMask<char>(2 | 8 | 16);
             BitMask<char> ret = BitMask.RemoveFlags(bm1, 2);
             Assert.IsFalse(BitMask.IsContainedInMask(ret, 2, true));
             Assert.IsTrue(BitMask.IsContainedInMask(bm1, 2, true));
@@ -67,8 +68,8 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Mask_Constructors_Test()
         {
-            var bm = new BitMask(2, 8, 16);
-            var bm1 = new BitMask(2 | 8 | 16);
+            BitMask bm = new BitMask(2, 8, 16);
+            BitMask bm1 = new BitMask(2 | 8 | 16);
 
 
             Assert.AreEqual((int) bm, (int) bm1);
@@ -77,7 +78,7 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Mask_FlagOperations_Test()
         {
-            var bm = new BitMask(true);
+            BitMask bm = new BitMask(true);
             bm.SetAllFlags(2 | 4);
             Assert.AreEqual((int) bm, 6);
 
@@ -96,7 +97,7 @@ namespace Byt3.ADL.Tests
             Assert.IsTrue(BitMask.IsUniqueMask(2));
             Assert.IsFalse(BitMask.IsUniqueMask(3));
             Assert.IsFalse(BitMask.IsUniqueMask(0));
-            var gbm = new BitMask<TestEnum>(TestEnum.A, TestEnum.B);
+            BitMask<TestEnum> gbm = new BitMask<TestEnum>(TestEnum.A, TestEnum.B);
             Assert.IsFalse(BitMask.IsUniqueMask(bm));
             Assert.IsTrue(gbm.HasFlag(TestEnum.A, MaskMatchType.MatchOne));
 

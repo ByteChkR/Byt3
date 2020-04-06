@@ -1,6 +1,6 @@
 ﻿namespace Byt3.OpenFL.FLDataObjects
 {
-    public enum FlInstructionType
+    public enum FLInstructionType
     {
         Unknown,
         FlFunction,

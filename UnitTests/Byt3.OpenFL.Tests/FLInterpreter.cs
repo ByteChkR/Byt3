@@ -20,11 +20,11 @@ namespace Byt3.OpenFL.Tests
         {
             DebugHelper.ThrowOnAllExceptions = true;
             string file = Path.GetFullPath("resources/filter/comments/test.fl");
-            Interpreter p = new Interpreter(Clapi.MainThread, file,
-                Clapi.CreateEmpty<byte>(Clapi.MainThread, 128 * 128 * 4,
+            FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                     MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128, 128,
                 1,
-                4, new KernelDatabase(Clapi.MainThread, "resources/kernel", DataTypes.Uchar1)); //We need to Create a "fresh" database since xunit is making the cl context invalid when changing the test
+                4, new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataTypes.Uchar1)); //We need to Create a "fresh" database since xunit is making the cl context invalid when changing the test
             while (!p.Terminated)
             {
                 p.Step();
@@ -44,8 +44,8 @@ namespace Byt3.OpenFL.Tests
                 DebugHelper.ThrowOnAllExceptions = i == 0;
                 try
                 {
-                    Interpreter p = new Interpreter(Clapi.MainThread, file,
-                        Clapi.CreateEmpty<byte>(Clapi.MainThread, 128 * 128 * 4,
+                    FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                        CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                             MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
                         128,
                         1,
@@ -71,13 +71,13 @@ namespace Byt3.OpenFL.Tests
             DebugHelper.ThrowOnAllExceptions = true;
 
             string file = Path.GetFullPath("resources/filter/defines/test.fl");
-            Interpreter p = new Interpreter(Clapi.MainThread, file,
-                Clapi.CreateEmpty<byte>(Clapi.MainThread, 128 * 128 * 4,
+            FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                     MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128, 128,
                 1,
                 4, TestSetup.KernelDb);
 
-            InterpreterStepResult ret = p.Step();
+            FLInterpreterStepResult ret = p.Step();
 
 
             Assert.IsTrue(ret.DefinedBuffers.Count == 5);
@@ -99,8 +99,8 @@ namespace Byt3.OpenFL.Tests
             {
                 try
                 {
-                    Interpreter p = new Interpreter(Clapi.MainThread, file,
-                        Clapi.CreateEmpty<byte>(Clapi.MainThread, 128 * 128 * 4,
+                    FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                        CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                             MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
                         128,
                         1,
@@ -133,8 +133,8 @@ namespace Byt3.OpenFL.Tests
             {
                 try
                 {
-                    Interpreter p = new Interpreter(Clapi.MainThread, file,
-                        Clapi.CreateEmpty<byte>(Clapi.MainThread, 128 * 128 * 4,
+                    FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                        CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                             MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
                         128,
                         1,
@@ -162,12 +162,12 @@ namespace Byt3.OpenFL.Tests
             string path = "resources/filter/tests";
             string[] files = Directory.GetFiles(path, "*.fl");
             KernelDatabase db =
-                new KernelDatabase(Clapi.MainThread, "resources/kernel", DataTypes.Uchar1);
+                new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataTypes.Uchar1);
             foreach (string file in files)
             {
-                Interpreter p = new Interpreter(Clapi.MainThread, file,
-                    Clapi.CreateEmpty<byte>(Clapi.MainThread, 128 * 128 * 4,
-                        MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128, 128,
+                FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                    CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 64 * 64 * 4,
+                        MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 64, 64,
                     1,
                     4, db); //We need to Create a "fresh" database since xunit is making the cl context invalid when changing the test
                 while (!p.Terminated)
@@ -192,8 +192,8 @@ namespace Byt3.OpenFL.Tests
                 {
                     try
                     {
-                        Interpreter p = new Interpreter(Clapi.MainThread, file,
-                            Clapi.CreateEmpty<byte>(Clapi.MainThread, 128 * 128 * 4,
+                        FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                            CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                                 MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite),
                             128,
                             128,
@@ -219,9 +219,9 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_TypeConversion_Test()
         {
             float f = float.MaxValue / 2;
-            byte b = (byte) ClTypeConverter.Convert(typeof(byte), f);
+            byte b = (byte) CLTypeConverter.Convert(typeof(byte), f);
             float4 f4 = new float4(f);
-            uchar4 i4 = (uchar4) ClTypeConverter.Convert(typeof(uchar4), f4);
+            uchar4 i4 = (uchar4) CLTypeConverter.Convert(typeof(uchar4), f4);
             Assert.IsTrue(b == 128);
 
             for (int i = 0; i < 4; i++)

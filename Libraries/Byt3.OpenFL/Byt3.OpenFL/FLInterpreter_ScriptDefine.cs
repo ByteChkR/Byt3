@@ -10,12 +10,12 @@ namespace Byt3.OpenFL
     /// <summary>
     /// partial class that contains the logic how to Parse Defines that are referencing another fl script
     /// </summary>
-    public partial class Interpreter
+    public partial class FLInterpreter
     {
         /// <summary>
         /// Define handler that loads defined scripts
         /// </summary>
-        /// <param name="instance">Clapi Instance of the Current Thread</param>
+        /// <param name="instance">CLAPI Instance of the Current Thread</param>
         /// <param name="arg">Args from the FL Script</param>
         /// <param name="defines">Defines</param>
         /// <param name="width">width of the input buffer</param>
@@ -23,7 +23,7 @@ namespace Byt3.OpenFL
         /// <param name="depth">depth of the input buffer</param>
         /// <param name="channelCount">channel count of the input buffer</param>
         /// <param name="kernelDb">the kernel database to use</param>
-        private static void DefineScript(Clapi instance, string[] arg, Dictionary<string, ClBufferInfo> defines,
+        private static void DefineScript(CLAPI instance, string[] arg, Dictionary<string, CLBufferInfo> defines,
             int width, int height,
             int depth, int channelCount, KernelDatabase kernelDb)
         {
@@ -52,26 +52,26 @@ namespace Byt3.OpenFL
                 CLLogger.Log("Loading SubScript...", DebugChannel.Log | DebugChannel.EngineOpenFL, 10);
 
                 MemoryBuffer buf =
-                    Clapi.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite);
+                    CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite);
 
 
                 string fn = filename.Replace(FilepathIndicator, "");
 
 
-                if (Clapi.FileExists(fn))
+                if (CLAPI.FileExists(fn))
                 {
-                    Interpreter interpreter = new Interpreter(instance, fn, buf, width, height,
+                    FLInterpreter flInterpreter = new FLInterpreter(instance, fn, buf, width, height,
                         depth, channelCount, kernelDb, true);
 
                     do
                     {
-                        interpreter.Step();
-                    } while (!interpreter.Terminated);
+                        flInterpreter.Step();
+                    } while (!flInterpreter.Terminated);
 
-                    ClBufferInfo info = interpreter.GetActiveBufferInternal();
+                    CLBufferInfo info = flInterpreter.GetActiveBufferInternal();
                     info.SetKey(varname);
                     defines.Add(varname, info);
-                    interpreter.ReleaseResources();
+                    flInterpreter.ReleaseResources();
                 }
                 else
                 {
@@ -80,8 +80,8 @@ namespace Byt3.OpenFL
                             new InvalidFilePathException(fn)),
                         true);
 
-                    ClBufferInfo info = new ClBufferInfo(
-                        Clapi.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
+                    CLBufferInfo info = new CLBufferInfo(
+                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
                         true);
                     info.SetKey(varname);
                     defines.Add(varname, info);
@@ -92,8 +92,8 @@ namespace Byt3.OpenFL
                 CLLogger.Crash(new FLInvalidFunctionUseException(ScriptDefineKey, "Not a valid filepath as argument."),
                     true);
 
-                ClBufferInfo info =
-                    new ClBufferInfo(Clapi.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite), true);
+                CLBufferInfo info =
+                    new CLBufferInfo(CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite), true);
                 info.SetKey(varname);
                 defines.Add(varname, info);
             }

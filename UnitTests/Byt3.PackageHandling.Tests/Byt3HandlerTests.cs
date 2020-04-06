@@ -57,7 +57,7 @@ namespace Byt3.PackageHandling.Tests
 
         #endregion
         
-        private Byt3Handler GetHandler(HandlerLookupType type, AHandler fallback)
+        private Byt3Handler GetHandler(Byt3HandlerLookupType type, AHandler fallback)
         {
             ACalled = BCalled = CCalled = DCalled = false;
             Byt3Handler handler = new Byt3Handler(type, fallback);
@@ -68,7 +68,7 @@ namespace Byt3.PackageHandling.Tests
         public void Handler_ExactOnly_Test()
         {
 
-            Byt3Handler handler = GetHandler(HandlerLookupType.None, null);
+            Byt3Handler handler = GetHandler(Byt3HandlerLookupType.None, null);
 
             //handler.AddHandler(new HandlerA());
             handler.AddHandler(new HandlerB(){TestInstance = this});
@@ -87,7 +87,7 @@ namespace Byt3.PackageHandling.Tests
         [TestMethod]
         public void Handler_TraverseUp_Test()
         {
-            Byt3Handler handler = GetHandler(HandlerLookupType.TraverseUp, null);
+            Byt3Handler handler = GetHandler(Byt3HandlerLookupType.TraverseUp, null);
 
             handler.AddHandler(new HandlerA() { TestInstance = this });
             handler.AddHandler(new HandlerB() { TestInstance = this });
@@ -106,7 +106,7 @@ namespace Byt3.PackageHandling.Tests
         [TestMethod]
         public void Handler_UseFallback_Test()
         {
-            Byt3Handler handler = GetHandler(HandlerLookupType.UseFallback, null);
+            Byt3Handler handler = GetHandler(Byt3HandlerLookupType.UseFallback, null);
 
             //handler.AddHandler(new HandlerA());
             //handler.AddHandler(new HandlerB());

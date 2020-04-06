@@ -26,7 +26,7 @@ namespace Byt3.ADL
         private static readonly ALogger<LogType> _internalLogger = new ALogger<LogType>("ADL_Internal");
 
         private static readonly object PrefixLock = new object();
-        
+
 
         /// <summary>
         ///     String Builder to assemble the log
@@ -128,9 +128,9 @@ namespace Byt3.ADL
 
             if (!AdlEnabled)
                 _internalLogger.Log(LogType.Warning,
-                     "AddOutputStream(" + stream.Mask +
+                     "AddOutputStream(" + stream +
                     "): ADL is disabled, you are adding an Output Stream while ADL is disabled.");
-            var contains = false;
+            bool contains = false;
             lock (Streams)
             {
                 contains = Streams.Contains(stream);
@@ -139,7 +139,7 @@ namespace Byt3.ADL
             if (contains)
             {
                 _internalLogger.Log(LogType.Warning,
-                    "AddOutputStream(" + stream.Mask + "): Supplied stream is already in the list. Aborting!");
+                    "AddOutputStream(" + stream + "): Supplied stream is already in the list. Aborting!");
                 return;
             }
 
@@ -157,7 +157,7 @@ namespace Byt3.ADL
         /// <param name="closeStream">If streams should be closed upon removal from the system</param>
         public static void RemoveOutputStream(LogStream stream, bool closeStream = true)
         {
-            var contains = false;
+            bool contains = false;
             lock (Streams)
             {
                 contains = Streams.Contains(stream);
@@ -166,13 +166,13 @@ namespace Byt3.ADL
             if (!contains)
             {
                 _internalLogger.Log(LogType.Warning,
-                    "RemoveOutputStream(" + stream.Mask + "): Supplied stream is not in the list. Aborting!");
+                    "RemoveOutputStream(" + stream + "): Supplied stream is not in the list. Aborting!");
                 return;
             }
 
             if (!AdlEnabled)
                 _internalLogger.Log(LogType.Warning,
-                    "RemoveOutputStream(" + stream.Mask +
+                    "RemoveOutputStream(" + stream +
                     "): ADL is disabled, you are removing an Output Stream while while ADL is disabled.");
             lock (Streams)
             {
@@ -192,7 +192,7 @@ namespace Byt3.ADL
             lock (Streams)
             {
                 if (closeStream)
-                    foreach (var ls in Streams)
+                    foreach (LogStream ls in Streams)
                         ls.Close();
                 Streams.Clear();
             }
@@ -207,7 +207,7 @@ namespace Byt3.ADL
         /// </summary>
         /// <param name="mask">flag combination</param>
         /// <param name="prefix">desired prefix</param>
-        public static void AddPrefixForMask(Dictionary<int, string> prefixes, BitMask mask, string prefix)
+        internal static void AddPrefixForMask(Dictionary<int, string> prefixes, BitMask mask, string prefix)
         {
             if (!AdlEnabled)
                 _internalLogger.Log(LogType.Warning,
@@ -230,7 +230,7 @@ namespace Byt3.ADL
         ///     Removes Prefix from prefix lookup table
         /// </summary>
         /// <param name="mask"></param>
-        public static void RemovePrefixForMask(Dictionary<int, string> prefixes, BitMask mask)
+        internal static void RemovePrefixForMask(Dictionary<int, string> prefixes, BitMask mask)
         {
             if (!AdlEnabled)
                 _internalLogger.Log(LogType.Warning,
@@ -247,7 +247,7 @@ namespace Byt3.ADL
         /// <summary>
         ///     Clears all Prefixes
         /// </summary>
-        public static void RemoveAllPrefixes(Dictionary<int, string> prefixes)
+        internal static void RemoveAllPrefixes(Dictionary<int, string> prefixes)
         {
             lock (PrefixLock)
             {
@@ -261,11 +261,11 @@ namespace Byt3.ADL
         ///     prefixes[2] = level4 and so on
         /// </summary>
         /// <param name="prefixes">List of prefixes</param>
-        public static void SetAllPrefixes(Dictionary<int, string> prefixes, params string[] prefixNames)
+        internal static void SetAllPrefixes(Dictionary<int, string> prefixes, params string[] prefixNames)
         {
             if (!AdlEnabled)
             {
-                var info = "";
+                string info = "";
                 prefixes.ToList().ForEach(x => info += x + ", ");
                 _internalLogger.Log(LogType.Warning,
                     "SetAllPrefixes(" + info +
@@ -274,14 +274,14 @@ namespace Byt3.ADL
 
             RemoveAllPrefixes(prefixes);
 
-            for (var i = 0; i < prefixNames.Length; i++) AddPrefixForMask(prefixes, Utils.IntPow(2, i), prefixNames[i]);
+            for (int i = 0; i < prefixNames.Length; i++) AddPrefixForMask(prefixes, Utils.IntPow(2, i), prefixNames[i]);
         }
 
         /// <summary>
         ///     Gets all Tags with corresponding masks.
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<int, string> GetAllPrefixes(Dictionary<int, string> prefixes)
+        internal static Dictionary<int, string> GetAllPrefixes(Dictionary<int, string> prefixes)
         {
             if (!AdlEnabled)
                 _internalLogger.Log(LogType.Warning,
@@ -309,8 +309,8 @@ namespace Byt3.ADL
                 _firstLog = false;
             }
 
-            var messg = message + Utils.NewLine;
-            var mesg = logger.GetMaskPrefix(mask) + messg;
+            string messg = message + Utils.NewLine;
+            string mesg = logger.GetMaskPrefix(mask) + messg;
 
             lock (Streams)
             {
@@ -319,13 +319,9 @@ namespace Byt3.ADL
                     if (Streams[i].IsClosed)
                         Streams.RemoveAt(i);
                 }
-                foreach (var logs in Streams)
+                foreach (LogStream logs in Streams)
                 {
-
-                    if (logs.IsContainedInMask(mask))
-                    {
-                        logs.Write(logs.OverrideChannelTag ? new Log(mask, messg) : new Log(mask, mesg));
-                    }
+                    logs.Write(logs.OverrideChannelTag ? new Log(mask, messg) : new Log(mask, mesg));
                 }
             }
         }
@@ -349,7 +345,7 @@ namespace Byt3.ADL
         /// <param name="prefix">Prefix</param>
         /// <param name="mask">Mask returned by the function</param>
         /// <returns>True if mask is found in Dictionary</returns>
-        public static bool GetPrefixMask(Dictionary<int, string> prefixes, string prefix, out BitMask mask)
+        internal static bool GetPrefixMask(Dictionary<int, string> prefixes, string prefix, out BitMask mask)
         {
             mask = 0;
             Dictionary<int, string> prefx;
@@ -359,7 +355,7 @@ namespace Byt3.ADL
             }
 
             if (!prefx.ContainsValue(prefix)) return false;
-            foreach (var kvp in prefx)
+            foreach (KeyValuePair<int, string> kvp in prefx)
                 if (prefix == kvp.Value)
                 {
                     mask = kvp.Key;
@@ -374,7 +370,7 @@ namespace Byt3.ADL
         /// </summary>
         /// <param name="mask"></param>
         /// <returns>All Prefixes for specified mask</returns>
-        public static string GetMaskPrefix(Dictionary<int, string> prefixes, BitMask mask)
+        internal static string GetMaskPrefix(Dictionary<int, string> prefixes, BitMask mask)
         {
             if (!_addPrefix) return "";
             StringBuilder.Length = 0;
@@ -385,8 +381,8 @@ namespace Byt3.ADL
                 }
                 else if (_deconstructtofind) //We have no Prefix specified for this particular level
                 {
-                    var flags = BitMask.GetUniqueMasksSet(mask); //Lets try to split all the flags into unique ones
-                    foreach (var t in flags)
+                    List<int> flags = BitMask.GetUniqueMasksSet(mask); //Lets try to split all the flags into unique ones
+                    foreach (int t in flags)
                         if (prefixes.ContainsKey(t))
                         {
                             StringBuilder.Insert(0, prefixes[t]);
@@ -419,11 +415,19 @@ namespace Byt3.ADL
 
         #region Config
 
+
+        public static void DefaultInitialization()
+        {
+            LoadConfig((ADLConfig)new ADLConfig().GetStandard());
+            LogTextStream lts = new LogTextStream(Console.OpenStandardOutput());
+            AddOutputStream(lts);
+        }
+
         /// <summary>
         ///     Loads a supplied ADLConfig.
         /// </summary>
         /// <param name="config">Config to load</param>
-        public static void LoadConfig(AdlConfig config)
+        public static void LoadConfig(ADLConfig config)
         {
             AdlEnabled = config.AdlEnabled;
             TimeFormatString = config.TimeFormatString;
@@ -436,7 +440,7 @@ namespace Byt3.ADL
         /// <param name="path">file path</param>
         public static void LoadConfig(string path = "adl_config.xml")
         {
-            var config = ConfigManager.ReadFromFile<AdlConfig>(path);
+            ADLConfig config = ConfigManager.ReadFromFile<ADLConfig>(path);
             LoadConfig(config);
         }
 
@@ -445,7 +449,7 @@ namespace Byt3.ADL
         /// </summary>
         /// <param name="config">config to save</param>
         /// <param name="path">file path</param>
-        public static void SaveConfig(AdlConfig config, string path = "adl_config.xml")
+        public static void SaveConfig(ADLConfig config, string path = "adl_config.xml")
         {
             ConfigManager.SaveToFile(path, config);
         }
@@ -457,7 +461,7 @@ namespace Byt3.ADL
         /// <param name="path">File path.</param>
         public static void SaveConfig(string path = "adl_config.xml")
         {
-            AdlConfig config = ConfigManager.GetDefault<AdlConfig>();
+            ADLConfig config = ConfigManager.GetDefault<ADLConfig>();
             config.AdlEnabled = AdlEnabled;
             config.TimeFormatString = TimeFormatString;
             config.PrefixLookupMode = PrefixLookupMode;

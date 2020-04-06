@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -9,7 +8,7 @@ namespace Byt3.ADL.Configs
     ///     Contains the Configurations of the main ADL.Debug class.
     /// </summary>
     [Serializable]
-    public class AdlConfig : AbstractAdlConfig
+    public class ADLConfig : AbstractADLConfig
     {
         /// <summary>
         ///     Is ADL enabled when this config is loaded?
@@ -48,9 +47,9 @@ namespace Byt3.ADL.Configs
         ///     Standard Confuguration
         /// </summary>
         /// <returns>The standard configuration of ADL</returns>
-        public override AbstractAdlConfig GetStandard()
+        public override AbstractADLConfig GetStandard()
         {
-            return new AdlConfig
+            return new ADLConfig
             {
                 AdlEnabled = true,
                 PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable |

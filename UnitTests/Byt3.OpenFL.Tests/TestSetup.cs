@@ -13,7 +13,7 @@ namespace Byt3.OpenFL.Tests
             {
                 if (_kernelDb == null)
                 {
-                    _kernelDb = new KernelDatabase(Clapi.MainThread, "resources/kernel",
+                    _kernelDb = new KernelDatabase(CLAPI.MainThread, "resources/kernel",
                         DataTypes.Uchar1);
                 }
 

@@ -105,7 +105,7 @@ namespace Byt3.ExtPP.Base.settings
             for (int i = 0; i < prefixes.Length; i++)
             {
                 Dictionary<string, string[]> tmp = GetSettingsWithPrefix(prefixes[i], includeGlobalConfig)._settings;
-                foreach (var args in tmp)
+                foreach (KeyValuePair<string, string[]> args in tmp)
                 {
                     ret.Add(args.Key, args.Value);
                 }
@@ -136,7 +136,7 @@ namespace Byt3.ExtPP.Base.settings
             string prfx = argBegin + prefix + ":";
             bool isGlob;
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
-            foreach (var setting in _settings)
+            foreach (KeyValuePair<string, string[]> setting in _settings)
             {
                 isGlob = includeShared && setting.Key.StartsWith(GlobalSettings);
                 if (setting.Key.StartsWith(prfx) || isGlob)
@@ -203,7 +203,7 @@ namespace Byt3.ExtPP.Base.settings
         /// <param name="obj">The object that the reflection will set the value in</param>
         public void ApplySettings(List<CommandInfo> infos, object obj)
         {
-            foreach (var commandInfo in infos)
+            foreach (CommandInfo commandInfo in infos)
             {
                 if (commandInfo.Field.PropertyType.IsArray)
                 {
@@ -266,7 +266,7 @@ namespace Byt3.ExtPP.Base.settings
         public Settings Merge(Settings other)
         {
             Settings s = new Settings(new Dictionary<string, string[]>(_settings));
-            foreach (var otherSetting in other._settings)
+            foreach (KeyValuePair<string, string[]> otherSetting in other._settings)
             {
                 s._settings.Add(otherSetting.Key, otherSetting.Value);
             }

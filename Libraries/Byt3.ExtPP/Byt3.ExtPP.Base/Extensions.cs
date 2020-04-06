@@ -26,12 +26,12 @@ namespace Byt3.ExtPP.Base
             if (arr == null || !arr.Any())
                 return string.Empty;
             _sb.Clear();
-            var enumerable = arr as object[] ?? arr.ToArray();
+            object[] enumerable = arr as object[] ?? arr.ToArray();
             if (enumerable.Length == 0)
             {
                 return string.Empty;
             }
-            for (var i = 0; i < enumerable.Count(); i++)
+            for (int i = 0; i < enumerable.Count(); i++)
             {
                 _sb.Append(enumerable.ElementAt(i));
                 if (i < enumerable.Count() - 1)
@@ -65,9 +65,9 @@ namespace Byt3.ExtPP.Base
         /// <returns></returns>
         public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int start, int length)
         {
-            var ret = new T[length];
-            var enumerable = arr as T[] ?? arr.ToArray();
-            for (var i = start; i < start + length; i++)
+            T[] ret = new T[length];
+            T[] enumerable = arr as T[] ?? arr.ToArray();
+            for (int i = start; i < start + length; i++)
             {
                 ret.SetValue(enumerable.ElementAt(i), i - start);
             }

@@ -7,7 +7,7 @@ namespace Byt3.CommandRunner
     /// <summary>
     /// Contains the Logic that contains logic for CLI argument parsing
     /// </summary>
-    public class StartupInfo
+    public class StartupArgumentInfo
     {
         /// <summary>
         /// Defines the Prefix for Command Keys that are longer.
@@ -46,7 +46,7 @@ namespace Byt3.CommandRunner
         /// Public constructors
         /// </summary>
         /// <param name="args">Command Line Input.</param>
-        public StartupInfo(string[] args)
+        public StartupArgumentInfo(string[] args)
         {
 
             //Resolve File Refs

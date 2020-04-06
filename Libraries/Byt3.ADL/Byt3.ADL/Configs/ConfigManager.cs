@@ -16,7 +16,7 @@ namespace Byt3.ADL.Configs
         /// </summary>
         private static XmlSerializer _serializer;
 
-        public static T GetDefault<T>() where T : AbstractAdlConfig
+        public static T GetDefault<T>() where T : AbstractADLConfig
         {
             return (T)Activator.CreateInstance<T>().GetStandard();
         }
@@ -27,7 +27,7 @@ namespace Byt3.ADL.Configs
         /// <typeparam name="T">Type of Config</typeparam>
         /// <param name="path">Path to config</param>
         /// <returns>Deserialized Config File.</returns>
-        public static T ReadFromFile<T>(string path) where T : AbstractAdlConfig
+        public static T ReadFromFile<T>(string path) where T : AbstractADLConfig
         {
             T ret;
             _serializer = new XmlSerializer(typeof(T));
@@ -39,7 +39,7 @@ namespace Byt3.ADL.Configs
 
             try
             {
-                var fs = File.Open(path, FileMode.Open, FileAccess.Read);
+                FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read);
                 ret = (T) _serializer.Deserialize(fs);
                 fs.Close();
             }
@@ -59,7 +59,7 @@ namespace Byt3.ADL.Configs
         /// <typeparam name="T">Type of config</typeparam>
         /// <param name="path">path to config file.</param>
         /// <param name="data">config object></param>
-        public static void SaveToFile<T>(string path, T data) where T : AbstractAdlConfig
+        public static void SaveToFile<T>(string path, T data) where T : AbstractADLConfig
         {
             try
             {
@@ -68,7 +68,7 @@ namespace Byt3.ADL.Configs
                     File.Delete(path);
                 }
                 _serializer = new XmlSerializer(typeof(T));
-                var fs = File.Open(path, FileMode.Create, FileAccess.Write);
+                FileStream fs = File.Open(path, FileMode.Create, FileAccess.Write);
                 _serializer.Serialize(fs, data);
                 fs.Close();
             }

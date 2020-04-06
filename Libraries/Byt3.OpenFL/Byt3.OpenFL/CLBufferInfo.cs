@@ -5,7 +5,7 @@ namespace Byt3.OpenFL
     /// <summary>
     /// Wrapper for the Memory Buffer holding some useful additional data
     /// </summary>
-    public class ClBufferInfo
+    public class CLBufferInfo
     {
         /// <summary>
         /// The buffer
@@ -17,7 +17,7 @@ namespace Byt3.OpenFL
         /// </summary>
         /// <param name="buffer">The inner buffer</param>
         /// <param name="isInternal">a flag indicating if the buffer is for internal use</param>
-        internal ClBufferInfo(MemoryBuffer buffer, bool isInternal)
+        internal CLBufferInfo(MemoryBuffer buffer, bool isInternal)
         {
             IsInternal = isInternal;
             Buffer = buffer;

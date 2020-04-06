@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Byt3.ADL.Configs;
 
 namespace Byt3.ADL

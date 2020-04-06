@@ -19,12 +19,12 @@ namespace Byt3.ADL.Streams
         /// <param name="buffer"></param>
         public LogPackage(byte[] buffer)
         {
-            var logs = new List<Log>();
+            List<Log> logs = new List<Log>();
             int bytesRead;
-            var totalBytes = 0;
+            int totalBytes = 0;
             do
             {
-                var l = Log.Deserialize(buffer, totalBytes, out bytesRead);
+                Log l = Log.Deserialize(buffer, totalBytes, out bytesRead);
                 if (bytesRead == -1) break; //Break manually when the logs end before the end of the buffer was reached.
                 if (bytesRead != 0) logs.Add(l);
 
@@ -42,10 +42,10 @@ namespace Byt3.ADL.Streams
         /// <returns></returns>
         public byte[] GetSerialized(bool setTimestamp)
         {
-            var ret = new List<byte>();
-            foreach (var t in Logs)
+            List<byte> ret = new List<byte>();
+            foreach (Log t in Logs)
             {
-                var l = t;
+                Log l = t;
                 if (setTimestamp) l.Message = Utils.TimeStamp + l.Message;
                 ret.AddRange(l.Serialize());
             }
@@ -62,7 +62,7 @@ namespace Byt3.ADL.Streams
         public static LogPackage ReadBlock(Stream s, int length)
         {
             //Due to multithreading
-            var buffer = new byte[length];
+            byte[] buffer = new byte[length];
             s.Read(buffer, 0, length);
             return new LogPackage(buffer);
         }

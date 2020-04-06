@@ -6,10 +6,10 @@ using Byt3.ADL.Configs;
 namespace Byt3.ADL.Crash
 {
     [Serializable]
-    public class CrashConfig : AbstractAdlConfig
+    public class CrashConfig : AbstractADLConfig
     {
         public bool ShortenCrashInfo;
-        public override AbstractAdlConfig GetStandard()
+        public override AbstractADLConfig GetStandard()
         {
             return new CrashConfig() {};
         }
@@ -152,7 +152,7 @@ namespace Byt3.ADL.Crash
             if (obj.GetType().IsArray)
             {
                 IEnumerable o = (IEnumerable)obj;
-                foreach (var entry in o)
+                foreach (object entry in o)
                 {
                     ret += UnpackToString(entry, depth + 1) + "\n";
                 }

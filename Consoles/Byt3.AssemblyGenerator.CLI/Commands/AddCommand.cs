@@ -1,5 +1,4 @@
-﻿using System;
-using Byt3.ADL;
+﻿using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.Utilities.DotNet;
 
@@ -13,7 +12,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             CommandAction = Add;
         }
 
-        private void Add(StartupInfo info, string[] args)
+        private void Add(StartupArgumentInfo argumentInfo, string[] args)
         {
             if (!Program.HasTarget)
             {

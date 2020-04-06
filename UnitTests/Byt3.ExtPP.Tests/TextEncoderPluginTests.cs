@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Plugins;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -21,7 +22,7 @@ namespace Byt3.ExtPP.Tests
         public void ExtPP_Plugins_TextEncoder_Base64BlockDecode_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            var ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new TextEncoderPlugin() }, "decode_b64_test.txt");
+            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new TextEncoderPlugin() }, "decode_b64_test.txt");
             Assert.IsTrue(ret[0].GetSource()[0] == "HelloWASAAAAAAAAAAAABI");
         }
 
@@ -31,7 +32,7 @@ namespace Byt3.ExtPP.Tests
         public void ExtPP_Plugins_TextEncoder_Base64BlockEncode_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            var ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new TextEncoderPlugin() }, "encode_b64_test.txt");
+            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new TextEncoderPlugin() }, "encode_b64_test.txt");
             Assert.IsTrue(ret[0].GetSource()[0] == "SGVsbG9XQVNBQUFBQUFBQUFBQUFCSQ==");
         }
 
@@ -39,7 +40,7 @@ namespace Byt3.ExtPP.Tests
         public void ExtPP_Plugins_TextEncoder_ROTBlockDecode_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            var ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new TextEncoderPlugin() }, "decode_rot_test.txt");
+            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new TextEncoderPlugin() }, "decode_rot_test.txt");
             Assert.IsTrue(ret[0].GetSource()[0] == "Hello WASAAAAAAAAAAAABIZZ");
         }
 
@@ -49,7 +50,7 @@ namespace Byt3.ExtPP.Tests
         public void ExtPP_Plugins_TextEncoder_ROTBlockEncode_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            var ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new TextEncoderPlugin() }, "encode_rot_test.txt");
+            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new TextEncoderPlugin() }, "encode_rot_test.txt");
             Assert.IsTrue(ret[0].GetSource()[0] == "Ifmmp XBTBBBBBBBBBBBBCJAA");
         }
     }

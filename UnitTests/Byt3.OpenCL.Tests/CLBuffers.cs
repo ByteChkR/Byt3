@@ -29,7 +29,7 @@ namespace Byt3.OpenCL.Tests
         [TestMethod]
         public void OpenCL_CreateBuffer_Test()
         {
-            Clapi.Reinitialize();
+            CLAPI.Reinitialize();
             DebugHelper.ThrowOnAllExceptions = true;
             byte[] b = new byte[255];
             for (int i = 0; i < b.Length; i++)
@@ -38,7 +38,7 @@ namespace Byt3.OpenCL.Tests
             }
 
             MemoryBuffer buffer =
-                Clapi.CreateBuffer(Clapi.MainThread, b, MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite);
+                CLAPI.CreateBuffer(CLAPI.MainThread, b, MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite);
 
             Assert.IsTrue(buffer != null);
             Assert.IsTrue(buffer.Size == 255);
@@ -47,7 +47,7 @@ namespace Byt3.OpenCL.Tests
         [TestMethod]
         public void OpenCL_ReadBuffer_Test()
         {
-            Clapi.Reinitialize();
+            CLAPI.Reinitialize();
             DebugHelper.ThrowOnAllExceptions = true;
             float[] b = new float[255];
             for (int i = 0; i < b.Length; i++)
@@ -56,9 +56,9 @@ namespace Byt3.OpenCL.Tests
             }
 
             MemoryBuffer buffer =
-                Clapi.CreateBuffer(Clapi.MainThread, b, MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite);
+                CLAPI.CreateBuffer(CLAPI.MainThread, b, MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite);
 
-            float[] c = Clapi.ReadBuffer<float>(Clapi.MainThread, buffer, b.Length);
+            float[] c = CLAPI.ReadBuffer<float>(CLAPI.MainThread, buffer, b.Length);
 
 
             Assert.IsTrue(CheckValues(c, b));
@@ -67,7 +67,7 @@ namespace Byt3.OpenCL.Tests
         [TestMethod]
         public void OpenCL_WriteBuffer_Test()
         {
-            Clapi.Reinitialize();
+            CLAPI.Reinitialize();
             DebugHelper.ThrowOnAllExceptions = true;
             float[] b = new float[255];
             for (int i = 0; i < b.Length; i++)
@@ -75,13 +75,13 @@ namespace Byt3.OpenCL.Tests
                 b[i] = i;
             }
 
-            MemoryBuffer buffer = Clapi.CreateEmpty<float>(Clapi.MainThread, b.Length,
+            MemoryBuffer buffer = CLAPI.CreateEmpty<float>(CLAPI.MainThread, b.Length,
                 MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite);
 
 
-            Clapi.WriteToBuffer(Clapi.MainThread, buffer, b);
+            CLAPI.WriteToBuffer(CLAPI.MainThread, buffer, b);
 
-            float[] c = Clapi.ReadBuffer<float>(Clapi.MainThread, buffer, b.Length);
+            float[] c = CLAPI.ReadBuffer<float>(CLAPI.MainThread, buffer, b.Length);
 
 
             Assert.IsTrue(CheckValues(c, b));

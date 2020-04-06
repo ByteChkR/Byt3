@@ -1,5 +1,4 @@
-﻿using System;
-using Byt3.ADL;
+﻿using Byt3.ADL;
 
 namespace Byt3.CommandRunner
 {
@@ -12,7 +11,7 @@ namespace Byt3.CommandRunner
             CommandAction = DefaultHelp;
         }
 
-        private void DefaultHelp( StartupInfo info, string[] args)
+        private void DefaultHelp( StartupArgumentInfo argumentInfo, string[] args)
         {
             for (int i = 0; i < Runner.CommandCount; i++)
             {

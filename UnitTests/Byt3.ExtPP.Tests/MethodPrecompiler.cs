@@ -11,7 +11,7 @@ namespace Byt3.ExtPP.Tests
         public static void Precompile(string methodName)
         {
     
-                var handle = FindMethodWithName(methodName).MethodHandle;
+                RuntimeMethodHandle handle = FindMethodWithName(methodName).MethodHandle;
                 RuntimeHelpers.PrepareMethod(handle);
 
 
@@ -25,8 +25,8 @@ namespace Byt3.ExtPP.Tests
 
         public static void PrecompileClass(Type t)
         {
-            var infos = t.GetMethods(MethodBindingFlags);
-            foreach (var runtimeMethodHandle in infos)
+            MethodInfo[] infos = t.GetMethods(MethodBindingFlags);
+            foreach (MethodInfo runtimeMethodHandle in infos)
             {
                 RuntimeHelpers.PrepareMethod(runtimeMethodHandle.MethodHandle);
             }

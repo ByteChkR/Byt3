@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using Byt3.ADL;
 using Byt3.Utilities.Threading;

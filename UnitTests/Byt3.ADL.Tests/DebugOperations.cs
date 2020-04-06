@@ -2,7 +2,6 @@
 using Byt3.ADL.Configs;
 using Byt3.ADL.Streams;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 
 namespace Byt3.ADL.Tests
 {
@@ -20,7 +19,7 @@ namespace Byt3.ADL.Tests
 
             Debug.RemoveAllOutputStreams();
             Debug.AdlEnabled = false;
-            var ls = new LogStream(new MemoryStream());
+            LogStream ls = new LogStream(new MemoryStream());
             Debug.AddOutputStream(ls);
             Debug.AddOutputStream(ls);
             Assert.AreEqual(1, Debug.LogStreamCount);
@@ -40,7 +39,7 @@ namespace Byt3.ADL.Tests
 
             ALogger logger = new ALogger("UnitTest");
 
-            var bm = new BitMask(2 | 8);
+            BitMask bm = new BitMask(2 | 8);
 
             Debug.AdlEnabled = false;
             logger.AddPrefixForMask(bm | 4, "Test");
@@ -49,7 +48,7 @@ namespace Byt3.ADL.Tests
 
             logger.AddPrefixForMask(bm, "HELLO");
             Debug.AdlEnabled = true;
-            var ret = logger.GetMaskPrefix(bm) == "HELLO";
+            bool ret = logger.GetMaskPrefix(bm) == "HELLO";
             Assert.IsTrue(ret);
         }
 
@@ -57,7 +56,7 @@ namespace Byt3.ADL.Tests
         public void ADL_Debug_RemovePrefixForMask_Test()
         {
             ALogger logger = new ALogger("UnitTest");
-            var bm = new BitMask(2 | 8);
+            BitMask bm = new BitMask(2 | 8);
             logger.AddPrefixForMask(bm, "HELLO");
             logger.RemovePrefixForMask(bm);
 
@@ -75,7 +74,7 @@ namespace Byt3.ADL.Tests
         public void ADL_Debug_RemoveAllPrefixes_Test()
         {
             ALogger logger = new ALogger("UnitTest");
-            var bm = new BitMask(2 | 8);
+            BitMask bm = new BitMask(2 | 8);
             logger.AddPrefixForMask(bm, "HELLO");
             logger.RemoveAllPrefixes();
             Assert.IsTrue(logger.GetAllPrefixes().Count == 0);
@@ -133,7 +132,7 @@ namespace Byt3.ADL.Tests
         {
             ALogger logger = new ALogger("UnitTest");
             logger.SetAllPrefixes("Hello", "HELLO1", "HOLA2");
-            if (logger.GetPrefixMask("Hello", out var bm)) Assert.IsTrue(bm == 1);
+            if (logger.GetPrefixMask("Hello", out BitMask bm)) Assert.IsTrue(bm == 1);
             if (logger.GetPrefixMask("HELLO1", out bm)) Assert.IsTrue(bm == 2);
             if (logger.GetPrefixMask("HOLA2", out bm)) Assert.IsTrue(bm == 4);
         }
@@ -164,11 +163,11 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Debug_LogSerialization_Test()
         {
-            var l = new Log(-1, "Hello");
-            var buf = l.Serialize();
-            var ms = new MemoryStream(buf);
-            var ltest = Log.Deserialize(buf, 0, out _);
-            var lp = LogPackage.ReadBlock(ms, 13);
+            Log l = new Log(-1, "Hello");
+            byte[] buf = l.Serialize();
+            MemoryStream ms = new MemoryStream(buf);
+            Log ltest = Log.Deserialize(buf, 0, out _);
+            LogPackage lp = LogPackage.ReadBlock(ms, 13);
 
             Assert.IsTrue(buf.Length == lp.GetSerialized(false).Length);
 
@@ -181,7 +180,7 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Debug_Log_Test()
         {
-            var lts = new LogTextStream(new PipeStream())
+            LogTextStream lts = new LogTextStream(new PipeStream())
             {
                 AddTimeStamp = false
             };
@@ -197,9 +196,9 @@ namespace Byt3.ADL.Tests
             Debug.AddOutputStream(lts);
             logger.Log(1, "ffffffffff");
 
-            var buf = new byte[lts.Length];
+            byte[] buf = new byte[lts.Length];
             lts.Read(buf, 0, buf.Length);
-            var s = Debug.TextEncoding.GetString(buf);
+            string s = Debug.TextEncoding.GetString(buf);
 
             Assert.IsTrue(s.EndsWith("ffffffffff\n")); //ADL is appending the \n when using LogTextStreams
             
@@ -225,9 +224,9 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Debug_RemoveOutputStream_Test()
         {
-            var lts = new LogTextStream(new PipeStream());
+            LogTextStream lts = new LogTextStream(new PipeStream());
             Debug.AddOutputStream(lts);
-            var newCount = Debug.LogStreamCount;
+            int newCount = Debug.LogStreamCount;
 
             Debug.AdlEnabled = false;
             Debug.RemoveOutputStream(lts);
@@ -242,7 +241,7 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Debug_LoadConfig_Test()
         {
-            AdlConfig config = ConfigManager.GetDefault<AdlConfig>();
+            ADLConfig config = ConfigManager.GetDefault<ADLConfig>();
             Debug.LoadConfig(config);
             Assert.IsTrue(Debug.AdlEnabled == config.AdlEnabled);
         }

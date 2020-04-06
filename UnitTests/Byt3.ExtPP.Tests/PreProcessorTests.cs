@@ -47,7 +47,7 @@ namespace Byt3.ExtPP.Tests
         {
             Directory.SetCurrentDirectory(ResourceFolder);
             string[] files = Directory.GetFiles("filter/tests/", "*.fl");
-            foreach (var file in files)
+            foreach (string file in files)
             {
                 string dir = Directory.GetCurrentDirectory();
                 Directory.SetCurrentDirectory(ResourceFolder);

@@ -3,7 +3,7 @@
     /// <summary>
     /// Interface for the TextProcessor IO Callbacks.
     /// </summary>
-    public interface IIoCallback
+    public interface IIOCallback
     {
         bool FileExists(string file);
         string[] ReadAllLines(string file);

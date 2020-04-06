@@ -1,4 +1,5 @@
 ﻿using System;
+using Byt3.ADL;
 using Byt3.AssemblyGenerator.CLI.Commands;
 using Byt3.CommandRunner;
 
@@ -12,6 +13,7 @@ namespace Byt3.AssemblyGenerator.CLI
         static void Main(string[] args)
         {
 
+            Debug.DefaultInitialization();
             Runner.AddCommand(new DefaultCommand());
             Runner.AddCommand(new CreateCommand());
             Runner.AddCommand(new AddCommand());

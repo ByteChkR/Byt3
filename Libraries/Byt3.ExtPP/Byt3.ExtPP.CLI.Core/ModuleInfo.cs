@@ -2,7 +2,7 @@
 
 namespace Byt3.ExtPP.CLI.Core
 {
-    public class ModuleInfo : AbstractCmdModuleInfo
+    public class ModuleInfo : AbstractCommandModuleInfo
     {
         public override string[] Dependencies => new[]
         {
