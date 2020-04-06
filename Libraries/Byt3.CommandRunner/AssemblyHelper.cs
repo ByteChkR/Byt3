@@ -44,7 +44,7 @@ namespace Byt3.CommandRunner
                 asm = Assembly.LoadFile(path);
                 return true;
             }
-            catch (Exception e)
+            catch (Exception )
             {
                 asm = null;
                 return false;
