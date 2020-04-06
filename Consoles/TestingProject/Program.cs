@@ -1,4 +1,6 @@
 ﻿using System;
+using Byt3.ADL;
+using Byt3.ADL.Streams;
 using Byt3.AssemblyGenerator;
 using Byt3.Utilities.DotNet;
 
@@ -9,7 +11,8 @@ namespace TestingProject
 
         private static void Main(string[] args)
         {
-            
+            LogTextStream lts = new LogTextStream(Console.OpenStandardOutput());
+            Debug.AddOutputStream(lts);
             AssemblyGeneratorGenerateModules();
 
             AssemblyDefinition defs = AssemblyDefinition.Load(".\\GeneratedModules\\Byt3.assemblyconfig");
@@ -30,7 +33,6 @@ namespace TestingProject
 
         private static void AssemblyGeneratorBuildTest(AssemblyDefinition defs)
         {
-
             AssemblyGenerator.GenerateAssembly(MSBUILD_PATH, defs, $".\\{defs.AssemblyName}_Build\\", AssemblyGeneratorBuildType.Publish,true);
         }
 

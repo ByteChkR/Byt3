@@ -1,4 +1,5 @@
 ﻿using System;
+using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.Utilities.DotNet;
 
@@ -7,22 +8,22 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
     public class AddCommand : AbstractCommand
     {
 
-        public AddCommand() : base(Add, new[] { "--add", "-a" }, "Adds a new csproj or moduleconfig file to the target")
+        public AddCommand() : base( new[] { "--add", "-a" }, "Adds a new csproj or moduleconfig file to the target")
         {
-
+            CommandAction = Add;
         }
 
-        private static void Add(StartupInfo info, string[] args)
+        private void Add(StartupInfo info, string[] args)
         {
             if (!Program.HasTarget)
             {
-                Console.WriteLine("You need to specify a target config");
+                Logger.Log(LogType.Log, "You need to specify a target config");
                 return;
             }
 
             if (args.Length != 1)
             {
-                Console.WriteLine("Only 1 argument allowed.");
+                Logger.Log(LogType.Log, "Only 1 argument allowed.");
                 return;
             }
 
@@ -37,7 +38,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             }
             else
             {
-                Console.WriteLine("Can not Parse File: "+ args[0]);
+                Logger.Log(LogType.Log, "Can not Parse File: " + args[0]);
                 return;
             }
 

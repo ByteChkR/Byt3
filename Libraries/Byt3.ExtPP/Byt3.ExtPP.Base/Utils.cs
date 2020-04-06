@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Base
@@ -28,7 +29,7 @@ namespace Byt3.ExtPP.Base
                     if (source[i].Trim().StartsWith(t))
                     {
 
-                        Logger.Log(logobj, DebugLevel.LOGS, Verbosity.LEVEL7, "Removing statement {0} on line {1}", t, i);
+                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, string.Format("Removing statement {0} on line {1}",t, i));
                         source.RemoveAt(i);
                         break;
                     }
@@ -47,7 +48,7 @@ namespace Byt3.ExtPP.Base
         public static string RemoveExcessSpaces(string line, string separator, ILoggable logobj)
         {
             string ret = line.Split(new []{ separator }, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
-            Logger.Log(logobj, DebugLevel.LOGS, Verbosity.LEVEL7, "Removing Excess Spaces: {0} => {1}", line, ret);
+            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Removing Excess Spaces: {0} => {1}", line, ret);
             return ret;
         }
 

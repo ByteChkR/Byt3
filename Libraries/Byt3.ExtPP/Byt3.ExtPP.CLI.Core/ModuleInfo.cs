@@ -14,7 +14,7 @@ namespace Byt3.ExtPP.CLI.Core
         public override string ModuleName => "extpp";
         public override void RunArgs(string[] args)
         {
-            CLI.Main(args);
+            CLI._Main(args);
         }
     }
 }

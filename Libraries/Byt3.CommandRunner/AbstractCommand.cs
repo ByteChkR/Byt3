@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Byt3.ADL;
 
 namespace Byt3.CommandRunner
 {
@@ -9,10 +10,12 @@ namespace Byt3.CommandRunner
     /// </summary>
     public abstract class AbstractCommand
     {
+        protected readonly ALogger<LogType> Logger;
+
         /// <summary>
         /// The Command Implementation that is getting called
         /// </summary>
-        public Action<StartupInfo, string[]> CommandAction { get; }
+        public Action<StartupInfo, string[]> CommandAction { get; protected set; }
 
         /// <summary>
         /// The Keys that are used to indicate that the Command should be executed.
@@ -38,7 +41,22 @@ namespace Byt3.CommandRunner
         /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
         protected AbstractCommand(Action<StartupInfo, string[]> action, string[] keys, string helpText = "No Help Text Available", bool defaultCommand = false)
         {
+            Logger = new ALogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandAction = action;
+            CommandKeys = keys;
+            HelpText = helpText;
+            DefaultCommand = defaultCommand;
+        }
+
+        /// <summary>
+        /// Protected Constructor
+        /// </summary>
+        /// <param name="keys">Keys of the Command</param>
+        /// <param name="helpText">Optional Help Text</param>
+        /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
+        protected AbstractCommand( string[] keys, string helpText = "No Help Text Available", bool defaultCommand = false)
+        {
+            Logger = new ALogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandKeys = keys;
             HelpText = helpText;
             DefaultCommand = defaultCommand;

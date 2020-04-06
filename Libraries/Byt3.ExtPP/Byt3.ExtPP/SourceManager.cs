@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP
@@ -50,7 +51,7 @@ namespace Byt3.ExtPP
                 return;
             }
             _computeScheme = scheme;
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}", scheme.Method.Name);
+            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}", scheme.Method.Name);
         }
 
         /// <summary>
@@ -126,7 +127,7 @@ namespace Byt3.ExtPP
         /// <param name="script">The script that got referenced.</param>
         public void FixOrder(ISourceScript script)
         {
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
+            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
             int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
@@ -156,7 +157,7 @@ namespace Byt3.ExtPP
         {
             if (!IsIncluded(script))
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
+                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
                 AddFile(script, false);
                 _doneState.Add(ProcessStage.QUEUED);
             }
@@ -173,7 +174,7 @@ namespace Byt3.ExtPP
             {
                 _doneState[IndexOfFile(script.GetKey())] = stage;
 
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
+                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
             }
         }
 
@@ -251,7 +252,7 @@ namespace Byt3.ExtPP
             if (LockScriptCreation)
             {
                 script = null;
-                this.Warning("A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
+                PPLogger.Instance.Warning("A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
                 return false;
             }
 

@@ -1,4 +1,5 @@
 ﻿using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Interfaces;
 
 namespace Byt3.ExtPP
 {
@@ -130,7 +131,7 @@ namespace Byt3.ExtPP
             bool ret = LoadSource();
             if (!ret)
             {
-                this.Error("Could not load file: {0}", _filepath);
+                PPLogger.Instance.Error("Could not load file: {0}", _filepath);
 
             }
 

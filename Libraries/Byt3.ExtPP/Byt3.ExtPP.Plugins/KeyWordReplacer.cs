@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Plugins
@@ -78,7 +79,7 @@ namespace Byt3.ExtPP.Plugins
                 string key = SurroundingChar + keyword.Key + SurroundingChar;
                 if (ret.Contains(key))
                 {
-                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing {0} with {1}", key, keyword.Value);
+                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing {0} with {1}", key, keyword.Value);
                     ret = ret.Replace(key, keyword.Value);
                 }
             }

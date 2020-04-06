@@ -48,7 +48,7 @@ namespace Byt3.ObjectPipeline.Tests
         #endregion
 
         [TestMethod]
-        public void Pipeline_InvalidStatesTest()
+        public void Pipeline_InvalidStates_Test()
         {
 
             //Argument null not allowed.
@@ -83,7 +83,7 @@ namespace Byt3.ObjectPipeline.Tests
         }
 
         [TestMethod]
-        public void Pipeline_ValidStatesTest()
+        public void Pipeline_ValidStates_Test()
         {
             InterceptFilePathStage interceptFilePathExample = new InterceptFilePathStage();
             InterceptFileReadStage interceptReadStage = new InterceptFileReadStage();
@@ -122,7 +122,7 @@ namespace Byt3.ObjectPipeline.Tests
         }
 
         [TestMethod]
-        public void Pipeline_UsageTest()
+        public void Pipeline_Usage_Test()
         {
             //Set up the pipelines as in TestValidStates
             Pipeline<string, byte[]> loadFilePipeline = new Pipeline<string, byte[]>();

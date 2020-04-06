@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using Byt3.ADL;
 using Byt3.Utilities.Threading;
 
 namespace Byt3.Utilities.DotNet
 {
     public static class DotNetHelper
     {
+        public static readonly ALogger<LogType> Logger = new ALogger<LogType>("DotNetHelper");
+
         public static void DotnetAction(string msbuildCommand, string targetCommand, string arguments, string workingDir)
         {
             CommandInfo info =
@@ -26,7 +29,7 @@ namespace Byt3.Utilities.DotNet
 
         public static string BuildProject(string msbuildCommand, string projectFile, AssemblyDefinition definitions, bool lib = true)
         {
-            Console.WriteLine("Building Assembly: " + definitions.AssemblyName);
+            Logger.Log(LogType.Log,"Building Assembly: " + definitions.AssemblyName);
             string arguments = $"-c {definitions.BuildConfiguration}";
             if (!definitions.NoTargetRuntime)
             {
@@ -46,7 +49,7 @@ namespace Byt3.Utilities.DotNet
 
         public static string PublishProject(string msbuildCommand, string projectFile, AssemblyDefinition definitions, bool lib = true)
         {
-            Console.WriteLine("Publishing Assembly: " + definitions.AssemblyName);
+            Logger.Log(LogType.Log, "Publishing Assembly: " + definitions.AssemblyName);
             string arguments = $"-c {definitions.BuildConfiguration}";
             if (!definitions.NoTargetRuntime)
             {
@@ -68,14 +71,14 @@ namespace Byt3.Utilities.DotNet
         private static void OnErrorReceived(object sender, DataReceivedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.Data)) return;
-            Console.WriteLine("\t[ERR]" + e.Data);
+            Logger.Log(LogType.Error, "\t[ERR]" + e.Data);
 
         }
 
         private static void OnOutReceived(object sender, DataReceivedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.Data)) return;
-            Console.WriteLine("\t[OUT]" + e.Data);
+            Logger.Log(LogType.Log, "\t" + e.Data);
 
         }
 

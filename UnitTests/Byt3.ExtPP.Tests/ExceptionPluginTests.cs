@@ -25,7 +25,7 @@ namespace Byt3.ExtPP.Tests
         public  void ExtPP_Plugins_Exception_Warning_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            Logger.ThrowOnWarning = true;
+            PPLogger.Instance.ThrowOnWarning = true;
             Settings s = new Settings(new Dictionary<string, string[]>
             {
                 {"-ex:tow", new string[0]}
@@ -44,7 +44,7 @@ namespace Byt3.ExtPP.Tests
         public  void ExtPP_Plugins_Exception_Error_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            Logger.ThrowOnError = true;
+            PPLogger.Instance.ThrowOnError = true;
             try
             {
                 TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, "error_test.txt");

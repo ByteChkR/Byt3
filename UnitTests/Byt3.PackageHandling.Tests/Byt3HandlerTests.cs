@@ -65,7 +65,7 @@ namespace Byt3.PackageHandling.Tests
         }
 
         [TestMethod]
-        public void Handler_ExactOnlyTest()
+        public void Handler_ExactOnly_Test()
         {
 
             Byt3Handler handler = GetHandler(HandlerLookupType.None, null);
@@ -85,7 +85,7 @@ namespace Byt3.PackageHandling.Tests
         }
 
         [TestMethod]
-        public void Handler_TraverseUpTest()
+        public void Handler_TraverseUp_Test()
         {
             Byt3Handler handler = GetHandler(HandlerLookupType.TraverseUp, null);
 
@@ -104,7 +104,7 @@ namespace Byt3.PackageHandling.Tests
         }
 
         [TestMethod]
-        public void Handler_UseFallbackTest()
+        public void Handler_UseFallback_Test()
         {
             Byt3Handler handler = GetHandler(HandlerLookupType.UseFallback, null);
 

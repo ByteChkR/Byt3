@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
+    <ProjectReference Include="..\Byt3.OpenCL.Common\Byt3.OpenCL.Common.csproj" />
+    <ProjectReference Include="..\Byt3.OpenCL\Byt3.OpenCL.csproj" />
+  </ItemGroup>
+
+</Project>

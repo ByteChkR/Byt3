@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Tests

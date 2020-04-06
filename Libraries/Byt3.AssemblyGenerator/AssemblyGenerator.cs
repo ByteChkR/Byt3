@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Byt3.ADL;
 using Byt3.Utilities.DotNet;
 using Byt3.Utilities.DotNet.ProjectParsing;
 using Byt3.Utilities.Serialization;
 
 namespace Byt3.AssemblyGenerator
 {
+
+
     public static class AssemblyGenerator
     {
-
+        public static readonly ALogger<LogType> Logger = new ALogger<LogType>("AssemblyGenerator");
         #region API Calls
 
 
@@ -22,7 +25,7 @@ namespace Byt3.AssemblyGenerator
             if (outputFolder == null) throw new ArgumentNullException(nameof(outputFolder));
 
 
-            Console.WriteLine("Generating Assembly...");
+            Logger.Log(LogType.Log, "Generating Assembly...");
             string tempFolder = GetTempFolder();
 
             Tuple<string, List<ModuleDefinition>> project = GenerateProject(msBuildPath, tempFolder, assemblyDefinitions, lib);
@@ -31,7 +34,7 @@ namespace Byt3.AssemblyGenerator
             string projectDir = Path.GetDirectoryName(project.Item1);
 
 
-            Console.WriteLine($"Copying Files of {project.Item2.Count} Modules");
+            Logger.Log(LogType.Log, $"Copying Files of {project.Item2.Count} Modules");
             for (int i = 0; i < project.Item2.Count; i++)
             {
 
@@ -49,22 +52,22 @@ namespace Byt3.AssemblyGenerator
                 outDir = DotNetHelper.PublishProject(msBuildPath, project.Item1, assemblyDefinitions, lib);
             }
 
-            Console.WriteLine("Moving Files to output Directory...");
+            Logger.Log(LogType.Log, "Moving Files to output Directory...");
             if (Directory.Exists(outputFolder)) Directory.Delete(outputFolder, true);
 
-            Console.WriteLine("Cleaning Output Folder");
+            Logger.Log(LogType.Log, "Cleaning Output Folder");
             while (Directory.Exists(outputFolder))
             {
-                Console.Write(".");
+                //Console.Write(".");
                 //Wait
             }
 
             Directory.Move(outDir, outputFolder);
 
 
-            Console.WriteLine("Cleaning Temp Directory");
+            Logger.Log(LogType.Log, "Cleaning Temp Directory");
             Directory.Delete(tempFolder, true);
-            Console.WriteLine("Cleanup Finished.");
+            Logger.Log(LogType.Log, "Cleanup Finished.");
         }
 
         public static ModuleDefinition GenerateModuleDefinition(string project)
@@ -164,7 +167,7 @@ namespace Byt3.AssemblyGenerator
 
         private static void DiscoverModules(ModuleDefinition module, List<ModuleDefinition> definitions)
         {
-            Console.WriteLine("Adding Module: " + module.Name);
+            Logger.Log(LogType.Log, "Adding Module: " + module.Name);
             definitions.Add(module);
             for (int i = 0; i < module.Projects.Length; i++)
             {
@@ -186,7 +189,7 @@ namespace Byt3.AssemblyGenerator
             if (!Directory.Exists(workingDir)) throw new DirectoryNotFoundException("Can not find the working directory: " + workingDir);
 
 
-            Console.WriteLine("Generating csproject File...");
+            Logger.Log(LogType.Log, "Generating csproject File...");
 
             DotNetHelper.New(msBuildPath, workingDir, definition.AssemblyName, lib);
 
@@ -201,7 +204,7 @@ namespace Byt3.AssemblyGenerator
                     DiscoverModules(definition.IncludedModules[i], modules);
             }
 
-            Console.WriteLine($"Discovered {modules.Count} Modules.");
+            Logger.Log(LogType.Log, $"Discovered {modules.Count} Modules.");
 
             CSharpProject p = ProjectLoader.LoadProject(projectFile);
 

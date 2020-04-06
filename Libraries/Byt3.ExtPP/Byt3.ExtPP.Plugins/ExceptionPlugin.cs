@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Plugins
@@ -37,7 +38,7 @@ namespace Byt3.ExtPP.Plugins
             {
                 string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
 
-                this.Warning("Warning: {0}", err);
+                PPLogger.Instance.Warning("Warning: {0}", err);
                 return "";
             }
 
@@ -45,7 +46,7 @@ namespace Byt3.ExtPP.Plugins
             if (Utils.IsStatement(source, ErrorKeyword))
             {
                 string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
-                this.Error("Error {0}", err);
+                PPLogger.Instance.Error("Error {0}", err);
                 return "";
             }
 

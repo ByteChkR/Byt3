@@ -1,19 +1,20 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Byt3.ADL;
 using Byt3.CommandRunner;
 
 namespace Byt3.AssemblyGenerator.CLI.Commands
 {
     public class DefaultCommand : AbstractCommand
     {
-        public DefaultCommand() : base(Default, new[] { "--set-target", "-t" },
+        public DefaultCommand() : base( new[] { "--set-target", "-t" },
             "Sets the AssemblyModule Target for the current operation", true)
         {
-
+            CommandAction = Default;
         }
 
-        private static void Default(StartupInfo info, string[] args)
+        private  void Default(StartupInfo info, string[] args)
         {
             string target = "";
             if (args.Length > 0)
@@ -33,8 +34,8 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
                     target = Path.GetFullPath(target);
                 }
             }
-            
-            Console.WriteLine("Targeting Config: " + target);
+
+            Logger.Log(LogType.Log, "Targeting Config: " + target);
             Program.Target = target;
         }
     }

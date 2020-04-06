@@ -1,7 +1,17 @@
-﻿namespace Byt3.PackageHandling
+﻿using System.Runtime.CompilerServices;
+using Byt3.ADL;
+
+namespace Byt3.PackageHandling
 {
     public abstract class AHandler
     {
+        protected readonly ALogger<LogType> Logger;
+
+        protected AHandler()
+        {
+            Logger= new ALogger<LogType>("Handler: "+ GetType().Name);
+        }
+
         internal abstract void Handle(object objectToHandle, object context);
     }
 

@@ -9,6 +9,8 @@ namespace Byt3.ADL.Configs
     /// </summary>
     public static class ConfigManager
     {
+        private static readonly ALogger<LogType> Logger = new ALogger<LogType>("ConfigManager");
+
         /// <summary>
         ///     The field of the serializer that gets used.
         /// </summary>
@@ -31,7 +33,7 @@ namespace Byt3.ADL.Configs
             _serializer = new XmlSerializer(typeof(T));
             if (!File.Exists(path))
             {
-                Debug.Log(BitMask.WildCard, "Config Manager: File" + path + "does not exist");
+                Logger.Log(LogType.Warning, "Config Manager: File" + path + "does not exist");
                 return GetDefault<T>();
             }
 
@@ -44,8 +46,8 @@ namespace Byt3.ADL.Configs
             catch (Exception)
             {
                 ret = GetDefault<T>();
-                Debug.Log(BitMask.WildCard,
-                    "Config Manager: Failed to deserialize XML file. Either XML file is corrupted or file access is denied.");
+                Logger.Log(LogType.Warning,
+                   "Config Manager: Failed to deserialize XML file. Either XML file is corrupted or file access is denied.");
             }
 
             return ret;
@@ -72,8 +74,8 @@ namespace Byt3.ADL.Configs
             }
             catch (Exception)
             {
-                Debug.Log(BitMask.WildCard,
-                    "Config Manager: Failed to save xml file. Directory exists? Access to Write to directory?");
+                Logger.Log(LogType.Warning,
+                   "Config Manager: Failed to save xml file. Directory exists? Access to Write to directory?");
             }
         }
     }

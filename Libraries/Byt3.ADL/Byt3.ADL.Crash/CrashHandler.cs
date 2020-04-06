@@ -8,21 +8,25 @@ namespace Byt3.ADL.Crash
     [Serializable]
     public class CrashConfig : AbstractAdlConfig
     {
-        public int CrashMask;
+        public bool ShortenCrashInfo;
         public override AbstractAdlConfig GetStandard()
         {
-            return new CrashConfig()
-            {
-                CheckForUpdates = true
-            };
+            return new CrashConfig() {};
         }
     }
 
     public static class CrashHandler
     {
+        private enum CrashLogType
+        {
+            Crash_Short, Update, Error, Crash
+        }
+
         private static bool initialized = false;
 
         private static CrashConfig config = ConfigManager.GetDefault<CrashConfig>();
+
+        private static ALogger<CrashLogType> crashLogger = new ALogger<CrashLogType>("ADL.Crash");
 
         public static void SaveCurrentConfig(string configPath = "adl_crash.xml")
         {
@@ -34,36 +38,37 @@ namespace Byt3.ADL.Crash
         }
         public static void Initialize(CrashConfig config)
         {
-            Initialize(config.CrashMask, config.CheckForUpdates);
+            Initialize(config.ShortenCrashInfo);
         }
-        public static void Initialize(BitMask crashMask, bool CheckUpdates = true)
+        public static void Initialize(bool shortenCrashInfo)
         {
-            config.CheckForUpdates = CheckUpdates;
-            config.CrashMask = crashMask;
-
-            if (CheckUpdates)
-            {
-                var msg = UpdateDataObject.CheckUpdate(typeof(CrashHandler));
-                Debug.Log(Debug.UpdateMask, msg);
-            }
+            config.ShortenCrashInfo = shortenCrashInfo;
 
 
             initialized = true;
         }
 
-        public static void Log(Exception exception, BitMask crashNotes = null, bool includeInner = true)
+        public static void Log(Exception exception, bool includeInner = true)
         {
             if (!initialized)
             {
-                Debug.Log(-1, "Crash handler was not initialized");
+                crashLogger.Log(CrashLogType.Error, "Crash handler was not initialized");
                 return;
             }
-            if (crashNotes != null)
+
+            if (config.ShortenCrashInfo)
             {
-                Debug.Log(crashNotes, ExceptionHeader(exception));
+                crashLogger.Log(CrashLogType.Crash_Short, ExceptionHeader(exception));
+            }
+            else
+            {
+                crashLogger.Log(CrashLogType.Crash, ExceptionToString(exception, includeInner) );
             }
 
-            Debug.Log(config.CrashMask, ExceptionToString(exception, includeInner));
+            CrashLogType lt = config.ShortenCrashInfo ? CrashLogType.Crash_Short : CrashLogType.Crash;
+
+            
+
         }
 
         private static string ExceptionHeader(Exception exception)

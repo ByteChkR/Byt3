@@ -86,8 +86,8 @@ namespace Byt3.ADL.Tests
             Assert.AreEqual((int) bm, 16 | 8);
 
 
-            Assert.IsTrue(bm.HasFlag(16, MatchType.MatchOne));
-            Assert.IsFalse(bm.HasFlag(24 | 4, MatchType.MatchAll));
+            Assert.IsTrue(bm.HasFlag(16, MaskMatchType.MatchOne));
+            Assert.IsFalse(bm.HasFlag(24 | 4, MaskMatchType.MatchAll));
             bm.SetAllFlags(0);
             bm.Flip();
             Assert.IsTrue(-1 == bm);
@@ -98,20 +98,20 @@ namespace Byt3.ADL.Tests
             Assert.IsFalse(BitMask.IsUniqueMask(0));
             var gbm = new BitMask<TestEnum>(TestEnum.A, TestEnum.B);
             Assert.IsFalse(BitMask.IsUniqueMask(bm));
-            Assert.IsTrue(gbm.HasFlag(TestEnum.A, MatchType.MatchOne));
+            Assert.IsTrue(gbm.HasFlag(TestEnum.A, MaskMatchType.MatchOne));
 
             gbm.SetFlag(TestEnum.C, true);
 
             //BitMask<TestEnum> gbm1 = TestEnum.C;
 
-            Assert.IsFalse(gbm.HasFlag(TestEnum.C, MatchType.MatchOne));
+            Assert.IsFalse(gbm.HasFlag(TestEnum.C, MaskMatchType.MatchOne));
 
             gbm.SetFlag(TestEnum.C, false);
 
-            Assert.IsFalse(gbm.HasFlag(TestEnum.C, MatchType.MatchOne));
+            Assert.IsFalse(gbm.HasFlag(TestEnum.C, MaskMatchType.MatchOne));
 
             gbm.SetAllFlags(TestEnum.C | TestEnum.A);
-            Assert.IsTrue(gbm.HasFlag(TestEnum.C | TestEnum.A, MatchType.MatchAll));
+            Assert.IsTrue(gbm.HasFlag(TestEnum.C | TestEnum.A, MaskMatchType.MatchAll));
         }
 
         [Flags]

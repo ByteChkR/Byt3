@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj" />
   </ItemGroup>
 
 </Project>

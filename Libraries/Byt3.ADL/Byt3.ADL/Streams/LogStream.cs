@@ -26,7 +26,7 @@ namespace Byt3.ADL.Streams
         /// <summary>
         ///     The match type(how the mask gets compared)
         /// </summary>
-        private readonly MatchType _matchType;
+        private readonly MaskMatchType _maskMatchType;
 
         /// <summary>
         ///     Is the stream closed?
@@ -41,13 +41,13 @@ namespace Byt3.ADL.Streams
         /// </summary>
         /// <param name="baseStream"></param>
         /// <param name="mask"></param>
-        /// <param name="matchType"></param>
+        /// <param name="maskMatchType"></param>
         /// <param name="setTimeStamp"></param>
-        public LogStream(Stream baseStream, int mask = ~0, MatchType matchType = MatchType.MatchAll,
+        public LogStream(Stream baseStream, int mask = ~0, MaskMatchType maskMatchType = MaskMatchType.MatchAll,
             bool setTimeStamp = false)
         {
             _mask = mask;
-            _matchType = matchType;
+            _maskMatchType = maskMatchType;
             AddTimeStamp = setTimeStamp;
             BaseStream = baseStream;
         }
@@ -72,7 +72,7 @@ namespace Byt3.ADL.Streams
         /// <returns></returns>
         public bool IsContainedInMask(BitMask mask)
         {
-            return BitMask.IsContainedInMask(_mask, mask, _matchType == MatchType.MatchAll);
+            return BitMask.IsContainedInMask(_mask, mask, _maskMatchType == MaskMatchType.MatchAll);
         }
 
         #region Properties

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL.Wrapper\Byt3.OpenCL.Wrapper.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL\Byt3.OpenCL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="WFC\" />
+  </ItemGroup>
+
+</Project>

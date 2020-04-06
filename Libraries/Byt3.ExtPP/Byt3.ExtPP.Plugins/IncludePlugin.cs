@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Plugins
@@ -34,7 +35,7 @@ namespace Byt3.ExtPP.Plugins
         public override bool FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
         {
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Disovering Include Statments...");
+            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Disovering Include Statments...");
             List<string> source = script.GetSource().ToList();
             string currentPath = Path.GetDirectoryName(script.GetFileInterface().GetFilePath());
             bool hasIncludedInline;
@@ -45,18 +46,18 @@ namespace Byt3.ExtPP.Plugins
                 {
                     if (Utils.IsStatement(source[i], IncludeInlineKeyword))
                     {
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found Inline Include Statement...");
+                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found Inline Include Statement...");
                         string[] args = Utils.SplitAndRemoveFirst(source[i], Separator);
                         if (args.Length == 0)
                         {
 
-                            this.Warning("No File Specified");
+                            PPLogger.Instance.Warning("No File Specified");
                             continue;
                         }
 
                         if (Utils.FileExistsRelativeTo(currentPath, args[0]))
                         {
-                            this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Inline Keyword with file content");
+                            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Inline Keyword with file content");
                             source.RemoveAt(i);
 
                             source.InsertRange(i, IOManager.ReadAllLines(Path.Combine(currentPath, args[0])));
@@ -64,7 +65,7 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else
                         {
-                            this.Warning("File does not exist: {0}", args[0]);
+                            PPLogger.Instance.Warning("File does not exist: {0}", args[0]);
                         }
                     }
                 }
@@ -76,13 +77,13 @@ namespace Byt3.ExtPP.Plugins
 
             foreach (var includes in incs)
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Processing Statement: {0}", includes);
+                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Processing Statement: {0}", includes);
                 bool tmp = GetISourceScript(sourceManager, includes, currentPath, out List<ISourceScript> sources);
                 if (tmp)
                 {
                     foreach (var sourceScript in sources)
                     {
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}", Path.GetFileName(sourceScript.GetFileInterface().GetKey()));
+                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}", Path.GetFileName(sourceScript.GetFileInterface().GetKey()));
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -103,7 +104,7 @@ namespace Byt3.ExtPP.Plugins
 
             }
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Inclusion of Files Finished");
+            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Inclusion of Files Finished");
             return true;
 
         }
@@ -119,7 +120,7 @@ namespace Byt3.ExtPP.Plugins
                 ImportResult importInfo = manager.GetComputingScheme()(vars, currentPath);
                 if (!importInfo)
                 {
-                    this.Error("Invalid Include Statement");
+                    PPLogger.Instance.Error("Invalid Include Statement");
                     return false;
 
                 }
@@ -159,7 +160,7 @@ namespace Byt3.ExtPP.Plugins
                     var sourceScript = scripts[index];
                     if (sourceScript.GetFileInterface().HasValidFilepath && !Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface()))
                     {
-                        this.Error("Could not find File: {0}", sourceScript.GetFileInterface());
+                        PPLogger.Instance.Error("Could not find File: {0}", sourceScript.GetFileInterface());
                         scripts.RemoveAt(index);
                     }
                 }

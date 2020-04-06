@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP
@@ -80,7 +81,7 @@ namespace Byt3.ExtPP
         /// <param name="state">The state of the key</param>
         private void Change(string key, bool state)
         {
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Setting Key: {0} to value: {1}", key, state);
+            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Setting Key: {0} to value: {1}", key, state);
             if (_definitions.ContainsKey(key))
             {
                 _definitions[key] = state;

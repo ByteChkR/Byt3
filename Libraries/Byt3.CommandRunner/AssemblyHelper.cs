@@ -46,7 +46,6 @@ namespace Byt3.CommandRunner
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 asm = null;
                 return false;
             }

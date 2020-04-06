@@ -16,10 +16,10 @@ namespace Byt3.ADL.Configs
         /// </summary>
         public bool AdlEnabled;
 
-        /// <summary>
-        ///     The prefixes that are used when a log in a specific mask gets sent.
-        /// </summary>
-        public SerializableDictionary<int, string> Prefixes;
+        ///// <summary>
+        /////     The prefixes that are used when a log in a specific mask gets sent.
+        ///// </summary>
+        //public SerializableDictionary<int, string> Prefixes;
 
         /// <summary>
         ///     Determines the Options on how much effort is put into finding the right tags
@@ -32,23 +32,11 @@ namespace Byt3.ADL.Configs
         ///// </summary>
         //public bool CheckForUpdates;
 
-        /// <summary>
-        ///     A flag to switch if adl should send warnings at all.
-        /// </summary>
-        public bool SendWarnings;
+
 
         [XmlIgnore]
         public Encoding TextEncoding;
 
-        /// <summary>
-        ///     The mask that gets used to give information about the Update Check
-        /// </summary>
-        public int UpdateMask;
-
-        /// <summary>
-        ///     The mask that ADL uses to write warnings
-        /// </summary>
-        public int WarningMask;
 
         /// <summary>
         /// The format ADL uses to convert a Time to a string representation
@@ -65,11 +53,6 @@ namespace Byt3.ADL.Configs
             return new AdlConfig
             {
                 AdlEnabled = true,
-                CheckForUpdates = true,
-                UpdateMask = new BitMask(true),
-                WarningMask = new BitMask(true),
-                SendWarnings = true,
-                Prefixes = new SerializableDictionary<int, string>(new Dictionary<int, string>()),
                 PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable |
                                    PrefixLookupSettings.Deconstructmasktofind,
                 TextEncoding = Encoding.ASCII,

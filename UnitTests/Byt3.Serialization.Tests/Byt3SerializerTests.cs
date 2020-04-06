@@ -103,7 +103,7 @@ namespace Byt3.Serialization.Tests
         #endregion
 
         [TestMethod]
-        public void Serializer_ReadWriteTest()
+        public void Serializer_ReadWrite_Test()
         {
 
             Packet p = new Packet(true);

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Plugins
@@ -73,20 +74,20 @@ namespace Byt3.ExtPP.Plugins
 
             string[] GenParams = file.GetValueFromCache<string[]>("genParams");
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Generic Keywords...");
+            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Generic Keywords...");
             if (GenParams != null && GenParams.Length > 0)
             {
                 for (var i = GenParams.Length - 1; i >= 0; i--)
                 {
 
-                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Keyword {0}{1} with {2} in file {3}", GenericKeyword, i, GenParams[i], file.GetKey());
+                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Keyword {0}{1} with {2} in file {3}", GenericKeyword, i, GenParams[i], file.GetKey());
                     Utils.ReplaceKeyWord(file.GetSource(), GenParams[i],
                         GenericKeyword + i);
                 }
             }
 
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Generic Keyword Replacement Finished");
+            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Generic Keyword Replacement Finished");
 
             return true;
         }

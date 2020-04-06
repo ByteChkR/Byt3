@@ -22,22 +22,11 @@ namespace Byt3.ADL
         /// </summary>
         private static bool _firstLog = true;
 
-        /// <summary>
-        ///     Dictionary of Prefixes for the corresponding Masks
-        /// </summary>
-        private static Dictionary<int, string> _prefixes = new Dictionary<int, string>();
+
+        private static readonly ALogger<LogType> _internalLogger = new ALogger<LogType>("ADL_Internal");
 
         private static readonly object PrefixLock = new object();
-
-        /// <summary>
-        ///     The mask that gets used when _sendUpdateMessage is true
-        /// </summary>
-        private static int _updateMask = new BitMask(true);
-
-        /// <summary>
-        ///     The mask that gets used when ADL is sending warnings
-        /// </summary>
-        private static int _adlWarningMask = new BitMask(true);
+        
 
         /// <summary>
         ///     String Builder to assemble the log
@@ -96,34 +85,7 @@ namespace Byt3.ADL
         /// </summary>
         public static bool AdlEnabled { get; set; } = true;
 
-        /// <summary>
-        ///     Public property, used to disable update check.(Saves ~500ms)
-        /// </summary>
-        public static bool CheckForUpdates { get; set; } = true;
 
-        /// <summary>
-        ///     Determines if ADL should send warnings about potential wrong use to the log streams
-        /// </summary>
-        public static bool SendWarnings { get; set; } = true;
-
-        /// <summary>
-        ///     Update Mask. This mask gets used when one of the ADL Components are checking for updates.
-        ///     To disable the update messages, simly change the mask to new Bitmask(false)
-        /// </summary>
-        public static BitMask UpdateMask
-        {
-            get => _updateMask;
-            set => _updateMask = value;
-        }
-
-        /// <summary>
-        ///     Warning Mask. This mask gets used when ADL sends warnings about (possible)wrong use.
-        /// </summary>
-        public static BitMask AdlWarningMask
-        {
-            get => _adlWarningMask;
-            set => _adlWarningMask = value;
-        }
 
         /// <summary>
         ///     The number of Streams that ADL writes to
@@ -160,15 +122,15 @@ namespace Byt3.ADL
         {
             if (stream == null)
             {
-                Log(_adlWarningMask, "AddOutputStream(NULL): The Supplied stream is a nullpointer.");
+                _internalLogger.Log(LogType.Warning, "AddOutputStream(NULL): The Supplied stream is a nullpointer.");
                 return;
             }
 
             if (!AdlEnabled)
-                Log(_adlWarningMask,
-                    "AddOutputStream(" + stream.Mask +
+                _internalLogger.Log(LogType.Warning,
+                     "AddOutputStream(" + stream.Mask +
                     "): ADL is disabled, you are adding an Output Stream while ADL is disabled.");
-            var contains=false;
+            var contains = false;
             lock (Streams)
             {
                 contains = Streams.Contains(stream);
@@ -176,7 +138,7 @@ namespace Byt3.ADL
 
             if (contains)
             {
-                Log(_adlWarningMask,
+                _internalLogger.Log(LogType.Warning,
                     "AddOutputStream(" + stream.Mask + "): Supplied stream is already in the list. Aborting!");
                 return;
             }
@@ -203,13 +165,13 @@ namespace Byt3.ADL
 
             if (!contains)
             {
-                Log(_adlWarningMask,
+                _internalLogger.Log(LogType.Warning,
                     "RemoveOutputStream(" + stream.Mask + "): Supplied stream is not in the list. Aborting!");
                 return;
             }
 
             if (!AdlEnabled)
-                Log(_adlWarningMask,
+                _internalLogger.Log(LogType.Warning,
                     "RemoveOutputStream(" + stream.Mask +
                     "): ADL is disabled, you are removing an Output Stream while while ADL is disabled.");
             lock (Streams)
@@ -226,7 +188,7 @@ namespace Byt3.ADL
         /// <param name="closeStream">If streams should be closed upon removal from the system</param>
         public static void RemoveAllOutputStreams(bool closeStream = true)
         {
-            Log(-1, "Debug Queue Emptied");
+            _internalLogger.Log(LogType.Log, "Debug Queue Emptied");
             lock (Streams)
             {
                 if (closeStream)
@@ -245,22 +207,22 @@ namespace Byt3.ADL
         /// </summary>
         /// <param name="mask">flag combination</param>
         /// <param name="prefix">desired prefix</param>
-        public static void AddPrefixForMask(BitMask mask, string prefix)
+        public static void AddPrefixForMask(Dictionary<int, string> prefixes, BitMask mask, string prefix)
         {
             if (!AdlEnabled)
-                Log(_adlWarningMask,
+                _internalLogger.Log(LogType.Warning,
                     "AddPrefixForMask(" + mask +
                     "): ADL is disabled, you are adding a prefix for a mask while ADL is disabled.");
             if (!BitMask.IsUniqueMask(mask))
-                Log(_adlWarningMask,
+                _internalLogger.Log(LogType.Warning,
                     "AddPrefixForMask(" + mask + "): Adding Prefix: " + prefix + " for mask: " + mask +
                     ". Mask is not unique.");
             lock (PrefixLock)
             {
-                if (_prefixes.ContainsKey(mask))
-                    _prefixes[mask] = prefix;
+                if (prefixes.ContainsKey(mask))
+                    prefixes[mask] = prefix;
                 else
-                    _prefixes.Add(mask, prefix);
+                    prefixes.Add(mask, prefix);
             }
         }
 
@@ -268,28 +230,28 @@ namespace Byt3.ADL
         ///     Removes Prefix from prefix lookup table
         /// </summary>
         /// <param name="mask"></param>
-        public static void RemovePrefixForMask(BitMask mask)
+        public static void RemovePrefixForMask(Dictionary<int, string> prefixes, BitMask mask)
         {
             if (!AdlEnabled)
-                Log(_adlWarningMask,
+                _internalLogger.Log(LogType.Warning,
                     "RemovePrefixForMask(" + mask +
                     "): ADL is disabled, you are removing a prefix for a mask while ADL is disabled.");
 
             lock (PrefixLock)
             {
-                if (!_prefixes.ContainsKey(mask)) return;
-                _prefixes.Remove(mask);
+                if (!prefixes.ContainsKey(mask)) return;
+                prefixes.Remove(mask);
             }
         }
 
         /// <summary>
         ///     Clears all Prefixes
         /// </summary>
-        public static void RemoveAllPrefixes()
+        public static void RemoveAllPrefixes(Dictionary<int, string> prefixes)
         {
             lock (PrefixLock)
             {
-                _prefixes.Clear();
+                prefixes.Clear();
             }
         }
 
@@ -299,32 +261,32 @@ namespace Byt3.ADL
         ///     prefixes[2] = level4 and so on
         /// </summary>
         /// <param name="prefixes">List of prefixes</param>
-        public static void SetAllPrefixes(params string[] prefixes)
+        public static void SetAllPrefixes(Dictionary<int, string> prefixes, params string[] prefixNames)
         {
             if (!AdlEnabled)
             {
                 var info = "";
                 prefixes.ToList().ForEach(x => info += x + ", ");
-                Log(_adlWarningMask,
+                _internalLogger.Log(LogType.Warning,
                     "SetAllPrefixes(" + info +
                     "): ADL is disabled, you are removing a prefix for a mask while ADL is disabled.");
             }
 
-            RemoveAllPrefixes();
+            RemoveAllPrefixes(prefixes);
 
-            for (var i = 0; i < prefixes.Length; i++) AddPrefixForMask(Utils.IntPow(2, i), prefixes[i]);
+            for (var i = 0; i < prefixNames.Length; i++) AddPrefixForMask(prefixes, Utils.IntPow(2, i), prefixNames[i]);
         }
 
         /// <summary>
         ///     Gets all Tags with corresponding masks.
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<int, string> GetAllPrefixes()
+        public static Dictionary<int, string> GetAllPrefixes(Dictionary<int, string> prefixes)
         {
             if (!AdlEnabled)
-                Log(_adlWarningMask,
-                    "GetAllPrefixes(): ADL is disabled, you are getting all prefixes while ADL is disabled.");
-            lock (_prefixes) return new Dictionary<int, string>(_prefixes);
+                _internalLogger.Log(LogType.Warning,
+                     "GetAllPrefixes(): ADL is disabled, you are getting all prefixes while ADL is disabled.");
+            lock (prefixes) return new Dictionary<int, string>(prefixes);
         }
 
         #endregion
@@ -338,35 +300,28 @@ namespace Byt3.ADL
         /// </summary>
         /// <param name="mask">the flag</param>
         /// <param name="message">the message</param>
-        public static void Log(int mask, string message)
+        internal static void Log(ALogger logger, int mask, string message)
         {
-            if (!AdlEnabled || mask == AdlWarningMask && !SendWarnings) return;
+            if (!AdlEnabled) return;
 
             if (_firstLog)
             {
                 _firstLog = false;
-
-                if (CheckForUpdates)
-                {
-                    var msg = UpdateDataObject.CheckUpdate(typeof(Debug));
-
-                    Log(UpdateMask, msg);
-                }
             }
 
             var messg = message + Utils.NewLine;
-            var mesg = GetMaskPrefix(mask) + messg;
+            var mesg = logger.GetMaskPrefix(mask) + messg;
 
             lock (Streams)
             {
-                for (int i = Streams.Count-1; i >= 0; i--)
+                for (int i = Streams.Count - 1; i >= 0; i--)
                 {
                     if (Streams[i].IsClosed)
                         Streams.RemoveAt(i);
                 }
                 foreach (var logs in Streams)
                 {
-                    
+
                     if (logs.IsContainedInMask(mask))
                     {
                         logs.Write(logs.OverrideChannelTag ? new Log(mask, messg) : new Log(mask, mesg));
@@ -375,18 +330,18 @@ namespace Byt3.ADL
             }
         }
 
-        /// <summary>
-        ///     Generic Version. T is your Enum
-        /// </summary>
-        /// <typeparam name="T">Enum</typeparam>
-        /// <param name="mask">Enum Mask</param>
-        /// <param name="message">Message</param>
-        public static void LogGen<T>(T mask, string message) where T : struct
-        {
-            var m = Convert.ToInt32(mask);
-            if (!AdlEnabled && (!SendWarnings || m != AdlWarningMask)) return;
-            Log(m, message);
-        }
+        ///// <summary>
+        /////     Generic Version. T is your Enum
+        ///// </summary>
+        ///// <typeparam name="T">Enum</typeparam>
+        ///// <param name="mask">Enum Mask</param>
+        ///// <param name="message">Message</param>
+        //internal static void LogGen<T>(T mask, string message) where T : struct
+        //{
+        //    var m = Convert.ToInt32(mask);
+        //    if (!AdlEnabled && (!SendWarnings || m != AdlWarningMask)) return;
+        //    Log(m, message);
+        //}
 
         /// <summary>
         ///     Gets the Mask of the Specified Prefix
@@ -394,13 +349,13 @@ namespace Byt3.ADL
         /// <param name="prefix">Prefix</param>
         /// <param name="mask">Mask returned by the function</param>
         /// <returns>True if mask is found in Dictionary</returns>
-        public static bool GetPrefixMask(string prefix, out BitMask mask)
+        public static bool GetPrefixMask(Dictionary<int, string> prefixes, string prefix, out BitMask mask)
         {
             mask = 0;
             Dictionary<int, string> prefx;
             lock (PrefixLock)
             {
-                prefx = new Dictionary<int, string>(_prefixes);
+                prefx = new Dictionary<int, string>(prefixes);
             }
 
             if (!prefx.ContainsValue(prefix)) return false;
@@ -419,22 +374,22 @@ namespace Byt3.ADL
         /// </summary>
         /// <param name="mask"></param>
         /// <returns>All Prefixes for specified mask</returns>
-        public static string GetMaskPrefix(BitMask mask)
+        public static string GetMaskPrefix(Dictionary<int, string> prefixes, BitMask mask)
         {
             if (!_addPrefix) return "";
             StringBuilder.Length = 0;
-            lock (_prefixes) if (_prefixes.ContainsKey(mask))
+            lock (prefixes) if (prefixes.ContainsKey(mask))
                 {
                     //We happen to have a custom prefix for the level
-                    StringBuilder.Append(_prefixes[mask]);
+                    StringBuilder.Append(prefixes[mask]);
                 }
                 else if (_deconstructtofind) //We have no Prefix specified for this particular level
                 {
                     var flags = BitMask.GetUniqueMasksSet(mask); //Lets try to split all the flags into unique ones
                     foreach (var t in flags)
-                        if (_prefixes.ContainsKey(t))
+                        if (prefixes.ContainsKey(t))
                         {
-                            StringBuilder.Insert(0, _prefixes[t]);
+                            StringBuilder.Insert(0, prefixes[t]);
 
                             if (_onlyone)
                                 break;
@@ -450,7 +405,7 @@ namespace Byt3.ADL
                     if (!_bakePrefixes) return StringBuilder.ToString();
                     lock (PrefixLock)
                     {
-                        _prefixes.Add(mask,
+                        prefixes.Add(mask,
                             StringBuilder.ToString()); //Create a "custom prefix" with the constructed mask.
                     }
 
@@ -471,12 +426,7 @@ namespace Byt3.ADL
         public static void LoadConfig(AdlConfig config)
         {
             AdlEnabled = config.AdlEnabled;
-            CheckForUpdates = config.CheckForUpdates;
-            UpdateMask = config.UpdateMask;
-            AdlWarningMask = config.WarningMask;
-            SendWarnings = config.SendWarnings;
             TimeFormatString = config.TimeFormatString;
-            lock (_prefixes) _prefixes = config.Prefixes.ToDictionary();
             PrefixLookupMode = config.PrefixLookupMode;
         }
 
@@ -509,12 +459,7 @@ namespace Byt3.ADL
         {
             AdlConfig config = ConfigManager.GetDefault<AdlConfig>();
             config.AdlEnabled = AdlEnabled;
-            config.CheckForUpdates = CheckForUpdates;
-            config.UpdateMask = UpdateMask;
-            config.WarningMask = AdlWarningMask;
-            config.SendWarnings = SendWarnings;
             config.TimeFormatString = TimeFormatString;
-            lock (_prefixes) config.Prefixes = new SerializableDictionary<int, string>(_prefixes);
             config.PrefixLookupMode = PrefixLookupMode;
             SaveConfig(config, path);
         }

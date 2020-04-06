@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Byt3.ADL;
 
 namespace Byt3.Utilities.Threading
 {
     public static class ProcessRunner
     {
+        private static readonly ALogger<LogType> Logger = new ALogger<LogType>("Process Type");
+
         public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         public static string ShellCommand =>
             IsWindows ? "cmd.exe" : "/bin/bash";
@@ -60,7 +63,7 @@ namespace Byt3.Utilities.Threading
                 p.WaitForExit(commandInfo.WaitForExitTimeout);
                 if (!p.HasExited)
                 {
-                    Console.WriteLine($"Command \"{commandInfo.Command}\" Timed Out");
+                    Logger.Log(LogType.Warning, $"Command \"{commandInfo.Command}\" Timed Out");
                     p.Kill();
                     return;
                 }

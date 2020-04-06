@@ -14,7 +14,6 @@ namespace Byt3.ADL.Configs
         ///// </summary>
         ///// <returns></returns>
         //AbstractAdlConfig GetStandard();
-        public bool CheckForUpdates;
         public abstract AbstractAdlConfig GetStandard();
     }
 }

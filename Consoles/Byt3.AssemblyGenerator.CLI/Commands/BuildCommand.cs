@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.Utilities.DotNet;
 
@@ -7,16 +9,16 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
     public class BuildCommand : AbstractCommand
     {
 
-        public BuildCommand() : base(Build, new[] { "--build", "-b" }, "Builds the Target Assembly Config and stores the build output in a folder in the current working directory")
+        public BuildCommand() : base(new[] { "--build", "-b" }, "Builds the Target Assembly Config and stores the build output in a folder in the current working directory")
         {
-
+            CommandAction = Build;
         }
 
-        private static void Build(StartupInfo info, string[] args)
+        private void Build(StartupInfo info, string[] args)
         {
             if (!Program.HasTarget)
             {
-                Console.WriteLine("You need to specify a target config");
+                Logger.Log(LogType.Log, "You need to specify a target config");
                 return;
             }
 
@@ -25,10 +27,12 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             AssemblyGeneratorBuildType buildType = AssemblyGeneratorBuildType.Publish;
             if (args.Length == 1 && !Enum.TryParse(args[0], out buildType))
             {
-                Console.WriteLine("Can not parse the BuildType. Using Default:" + buildType);
+                Logger.Log(LogType.Log, "Can not parse the BuildType. Using Default:" + buildType);
             }
 
-            AssemblyGenerator.GenerateAssembly("dotnet", def, $".\\{def.AssemblyName}_Build\\", buildType, !Program.BuildConsole);
+            string path = Path.Combine(Path.GetDirectoryName(Program.Target), $"{def.AssemblyName}_build");
+            Logger.Log(LogType.Log, "AAAAAAAAAAAAAA:" + path);
+            AssemblyGenerator.GenerateAssembly("dotnet", def, path, buildType, !Program.BuildConsole);
         }
 
     }

@@ -38,11 +38,11 @@ namespace Byt3.ADL
         ///     Returns true when this mask satisfies the flags
         /// </summary>
         /// <param name="flags">Mask or flag</param>
-        /// <param name="matchType">Matching type you want to test against</param>
+        /// <param name="maskMatchType">Matching type you want to test against</param>
         /// <returns></returns>
-        public bool HasFlag(int flags, MatchType matchType)
+        public bool HasFlag(int flags, MaskMatchType maskMatchType)
         {
-            return IsContainedInMask(Mask, flags, matchType == MatchType.MatchAll);
+            return IsContainedInMask(Mask, flags, maskMatchType == MaskMatchType.MatchAll);
         }
 
         /// <summary>
@@ -248,11 +248,11 @@ namespace Byt3.ADL
         ///     Returns true when this mask satisfies the flags
         /// </summary>
         /// <param name="flags">Flag or Mask</param>
-        /// <param name="matchType">Matchtype you want to check against</param>
+        /// <param name="maskMatchType">Matchtype you want to check against</param>
         /// <returns></returns>
-        public bool HasFlag(T flags, MatchType matchType)
+        public bool HasFlag(T flags, MaskMatchType maskMatchType)
         {
-            return IsContainedInMask(Mask, Convert.ToInt32(flags), matchType == MatchType.MatchAll);
+            return IsContainedInMask(Mask, Convert.ToInt32(flags), maskMatchType == MaskMatchType.MatchAll);
         }
 
 
