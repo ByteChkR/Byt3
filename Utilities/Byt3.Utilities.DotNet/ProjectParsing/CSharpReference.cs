@@ -7,7 +7,7 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
     public struct CSharpReference
     {
         [XmlElement(ElementName = "Attributes")]
-        public List<KVP<string, string>> internalAttributes;
+        public List<SerializableKeyValuePair<string, string>> internalAttributes;
         [XmlIgnore]
         public Dictionary<string, string> Attributes
         {

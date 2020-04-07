@@ -13,7 +13,7 @@ namespace Byt3.ExtPP.Base
         /// <summary>
         /// String builder to be able to concat long arrays faster
         /// </summary>
-        private static StringBuilder _sb = new StringBuilder();
+        private static readonly StringBuilder Sb = new StringBuilder();
 
         /// <summary>
         /// Concats the array into a string separated by the separator
@@ -25,7 +25,7 @@ namespace Byt3.ExtPP.Base
         {
             if (arr == null || !arr.Any())
                 return string.Empty;
-            _sb.Clear();
+            Sb.Clear();
             object[] enumerable = arr as object[] ?? arr.ToArray();
             if (enumerable.Length == 0)
             {
@@ -33,14 +33,14 @@ namespace Byt3.ExtPP.Base
             }
             for (int i = 0; i < enumerable.Count(); i++)
             {
-                _sb.Append(enumerable.ElementAt(i));
+                Sb.Append(enumerable.ElementAt(i));
                 if (i < enumerable.Count() - 1)
                 {
-                    _sb.Append(separator);
+                    Sb.Append(separator);
                 }
             }
 
-            return _sb.ToString();
+            return Sb.ToString();
         }
 
         /// <summary>

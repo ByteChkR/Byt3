@@ -25,7 +25,7 @@ namespace Byt3.ADL.Streams
         /// <summary>
         ///     The match type(how the mask gets compared)
         /// </summary>
-        private readonly MaskMatchType _maskMatchType;
+        private readonly MaskMatchType maskMatchType;
 
         /// <summary>
         ///     Is the stream closed?
@@ -45,7 +45,7 @@ namespace Byt3.ADL.Streams
         public LogStream(Stream baseStream, MaskMatchType maskMatchType = MaskMatchType.MatchAll,
             bool setTimeStamp = false)
         {
-            _maskMatchType = maskMatchType;
+            this.maskMatchType = maskMatchType;
             AddTimeStamp = setTimeStamp;
             BaseStream = baseStream;
         }

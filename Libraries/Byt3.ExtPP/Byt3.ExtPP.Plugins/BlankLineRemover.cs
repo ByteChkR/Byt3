@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Plugins
@@ -35,7 +37,7 @@ namespace Byt3.ExtPP.Plugins
         {
             if (source.Trim() == "")
             {
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Adding {0} for line removal later", BlankLineRemovalKeyword);
+                Logger.Log(PPLogType.Log, Verbosity.Level6, "Adding {0} for line removal later", BlankLineRemovalKeyword);
                 return BlankLineRemovalKeyword;
             }
             return source;

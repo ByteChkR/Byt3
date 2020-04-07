@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

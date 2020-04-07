@@ -1,5 +1,4 @@
 ﻿using System;
-using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -7,13 +6,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Byt3.OpenCL.Tests
 {
     [TestClass]
-    public class ClBuffers
+    public class CLBufferTests
     {
      
         [TestMethod]
         private static bool CheckValues(float[] values, float[] reference)
         {
-            DebugHelper.ThrowOnAllExceptions = true;
             bool working = true;
             for (int i = 0; i < values.Length; i++)
             {
@@ -30,7 +28,6 @@ namespace Byt3.OpenCL.Tests
         public void OpenCL_CreateBuffer_Test()
         {
             CLAPI.Reinitialize();
-            DebugHelper.ThrowOnAllExceptions = true;
             byte[] b = new byte[255];
             for (int i = 0; i < b.Length; i++)
             {
@@ -48,7 +45,6 @@ namespace Byt3.OpenCL.Tests
         public void OpenCL_ReadBuffer_Test()
         {
             CLAPI.Reinitialize();
-            DebugHelper.ThrowOnAllExceptions = true;
             float[] b = new float[255];
             for (int i = 0; i < b.Length; i++)
             {
@@ -68,7 +64,6 @@ namespace Byt3.OpenCL.Tests
         public void OpenCL_WriteBuffer_Test()
         {
             CLAPI.Reinitialize();
-            DebugHelper.ThrowOnAllExceptions = true;
             float[] b = new float[255];
             for (int i = 0; i < b.Length; i++)
             {

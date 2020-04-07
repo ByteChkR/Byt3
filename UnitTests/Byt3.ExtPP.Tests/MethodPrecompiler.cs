@@ -25,7 +25,7 @@ namespace Byt3.ExtPP.Tests
 
         public static void PrecompileClass(Type t)
         {
-            MethodInfo[] infos = t.GetMethods(MethodBindingFlags);
+            MethodInfo[] infos = t.GetMethods(METHOD_BINDING_FLAGS);
             foreach (MethodInfo runtimeMethodHandle in infos)
             {
                 RuntimeHelpers.PrepareMethod(runtimeMethodHandle.MethodHandle);
@@ -39,11 +39,11 @@ namespace Byt3.ExtPP.Tests
             return
                 Assembly.GetExecutingAssembly()
                     .GetTypes()
-                    .SelectMany(type => type.GetMethods(MethodBindingFlags))
+                    .SelectMany(type => type.GetMethods(METHOD_BINDING_FLAGS))
                     .FirstOrDefault(method => method.Name == methodName);
         }
 
-        private const BindingFlags MethodBindingFlags =
+        private const BindingFlags METHOD_BINDING_FLAGS =
             BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic |
             BindingFlags.Instance | BindingFlags.Static;
     }

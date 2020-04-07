@@ -4,11 +4,11 @@ namespace Byt3.PackageHandling
 {
     public abstract class AHandler
     {
-        protected readonly ALogger<LogType> Logger;
+        protected readonly ADLLogger<LogType> Logger;
 
         protected AHandler()
         {
-            Logger= new ALogger<LogType>("Handler: "+ GetType().Name);
+            Logger= new ADLLogger<LogType>("Handler: "+ GetType().Name);
         }
 
         internal abstract void Handle(object objectToHandle, object context);

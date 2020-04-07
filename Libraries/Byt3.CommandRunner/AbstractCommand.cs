@@ -10,7 +10,7 @@ namespace Byt3.CommandRunner
     /// </summary>
     public abstract class AbstractCommand
     {
-        protected readonly ALogger<LogType> Logger;
+        protected readonly ADLLogger<LogType> Logger;
 
         /// <summary>
         /// The Command Implementation that is getting called
@@ -41,7 +41,7 @@ namespace Byt3.CommandRunner
         /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
         protected AbstractCommand(Action<StartupArgumentInfo, string[]> action, string[] keys, string helpText = "No Help Text Available", bool defaultCommand = false)
         {
-            Logger = new ALogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
+            Logger = new ADLLogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandAction = action;
             CommandKeys = keys;
             HelpText = helpText;
@@ -56,7 +56,7 @@ namespace Byt3.CommandRunner
         /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
         protected AbstractCommand( string[] keys, string helpText = "No Help Text Available", bool defaultCommand = false)
         {
-            Logger = new ALogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
+            Logger = new ADLLogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandKeys = keys;
             HelpText = helpText;
             DefaultCommand = defaultCommand;

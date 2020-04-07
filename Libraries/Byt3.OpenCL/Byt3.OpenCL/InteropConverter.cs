@@ -20,7 +20,7 @@ namespace Byt3.OpenCL
         /// <summary>
         /// Contains a map, which maps a data type to a converter that is able to convert it.
         /// </summary>
-        private static Dictionary<Type, Func<byte[], object>> converterMap =
+        private static readonly Dictionary<Type, Func<byte[], object>> ConverterMap =
             new Dictionary<Type, Func<byte[], object>>();
 
         #endregion
@@ -38,7 +38,7 @@ namespace Byt3.OpenCL
         {
             // Checks if there is a converter for the specified data type
             Type targetType = typeof(T);
-            if (!converterMap.ContainsKey(targetType))
+            if (!ConverterMap.ContainsKey(targetType))
             {
                 // Since the converter could not be found, a fitting method is searched, if one is found, then it is added to the converter map, otherwise an exception is thrown
                 TypeInfo typeInfo = typeof(InteropConverter).GetTypeInfo();
@@ -54,12 +54,12 @@ namespace Byt3.OpenCL
                         $"No fitting converter could be found for the type {targetType.Name}");
                 }
 
-                converterMap.Add(targetType,
+                ConverterMap.Add(targetType,
                     dataToConvert => converterMethodInfo.Invoke(null, new object[] {dataToConvert}));
             }
 
             // Gets the fitting converter, converts the value and returns it
-            Func<byte[], object> converter = converterMap[targetType];
+            Func<byte[], object> converter = ConverterMap[targetType];
             return (T) converter(data);
         }
 

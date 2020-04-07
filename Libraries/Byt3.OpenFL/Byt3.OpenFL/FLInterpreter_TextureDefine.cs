@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using Byt3.ADL;
 using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.Memory;
@@ -27,14 +28,13 @@ namespace Byt3.OpenFL
         /// <param name="depth">depth of the input buffer</param>
         /// <param name="channelCount">channel count of the input buffer</param>
         /// <param name="kernelDb">the kernel database to use</param>
-        private static void DefineTexture(CLAPI instance, string[] arg, Dictionary<string, CLBufferInfo> defines,
+        private void DefineTexture(CLAPI instance, string[] arg, Dictionary<string, CLBufferInfo> defines,
             int width, int height,
             int depth, int channelCount, KernelDatabase kernelDb)
         {
             if (arg.Length < 2)
             {
-                CLLogger.Crash(new FLInvalidFunctionUseException(ScriptDefineKey, "Invalid Define statement"), true);
-                return;
+                throw new FLInvalidFunctionUseException(SCRIPT_DEFINE_KEY, "Invalid Define statement");
             }
 
             string varname = arg[0].Trim();
@@ -42,7 +42,7 @@ namespace Byt3.OpenFL
 
             if (defines.ContainsKey(varname))
             {
-                CLLogger.Log("Overwriting " + varname, DebugChannel.Warning | DebugChannel.EngineOpenFL, 10);
+                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Overwriting " + varname, DebugChannel.Warning | DebugChannel.OpenFL, 10);
                 defines.Remove(varname);
             }
 
@@ -74,9 +74,9 @@ namespace Byt3.OpenFL
 
             int inputBufferSize = width * height * depth * channelCount;
 
-            if (IsSurroundedBy(filename, FilepathIndicator))
+            if (IsSurroundedBy(filename, FILEPATH_INDICATOR))
             {
-                string fn = filename.Replace(FilepathIndicator, "");
+                string fn = filename.Replace(FILEPATH_INDICATOR, "");
                 if (File.Exists(fn))
                 {
                     Bitmap bmp = new Bitmap((Bitmap)System.Drawing.Image.FromFile(fn), width, height);
@@ -87,14 +87,9 @@ namespace Byt3.OpenFL
                 }
                 else
                 {
-                    CLLogger.Crash(
-                        new FLInvalidFunctionUseException(DefineKey, "Invalid Filepath",
-                            new InvalidFilePathException(fn)), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw
+                        new FLInvalidFunctionUseException(DEFINE_KEY, "Invalid Filepath",
+                            new InvalidFilePathException(fn));
                 }
             }
             else if (filename == "rnd")
@@ -128,88 +123,45 @@ namespace Byt3.OpenFL
                 bool force = filename == "wfcf";
                 if (args.Length < 10)
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement"), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
                 }
                 else if (!int.TryParse(args[2], out int n))
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement"), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
                 }
                 else if (!int.TryParse(args[3], out int widh))
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement"), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
                 }
                 else if (!int.TryParse(args[4], out int heigt))
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement"), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
+
                 }
                 else if (!bool.TryParse(args[5], out bool periodicInput))
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement"), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
+
                 }
                 else if (!bool.TryParse(args[6], out bool periodicOutput))
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement"), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
                 }
                 else if (!int.TryParse(args[7], out int symmetry))
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement"), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
                 }
                 else if (!int.TryParse(args[8], out int ground))
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement"), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
                 }
                 else if (!int.TryParse(args[9], out int limit))
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement"), true);
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
                 }
                 else
                 {
-                    string fn = args[1].Trim().Replace(FilepathIndicator, "");
+                    string fn = args[1].Trim().Replace(FILEPATH_INDICATOR, "");
                     if (CLAPI.FileExists(fn))
                     {
                         Bitmap bmp;
@@ -236,14 +188,9 @@ namespace Byt3.OpenFL
                     }
                     else
                     {
-                        CLLogger.Crash(
+                        throw
                             new FLInvalidFunctionUseException("wfc", "Invalid WFC Image statement",
-                                new InvalidFilePathException(fn)), true);
-                        CLBufferInfo info =
-                            new CLBufferInfo(CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                                true);
-                        info.SetKey(varname);
-                        defines.Add(varname, info);
+                                new InvalidFilePathException(fn));
                     }
                 }
             }
@@ -256,11 +203,7 @@ namespace Byt3.OpenFL
                     s.Append(s1 + " ");
                 }
 
-                CLLogger.Crash(new FLInvalidFunctionUseException(DefineKey, "Define statement wrong: " + s), true);
-                CLBufferInfo info =
-                    new CLBufferInfo(CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite), true);
-                info.SetKey(varname);
-                defines.Add(varname, info);
+                throw new FLInvalidFunctionUseException(DEFINE_KEY, "Define statement wrong: " + s);
             }
         }
     }

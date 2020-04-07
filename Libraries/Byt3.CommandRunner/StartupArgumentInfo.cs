@@ -23,7 +23,7 @@ namespace Byt3.CommandRunner
         /// </summary>
         public static string FilePathPrefix = "@";
 
-        public int CommandCount => _values.Count;
+        public int CommandCount => values.Count;
 
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Byt3.CommandRunner
         /// All Values/Arguments Ordered by First command key.
         /// Multiple Keys Possible.
         /// </summary>
-        private List<KeyValuePair<string, List<string>>> _values = new List<KeyValuePair<string, List<string>>>();
+        private readonly List<KeyValuePair<string, List<string>>> values = new List<KeyValuePair<string, List<string>>>();
 
         /// <summary>
         /// Public constructors
@@ -83,11 +83,11 @@ namespace Byt3.CommandRunner
                     if (i == 0 && !HasCommandPrefix(args[0]))
                     {
                         argValues.Add(args[0]);
-                        _values.Add(new KeyValuePair<string, List<string>>("noflag", argValues));
+                        values.Add(new KeyValuePair<string, List<string>>("noflag", argValues));
                     }
                     else
                     {
-                        _values.Add(new KeyValuePair<string, List<string>>(args[i], argValues));
+                        values.Add(new KeyValuePair<string, List<string>>(args[i], argValues));
                     }
                 }
             }
@@ -101,7 +101,7 @@ namespace Byt3.CommandRunner
         /// <returns></returns>
         public List<string> GetValues(string flag, int id = 0)
         {
-           return  _values.Where(x => x.Key == flag).ElementAt(id).Value;
+           return  values.Where(x => x.Key == flag).ElementAt(id).Value;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Byt3.CommandRunner
         /// <returns>Count of the Entries with the Same Key</returns>
         public int GetCommandEntries(string flag)
         {
-            return _values.Count(x => x.Key == flag);
+            return values.Count(x => x.Key == flag);
         }
 
         /// <summary>

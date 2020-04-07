@@ -6,45 +6,45 @@ namespace Byt3.ExtPP.Base
     
     public class FilePathContent : IFileContent
     {
-        private readonly string _filePath;
-        private string _key;
+        private readonly string filePath;
+        private string key;
         public bool HasValidFilepath => true;
         public FilePathContent(string filePath)
         {
-            _key = _filePath = Path.GetFullPath(filePath);
+            key = this.filePath = Path.GetFullPath(filePath);
         }
         public bool TryGetLines(out string[] lines)
         {
 
             
             lines = null;
-            if (!IOManager.FileExists(_filePath))
+            if (!IOManager.FileExists(filePath))
             {
                 return false;
             }
-            lines = IOManager.ReadAllLines(_filePath);
+            lines = IOManager.ReadAllLines(filePath);
 
             return true;
         }
 
         public string GetKey()
         {
-            return _key;
+            return key;
         }
 
         public void SetKey(string key)
         {
-            _key = key;
+            this.key = key;
         }
 
         public string GetFilePath()
         {
-            return Path.GetFullPath(_filePath);
+            return Path.GetFullPath(filePath);
         }
 
         public override string ToString()
         {
-            return _key;
+            return key;
         }
     }
 }

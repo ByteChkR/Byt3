@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Byt3.ADL;
 using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.Memory;
@@ -23,20 +24,19 @@ namespace Byt3.OpenFL
         /// <param name="depth">depth of the input buffer</param>
         /// <param name="channelCount">channel count of the input buffer</param>
         /// <param name="kernelDb">the kernel database to use</param>
-        private static void DefineScript(CLAPI instance, string[] arg, Dictionary<string, CLBufferInfo> defines,
+        private void DefineScript(CLAPI instance, string[] arg, Dictionary<string, CLBufferInfo> defines,
             int width, int height,
             int depth, int channelCount, KernelDatabase kernelDb)
         {
             if (arg.Length < 2)
             {
-                CLLogger.Crash(new FLInvalidFunctionUseException(ScriptDefineKey, "Invalid Define statement"), true);
-                return;
+                throw new FLInvalidFunctionUseException(SCRIPT_DEFINE_KEY, "Invalid Define statement");
             }
 
             string varname = arg[0].Trim();
             if (defines.ContainsKey(varname))
             {
-                CLLogger.Log("Overwriting " + varname, DebugChannel.Warning | DebugChannel.EngineOpenFL, 10);
+                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Overwriting " + varname, DebugChannel.Warning | DebugChannel.OpenFL, 10);
                 defines.Remove(varname);
             }
 
@@ -47,15 +47,15 @@ namespace Byt3.OpenFL
 
             int inputBufferSize = width * height * depth * channelCount;
 
-            if (IsSurroundedBy(filename, FilepathIndicator))
+            if (IsSurroundedBy(filename, FILEPATH_INDICATOR))
             {
-                CLLogger.Log("Loading SubScript...", DebugChannel.Log | DebugChannel.EngineOpenFL, 10);
+                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Loading SubScript...", DebugChannel.Log | DebugChannel.OpenFL, 10);
 
                 MemoryBuffer buf =
                     CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite);
 
 
-                string fn = filename.Replace(FilepathIndicator, "");
+                string fn = filename.Replace(FILEPATH_INDICATOR, "");
 
 
                 if (CLAPI.FileExists(fn))
@@ -75,27 +75,14 @@ namespace Byt3.OpenFL
                 }
                 else
                 {
-                    CLLogger.Crash(
-                        new FLInvalidFunctionUseException(ScriptDefineKey, "Not a valid filepath as argument.",
-                            new InvalidFilePathException(fn)),
-                        true);
-
-                    CLBufferInfo info = new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite),
-                        true);
-                    info.SetKey(varname);
-                    defines.Add(varname, info);
+                    throw
+                        new FLInvalidFunctionUseException(SCRIPT_DEFINE_KEY, "Not a valid filepath as argument.",
+                            new InvalidFilePathException(fn));
                 }
             }
             else
             {
-                CLLogger.Crash(new FLInvalidFunctionUseException(ScriptDefineKey, "Not a valid filepath as argument."),
-                    true);
-
-                CLBufferInfo info =
-                    new CLBufferInfo(CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite), true);
-                info.SetKey(varname);
-                defines.Add(varname, info);
+                throw new FLInvalidFunctionUseException(SCRIPT_DEFINE_KEY, "Not a valid filepath as argument.");
             }
         }
     }

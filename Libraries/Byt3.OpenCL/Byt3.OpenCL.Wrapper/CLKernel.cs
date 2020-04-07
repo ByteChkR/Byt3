@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Byt3.OpenCL.CommandQueues;
-using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Memory;
+using Byt3.OpenCLNetStandard.DataTypes;
 
 namespace Byt3.OpenCL.Wrapper
 {
@@ -12,7 +12,7 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class CLKernel
     {
-        private CLAPI _instance;
+        private readonly CLAPI instance;
 
         /// <summary>
         /// Constructor
@@ -23,7 +23,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="parameter">The parsed KernelParameter</param>
         public CLKernel(CLAPI instance, Kernel k, string name, KernelParameter[] parameter)
         {
-            _instance = instance;
+            this.instance = instance;
             Kernel = k;
             Name = name;
             Parameter = new Dictionary<string, KernelParameter>();
@@ -67,7 +67,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="value">The value to be set</param>
         public void SetArg(string parameterName, object value)
         {
-            SetArg(Parameter[parameterName].Id, Parameter[parameterName].CastToType(_instance, value));
+            SetArg(Parameter[parameterName].Id, Parameter[parameterName].CastToType(instance, value));
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Byt3.OpenCL.Wrapper
 
 
 
-            Kernel.SetKernelArgumentVal(index, Parameter.ElementAt(index).Value.CastToType(_instance, value));
+            Kernel.SetKernelArgumentVal(index, Parameter.ElementAt(index).Value.CastToType(instance, value));
 
         }
 

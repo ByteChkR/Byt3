@@ -3,20 +3,23 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
+using Utils = Byt3.ExtPP.Base.Utils;
 
 namespace Byt3.ExtPP.Plugins
 {
     public class ConditionalPlugin : AbstractFullScriptPlugin
     {
 
-        private static StringBuilder _sb = new StringBuilder();
+        private static readonly StringBuilder Sb = new StringBuilder();
 
         public override string[] Cleanup => new[] { DefineKeyword, UndefineKeyword };
         public override string[] Prefix => new[] { "con", "Conditional" };
-        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.OnLoadStage : ProcessStage.OnMain;
         public string StartCondition { get; set; } = "#if";
         public string ElseIfCondition { get; set; } = "#elseif";
         public string ElseCondition { get; set; } = "#else";
@@ -72,7 +75,7 @@ namespace Byt3.ExtPP.Plugins
 
         public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL4, "Starting Condition Solver passes on file: {0}", Path.GetFileName(file.GetFileInterface().GetKey()));
+            Logger.Log(PPLogType.Log, Verbosity.Level4, "Starting Condition Solver passes on file: {0}", Path.GetFileName(file.GetFileInterface().GetKey()));
             bool ret = true;
             int openIf = 0;
             bool foundConditions = false;
@@ -84,7 +87,7 @@ namespace Byt3.ExtPP.Plugins
             do
             {
                 passCount++;
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Starting Condition Solver pass: {0}", passCount);
+                Logger.Log(PPLogType.Log, Verbosity.Level5, "Starting Condition Solver pass: {0}", passCount);
 
                 foundConditions = false;
                 elseIsValid = false;
@@ -116,13 +119,13 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else if (expectEndOrIf)
                         {
-                            PPLogger.Instance.Error("A {0} can not be followed by an {1}", ElseCondition, ElseIfCondition);
+                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} can not be followed by an {1}", ElseCondition, ElseIfCondition);
                             ret = false;
                             break;
                         }
                         else
                         {
-                            PPLogger.Instance.Error("A {0} should be preceeded by a {1}", ElseIfCondition, StartCondition);
+                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} should be preceeded by a {1}", ElseIfCondition, StartCondition);
                             ret = false;
                             break;
                         }
@@ -132,16 +135,16 @@ namespace Byt3.ExtPP.Plugins
                         if (openIf > 0)
                         {
 
-                            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", ElseCondition);
+                            Logger.Log(PPLogType.Log, Verbosity.Level5, "Found a {0} Statement", ElseCondition);
                             int size = GetBlockSize(lastPass, i);
                             if (elseIsValid)
                             {
                                 solvedFile.AddRange(lastPass.SubArray(i + 1, size));
-                                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Adding Branch To Solved File.");
+                                Logger.Log(PPLogType.Log, Verbosity.Level5, "Adding Branch To Solved File.");
                             }
                             else
                             {
-                                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Ignored since a previous condition was true");
+                                Logger.Log(PPLogType.Log, Verbosity.Level5, "Ignored since a previous condition was true");
                             }
                             i += size;
                             foundConditions = true;
@@ -149,7 +152,7 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else
                         {
-                            PPLogger.Instance.Error("A {0} should be preceeded by a {1}", ElseCondition, StartCondition);
+                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} should be preceeded by a {1}", ElseCondition, StartCondition);
                             ret = false;
                             break;
                         }
@@ -165,7 +168,7 @@ namespace Byt3.ExtPP.Plugins
                         {
                             ret = false;
 
-                            PPLogger.Instance.Error("A {0} should be preceeded by a {1}", EndCondition, StartCondition);
+                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} should be preceeded by a {1}", EndCondition, StartCondition);
                             break;
                         }
                     }
@@ -173,14 +176,14 @@ namespace Byt3.ExtPP.Plugins
                              line.StartsWith(DefineKeyword))
                     {
 
-                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", DefineKeyword);
+                        Logger.Log(PPLogType.Log, Verbosity.Level5, "Found a {0} Statement", DefineKeyword);
                         defs.Set(Utils.SplitAndRemoveFirst(line, Separator));
                         solvedFile.Add(lastPass[i]);
                     }
                     else if (EnableUndefine &&
                              line.StartsWith(UndefineKeyword))
                     {
-                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", UndefineKeyword);
+                        Logger.Log(PPLogType.Log, Verbosity.Level5, "Found a {0} Statement", UndefineKeyword);
                         defs.Unset(Utils.SplitAndRemoveFirst(line, Separator));
                         solvedFile.Add(lastPass[i]);
                     }
@@ -207,7 +210,7 @@ namespace Byt3.ExtPP.Plugins
             file.SetSource(lastPass.ToArray());
 
 
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL4, "Conditional Solver Finished");
+            Logger.Log(PPLogType.Log, Verbosity.Level4, "Conditional Solver Finished");
 
             return ret;
         }
@@ -215,15 +218,15 @@ namespace Byt3.ExtPP.Plugins
 
         private KeyValuePair<bool, int> PrepareForConditionalEvaluation(string keyword, string line, IDefinitions defs, IReadOnlyList<string> lastPass, int i, List<string> solvedFile)
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", keyword);
+            Logger.Log(PPLogType.Log, Verbosity.Level5, "Found a {0} Statement", keyword);
             bool r = EvaluateConditional(line, defs);
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Evaluation: {0}", r);
+            Logger.Log(PPLogType.Log, Verbosity.Level5, "Evaluation: {0}", r);
             bool elseIsValid = !r;
             int size = GetBlockSize(lastPass, i);
             if (r)
             {
                 solvedFile.AddRange(lastPass.SubArray(i + 1, size));
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Adding Branch To Solved File.");
+                Logger.Log(PPLogType.Log, Verbosity.Level5, "Adding Branch To Solved File.");
             }
 
             return new KeyValuePair<bool, int>(elseIsValid, size);
@@ -231,14 +234,14 @@ namespace Byt3.ExtPP.Plugins
 
         private int GetBlockSize(IReadOnlyList<string> source, int start)
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Finding End of conditional block...");
+            Logger.Log(PPLogType.Log, Verbosity.Level6, "Finding End of conditional block...");
             int tolerance = 0;
             for (int i = start + 1; i < source.Count; i++)
             {
                 string line = source[i].Trim();
                 if (line.StartsWith(StartCondition))
                 {
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Found nested opening conditional block...");
+                    Logger.Log(PPLogType.Log, Verbosity.Level7, "Found nested opening conditional block...");
                     i += GetBlockSize(source, i); //Skip Indices that are "inside" the if clause
                     tolerance++;
                 }
@@ -250,13 +253,13 @@ namespace Byt3.ExtPP.Plugins
                     if (tolerance == 0)
                     {
 
-                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found correct ending conditional block...");
+                        Logger.Log(PPLogType.Log, Verbosity.Level6, "Found correct ending conditional block...");
                         return i - start - 1;
                     }
                     if (line.StartsWith(EndCondition))
                     {
 
-                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Found an ending conditional block...");
+                        Logger.Log(PPLogType.Log, Verbosity.Level7, "Found an ending conditional block...");
                         tolerance--;
                     }
                 }
@@ -275,7 +278,7 @@ namespace Byt3.ExtPP.Plugins
         private bool EvaluateConditional(string[] expression, IDefinitions defs)
         {
 
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Evaluating Expression: {0}", expression.Unpack(" "));
+            Logger.Log(PPLogType.Log, Verbosity.Level7, "Evaluating Expression: {0}", expression.Unpack(" "));
 
             bool ret = true;
             bool isOr = false;
@@ -332,11 +335,11 @@ namespace Byt3.ExtPP.Plugins
 
         private bool EvaluateExpression(string expression, IDefinitions defs)
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Evaluating Expression: {0}", expression);
+            Logger.Log(PPLogType.Log, Verbosity.Level6, "Evaluating Expression: {0}", expression);
             bool neg = expression.StartsWith(NotOperator);
             if (expression == NotOperator)
             {
-                PPLogger.Instance.Error("Single not Operator found. Will break the compilation.");
+                Logger.Log(PPLogType.Error, Verbosity.Level1, "Single not Operator found. Will break the compilation.");
                 return false;
             }
 
@@ -355,7 +358,7 @@ namespace Byt3.ExtPP.Plugins
         private string FixCondition(string line)
         {
 
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Fixing expression: {0}", line);
+            Logger.Log(PPLogType.Log, Verbosity.Level6, "Fixing expression: {0}", line);
 
 
             string r = line;
@@ -363,22 +366,22 @@ namespace Byt3.ExtPP.Plugins
             r = SurroundWithSpaces(r, AndOperator);
             r = SurroundWithSpaces(r, "(");
             r = SurroundWithSpaces(r, ")");
-            string rr = Utils.RemoveExcessSpaces(r, Separator, this);
+            string rr = Utils.RemoveExcessSpaces(r, Separator);
 
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Fixed condition(new): {0}", rr);
+            Logger.Log(PPLogType.Log, Verbosity.Level6, "Fixed condition(new): {0}", rr);
             return rr;
 
         }
 
         private int IndexOfClosingBracket(string[] expression, int openBracketIndex)
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Finding Closing Bracket...");
+            Logger.Log(PPLogType.Log, Verbosity.Level7, "Finding Closing Bracket...");
             int tolerance = 0;
             for (int i = openBracketIndex + 1; i < expression.Length; i++)
             {
                 if (expression[i] == "(")
                 {
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL8, "Found Nested opening Bracket, adjusting tolerance.");
+                    Logger.Log(PPLogType.Log, Verbosity.Level8, "Found Nested opening Bracket, adjusting tolerance.");
                     tolerance++;
                 }
                 else if (expression[i] == ")")
@@ -386,10 +389,10 @@ namespace Byt3.ExtPP.Plugins
                     if (tolerance == 0)
                     {
 
-                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Found Correct Closing Bracket");
+                        Logger.Log(PPLogType.Log, Verbosity.Level7, "Found Correct Closing Bracket");
                         return i;
                     }
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL8, "Found Nested Closing Bracket, adjusting tolerance.");
+                    Logger.Log(PPLogType.Log, Verbosity.Level8, "Found Nested Closing Bracket, adjusting tolerance.");
                     tolerance--;
                 }
             }
@@ -400,11 +403,11 @@ namespace Byt3.ExtPP.Plugins
 
         private string SurroundWithSpaces(string line, string keyword)
         {
-            _sb.Clear();
-            _sb.Append(line);
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Surrounding {0} with spaces...", keyword);
-            _sb.Replace(keyword, " " + keyword + " ");
-            return _sb.ToString();
+            Sb.Clear();
+            Sb.Append(line);
+            Logger.Log(PPLogType.Log, Verbosity.Level7, "Surrounding {0} with spaces...", keyword);
+            Sb.Replace(keyword, " " + keyword + " ");
+            return Sb.ToString();
         }
 
 

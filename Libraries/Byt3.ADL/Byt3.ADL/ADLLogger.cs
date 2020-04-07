@@ -5,7 +5,7 @@ using Byt3.ADL.Configs;
 
 namespace Byt3.ADL
 {
-    public class ALogger
+    public class ADLLogger
     {
         private Dictionary<int, string> ProcessPrefixes(string[] prefixes)
         {
@@ -23,18 +23,18 @@ namespace Byt3.ADL
         }
 
         internal Dictionary<int, string> Prefixes =>
-            hasProcessedPrefixes ? _prefixes : _prefixes = ProcessPrefixes(ProjectMaskPrefixes);
+            hasProcessedPrefixes ? prefixes : prefixes = ProcessPrefixes(ProjectMaskPrefixes);
         /// <summary>
         ///     Dictionary of Prefixes for the corresponding Masks
         /// </summary>
-        private Dictionary<int, string> _prefixes = new Dictionary<int, string>();
+        private Dictionary<int, string> prefixes = new Dictionary<int, string>();
 
         private bool hasProcessedPrefixes = false;
 
         public readonly string ProjectName;
         public virtual string[] ProjectMaskPrefixes { get; } = new string[0];
         public virtual PrefixLookupSettings LookupSettings { get; set; } = PrefixLookupSettings.Addprefixifavailable;
-        public ALogger(string projectName)
+        public ADLLogger(string projectName)
         {
             ProjectName = projectName;
         }
@@ -81,7 +81,7 @@ namespace Byt3.ADL
 
     }
 
-    public class ALogger<T> : ALogger
+    public class ADLLogger<T> : ADLLogger
     where T : struct
     {
 
@@ -107,7 +107,7 @@ namespace Byt3.ADL
             }
         }
 
-        public ALogger(string projectName) : base(projectName) { }
+        public ADLLogger(string projectName) : base(projectName) { }
 
         public void Log(T mask, string message)
         {

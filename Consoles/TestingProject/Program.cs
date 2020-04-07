@@ -1,6 +1,5 @@
 ﻿using System;
 using Byt3.ADL;
-using Byt3.ADL.Streams;
 using Byt3.AssemblyGenerator;
 using Byt3.Utilities.DotNet;
 

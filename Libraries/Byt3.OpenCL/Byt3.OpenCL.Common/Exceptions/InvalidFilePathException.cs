@@ -23,7 +23,6 @@ namespace Byt3.OpenCL.Common.Exceptions
         /// <param name="filePath">The File that was not found</param>
         public InvalidFilePathException(string filePath) : this(filePath, null)
         {
-            CLLogger.Log("Files:", DebugChannel.Error, 10);
         }
     }
 }

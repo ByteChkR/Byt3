@@ -5,20 +5,20 @@ namespace Byt3.OpenCL.Tests
 {
     public static class TestSetup
     {
-        private static KernelDatabase _kernelDb;
+        private static KernelDatabase kernelDb;
 
         public static KernelDatabase KernelDb
         {
             get
             {
-                if (_kernelDb == null)
+                if (kernelDb == null)
                 {
                     string s = Directory.GetCurrentDirectory();
-                    _kernelDb = new KernelDatabase(CLAPI.MainThread, "resources/kernel",
+                    kernelDb = new KernelDatabase(CLAPI.MainThread, "resources/kernel",
                         Wrapper.TypeEnums.DataTypes.Uchar1);
                 }
 
-                return _kernelDb;
+                return kernelDb;
             }
         }
 

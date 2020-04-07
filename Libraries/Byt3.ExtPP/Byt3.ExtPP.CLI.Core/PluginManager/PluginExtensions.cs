@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Plugins;
 
-namespace Byt3.ExtPP.CLI.Core
+namespace Byt3.ExtPP.CLI.Core.PluginManager
 {
     /// <summary>
     /// Useful extensions for the CLI when working with Plugins

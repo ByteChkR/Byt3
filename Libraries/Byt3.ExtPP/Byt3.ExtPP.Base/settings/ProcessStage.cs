@@ -6,10 +6,10 @@
     /// </summary>
     public enum ProcessStage
     {
-        QUEUED = 0,
-        ON_LOAD_STAGE = 1,
-        ON_MAIN = 2,
-        ON_FINISH_UP = 4,
-        FINISHED = 8,
+        Queued = 0,
+        OnLoadStage = 1,
+        OnMain = 2,
+        OnFinishUp = 4,
+        Finished = 8,
     }
 }

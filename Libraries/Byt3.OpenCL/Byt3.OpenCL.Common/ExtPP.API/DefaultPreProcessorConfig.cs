@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Byt3.ExtPP.Base;
-using Byt3.ExtPP.Base.settings;
+using Byt3.ADL;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
 
 namespace Byt3.OpenCL.Common.ExtPP.API
@@ -11,8 +11,8 @@ namespace Byt3.OpenCL.Common.ExtPP.API
     /// </summary>
     public class DefaultPreProcessorConfig : APreProcessorConfig
     {
-        private static StringBuilder _sb = new StringBuilder();
-        protected override Verbosity VerbosityLevel { get; } = Verbosity.SILENT;
+        private static readonly StringBuilder Sb = new StringBuilder();
+        protected override Verbosity VerbosityLevel { get; } = Verbosity.Silent;
 
         protected override List<AbstractPlugin> Plugins =>
             new List<AbstractPlugin>
@@ -26,14 +26,14 @@ namespace Byt3.OpenCL.Common.ExtPP.API
 
         public override string GetGenericInclude(string filename, string[] genType)
         {
-            _sb.Append(" ");
+            Sb.Append(" ");
             foreach (string gt in genType)
             {
-                _sb.Append(gt);
-                _sb.Append(' ');
+                Sb.Append(gt);
+                Sb.Append(' ');
             }
 
-            string gens = _sb.Length == 0 ? "" : _sb.ToString();
+            string gens = Sb.Length == 0 ? "" : Sb.ToString();
             return "#include " + filename + " " + gens;
         }
     }

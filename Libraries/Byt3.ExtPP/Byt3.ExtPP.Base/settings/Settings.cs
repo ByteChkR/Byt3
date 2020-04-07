@@ -14,7 +14,7 @@ namespace Byt3.ExtPP.Base.settings
         /// <summary>
         /// Dictionary to store the settings for processing
         /// </summary>
-        private readonly Dictionary<string, string[]> _settings;
+        private readonly Dictionary<string, string[]> settings;
 
         /// <summary>
         /// Constructor
@@ -22,7 +22,7 @@ namespace Byt3.ExtPP.Base.settings
         /// <param name="settings">The settings in dictionary form</param>
         public Settings(Dictionary<string, string[]> settings)
         {
-            _settings = settings ?? new Dictionary<string, string[]>();
+            this.settings = settings ?? new Dictionary<string, string[]>();
         }
 
         /// <summary>
@@ -40,13 +40,13 @@ namespace Byt3.ExtPP.Base.settings
         /// <param name="value">the value that will be set</param>
         public void Set(string key, string[] value)
         {
-            if (_settings.ContainsKey(key))
+            if (settings.ContainsKey(key))
             {
-                _settings[key] = value;
+                settings[key] = value;
             }
             else
             {
-                _settings.Add(key, value);
+                settings.Add(key, value);
             }
         }
 
@@ -77,7 +77,7 @@ namespace Byt3.ExtPP.Base.settings
         /// <returns>true if the key is contained.</returns>
         public bool HasKey(string key)
         {
-            return _settings.ContainsKey(key);
+            return settings.ContainsKey(key);
         }
 
 
@@ -88,7 +88,7 @@ namespace Byt3.ExtPP.Base.settings
         /// <returns>the value array of the specified key</returns>
         public string[] Get(string key)
         {
-            return _settings[key];
+            return settings[key];
         }
 
 
@@ -104,7 +104,7 @@ namespace Byt3.ExtPP.Base.settings
 
             for (int i = 0; i < prefixes.Length; i++)
             {
-                Dictionary<string, string[]> tmp = GetSettingsWithPrefix(prefixes[i], includeGlobalConfig)._settings;
+                Dictionary<string, string[]> tmp = GetSettingsWithPrefix(prefixes[i], includeGlobalConfig).settings;
                 foreach (KeyValuePair<string, string[]> args in tmp)
                 {
                     ret.Add(args.Key, args.Value);
@@ -136,7 +136,7 @@ namespace Byt3.ExtPP.Base.settings
             string prfx = argBegin + prefix + ":";
             bool isGlob;
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
-            foreach (KeyValuePair<string, string[]> setting in _settings)
+            foreach (KeyValuePair<string, string[]> setting in settings)
             {
                 isGlob = includeShared && setting.Key.StartsWith(GlobalSettings);
                 if (setting.Key.StartsWith(prfx) || isGlob)
@@ -182,14 +182,14 @@ namespace Byt3.ExtPP.Base.settings
         private string[] FindCommandValue(CommandInfo c)
         {
             string key = "--" + c.Command;
-            if (_settings.ContainsKey(key))
+            if (settings.ContainsKey(key))
             {
-                return _settings[key];
+                return settings[key];
             }
 
-            if (c.ShortCut != "" && _settings.ContainsKey("-" + c.ShortCut))
+            if (c.ShortCut != "" && settings.ContainsKey("-" + c.ShortCut))
             {
-                return _settings["-" + c.ShortCut];
+                return settings["-" + c.ShortCut];
             }
 
             return null;
@@ -265,10 +265,10 @@ namespace Byt3.ExtPP.Base.settings
         /// <returns>A merges settings object that will contain all the values of both settings objects.(Other settings will overwrite the settings of this object.)</returns>
         public Settings Merge(Settings other)
         {
-            Settings s = new Settings(new Dictionary<string, string[]>(_settings));
-            foreach (KeyValuePair<string, string[]> otherSetting in other._settings)
+            Settings s = new Settings(new Dictionary<string, string[]>(settings));
+            foreach (KeyValuePair<string, string[]> otherSetting in other.settings)
             {
-                s._settings.Add(otherSetting.Key, otherSetting.Value);
+                s.settings.Add(otherSetting.Key, otherSetting.Value);
             }
 
             return s;

@@ -1,7 +1,7 @@
 ﻿using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
-namespace Byt3.ExtPP.Base
+namespace Byt3.ExtPP.Base.Plugins
 {
     /// <summary>
     /// Abstract Plugin but with OnLoad_FullScriptStage and OnMain_FullScriptStage overriden and fixed plugin type toggle
@@ -11,7 +11,7 @@ namespace Byt3.ExtPP.Base
         /// <summary>
         /// Specifies the plugin type. Fullscript or Line Script
         /// </summary>
-        public override PluginType PluginTypeToggle { get; } = PluginType.FULL_SCRIPT_PLUGIN;
+        public override PluginType PluginTypeToggle { get; } = PluginType.FullScriptPlugin;
         /// <summary>
         /// Gets called once on each file.
         /// Looping Through All the Files

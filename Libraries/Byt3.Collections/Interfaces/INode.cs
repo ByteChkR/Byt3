@@ -5,13 +5,13 @@ namespace Byt3.Collections.Interfaces
 {
     public interface INode : IComparable<INode>
     {
-        INodeState INodeState { get; set; }
-        float INodeCost { get; }
-        INode INodeParentNode { get; set; }
-        float INodeCurrentCost { get; set; }
-        float INodeEstimatedCost { get; set; }
-        bool INodeIsActive { get; }
-        INode[] INodeConnectedNodes { get; }
-        IVec3 INodePosition { get; }
+        NodeState NodeState { get; set; }
+        float NodeCost { get; }
+        INode NodeParentNode { get; set; }
+        float NodeCurrentCost { get; set; }
+        float NodeEstimatedCost { get; set; }
+        bool NodeIsActive { get; }
+        INode[] ConnectedNodes { get; }
+        IVec3 NodePosition { get; }
     }
 }

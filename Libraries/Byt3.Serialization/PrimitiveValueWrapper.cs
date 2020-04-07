@@ -14,14 +14,14 @@ namespace Byt3.Serialization
         /// <summary>
         /// Underlaying Stream
         /// </summary>
-        private Stream stream;
+        private readonly Stream stream;
 
         public bool IsValid { get; private set; }
 
         /// <summary>
         /// Packet Cache used to cache the written values
         /// </summary>
-        private List<byte> packetCache = new List<byte>();
+        private readonly List<byte> packetCache = new List<byte>();
 
         /// <summary>
         /// Public Constructor

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Byt3.OpenCL.DataTypes;
+using Byt3.OpenCLNetStandard.DataTypes;
 
 namespace Byt3.OpenCL.Wrapper
 {
@@ -15,64 +15,64 @@ namespace Byt3.OpenCL.Wrapper
         /// Dictionary containing the ToConverter
         /// From Array of objects(need to be implicitly converted into to the specifed base type)
         /// </summary>
-        private static Dictionary<TypeEnums.DataTypes, ConvertToN> _toConverter =
+        private static readonly Dictionary<TypeEnums.DataTypes, ConvertToN> ToConverter =
             new Dictionary<TypeEnums.DataTypes, ConvertToN>
             {
-                {TypeEnums.DataTypes.Uchar2, create_byte2},
-                {TypeEnums.DataTypes.Uchar3, create_byte3},
-                {TypeEnums.DataTypes.Uchar4, create_byte4},
-                {TypeEnums.DataTypes.Uchar8, create_byte8},
-                {TypeEnums.DataTypes.Uchar16, create_byte16},
-                {TypeEnums.DataTypes.Char2, create_sbyte2},
-                {TypeEnums.DataTypes.Char3, create_sbyte3},
-                {TypeEnums.DataTypes.Char4, create_sbyte4},
-                {TypeEnums.DataTypes.Char8, create_sbyte8},
-                {TypeEnums.DataTypes.Char16, create_sbyte16},
+                {TypeEnums.DataTypes.Uchar2, CreateByte2},
+                {TypeEnums.DataTypes.Uchar3, CreateByte3},
+                {TypeEnums.DataTypes.Uchar4, CreateByte4},
+                {TypeEnums.DataTypes.Uchar8, CreateByte8},
+                {TypeEnums.DataTypes.Uchar16, CreateByte16},
+                {TypeEnums.DataTypes.Char2, CreateSByte2},
+                {TypeEnums.DataTypes.Char3, CreateSByte3},
+                {TypeEnums.DataTypes.Char4, CreateSByte4},
+                {TypeEnums.DataTypes.Char8, CreateSByte8},
+                {TypeEnums.DataTypes.Char16, CreateSByte16},
 
-                {TypeEnums.DataTypes.Ulong2, create_ulong2},
-                {TypeEnums.DataTypes.Ulong3, create_ulong3},
-                {TypeEnums.DataTypes.Ulong4, create_ulong4},
-                {TypeEnums.DataTypes.Ulong8, create_ulong8},
-                {TypeEnums.DataTypes.Ulong16, create_ulong16},
-                {TypeEnums.DataTypes.Long2, create_long2},
-                {TypeEnums.DataTypes.Long3, create_long3},
-                {TypeEnums.DataTypes.Long4, create_long4},
-                {TypeEnums.DataTypes.Long8, create_long8},
-                {TypeEnums.DataTypes.Long16, create_long16},
+                {TypeEnums.DataTypes.Ulong2, CreateULong2},
+                {TypeEnums.DataTypes.Ulong3, CreateULong3},
+                {TypeEnums.DataTypes.Ulong4, CreateULong4},
+                {TypeEnums.DataTypes.Ulong8, CreateULong8},
+                {TypeEnums.DataTypes.Ulong16, CreateULong16},
+                {TypeEnums.DataTypes.Long2, CreateLong2},
+                {TypeEnums.DataTypes.Long3, CreateLong3},
+                {TypeEnums.DataTypes.Long4, CreateLong4},
+                {TypeEnums.DataTypes.Long8, CreateLong8},
+                {TypeEnums.DataTypes.Long16, CreateLong16},
 
-                {TypeEnums.DataTypes.Uint2, create_uint2},
-                {TypeEnums.DataTypes.Uint3, create_uint3},
-                {TypeEnums.DataTypes.Uint4, create_uint4},
-                {TypeEnums.DataTypes.Uint8, create_uint8},
-                {TypeEnums.DataTypes.Uint16, create_uint16},
-                {TypeEnums.DataTypes.Int2, create_int2},
-                {TypeEnums.DataTypes.Int3, create_int3},
-                {TypeEnums.DataTypes.Int4, create_int4},
-                {TypeEnums.DataTypes.Int8, create_int8},
-                {TypeEnums.DataTypes.Int16, create_int16},
+                {TypeEnums.DataTypes.Uint2, CreateUInt2},
+                {TypeEnums.DataTypes.Uint3, CreateUInt3},
+                {TypeEnums.DataTypes.Uint4, CreateUInt4},
+                {TypeEnums.DataTypes.Uint8, CreateUInt8},
+                {TypeEnums.DataTypes.Uint16, CreateUInt16},
+                {TypeEnums.DataTypes.Int2, CreateInt2},
+                {TypeEnums.DataTypes.Int3, CreateInt3},
+                {TypeEnums.DataTypes.Int4, CreateInt4},
+                {TypeEnums.DataTypes.Int8, CreateInt8},
+                {TypeEnums.DataTypes.Int16, CreateInt16},
 
-                {TypeEnums.DataTypes.Ushort2, create_ushort2},
-                {TypeEnums.DataTypes.Ushort3, create_ushort3},
-                {TypeEnums.DataTypes.Ushort4, create_short4},
-                {TypeEnums.DataTypes.Ushort8, create_ushort8},
-                {TypeEnums.DataTypes.Ushort16, create_ushort16},
-                {TypeEnums.DataTypes.Short2, create_short2},
-                {TypeEnums.DataTypes.Short3, create_short3},
-                {TypeEnums.DataTypes.Short4, create_short4},
-                {TypeEnums.DataTypes.Short8, create_short8},
-                {TypeEnums.DataTypes.Short16, create_short16},
+                {TypeEnums.DataTypes.Ushort2, CreateUShort2},
+                {TypeEnums.DataTypes.Ushort3, CreateUShort3},
+                {TypeEnums.DataTypes.Ushort4, CreateShort4},
+                {TypeEnums.DataTypes.Ushort8, CreateUShort8},
+                {TypeEnums.DataTypes.Ushort16, CreateUShort16},
+                {TypeEnums.DataTypes.Short2, CreateShort2},
+                {TypeEnums.DataTypes.Short3, CreateShort3},
+                {TypeEnums.DataTypes.Short4, CreateShort4},
+                {TypeEnums.DataTypes.Short8, CreateShort8},
+                {TypeEnums.DataTypes.Short16, CreateShort16},
 
-                {TypeEnums.DataTypes.Float2, create_float2},
-                {TypeEnums.DataTypes.Float3, create_float3},
-                {TypeEnums.DataTypes.Float4, create_float4},
-                {TypeEnums.DataTypes.Float8, create_float8},
-                {TypeEnums.DataTypes.Float16, create_float16}
+                {TypeEnums.DataTypes.Float2, CreateFloat2},
+                {TypeEnums.DataTypes.Float3, CreateFloat3},
+                {TypeEnums.DataTypes.Float4, CreateFloat4},
+                {TypeEnums.DataTypes.Float8, CreateFloat8},
+                {TypeEnums.DataTypes.Float16, CreateFloat16}
             };
 
         /// <summary>
         /// A dictionary containing the Base types for the different CL typee
         /// </summary>
-        private static Dictionary<TypeEnums.DataTypes, Type> _baseTypes =
+        private static readonly Dictionary<TypeEnums.DataTypes, Type> BaseTypes =
             new Dictionary<TypeEnums.DataTypes, Type>
             {
                 {TypeEnums.DataTypes.Uchar2, typeof(byte)},
@@ -130,58 +130,58 @@ namespace Byt3.OpenCL.Wrapper
         /// Dictionary containing the FromConverter
         /// From the CL Type to an Array of objects
         /// </summary>
-        private static Dictionary<TypeEnums.DataTypes, ConvertFromN> _fromConverter =
+        private static readonly Dictionary<TypeEnums.DataTypes, ConvertFromN> FromConverter =
             new Dictionary<TypeEnums.DataTypes, ConvertFromN>
             {
-                {TypeEnums.DataTypes.Uchar2, from_byte2},
-                {TypeEnums.DataTypes.Uchar3, from_byte3},
-                {TypeEnums.DataTypes.Uchar4, from_byte4},
-                {TypeEnums.DataTypes.Uchar8, from_byte8},
-                {TypeEnums.DataTypes.Uchar16, from_byte16},
-                {TypeEnums.DataTypes.Char2, from_sbyte2},
-                {TypeEnums.DataTypes.Char3, from_sbyte3},
-                {TypeEnums.DataTypes.Char4, from_sbyte4},
-                {TypeEnums.DataTypes.Char8, from_sbyte8},
-                {TypeEnums.DataTypes.Char16, from_sbyte16},
+                {TypeEnums.DataTypes.Uchar2, FromByte2},
+                {TypeEnums.DataTypes.Uchar3, FromByte3},
+                {TypeEnums.DataTypes.Uchar4, FromByte4},
+                {TypeEnums.DataTypes.Uchar8, FromByte8},
+                {TypeEnums.DataTypes.Uchar16, FromByte16},
+                {TypeEnums.DataTypes.Char2, FromSByte2},
+                {TypeEnums.DataTypes.Char3, FromSByte3},
+                {TypeEnums.DataTypes.Char4, FromSByte4},
+                {TypeEnums.DataTypes.Char8, FromSByte8},
+                {TypeEnums.DataTypes.Char16, FromSByte16},
 
-                {TypeEnums.DataTypes.Ulong2, from_ulong2},
-                {TypeEnums.DataTypes.Ulong3, from_ulong3},
-                {TypeEnums.DataTypes.Ulong4, from_ulong4},
-                {TypeEnums.DataTypes.Ulong8, from_ulong8},
-                {TypeEnums.DataTypes.Ulong16, from_ulong16},
-                {TypeEnums.DataTypes.Long2, from_long2},
-                {TypeEnums.DataTypes.Long3, from_long3},
-                {TypeEnums.DataTypes.Long4, from_long4},
-                {TypeEnums.DataTypes.Long8, from_long8},
-                {TypeEnums.DataTypes.Long16, from_long16},
+                {TypeEnums.DataTypes.Ulong2, FromULong2},
+                {TypeEnums.DataTypes.Ulong3, FromULong3},
+                {TypeEnums.DataTypes.Ulong4, FromULong4},
+                {TypeEnums.DataTypes.Ulong8, FromULong8},
+                {TypeEnums.DataTypes.Ulong16, FromULong16},
+                {TypeEnums.DataTypes.Long2, FromLong2},
+                {TypeEnums.DataTypes.Long3, FromLong3},
+                {TypeEnums.DataTypes.Long4, FromLong4},
+                {TypeEnums.DataTypes.Long8, FromLong8},
+                {TypeEnums.DataTypes.Long16, FromLong16},
 
-                {TypeEnums.DataTypes.Uint2, from_uint2},
-                {TypeEnums.DataTypes.Uint3, from_uint3},
-                {TypeEnums.DataTypes.Uint4, from_uint4},
-                {TypeEnums.DataTypes.Uint8, from_uint8},
-                {TypeEnums.DataTypes.Uint16, from_uint16},
-                {TypeEnums.DataTypes.Int2, from_int2},
-                {TypeEnums.DataTypes.Int3, from_int3},
-                {TypeEnums.DataTypes.Int4, from_int4},
-                {TypeEnums.DataTypes.Int8, from_int8},
-                {TypeEnums.DataTypes.Int16, from_int16},
+                {TypeEnums.DataTypes.Uint2, FromUInt2},
+                {TypeEnums.DataTypes.Uint3, FromUInt3},
+                {TypeEnums.DataTypes.Uint4, FromUInt4},
+                {TypeEnums.DataTypes.Uint8, FromUInt8},
+                {TypeEnums.DataTypes.Uint16, FromUInt16},
+                {TypeEnums.DataTypes.Int2, FromInt2},
+                {TypeEnums.DataTypes.Int3, FromInt3},
+                {TypeEnums.DataTypes.Int4, FromInt4},
+                {TypeEnums.DataTypes.Int8, FromInt8},
+                {TypeEnums.DataTypes.Int16, FromInt16},
 
-                {TypeEnums.DataTypes.Ushort2, from_ushort2},
-                {TypeEnums.DataTypes.Ushort3, from_ushort3},
-                {TypeEnums.DataTypes.Ushort4, from_short4},
-                {TypeEnums.DataTypes.Ushort8, from_ushort8},
-                {TypeEnums.DataTypes.Ushort16, from_ushort16},
-                {TypeEnums.DataTypes.Short2, from_short2},
-                {TypeEnums.DataTypes.Short3, from_short3},
-                {TypeEnums.DataTypes.Short4, from_short4},
-                {TypeEnums.DataTypes.Short8, from_short8},
-                {TypeEnums.DataTypes.Short16, from_short16},
+                {TypeEnums.DataTypes.Ushort2, FromUShort2},
+                {TypeEnums.DataTypes.Ushort3, FromUShort3},
+                {TypeEnums.DataTypes.Ushort4, Fromshort4},
+                {TypeEnums.DataTypes.Ushort8, FromUShort8},
+                {TypeEnums.DataTypes.Ushort16, FromUShort16},
+                {TypeEnums.DataTypes.Short2, Fromshort2},
+                {TypeEnums.DataTypes.Short3, Fromshort3},
+                {TypeEnums.DataTypes.Short4, Fromshort4},
+                {TypeEnums.DataTypes.Short8, Fromshort8},
+                {TypeEnums.DataTypes.Short16, Fromshort16},
 
-                {TypeEnums.DataTypes.Float2, from_float2},
-                {TypeEnums.DataTypes.Float3, from_float3},
-                {TypeEnums.DataTypes.Float4, from_float4},
-                {TypeEnums.DataTypes.Float8, from_float8},
-                {TypeEnums.DataTypes.Float16, from_float16}
+                {TypeEnums.DataTypes.Float2, FromFloat2},
+                {TypeEnums.DataTypes.Float3, FromFloat3},
+                {TypeEnums.DataTypes.Float4, FromFloat4},
+                {TypeEnums.DataTypes.Float8, FromFloat8},
+                {TypeEnums.DataTypes.Float16, FromFloat16}
             };
 
         /// <summary>
@@ -220,17 +220,17 @@ namespace Byt3.OpenCL.Wrapper
                     ConvertRange((float) System.Convert.ChangeType(value, typeof(float)), oldMax, newMax), newType);
             }
 
-            object[] objs = _fromConverter[olddt](value);
+            object[] objs = FromConverter[olddt](value);
 
 
             for (int i = 0; i < objs.Length; i++)
             {
                 objs[i] = System.Convert.ChangeType(
                     ConvertRange((float) System.Convert.ChangeType(objs[i], typeof(float)), oldMax, newMax),
-                    _baseTypes[dt]);
+                    BaseTypes[dt]);
             }
 
-            return _toConverter[dt](objs);
+            return ToConverter[dt](objs);
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_float16(object value)
+        private static object[] FromFloat16(object value)
         {
             float16 val = (float16) value;
             int num = 16;
@@ -273,7 +273,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_float8(object value)
+        private static object[] FromFloat8(object value)
         {
             float8 val = (float8) value;
             int num = 8;
@@ -291,7 +291,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_float4(object value)
+        private static object[] FromFloat4(object value)
         {
             float4 val = (float4) value;
             int num = 4;
@@ -309,7 +309,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_float3(object value)
+        private static object[] FromFloat3(object value)
         {
             float3 val = (float3) value;
             int num = 3;
@@ -327,7 +327,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_float2(object value)
+        private static object[] FromFloat2(object value)
         {
             float2 val = (float2) value;
             int num = 2;
@@ -346,7 +346,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_float16(params object[] args)
+        private static object CreateFloat16(params object[] args)
         {
             return new float16((float) args[0], (float) args[1], (float) args[2], (float) args[3], (float) args[4],
                 (float) args[5], (float) args[6], (float) args[7], (float) args[8], (float) args[9], (float) args[10],
@@ -359,7 +359,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_float8(params object[] args)
+        private static object CreateFloat8(params object[] args)
         {
             return new float8((float) args[0], (float) args[1], (float) args[2], (float) args[3], (float) args[4],
                 (float) args[5], (float) args[6], (float) args[7]);
@@ -370,7 +370,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_float4(params object[] args)
+        private static object CreateFloat4(params object[] args)
         {
             return new float4((float) args[0], (float) args[1], (float) args[2], (float) args[3]);
         }
@@ -380,7 +380,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_float3(params object[] args)
+        private static object CreateFloat3(params object[] args)
         {
             return new float3((float) args[0], (float) args[1], (float) args[2]);
         }
@@ -390,7 +390,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_float2(params object[] args)
+        private static object CreateFloat2(params object[] args)
         {
             return new float2((float) args[0], (float) args[1]);
         }
@@ -404,7 +404,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_byte16(object value)
+        private static object[] FromByte16(object value)
         {
             uchar16 val = (uchar16) value;
             int num = 16;
@@ -422,7 +422,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_byte8(object value)
+        private static object[] FromByte8(object value)
         {
             uchar8 val = (uchar8) value;
             int num = 8;
@@ -440,7 +440,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_byte4(object value)
+        private static object[] FromByte4(object value)
         {
             uchar4 val = (uchar4) value;
             int num = 4;
@@ -458,7 +458,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_byte3(object value)
+        private static object[] FromByte3(object value)
         {
             uchar3 val = (uchar3) value;
             int num = 3;
@@ -476,7 +476,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_byte2(object value)
+        private static object[] FromByte2(object value)
         {
             uchar2 val = (uchar2) value;
             int num = 2;
@@ -494,7 +494,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_byte16(params object[] args)
+        private static object CreateByte16(params object[] args)
         {
             return new uchar16((byte) args[0], (byte) args[1], (byte) args[2], (byte) args[3], (byte) args[4],
                 (byte) args[5], (byte) args[6], (byte) args[7], (byte) args[8], (byte) args[9], (byte) args[10],
@@ -506,7 +506,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_byte8(params object[] args)
+        private static object CreateByte8(params object[] args)
         {
             return new uchar8((byte) args[0], (byte) args[1], (byte) args[2], (byte) args[3], (byte) args[4],
                 (byte) args[5], (byte) args[6], (byte) args[7]);
@@ -517,7 +517,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_byte4(params object[] args)
+        private static object CreateByte4(params object[] args)
         {
             return new uchar4((byte) args[0], (byte) args[1], (byte) args[2], (byte) args[3]);
         }
@@ -527,7 +527,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_byte3(params object[] args)
+        private static object CreateByte3(params object[] args)
         {
             return new uchar3((byte) args[0], (byte) args[1], (byte) args[2]);
         }
@@ -537,7 +537,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_byte2(params object[] args)
+        private static object CreateByte2(params object[] args)
         {
             return new uchar2((byte) args[0], (byte) args[1]);
         }
@@ -547,11 +547,11 @@ namespace Byt3.OpenCL.Wrapper
         #region SByte
 
         /// <summary>
-        /// FromSbyte 16 Converter
+        /// FromSByte 16 Converter
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_sbyte16(object value)
+        private static object[] FromSByte16(object value)
         {
             char16 val = (char16) value;
             int num = 16;
@@ -565,11 +565,11 @@ namespace Byt3.OpenCL.Wrapper
         }
 
         /// <summary>
-        /// FromSbyte 8 Converter
+        /// FromSByte 8 Converter
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_sbyte8(object value)
+        private static object[] FromSByte8(object value)
         {
             char8 val = (char8) value;
             int num = 8;
@@ -583,11 +583,11 @@ namespace Byt3.OpenCL.Wrapper
         }
 
         /// <summary>
-        /// FromSbyte 4 Converter
+        /// FromSByte 4 Converter
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_sbyte4(object value)
+        private static object[] FromSByte4(object value)
         {
             char4 val = (char4) value;
             int num = 4;
@@ -601,11 +601,11 @@ namespace Byt3.OpenCL.Wrapper
         }
 
         /// <summary>
-        /// FromSbyte 3 Converter
+        /// FromSByte 3 Converter
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_sbyte3(object value)
+        private static object[] FromSByte3(object value)
         {
             char3 val = (char3) value;
             int num = 3;
@@ -619,11 +619,11 @@ namespace Byt3.OpenCL.Wrapper
         }
 
         /// <summary>
-        /// FromSbyte 2 Converter
+        /// FromSByte 2 Converter
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_sbyte2(object value)
+        private static object[] FromSByte2(object value)
         {
             char2 val = (char2) value;
             int num = 2;
@@ -642,7 +642,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_sbyte16(params object[] args)
+        private static object CreateSByte16(params object[] args)
         {
             return new char16((sbyte) args[0], (sbyte) args[1], (sbyte) args[2], (sbyte) args[3], (sbyte) args[4],
                 (sbyte) args[5], (sbyte) args[6], (sbyte) args[7], (sbyte) args[8], (sbyte) args[9], (sbyte) args[10],
@@ -654,7 +654,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_sbyte8(params object[] args)
+        private static object CreateSByte8(params object[] args)
         {
             return new char8((sbyte) args[0], (sbyte) args[1], (sbyte) args[2], (sbyte) args[3], (sbyte) args[4],
                 (sbyte) args[5], (sbyte) args[6], (sbyte) args[7]);
@@ -665,7 +665,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_sbyte4(params object[] args)
+        private static object CreateSByte4(params object[] args)
         {
             return new char4((sbyte) args[0], (sbyte) args[1], (sbyte) args[2], (sbyte) args[3]);
         }
@@ -675,7 +675,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_sbyte3(params object[] args)
+        private static object CreateSByte3(params object[] args)
         {
             return new char3((sbyte) args[0], (sbyte) args[1], (sbyte) args[2]);
         }
@@ -685,7 +685,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_sbyte2(params object[] args)
+        private static object CreateSByte2(params object[] args)
         {
             return new char2((sbyte) args[0], (sbyte) args[1]);
         }
@@ -699,7 +699,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_long16(object value)
+        private static object[] FromLong16(object value)
         {
             long16 val = (long16) value;
             int num = 16;
@@ -717,7 +717,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_long8(object value)
+        private static object[] FromLong8(object value)
         {
             long8 val = (long8) value;
             int num = 8;
@@ -735,7 +735,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_long4(object value)
+        private static object[] FromLong4(object value)
         {
             long4 val = (long4) value;
             int num = 4;
@@ -753,7 +753,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_long3(object value)
+        private static object[] FromLong3(object value)
         {
             long3 val = (long3) value;
             int num = 3;
@@ -771,7 +771,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_long2(object value)
+        private static object[] FromLong2(object value)
         {
             long2 val = (long2) value;
             int num = 2;
@@ -789,7 +789,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_long16(params object[] args)
+        private static object CreateLong16(params object[] args)
         {
             return new long16((long) args[0], (long) args[1], (long) args[2], (long) args[3], (long) args[4],
                 (long) args[5], (long) args[6], (long) args[7], (long) args[8], (long) args[9], (long) args[10],
@@ -801,7 +801,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_long8(params object[] args)
+        private static object CreateLong8(params object[] args)
         {
             return new long8((long) args[0], (long) args[1], (long) args[2], (long) args[3], (long) args[4],
                 (long) args[5], (long) args[6], (long) args[7]);
@@ -812,7 +812,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_long4(params object[] args)
+        private static object CreateLong4(params object[] args)
         {
             return new long4((long) args[0], (long) args[1], (long) args[2], (long) args[3]);
         }
@@ -822,7 +822,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_long3(params object[] args)
+        private static object CreateLong3(params object[] args)
         {
             return new long3((long) args[0], (long) args[1], (long) args[2]);
         }
@@ -832,7 +832,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_long2(params object[] args)
+        private static object CreateLong2(params object[] args)
         {
             return new long2((long) args[0], (long) args[1]);
         }
@@ -846,7 +846,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ulong16(object value)
+        private static object[] FromULong16(object value)
         {
             ulong16 val = (ulong16) value;
             int num = 16;
@@ -864,7 +864,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ulong8(object value)
+        private static object[] FromULong8(object value)
         {
             ulong8 val = (ulong8) value;
             int num = 8;
@@ -882,7 +882,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ulong4(object value)
+        private static object[] FromULong4(object value)
         {
             ulong4 val = (ulong4) value;
             int num = 4;
@@ -900,7 +900,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ulong3(object value)
+        private static object[] FromULong3(object value)
         {
             ulong3 val = (ulong3) value;
             int num = 3;
@@ -918,7 +918,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ulong2(object value)
+        private static object[] FromULong2(object value)
         {
             ulong2 val = (ulong2) value;
             int num = 2;
@@ -936,7 +936,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ulong16(params object[] args)
+        private static object CreateULong16(params object[] args)
         {
             return new ulong16((ulong) args[0], (ulong) args[1], (ulong) args[2], (ulong) args[3], (ulong) args[4],
                 (ulong) args[5], (ulong) args[6], (ulong) args[7], (ulong) args[8], (ulong) args[9], (ulong) args[10],
@@ -948,7 +948,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ulong8(params object[] args)
+        private static object CreateULong8(params object[] args)
         {
             return new ulong8((ulong) args[0], (ulong) args[1], (ulong) args[2], (ulong) args[3], (ulong) args[4],
                 (ulong) args[5], (ulong) args[6], (ulong) args[7]);
@@ -959,7 +959,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ulong4(params object[] args)
+        private static object CreateULong4(params object[] args)
         {
             return new ulong4((ulong) args[0], (ulong) args[1], (ulong) args[2], (ulong) args[3]);
         }
@@ -969,7 +969,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ulong3(params object[] args)
+        private static object CreateULong3(params object[] args)
         {
             return new ulong3((ulong) args[0], (ulong) args[1], (ulong) args[2]);
         }
@@ -979,7 +979,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ulong2(params object[] args)
+        private static object CreateULong2(params object[] args)
         {
             return new ulong2((ulong) args[0], (ulong) args[1]);
         }
@@ -993,7 +993,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_int16(object value)
+        private static object[] FromInt16(object value)
         {
             int16 val = (int16) value;
             int num = 16;
@@ -1011,7 +1011,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_int8(object value)
+        private static object[] FromInt8(object value)
         {
             int8 val = (int8) value;
             int num = 8;
@@ -1029,7 +1029,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_int4(object value)
+        private static object[] FromInt4(object value)
         {
             int4 val = (int4) value;
             int num = 4;
@@ -1047,7 +1047,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_int3(object value)
+        private static object[] FromInt3(object value)
         {
             int3 val = (int3) value;
             int num = 3;
@@ -1065,7 +1065,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_int2(object value)
+        private static object[] FromInt2(object value)
         {
             int2 val = (int2) value;
             int num = 2;
@@ -1083,7 +1083,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_int16(params object[] args)
+        private static object CreateInt16(params object[] args)
         {
             return new int16((int) args[0], (int) args[1], (int) args[2], (int) args[3], (int) args[4], (int) args[5],
                 (int) args[6], (int) args[7], (int) args[8], (int) args[9], (int) args[10], (int) args[11],
@@ -1095,7 +1095,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_int8(params object[] args)
+        private static object CreateInt8(params object[] args)
         {
             return new int8((int) args[0], (int) args[1], (int) args[2], (int) args[3], (int) args[4], (int) args[5],
                 (int) args[6], (int) args[7]);
@@ -1106,7 +1106,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_int4(params object[] args)
+        private static object CreateInt4(params object[] args)
         {
             return new int4((int) args[0], (int) args[1], (int) args[2], (int) args[3]);
         }
@@ -1116,7 +1116,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_int3(params object[] args)
+        private static object CreateInt3(params object[] args)
         {
             return new int3((int) args[0], (int) args[1], (int) args[2]);
         }
@@ -1126,7 +1126,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_int2(params object[] args)
+        private static object CreateInt2(params object[] args)
         {
             return new int2((int) args[0], (int) args[1]);
         }
@@ -1140,7 +1140,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_uint16(object value)
+        private static object[] FromUInt16(object value)
         {
             uint16 val = (uint16) value;
             int num = 16;
@@ -1158,7 +1158,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_uint8(object value)
+        private static object[] FromUInt8(object value)
         {
             uint8 val = (uint8) value;
             int num = 8;
@@ -1176,7 +1176,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_uint4(object value)
+        private static object[] FromUInt4(object value)
         {
             uint4 val = (uint4) value;
             int num = 4;
@@ -1194,7 +1194,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_uint3(object value)
+        private static object[] FromUInt3(object value)
         {
             uint3 val = (uint3) value;
             int num = 3;
@@ -1212,7 +1212,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_uint2(object value)
+        private static object[] FromUInt2(object value)
         {
             uint2 val = (uint2) value;
             int num = 2;
@@ -1230,7 +1230,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_uint16(params object[] args)
+        private static object CreateUInt16(params object[] args)
         {
             return new uint16((uint) args[0], (uint) args[1], (uint) args[2], (uint) args[3], (uint) args[4],
                 (uint) args[5], (uint) args[6], (uint) args[7], (uint) args[8], (uint) args[9], (uint) args[10],
@@ -1242,7 +1242,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_uint8(params object[] args)
+        private static object CreateUInt8(params object[] args)
         {
             return new uint8((uint) args[0], (uint) args[1], (uint) args[2], (uint) args[3], (uint) args[4],
                 (uint) args[5], (uint) args[6], (uint) args[7]);
@@ -1253,7 +1253,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_uint4(params object[] args)
+        private static object CreateUInt4(params object[] args)
         {
             return new uint4((uint) args[0], (uint) args[1], (uint) args[2], (uint) args[3]);
         }
@@ -1263,7 +1263,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_uint3(params object[] args)
+        private static object CreateUInt3(params object[] args)
         {
             return new uint3((uint) args[0], (uint) args[1], (uint) args[2]);
         }
@@ -1273,7 +1273,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_uint2(params object[] args)
+        private static object CreateUInt2(params object[] args)
         {
             return new uint2((uint) args[0], (uint) args[1]);
         }
@@ -1287,7 +1287,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_short16(object value)
+        private static object[] Fromshort16(object value)
         {
             short16 val = (short16) value;
             int num = 16;
@@ -1305,7 +1305,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_short8(object value)
+        private static object[] Fromshort8(object value)
         {
             short8 val = (short8) value;
             int num = 8;
@@ -1323,7 +1323,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_short4(object value)
+        private static object[] Fromshort4(object value)
         {
             short4 val = (short4) value;
             int num = 4;
@@ -1341,7 +1341,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_short3(object value)
+        private static object[] Fromshort3(object value)
         {
             short3 val = (short3) value;
             int num = 3;
@@ -1359,7 +1359,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_short2(object value)
+        private static object[] Fromshort2(object value)
         {
             short2 val = (short2) value;
             int num = 2;
@@ -1377,7 +1377,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_short16(params object[] args)
+        private static object CreateShort16(params object[] args)
         {
             return new short16((short) args[0], (short) args[1], (short) args[2], (short) args[3], (short) args[4],
                 (short) args[5], (short) args[6], (short) args[7], (short) args[8], (short) args[9], (short) args[10],
@@ -1389,7 +1389,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_short8(params object[] args)
+        private static object CreateShort8(params object[] args)
         {
             return new short8((short) args[0], (short) args[1], (short) args[2], (short) args[3], (short) args[4],
                 (short) args[5], (short) args[6], (short) args[7]);
@@ -1400,7 +1400,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_short4(params object[] args)
+        private static object CreateShort4(params object[] args)
         {
             return new short4((short) args[0], (short) args[1], (short) args[2], (short) args[3]);
         }
@@ -1410,7 +1410,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_short3(params object[] args)
+        private static object CreateShort3(params object[] args)
         {
             return new short3((short) args[0], (short) args[1], (short) args[2]);
         }
@@ -1420,7 +1420,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_short2(params object[] args)
+        private static object CreateShort2(params object[] args)
         {
             return new short2((short) args[0], (short) args[1]);
         }
@@ -1434,7 +1434,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ushort16(object value)
+        private static object[] FromUShort16(object value)
         {
             ushort16 val = (ushort16) value;
             int num = 16;
@@ -1452,7 +1452,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ushort8(object value)
+        private static object[] FromUShort8(object value)
         {
             ushort8 val = (ushort8) value;
             int num = 8;
@@ -1470,7 +1470,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ushort4(object value)
+        private static object[] FromUShort4(object value)
         {
             ushort4 val = (ushort4) value;
             int num = 4;
@@ -1488,7 +1488,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ushort3(object value)
+        private static object[] FromUShort3(object value)
         {
             ushort3 val = (ushort3) value;
             int num = 3;
@@ -1506,7 +1506,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="value">The Value to be converted</param>
         /// <returns>The components as array</returns>
-        private static object[] from_ushort2(object value)
+        private static object[] FromUShort2(object value)
         {
             ushort2 val = (ushort2) value;
             int num = 2;
@@ -1524,7 +1524,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ushort16(params object[] args)
+        private static object CreateUShort16(params object[] args)
         {
             return new ushort16((ushort) args[0], (ushort) args[1], (ushort) args[2], (ushort) args[3],
                 (ushort) args[4], (ushort) args[5], (ushort) args[6], (ushort) args[7], (ushort) args[8],
@@ -1537,7 +1537,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ushort8(params object[] args)
+        private static object CreateUShort8(params object[] args)
         {
             return new ushort8((ushort) args[0], (ushort) args[1], (ushort) args[2], (ushort) args[3], (ushort) args[4],
                 (ushort) args[5], (ushort) args[6], (ushort) args[7]);
@@ -1548,7 +1548,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ushort4(params object[] args)
+        private static object CreateUShort4(params object[] args)
         {
             return new ushort4((ushort) args[0], (ushort) args[1], (ushort) args[2], (ushort) args[3]);
         }
@@ -1558,7 +1558,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ushort3(params object[] args)
+        private static object CreateUShort3(params object[] args)
         {
             return new ushort3((ushort) args[0], (ushort) args[1], (ushort) args[2]);
         }
@@ -1568,7 +1568,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="args">The Numbers to be converted</param>
         /// <returns>The CL Type</returns>
-        private static object create_ushort2(params object[] args)
+        private static object CreateUShort2(params object[] args)
         {
             return new ushort2((ushort) args[0], (ushort) args[1]);
         }

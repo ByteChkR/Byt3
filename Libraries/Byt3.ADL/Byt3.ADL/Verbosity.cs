@@ -1,4 +1,4 @@
-﻿namespace Byt3.ExtPP.Base.settings
+﻿namespace Byt3.ADL
 {
 
     /// <summary>
@@ -9,21 +9,21 @@
         /// <summary>
         /// Lowest Verbosity Level, no output on console.
         /// </summary>
-        SILENT=0,
+        Silent=0,
         /// <summary>
         /// Only critical errors and general information
         /// </summary>
-        LEVEL1,
-        LEVEL2,
-        LEVEL3,
-        LEVEL4,
-        LEVEL5,
-        LEVEL6,
-        LEVEL7,
+        Level1,
+        Level2,
+        Level3,
+        Level4,
+        Level5,
+        Level6,
+        Level7,
         /// <summary>
         /// Highest Level of verbosity, you will get every log that gets sent.
         /// </summary>
-        LEVEL8
+        Level8
 
 
     }

@@ -1,6 +1,6 @@
 ﻿using Byt3.CommandRunner;
 
-namespace Byt3.ExtPP.CLI.Core
+namespace Byt3.ExtPP.CLI.Core.PluginManager
 {
     public class ModuleInfo : AbstractCommandModuleInfo
     {

@@ -6,12 +6,12 @@ namespace Byt3.ObjectPipeline.AssetLoaderFramework
 {
     public sealed class AssetLoader<TOut> : PipelineStage<string, TOut>
     {
-        private readonly Dictionary<string, AssetTypeLoader<TOut>> TypeLoaders = new Dictionary<string, AssetTypeLoader<TOut>>();
-        private PipelineStage<string, Stream> FileLoader;
+        private readonly Dictionary<string, AssetTypeLoader<TOut>> typeLoaders = new Dictionary<string, AssetTypeLoader<TOut>>();
+        private PipelineStage<string, Stream> fileLoader;
 
         public AssetLoader(PipelineStage<string, Stream> fileLoader = null, params AssetTypeLoader<TOut>[] typeLoaders)
         {
-            FileLoader = fileLoader ?? new DefaultFileLoader();
+            this.fileLoader = fileLoader ?? new DefaultFileLoader();
 
             for (int i = 0; i < typeLoaders.Length; i++)
             {
@@ -21,19 +21,19 @@ namespace Byt3.ObjectPipeline.AssetLoaderFramework
 
         public void SetFileLoader(PipelineStage<string, Stream> fileLoader)
         {
-            FileLoader = fileLoader ?? throw new InvalidOperationException("File loader Can not be null");
+            this.fileLoader = fileLoader ?? throw new InvalidOperationException("File loader Can not be null");
         }
 
         public void AddTypeLoader(AssetTypeLoader<TOut> typeLoader)
         {
-            TypeLoaders[typeLoader.FileExtension] = typeLoader;
+            typeLoaders[typeLoader.FileExtension] = typeLoader;
         }
 
         public override TOut Process(string input)
         {
             string ext = Path.GetExtension(input);
-            if (TypeLoaders.ContainsKey(ext))
-                return TypeLoaders[ext].Process(FileLoader.Process(input));
+            if (typeLoaders.ContainsKey(ext))
+                return typeLoaders[ext].Process(fileLoader.Process(input));
 
             throw new UnknownFileFormatException(input);
         }

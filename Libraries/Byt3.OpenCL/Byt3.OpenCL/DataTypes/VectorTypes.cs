@@ -15,13 +15,15 @@
 // terms of the License.
 #endregion
 
-using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-
-namespace Byt3.OpenCL.DataTypes
+namespace Byt3.OpenCLNetStandard.DataTypes
 {
-    public interface IVectorType
+	using System;
+	using System.Diagnostics;
+	using System.Runtime.InteropServices;
+
+	using uchar = System.Byte;
+
+	public interface IVectorType
 	{
 		int Rank { get; }
 		IntPtr Size { get; }

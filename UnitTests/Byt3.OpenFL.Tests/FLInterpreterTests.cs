@@ -1,26 +1,24 @@
 ﻿using System;
 using System.IO;
-using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
-using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenCLNetStandard.DataTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Byt3.OpenFL.Tests
 {
     [TestClass]
-    public class FlInterpreter
+    public class FLInterpreterTests
     {
    
 
         [TestMethod]
         public void OpenFL_Comments_Test()
         {
-            DebugHelper.ThrowOnAllExceptions = true;
             string file = Path.GetFullPath("resources/filter/comments/test.fl");
-            FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+            OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
                 CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                     MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128, 128,
                 1,
@@ -34,44 +32,34 @@ namespace Byt3.OpenFL.Tests
         [TestMethod]
         public void OpenFL_DefineFile_Wrong_Test()
         {
-            DebugHelper.ThrowOnAllExceptions = true;
 
             string file = "resources/filter/defines/test_wrong_define_invalid_file.fl";
 
-
-            for (int i = 0; i < 2; i++)
+            try
             {
-                DebugHelper.ThrowOnAllExceptions = i == 0;
-                try
+                OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
+                    CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
+                        MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
+                    128,
+                    1,
+                    4, TestSetup.KernelDb);
+            }
+            catch (Exception e)
+            {
+                if (!(e is FLInvalidFunctionUseException))
                 {
-                    FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
-                        CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
-                            MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
-                        128,
-                        1,
-                        4, TestSetup.KernelDb);
-                    Assert.IsTrue(!DebugHelper.ThrowOnAllExceptions);
+                    Assert.IsTrue(false);
                 }
-                catch (Exception e)
-                {
-                    Assert.IsTrue(DebugHelper.ThrowOnAllExceptions);
-                    if (!(e is FLInvalidFunctionUseException))
-                    {
-                        Assert.IsTrue(false);
-                    }
-
-                    //We passed
-                }
+                //We passed
             }
         }
 
         [TestMethod]
         public void OpenFL_Defines_Test()
         {
-            DebugHelper.ThrowOnAllExceptions = true;
 
             string file = Path.GetFullPath("resources/filter/defines/test.fl");
-            FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+            OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
                 CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                     MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128, 128,
                 1,
@@ -91,7 +79,6 @@ namespace Byt3.OpenFL.Tests
         [TestMethod]
         public void OpenFL_DefineScriptFile_Wrong_Test()
         {
-            DebugHelper.ThrowOnAllExceptions = true;
 
             string file = "resources/filter/defines/test_wrong_script_invalid_file.fl";
 
@@ -99,17 +86,15 @@ namespace Byt3.OpenFL.Tests
             {
                 try
                 {
-                    FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                    OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
                         CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                             MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
                         128,
                         1,
                         4, TestSetup.KernelDb);
-                    Assert.IsTrue(!DebugHelper.ThrowOnAllExceptions);
                 }
                 catch (Exception e)
                 {
-                    Assert.IsTrue(DebugHelper.ThrowOnAllExceptions);
                     if (!(e is FLInvalidFunctionUseException))
                     {
                         Assert.IsTrue(false);
@@ -124,7 +109,6 @@ namespace Byt3.OpenFL.Tests
         [TestMethod]
         public void OpenFL_DefineScriptNoFile_Wrong_Test()
         {
-            DebugHelper.ThrowOnAllExceptions = true;
 
             string file = "resources/filter/defines/test_wrong_script_.fl";
 
@@ -133,17 +117,15 @@ namespace Byt3.OpenFL.Tests
             {
                 try
                 {
-                    FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                    OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
                         CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                             MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
                         128,
                         1,
                         4, TestSetup.KernelDb);
-                    Assert.IsTrue(!DebugHelper.ThrowOnAllExceptions);
                 }
                 catch (Exception e)
                 {
-                    Assert.IsTrue(DebugHelper.ThrowOnAllExceptions);
                     if (!(e is FLInvalidFunctionUseException))
                     {
                         Assert.IsTrue(false);
@@ -157,15 +139,13 @@ namespace Byt3.OpenFL.Tests
         [TestMethod]
         public void OpenFL_Kernels_Test()
         {
-            DebugHelper.ThrowOnAllExceptions = true;
-            DebugHelper.SeverityFilter = 10;
             string path = "resources/filter/tests";
             string[] files = Directory.GetFiles(path, "*.fl");
             KernelDatabase db =
                 new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataTypes.Uchar1);
             foreach (string file in files)
             {
-                FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
+                OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
                     CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 64 * 64 * 4,
                         MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 64, 64,
                     1,
@@ -180,37 +160,30 @@ namespace Byt3.OpenFL.Tests
         [TestMethod]
         public void OpenFL_WFCDefines_Wrong_Test()
         {
-            DebugHelper.ThrowOnAllExceptions = true;
 
             string[] files = Directory.GetFiles("resources/filter/defines/", "test_wrong_define_wfc_*.fl");
 
 
-            for (int i = 0; i < 2; i++)
+            foreach (string file in files)
             {
-                DebugHelper.ThrowOnAllExceptions = i == 0;
-                foreach (string file in files)
+                try
                 {
-                    try
+                    OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
+                        CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
+                            MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite),
+                        128,
+                        128,
+                        1,
+                        4, TestSetup.KernelDb);
+                }
+                catch (Exception e)
+                {
+                    if (!(e is FLInvalidFunctionUseException))
                     {
-                        FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
-                            CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
-                                MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite),
-                            128,
-                            128,
-                            1,
-                            4, TestSetup.KernelDb);
-                        Assert.IsTrue(!DebugHelper.ThrowOnAllExceptions);
+                        Assert.IsTrue(false);
                     }
-                    catch (Exception e)
-                    {
-                        Assert.IsTrue(DebugHelper.ThrowOnAllExceptions);
-                        if (!(e is FLInvalidFunctionUseException))
-                        {
-                            Assert.IsTrue(false);
-                        }
 
-                        //We passed
-                    }
+                    //We passed
                 }
             }
         }

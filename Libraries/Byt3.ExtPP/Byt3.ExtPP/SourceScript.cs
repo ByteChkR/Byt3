@@ -1,35 +1,36 @@
-﻿using Byt3.ExtPP.Base;
+﻿using Byt3.ADL;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.ExtPP.Base.Plugins;
 
 namespace Byt3.ExtPP
 {
-    internal class SourceScript : ISourceScript, ILoggable
+    internal class SourceScript : ALoggable<PPLogType>, ISourceScript
     {
 
         /// <summary>
         /// The full filepath of the script
         /// </summary>
-        private readonly IFileContent _filepath;
+        private readonly IFileContent filepath;
         /// <summary>
         /// if the source was requested at least once, it remains cached in here
         /// </summary>
-        private string[] _source;
+        private string[] source;
 
         /// <summary>
         /// Flag to check if the file was already loaded into memory
         /// </summary>
-        public bool IsSourceLoaded => _source != null;
+        public bool IsSourceLoaded => source != null;
 
 
         /// <summary>
         /// The key that will get assigned to this script.
         /// </summary>
-        private string Key => _filepath.GetKey();
+        private string Key => filepath.GetKey();
 
         /// <summary>
         /// A Cache that is shared with all plugins to exchange information between different processing steps
         /// </summary>
-        private readonly ImportResult _importInfo;
+        private readonly ImportResult importInfo;
 
 
         /// <summary>
@@ -41,8 +42,8 @@ namespace Byt3.ExtPP
         /// <param name="pluginCache">the plugin cache that is used.</param>
         public SourceScript(string separator, IFileContent path, ImportResult importInfo)
         {
-            _importInfo = importInfo;
-            _filepath = path;
+            this.importInfo = importInfo;
+            filepath = path;
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace Byt3.ExtPP
         /// <returns>the filepath of the source</returns>
         public IFileContent GetFileInterface()
         {
-            return _filepath;
+            return filepath;
         }
 
 
@@ -71,11 +72,11 @@ namespace Byt3.ExtPP
         /// <returns>the source of the file</returns>
         public string[] GetSource()
         {
-            if (_source == null)
+            if (source == null)
             {
                 Load();
             }
-            return _source;
+            return source;
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace Byt3.ExtPP
         /// <param name="source">the updated source</param>
         public void SetSource(string[] source)
         {
-            _source = source;
+            this.source = source;
         }
 
 
@@ -97,7 +98,7 @@ namespace Byt3.ExtPP
         /// <returns>false if nonexsistant or not the specified type</returns>
         public bool HasValueOfType<T>(string key)
         {
-            return _importInfo.ContainsKey(key) && _importInfo.GetValue(key).GetType() == typeof(T);
+            return importInfo.ContainsKey(key) && importInfo.GetValue(key).GetType() == typeof(T);
         }
 
         /// <summary>
@@ -108,7 +109,7 @@ namespace Byt3.ExtPP
         /// <returns>the value casted to type t</returns>
         public T GetValueFromCache<T>(string key)
         {
-            return (T)_importInfo.GetValue(key);
+            return (T)importInfo.GetValue(key);
         }
 
         /// <summary>
@@ -118,7 +119,7 @@ namespace Byt3.ExtPP
         /// <param name="value">the value</param>
         public void AddValueToCache(string key, object value)
         {
-            _importInfo.SetValue(key, value);
+            importInfo.SetValue(key, value);
         }
 
         /// <summary>
@@ -131,7 +132,7 @@ namespace Byt3.ExtPP
             bool ret = LoadSource();
             if (!ret)
             {
-                PPLogger.Instance.Error("Could not load file: {0}", _filepath);
+                Logger.Log(PPLogType.Error,Verbosity.Level1, "Could not load file: {0}", filepath);
 
             }
 
@@ -144,7 +145,7 @@ namespace Byt3.ExtPP
         /// <returns>the success state of the operation</returns>
         private bool LoadSource()
         {
-            bool ret = _filepath.TryGetLines(out _source);
+            bool ret = filepath.TryGetLines(out source);
             return ret;
         }
 

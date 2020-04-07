@@ -46,9 +46,8 @@ namespace Byt3.OpenCL.CommandQueues
         public static CommandQueue CreateCommandQueue(Context context, Device device)
         {
             // Creates the new command queue for the specified context and device
-            Result result;
             IntPtr commandQueuePointer =
-                CommandQueuesNativeApi.CreateCommandQueue(context.Handle, device.Handle, 0, out result);
+                CommandQueuesNativeApi.CreateCommandQueueWithProperties(context.Handle, device.Handle, IntPtr.Zero, out Result result);
 
             // Checks if the command queue creation was successful, if not, then an exception is thrown
             if (result != Result.Success)
@@ -102,9 +101,8 @@ namespace Byt3.OpenCL.CommandQueues
             resultValuePointer = Marshal.AllocHGlobal(size);
 
             // Reads the memory object, by enqueuing the read operation to the command queue
-            IntPtr waitEventPointer;
             Result result = EnqueuedCommandsNativeApi.EnqueueReadBuffer(Handle, memoryObject.Handle, 1, UIntPtr.Zero,
-                new UIntPtr((uint) size), resultValuePointer, 0, null, out waitEventPointer);
+                new UIntPtr((uint) size), resultValuePointer, 0, null, out IntPtr waitEventPointer);
 
             // Checks if the read operation was queued successfuly, if not, an exception is thrown
             if (result != Result.Success)
@@ -175,10 +173,9 @@ namespace Byt3.OpenCL.CommandQueues
                 resultValuePointer = Marshal.AllocHGlobal(size);
 
                 // Reads the memory object, by enqueuing the read operation to the command queue
-                IntPtr waitEventPointer;
                 Result result = EnqueuedCommandsNativeApi.EnqueueReadBuffer(Handle, memoryObject.Handle, 1,
                     UIntPtr.Zero,
-                    new UIntPtr((uint) size), resultValuePointer, 0, null, out waitEventPointer);
+                    new UIntPtr((uint) size), resultValuePointer, 0, null, out IntPtr _);
 
                 // Checks if the read operation was queued successfuly, if not, an exception is thrown
                 if (result != Result.Success)
@@ -223,10 +220,9 @@ namespace Byt3.OpenCL.CommandQueues
                 // Allocates enough memory for the result value
                 int size = Marshal.SizeOf<T>() * value.Length;
                 // Reads the memory object, by enqueuing the read operation to the command queue
-                IntPtr waitEventPointer;
                 Result result = EnqueuedCommandsNativeApi.EnqueueWriteBuffer(Handle, memoryObject.Handle, 1,
                     UIntPtr.Zero,
-                    new UIntPtr((uint) size), resultValuePointer, 0, null, out waitEventPointer);
+                    new UIntPtr((uint) size), resultValuePointer, 0, null, out IntPtr _);
 
                 // Checks if the read operation was queued successfuly, if not, an exception is thrown
                 if (result != Result.Success)
@@ -257,9 +253,8 @@ namespace Byt3.OpenCL.CommandQueues
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
 
             // Enqueues the kernel
-            IntPtr waitEventPointer;
             Result result = EnqueuedCommandsNativeApi.EnqueueNDRangeKernel(Handle, kernel.Handle, (uint) workDimension,
-                null, new[] {new IntPtr(workUnitsPerKernel)}, null, 0, null, out waitEventPointer);
+                null, new[] {new IntPtr(workUnitsPerKernel)}, null, 0, null, out IntPtr waitEventPointer);
 
             // Checks if the kernel was enqueued successfully, if not, then an exception is thrown
             if (result != Result.Success)
@@ -305,9 +300,8 @@ namespace Byt3.OpenCL.CommandQueues
         public void EnqueueNDRangeKernel(Kernel kernel, int workDimension, int workUnitsPerKernel)
         {
             // Enqueues the kernel
-            IntPtr waitEventPointer;
             Result result = EnqueuedCommandsNativeApi.EnqueueNDRangeKernel(Handle, kernel.Handle, (uint) workDimension,
-                null, new[] {new IntPtr(workUnitsPerKernel)}, null, 0, null, out waitEventPointer);
+                null, new[] {new IntPtr(workUnitsPerKernel)}, null, 0, null, out IntPtr _);
 
             // Checks if the kernel was enqueued successfully, if not, then an exception is thrown
             if (result != Result.Success)

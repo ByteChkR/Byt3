@@ -10,14 +10,14 @@ namespace Byt3.Threading
         protected int Tick;
 
         private bool stopServer;
-        private Thread LoopThread;
+        private Thread loopThread;
 
         public virtual void StartServer(int tick, CancellationToken token)
         {
             IsRunning = true;
             Tick = tick;
-            LoopThread = new Thread(() => Loop(token));
-            LoopThread.Start();
+            loopThread = new Thread(() => Loop(token));
+            loopThread.Start();
         }
 
         public virtual void StopServer()

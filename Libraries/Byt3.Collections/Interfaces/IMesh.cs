@@ -5,10 +5,10 @@ namespace Byt3.Collections.Interfaces
 {
     public interface IMesh
     {
-        List<IVec3> vertices { get; set; }
-        List<IVec3> normals { get; set; }
-        List<IVec2> uvs { get; set; }
-        List<Tuple<int,int,int>> indices { get; set; }
+        List<IVec3> Vertices { get; set; }
+        List<IVec3> Normals { get; set; }
+        List<IVec2> UVs { get; set; }
+        List<Tuple<int,int,int>> Indices { get; set; }
 
         IMesh GetEmptyMesh();
 

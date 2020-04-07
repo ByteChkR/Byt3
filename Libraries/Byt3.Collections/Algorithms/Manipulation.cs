@@ -7,16 +7,16 @@ namespace Byt3.Collections.Algorithms
     {
         public static void FloodFill(IFillNode startNode, IComparable newValue)
         {
-            IComparable oldValue = startNode.IFillValue; //Save our old value.
-            foreach (IFillNode ifnode in startNode.INodeConnectedNodes)
+            IComparable oldValue = startNode.FillValue; //Save our old value.
+            foreach (IFillNode ifnode in startNode.NodeConnectedNodes)
             {
-                if (ifnode.IFillValue.CompareTo(oldValue) == 0) //Connected node has the same old value
+                if (ifnode.FillValue.CompareTo(oldValue) == 0) //Connected node has the same old value
                 {
                     FloodFill(ifnode, newValue); //Call the "child" node
                 }
 
             }
-            startNode.IFillValue = newValue; //Finally change the value on our root(all the children are done)
+            startNode.FillValue = newValue; //Finally change the value on our root(all the children are done)
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenCLNetStandard.DataTypes;
 
 namespace Byt3.OpenCL.Wrapper
 {
@@ -17,7 +17,7 @@ namespace Byt3.OpenCL.Wrapper
         /// Item 2: The maximum value of the data type
         /// Item 3: The Enum Representation of the Type
         /// </summary>
-        private static List<Tuple<string, float, Wrapper.TypeEnums.DataTypes>> DataTypePairs =
+        private static readonly List<Tuple<string, float, Wrapper.TypeEnums.DataTypes>> DataTypePairs =
             new List<Tuple<string, float, Wrapper.TypeEnums.DataTypes>>
             {
                 new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("float", float.MaxValue, Wrapper.TypeEnums.DataTypes.Float1),

@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
-using Byt3.ExtPP.Base;
+using Byt3.ADL;
 using Byt3.ExtPP.Base.Interfaces;
-using Byt3.ExtPP.Base.settings;
+using Byt3.ExtPP.Base.Plugins;
 
 namespace Byt3.ExtPP
 {
     /// <summary>
     /// Contains the Values on what is Defined as a Variable when Processing the text
     /// </summary>
-    public class Definitions : ILoggable, IDefinitions
+    public class Definitions : ALoggable<PPLogType>, IDefinitions
     {
         /// <summary>
         /// Dictionary to keep track of what is defined and what is not
         /// </summary>
-        private readonly Dictionary<string, bool> _definitions;
+        private readonly Dictionary<string, bool> definitions;
 
         /// <summary>
         /// Convenience Wrapper
@@ -27,7 +27,7 @@ namespace Byt3.ExtPP
         /// <param name="definitions">the predefined definitions</param>
         public Definitions(Dictionary<string, bool> definitions)
         {
-            _definitions = definitions;
+            this.definitions = definitions;
         }
 
         /// <summary>
@@ -81,14 +81,14 @@ namespace Byt3.ExtPP
         /// <param name="state">The state of the key</param>
         private void Change(string key, bool state)
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Setting Key: {0} to value: {1}", key, state);
-            if (_definitions.ContainsKey(key))
+            Logger.Log(PPLogType.Log, Verbosity.Level6, "Setting Key: {0} to value: {1}", key, state);
+            if (definitions.ContainsKey(key))
             {
-                _definitions[key] = state;
+                definitions[key] = state;
             }
             else
             {
-                _definitions.Add(key, state);
+                definitions.Add(key, state);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Byt3.ExtPP
         /// <returns>returns true when the key is set.</returns>
         public bool Check(string key)
         {
-            return _definitions.ContainsKey(key) && _definitions[key];
+            return definitions.ContainsKey(key) && definitions[key];
         }
 
     }

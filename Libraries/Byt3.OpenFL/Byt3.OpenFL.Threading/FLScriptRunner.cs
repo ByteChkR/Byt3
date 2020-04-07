@@ -69,8 +69,7 @@ namespace Byt3.OpenFL.Threading
 
 
             byte[] buffer = ret.GetResult<byte>();
-            Dictionary<string, byte[]> result = new Dictionary<string, byte[]>();
-            result.Add("result", buffer);
+            Dictionary<string, byte[]> result = new Dictionary<string, byte[]> {{"result", buffer}};
 
             foreach (KeyValuePair<string, Bitmap> keyValuePair in context.TextureMap)
             {

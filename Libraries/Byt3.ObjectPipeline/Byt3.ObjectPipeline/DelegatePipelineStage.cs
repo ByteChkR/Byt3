@@ -7,15 +7,15 @@ namespace Byt3.ObjectPipeline
     {
         public delegate TOut ProcessDel(TIn input);
 
-        private readonly ProcessDel StageDel;
+        private readonly ProcessDel stageDel;
         public DelegatePipelineStage(ProcessDel stageDel)
         {
-            StageDel = stageDel ?? throw new ArgumentNullException("stageDel", "The Stage Delegate can not be null.");
+            this.stageDel = stageDel ?? throw new ArgumentNullException("stageDel", "The Stage Delegate can not be null.");
         }
 
         public override TOut Process(TIn input)
         {
-            return StageDel(input);
+            return stageDel(input);
         }
     }
 }

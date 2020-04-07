@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,16 +13,19 @@ namespace Byt3.ExtPP.Tests
         {
             get
             {
-                IncludePlugin inc = new IncludePlugin();
-                inc.IncludeInlineKeyword = "pp_includeinl:";
-                inc.IncludeKeyword = "pp_include:";
-                ConditionalPlugin cond = new ConditionalPlugin();
-                cond.StartCondition = "pp_if:";
-                cond.ElseIfCondition = "pp_elseif:";
-                cond.ElseCondition = "pp_else:";
-                cond.EndCondition = "pp_endif:";
-                cond.DefineKeyword = "pp_define:";
-                cond.UndefineKeyword = "pp_undefine:";
+                IncludePlugin inc = new IncludePlugin
+                {
+                    IncludeInlineKeyword = "pp_includeinl:", IncludeKeyword = "pp_include:"
+                };
+                ConditionalPlugin cond = new ConditionalPlugin
+                {
+                    StartCondition = "pp_if:",
+                    ElseIfCondition = "pp_elseif:",
+                    ElseCondition = "pp_else:",
+                    EndCondition = "pp_endif:",
+                    DefineKeyword = "pp_define:",
+                    UndefineKeyword = "pp_undefine:"
+                };
 
                 return new List<AbstractPlugin>
                 {

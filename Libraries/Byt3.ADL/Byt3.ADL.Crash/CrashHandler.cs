@@ -5,32 +5,22 @@ using Byt3.ADL.Configs;
 
 namespace Byt3.ADL.Crash
 {
-    [Serializable]
-    public class CrashConfig : AbstractADLConfig
-    {
-        public bool ShortenCrashInfo;
-        public override AbstractADLConfig GetStandard()
-        {
-            return new CrashConfig() {};
-        }
-    }
-
     public static class CrashHandler
     {
         private enum CrashLogType
         {
-            Crash_Short, Update, Error, Crash
+            CrashShort, Error, Crash
         }
 
         private static bool initialized = false;
 
-        private static CrashConfig config = ConfigManager.GetDefault<CrashConfig>();
+        private static readonly CrashConfig Config = ConfigManager.GetDefault<CrashConfig>();
 
-        private static ALogger<CrashLogType> crashLogger = new ALogger<CrashLogType>("ADL.Crash");
+        private static readonly ADLLogger<CrashLogType> CrashLogger = new ADLLogger<CrashLogType>("ADL.Crash");
 
         public static void SaveCurrentConfig(string configPath = "adl_crash.xml")
         {
-            ConfigManager.SaveToFile(configPath, config);
+            ConfigManager.SaveToFile(configPath, Config);
         }
         public static void Initialize(string configPath = "adl_crash.xml")
         {
@@ -42,7 +32,7 @@ namespace Byt3.ADL.Crash
         }
         public static void Initialize(bool shortenCrashInfo)
         {
-            config.ShortenCrashInfo = shortenCrashInfo;
+            Config.ShortenCrashInfo = shortenCrashInfo;
 
 
             initialized = true;
@@ -52,20 +42,20 @@ namespace Byt3.ADL.Crash
         {
             if (!initialized)
             {
-                crashLogger.Log(CrashLogType.Error, "Crash handler was not initialized");
+                CrashLogger.Log(CrashLogType.Error, "Crash handler was not initialized");
                 return;
             }
 
-            if (config.ShortenCrashInfo)
+            if (Config.ShortenCrashInfo)
             {
-                crashLogger.Log(CrashLogType.Crash_Short, ExceptionHeader(exception));
+                CrashLogger.Log(CrashLogType.CrashShort, ExceptionHeader(exception));
             }
             else
             {
-                crashLogger.Log(CrashLogType.Crash, ExceptionToString(exception, includeInner) );
+                CrashLogger.Log(CrashLogType.Crash, ExceptionToString(exception, includeInner) );
             }
 
-            CrashLogType lt = config.ShortenCrashInfo ? CrashLogType.Crash_Short : CrashLogType.Crash;
+            CrashLogType lt = Config.ShortenCrashInfo ? CrashLogType.CrashShort : CrashLogType.Crash;
 
             
 

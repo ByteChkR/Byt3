@@ -4,13 +4,15 @@ using Byt3.ADL;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.settings;
 
-namespace Byt3.ExtPP.Base
+namespace Byt3.ExtPP.Base.Plugins
 {
+
     /// <summary>
     /// Specifies the functionality needed to be incorporated in the processing chain of ext_pp
     /// </summary>
-    public abstract class AbstractPlugin : ILoggable
+    public abstract class AbstractPlugin : ALoggable<PPLogType>
     {
+        
 
         /// <summary>
         /// Returns the plugins that are meant to be run at the specified stage
@@ -38,11 +40,11 @@ namespace Byt3.ExtPP.Base
         /// <summary>
         /// Specifies the plugin type. Fullscript or Line Script
         /// </summary>
-        public virtual PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
+        public virtual PluginType PluginTypeToggle => PluginType.FullScriptPlugin;
         /// <summary>
         /// Specifies the order on what "event" the plugin should execute
         /// </summary>
-        public virtual ProcessStage ProcessStages => ProcessStage.ON_MAIN;
+        public virtual ProcessStage ProcessStages => ProcessStage.OnMain;
 
         /// <summary>
         /// A list of command infos. This list contains all the different commands of the plugin/program

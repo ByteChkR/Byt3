@@ -153,8 +153,7 @@ namespace Byt3.Serialization
 
         private static object MainRead(BasePacket basePacket)
         {
-            MemoryStream ms = new MemoryStream(basePacket.Payload);
-            ms.Position = 0;
+            MemoryStream ms = new MemoryStream(basePacket.Payload) {Position = 0};
             Type packetType = GetTypeByKey(basePacket.PacketType);
 
             PrimitiveValueWrapper mainStage = new PrimitiveValueWrapper(ms);

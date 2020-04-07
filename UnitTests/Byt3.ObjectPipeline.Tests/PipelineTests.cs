@@ -22,10 +22,10 @@ namespace Byt3.ObjectPipeline.Tests
 
         private class InterceptFilePathStage : PipelineStage<string, string>
         {
-            private string FileToIntercept = "C:\\TestFile";
+            private readonly string fileToIntercept = "C:\\TestFile";
             public override string Process(string input)
             {
-                return Path.GetFullPath(input) == FileToIntercept ? "C:\\InterceptedFile" : input;
+                return Path.GetFullPath(input) == fileToIntercept ? "C:\\InterceptedFile" : input;
             }
         }
 

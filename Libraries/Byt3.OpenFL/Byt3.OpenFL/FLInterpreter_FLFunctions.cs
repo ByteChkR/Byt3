@@ -1,4 +1,5 @@
 ﻿using System;
+using Byt3.ADL;
 using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.Wrapper;
@@ -8,18 +9,17 @@ namespace Byt3.OpenFL
     /// <summary>
     /// Partial Class that Contains the Baked FL Functions
     /// </summary>
-    public partial class FLInterpreter
+    public partial class FLInterpreter 
     {
         /// <summary>
         /// The implementation of the command setactive
         /// </summary>
-        private void cmd_setactive()
+        private void CmdSetActive()
         {
             if (currentArgStack.Count < 1)
             {
-                CLLogger.Crash(new FLInvalidFunctionUseException("setactive", "Specify the buffer you want to activate"),
-                    true);
-                return;
+                throw new FLInvalidFunctionUseException("setactive", "Specify the buffer you want to activate");
+
             }
 
             byte[] temp = new byte[channelCount];
@@ -28,15 +28,14 @@ namespace Byt3.OpenFL
                 object val = currentArgStack.Pop();
                 if (!(val is decimal))
                 {
-                    CLLogger.Crash(new FLInvalidFunctionUseException("setactive", "Invalid channel Arguments"), true);
-                    val = 0;
+                    throw new FLInvalidFunctionUseException("setactive", "Invalid channel Arguments");
                 }
 
                 byte channel = (byte) Convert.ChangeType(val, typeof(byte));
                 if (channel >= channelCount)
                 {
-                    CLLogger.Log("Script is enabling channels beyond channel count. Ignoring...",
-                        DebugChannel.Warning | DebugChannel.EngineOpenFL, 10);
+                    Logger.Log(DebugChannel.Error, Verbosity.Level1, "Script is enabling channels beyond channel count. Ignoring...",
+                        DebugChannel.Warning | DebugChannel.OpenFL, 10);
                 }
                 else
                 {
@@ -47,9 +46,7 @@ namespace Byt3.OpenFL
             if (currentArgStack.Peek() == null ||
                 !(currentArgStack.Peek() is CLBufferInfo) && !(currentArgStack.Peek() is decimal))
             {
-                CLLogger.Crash(new FLInvalidFunctionUseException("setactive", "Specify the buffer you want to activate"),
-                    true);
-                return;
+                throw new FLInvalidFunctionUseException("setactive", "Specify the buffer you want to activate");
             }
 
             if (currentArgStack.Peek() is decimal)
@@ -74,13 +71,13 @@ namespace Byt3.OpenFL
 
             if (needCopy)
             {
-                CLLogger.Log("Updating Channel Buffer", DebugChannel.Log | DebugChannel.EngineOpenFL, 6);
+                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Updating Channel Buffer", DebugChannel.Log | DebugChannel.OpenFL, 6);
                 activeChannels = temp;
                 CLAPI.WriteToBuffer(instance, activeChannelBuffer, activeChannels);
             }
             else
             {
-                CLLogger.Log("Skipping Updating Channel Buffer", DebugChannel.Log | DebugChannel.EngineOpenFL, 6);
+                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Skipping Updating Channel Buffer", DebugChannel.Log | DebugChannel.OpenFL, 6);
             }
         }
 
@@ -96,7 +93,7 @@ namespace Byt3.OpenFL
         /// <summary>
         /// The implementation of the command random
         /// </summary>
-        private void cmd_writerandom()
+        private void CmdWriteRandom()
         {
             if (currentArgStack.Count == 0)
             {
@@ -108,10 +105,8 @@ namespace Byt3.OpenFL
                 object obj = currentArgStack.Pop();
                 if (!(obj is CLBufferInfo))
                 {
-                    CLLogger.Crash(
-                        new FLInvalidArgumentType("Argument: " + currentArgStack.Count + 1, "MemoyBuffer/Image"),
-                        true);
-                    continue;
+                    throw
+                        new FLInvalidArgumentType("Argument: " + currentArgStack.Count + 1, "MemoyBuffer/Image");
                 }
 
                 CLAPI.WriteRandom(instance, (obj as CLBufferInfo).Buffer, Randombytesource, activeChannels, false);
@@ -121,7 +116,7 @@ namespace Byt3.OpenFL
         /// <summary>
         /// The implementation of the command random
         /// </summary>
-        private void cmd_writerandomu()
+        private void CmdWriteRandomU()
         {
             if (currentArgStack.Count == 0)
             {
@@ -133,10 +128,7 @@ namespace Byt3.OpenFL
                 object obj = currentArgStack.Pop();
                 if (!(obj is CLBufferInfo))
                 {
-                    CLLogger.Crash(
-                        new FLInvalidArgumentType("Argument: " + currentArgStack.Count + 1, "MemoyBuffer/Image"),
-                        true);
-                    continue;
+                    throw new FLInvalidArgumentType("Argument: " + currentArgStack.Count + 1, "MemoyBuffer/Image");
                 }
 
                 CLAPI.WriteRandom(instance, (obj as CLBufferInfo).Buffer, Randombytesource, activeChannels, true);
@@ -146,15 +138,15 @@ namespace Byt3.OpenFL
         /// <summary>
         /// The implementation of the command jmp
         /// </summary>
-        private void cmd_jump() //Dummy function. Implementation in AnalyzeLine(code) function(look for isDirectExecute)
+        private void CmdJump() //Dummy function. Implementation in AnalyzeLine(code) function(look for isDirectExecute)
         {
-            CLLogger.Log("Jumping.", DebugChannel.Log | DebugChannel.EngineOpenFL, 6);
+            Logger.Log(DebugChannel.Error, Verbosity.Level1, "Jumping.", DebugChannel.Log | DebugChannel.OpenFL, 6);
         }
 
         /// <summary>
         /// The implementation of the command brk
         /// </summary>
-        private void cmd_break()
+        private void CmdBreak()
         {
             if (ignoreDebug)
             {
@@ -171,17 +163,14 @@ namespace Byt3.OpenFL
                 object obj = currentArgStack.Pop();
                 if (!(obj is CLBufferInfo))
                 {
-                    CLLogger.Crash(
-                        new FLInvalidArgumentType("Argument: " + currentArgStack.Count + 1, "MemoyBuffer/Image"),
-                        true);
-                    return;
+                    throw new FLInvalidArgumentType("Argument: " + currentArgStack.Count + 1, "MemoyBuffer/Image");
                 }
 
                 stepResult.DebugBufferName = (obj as CLBufferInfo).ToString();
             }
             else
             {
-                CLLogger.Crash(new FLInvalidFunctionUseException("Break", "only one or zero arguments"), true);
+                throw new FLInvalidFunctionUseException("Break", "only one or zero arguments");
             }
         }
     }

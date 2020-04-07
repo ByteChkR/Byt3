@@ -8,12 +8,12 @@ using System.Runtime.InteropServices;
 using Byt3.ADL;
 using Byt3.OpenCL.CommandQueues;
 using Byt3.OpenCL.Contexts;
-using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Devices;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Platforms;
 using Byt3.OpenCL.Programs;
+using Byt3.OpenCLNetStandard.DataTypes;
 
 namespace Byt3.OpenCL.Wrapper
 {
@@ -22,7 +22,7 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class CLAPI : IDisposable
     {
-        internal static readonly ALogger<LogType> Logger = new ALogger<LogType>("CL-API");
+        internal static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("CL-API");
 
         public delegate string[] IOReadLinesCallback(string file);
 
@@ -36,80 +36,80 @@ namespace Byt3.OpenCL.Wrapper
 
         public delegate Stream IOGetStreamCallback(string file);
 
-        private static IOReadLinesCallback _readLines = File.ReadAllLines;
+        private static IOReadLinesCallback ReadLinesCallback = File.ReadAllLines;
         public static IOReadLinesCallback ReadLines
         {
-            get => _readLines;
+            get => ReadLinesCallback;
             set
             {
                 if (value != null)
                 {
-                    _readLines = value;
+                    ReadLinesCallback = value;
                 }
             }
         }
 
-        private static IOReadTextCallback _readText = File.ReadAllText;
+        private static IOReadTextCallback ReadTextCallback = File.ReadAllText;
         public static IOReadTextCallback ReadText
         {
-            get => _readText;
+            get => ReadTextCallback;
             set
             {
                 if (value != null)
                 {
-                    _readText = value;
+                    ReadTextCallback = value;
                 }
             }
         }
 
-        private static IOFileExistsCallback _fileExists = File.Exists;
+        private static IOFileExistsCallback FileExistsCallback = File.Exists;
         public static IOFileExistsCallback FileExists
         {
-            get => _fileExists;
+            get => FileExistsCallback;
             set
             {
                 if (value != null)
                 {
-                    _fileExists = value;
+                    FileExistsCallback = value;
                 }
             }
         }
 
-        private static IODirectoryExistsCallback _directoryExists = Directory.Exists;
+        private static IODirectoryExistsCallback DirectoryExistsCallback = Directory.Exists;
         public static IODirectoryExistsCallback DirectoryExists
         {
-            get => _directoryExists;
+            get => DirectoryExistsCallback;
             set
             {
                 if (value != null)
                 {
-                    _directoryExists = value;
+                    DirectoryExistsCallback = value;
                 }
             }
         }
 
-        private static IOGetFilesCallback _getFiles = Directory.GetFiles;
+        private static IOGetFilesCallback GetFilesCallback = Directory.GetFiles;
         public static IOGetFilesCallback GetFiles
         {
-            get => _getFiles;
+            get => GetFilesCallback;
             set
             {
                 if (value != null)
                 {
-                    _getFiles = value;
+                    GetFilesCallback = value;
                 }
             }
         }
 
-        private static IOGetStreamCallback _getStream = File.OpenRead;
+        private static IOGetStreamCallback GetStreamCallback = File.OpenRead;
         public static IOGetStreamCallback GetStream
         {
-            get => _getStream;
+            get => GetStreamCallback;
             set
             {
                 if (value != null)
                 {
-                    _getStream = value;
+                    GetStreamCallback = value;
                 }
             }
         }
@@ -127,7 +127,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Field that holds the instance of the CL wrapper
         /// </summary>
-        private static CLAPI _instance;
+        private static CLAPI Instance;
 
         /// <summary>
         /// The Command queue that the wrapper is using
@@ -150,13 +150,13 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Helpful property for initializing the singleton
         /// </summary>
-        public static CLAPI MainThread => _instance ?? (_instance = new CLAPI());
+        public static CLAPI MainThread => Instance ?? (Instance = new CLAPI());
 
         private static void ApiDisposed(CLAPI obj)
         {
-            if (obj == _instance)
+            if (obj == Instance)
             {
-                _instance = null;
+                Instance = null;
             }
         }
 
@@ -189,7 +189,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         public static void Reinitialize()
         {
-            _instance = new CLAPI();
+            Instance = new CLAPI();
         }
 
         /// <summary>

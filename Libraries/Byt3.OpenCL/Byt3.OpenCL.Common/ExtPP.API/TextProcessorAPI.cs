@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 
@@ -12,9 +13,11 @@ namespace Byt3.OpenCL.Common.ExtPP.API
     /// </summary>
     public static class TextProcessorAPI
     {
+
+        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>("TextProcessorAPI");
         public static IIOCallback PpCallback = null;
 
-        private static Dictionary<string, APreProcessorConfig> _configs = new Dictionary<string, APreProcessorConfig>
+        private static readonly Dictionary<string, APreProcessorConfig> Configs = new Dictionary<string, APreProcessorConfig>
         {
             {".fl", new FLPreProcessorConfig()},
             {".vs", new GLCLPreProcessorConfig()},
@@ -25,7 +28,7 @@ namespace Byt3.OpenCL.Common.ExtPP.API
 
         public static string[] GenericIncludeToSource(string ext, string file, params string[] genType)
         {
-            return new[] { _configs[ext].GetGenericInclude(file, genType) };
+            return new[] { Configs[ext].GetGenericInclude(file, genType) };
         }
 
         public static string[] PreprocessLines(string filename, Dictionary<string, bool> defs)
@@ -62,14 +65,14 @@ namespace Byt3.OpenCL.Common.ExtPP.API
                 defs.Add(key, true);
             }
 
-            if (_configs.ContainsKey(ext))
+            if (Configs.ContainsKey(ext))
             {
-                DebugHelper.Log("Found Matching PreProcessor Config for: " + ext, 1 | (1 << 21));
-                return _configs[ext].Preprocess(file, defs);
+                Logger.Log(DebugChannel.Log,  "Found Matching PreProcessor Config for: " + ext);
+                return Configs[ext].Preprocess(file, defs);
             }
 
-            DebugHelper.Log("Loading File with Default PreProcessing", 1 | (1 << 21));
-            return _configs["***"].Preprocess(file, defs);
+            Logger.Log(DebugChannel.Log,"Loading File with Default PreProcessing");
+            return Configs["***"].Preprocess(file, defs);
         }
 
 

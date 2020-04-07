@@ -1,4 +1,5 @@
 ﻿using System;
+using Byt3.ADL;
 
 namespace Byt3.OpenCL.Common.Exceptions
 {
@@ -7,6 +8,7 @@ namespace Byt3.OpenCL.Common.Exceptions
     /// </summary>
     public class Byt3Exception : ApplicationException
     {
+        protected readonly ADLLogger<DebugChannel> Logger;
         /// <summary>
         /// Constructor
         /// </summary>
@@ -14,6 +16,7 @@ namespace Byt3.OpenCL.Common.Exceptions
         /// <param name="inner">Inner exeption</param>
         public Byt3Exception(string errorMessage, Exception inner) : base(errorMessage, inner)
         {
+            Logger=new ADLLogger<DebugChannel>(GetType().Name);
         }
 
         /// <summary>

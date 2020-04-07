@@ -62,7 +62,7 @@ namespace Byt3.OpenFL
         /// <summary>
         /// String builder instance that is used when doing some more heaview string operations
         /// </summary>
-        private static StringBuilder _sb = new StringBuilder();
+        private static readonly StringBuilder Sb = new StringBuilder();
 
         /// <summary>
         /// ToString Implementation
@@ -70,28 +70,28 @@ namespace Byt3.OpenFL
         /// <returns>Returns Current Processor State</returns>
         public override string ToString()
         {
-            _sb.Clear();
+            Sb.Clear();
             for (int i = 0; i < ActiveChannels.Length; i++)
             {
-                _sb.Append(ActiveChannels[i]);
+                Sb.Append(ActiveChannels[i]);
             }
 
-            string channels = _sb.ToString();
-            _sb.Clear();
+            string channels = Sb.ToString();
+            Sb.Clear();
             foreach (string definedBuffer in DefinedBuffers)
             {
-                _sb.Append($"\n  {definedBuffer}");
+                Sb.Append($"\n  {definedBuffer}");
             }
 
-            string definedBuffers = _sb.ToString();
+            string definedBuffers = Sb.ToString();
 
-            _sb.Clear();
+            Sb.Clear();
             foreach (string jumpBuffer in BuffersInJumpStack)
             {
-                _sb.Append($"\n  {jumpBuffer}");
+                Sb.Append($"\n  {jumpBuffer}");
             }
 
-            string jumpBuffers = _sb.ToString();
+            string jumpBuffers = Sb.ToString();
             return
                 $"Debug Step Info:\n Active Buffer: {DebugBufferName}\n SourceLine:{SourceLine}\n HasJumped:{HasJumped}\n Triggered Breakpoint:{TriggeredDebug}\n Terminated:{Terminated}\n Active Channels:{channels}\n Defined Buffers:{definedBuffers}\n JumpStack:{jumpBuffers}";
         }

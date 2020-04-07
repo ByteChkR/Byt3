@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Byt3.ADL;
+using Byt3.ExtPP.Base.Interfaces;
 using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.Common.ExtPP.API;
-using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenCLNetStandard.DataTypes;
 using Byt3.OpenFL.FLDataObjects;
 
 namespace Byt3.OpenFL
@@ -16,7 +18,7 @@ namespace Byt3.OpenFL
     /// <summary>
     /// The FL Interpreter
     /// </summary>
-    public partial class FLInterpreter
+    public partial class FLInterpreter :ALoggable<DebugChannel>
     {
         #region Static Properties
 
@@ -41,54 +43,54 @@ namespace Byt3.OpenFL
         /// <summary>
         /// The key to look for when parsing defined textures
         /// </summary>
-        private const string DefineKey = "--define texture ";
+        private const string DEFINE_KEY = "--define texture ";
 
         /// <summary>
         /// The key to look for when parsing defined scripts
         /// </summary>
-        private const string ScriptDefineKey = "--define script ";
+        private const string SCRIPT_DEFINE_KEY = "--define script ";
 
         /// <summary>
         /// FL header Count(the offset from 0 where the "user" parameter start)
         /// </summary>
-        private const int FlHeaderArgCount = 5;
+        private const int FL_HEADER_ARG_COUNT = 5;
 
         /// <summary>
         /// Everything past this string gets ignored by the interpreter
         /// </summary>
-        private const string CommentPrefix = "#";
+        private const string COMMENT_PREFIX = "#";
 
         /// <summary>
         /// The function name that is used as the starting function
         /// </summary>
-        private const string EntrySignature = "Main";
+        private const string ENTRY_SIGNATURE = "Main";
 
         /// <summary>
         /// A buffer that is defined by default.
         /// (The input buffer contains the texture that the script is operating on)
         /// </summary>
-        private const string InputBufferName = "in";
+        private const string INPUT_BUFFER_NAME = "in";
 
         /// <summary>
         /// The Symbol that is used to determine if the line is a function header
         /// </summary>
-        private const string FunctionNamePostfix = ":";
+        private const string FUNCTION_NAME_POSTFIX = ":";
 
         /// <summary>
         /// The Separator that is used to separate words(instructions and arguments)
         /// </summary>
-        private const string WordSeparator = " ";
+        private const string WORD_SEPARATOR = " ";
 
         /// <summary>
         /// The Symbol that indicates a filepath. (has to be surrounded e.g. "/path/to/file")
         /// </summary>
-        private const string FilepathIndicator = "\"";
+        private const string FILEPATH_INDICATOR = "\"";
 
         #endregion
 
         #region Private Properties
 
-        private CLAPI instance;
+        private readonly CLAPI instance;
 
         private FLScriptData data;
 
@@ -199,11 +201,10 @@ namespace Byt3.OpenFL
         {
             get
             {
-                int idx = data.Source.IndexOf(EntrySignature + FunctionNamePostfix);
+                int idx = data.Source.IndexOf(ENTRY_SIGNATURE + FUNCTION_NAME_POSTFIX);
                 if (idx == -1 || data.Source.Count - 1 == idx)
                 {
-                    CLLogger.Crash(new FLInvalidEntryPointException("There needs to be a main function."), true);
-                    return 0;
+                    throw new  FLInvalidEntryPointException("There needs to be a main function.");
                 }
 
                 return idx + 1;
@@ -234,11 +235,11 @@ namespace Byt3.OpenFL
             this.instance = instance;
             flFunctions = new Dictionary<string, FLInterpreterFunctionInfo>
             {
-                {"setactive", new FLInterpreterFunctionInfo(cmd_setactive, false)},
-                {"rnd", new FLInterpreterFunctionInfo(cmd_writerandom, false)},
-                {"urnd", new FLInterpreterFunctionInfo(cmd_writerandomu, false)},
-                {"jmp", new FLInterpreterFunctionInfo(cmd_jump, true)},
-                {"brk", new FLInterpreterFunctionInfo(cmd_break, false)}
+                {"setactive", new FLInterpreterFunctionInfo(CmdSetActive, false)},
+                {"rnd", new FLInterpreterFunctionInfo(CmdWriteRandom, false)},
+                {"urnd", new FLInterpreterFunctionInfo(CmdWriteRandomU, false)},
+                {"jmp", new FLInterpreterFunctionInfo(CmdJump, true)},
+                {"brk", new FLInterpreterFunctionInfo(CmdBreak, false)}
             };
 
 
@@ -346,8 +347,7 @@ namespace Byt3.OpenFL
                 {
                     if (memoryBuffer.Value.IsInternal)
                     {
-                        CLLogger.Log("Freeing Buffer: " + memoryBuffer.Value,
-                            DebugChannel.Log | DebugChannel.EngineOpenFL, 5);
+                        Logger.Log(DebugChannel.Log | DebugChannel.OpenFL,Verbosity.Level5,"Freeing Buffer: " + memoryBuffer.Value);
                         memoryBuffer.Value.Buffer.Dispose();
                     }
                 }
@@ -379,7 +379,7 @@ namespace Byt3.OpenFL
 
             //Setting variables
             currentBuffer = new CLBufferInfo(input, false);
-            currentBuffer.SetKey(InputBufferName);
+            currentBuffer.SetKey(INPUT_BUFFER_NAME);
 
             this.ignoreDebug = ignoreDebug;
             this.width = width;
@@ -398,7 +398,7 @@ namespace Byt3.OpenFL
                 CLAPI.CreateBuffer(instance, activeChannels, MemoryFlag.ReadOnly | MemoryFlag.CopyHostPointer);
 
             //Parsing File
-            currentBuffer.SetKey(InputBufferName);
+            currentBuffer.SetKey(INPUT_BUFFER_NAME);
             data = LoadScriptData(instance, file, currentBuffer, width, height, depth, channelCount, kernelDb,
                 flFunctions);
 
@@ -416,7 +416,7 @@ namespace Byt3.OpenFL
         /// <returns>The Sanizied line</returns>
         private static string SanitizeLine(string line)
         {
-            return line.Split(new []{ CommentPrefix }, StringSplitOptions.None)[0];
+            return line.Split(new []{ COMMENT_PREFIX }, StringSplitOptions.None)[0];
         }
 
         /// <summary>
@@ -426,7 +426,7 @@ namespace Byt3.OpenFL
         /// <returns></returns>
         private static string[] SplitLine(string line)
         {
-            return line.Split(new []{ WordSeparator }, StringSplitOptions.RemoveEmptyEntries);
+            return line.Split(new []{ WORD_SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>
@@ -473,7 +473,6 @@ namespace Byt3.OpenFL
             if (data.InstructionType != FLInstructionType.FlFunction &&
                 data.InstructionType != FLInstructionType.ClKernel)
             {
-                CLLogger.Crash(new FLParseError(this.data.Source[currentIndex]), true);
                 return FLLineAnalysisResult.ParseError;
             }
 
@@ -518,17 +517,14 @@ namespace Byt3.OpenFL
                 }
 
                 CLKernel k = (CLKernel) data.Instruction;
-                if (k == null || data.Arguments.Count != k.Parameter.Count - FlHeaderArgCount)
+                if (k == null || data.Arguments.Count != k.Parameter.Count - FL_HEADER_ARG_COUNT)
                 {
-                    CLLogger.Crash(
-                        new FLInvalidFunctionUseException(this.data.Source[currentIndex],
-                            "Not the right amount of arguments."),
-                        true);
-                    return FLLineAnalysisResult.ParseError;
+                    throw new FLInvalidFunctionUseException(this.data.Source[currentIndex],
+                        "Not the right amount of arguments.");
                 }
 
                 //Execute filter
-                for (int i = k.Parameter.Count - 1; i >= FlHeaderArgCount; i--)
+                for (int i = k.Parameter.Count - 1; i >= FL_HEADER_ARG_COUNT; i--)
                 {
                     object obj = currentArgStack.Pop(); //Get the arguments and set them to the kernel
                     if (obj is CLBufferInfo buf) //Unpack the Buffer from the CLBuffer Object.
@@ -539,7 +535,7 @@ namespace Byt3.OpenFL
                     k.SetArg(i, obj);
                 }
 
-                CLLogger.Log("Running kernel: " + k.Name, DebugChannel.Log | DebugChannel.EngineOpenFL, 8);
+                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8, "Running kernel: " + k.Name);
                 CLAPI.Run(instance, k, currentBuffer.Buffer, new int3(width, height, depth),
                     KernelParameter.GetDataMaxSize(kernelDb.GenDataType), activeChannelBuffer,
                     channelCount); //Running the kernel
@@ -558,7 +554,7 @@ namespace Byt3.OpenFL
             {
                 if (jumpStack.Count == 0)
                 {
-                    CLLogger.Log("Reached End of Code", DebugChannel.Log | DebugChannel.EngineOpenFL, 9);
+                    Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8, "Reached End of Code");
 
                     Terminated = true;
                 }
@@ -566,8 +562,7 @@ namespace Byt3.OpenFL
                 {
                     FLInterpreterState lastState = jumpStack.Pop();
 
-                    CLLogger.Log("Returning to location: " + data.Source[lastState.Line],
-                        DebugChannel.Log | DebugChannel.EngineOpenFL, 6);
+                    Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8, "Returning to location: " + data.Source[lastState.Line]);
                     currentIndex = lastState.Line;
 
 
@@ -593,7 +588,7 @@ namespace Byt3.OpenFL
         /// <param name="leaveBuffer">a flag to optionally keep the current buffer</param>
         private void JumpTo(int index, bool leaveBuffer = false)
         {
-            CLLogger.Log("Jumping To Function: " + data.Source[index], DebugChannel.EngineOpenFL | DebugChannel.Log, 6);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level6, "Jumping To Function: " + data.Source[index]);
             jumpStack.Push(new FLInterpreterState(currentIndex, currentBuffer, currentArgStack));
             stepResult.HasJumped = true;
 
@@ -620,12 +615,12 @@ namespace Byt3.OpenFL
         /// <summary>
         /// Finds all jump locations inside the script
         /// </summary>
-        private static Dictionary<string, int> ParseJumpLocations(List<string> source)
+        private Dictionary<string, int> ParseJumpLocations(List<string> source)
         {
             Dictionary<string, int> ret = new Dictionary<string, int>();
             for (int i = source.Count - 1; i >= 0; i--)
             {
-                if (source[i].EndsWith(FunctionNamePostfix) && source.Count - 1 != i)
+                if (source[i].EndsWith(FUNCTION_NAME_POSTFIX) && source.Count - 1 != i)
                 {
                     ret.Add(source[i].Remove(source[i].Length - 1, 1), i);
                 }
@@ -637,7 +632,7 @@ namespace Byt3.OpenFL
         /// <summary>
         /// Finds, Parses and Loads all define statements
         /// </summary>
-        private static void ParseDefines(CLAPI instance, string key, DefineHandler handler, List<string> source,
+        private void ParseDefines(CLAPI instance, string key, DefineHandler handler, List<string> source,
             Dictionary<string, CLBufferInfo> defines, int width, int height, int depth, int channelCount,
             KernelDatabase kernelDb)
         {
@@ -645,7 +640,7 @@ namespace Byt3.OpenFL
             {
                 if (source[i].StartsWith(key))
                 {
-                    string[] kvp = source[i].Remove(0, key.Length).Split(new []{ FunctionNamePostfix }, StringSplitOptions.None);
+                    string[] kvp = source[i].Remove(0, key.Length).Split(new []{ FUNCTION_NAME_POSTFIX }, StringSplitOptions.None);
 
                     handler?.Invoke(instance, kvp, defines, width, height, depth, channelCount, kernelDb);
                     source.RemoveAt(i);
@@ -659,9 +654,9 @@ namespace Byt3.OpenFL
         /// </summary>
         /// <param name="file"></param>
         /// <param name="channelCount"></param>
-        private static List<string> LoadSource(string file, int channelCount)
+        private List<string> LoadSource(string file, int channelCount)
         {
-            CLLogger.Log("Loading Source..", DebugChannel.Log | DebugChannel.EngineOpenFL | DebugChannel.IO, 9);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8, "Loading Source..");
 
             Dictionary<string, bool> defs = new Dictionary<string, bool>();
 
@@ -676,57 +671,50 @@ namespace Byt3.OpenFL
             for (int i = lines.Count - 1; i >= 0; i--)
             {
                 string line = lines[i].Trim();
-                if (line.StartsWith(CommentPrefix))
+                if (line.StartsWith(COMMENT_PREFIX))
                 {
                     lines.RemoveAt(i); //Remove otherwise emtpty lines after removing comments
                 }
                 else
                 {
-                    lines[i] = line.Split(new []{ CommentPrefix }, StringSplitOptions.None)[0].Trim();
+                    lines[i] = line.Split(new []{ COMMENT_PREFIX }, StringSplitOptions.None)[0].Trim();
                 }
             }
 
             return lines;
         }
 
-        private static FLScriptData LoadScriptData(CLAPI instance, string file, CLBufferInfo inBuffer, int width,
+        private FLScriptData LoadScriptData(CLAPI instance, string file, CLBufferInfo inBuffer, int width,
             int height, int depth,
             int channelCount,
             KernelDatabase db, Dictionary<string, FLInterpreterFunctionInfo> funcs)
         {
-            CLLogger.Log("Loading Script Data for File: " + file,
-                DebugChannel.Log | DebugChannel.EngineOpenFL | DebugChannel.IO, 6);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level6, "Loading Script Data for File: " + file);
 
             FLScriptData ret = new FLScriptData(LoadSource(file, channelCount));
 
 
-            ret.Defines.Add(InputBufferName, inBuffer);
+            ret.Defines.Add(INPUT_BUFFER_NAME, inBuffer);
 
-            CLLogger.Log("Parsing Texture Defines for File: " + file,
-                DebugChannel.Log | DebugChannel.EngineOpenFL | DebugChannel.IO, 5);
-            ParseDefines(instance, DefineKey, DefineTexture, ret.Source, ret.Defines, width, height, depth,
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5, "Parsing Texture Defines for File: " + file);
+            ParseDefines(instance, DEFINE_KEY, DefineTexture, ret.Source, ret.Defines, width, height, depth,
                 channelCount, db);
 
-            CLLogger.Log("Parsing Script Defines for File: " + file,
-                DebugChannel.Log | DebugChannel.EngineOpenFL | DebugChannel.IO, 5);
-            ParseDefines(instance, ScriptDefineKey, DefineScript, ret.Source, ret.Defines, width, height, depth,
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5, "Parsing Script Defines for File: " + file);
+            ParseDefines(instance, SCRIPT_DEFINE_KEY, DefineScript, ret.Source, ret.Defines, width, height, depth,
                 channelCount,
                 db);
 
-            CLLogger.Log("Parsing JumpLocations for File: " + file,
-                DebugChannel.Log | DebugChannel.EngineOpenFL | DebugChannel.IO, 5);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5, "Parsing JumpLocations for File: " + file);
             ret.JumpLocations = ParseJumpLocations(ret.Source);
 
-            CLLogger.Log("Parsing Instruction Data for File: " + file,
-                DebugChannel.Log | DebugChannel.EngineOpenFL | DebugChannel.IO, 5);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5, "Parsing Instruction Data for File: " + file);
             foreach (string line in ret.Source)
             {
-                CLLogger.Log("Parsing Instruction Data for Line: " + line,
-                    DebugChannel.Log | DebugChannel.EngineOpenFL | DebugChannel.IO, 3);
+                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level3, "Parsing Instruction Data for Line: " + line);
                 FLInstructionData data = GetInstructionData(line, ret.Defines, ret.JumpLocations, funcs, db);
 
-                CLLogger.Log("Parsed Instruction Data: " + Enum.GetName(typeof(FLInstructionType), data.InstructionType),
-                    DebugChannel.Log | DebugChannel.EngineOpenFL | DebugChannel.IO, 2);
+                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level3, "Parsed Instruction Data: " + Enum.GetName(typeof(FLInstructionType), data.InstructionType));
 
                 ret.ParsedSource.Add(data);
             }
@@ -735,7 +723,7 @@ namespace Byt3.OpenFL
             return ret;
         }
 
-        private static FLInstructionData GetInstructionData(string line, Dictionary<string, CLBufferInfo> defines,
+        private FLInstructionData GetInstructionData(string line, Dictionary<string, CLBufferInfo> defines,
             Dictionary<string, int> jumpLocations, Dictionary<string, FLInterpreterFunctionInfo> funcs, KernelDatabase db)
         {
             string[] code = SplitLine(SanitizeLine(line));
@@ -745,7 +733,7 @@ namespace Byt3.OpenFL
                 return new FLInstructionData {InstructionType = FLInstructionType.Nop};
             }
 
-            if (code[0].Trim().EndsWith(FunctionNamePostfix))
+            if (code[0].Trim().EndsWith(FUNCTION_NAME_POSTFIX))
             {
                 return new FLInstructionData {InstructionType = FLInstructionType.FunctionHeader};
             }
@@ -784,7 +772,7 @@ namespace Byt3.OpenFL
                 else
                 {
                     argData.Add(new FLArgumentData {value = null, argType = FLArgumentType.Unknown});
-                    CLLogger.Crash(new FLInvalidArgumentType(code[i], "Number or Defined buffer."), true);
+                    throw new FLInvalidArgumentType(code[i], "Number or Defined buffer.");
                 }
             }
 

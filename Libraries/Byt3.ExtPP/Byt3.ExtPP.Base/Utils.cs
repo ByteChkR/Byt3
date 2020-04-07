@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Byt3.ADL;
 using Byt3.ExtPP.Base.Interfaces;
-using Byt3.ExtPP.Base.settings;
+using Byt3.ExtPP.Base.Plugins;
 
 namespace Byt3.ExtPP.Base
 {
@@ -12,6 +13,8 @@ namespace Byt3.ExtPP.Base
     /// </summary>
     public static class Utils
     {
+        private static readonly LevelFilteredLogger<PPLogType> Logger = new LevelFilteredLogger<PPLogType>("PP Utils");
+
         /// <summary>
         /// Removes all lines of the source that start with one of the statements
         /// It takes care of possible indentations and spaces
@@ -19,7 +22,7 @@ namespace Byt3.ExtPP.Base
         /// <param name="source">the input source</param>
         /// <param name="statements">statements that need to be removed from the source</param>
         /// <returns>the cleaned list of source code lines</returns>
-        public static List<string> RemoveStatements(List<string> source, string[] statements, ILoggable logobj)
+        public static List<string> RemoveStatements(List<string> source, string[] statements)
         {
             for (int i = source.Count - 1; i >= 0; i--)
             {
@@ -29,7 +32,7 @@ namespace Byt3.ExtPP.Base
                     if (source[i].Trim().StartsWith(t))
                     {
 
-                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, string.Format("Removing statement {0} on line {1}",t, i));
+                        Logger.Log(PPLogType.Log, Verbosity.Level7, string.Format("Removing statement {0} on line {1}",t, i));
                         source.RemoveAt(i);
                         break;
                     }
@@ -45,10 +48,10 @@ namespace Byt3.ExtPP.Base
         /// <param name="separator">the separator to be used</param>
         /// <param name="logobj">The object from where all resulting logs come from</param>
         /// <returns>the fixed line without any excess spaces</returns>
-        public static string RemoveExcessSpaces(string line, string separator, ILoggable logobj)
+        public static string RemoveExcessSpaces(string line, string separator)
         {
             string ret = line.Split(new []{ separator }, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Removing Excess Spaces: {0} => {1}", line, ret);
+            Logger.Log(PPLogType.Log, Verbosity.Level7, "Removing Excess Spaces: {0} => {1}", line, ret);
             return ret;
         }
 
@@ -132,7 +135,7 @@ namespace Byt3.ExtPP.Base
         /// <returns>the array without the first entry</returns>
         public static string[] SplitAndRemoveFirst(string statement, string separator)
         {
-            if (String.IsNullOrEmpty(statement))
+            if (string.IsNullOrEmpty(statement))
             {
                 return new string[0];
             }
@@ -152,7 +155,7 @@ namespace Byt3.ExtPP.Base
         /// <summary>
         /// The List of implemented parsers.
         /// </summary>
-        private static readonly Dictionary<Type, TryParse> _parser = new Dictionary<Type, TryParse>
+        private static readonly Dictionary<Type, TryParse> Parser = new Dictionary<Type, TryParse>
         {
             {typeof(string), CreateTryParser<string>()},
             {typeof(int), CreateTryParser<int>()},
@@ -174,7 +177,7 @@ namespace Byt3.ExtPP.Base
             {
                 ret = (string val, out object value) =>
                 {
-                    bool r = Int32.TryParse(val, out int v);
+                    bool r = int.TryParse(val, out int v);
                     value = v;
                     return r;
                 };
@@ -183,7 +186,7 @@ namespace Byt3.ExtPP.Base
             {
                 ret = (string val, out object value) =>
                 {
-                    bool r = Single.TryParse(val, out float v);
+                    bool r = float.TryParse(val, out float v);
                     value = v;
                     return r;
                 };
@@ -192,7 +195,7 @@ namespace Byt3.ExtPP.Base
             {
                 ret = (string val, out object value) =>
                 {
-                    bool r = Char.TryParse(val, out char v);
+                    bool r = char.TryParse(val, out char v);
                     value = v;
                     return r;
                 };
@@ -201,8 +204,8 @@ namespace Byt3.ExtPP.Base
             {
                 ret = (string val, out object value) =>
                 {
-                    bool r = Boolean.TryParse(val, out bool v);
-                    if (String.IsNullOrEmpty(val))
+                    bool r = bool.TryParse(val, out bool v);
+                    if (string.IsNullOrEmpty(val))
                     {
                         r = true;
                         v = true;
@@ -282,7 +285,7 @@ namespace Byt3.ExtPP.Base
             {
                 return ParseEnum(t, obj, defaul);
             }
-            _parser[t](obj, out object val);
+            Parser[t](obj, out object val);
             return val ?? defaul;
         }
 
@@ -310,7 +313,7 @@ namespace Byt3.ExtPP.Base
         {
             if (input.IsAllDigits())
             {
-                return Int32.Parse(input);
+                return int.Parse(input);
             }
 
             if (!enu.IsEnum)

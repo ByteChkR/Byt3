@@ -1,6 +1,6 @@
 ﻿using Byt3.ExtPP.Base.settings;
 
-namespace Byt3.ExtPP.Base
+namespace Byt3.ExtPP.Base.Plugins
 {
     /// <summary>
     /// AbstractLinePlugin but with fixed plugin type toggle
@@ -10,6 +10,6 @@ namespace Byt3.ExtPP.Base
         /// <summary>
         /// Specifies the plugin type. Fullscript or Line Script
         /// </summary>
-        public override PluginType PluginTypeToggle { get; } = PluginType.LINE_PLUGIN_AFTER;
+        public override PluginType PluginTypeToggle { get; } = PluginType.LinePluginAfter;
     }
 }

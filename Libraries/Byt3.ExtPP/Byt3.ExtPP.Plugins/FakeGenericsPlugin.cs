@@ -2,16 +2,19 @@
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
+using Utils = Byt3.ExtPP.Base.Utils;
 
 namespace Byt3.ExtPP.Plugins
 {
     public class FakeGenericsPlugin : AbstractFullScriptPlugin
     {
         public override string[] Prefix => new[] { "gen", "FakeGen" };
-        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.OnLoadStage : ProcessStage.OnMain;
         public string Stage { get; set; } = "onmain";
         public string GenericKeyword { get; set; } = "#type";
         public string Separator { get; set; } = " ";
@@ -72,22 +75,22 @@ namespace Byt3.ExtPP.Plugins
                 return true; //No error, we just dont have any generic parameters to replace.
             }
 
-            string[] GenParams = file.GetValueFromCache<string[]>("genParams");
+            string[] genParams = file.GetValueFromCache<string[]>("genParams");
 
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Generic Keywords...");
-            if (GenParams != null && GenParams.Length > 0)
+            Logger.Log(PPLogType.Log, Verbosity.Level5, "Discovering Generic Keywords...");
+            if (genParams != null && genParams.Length > 0)
             {
-                for (int i = GenParams.Length - 1; i >= 0; i--)
+                for (int i = genParams.Length - 1; i >= 0; i--)
                 {
 
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Keyword {0}{1} with {2} in file {3}", GenericKeyword, i, GenParams[i], file.GetKey());
-                    Utils.ReplaceKeyWord(file.GetSource(), GenParams[i],
+                    Logger.Log(PPLogType.Log, Verbosity.Level6, "Replacing Keyword {0}{1} with {2} in file {3}", GenericKeyword, i, genParams[i], file.GetKey());
+                    Utils.ReplaceKeyWord(file.GetSource(), genParams[i],
                         GenericKeyword + i);
                 }
             }
 
 
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Generic Keyword Replacement Finished");
+            Logger.Log(PPLogType.Log, Verbosity.Level5, "Generic Keyword Replacement Finished");
 
             return true;
         }

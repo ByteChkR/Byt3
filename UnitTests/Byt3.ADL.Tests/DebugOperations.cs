@@ -37,7 +37,7 @@ namespace Byt3.ADL.Tests
             Debug.PrefixLookupMode =
                 PrefixLookupSettings.Addprefixifavailable | PrefixLookupSettings.Deconstructmasktofind;
 
-            ALogger logger = new ALogger("UnitTest");
+            ADLLogger logger = new ADLLogger("UnitTest");
 
             BitMask bm = new BitMask(2 | 8);
 
@@ -55,7 +55,7 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Debug_RemovePrefixForMask_Test()
         {
-            ALogger logger = new ALogger("UnitTest");
+            ADLLogger logger = new ADLLogger("UnitTest");
             BitMask bm = new BitMask(2 | 8);
             logger.AddPrefixForMask(bm, "HELLO");
             logger.RemovePrefixForMask(bm);
@@ -73,7 +73,7 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Debug_RemoveAllPrefixes_Test()
         {
-            ALogger logger = new ALogger("UnitTest");
+            ADLLogger logger = new ADLLogger("UnitTest");
             BitMask bm = new BitMask(2 | 8);
             logger.AddPrefixForMask(bm, "HELLO");
             logger.RemoveAllPrefixes();
@@ -86,7 +86,7 @@ namespace Byt3.ADL.Tests
             //Flag is required to find tags made up of unique masks(example: 2|8)
             Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable;
 
-            ALogger logger = new ALogger("UnitTest");
+            ADLLogger logger = new ADLLogger("UnitTest");
 
             logger.SetAllPrefixes("Hello", "HELLO1", "HOLA2");
 
@@ -108,7 +108,7 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Debug_GetAllPrefixes_Test()
         {
-            ALogger logger = new ALogger("UnitTest");
+            ADLLogger logger = new ADLLogger("UnitTest");
             //Flag is required to find tags made up of unique masks(example: 2|8)
             Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable;
 
@@ -130,7 +130,7 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Debug_GetPrefixMask_Test()
         {
-            ALogger logger = new ALogger("UnitTest");
+            ADLLogger logger = new ADLLogger("UnitTest");
             logger.SetAllPrefixes("Hello", "HELLO1", "HOLA2");
             if (logger.GetPrefixMask("Hello", out BitMask bm)) Assert.IsTrue(bm == 1);
             if (logger.GetPrefixMask("HELLO1", out bm)) Assert.IsTrue(bm == 2);
@@ -140,7 +140,7 @@ namespace Byt3.ADL.Tests
         [TestMethod]
         public void ADL_Debug_GetMaskPrefix_Test()
         {
-            ALogger logger = new ALogger("UnitTest");
+            ADLLogger logger = new ADLLogger("UnitTest");
             //Flag is required to find tags made up of unique masks(example: 2|8)
             Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable;
 
@@ -190,7 +190,7 @@ namespace Byt3.ADL.Tests
             Assert.IsTrue(Debug.PrefixLookupMode == PrefixLookupSettings.Noprefix);
 
 
-            ALogger logger = new ALogger("UnitTest");
+            ADLLogger logger = new ADLLogger("UnitTest");
 
 
             Debug.AddOutputStream(lts);

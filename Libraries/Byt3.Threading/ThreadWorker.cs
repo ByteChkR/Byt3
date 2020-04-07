@@ -5,18 +5,18 @@ namespace Byt3.Threading
 
     public abstract class ThreadWorker : ThreadLoop
     {
-        private readonly ConcurrentQueue<ThreadWorkerItem> Queue = new ConcurrentQueue<ThreadWorkerItem>();
+        private readonly ConcurrentQueue<ThreadWorkerItem> queue = new ConcurrentQueue<ThreadWorkerItem>();
 
         public virtual void EnqueueItem(object workItem, OnThreadWorkerItemFinish onFinishEvent = null)
         {
-            Queue.Enqueue(new ThreadWorkerItem(workItem, onFinishEvent));
+            queue.Enqueue(new ThreadWorkerItem(workItem, onFinishEvent));
         }
 
         protected abstract object DoWork(object input);
 
         protected override void Update()
         {
-            while (Queue.TryDequeue(out ThreadWorkerItem result))
+            while (queue.TryDequeue(out ThreadWorkerItem result))
             {
                 object ret = DoWork(result.WorkItem);
                 result.OnFinishEvent?.Invoke(ret);

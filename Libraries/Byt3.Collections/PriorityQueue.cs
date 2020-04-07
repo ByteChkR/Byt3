@@ -7,7 +7,7 @@ namespace Byt3.Collections
    public class PriorityQueue<T> where T : IComparable<T>
     {
         //The underlying structure.
-        private List<T> list;
+        private readonly List<T> list;
         public int Count => list.Count;
         public readonly bool IsDescending;
 

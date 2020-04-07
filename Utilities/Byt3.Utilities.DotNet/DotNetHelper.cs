@@ -7,16 +7,18 @@ namespace Byt3.Utilities.DotNet
 {
     public static class DotNetHelper
     {
-        public static readonly ALogger<LogType> Logger = new ALogger<LogType>("DotNetHelper");
+        public static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("DotNetHelper");
 
         public static void DotnetAction(string msbuildCommand, string targetCommand, string arguments, string workingDir)
         {
             CommandInfo info =
-                new CommandInfo($"{msbuildCommand} {targetCommand} {arguments}", workingDir, true);
-            info.CreateWindow = false;
-            info.CaptureConsoleOut = true;
-            info.OnErrorReceived = OnErrorReceived;
-            info.OnOutputReceived = OnOutReceived;
+                new CommandInfo($"{msbuildCommand} {targetCommand} {arguments}", workingDir, true)
+                {
+                    CreateWindow = false,
+                    CaptureConsoleOut = true,
+                    OnErrorReceived = OnErrorReceived,
+                    OnOutputReceived = OnOutReceived
+                };
             ProcessRunner.RunCommand(info);
         }
 

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Byt3.ExtPP.Base;
+using Byt3.ADL;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
+using Utils = Byt3.ExtPP.Base.Utils;
 
 namespace Byt3.ExtPP
 {
@@ -12,22 +14,22 @@ namespace Byt3.ExtPP
     /// A class that keeps track on what scripts are loaded and their processing state.
     /// This class also defines a Compute Scheme to alter the keys the file gets matched with, to enable loading the same file multiple times.
     /// </summary>
-    public class SourceManager : ISourceManager, ILoggable
+    public class SourceManager : ALoggable<PPLogType>, ISourceManager
     {
         /// <summary>
         /// List of Scripts that are included in this Processing run
         /// </summary>
-        private readonly List<ISourceScript> _sources = new List<ISourceScript>();
+        private readonly List<ISourceScript> sources = new List<ISourceScript>();
 
         /// <summary>
         /// The processing states of the scripts included.
         /// </summary>
-        private readonly List<ProcessStage> _doneState = new List<ProcessStage>();
+        private readonly List<ProcessStage> doneState = new List<ProcessStage>();
 
         /// <summary>
         /// The compute scheme that is used to assign keys to scripts(or instances of scripts)
         /// </summary>
-        private DelKeyComputingScheme _computeScheme;
+        private DelKeyComputingScheme computeScheme;
 
         /// <summary>
         /// Empty Constructor
@@ -50,8 +52,8 @@ namespace Byt3.ExtPP
             {
                 return;
             }
-            _computeScheme = scheme;
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}", scheme.Method.Name);
+            computeScheme = scheme;
+            Logger.Log(PPLogType.Log, Verbosity.Level2, "Changed Computing Scheme to: {0}", scheme.Method.Name);
         }
 
         /// <summary>
@@ -60,7 +62,7 @@ namespace Byt3.ExtPP
         /// <returns>Size of the internal queue</returns>
         public int GetTodoCount()
         {
-            return _doneState.Count(x => x == ProcessStage.QUEUED);
+            return doneState.Count(x => x == ProcessStage.Queued);
         }
 
         /// <summary>
@@ -69,7 +71,7 @@ namespace Byt3.ExtPP
         /// <returns>the computing scheme</returns>
         public DelKeyComputingScheme GetComputingScheme()
         {
-            return _computeScheme;
+            return computeScheme;
         }
 
         /// <summary>
@@ -86,13 +88,13 @@ namespace Byt3.ExtPP
             {
                 return ret;
             }
-            
+
             string rel = Path.Combine(currentPath, vars[0]);
             string key = Path.GetFullPath(rel);
 
 
             ret.SetValue("filename", key);
-            
+
 
             ret.SetValue("key", key);
             ret.SetResult(true);
@@ -108,11 +110,11 @@ namespace Byt3.ExtPP
         {
             get
             {
-                for (int i = 0; i < _doneState.Count; i++)
+                for (int i = 0; i < doneState.Count; i++)
                 {
-                    if (_doneState[i] == ProcessStage.QUEUED)
+                    if (doneState[i] == ProcessStage.Queued)
                     {
-                        return _sources[i];
+                        return sources[i];
                     }
                 }
 
@@ -127,13 +129,13 @@ namespace Byt3.ExtPP
         /// <param name="script">The script that got referenced.</param>
         public void FixOrder(ISourceScript script)
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
+            Logger.Log(PPLogType.Log, Verbosity.Level3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
             int idx = IndexOfFile(script.GetKey());
-            ISourceScript a = _sources[idx];
-            ProcessStage ab = _doneState[idx];
-            _doneState.RemoveAt(idx);
-            _doneState.Add(ab);
-            _sources.RemoveAt(idx);
+            ISourceScript a = sources[idx];
+            ProcessStage ab = doneState[idx];
+            doneState.RemoveAt(idx);
+            doneState.Add(ab);
+            sources.RemoveAt(idx);
             AddFile(a, true);
         }
 
@@ -145,7 +147,7 @@ namespace Byt3.ExtPP
         /// <returns>True if the script is included.</returns>
         public bool IsIncluded(ISourceScript script)
         {
-            return _sources.Any(x => x.GetKey() == script.GetKey());
+            return sources.Any(x => x.GetKey() == script.GetKey());
         }
 
         /// <summary>
@@ -157,9 +159,9 @@ namespace Byt3.ExtPP
         {
             if (!IsIncluded(script))
             {
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
+                Logger.Log(PPLogType.Log, Verbosity.Level3, "Adding Script to Todo List: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
                 AddFile(script, false);
-                _doneState.Add(ProcessStage.QUEUED);
+                doneState.Add(ProcessStage.Queued);
             }
         }
 
@@ -172,9 +174,9 @@ namespace Byt3.ExtPP
         {
             if (IsIncluded(script))
             {
-                _doneState[IndexOfFile(script.GetKey())] = stage;
+                doneState[IndexOfFile(script.GetKey())] = stage;
 
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
+                Logger.Log(PPLogType.Log, Verbosity.Level3, "Finished Script: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
             }
         }
 
@@ -184,7 +186,7 @@ namespace Byt3.ExtPP
         /// <returns>The internal list of all scripts.</returns>
         public List<ISourceScript> GetList()
         {
-            return _sources;
+            return sources;
         }
 
 
@@ -199,7 +201,7 @@ namespace Byt3.ExtPP
             {
                 return;
             }
-            _sources.Add(script);
+            sources.Add(script);
 
         }
 
@@ -221,9 +223,9 @@ namespace Byt3.ExtPP
         /// <returns>the index of the file or -1 if not found</returns>
         public int IndexOfFile(string key)
         {
-            for (int i = 0; i < _sources.Count; i++)
+            for (int i = 0; i < sources.Count; i++)
             {
-                if (_sources[i].GetKey() == key)
+                if (sources[i].GetKey() == key)
                 {
                     return i;
                 }
@@ -232,11 +234,11 @@ namespace Byt3.ExtPP
             return -1;
         }
 
-        private bool LockScriptCreation = true;
+        private bool lockScriptCreation = true;
 
         public void SetLock(bool state)
         {
-            LockScriptCreation = state;
+            lockScriptCreation = state;
         }
 
         /// <summary>
@@ -249,10 +251,10 @@ namespace Byt3.ExtPP
         /// <returns>the success state of the operation</returns>
         public bool TryCreateScript(out ISourceScript script, string separator, IFileContent file, ImportResult importInfo)
         {
-            if (LockScriptCreation)
+            if (lockScriptCreation)
             {
                 script = null;
-                PPLogger.Instance.Warning("A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
+                Logger.Log(PPLogType.Warning, Verbosity.Level3, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
                 return false;
             }
 

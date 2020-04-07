@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Byt3.ExtPP.Base;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
 using Byt3.ExtPP.Plugins;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -25,7 +25,6 @@ namespace Byt3.ExtPP.Tests
         public  void ExtPP_Plugins_Exception_Warning_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            PPLogger.Instance.ThrowOnWarning = true;
             Settings s = new Settings(new Dictionary<string, string[]>
             {
                 {"-ex:tow", new string[0]}
@@ -44,7 +43,6 @@ namespace Byt3.ExtPP.Tests
         public  void ExtPP_Plugins_Exception_Error_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            PPLogger.Instance.ThrowOnError = true;
             try
             {
                 TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, "error_test.txt");

@@ -10,7 +10,7 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class KernelDatabase
     {
-        private readonly ALogger<LogType> Logger = new ALogger<LogType>("CL-KernelDB");
+        private readonly ADLLogger<LogType> logger = new ADLLogger<LogType>("CL-KernelDB");
         /// <summary>
         /// The Folder that will get searched when initializing the database.
         /// </summary>
@@ -73,19 +73,19 @@ namespace Byt3.OpenCL.Wrapper
 
             string path = Path.GetFullPath(file);
 
-            Logger.Log(LogType.Log, "Creating CLProgram from file: " + file);
+            logger.Log(LogType.Log, "Creating CLProgram from file: " + file);
             CLProgram program = new CLProgram(instance, path, GenDataType);
 
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
             {
                 if (!LoadedKernels.ContainsKey(containedKernel.Key))
                 {
-                    Logger.Log(LogType.Log, "Adding Kernel: " + containedKernel.Key);
+                    logger.Log(LogType.Log, "Adding Kernel: " + containedKernel.Key);
                     LoadedKernels.Add(containedKernel.Key, containedKernel.Value);
                 }
                 else
                 {
-                    Logger.Log(LogType.Log, "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...");
+                    logger.Log(LogType.Log, "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...");
                 }
             }
         }

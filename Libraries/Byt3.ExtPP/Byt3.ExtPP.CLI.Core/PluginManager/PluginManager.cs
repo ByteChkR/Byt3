@@ -4,131 +4,29 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
-using Byt3.ExtPP.Base;
+using Byt3.ADL;
 using Byt3.ExtPP.Base.Interfaces;
-using Byt3.ExtPP.Base.settings;
+using Byt3.ExtPP.Base.Plugins;
 
-namespace Byt3.ExtPP.CLI.Core
+namespace Byt3.ExtPP.CLI.Core.PluginManager
 {
     /// <summary>
     /// Manages often used plugins and makes them available by prefix when added to the watched dirs or files.
     /// </summary>
-    public class PluginManager : ILoggable
+    public class PluginManager : ALoggable<PPLogType>
     {
-        /// <summary>
-        /// Basic information about the plugin
-        /// </summary>
-        [Serializable]
-        public class PluginInformation
-        {
-            /// <summary>
-            /// All the prefixes used by the plugin
-            /// </summary>
-            [XmlElement]
-            public string[] Prefixes { get; set; }
-
-            /// <summary>
-            /// Assembly Name
-            /// </summary>
-            [XmlElement]
-            public string Name { get; set; }
-
-            /// <summary>
-            /// Path of the library
-            /// </summary>
-            [XmlElement]
-            public string Path { get; set; }
-
-            /// <summary>
-            /// The Cached information about each command.
-            /// </summary>
-            [XmlElement]
-            public CommandMetaData[] Data { get; set; }
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="prefixes">the prefixes of the plugin</param>
-            /// <param name="name">the name</param>
-            /// <param name="path">the path</param>
-            /// <param name="data">the meta data</param>
-            public PluginInformation(string[] prefixes, string name, string path, CommandMetaData[] data)
-            {
-                Path = path;
-                Prefixes = prefixes;
-                Name = name;
-                Data = data;
-            }
-
-            public PluginInformation()
-            {
-
-            }
-
-            /// <summary>
-            /// returns a description of the plugin
-            /// </summary>
-            /// <param name="shortDesc">flag to optionally only return a small description</param>
-            /// <returns>the description of the Plugin</returns>
-            public string GetDescription(bool shortDesc)
-            {
-                return Name + ": \n" + Path + "\nPrefixes:\n\t" + Prefixes.Unpack("\n\t") + (shortDesc ? "" : "\nCommand Info: \n\t" + Data.Select(x => x.ToString()).Unpack("\n\t"));
-            }
-
-            /// <summary>
-            /// returns a description of the plugin
-            /// </summary>
-            /// <returns>the description of the Plugin</returns>
-            public string GetDescription()
-            {
-                return GetDescription(true);
-            }
-
-            /// <summary>
-            /// Overriden tostring method
-            /// </summary>
-            /// <returns>The content of GetDescription()</returns>
-            public override string ToString()
-            {
-                return GetDescription();
-            }
-        }
-
-        /// <summary>
-        /// gets cached to disk.
-        /// </summary>
-        [Serializable]
-        public class PluginManagerDatabase
-        {
-            /// <summary>
-            /// The directories that will be automatically added when refreshed.
-            /// </summary>
-            public List<string> IncludedDirectories { get; set; } = new List<string>();
-
-            /// <summary>
-            /// the included files that were included manually.
-            /// </summary>
-            public List<string> IncludedFiles { get; set; } = new List<string>();
-
-            /// <summary>
-            /// The cache of the plugin information.
-            /// </summary>
-
-            public List<PluginInformation> Cache { get; set; } = new List<PluginInformation>();
-
-        }
         /// <summary>
         /// Directory of the ext_pp_cli.dll library
         /// </summary>
-        private readonly string _rootDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+        private readonly string rootDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
         /// <summary>
         /// Config path for the cache
         /// </summary>
-        private string _configPath => Path.Combine(_rootDir, "plugin_manager.xml");
+        private string ConfigPath => Path.Combine(rootDir, "plugin_manager.xml");
         /// <summary>
         /// Default folder for plugins.
         /// </summary>
-        private string _defaultPluginFolder => Path.Combine(_rootDir, "plugins");
+        private string DefaultPluginFolder => Path.Combine(rootDir, "plugins");
         /// <summary>
         /// The Database of all plugins.
         /// </summary>
@@ -136,7 +34,7 @@ namespace Byt3.ExtPP.CLI.Core
         /// <summary>
         /// Serializer for loading/saving the cache to disk.
         /// </summary>
-        private static XmlSerializer _serializer = new XmlSerializer(typeof(PluginManagerDatabase));
+        private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(PluginManagerDatabase));
 
 
         /// <summary>
@@ -144,11 +42,11 @@ namespace Byt3.ExtPP.CLI.Core
         /// </summary>
         public PluginManager()
         {
-            if (!Directory.Exists(_defaultPluginFolder))
+            if (!Directory.Exists(DefaultPluginFolder))
             {
-                Directory.CreateDirectory(_defaultPluginFolder);
+                Directory.CreateDirectory(DefaultPluginFolder);
             }
-            if (File.Exists(_configPath))
+            if (File.Exists(ConfigPath))
             {
                 Initialize();
             }
@@ -163,8 +61,8 @@ namespace Byt3.ExtPP.CLI.Core
         /// </summary>
         private void Initialize()
         {
-            FileStream fs = new FileStream(_configPath, FileMode.Open);
-            info = (PluginManagerDatabase)_serializer.Deserialize(fs);
+            FileStream fs = new FileStream(ConfigPath, FileMode.Open);
+            info = (PluginManagerDatabase)Serializer.Deserialize(fs);
             fs.Close();
 
         }
@@ -174,7 +72,7 @@ namespace Byt3.ExtPP.CLI.Core
         /// </summary>
         public void ListAllCachedData()
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Listing all Cached Data:");
+            Logger.Log(PPLogType.Log, Verbosity.Level1, "Listing all Cached Data:");
             ListCachedFolders();
             ListCachedPlugins(false);
         }
@@ -184,13 +82,13 @@ namespace Byt3.ExtPP.CLI.Core
         /// </summary>
         public void ListCachedHelpInfo()
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Plugins [prefixes]:path");
+            Logger.Log(PPLogType.Log, Verbosity.Level1, "Plugins [prefixes]:path");
             for (int i = 0; i < info.Cache.Count; i++)
             {
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n\n{0}", info.Cache[i].Name);
+                Logger.Log(PPLogType.Log, Verbosity.Level1, "\n\n{0}", info.Cache[i].Name);
                 for (int j = 0; j < info.Cache[i].Data.Length; j++)
                 {
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\t{0}", info.Cache[i].Data[j].ToString());
+                    Logger.Log(PPLogType.Log, Verbosity.Level1, "\t{0}", info.Cache[i].Data[j].ToString());
                 }
             }
         }
@@ -203,7 +101,7 @@ namespace Byt3.ExtPP.CLI.Core
         {
             for (int i = 0; i < info.Cache.Count; i++)
             {
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, info.Cache[i].GetDescription(shortDesc));
+                Logger.Log(PPLogType.Log, Verbosity.Level1, info.Cache[i].GetDescription(shortDesc));
             }
         }
 
@@ -213,10 +111,10 @@ namespace Byt3.ExtPP.CLI.Core
         public void ListCachedFolders()
         {
 
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Directories:");
+            Logger.Log(PPLogType.Log, Verbosity.Level1, "Directories:");
             for (int i = 0; i < info.IncludedDirectories.Count; i++)
             {
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, info.IncludedDirectories[i]);
+                Logger.Log(PPLogType.Log, Verbosity.Level1, info.IncludedDirectories[i]);
             }
         }
 
@@ -226,10 +124,10 @@ namespace Byt3.ExtPP.CLI.Core
         public void ListManuallyCachedFiles()
         {
 
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Manually Included Files:");
+            Logger.Log(PPLogType.Log, Verbosity.Level1, "Manually Included Files:");
             for (int i = 0; i < info.IncludedFiles.Count; i++)
             {
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, info.IncludedFiles[i]);
+                Logger.Log(PPLogType.Log, Verbosity.Level1, info.IncludedFiles[i]);
             }
         }
 
@@ -242,12 +140,12 @@ namespace Byt3.ExtPP.CLI.Core
             if (Directory.Exists(folder))
             {
 
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding Directory: {0}", folder);
+                Logger.Log(PPLogType.Log, Verbosity.Level1, "Adding Directory: {0}", folder);
                 info.IncludedDirectories.Add(Path.GetFullPath(folder));
             }
             else
             {
-                PPLogger.Instance.Error("Folder does not exist: {0}", folder);
+                Logger.Log(PPLogType.Error, Verbosity.Level1,"Folder does not exist: {0}", folder);
             }
 
             Save();
@@ -255,7 +153,7 @@ namespace Byt3.ExtPP.CLI.Core
 
         public void AddAssemblies(Assembly[] assemblies, string fallbackPath, bool save)
         {
-            PPLogger.Instance.Log(DebugLevel.LOGS, "Adding " + assemblies.Length + " Assemblies.");
+            Logger.Log(PPLogType.Log, "Adding " + assemblies.Length + " Assemblies.");
             foreach (Assembly assembly in assemblies)
             {
                 string assemblyPath = fallbackPath;
@@ -283,7 +181,7 @@ namespace Byt3.ExtPP.CLI.Core
             List<PluginInformation> val = new List<PluginInformation>();
 
             if (plugins.Count != 0)
-                PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding {0} plugins from {1}", plugins.Count, asm.FullName);
+                Logger.Log(PPLogType.Log, Verbosity.Level1, "Adding {0} plugins from {1}", plugins.Count, asm.FullName);
 
             for (int i = 0; i < plugins.Count; i++)
             {
@@ -307,7 +205,7 @@ namespace Byt3.ExtPP.CLI.Core
             if (!File.Exists(file))
             {
 
-                PPLogger.Instance.Error("File does not exist: {0}", file);
+                Logger.Log(PPLogType.Error, Verbosity.Level1, "File does not exist: {0}", file);
 
             }
             else
@@ -325,7 +223,7 @@ namespace Byt3.ExtPP.CLI.Core
                 List<PluginInformation> val = new List<PluginInformation>();
 
                 if (plugins.Count != 0)
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding {0} plugins from {1}", plugins.Count, fullpath);
+                    Logger.Log(PPLogType.Log, Verbosity.Level1, "Adding {0} plugins from {1}", plugins.Count, fullpath);
 
                 for (int i = 0; i < plugins.Count; i++)
                 {
@@ -456,7 +354,7 @@ namespace Byt3.ExtPP.CLI.Core
                 foreach (PluginInformation name in inf)
                 {
 
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n{0}", name.GetDescription(shortDesc));
+                    Logger.Log(PPLogType.Log, Verbosity.Level1, "\n{0}", name.GetDescription(shortDesc));
 
                 }
 
@@ -468,7 +366,7 @@ namespace Byt3.ExtPP.CLI.Core
             {
                 if (TryGetPluginInfoByPathAndPrefix(info, path, name, out PluginInformation val))
                 {
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n{0}", val.GetDescription(shortDesc));
+                    Logger.Log(PPLogType.Log, Verbosity.Level1, "\n{0}", val.GetDescription(shortDesc));
                 }
             }
 
@@ -504,20 +402,20 @@ namespace Byt3.ExtPP.CLI.Core
             {
                 if (!Directory.Exists(info.IncludedDirectories[i]))
                 {
-                    PPLogger.Instance.Error("Folder does not exist: {0} Removing..", info.IncludedDirectories[i]);
+                    Logger.Log(PPLogType.Error, Verbosity.Level1, "Folder does not exist: {0} Removing..", info.IncludedDirectories[i]);
                     info.IncludedDirectories.RemoveAt(i);
 
                 }
                 else
                 {
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Discovering Files in {0}", info.IncludedDirectories[i]);
+                    Logger.Log(PPLogType.Log, Verbosity.Level1, "Discovering Files in {0}", info.IncludedDirectories[i]);
                     string[] files = Directory.GetFiles(info.IncludedDirectories[i], "*.dll");
                     foreach (string file in files)
                     {
                         List<AbstractPlugin> plugins = FromFile(file);
                         List<string> prefixes = new List<string>();
                         plugins.ForEach(x => prefixes.AddRange(x.Prefix));
-                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding {0} plugins from {1}", plugins.Count, file);
+                        Logger.Log(PPLogType.Log, Verbosity.Level1, "Adding {0} plugins from {1}", plugins.Count, file);
                         for (int j = 0; j < plugins.Count; j++)
                         {
                             info.Cache.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, file, plugins[i].Info.Select(x => x.Meta).ToArray()));
@@ -580,7 +478,7 @@ namespace Byt3.ExtPP.CLI.Core
             }
             catch (Exception)
             {
-                PPLogger.Instance.Error("Could not load file: {0}", path);
+                Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not load file: {0}", path);
                 // ignored
             }
 
@@ -593,12 +491,12 @@ namespace Byt3.ExtPP.CLI.Core
         /// </summary>
         private void Save()
         {
-            if (File.Exists(_configPath))
+            if (File.Exists(ConfigPath))
             {
-                File.Delete(_configPath);
+                File.Delete(ConfigPath);
             }
-            FileStream fs = new FileStream(_configPath, FileMode.Create);
-            _serializer.Serialize(fs, info);
+            FileStream fs = new FileStream(ConfigPath, FileMode.Create);
+            Serializer.Serialize(fs, info);
             fs.Close();
         }
 
@@ -609,22 +507,22 @@ namespace Byt3.ExtPP.CLI.Core
         private void FirstStart()
         {
 
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "First start of Plugin Manager. Setting up...");
-            FileStream fs = new FileStream(_configPath, FileMode.Create);
+            Logger.Log(PPLogType.Log, Verbosity.Level1, "First start of Plugin Manager. Setting up...");
+            FileStream fs = new FileStream(ConfigPath, FileMode.Create);
             info = new PluginManagerDatabase
             {
                 IncludedFiles = new List<string>(),
                 Cache = new List<PluginInformation>(),
                 IncludedDirectories = new List<string>
                 {
-                    _defaultPluginFolder
+                    DefaultPluginFolder
                 }
             };
-            if (!Directory.Exists(_defaultPluginFolder))
+            if (!Directory.Exists(DefaultPluginFolder))
             {
-                Directory.CreateDirectory(_defaultPluginFolder);
+                Directory.CreateDirectory(DefaultPluginFolder);
             }
-            _serializer.Serialize(fs, info);
+            Serializer.Serialize(fs, info);
             fs.Close();
             Refresh();
 

@@ -4,9 +4,9 @@ namespace Byt3.Collections.Interfaces
 {
     public interface IFillNode
     {
-        IFillNode[] INodeConnectedNodes { get; }
+        IFillNode[] NodeConnectedNodes { get; }
         
-        IComparable IFillValue { get; set; }
+        IComparable FillValue { get; set; }
 
     }
 }

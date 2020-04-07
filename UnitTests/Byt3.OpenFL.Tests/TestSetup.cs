@@ -5,19 +5,19 @@ namespace Byt3.OpenFL.Tests
 {
     public static class TestSetup
     {
-        private static KernelDatabase _kernelDb;
+        private static KernelDatabase kernelDb;
 
         public static KernelDatabase KernelDb
         {
             get
             {
-                if (_kernelDb == null)
+                if (kernelDb == null)
                 {
-                    _kernelDb = new KernelDatabase(CLAPI.MainThread, "resources/kernel",
+                    kernelDb = new KernelDatabase(CLAPI.MainThread, "resources/kernel",
                         DataTypes.Uchar1);
                 }
 
-                return _kernelDb;
+                return kernelDb;
             }
         }
     }

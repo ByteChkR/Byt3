@@ -35,18 +35,18 @@ namespace Byt3.Collections.Smoothing
         public class Interpolator
         {
             public delegate float InterpolatingDelegate(float time);
-            private List<InterpolatingDelegate> _interpolations;
+            private List<InterpolatingDelegate> interpolations;
 
 
             private Interpolator()
             {
-                _interpolations = new List<InterpolatingDelegate>();
+                interpolations = new List<InterpolatingDelegate>();
             }
 
             public float Interpolate(float t)
             {
                 float ret = t;
-                foreach (InterpolatingDelegate iDel in _interpolations)
+                foreach (InterpolatingDelegate iDel in interpolations)
                 {
                     ret = iDel(ret);
                 }
@@ -55,8 +55,7 @@ namespace Byt3.Collections.Smoothing
 
             public static Interpolator CreateInterpolator(params InterpolatingDelegate[] interpolations)
             {
-                Interpolator ret = new Interpolator();
-                ret._interpolations = interpolations.ToList();
+                Interpolator ret = new Interpolator {interpolations = interpolations.ToList()};
                 return ret;
             }
 
@@ -104,9 +103,9 @@ namespace Byt3.Collections.Smoothing
             return Mix(SmoothStart(t, smoothnessStart), SmoothStop(t, smoothnessStop), t);
         }
 
-        public static float Mix(float A, float B, float weightB)
+        public static float Mix(float a, float b, float weightB)
         {
-            return A + weightB * (B - A);
+            return a + weightB * (b - a);
         }
 
         public static float Arch2(float t)
@@ -119,13 +118,13 @@ namespace Byt3.Collections.Smoothing
             return Scale(Arch2(t), 1 - t);
         }
 
-        public static float NormalitedBezier(float B, float C, float t)
+        public static float NormalitedBezier(float b, float c, float t)
         {
             float s = 1f - t;
             float t2 = t * t;
             float s2 = s * s;
             float t3 = t2 * t;
-            return (3f * B * s2 * t) + (3f * C * s * t2) + t3;
+            return (3f * b * s2 * t) + (3f * c * s * t2) + t3;
         }
 
         public static float SmoothStepArch4(float t)

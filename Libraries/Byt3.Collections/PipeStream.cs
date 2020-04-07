@@ -194,7 +194,7 @@ namespace Byt3.Collections
 			if (offset < 0 || count < 0)
 				throw new ArgumentOutOfRangeException("offset", "offset or count is negative.");
 			if (BlockLastReadBuffer && count >= mMaxBufferLength)
-				throw new ArgumentException(String.Format("count({0}) > mMaxBufferLength({1})", count, mMaxBufferLength));
+				throw new ArgumentException(string.Format("count({0}) > mMaxBufferLength({1})", count, mMaxBufferLength));
 
 			if (count == 0)
 				return 0;

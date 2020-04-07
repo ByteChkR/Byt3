@@ -7,7 +7,7 @@ namespace Byt3.Utilities.Threading
 {
     public static class ProcessRunner
     {
-        private static readonly ALogger<LogType> Logger = new ALogger<LogType>("Process Type");
+        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("Process Type");
 
         public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         public static string ShellCommand =>

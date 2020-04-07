@@ -3,22 +3,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
+using Utils = Byt3.ExtPP.Base.Utils;
 
 namespace Byt3.ExtPP.Plugins
 {
-    public static class EncoderListExtensions
-    {
-        public static bool TryFindByKey(this List<TextEncoderPlugin.TextEncoding> list, string key, out TextEncoderPlugin.TextEncoding encoding)
-        {
-            encoding = list.FirstOrDefault(x => x.Key == key);
-            return encoding != null;
-        }
-    }
-
-
     public class TextEncoderPlugin : AbstractFullScriptPlugin
     {
         public class TextEncoding
@@ -30,30 +23,30 @@ namespace Byt3.ExtPP.Plugins
             public delegate string DecodeDel(string text, string[] parameter);
 
             public string Key { get; private set; }
-            private readonly EncodeDel _encode;
-            private readonly DecodeDel _decode;
+            private readonly EncodeDel encode;
+            private readonly DecodeDel decode;
 
             public TextEncoding(string key, EncodeDel encode, DecodeDel decode)
             {
                 Key = key;
-                _encode = encode;
-                _decode = decode;
+                this.encode = encode;
+                this.decode = decode;
             }
 
             public string Encode(string text, string[] parameter)
             {
-                return _encode?.Invoke(text, parameter);
+                return encode?.Invoke(text, parameter);
             }
 
             public string Decode(string text, string[] parameter)
             {
-                return _decode?.Invoke(text, parameter);
+                return decode?.Invoke(text, parameter);
             }
 
             #region En/Decodings
 
             public static TextEncoding Base64 { get; } = new TextEncoding("b64", Encode_BASE64, Decode_BASE64);
-            public static TextEncoding ROT { get; } = new TextEncoding("rot",
+            public static TextEncoding Rot { get; } = new TextEncoding("rot",
                 (text, parameter) => DeEncode_ROT(text, parameter, true),
                 (text, parameter) => DeEncode_ROT(text, parameter, false));
 
@@ -131,12 +124,12 @@ namespace Byt3.ExtPP.Plugins
 
         }
 
-        private static List<TextEncoding> Encoders = new List<TextEncoding>
+        private static readonly List<TextEncoding> Encoders = new List<TextEncoding>
         {
-            TextEncoding.Base64, TextEncoding.ROT
+            TextEncoding.Base64, TextEncoding.Rot
         };
 
-        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.OnLoadStage : ProcessStage.OnMain;
 
         public override string[] Cleanup => new[]
         {
@@ -189,7 +182,7 @@ namespace Byt3.ExtPP.Plugins
             parameter = new string[0];
             if (data.Length == 0 || !Encoders.TryFindByKey(data[0], out encoding))
             {
-                PPLogger.Crash(new ProcessorException("Decode block has no Specified decoding scheme."), true);
+                Logger.Log(PPLogType.Error, Verbosity.Level1, "Decode block has no Specified decoding scheme.");
 
                 encoding = null;
                 parameter = null;
@@ -211,7 +204,7 @@ namespace Byt3.ExtPP.Plugins
         {
             List<string> lines = file.GetSource().ToList();
             List<int> removeIndices = new List<int>();
-            PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Block Keywords.");
+            Logger.Log(PPLogType.Log, Verbosity.Level5, "Discovering Block Keywords.");
             for (int i = 0; i < lines.Count; i++)
             {
                 string line = lines[i].TrimStart();
@@ -226,11 +219,11 @@ namespace Byt3.ExtPP.Plugins
                     i++;//Move forward.
                     if (!encodingOk)
                     {
-                        PPLogger.Instance.Error("Could not load encoder: {0}", lines[i]);
+                        Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not load encoder: {0}", lines[i]);
                     }
 
 
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found Block Encode Keyword.");
+                    Logger.Log(PPLogType.Log, Verbosity.Level6, "Found Block Encode Keyword.");
                     for (; i < lines.Count; i++)
                     {
                         if (lines[i].TrimStart().StartsWith(BlockEncodeEndKeyword))
@@ -240,7 +233,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Encoding line {0}.", i);
+                        Logger.Log(PPLogType.Log, Verbosity.Level7, "Encoding line {0}.", i);
                         lines[i] = encodingOk ? enc.Encode(lines[i], encParameter) : lines[i];
 
                     }
@@ -255,10 +248,10 @@ namespace Byt3.ExtPP.Plugins
 
                     if (!decodingOk)
                     {
-                        PPLogger.Instance.Error("Could not load decoder: {0}", lines[i]);
+                        Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not load decoder: {0}", lines[i]);
                     }
 
-                    PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found Block Decode Keyword.");
+                    Logger.Log(PPLogType.Log, Verbosity.Level6, "Found Block Decode Keyword.");
                     for (; i < lines.Count; i++)
                     {
                         if (lines[i].TrimStart().StartsWith(BlockDecodeEndKeyword))
@@ -268,7 +261,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                        PPLogger.Instance.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Decoding line {0}.", i);
+                        Logger.Log(PPLogType.Log, Verbosity.Level7, "Decoding line {0}.", i);
                         lines[i] = decodingOk ? enc.Decode(lines[i], encParameter) : lines[i];
 
                     }

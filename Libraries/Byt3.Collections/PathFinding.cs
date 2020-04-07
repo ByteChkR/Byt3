@@ -10,7 +10,7 @@ namespace Byt3.Collections
         {
             INode current;
             Collections.PriorityQueue<INode> connectedNodes = new Collections.PriorityQueue<INode>();
-            foreach (INode inode in from.INodeConnectedNodes)
+            foreach (INode inode in from.ConnectedNodes)
             {
                 connectedNodes.Enqueue(inode);
             }
@@ -26,7 +26,7 @@ namespace Byt3.Collections
 
                 current = connectedNodes.Dequeue();
                 doneNodes.Add(current);
-                current.INodeState = Enums.INodeState.CLOSED;
+                current.NodeState = Enums.NodeState.Closed;
 
                 if (current == to)
                 {
@@ -40,25 +40,25 @@ namespace Byt3.Collections
                 }
                 else
                 {
-                    for (int i = 0; i < current.INodeConnectedNodes.Length; i++)
+                    for (int i = 0; i < current.ConnectedNodes.Length; i++)
                     {
-                        INode connected = current.INodeConnectedNodes[i];
-                        if (!connected.INodeIsActive || connected.INodeState == Enums.INodeState.CLOSED) continue;
-                        if (connected.INodeState == Enums.INodeState.UNTESTED)
+                        INode connected = current.ConnectedNodes[i];
+                        if (!connected.NodeIsActive || connected.NodeState == Enums.NodeState.Closed) continue;
+                        if (connected.NodeState == Enums.NodeState.Untested)
                         {
-                            connected.INodeParentNode = current;
-                            connected.INodeCurrentCost = current.INodeCurrentCost + VectorMath.GetDistance(current.INodePosition, connected.INodePosition) * connected.INodeCost;
-                            connected.INodeEstimatedCost = connected.INodeCurrentCost + VectorMath.GetDistance(connected.INodePosition, to.INodePosition);
-                            connected.INodeState = Enums.INodeState.OPEN;
+                            connected.NodeParentNode = current;
+                            connected.NodeCurrentCost = current.NodeCurrentCost + VectorMath.GetDistance(current.NodePosition, connected.NodePosition) * connected.NodeCost;
+                            connected.NodeEstimatedCost = connected.NodeCurrentCost + VectorMath.GetDistance(connected.NodePosition, to.NodePosition);
+                            connected.NodeState = Enums.NodeState.Open;
                             connectedNodes.Enqueue(connected);
                         }
                         if (current != connected)
                         {
-                            float newCostCurrent = current.INodeCurrentCost + VectorMath.GetDistance(current.INodePosition, connected.INodePosition);
-                            if (newCostCurrent < connected.INodeCurrentCost)
+                            float newCostCurrent = current.NodeCurrentCost + VectorMath.GetDistance(current.NodePosition, connected.NodePosition);
+                            if (newCostCurrent < connected.NodeCurrentCost)
                             {
-                                connected.INodeParentNode = current;
-                                connected.INodeCurrentCost = newCostCurrent;
+                                connected.NodeParentNode = current;
+                                connected.NodeCurrentCost = newCostCurrent;
                             }
                         }
                     }
@@ -72,10 +72,10 @@ namespace Byt3.Collections
         {
             foreach (INode node in nodes)
             {
-                node.INodeCurrentCost = 0;
-                node.INodeEstimatedCost = 0;
-                node.INodeParentNode = null;
-                node.INodeState = Enums.INodeState.UNTESTED;
+                node.NodeCurrentCost = 0;
+                node.NodeEstimatedCost = 0;
+                node.NodeParentNode = null;
+                node.NodeState = Enums.NodeState.Untested;
             }
         }
 
@@ -86,7 +86,7 @@ namespace Byt3.Collections
             while (current != null)
             {
                 ret.Add(current);
-                current = current.INodeParentNode;
+                current = current.NodeParentNode;
             }
             ret.Reverse();
             return ret;

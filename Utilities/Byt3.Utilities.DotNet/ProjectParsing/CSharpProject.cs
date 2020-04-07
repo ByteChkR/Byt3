@@ -45,7 +45,7 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
 
 
 
-        public XmlNode ProjectNode => Document.FirstChild;
+        public XmlNode ProjectNode => document.FirstChild;
         public List<CSharpReference> References => ParseReferences(GetChildren(ProjectNode).ToArray());
 
         public List<CSharpReference> ProjectReferences =>
@@ -54,24 +54,24 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
             References.Where(x => x.ReferenceType == CSharpReferenceType.EmbeddedResource).ToList();
         public List<CSharpReference> PackageReferences =>
             References.Where(x => x.ReferenceType == CSharpReferenceType.PackageReference).ToList();
-        private XmlDocument Document;
+        private readonly XmlDocument document;
         internal CSharpProject(XmlDocument document)
         {
-            Document = document;
+            this.document = document;
         }
 
         public void Save(string path)
         {
-            Document.Save(path);
+            document.Save(path);
         }
 
         public void AddReference(CSharpReference reference)
         {
-            XmlNode container = Document.CreateNode(XmlNodeType.Element, "ItemGroup", "");
-            XmlNode node = Document.CreateNode(XmlNodeType.Element, reference.ReferenceType.ToString(), "");
+            XmlNode container = document.CreateNode(XmlNodeType.Element, "ItemGroup", "");
+            XmlNode node = document.CreateNode(XmlNodeType.Element, reference.ReferenceType.ToString(), "");
             for (int i = 0; i < reference.internalAttributes.Count; i++)
             {
-                XmlAttribute a = Document.CreateAttribute(reference.internalAttributes[i].Key);
+                XmlAttribute a = document.CreateAttribute(reference.internalAttributes[i].Key);
                 a.Value = reference.internalAttributes[i].Value;
                 node.Attributes.Append(a);
             }

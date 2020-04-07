@@ -1,6 +1,6 @@
 ﻿using Byt3.ExtPP.Base.settings;
 
-namespace Byt3.ExtPP.Base
+namespace Byt3.ExtPP.Base.Plugins
 {
     /// <summary>
     /// AbstractLinePlugin but with fixed plugin type toggle
@@ -8,6 +8,6 @@ namespace Byt3.ExtPP.Base
     public abstract class AbstractLineBeforePlugin : AbstractLinePlugin
     {
 
-        public override PluginType PluginTypeToggle { get; } = PluginType.LINE_PLUGIN_BEFORE;
+        public override PluginType PluginTypeToggle { get; } = PluginType.LinePluginBefore;
     }
 }

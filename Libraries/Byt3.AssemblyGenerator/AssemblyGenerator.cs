@@ -13,7 +13,7 @@ namespace Byt3.AssemblyGenerator
 
     public static class AssemblyGenerator
     {
-        public static readonly ALogger<LogType> Logger = new ALogger<LogType>("AssemblyGenerator");
+        public static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("AssemblyGenerator");
         #region API Calls
 
 
@@ -148,15 +148,15 @@ namespace Byt3.AssemblyGenerator
 
         private static CSharpReference PrepareForTransfer(CSharpReference reference, ModuleDefinition original)
         {
-            List<KVP<string, string>> attribs = reference.internalAttributes;
+            List<SerializableKeyValuePair<string, string>> attribs = reference.internalAttributes;
             for (int i = 0; i < attribs.Count; i++)
             {
                 if (attribs[i].Key == "Include")
                 {
-                    KVP<string, string> kvp = attribs[i];
-                    kvp.Value = Path.GetFullPath(Path.Combine(original.RootDirectory,
+                    SerializableKeyValuePair<string, string> serializableKeyValuePair = attribs[i];
+                    serializableKeyValuePair.Value = Path.GetFullPath(Path.Combine(original.RootDirectory,
                         reference.internalAttributes[i].Value));
-                    attribs[i] = kvp;
+                    attribs[i] = serializableKeyValuePair;
                 }
             }
 

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Byt3.ADL;
 using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Wrapper;
 
@@ -62,7 +63,7 @@ namespace Byt3.OpenFL.WFC
                 sample[x, y] = (byte) i;
             }
 
-            CLLogger.Log("Color Patterns found: " + colors.Count, DebugChannel.Log | DebugChannel.EngineWFC, 3);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL_WFC, Verbosity.Level3,"Color Patterns found: " + colors.Count);
             int colorsCount = colors.Count;
             long nPow = WaveCollapseUtils.Power(colorsCount, n * n);
 

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Tests
@@ -11,14 +12,14 @@ namespace Byt3.ExtPP.Tests
     {
 
 
-        private static string _resourceFolder { get; } = Path.GetFullPath("../../../res/");
+        private static string ResourceFolderBackingProperty { get; } = Path.GetFullPath("../../../res/");
         public static string ResourceFolder { get; private set; } = "";
         
         public static void SetupPath()
         {
             if (ResourceFolder == "")
             {
-                ResourceFolder = _resourceFolder;
+                ResourceFolder = ResourceFolderBackingProperty;
             }
         }
 

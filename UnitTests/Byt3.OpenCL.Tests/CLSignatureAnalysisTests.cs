@@ -1,20 +1,16 @@
 using System.Linq;
-using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Wrapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Byt3.OpenCL.Tests
 {
     [TestClass]
-    public class ClSignatureAnalysis
+    public class CLSignatureAnalysisTests
     {
        
         [TestMethod]
         public void OpenCL_KernelSignatureAnalysis_Test()
         {
-            DebugHelper.ThrowOnAllExceptions = true;
-            DebugHelper.SeverityFilter = 10;
-
             Assert.IsTrue(TestSetup.KernelDb.TryGetClKernel("addv", out CLKernel kernel), "Didnt find kernel");
 
             Assert.IsTrue(kernel.Parameter.Count == 6, "Kernel header is not == 6");

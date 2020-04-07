@@ -7,7 +7,7 @@ namespace Byt3.PackageHandling
     {
         private readonly Dictionary<Type, AHandler> handlers = new Dictionary<Type, AHandler>();
         private readonly Dictionary<Type, AHandler> implicitHandlerMap = new Dictionary<Type, AHandler>();
-        private readonly AHandler FallbackHandler;
+        private readonly AHandler fallbackHandler;
         public Byt3HandlerLookupType LookupType = Byt3HandlerLookupType.TraverseUp;
         private bool ExactOnly => LookupType == Byt3HandlerLookupType.None;
         private bool UseFallback => (LookupType & Byt3HandlerLookupType.UseFallback) != 0;
@@ -17,7 +17,7 @@ namespace Byt3.PackageHandling
         public Byt3Handler(Byt3HandlerLookupType lookupType = Byt3HandlerLookupType.TraverseUp, AHandler fallback = null)
         {
             LookupType = lookupType;
-            FallbackHandler = fallback ?? new DefaultHandler();
+            fallbackHandler = fallback ?? new DefaultHandler();
         }
 
         public void Handle(object objectToHandle, object context)
@@ -78,8 +78,8 @@ namespace Byt3.PackageHandling
 
             if (UseFallback)
             {
-                implicitHandlerMap.Add(t, FallbackHandler);
-                implicitHandler = FallbackHandler;
+                implicitHandlerMap.Add(t, fallbackHandler);
+                implicitHandler = fallbackHandler;
                 return true;
             }
 
@@ -112,7 +112,7 @@ namespace Byt3.PackageHandling
 
             if (UseFallback)
             {
-                handler = FallbackHandler;
+                handler = fallbackHandler;
                 return true;
             }
 
