@@ -12,14 +12,14 @@
         /// </summary>
         /// <param name="s">Stream to read from</param>
         /// <returns>The Deserialized Object</returns>
-        internal abstract object Deserialize(PrimitiveValueWrapper s);
+        public abstract object Deserialize(PrimitiveValueWrapper s);
 
         /// <summary>
         /// Serializes an object into a stream
         /// </summary>
         /// <param name="s">Target Stream</param>
         /// <param name="o">Object to Serialize</param>
-        internal abstract void Serialize(PrimitiveValueWrapper s, object o);
+        public abstract void Serialize(PrimitiveValueWrapper s, object o);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@
         /// </summary>
         /// <param name="s">Input Stream</param>
         /// <returns>Non Generic Version of the Deserialized Object</returns>
-        internal override object Deserialize(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
             return DeserializePacket(s);
         }
@@ -59,7 +59,7 @@
         /// <param name="s">Input Stream</param>
         /// <param name="o">Non Generic version of the Object to Serialize</param>
         /// <returns>Non Generic Version of the Serialized Object</returns>
-        internal override void Serialize(PrimitiveValueWrapper s, object o)
+        public override void Serialize(PrimitiveValueWrapper s, object o)
         {
             SerializePacket(s, (T) o);
         }

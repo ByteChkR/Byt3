@@ -249,10 +249,22 @@ namespace Byt3.Serialization
         /// <param name="key">Key of the Type</param>
         /// <returns>Type mapped to this key</returns>
         /// <exception cref="Exception">Gets thrown when The KeyTypeCache does not contain the key.</exception>
-        private static Type GetTypeByKey(object key)
+        public static Type GetTypeByKey(object key)
         {
             if (KeyTypeCache.ContainsKey(key)) return KeyTypeCache[key];
             throw new Exception("Could not Find the Type with Key: " + key);
+        }
+
+
+        public static ASerializer GetSerializerByType(Type key)
+        {
+            return Serializers[key];
+        }
+
+
+        public static ASerializer GetSerializerByKey(object key)
+        {
+            return GetSerializerByType(GetTypeByKey(key));
         }
 
     }
