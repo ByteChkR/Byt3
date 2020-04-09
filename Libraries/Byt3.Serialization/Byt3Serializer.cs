@@ -142,9 +142,9 @@ namespace Byt3.Serialization
         /// <typeparam name="T">Type of Object to Serialize</typeparam>
         /// <param name="stream">Target Stream</param>
         /// <param name="obj">Object to Serialize</param>
-        public static void WritePacket<T>(Stream stream, T obj)
+        public static bool TryWritePacket<T>(Stream stream, T obj)
         {
-            WritePacket(stream, (object)obj);
+            return TryWritePacket(stream, (object)obj);
         }
 
         #endregion
@@ -197,7 +197,7 @@ namespace Byt3.Serialization
                 deserializedPacket = null;
                 return false;
             }
-            
+
             if (!CanSerializeByKey(basePacket.PacketType))
                 throw new SerializationException("Could not find a deserializer for type key: " + basePacket.PacketType);
 
@@ -216,7 +216,7 @@ namespace Byt3.Serialization
         {
             bool ret = TryReadPacket(stream, out object obj);
             deserializedObject = default(T);
-            if (ret) deserializedObject = (T) obj;
+            if (ret) deserializedObject = (T)obj;
             return ret;
         }
 
