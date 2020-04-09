@@ -114,7 +114,9 @@ namespace Byt3.Serialization.Tests
             Byt3Serializer.WritePacket(stream, p);
             stream.Position = 0;
 
-            Packet p2 = Byt3Serializer.ReadPacket<Packet>(stream);
+            bool p2ret = Byt3Serializer.TryReadPacket<Packet>(stream, out Packet p2);
+
+            Assert.IsTrue(p2ret);
 
             Assert.IsTrue(Math.Abs(p.valfloat - p2.valfloat) < 0.001f);
             Assert.IsTrue(Math.Abs(p.valdouble - p2.valdouble) < 0.001f);

@@ -82,7 +82,7 @@ namespace Byt3.Serialization
 
 
         #endregion
-        
+
         #region Write
 
         private static byte[] MainWrite(object obj)
@@ -100,12 +100,21 @@ namespace Byt3.Serialization
             return buf;
         }
 
-        private static void BaseWrite(Stream stream, BasePacket packet)
+        private static bool TryBaseWrite(Stream stream, BasePacket packet)
         {
             PrimitiveValueWrapper baseStage = new PrimitiveValueWrapper(stream);
-            BaseSerializer.Serialize(baseStage, packet);
-            baseStage.CompleteWrite();
+            bool ret = true;
+            try
+            {
+                BaseSerializer.Serialize(baseStage, packet);
+                baseStage.CompleteWrite();
+            }
+            catch (Exception e)
+            {
+                ret = false;
+            }
             baseStage.SetInvalid();
+            return ret;
         }
 
         /// <summary>
@@ -113,7 +122,7 @@ namespace Byt3.Serialization
         /// </summary>
         /// <param name="stream">Target Stream</param>
         /// <param name="obj">Object to Serialize</param>
-        public static void WritePacket(Stream stream, object obj)
+        public static bool TryWritePacket(Stream stream, object obj)
         {
             if (obj == null) throw new ArgumentNullException("obj", "Can not be null.");
             if (stream == null) throw new ArgumentNullException("stream", "Can not be null.");
@@ -124,7 +133,7 @@ namespace Byt3.Serialization
 
             byte[] buf = MainWrite(obj);
 
-            BaseWrite(stream, new BasePacket(key, buf));
+            return TryBaseWrite(stream, new BasePacket(key, buf));
         }
 
         /// <summary>
@@ -139,21 +148,30 @@ namespace Byt3.Serialization
         }
 
         #endregion
-        
+
         #region Read
 
 
-        private static BasePacket BaseRead(Stream stream)
+        private static bool TryBaseRead(Stream stream, out BasePacket packet)
         {
             PrimitiveValueWrapper baseStage = new PrimitiveValueWrapper(stream);
-            BasePacket packet = BaseSerializer.DeserializePacket(baseStage);
-            baseStage.SetInvalid();
-            return packet;
+
+            try
+            {
+                packet = BaseSerializer.DeserializePacket(baseStage);
+                baseStage.SetInvalid();
+                return true;
+            }
+            catch (Exception e)
+            {
+                packet = null;
+                return false;
+            }
         }
 
         private static object MainRead(BasePacket basePacket)
         {
-            MemoryStream ms = new MemoryStream(basePacket.Payload) {Position = 0};
+            MemoryStream ms = new MemoryStream(basePacket.Payload) { Position = 0 };
             Type packetType = GetTypeByKey(basePacket.PacketType);
 
             PrimitiveValueWrapper mainStage = new PrimitiveValueWrapper(ms);
@@ -170,16 +188,22 @@ namespace Byt3.Serialization
         /// </summary>
         /// <param name="stream">Input Stream</param>
         /// <returns>The Deserialized Object</returns>
-        public static object ReadPacket(Stream stream)
+        public static bool TryReadPacket(Stream stream, out object deserializedPacket)
         {
             if (stream == null) throw new ArgumentNullException("stream", "Can not be null.");
 
-            BasePacket basePacket = BaseRead(stream);
-
+            if (!TryBaseRead(stream, out BasePacket basePacket))
+            {
+                deserializedPacket = null;
+                return false;
+            }
+            
             if (!CanSerializeByKey(basePacket.PacketType))
                 throw new SerializationException("Could not find a deserializer for type key: " + basePacket.PacketType);
 
-            return MainRead(basePacket);
+            deserializedPacket = MainRead(basePacket);
+
+            return true;
         }
 
         /// <summary>
@@ -188,9 +212,12 @@ namespace Byt3.Serialization
         /// <typeparam name="T">Type of Object to Deserialize</typeparam>
         /// <param name="stream">Input Stream</param>
         /// <returns>The Packet that was Deserialized</returns>
-        public static T ReadPacket<T>(Stream stream)
+        public static bool TryReadPacket<T>(Stream stream, out T deserializedObject)
         {
-            return (T)ReadPacket(stream);
+            bool ret = TryReadPacket(stream, out object obj);
+            deserializedObject = default(T);
+            if (ret) deserializedObject = (T) obj;
+            return ret;
         }
 
         #endregion
