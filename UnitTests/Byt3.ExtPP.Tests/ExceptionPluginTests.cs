@@ -13,26 +13,22 @@ namespace Byt3.ExtPP.Tests
     public  class ExceptionPluginTests
     {
 
-        private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "EX_tests/";
+        private static string ResourceFolder { get; } = TestHelper.ResF + "EX_tests/";
 
 
-        
-        public ExceptionPluginTests()
-        {
-            TestHelper.SetupPath();
-        }
 
         [Fact]
         public  void ExtPP_Plugins_Exception_Warning_Test()
         {
-            Directory.SetCurrentDirectory(ResourceFolder);
+            string file = Path.Combine(ResourceFolder, "warning_test.txt");
+            //Directory.SetCurrentDirectory(ResourceFolder);
             Settings s = new Settings(new Dictionary<string, string[]>
             {
                 {"-ex:tow", new string[0]}
             });
             try
             {
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, s, "warning_test.txt");
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, s,file);
                 Assert.True(false);
             }
             catch (Exception)
@@ -43,10 +39,11 @@ namespace Byt3.ExtPP.Tests
         [Fact]
         public  void ExtPP_Plugins_Exception_Error_Test()
         {
-            Directory.SetCurrentDirectory(ResourceFolder);
+            string file = Path.Combine(ResourceFolder, "error_test.txt");
+            //Directory.SetCurrentDirectory(ResourceFolder);
             try
             {
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, "error_test.txt");
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, file);
                 Assert.True(false);
             }
             catch (Exception)

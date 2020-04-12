@@ -12,6 +12,7 @@ namespace Byt3.OpenCL.Tests
         [Fact]
         public void OpenCL_KernelSignatureAnalysis_Test()
         {
+            
             Assert.True(TestSetup.KernelDb.TryGetClKernel("addv", out CLKernel kernel), "Didnt find kernel");
 
             Assert.True(kernel.Parameter.Count == 6, "Kernel header is not == 6");

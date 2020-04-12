@@ -1,28 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
+using Xunit;
 
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 namespace Byt3.ExtPP.Tests
 {
     public class TestHelper
     {
-
-
-        private static string ResourceFolderBackingProperty { get; } = Path.GetFullPath("../../../res/");
-        public static string ResourceFolder { get; private set; } = "";
-        
-        public static void SetupPath()
+        public static string ResF
         {
-            if (ResourceFolder == "")
+            get
             {
-                ResourceFolder = ResourceFolderBackingProperty;
+                var codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+                var codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
+                var dirPath = Path.GetDirectoryName(codeBasePath);
+                ResourceFolder = Path.Combine(dirPath, "res/");
+                return ResourceFolder;
+
+
             }
         }
 
+        private static string ResourceFolderBackingProperty { get; } = Path.GetFullPath("../../../res/");
+        private static string ResourceFolder = "res/";
         private static PreProcessor SetUp(List<AbstractPlugin> chain)
         {
             PreProcessor pp = new PreProcessor();
@@ -34,7 +41,7 @@ namespace Byt3.ExtPP.Tests
         {
 
             PreProcessor pp = SetUp(chain);
-            return pp.ProcessFiles(fileNames.Select(x=>new FilePathContent(Path.GetFullPath(x))).OfType<IFileContent>().ToArray(), settings, definitions);
+            return pp.ProcessFiles(fileNames.Select(x => new FilePathContent(Path.GetFullPath(x))).OfType<IFileContent>().ToArray(), settings, definitions);
         }
 
 
@@ -58,8 +65,8 @@ namespace Byt3.ExtPP.Tests
         public static string[] SetUpAndCompile(List<AbstractPlugin> chain, Settings settings, IDefinitions definitions, params string[] fileNames)
         {
             PreProcessor pp = SetUp(chain);
-            
-            return pp.Run(fileNames.Select(x=>new FilePathContent(x)).OfType<IFileContent>().ToArray(), settings, definitions);
+
+            return pp.Run(fileNames.Select(x => new FilePathContent(x)).OfType<IFileContent>().ToArray(), settings, definitions);
         }
 
         public static string[] SetUpAndCompile(List<AbstractPlugin> chain, params string[] fileNames)

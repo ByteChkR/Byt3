@@ -216,7 +216,8 @@ namespace Byt3.OpenCL.Wrapper
 
             for (int i = 0; i < devs.Count; i++)
             {
-                if (devs[i].IsAvailable)
+                bool o = devs[i].IsAvailable;
+                if (o)
                 {
                     Logger.Log(LogType.Log, "Choosing Device: " + devs[i].Name + "@" + devs[i].Vendor);
                     chosenDevice = devs[i];

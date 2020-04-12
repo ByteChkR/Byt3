@@ -8,21 +8,20 @@ using Xunit;
 
 namespace Byt3.ExtPP.Tests
 {
-    
+
     public class IncludeFakeGenericsTests
     {
-        private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "compiler_tests/";
+        private static string ResourceFolder { get; } = TestHelper.ResF + "compiler_tests/";
 
-        public IncludeFakeGenericsTests()
-        {
-            TestHelper.SetupPath();
-        }
+
 
         [Fact]
         public void ExtPP_Plugins_Include_Circular_Test()
         {
-            Directory.SetCurrentDirectory(ResourceFolder);
-            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new IncludePlugin() }, new[] { "includecircular.cl" });
+
+            //Directory.SetCurrentDirectory(ResourceFolder);
+            string file = Path.Combine(ResourceFolder, "includecircular.cl");
+            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new IncludePlugin() }, new[] { file });
 
             Assert.Equal(
                 3,
@@ -32,8 +31,9 @@ namespace Byt3.ExtPP.Tests
         [Fact]
         public void ExtPP_Plugins_Include_FakeGenerics_GenericCircular_Test()
         {
-            Directory.SetCurrentDirectory(ResourceFolder);
-            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), }, new[] { "genericincludepassthrough.cl" });
+            //Directory.SetCurrentDirectory(ResourceFolder);
+            string file = Path.Combine(ResourceFolder, "genericincludepassthrough.cl");
+            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), }, new[] { file });
             Assert.Equal(
                 5,
                 ret.Length);
@@ -42,8 +42,9 @@ namespace Byt3.ExtPP.Tests
         [Fact]
         public void ExtPP_Plugins_Include_FakeGenerics_TypePassing_Test()
         {
-            Directory.SetCurrentDirectory(ResourceFolder);
-            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), }, new[] { "typePassing.cl" });
+            //Directory.SetCurrentDirectory(ResourceFolder);
+            string file = Path.Combine(ResourceFolder, "typePassing.cl");
+            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), }, new[] { file });
 
             Assert.Equal(
                 4,

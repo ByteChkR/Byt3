@@ -7,8 +7,8 @@ using Xunit;
 
 namespace Byt3.ExtPP.Tests
 {
-    
-    public  class PreProcessorTests
+
+    public class PreProcessorTests
     {
         private static List<AbstractPlugin> Plugins
         {
@@ -16,7 +16,8 @@ namespace Byt3.ExtPP.Tests
             {
                 IncludePlugin inc = new IncludePlugin
                 {
-                    IncludeInlineKeyword = "pp_includeinl:", IncludeKeyword = "pp_include:"
+                    IncludeInlineKeyword = "pp_includeinl:",
+                    IncludeKeyword = "pp_include:"
                 };
                 ConditionalPlugin cond = new ConditionalPlugin
                 {
@@ -38,22 +39,18 @@ namespace Byt3.ExtPP.Tests
                 };
             }
         }
-        private static string ResourceFolder { get; } = TestHelper.ResourceFolder;
-        
-        public  PreProcessorTests()
-        {
-            TestHelper.SetupPath();
-        }
+        private static string ResourceFolder { get; } = Path.GetFullPath(TestHelper.ResF);
+
 
         [Fact]
-        public  void ExtPP_PreProcessor_FilterRun_Test()
+        public void ExtPP_PreProcessor_FilterRun_Test()
         {
-            Directory.SetCurrentDirectory(ResourceFolder);
-            string[] files = Directory.GetFiles("filter/tests/", "*.fl");
+            //Directory.SetCurrentDirectory(ResourceFolder);
+            string[] files = Directory.GetFiles(Path.Combine(ResourceFolder, "filter/tests/"), "*.fl");
             foreach (string file in files)
             {
                 string dir = Directory.GetCurrentDirectory();
-                Directory.SetCurrentDirectory(ResourceFolder);
+                //Directory.SetCurrentDirectory(ResourceFolder);
                 PreProcessor pp = new PreProcessor();
                 pp.SetFileProcessingChain(Plugins);
                 pp.Run(new[] { file }, new Definitions());

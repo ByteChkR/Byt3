@@ -1,6 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using Byt3.OpenCL.Wrapper;
+using Xunit;
 
+
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 namespace Byt3.OpenCL.Tests
 {
     public static class TestSetup
@@ -13,8 +18,11 @@ namespace Byt3.OpenCL.Tests
             {
                 if (kernelDb == null)
                 {
-                    string s = Directory.GetCurrentDirectory();
-                    kernelDb = new KernelDatabase(CLAPI.MainThread, "resources/kernel",
+                    var codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+                    var codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
+                    var dirPath = Path.GetDirectoryName(codeBasePath);
+                    string ResourceFolder = Path.Combine(dirPath, "resources", "kernel");
+                    kernelDb = new KernelDatabase(CLAPI.MainThread, ResourceFolder,
                         Wrapper.TypeEnums.DataTypes.Uchar1);
                 }
 

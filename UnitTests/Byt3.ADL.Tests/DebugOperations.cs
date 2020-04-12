@@ -11,6 +11,7 @@ namespace Byt3.ADL.Tests
         [Fact]
         public void ADL_Debug_AddOutputStream_Test()
         {
+            Debug.RemoveAllOutputStreams(); //Remove streams because unit tests may leave streams attached.
             Debug.AdlEnabled = false;
 
             Debug.AddOutputStream(null);
