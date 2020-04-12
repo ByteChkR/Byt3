@@ -1,6 +1,5 @@
 language: csharp
 mono: none
-sudo: required
 dist: xenial
 services:
   - xvfb
@@ -11,7 +10,7 @@ addons:
         - libgdiplus
         - libalut0
 
-matrix:
+jobs:
   include:
     - dotnet: 2.2
       env:
