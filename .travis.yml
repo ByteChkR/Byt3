@@ -1,0 +1,36 @@
+language: csharp
+mono: none
+sudo: required
+dist: xenial
+services:
+  - xvfb
+addons:
+    apt:
+        packages:
+        - fakeroot
+        - libgdiplus
+        - libalut0
+
+matrix:
+  include:
+    - dotnet: 2.2
+      env:
+        - SOLUTION="Byt3.sln"
+        - BUILDCONFIG="Release"
+
+#Restore the Submodules and the Project
+install:
+  - sudo bash opencl_travis_setup.sh
+
+
+#Build the projects
+#ADL has to be splitted into its subprojects since 2 of them are .Net Framework based and will not compile with .net Core
+#Also the build order matters since the MinorEngine solution needs references from the other submodules
+script:
+  - dotnet build $SOLUTION -c $BUILDCONFIG
+
+#Testing all included projects.
+after_script:
+  - dotnet test $SOLUTION --collect:"XPlat Code Coverage" -c $BUILDCONFIG
+  - bash <(curl -s https://codecov.io/bash) #Uploading the coverage report to Codecov.
+

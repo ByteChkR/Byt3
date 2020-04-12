@@ -17,64 +17,64 @@ namespace Byt3.OpenCL.Wrapper
         /// Item 2: The maximum value of the data type
         /// Item 3: The Enum Representation of the Type
         /// </summary>
-        private static readonly List<Tuple<string, float, Wrapper.TypeEnums.DataTypes>> DataTypePairs =
-            new List<Tuple<string, float, Wrapper.TypeEnums.DataTypes>>
+        private static readonly List<Tuple<string, float, DataTypes>> DataTypePairs =
+            new List<Tuple<string, float, DataTypes>>
             {
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("float", float.MaxValue, Wrapper.TypeEnums.DataTypes.Float1),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("float2", float.MaxValue, Wrapper.TypeEnums.DataTypes.Float2),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("float3", float.MaxValue, Wrapper.TypeEnums.DataTypes.Float3),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("float4", float.MaxValue, Wrapper.TypeEnums.DataTypes.Float4),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("float8", float.MaxValue, Wrapper.TypeEnums.DataTypes.Float8),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("float16", float.MaxValue, Wrapper.TypeEnums.DataTypes.Float16),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("int", int.MaxValue, Wrapper.TypeEnums.DataTypes.Int1),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("int2", int.MaxValue, Wrapper.TypeEnums.DataTypes.Int2),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("int3", int.MaxValue, Wrapper.TypeEnums.DataTypes.Int3),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("int4", int.MaxValue, Wrapper.TypeEnums.DataTypes.Int4),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("int8", int.MaxValue, Wrapper.TypeEnums.DataTypes.Int8),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("int16", int.MaxValue, Wrapper.TypeEnums.DataTypes.Int16),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uint", uint.MaxValue, Wrapper.TypeEnums.DataTypes.Uint1),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uint2", uint.MaxValue, Wrapper.TypeEnums.DataTypes.Uint2),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uint3", uint.MaxValue, Wrapper.TypeEnums.DataTypes.Uint3),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uint4", uint.MaxValue, Wrapper.TypeEnums.DataTypes.Uint4),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uint8", uint.MaxValue, Wrapper.TypeEnums.DataTypes.Uint8),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uint16", uint.MaxValue, Wrapper.TypeEnums.DataTypes.Uint16),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("char", sbyte.MaxValue, Wrapper.TypeEnums.DataTypes.Char1),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("char2", sbyte.MaxValue, Wrapper.TypeEnums.DataTypes.Char2),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("char3", sbyte.MaxValue, Wrapper.TypeEnums.DataTypes.Char3),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("char4", sbyte.MaxValue, Wrapper.TypeEnums.DataTypes.Char4),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("char8", sbyte.MaxValue, Wrapper.TypeEnums.DataTypes.Char8),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("char16", sbyte.MaxValue, Wrapper.TypeEnums.DataTypes.Char16),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uchar", byte.MaxValue, Wrapper.TypeEnums.DataTypes.Uchar1),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uchar2", byte.MaxValue, Wrapper.TypeEnums.DataTypes.Uchar2),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uchar3", byte.MaxValue, Wrapper.TypeEnums.DataTypes.Uchar3),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uchar4", byte.MaxValue, Wrapper.TypeEnums.DataTypes.Uchar4),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uchar8", byte.MaxValue, Wrapper.TypeEnums.DataTypes.Uchar8),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("uchar16", byte.MaxValue, Wrapper.TypeEnums.DataTypes.Uchar16),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("short", short.MaxValue, Wrapper.TypeEnums.DataTypes.Short1),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("short2", short.MaxValue, Wrapper.TypeEnums.DataTypes.Short2),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("short3", short.MaxValue, Wrapper.TypeEnums.DataTypes.Short3),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("short4", short.MaxValue, Wrapper.TypeEnums.DataTypes.Short4),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("short8", short.MaxValue, Wrapper.TypeEnums.DataTypes.Short8),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("short16", short.MaxValue, Wrapper.TypeEnums.DataTypes.Short16),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ushort", ushort.MaxValue, Wrapper.TypeEnums.DataTypes.Ushort1),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ushort2", ushort.MaxValue, Wrapper.TypeEnums.DataTypes.Ushort2),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ushort3", ushort.MaxValue, Wrapper.TypeEnums.DataTypes.Ushort3),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ushort4", ushort.MaxValue, Wrapper.TypeEnums.DataTypes.Ushort4),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ushort8", ushort.MaxValue, Wrapper.TypeEnums.DataTypes.Ushort8),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ushort16", ushort.MaxValue,
-                    Wrapper.TypeEnums.DataTypes.Ushort16),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("long", long.MaxValue, Wrapper.TypeEnums.DataTypes.Long1),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("long2", long.MaxValue, Wrapper.TypeEnums.DataTypes.Long2),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("long3", long.MaxValue, Wrapper.TypeEnums.DataTypes.Long3),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("long4", long.MaxValue, Wrapper.TypeEnums.DataTypes.Long4),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("long8", long.MaxValue, Wrapper.TypeEnums.DataTypes.Long8),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("long16", long.MaxValue, Wrapper.TypeEnums.DataTypes.Long16),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ulong", ulong.MaxValue, Wrapper.TypeEnums.DataTypes.Ulong1),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ulong2", ulong.MaxValue, Wrapper.TypeEnums.DataTypes.Ulong2),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ulong3", ulong.MaxValue, Wrapper.TypeEnums.DataTypes.Ulong3),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ulong4", ulong.MaxValue, Wrapper.TypeEnums.DataTypes.Ulong4),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ulong8", ulong.MaxValue, Wrapper.TypeEnums.DataTypes.Ulong8),
-                new Tuple<string, float, Wrapper.TypeEnums.DataTypes>("ulong16", ulong.MaxValue, Wrapper.TypeEnums.DataTypes.Ulong16)
+                new Tuple<string, float, DataTypes>("float", float.MaxValue, DataTypes.Float1),
+                new Tuple<string, float, DataTypes>("float2", float.MaxValue, DataTypes.Float2),
+                new Tuple<string, float, DataTypes>("float3", float.MaxValue, DataTypes.Float3),
+                new Tuple<string, float, DataTypes>("float4", float.MaxValue, DataTypes.Float4),
+                new Tuple<string, float, DataTypes>("float8", float.MaxValue, DataTypes.Float8),
+                new Tuple<string, float, DataTypes>("float16", float.MaxValue, DataTypes.Float16),
+                new Tuple<string, float, DataTypes>("int", int.MaxValue, DataTypes.Int1),
+                new Tuple<string, float, DataTypes>("int2", int.MaxValue, DataTypes.Int2),
+                new Tuple<string, float, DataTypes>("int3", int.MaxValue, DataTypes.Int3),
+                new Tuple<string, float, DataTypes>("int4", int.MaxValue, DataTypes.Int4),
+                new Tuple<string, float, DataTypes>("int8", int.MaxValue, DataTypes.Int8),
+                new Tuple<string, float, DataTypes>("int16", int.MaxValue, DataTypes.Int16),
+                new Tuple<string, float, DataTypes>("uint", uint.MaxValue, DataTypes.Uint1),
+                new Tuple<string, float, DataTypes>("uint2", uint.MaxValue, DataTypes.Uint2),
+                new Tuple<string, float, DataTypes>("uint3", uint.MaxValue, DataTypes.Uint3),
+                new Tuple<string, float, DataTypes>("uint4", uint.MaxValue, DataTypes.Uint4),
+                new Tuple<string, float, DataTypes>("uint8", uint.MaxValue, DataTypes.Uint8),
+                new Tuple<string, float, DataTypes>("uint16", uint.MaxValue, DataTypes.Uint16),
+                new Tuple<string, float, DataTypes>("char", sbyte.MaxValue, DataTypes.Char1),
+                new Tuple<string, float, DataTypes>("char2", sbyte.MaxValue, DataTypes.Char2),
+                new Tuple<string, float, DataTypes>("char3", sbyte.MaxValue, DataTypes.Char3),
+                new Tuple<string, float, DataTypes>("char4", sbyte.MaxValue, DataTypes.Char4),
+                new Tuple<string, float, DataTypes>("char8", sbyte.MaxValue, DataTypes.Char8),
+                new Tuple<string, float, DataTypes>("char16", sbyte.MaxValue, DataTypes.Char16),
+                new Tuple<string, float, DataTypes>("uchar", byte.MaxValue, DataTypes.Uchar1),
+                new Tuple<string, float, DataTypes>("uchar2", byte.MaxValue, DataTypes.Uchar2),
+                new Tuple<string, float, DataTypes>("uchar3", byte.MaxValue, DataTypes.Uchar3),
+                new Tuple<string, float, DataTypes>("uchar4", byte.MaxValue, DataTypes.Uchar4),
+                new Tuple<string, float, DataTypes>("uchar8", byte.MaxValue, DataTypes.Uchar8),
+                new Tuple<string, float, DataTypes>("uchar16", byte.MaxValue, DataTypes.Uchar16),
+                new Tuple<string, float, DataTypes>("short", short.MaxValue, DataTypes.Short1),
+                new Tuple<string, float, DataTypes>("short2", short.MaxValue, DataTypes.Short2),
+                new Tuple<string, float, DataTypes>("short3", short.MaxValue, DataTypes.Short3),
+                new Tuple<string, float, DataTypes>("short4", short.MaxValue, DataTypes.Short4),
+                new Tuple<string, float, DataTypes>("short8", short.MaxValue, DataTypes.Short8),
+                new Tuple<string, float, DataTypes>("short16", short.MaxValue, DataTypes.Short16),
+                new Tuple<string, float, DataTypes>("ushort", ushort.MaxValue, DataTypes.Ushort1),
+                new Tuple<string, float, DataTypes>("ushort2", ushort.MaxValue, DataTypes.Ushort2),
+                new Tuple<string, float, DataTypes>("ushort3", ushort.MaxValue, DataTypes.Ushort3),
+                new Tuple<string, float, DataTypes>("ushort4", ushort.MaxValue, DataTypes.Ushort4),
+                new Tuple<string, float, DataTypes>("ushort8", ushort.MaxValue, DataTypes.Ushort8),
+                new Tuple<string, float, DataTypes>("ushort16", ushort.MaxValue,
+                    DataTypes.Ushort16),
+                new Tuple<string, float, DataTypes>("long", long.MaxValue, DataTypes.Long1),
+                new Tuple<string, float, DataTypes>("long2", long.MaxValue, DataTypes.Long2),
+                new Tuple<string, float, DataTypes>("long3", long.MaxValue, DataTypes.Long3),
+                new Tuple<string, float, DataTypes>("long4", long.MaxValue, DataTypes.Long4),
+                new Tuple<string, float, DataTypes>("long8", long.MaxValue, DataTypes.Long8),
+                new Tuple<string, float, DataTypes>("long16", long.MaxValue, DataTypes.Long16),
+                new Tuple<string, float, DataTypes>("ulong", ulong.MaxValue, DataTypes.Ulong1),
+                new Tuple<string, float, DataTypes>("ulong2", ulong.MaxValue, DataTypes.Ulong2),
+                new Tuple<string, float, DataTypes>("ulong3", ulong.MaxValue, DataTypes.Ulong3),
+                new Tuple<string, float, DataTypes>("ulong4", ulong.MaxValue, DataTypes.Ulong4),
+                new Tuple<string, float, DataTypes>("ulong8", ulong.MaxValue, DataTypes.Ulong8),
+                new Tuple<string, float, DataTypes>("ulong16", ulong.MaxValue, DataTypes.Ulong16)
             };
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// The Data type
         /// </summary>
-        public Wrapper.TypeEnums.DataTypes DataType { get; set; }
+        public DataTypes DataType { get; set; }
 
         /// <summary>
         /// Is the Argument an Array?
@@ -190,17 +190,17 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="t">The type</param>
         /// <returns>The Data type or UNKNOWN if not found</returns>
-        public static Wrapper.TypeEnums.DataTypes GetEnumFromType(Type t)
+        public static DataTypes GetEnumFromType(Type t)
         {
             for (int i = 0; i < Converters.Length; i++)
             {
                 if (Converters[i] == t)
                 {
-                    return (Wrapper.TypeEnums.DataTypes) i;
+                    return (DataTypes) i;
                 }
             }
 
-            return Wrapper.TypeEnums.DataTypes.Unknown;
+            return DataTypes.Unknown;
         }
 
         /// <summary>
@@ -257,9 +257,9 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="type"></param>
         /// <returns>The keyword for OpenCL as string</returns>
-        public static string GetDataString(Wrapper.TypeEnums.DataTypes type)
+        public static string GetDataString(DataTypes type)
         {
-            foreach (Tuple<string, float, Wrapper.TypeEnums.DataTypes> dataTypePair in DataTypePairs)
+            foreach (Tuple<string, float, DataTypes> dataTypePair in DataTypePairs)
             {
                 if (dataTypePair.Item3 == type)
                 {
@@ -278,7 +278,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns>max value of the data type</returns>
         public static float GetDataMaxSize(string genType)
         {
-            foreach (Tuple<string, float, Wrapper.TypeEnums.DataTypes> dataTypePair in DataTypePairs)
+            foreach (Tuple<string, float, DataTypes> dataTypePair in DataTypePairs)
             {
                 if (dataTypePair.Item1 == genType)
                 {
@@ -294,9 +294,9 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="str">String Representation of the CL Type</param>
         /// <returns>The data type</returns>
-        public static Wrapper.TypeEnums.DataTypes GetDataType(string str)
+        public static DataTypes GetDataType(string str)
         {
-            foreach (Tuple<string, float, Wrapper.TypeEnums.DataTypes> dataTypePair in DataTypePairs)
+            foreach (Tuple<string, float, DataTypes> dataTypePair in DataTypePairs)
             {
                 if (dataTypePair.Item1 == str)
                 {
@@ -304,7 +304,7 @@ namespace Byt3.OpenCL.Wrapper
                 }
             }
 
-            return Wrapper.TypeEnums.DataTypes.Unknown;
+            return DataTypes.Unknown;
         }
 
         /// <summary>

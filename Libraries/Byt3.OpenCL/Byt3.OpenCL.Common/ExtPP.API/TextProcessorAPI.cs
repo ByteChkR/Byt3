@@ -43,7 +43,6 @@ namespace Byt3.OpenCL.Common.ExtPP.API
 
         internal static string[] PreprocessLines(IFileContent file, Dictionary<string, bool> defs)
         {
-            //TODO: Check if this works
             string ext = new string(file.GetFilePath().Reverse().Take(3).Reverse().ToArray());
             string key = "";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

@@ -14,8 +14,8 @@ namespace Byt3.ObjectPipeline.Tests
         {
             public override byte[] Process(string input)
             {
-                if (input == "C:\\TestFile") return Encoding.ASCII.GetBytes("Hello World!");
-                if (input == "C:\\InterceptedFile") return Encoding.ASCII.GetBytes("!dlroW olleH");
+                if(Path.GetFullPath(input) == Path.GetFullPath("C:\\TestFile")) return Encoding.ASCII.GetBytes("Hello World!");
+                if(Path.GetFullPath(input) == Path.GetFullPath("C:\\InterceptedFile")) return Encoding.ASCII.GetBytes("!dlroW olleH");
                 return File.ReadAllBytes(input);
             }
         }
@@ -25,7 +25,7 @@ namespace Byt3.ObjectPipeline.Tests
             private readonly string fileToIntercept = "C:\\TestFile";
             public override string Process(string input)
             {
-                return Path.GetFullPath(input) == fileToIntercept ? "C:\\InterceptedFile" : input;
+                return Path.GetFullPath(input) == Path.GetFullPath(fileToIntercept) ? "C:\\InterceptedFile" : input;
             }
         }
 

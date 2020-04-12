@@ -52,8 +52,8 @@ y = s1 = v;
 
 		public char2(sbyte x, sbyte y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -124,10 +124,10 @@ w = s3 = v;
 
 		public char3(sbyte x, sbyte y, sbyte z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -202,10 +202,10 @@ w = s3 = v;
 
 		public char4(sbyte x, sbyte y, sbyte z, sbyte w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -424,12 +424,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation
@@ -518,8 +518,8 @@ y = s1 = v;
 
 		public uchar2(byte x, byte y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -590,10 +590,10 @@ w = s3 = v;
 
 		public uchar3(byte x, byte y, byte z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -668,10 +668,10 @@ w = s3 = v;
 
 		public uchar4(byte x, byte y, byte z, byte w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -890,12 +890,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation
@@ -984,8 +984,8 @@ y = s1 = v;
 
 		public short2(short x, short y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -1056,10 +1056,10 @@ w = s3 = v;
 
 		public short3(short x, short y, short z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -1134,10 +1134,10 @@ w = s3 = v;
 
 		public short4(short x, short y, short z, short w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -1356,12 +1356,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation
@@ -1450,8 +1450,8 @@ y = s1 = v;
 
 		public ushort2(ushort x, ushort y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -1522,10 +1522,10 @@ w = s3 = v;
 
 		public ushort3(ushort x, ushort y, ushort z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -1600,10 +1600,10 @@ w = s3 = v;
 
 		public ushort4(ushort x, ushort y, ushort z, ushort w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -1822,12 +1822,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation
@@ -1916,8 +1916,8 @@ y = s1 = v;
 
 		public int2(int x, int y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -1988,10 +1988,10 @@ w = s3 = v;
 
 		public int3(int x, int y, int z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -2066,10 +2066,10 @@ w = s3 = v;
 
 		public int4(int x, int y, int z, int w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -2288,12 +2288,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation
@@ -2382,8 +2382,8 @@ y = s1 = v;
 
 		public uint2(uint x, uint y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -2454,10 +2454,10 @@ w = s3 = v;
 
 		public uint3(uint x, uint y, uint z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -2532,10 +2532,10 @@ w = s3 = v;
 
 		public uint4(uint x, uint y, uint z, uint w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -2754,12 +2754,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation
@@ -2848,8 +2848,8 @@ y = s1 = v;
 
 		public long2(long x, long y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -2920,10 +2920,10 @@ w = s3 = v;
 
 		public long3(long x, long y, long z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -2998,10 +2998,10 @@ w = s3 = v;
 
 		public long4(long x, long y, long z, long w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -3220,12 +3220,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation
@@ -3314,8 +3314,8 @@ y = s1 = v;
 
 		public ulong2(ulong x, ulong y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -3386,10 +3386,10 @@ w = s3 = v;
 
 		public ulong3(ulong x, ulong y, ulong z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -3464,10 +3464,10 @@ w = s3 = v;
 
 		public ulong4(ulong x, ulong y, ulong z, ulong w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -3686,12 +3686,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation
@@ -3780,8 +3780,8 @@ y = s1 = v;
 
 		public float2(float x, float y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -3852,10 +3852,10 @@ w = s3 = v;
 
 		public float3(float x, float y, float z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -3930,10 +3930,10 @@ w = s3 = v;
 
 		public float4(float x, float y, float z, float w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -4152,12 +4152,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation
@@ -4246,8 +4246,8 @@ y = s1 = v;
 
 		public double2(double x, double y) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
+			this.x = s0 = x;
+this.y = s1 = y;
 		}
 
 		#region IVectorType implementation
@@ -4318,10 +4318,10 @@ w = s3 = v;
 
 		public double3(double x, double y, double z) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = 0;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+w = s3 = 0;
 		}
 
 		#region IVectorType implementation
@@ -4396,10 +4396,10 @@ w = s3 = v;
 
 		public double4(double x, double y, double z, double w) 
 		{
-			this.x = this.s0 = x;
-this.y = this.s1 = y;
-this.z = this.s2 = z;
-this.w = this.s3 = w;
+			this.x = s0 = x;
+this.y = s1 = y;
+this.z = s2 = z;
+this.w = s3 = w;
 		}
 
 		#region IVectorType implementation
@@ -4618,12 +4618,12 @@ this.s6 = s6;
 this.s7 = s7;
 this.s8 = s8;
 this.s9 = s9;
-this.sa = this.sA = sa;
-this.sb = this.sB = sb;
-this.sc = this.sC = sc;
-this.sd = this.sD = sd;
-this.se = this.sE = se;
-this.sf = this.sF = sf;
+this.sa = sA = sa;
+this.sb = sB = sb;
+this.sc = sC = sc;
+this.sd = sD = sd;
+this.se = sE = se;
+this.sf = sF = sf;
 		}
 
 		#region IVectorType implementation

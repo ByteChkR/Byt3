@@ -15,7 +15,6 @@ namespace Byt3.OpenCL.Common.ExtPP.API
                 return base.FileExists(file);
             }
 
-            //TODO: Check if this works
             string p = file.Remove(0, Directory.GetCurrentDirectory().Length);// Path.GetRelativePath(Directory.GetCurrentDirectory(), file);
             return TextProcessorAPI.PpCallback.FileExists(p);
         }
@@ -27,7 +26,7 @@ namespace Byt3.OpenCL.Common.ExtPP.API
                 return base.ReadAllLines(file);
             }
 
-            //TODO: Check if this works
+            
             string p = file.Remove(0, Directory.GetCurrentDirectory().Length);
             return TextProcessorAPI.PpCallback.ReadAllLines(p);
         }
@@ -39,7 +38,6 @@ namespace Byt3.OpenCL.Common.ExtPP.API
                 return base.GetFiles(path, searchPattern);
             }
 
-            //TODO: Check if this works
             string p = path.Remove(0, Directory.GetCurrentDirectory().Length);
             return TextProcessorAPI.PpCallback.GetFiles(p, searchPattern);
         }

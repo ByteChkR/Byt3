@@ -8,7 +8,6 @@ namespace Byt3.Serialization.Tests
     [TestClass]
     public class Byt3SerializerTests
     {
-
         #region Example Packet / Serializer
 
         private class Packet
@@ -42,7 +41,7 @@ namespace Byt3.Serialization.Tests
                     valushort = 6;
                     vallong = 7;
                     valulong = 8;
-                    valbytes = new byte[] { 1, 1, 1, 1, 0, 0, 0, 1, 1, 1 };
+                    valbytes = new byte[] {1, 1, 1, 1, 0, 0, 0, 1, 1, 1};
                     valbyte = 9;
                     valstring = "TESTTEST";
                 }
@@ -51,7 +50,6 @@ namespace Byt3.Serialization.Tests
 
         private class PacketSerializer : ASerializer<Packet>
         {
-
             public override Packet DeserializePacket(PrimitiveValueWrapper wrapper)
             {
                 Packet p = new Packet();
@@ -78,7 +76,6 @@ namespace Byt3.Serialization.Tests
 
             public override void SerializePacket(PrimitiveValueWrapper wrapper, Packet obj)
             {
-
                 wrapper.Write(obj.valfloat);
                 wrapper.Write(obj.valdouble);
 
@@ -95,8 +92,6 @@ namespace Byt3.Serialization.Tests
                 wrapper.Write(obj.valbyte);
 
                 wrapper.Write(obj.valstring);
-
-
             }
         }
 
@@ -105,13 +100,13 @@ namespace Byt3.Serialization.Tests
         [TestMethod]
         public void Serializer_ReadWrite_Test()
         {
-
             Packet p = new Packet(true);
 
             Byt3Serializer.AddSerializer<Packet>(new PacketSerializer());
 
             MemoryStream stream = new MemoryStream();
-            Byt3Serializer.WritePacket(stream, p);
+            bool ret = Byt3Serializer.TryWritePacket(stream, p);
+            Assert.IsTrue(ret);
             stream.Position = 0;
 
             bool p2ret = Byt3Serializer.TryReadPacket<Packet>(stream, out Packet p2);
@@ -136,7 +131,6 @@ namespace Byt3.Serialization.Tests
             {
                 Assert.IsTrue(p.valbytes[i] == p2.valbytes[i]);
             }
-
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Byt3.Collections
         public static List<INode> FindPath(INode from, INode to)
         {
             INode current;
-            Collections.PriorityQueue<INode> connectedNodes = new Collections.PriorityQueue<INode>();
+            PriorityQueue<INode> connectedNodes = new PriorityQueue<INode>();
             foreach (INode inode in from.ConnectedNodes)
             {
                 connectedNodes.Enqueue(inode);

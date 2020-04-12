@@ -18,7 +18,7 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_Comments_Test()
         {
             string file = Path.GetFullPath("resources/filter/comments/test.fl");
-            OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
+            FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
                 CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                     MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128, 128,
                 1,
@@ -37,7 +37,7 @@ namespace Byt3.OpenFL.Tests
 
             try
             {
-                OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
+                FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
                     CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                         MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
                     128,
@@ -59,7 +59,7 @@ namespace Byt3.OpenFL.Tests
         {
 
             string file = Path.GetFullPath("resources/filter/defines/test.fl");
-            OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
+            FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
                 CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                     MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128, 128,
                 1,
@@ -86,7 +86,7 @@ namespace Byt3.OpenFL.Tests
             {
                 try
                 {
-                    OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
+                    FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
                         CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                             MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
                         128,
@@ -117,7 +117,7 @@ namespace Byt3.OpenFL.Tests
             {
                 try
                 {
-                    OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
+                    FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
                         CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                             MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128,
                         128,
@@ -145,7 +145,7 @@ namespace Byt3.OpenFL.Tests
                 new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataTypes.Uchar1);
             foreach (string file in files)
             {
-                OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
+                FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
                     CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 64 * 64 * 4,
                         MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 64, 64,
                     1,
@@ -168,7 +168,7 @@ namespace Byt3.OpenFL.Tests
             {
                 try
                 {
-                    OpenFL.FLInterpreter p = new OpenFL.FLInterpreter(CLAPI.MainThread, file,
+                    FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,
                         CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                             MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite),
                         128,
