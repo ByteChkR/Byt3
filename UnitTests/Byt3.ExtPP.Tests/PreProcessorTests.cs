@@ -2,11 +2,12 @@
 using System.IO;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using Xunit;
 
 namespace Byt3.ExtPP.Tests
 {
-    [TestClass]
+    
     public  class PreProcessorTests
     {
         private static List<AbstractPlugin> Plugins
@@ -38,14 +39,13 @@ namespace Byt3.ExtPP.Tests
             }
         }
         private static string ResourceFolder { get; } = TestHelper.ResourceFolder;
-
-        [TestInitialize]
-        public  void SetUp()
+        
+        public  PreProcessorTests()
         {
             TestHelper.SetupPath();
         }
 
-        [TestMethod]
+        [Fact]
         public  void ExtPP_PreProcessor_FilterRun_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);

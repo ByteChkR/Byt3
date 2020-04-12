@@ -1,11 +1,12 @@
 using System;
 using System.IO;
 using Byt3.Serialization.Serializers;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Byt3.Serialization.Tests
 {
-    [TestClass]
+    
     public class Byt3SerializerTests
     {
         #region Example Packet / Serializer
@@ -97,7 +98,7 @@ namespace Byt3.Serialization.Tests
 
         #endregion
 
-        [TestMethod]
+        [Fact]
         public void Serializer_ReadWrite_Test()
         {
             Packet p = new Packet(true);
@@ -106,30 +107,30 @@ namespace Byt3.Serialization.Tests
 
             MemoryStream stream = new MemoryStream();
             bool ret = Byt3Serializer.TryWritePacket(stream, p);
-            Assert.IsTrue(ret);
+            Assert.True(ret);
             stream.Position = 0;
 
             bool p2ret = Byt3Serializer.TryReadPacket<Packet>(stream, out Packet p2);
 
-            Assert.IsTrue(p2ret);
+            Assert.True(p2ret);
 
-            Assert.IsTrue(Math.Abs(p.valfloat - p2.valfloat) < 0.001f);
-            Assert.IsTrue(Math.Abs(p.valdouble - p2.valdouble) < 0.001f);
+            Assert.True(Math.Abs(p.valfloat - p2.valfloat) < 0.001f);
+            Assert.True(Math.Abs(p.valdouble - p2.valdouble) < 0.001f);
 
-            Assert.IsTrue(p.valint == p2.valint);
-            Assert.IsTrue(p.valuint == p2.valuint);
+            Assert.True(p.valint == p2.valint);
+            Assert.True(p.valuint == p2.valuint);
 
-            Assert.IsTrue(p.valshort == p2.valshort);
-            Assert.IsTrue(p.valushort == p2.valushort);
+            Assert.True(p.valshort == p2.valshort);
+            Assert.True(p.valushort == p2.valushort);
 
-            Assert.IsTrue(p.vallong == p2.vallong);
-            Assert.IsTrue(p.valulong == p2.valulong);
+            Assert.True(p.vallong == p2.vallong);
+            Assert.True(p.valulong == p2.valulong);
 
-            Assert.IsTrue(p.valstring == p2.valstring);
+            Assert.True(p.valstring == p2.valstring);
 
             for (int i = 0; i < p.valbytes.Length; i++)
             {
-                Assert.IsTrue(p.valbytes[i] == p2.valbytes[i]);
+                Assert.True(p.valbytes[i] == p2.valbytes[i]);
             }
         }
     }

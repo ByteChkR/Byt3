@@ -5,16 +5,16 @@ using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenCLNetStandard.DataTypes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Byt3.OpenFL.Tests
 {
-    [TestClass]
+    
     public class FLInterpreterTests
     {
    
 
-        [TestMethod]
+        [Fact]
         public void OpenFL_Comments_Test()
         {
             string file = Path.GetFullPath("resources/filter/comments/test.fl");
@@ -29,7 +29,7 @@ namespace Byt3.OpenFL.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenFL_DefineFile_Wrong_Test()
         {
 
@@ -48,13 +48,13 @@ namespace Byt3.OpenFL.Tests
             {
                 if (!(e is FLInvalidFunctionUseException))
                 {
-                    Assert.IsTrue(false);
+                    Assert.True(false);
                 }
                 //We passed
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenFL_Defines_Test()
         {
 
@@ -68,15 +68,15 @@ namespace Byt3.OpenFL.Tests
             FLInterpreterStepResult ret = p.Step();
 
 
-            Assert.IsTrue(ret.DefinedBuffers.Count == 5);
-            Assert.IsTrue(ret.DefinedBuffers[0] == "in_unmanaged");
-            Assert.IsTrue(ret.DefinedBuffers[1] == "textureD_internal");
-            Assert.IsTrue(ret.DefinedBuffers[2] == "textureC_internal");
-            Assert.IsTrue(ret.DefinedBuffers[3] == "textureB_internal");
-            Assert.IsTrue(ret.DefinedBuffers[4] == "textureA_internal");
+            Assert.True(ret.DefinedBuffers.Count == 5);
+            Assert.True(ret.DefinedBuffers[0] == "in_unmanaged");
+            Assert.True(ret.DefinedBuffers[1] == "textureD_internal");
+            Assert.True(ret.DefinedBuffers[2] == "textureC_internal");
+            Assert.True(ret.DefinedBuffers[3] == "textureB_internal");
+            Assert.True(ret.DefinedBuffers[4] == "textureA_internal");
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenFL_DefineScriptFile_Wrong_Test()
         {
 
@@ -97,7 +97,7 @@ namespace Byt3.OpenFL.Tests
                 {
                     if (!(e is FLInvalidFunctionUseException))
                     {
-                        Assert.IsTrue(false);
+                        Assert.True(false);
                     }
 
                     //We passed
@@ -106,7 +106,7 @@ namespace Byt3.OpenFL.Tests
         }
 
 
-        [TestMethod]
+        [Fact]
         public void OpenFL_DefineScriptNoFile_Wrong_Test()
         {
 
@@ -128,7 +128,7 @@ namespace Byt3.OpenFL.Tests
                 {
                     if (!(e is FLInvalidFunctionUseException))
                     {
-                        Assert.IsTrue(false);
+                        Assert.True(false);
                     }
 
                     //We passed
@@ -136,7 +136,7 @@ namespace Byt3.OpenFL.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenFL_Kernels_Test()
         {
             string path = "resources/filter/tests";
@@ -157,7 +157,7 @@ namespace Byt3.OpenFL.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenFL_WFCDefines_Wrong_Test()
         {
 
@@ -180,7 +180,7 @@ namespace Byt3.OpenFL.Tests
                 {
                     if (!(e is FLInvalidFunctionUseException))
                     {
-                        Assert.IsTrue(false);
+                        Assert.True(false);
                     }
 
                     //We passed
@@ -188,19 +188,19 @@ namespace Byt3.OpenFL.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenFL_TypeConversion_Test()
         {
             float f = float.MaxValue / 2;
             byte b = (byte) CLTypeConverter.Convert(typeof(byte), f);
             float4 f4 = new float4(f);
             uchar4 i4 = (uchar4) CLTypeConverter.Convert(typeof(uchar4), f4);
-            Assert.IsTrue(b == 128);
+            Assert.True(b == 128);
 
             for (int i = 0; i < 4; i++)
             {
                 byte s = i4[i];
-                Assert.IsTrue(s == 128);
+                Assert.True(s == 128);
             }
         }
     }

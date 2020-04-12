@@ -4,24 +4,25 @@ using System.IO;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
 using Byt3.ExtPP.Plugins;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Byt3.ExtPP.Tests
 {
-    [TestClass]
+    
     public  class ExceptionPluginTests
     {
 
         private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "EX_tests/";
 
 
-        [TestInitialize]
-        public  void SetUp()
+        
+        public ExceptionPluginTests()
         {
             TestHelper.SetupPath();
         }
 
-        [TestMethod]
+        [Fact]
         public  void ExtPP_Plugins_Exception_Warning_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
@@ -32,21 +33,21 @@ namespace Byt3.ExtPP.Tests
             try
             {
                 TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, s, "warning_test.txt");
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (Exception)
             {
                 //It will throw if it works.
             }
         }
-        [TestMethod]
+        [Fact]
         public  void ExtPP_Plugins_Exception_Error_Test()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
             try
             {
                 TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, "error_test.txt");
-                Assert.Fail();
+                Assert.True(false);
             }
             catch (Exception)
             {

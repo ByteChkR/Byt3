@@ -1,9 +1,10 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Byt3.PackageHandling.Tests
 {
-    [TestClass]
+    
     public class Byt3HandlerTests
     {
         internal bool ACalled;
@@ -64,7 +65,7 @@ namespace Byt3.PackageHandling.Tests
             return handler;
         }
 
-        [TestMethod]
+        [Fact]
         public void Handler_ExactOnly_Test()
         {
 
@@ -75,16 +76,16 @@ namespace Byt3.PackageHandling.Tests
             handler.AddHandler(new HandlerC() { TestInstance = this });
             //handler.AddHandler(new HandlerD());
 
-            Assert.ThrowsException<Exception>(() => handler.Handle(new A(), null));  //Crash because of Exact only and A is missing
+            Assert.Throws<Exception>(() => handler.Handle(new A(), null));  //Crash because of Exact only and A is missing
             handler.Handle(new B(), null); //Works
             handler.Handle(new C_B(), null); //Works
-            Assert.ThrowsException<Exception>(() => handler.Handle(new D_C(), null)); //Crash because no traversal up
+            Assert.Throws<Exception>(() => handler.Handle(new D_C(), null)); //Crash because no traversal up
 
-            Assert.IsTrue(BCalled && CCalled);
-            Assert.IsFalse(ACalled && DCalled);
+            Assert.True(BCalled && CCalled);
+            Assert.False(ACalled && DCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void Handler_TraverseUp_Test()
         {
             Byt3Handler handler = GetHandler(Byt3HandlerLookupType.TraverseUp, null);
@@ -99,11 +100,11 @@ namespace Byt3.PackageHandling.Tests
             handler.Handle(new B(), null); //Works
             handler.Handle(new C_B(), null); //Works because traverse up
             handler.Handle(new D_C(), null); //Works because traverse up
-            Assert.IsTrue(ACalled && BCalled);
-            Assert.IsFalse(CCalled && DCalled);
+            Assert.True(ACalled && BCalled);
+            Assert.False(CCalled && DCalled);
         }
 
-        [TestMethod]
+        [Fact]
         public void Handler_UseFallback_Test()
         {
             Byt3Handler handler = GetHandler(Byt3HandlerLookupType.UseFallback, null);
@@ -118,7 +119,7 @@ namespace Byt3.PackageHandling.Tests
             handler.Handle(new B(), null); //Works because of fallback
             handler.Handle(new C_B(), null); //Works because of fallback
             handler.Handle(new D_C(), null); //Works because of fallback
-            Assert.IsFalse(ACalled && BCalled && CCalled && DCalled);
+            Assert.False(ACalled && BCalled && CCalled && DCalled);
         }
     }
 }

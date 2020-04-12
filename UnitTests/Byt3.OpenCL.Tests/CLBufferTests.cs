@@ -1,15 +1,16 @@
 ﻿using System;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Byt3.OpenCL.Tests
 {
-    [TestClass]
+    
     public class CLBufferTests
     {
      
-        [TestMethod]
+        
         private static bool CheckValues(float[] values, float[] reference)
         {
             bool working = true;
@@ -24,7 +25,7 @@ namespace Byt3.OpenCL.Tests
             return working;
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenCL_CreateBuffer_Test()
         {
             CLAPI.Reinitialize();
@@ -37,11 +38,11 @@ namespace Byt3.OpenCL.Tests
             MemoryBuffer buffer =
                 CLAPI.CreateBuffer(CLAPI.MainThread, b, MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite);
 
-            Assert.IsTrue(buffer != null);
-            Assert.IsTrue(buffer.Size == 255);
+            Assert.True(buffer != null);
+            Assert.True(buffer.Size == 255);
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenCL_ReadBuffer_Test()
         {
             CLAPI.Reinitialize();
@@ -57,10 +58,10 @@ namespace Byt3.OpenCL.Tests
             float[] c = CLAPI.ReadBuffer<float>(CLAPI.MainThread, buffer, b.Length);
 
 
-            Assert.IsTrue(CheckValues(c, b));
+            Assert.True(CheckValues(c, b));
         }
 
-        [TestMethod]
+        [Fact]
         public void OpenCL_WriteBuffer_Test()
         {
             CLAPI.Reinitialize();
@@ -79,7 +80,7 @@ namespace Byt3.OpenCL.Tests
             float[] c = CLAPI.ReadBuffer<float>(CLAPI.MainThread, buffer, b.Length);
 
 
-            Assert.IsTrue(CheckValues(c, b));
+            Assert.True(CheckValues(c, b));
         }
     }
 }

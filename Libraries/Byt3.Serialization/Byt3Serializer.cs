@@ -109,7 +109,7 @@ namespace Byt3.Serialization
                 BaseSerializer.Serialize(baseStage, packet);
                 baseStage.CompleteWrite();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ret = false;
             }
@@ -162,7 +162,7 @@ namespace Byt3.Serialization
                 baseStage.SetInvalid();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 packet = null;
                 return false;

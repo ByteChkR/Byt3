@@ -20,7 +20,7 @@ matrix:
 
 #Restore the Submodules and the Project
 install:
-  - sudo bash opencl_travis_setup.sh
+  - bash opencl_travis_setup.sh
 
 
 #Build the projects

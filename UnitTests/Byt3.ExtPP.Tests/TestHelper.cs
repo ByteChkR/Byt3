@@ -8,7 +8,7 @@ using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Tests
 {
-    public static class TestHelper
+    public class TestHelper
     {
 
 
