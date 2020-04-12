@@ -10,6 +10,7 @@ using Byt3.ExtPP.Base.settings;
 using Xunit;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
+
 namespace Byt3.ExtPP.Tests
 {
     public class TestHelper
@@ -30,6 +31,7 @@ namespace Byt3.ExtPP.Tests
 
         private static string ResourceFolderBackingProperty { get; } = Path.GetFullPath("../../../res/");
         private static string ResourceFolder = "res/";
+
         private static PreProcessor SetUp(List<AbstractPlugin> chain)
         {
             PreProcessor pp = new PreProcessor();
@@ -37,11 +39,14 @@ namespace Byt3.ExtPP.Tests
             return pp;
         }
 
-        public static ISourceScript[] SetUpAndProcess(List<AbstractPlugin> chain, Settings settings, IDefinitions definitions, params string[] fileNames)
+        public static ISourceScript[] SetUpAndProcess(List<AbstractPlugin> chain, Settings settings,
+            IDefinitions definitions, params string[] fileNames)
         {
 
             PreProcessor pp = SetUp(chain);
-            return pp.ProcessFiles(fileNames.Select(x => new FilePathContent(Path.GetFullPath(x))).OfType<IFileContent>().ToArray(), settings, definitions);
+            return pp.ProcessFiles(
+                fileNames.Select(x => new FilePathContent(Path.GetFullPath(x))).OfType<IFileContent>().ToArray(),
+                settings, definitions);
         }
 
 
@@ -57,16 +62,19 @@ namespace Byt3.ExtPP.Tests
             return SetUpAndProcess(chain, new Settings(), definitions, fileNames);
         }
 
-        public static ISourceScript[] SetUpAndProcess(List<AbstractPlugin> chain, Settings settings, params string[] fileNames)
+        public static ISourceScript[] SetUpAndProcess(List<AbstractPlugin> chain, Settings settings,
+            params string[] fileNames)
         {
             return SetUpAndProcess(chain, settings, new Definitions(), fileNames);
         }
 
-        public static string[] SetUpAndCompile(List<AbstractPlugin> chain, Settings settings, IDefinitions definitions, params string[] fileNames)
+        public static string[] SetUpAndCompile(List<AbstractPlugin> chain, Settings settings, IDefinitions definitions,
+            params string[] fileNames)
         {
             PreProcessor pp = SetUp(chain);
 
-            return pp.Run(fileNames.Select(x => new FilePathContent(x)).OfType<IFileContent>().ToArray(), settings, definitions);
+            return pp.Run(fileNames.Select(x => new FilePathContent(x)).OfType<IFileContent>().ToArray(), settings,
+                definitions);
         }
 
         public static string[] SetUpAndCompile(List<AbstractPlugin> chain, params string[] fileNames)
@@ -85,7 +93,5 @@ namespace Byt3.ExtPP.Tests
         {
             return SetUpAndCompile(chain, settings, new Definitions(), fileNames);
         }
-
-
     }
 }

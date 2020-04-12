@@ -42,7 +42,8 @@ namespace Byt3.OpenFL
 
             if (defines.ContainsKey(varname))
             {
-                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Overwriting " + varname, DebugChannel.Warning | DebugChannel.OpenFL, 10);
+                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Overwriting " + varname,
+                    DebugChannel.Warning | DebugChannel.OpenFL, 10);
                 defines.Remove(varname);
             }
 
@@ -62,7 +63,7 @@ namespace Byt3.OpenFL
                 }
             }
 
-            string[] args = arg[1].Split(new []{ ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] args = arg[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
 
 
             string filename = args[0].Trim();
@@ -79,7 +80,7 @@ namespace Byt3.OpenFL
                 string fn = filename.Replace(FILEPATH_INDICATOR, "");
                 if (File.Exists(fn))
                 {
-                    Bitmap bmp = new Bitmap((Bitmap)System.Drawing.Image.FromFile(fn), width, height);
+                    Bitmap bmp = new Bitmap((Bitmap) System.Drawing.Image.FromFile(fn), width, height);
                     CLBufferInfo info = new CLBufferInfo(CLAPI.CreateFromImage(instance, bmp,
                         MemoryFlag.CopyHostPointer | flags), true);
                     info.SetKey(varname);

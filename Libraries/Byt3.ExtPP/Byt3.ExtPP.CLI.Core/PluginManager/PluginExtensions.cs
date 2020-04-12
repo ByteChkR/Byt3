@@ -62,11 +62,11 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             List<string> ret = new List<string>
             {
                 "______________________________________________",
-              "#### "+plugin.GetType().Name+ " Information:",
-              "",
-              "* Prefix: "+plugin.Prefix.Unpack(", "),
-              "* Commands:",
-              ""
+                "#### " + plugin.GetType().Name + " Information:",
+                "",
+                "* Prefix: " + plugin.Prefix.Unpack(", "),
+                "* Commands:",
+                ""
             };
 
             ret.AddRange(ToMarkdown(plugin.Info));
@@ -80,7 +80,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             for (int i = 0; i < info.Count; i++)
             {
 
-                string[] helpt = info[i].HelpText.Split(new []{ '\n' });
+                string[] helpt = info[i].HelpText.Split(new[] {'\n'});
                 ret.Add(tab + info[i].Command + "/" + info[i].ShortCut);
                 ret.Add(tab + "\t" + helpt.Unpack("\n\t" + tab));
             }

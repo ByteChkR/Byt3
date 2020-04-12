@@ -5,7 +5,6 @@ using Xunit;
 
 namespace Byt3.ADL.Tests
 {
-    
     public class DebugOperations
     {
         [Fact]
@@ -26,7 +25,7 @@ namespace Byt3.ADL.Tests
             Assert.Equal(1, Debug.LogStreamCount);
 
             Debug.RemoveAllOutputStreams();
-            
+
             Debug.AdlEnabled = true;
         }
 
@@ -67,7 +66,7 @@ namespace Byt3.ADL.Tests
             logger.AddPrefixForMask(bm, "AAA");
             logger.RemovePrefixForMask(bm);
             Debug.AdlEnabled = true;
-            
+
             Assert.True(logger.GetAllPrefixes().Count == 0);
         }
 
@@ -133,9 +132,18 @@ namespace Byt3.ADL.Tests
         {
             ADLLogger logger = new ADLLogger("UnitTest");
             logger.SetAllPrefixes("Hello", "HELLO1", "HOLA2");
-            if (logger.GetPrefixMask("Hello", out BitMask bm)) Assert.True(bm == 1);
-            if (logger.GetPrefixMask("HELLO1", out bm)) Assert.True(bm == 2);
-            if (logger.GetPrefixMask("HOLA2", out bm)) Assert.True(bm == 4);
+            if (logger.GetPrefixMask("Hello", out BitMask bm))
+            {
+                Assert.True(bm == 1);
+            }
+            if (logger.GetPrefixMask("HELLO1", out bm))
+            {
+                Assert.True(bm == 2);
+            }
+            if (logger.GetPrefixMask("HOLA2", out bm))
+            {
+                Assert.True(bm == 4);
+            }
         }
 
         [Fact]
@@ -202,7 +210,6 @@ namespace Byt3.ADL.Tests
             string s = Debug.TextEncoding.GetString(buf);
 
             Assert.EndsWith("ffffffffff\n", s); //ADL is appending the \n when using LogTextStreams
-            
 
 
             logger.Log(1, "ffffffffff");

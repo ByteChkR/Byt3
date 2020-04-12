@@ -57,7 +57,7 @@ namespace Byt3.ExtPP.Base.settings
         /// <param name="value">the value to be set</param>
         public void Set(string key, string value)
         {
-            Set(key, new[] { value });
+            Set(key, new[] {value});
         }
 
         /// <summary>
@@ -147,7 +147,6 @@ namespace Byt3.ExtPP.Base.settings
 
             return new Settings(ret);
         }
-
 
 
         /// <summary>
@@ -249,10 +248,11 @@ namespace Byt3.ExtPP.Base.settings
             {
                 return;
             }
-            string[] val = Utils.ParseArray(info.Field.PropertyType.IsArray ?
-                info.Field.PropertyType.GetElementType() :
-                info.Field.PropertyType,
-                cmdVal, info.DefaultIfNotSpecified)
+            string[] val = Utils.ParseArray(
+                    info.Field.PropertyType.IsArray
+                        ? info.Field.PropertyType.GetElementType()
+                        : info.Field.PropertyType,
+                    cmdVal, info.DefaultIfNotSpecified)
                 .OfType<string>().ToArray();
             info.Field.SetValue(obj, val);
         }
@@ -273,7 +273,5 @@ namespace Byt3.ExtPP.Base.settings
 
             return s;
         }
-
-
     }
 }

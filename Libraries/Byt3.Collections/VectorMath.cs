@@ -5,12 +5,14 @@ namespace Byt3.Collections
 {
     public static class VectorMath
     {
-
         #region Vec3
 
         public static IVec3 Add(params IVec3[] vecs)
         {
-            if (vecs.Length == 0) return null;
+            if (vecs.Length == 0)
+            {
+                return null;
+            }
             IVec3 ret = vecs[0].GetNewInstance(0, 0, 0);
             for (int i = 0; i < vecs.Length; i++)
             {
@@ -24,7 +26,10 @@ namespace Byt3.Collections
 
         public static IVec3 Subtract(IVec3 first, params IVec3[] vecs)
         {
-            if (vecs.Length == 0) return first;
+            if (vecs.Length == 0)
+            {
+                return first;
+            }
             IVec3 vec = first.GetNewInstance(first.X, first.Y, first.Z);
             for (int i = 0; i < vecs.Length; i++)
             {
@@ -43,7 +48,7 @@ namespace Byt3.Collections
 
         public static float GetLength(IVec3 vec)
         {
-            return (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y + vec.Z * vec.Z);
+            return (float) Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y + vec.Z * vec.Z);
         }
 
         public static IVec3 Scale(IVec3 vec, float scalar)
@@ -73,7 +78,10 @@ namespace Byt3.Collections
 
         public static IVec2 Add(params IVec2[] vecs)
         {
-            if (vecs.Length == 0) return null;
+            if (vecs.Length == 0)
+            {
+                return null;
+            }
             IVec2 ret = vecs[0].GetNewInstance(0, 0);
             for (int i = 0; i < vecs.Length; i++)
             {
@@ -86,7 +94,10 @@ namespace Byt3.Collections
 
         public static IVec2 Subtract(IVec2 first, params IVec2[] vecs)
         {
-            if (vecs.Length == 0) return first;
+            if (vecs.Length == 0)
+            {
+                return first;
+            }
             IVec2 vec = first.GetNewInstance(first.X, first.Y);
             for (int i = 0; i < vecs.Length; i++)
             {
@@ -104,7 +115,7 @@ namespace Byt3.Collections
 
         public static float GetLength(IVec2 vec)
         {
-            return (float)Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
+            return (float) Math.Sqrt(vec.X * vec.X + vec.Y * vec.Y);
         }
 
         public static IVec2 Scale(IVec2 vec, float scalar)
@@ -129,6 +140,5 @@ namespace Byt3.Collections
         }
 
         #endregion
-
     }
 }

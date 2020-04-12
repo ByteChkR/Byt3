@@ -7,12 +7,10 @@ namespace TestingProject
 {
     internal class Program
     {
-
         private static void Main(string[] args)
         {
 
             Debug.DefaultInitialization();
-
 
 
             AssemblyGeneratorGenerateModules();
@@ -25,18 +23,20 @@ namespace TestingProject
 
         private const string MSBUILD_PATH =
             "dotnet";
+
         private static void AssemblyGeneratorGenerateModules()
         {
-            string[] blacklist = new[] { "Test", "CLI" };
-            ModuleDefinition[] defs = AssemblyGenerator.GenerateModuleDefinitions(@"D:\Users\Tim\Documents\MasterServer\Byt3", ".\\GeneratedModules\\", false, blacklist);
+            string[] blacklist = new[] {"Test", "CLI"};
+            ModuleDefinition[] defs = AssemblyGenerator.GenerateModuleDefinitions(
+                @"D:\Users\Tim\Documents\MasterServer\Byt3", ".\\GeneratedModules\\", false, blacklist);
             AssemblyDefinition.Save(".\\GeneratedModules\\Byt3.assemblyconfig",
                 AssemblyGenerator.GenerateAssemblyDefinition("Byt3", defs));
         }
 
         private static void AssemblyGeneratorBuildTest(AssemblyDefinition defs)
         {
-            AssemblyGenerator.GenerateAssembly(MSBUILD_PATH, defs, $".\\{defs.AssemblyName}_Build\\", AssemblyGeneratorBuildType.Publish,true);
+            AssemblyGenerator.GenerateAssembly(MSBUILD_PATH, defs, $".\\{defs.AssemblyName}_Build\\",
+                AssemblyGeneratorBuildType.Publish, true);
         }
-
     }
 }

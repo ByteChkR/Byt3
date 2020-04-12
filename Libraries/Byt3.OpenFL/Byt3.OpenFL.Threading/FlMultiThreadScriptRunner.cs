@@ -7,7 +7,6 @@ using Byt3.OpenCL.Wrapper.TypeEnums;
 
 namespace Byt3.OpenFL.Threading
 {
-
     /// <summary>
     /// Implementation of the Runner Class that executes FL Scripts on a different thread
     /// </summary>

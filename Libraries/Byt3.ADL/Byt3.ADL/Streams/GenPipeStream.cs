@@ -61,7 +61,10 @@ namespace Byt3.ADL.Streams
                 mBlockLastRead = value;
 
                 // when turning off the block last read, signal Read() that it may now read the rest of the buffer.
-                if (mBlockLastRead) return;
+                if (mBlockLastRead)
+                {
+                    return;
+                }
                 lock (mBuffer)
                 {
                     Monitor.Pulse(mBuffer);
@@ -188,7 +191,9 @@ namespace Byt3.ADL.Streams
         public override int Read(byte[] buffer, int offset, int count)
         {
             if (typeof(T) != typeof(byte))
+            {
                 throw new NotSupportedException();
+            }
             return ReadGen(buffer as T[], offset, count);
         }
 
@@ -212,28 +217,45 @@ namespace Byt3.ADL.Streams
         public int ReadGen(T[] buffer, int offset, int count)
         {
             if (offset != 0)
+            {
                 throw new NotSupportedException("Offsets with value of non-zero are not supported");
+            }
             if (buffer == null)
+            {
                 throw new ArgumentException("Buffer is null");
+            }
             if (offset + count > buffer.Length)
+            {
                 throw new ArgumentException("The sum of offset and count is greater than the buffer length. ");
+            }
             if (offset < 0 || count < 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(offset), "offset or count is negative.");
+            }
             if (BlockLastReadBuffer && count >= MaxBufferLength)
+            {
                 throw new ArgumentException($"count({count}) > mMaxBufferLength({MaxBufferLength})");
+            }
 
             if (count == 0)
+            {
                 return 0;
+            }
 
             int readLength = 0;
 
             lock (mBuffer)
             {
                 while (!ReadAvailable(count))
+                {
                     Monitor.Wait(mBuffer);
+                }
 
                 // fill the read buffer
-                for (; readLength < count && Length > 0; readLength++) buffer[offset + readLength] = mBuffer.Dequeue();
+                for (; readLength < count && Length > 0; readLength++)
+                {
+                    buffer[offset + readLength] = mBuffer.Dequeue();
+                }
 
                 Monitor.Pulse(mBuffer);
             }
@@ -255,24 +277,37 @@ namespace Byt3.ADL.Streams
         public void WriteGen(T[] buffer, int offset, int count)
         {
             if (buffer == null)
+            {
                 throw new ArgumentException("Buffer is null");
+            }
             if (offset + count > buffer.Length)
+            {
                 throw new ArgumentException("The sum of offset and count is greater than the buffer length. ");
+            }
             if (offset < 0 || count < 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(offset), "offset or count is negative.");
+            }
             if (count == 0)
+            {
                 return;
+            }
 
             lock (mBuffer)
             {
                 // wait until the buffer isn't full
                 while (Length >= MaxBufferLength)
+                {
                     Monitor.Wait(mBuffer);
+                }
 
                 mFlushed = false; // if it were flushed before, it soon will not be.
 
                 // queue up the buffer data
-                for (int i = offset; i < offset + count; i++) mBuffer.Enqueue(buffer[i]);
+                for (int i = offset; i < offset + count; i++)
+                {
+                    mBuffer.Enqueue(buffer[i]);
+                }
 
                 Monitor.Pulse(mBuffer); // signal that write has occured
             }
@@ -288,7 +323,9 @@ namespace Byt3.ADL.Streams
         public override void Write(byte[] buffer, int offset, int count)
         {
             if (typeof(T) != typeof(byte))
+            {
                 throw new NotSupportedException();
+            }
             WriteGen(buffer as T[], offset, count);
         }
 

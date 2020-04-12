@@ -1,10 +1,8 @@
 using System;
 using Xunit;
 
-
 namespace Byt3.PackageHandling.Tests
 {
-    
     public class Byt3HandlerTests
     {
         internal bool ACalled;
@@ -14,13 +12,21 @@ namespace Byt3.PackageHandling.Tests
 
         #region Example Handler / Handle Objects
 
-        private class A { }
+        private class A
+        {
+        }
 
-        private class B { }
+        private class B
+        {
+        }
 
-        private class C_B : B { }
+        private class C_B : B
+        {
+        }
 
-        private class D_C : C_B { }
+        private class D_C : C_B
+        {
+        }
 
         private abstract class HandlerHelper<T> : AHandler<T>
         {
@@ -34,6 +40,7 @@ namespace Byt3.PackageHandling.Tests
                 TestInstance.ACalled = true;
             }
         }
+
         private class HandlerB : HandlerHelper<B>
         {
             public override void Handle(B objectToHandle, object context)
@@ -41,6 +48,7 @@ namespace Byt3.PackageHandling.Tests
                 TestInstance.BCalled = true;
             }
         }
+
         private class HandlerC : HandlerHelper<C_B>
         {
             public override void Handle(C_B objectToHandle, object context)
@@ -48,6 +56,7 @@ namespace Byt3.PackageHandling.Tests
                 TestInstance.CCalled = true;
             }
         }
+
         private class HandlerD : HandlerHelper<D_C>
         {
             public override void Handle(D_C objectToHandle, object context)
@@ -57,7 +66,7 @@ namespace Byt3.PackageHandling.Tests
         }
 
         #endregion
-        
+
         private Byt3Handler GetHandler(Byt3HandlerLookupType type, AHandler fallback)
         {
             ACalled = BCalled = CCalled = DCalled = false;
@@ -72,11 +81,12 @@ namespace Byt3.PackageHandling.Tests
             Byt3Handler handler = GetHandler(Byt3HandlerLookupType.None, null);
 
             //handler.AddHandler(new HandlerA());
-            handler.AddHandler(new HandlerB(){TestInstance = this});
-            handler.AddHandler(new HandlerC() { TestInstance = this });
+            handler.AddHandler(new HandlerB() {TestInstance = this});
+            handler.AddHandler(new HandlerC() {TestInstance = this});
             //handler.AddHandler(new HandlerD());
 
-            Assert.Throws<Exception>(() => handler.Handle(new A(), null));  //Crash because of Exact only and A is missing
+            Assert.Throws<Exception>(() =>
+                handler.Handle(new A(), null)); //Crash because of Exact only and A is missing
             handler.Handle(new B(), null); //Works
             handler.Handle(new C_B(), null); //Works
             Assert.Throws<Exception>(() => handler.Handle(new D_C(), null)); //Crash because no traversal up
@@ -90,8 +100,8 @@ namespace Byt3.PackageHandling.Tests
         {
             Byt3Handler handler = GetHandler(Byt3HandlerLookupType.TraverseUp, null);
 
-            handler.AddHandler(new HandlerA() { TestInstance = this });
-            handler.AddHandler(new HandlerB() { TestInstance = this });
+            handler.AddHandler(new HandlerA() {TestInstance = this});
+            handler.AddHandler(new HandlerB() {TestInstance = this});
             //handler.AddHandler(new HandlerC());
             //handler.AddHandler(new HandlerD());
 
@@ -115,7 +125,7 @@ namespace Byt3.PackageHandling.Tests
             //handler.AddHandler(new HandlerD());
 
 
-            handler.Handle(new A(),null); //Works because of fallback
+            handler.Handle(new A(), null); //Works because of fallback
             handler.Handle(new B(), null); //Works because of fallback
             handler.Handle(new C_B(), null); //Works because of fallback
             handler.Handle(new D_C(), null); //Works because of fallback

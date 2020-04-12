@@ -10,7 +10,8 @@ namespace Byt3.AssemblyGenerator.CLI
         public static bool BuildConsole;
         public static string Target;
         public static bool HasTarget => !string.IsNullOrEmpty(Target);
-        static void Main(string[] args)
+
+        private static void Main(string[] args)
         {
 
             Debug.DefaultInitialization();

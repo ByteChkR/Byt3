@@ -1,6 +1,5 @@
 ﻿namespace Byt3.Serialization.Serializers.Base
 {
-
     /// <summary>
     /// Base Packet is the base for the Serialization Library.
     /// All Serialized Objects will be wrapped into this packet.

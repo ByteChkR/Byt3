@@ -6,8 +6,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
 {
     public class AddCommand : AbstractCommand
     {
-
-        public AddCommand() : base( new[] { "--add", "-a" }, "Adds a new csproj or moduleconfig file to the target")
+        public AddCommand() : base(new[] {"--add", "-a"}, "Adds a new csproj or moduleconfig file to the target")
         {
             CommandAction = Add;
         }
@@ -31,9 +30,9 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             {
                 def = AssemblyGenerator.GenerateModuleDefinition(args[0]);
             }
-            else if(args[0].EndsWith(".moduleconfig"))
+            else if (args[0].EndsWith(".moduleconfig"))
             {
-                def= ModuleDefinition.Load(args[0]);
+                def = ModuleDefinition.Load(args[0]);
             }
             else
             {

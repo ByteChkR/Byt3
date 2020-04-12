@@ -9,26 +9,34 @@ using Byt3.Utilities.Serialization;
 
 namespace Byt3.AssemblyGenerator
 {
-
-
     public static class AssemblyGenerator
     {
         public static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("AssemblyGenerator");
+
         #region API Calls
 
-
-
-        public static void GenerateAssembly(string msBuildPath, AssemblyDefinition assemblyDefinitions, string outputFolder, AssemblyGeneratorBuildType buildType, bool lib = true)
+        public static void GenerateAssembly(string msBuildPath, AssemblyDefinition assemblyDefinitions,
+            string outputFolder, AssemblyGeneratorBuildType buildType, bool lib = true)
         {
-            if (msBuildPath == null) throw new ArgumentNullException(nameof(msBuildPath));
-            if (assemblyDefinitions == null) throw new ArgumentNullException(nameof(assemblyDefinitions));
-            if (outputFolder == null) throw new ArgumentNullException(nameof(outputFolder));
+            if (msBuildPath == null)
+            {
+                throw new ArgumentNullException(nameof(msBuildPath));
+            }
+            if (assemblyDefinitions == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyDefinitions));
+            }
+            if (outputFolder == null)
+            {
+                throw new ArgumentNullException(nameof(outputFolder));
+            }
 
 
             Logger.Log(LogType.Log, "Generating Assembly...");
             string tempFolder = GetTempFolder();
 
-            Tuple<string, List<ModuleDefinition>> project = GenerateProject(msBuildPath, tempFolder, assemblyDefinitions, lib);
+            Tuple<string, List<ModuleDefinition>> project =
+                GenerateProject(msBuildPath, tempFolder, assemblyDefinitions, lib);
 
 
             string projectDir = Path.GetDirectoryName(project.Item1);
@@ -53,7 +61,10 @@ namespace Byt3.AssemblyGenerator
             }
 
             Logger.Log(LogType.Log, "Moving Files to output Directory...");
-            if (Directory.Exists(outputFolder)) Directory.Delete(outputFolder, true);
+            if (Directory.Exists(outputFolder))
+            {
+                Directory.Delete(outputFolder, true);
+            }
 
             Logger.Log(LogType.Log, "Cleaning Output Folder");
             while (Directory.Exists(outputFolder))
@@ -72,7 +83,10 @@ namespace Byt3.AssemblyGenerator
 
         public static ModuleDefinition GenerateModuleDefinition(string project)
         {
-            if (project == null) throw new ArgumentNullException(nameof(project));
+            if (project == null)
+            {
+                throw new ArgumentNullException(nameof(project));
+            }
             CSharpProject p = ProjectLoader.LoadProject(project);
             List<CSharpReference> embedFiles = p.EmbeddedReferences;
             List<CSharpReference> packageFiles = p.PackageReferences;
@@ -87,11 +101,19 @@ namespace Byt3.AssemblyGenerator
 
             return def;
         }
-        public static ModuleDefinition[] GenerateModuleDefinitions(string folder, string moduleConfigOutputDir, bool isWhiteList = false, string[] exceptionList = null)
+
+        public static ModuleDefinition[] GenerateModuleDefinitions(string folder, string moduleConfigOutputDir,
+            bool isWhiteList = false, string[] exceptionList = null)
         {
 
-            if (folder == null) throw new ArgumentNullException(nameof(folder));
-            if (moduleConfigOutputDir == null) throw new ArgumentNullException(nameof(moduleConfigOutputDir));
+            if (folder == null)
+            {
+                throw new ArgumentNullException(nameof(folder));
+            }
+            if (moduleConfigOutputDir == null)
+            {
+                throw new ArgumentNullException(nameof(moduleConfigOutputDir));
+            }
             Directory.CreateDirectory(moduleConfigOutputDir);
             string[] projects = Directory.GetFiles(folder, "*.csproj", SearchOption.AllDirectories);
 
@@ -119,11 +141,16 @@ namespace Byt3.AssemblyGenerator
         }
 
 
-
         public static AssemblyDefinition GenerateAssemblyDefinition(string assemblyName, string moduleFolder)
         {
-            if (assemblyName == null) throw new ArgumentNullException(nameof(assemblyName));
-            if (moduleFolder == null) throw new ArgumentNullException(nameof(moduleFolder));
+            if (assemblyName == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyName));
+            }
+            if (moduleFolder == null)
+            {
+                throw new ArgumentNullException(nameof(moduleFolder));
+            }
 
             string[] files = Directory.GetFiles(moduleFolder, "*.moduleconfig", SearchOption.AllDirectories);
             return GenerateAssemblyDefinition(assemblyName, files.Select(x => ModuleDefinition.Load(x)).ToArray());
@@ -131,8 +158,14 @@ namespace Byt3.AssemblyGenerator
 
         public static AssemblyDefinition GenerateAssemblyDefinition(string assemblyName, ModuleDefinition[] modules)
         {
-            if (assemblyName == null) throw new ArgumentNullException(nameof(assemblyName));
-            if (modules == null) throw new ArgumentNullException(nameof(modules));
+            if (assemblyName == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyName));
+            }
+            if (modules == null)
+            {
+                throw new ArgumentNullException(nameof(modules));
+            }
             AssemblyDefinition defs = new AssemblyDefinition(assemblyName);
             foreach (ModuleDefinition module in modules)
             {
@@ -171,7 +204,8 @@ namespace Byt3.AssemblyGenerator
             definitions.Add(module);
             for (int i = 0; i < module.Projects.Length; i++)
             {
-                string path = Path.GetFullPath(Path.Combine(module.RootDirectory, module.Projects[i].Attributes["Include"]));
+                string path =
+                    Path.GetFullPath(Path.Combine(module.RootDirectory, module.Projects[i].Attributes["Include"]));
 
                 ModuleDefinition mod =
                     GenerateModuleDefinition(path);
@@ -182,18 +216,29 @@ namespace Byt3.AssemblyGenerator
             }
         }
 
-        private static Tuple<string, List<ModuleDefinition>> GenerateProject(string msBuildPath, string workingDir, AssemblyDefinition definition, bool lib = true)
+        private static Tuple<string, List<ModuleDefinition>> GenerateProject(string msBuildPath, string workingDir,
+            AssemblyDefinition definition, bool lib = true)
         {
-            if (workingDir == null) throw new ArgumentNullException(nameof(workingDir));
-            if (definition == null) throw new ArgumentNullException(nameof(definition));
-            if (!Directory.Exists(workingDir)) throw new DirectoryNotFoundException("Can not find the working directory: " + workingDir);
+            if (workingDir == null)
+            {
+                throw new ArgumentNullException(nameof(workingDir));
+            }
+            if (definition == null)
+            {
+                throw new ArgumentNullException(nameof(definition));
+            }
+            if (!Directory.Exists(workingDir))
+            {
+                throw new DirectoryNotFoundException("Can not find the working directory: " + workingDir);
+            }
 
 
             Logger.Log(LogType.Log, "Generating csproject File...");
 
             DotNetHelper.New(msBuildPath, workingDir, definition.AssemblyName, lib);
 
-            File.Delete(Path.Combine(workingDir, definition.AssemblyName, lib ? "Class1.cs" : "Program.cs")); //Delete Default Class
+            File.Delete(Path.Combine(workingDir, definition.AssemblyName,
+                lib ? "Class1.cs" : "Program.cs")); //Delete Default Class
 
             string projectFile = Path.Combine(workingDir, definition.AssemblyName, definition.AssemblyName + ".csproj");
 
@@ -201,7 +246,9 @@ namespace Byt3.AssemblyGenerator
             for (int i = 0; i < definition.IncludedModules.Count; i++)
             {
                 if (modules.Count(x => x.Name == definition.IncludedModules[i].Name) == 0)
+                {
                     DiscoverModules(definition.IncludedModules[i], modules);
+                }
             }
 
             Logger.Log(LogType.Log, $"Discovered {modules.Count} Modules.");
@@ -238,15 +285,19 @@ namespace Byt3.AssemblyGenerator
         }
 
 
-
-
         private static void MoveFiles(string targetDir, ModuleDefinition definition)
         {
-            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            if (definition == null)
+            {
+                throw new ArgumentNullException(nameof(definition));
+            }
 
             string[] scripts = definition.ScriptFiles;
             string root = definition.RootDirectory;
-            if (!root.EndsWith("\\")) root += "\\";
+            if (!root.EndsWith("\\"))
+            {
+                root += "\\";
+            }
             for (int i = 0; i < scripts.Length; i++)
             {
                 string relativePath = scripts[i].Replace(root, "");
@@ -254,7 +305,10 @@ namespace Byt3.AssemblyGenerator
                 string originalPath = scripts[i];
                 string containingDir = Path.GetDirectoryName(targetPath);
 
-                if (containingDir != "" && !Directory.Exists(containingDir)) Directory.CreateDirectory(containingDir);
+                if (containingDir != "" && !Directory.Exists(containingDir))
+                {
+                    Directory.CreateDirectory(containingDir);
+                }
                 File.Copy(originalPath, targetPath);
             }
             for (int i = 0; i < definition.EmbeddedFiles.Length; i++)
@@ -263,12 +317,14 @@ namespace Byt3.AssemblyGenerator
                 string targetPath = Path.Combine(targetDir, relativePath);
                 string originalPath = Path.Combine(root, relativePath);
                 string containingDir = Path.GetDirectoryName(targetPath);
-                if (containingDir != "" && !Directory.Exists(containingDir)) Directory.CreateDirectory(containingDir);
+                if (containingDir != "" && !Directory.Exists(containingDir))
+                {
+                    Directory.CreateDirectory(containingDir);
+                }
                 File.Copy(originalPath, targetPath);
             }
 
         }
-
 
         #endregion
 
@@ -276,12 +332,24 @@ namespace Byt3.AssemblyGenerator
 
         private static bool ContainsItem(string val, string[] blacklist)
         {
-            if (val == null) throw new ArgumentNullException(nameof(val));
-            if (blacklist == null) throw new ArgumentNullException(nameof(blacklist));
+            if (val == null)
+            {
+                throw new ArgumentNullException(nameof(val));
+            }
+            if (blacklist == null)
+            {
+                throw new ArgumentNullException(nameof(blacklist));
+            }
             for (int i = 0; i < blacklist.Length; i++)
             {
-                if (blacklist[i] == null) throw new ArgumentNullException(nameof(blacklist), "Item " + i + " is null");
-                if (val.Contains(blacklist[i])) return true;
+                if (blacklist[i] == null)
+                {
+                    throw new ArgumentNullException(nameof(blacklist), "Item " + i + " is null");
+                }
+                if (val.Contains(blacklist[i]))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -294,8 +362,12 @@ namespace Byt3.AssemblyGenerator
 #else
             string ret = Path.GetFullPath(".\\");
 #endif
-            ret = Path.Combine(ret, Path.GetFileNameWithoutExtension(Path.GetTempFileName())); //Something Like C:\Temp\tmp02qa\
-            if (Directory.Exists(ret)) throw new Exception("Temp Dir already exists");
+            ret = Path.Combine(ret,
+                Path.GetFileNameWithoutExtension(Path.GetTempFileName())); //Something Like C:\Temp\tmp02qa\
+            if (Directory.Exists(ret))
+            {
+                throw new Exception("Temp Dir already exists");
+            }
             Directory.CreateDirectory(ret);
             return ret;
 
@@ -317,8 +389,6 @@ namespace Byt3.AssemblyGenerator
             return ret;
         }
 
-
         #endregion
-
     }
 }

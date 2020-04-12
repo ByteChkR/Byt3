@@ -22,7 +22,10 @@ namespace Byt3.ADL.Streams
         /// <param name="log">Log</param>
         public override void Write(Log log)
         {
-            if (AddTimeStamp) log.Message = Utils.TimeStamp + log.Message;
+            if (AddTimeStamp)
+            {
+                log.Message = Utils.TimeStamp + log.Message;
+            }
             byte[] tmp = Debug.TextEncoding.GetBytes(log.Message);
             BaseStream.Write(tmp, 0, tmp.Length);
             Flush();

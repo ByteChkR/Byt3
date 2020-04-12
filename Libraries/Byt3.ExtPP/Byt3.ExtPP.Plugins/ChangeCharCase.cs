@@ -17,19 +17,24 @@ namespace Byt3.ExtPP.Plugins
             {
                 new CommandInfo("set-order", "o", PropertyHelper.GetPropertyInfo(typeof(ChangeCharCase), nameof(Order)),
                     "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
-                new CommandInfo("set-stage","ss", PropertyHelper.GetPropertyInfo(typeof(ChangeCharCase), nameof(Stage)),
+                new CommandInfo("set-stage", "ss",
+                    PropertyHelper.GetPropertyInfo(typeof(ChangeCharCase), nameof(Stage)),
                     "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
-                new CommandInfo("set-case","sc", PropertyHelper.GetPropertyInfo(typeof(ChangeCharCase), nameof(CaseChange)),
+                new CommandInfo("set-case", "sc",
+                    PropertyHelper.GetPropertyInfo(typeof(ChangeCharCase), nameof(CaseChange)),
                     "Sets the Case that will transform the text. Options: tolower(default)/toupper"),
             };
 
 
         public override string LineStage(string source)
         {
-            return ToLower ? source.ToLower(CultureInfo.InvariantCulture) : source.ToUpper(CultureInfo.InvariantCulture);
+            return ToLower
+                ? source.ToLower(CultureInfo.InvariantCulture)
+                : source.ToUpper(CultureInfo.InvariantCulture);
         }
 
-        public override string[] Prefix => new[] { "ccc", "ChangeCharCase" };
+        public override string[] Prefix => new[] {"ccc", "ChangeCharCase"};
+
         /// <summary>
         /// No initialization needed for this plugin.
         /// </summary>
@@ -40,6 +45,5 @@ namespace Byt3.ExtPP.Plugins
         {
             settings.ApplySettings(Info, this);
         }
-
     }
 }

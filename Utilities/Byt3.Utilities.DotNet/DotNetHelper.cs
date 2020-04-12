@@ -9,7 +9,8 @@ namespace Byt3.Utilities.DotNet
     {
         public static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("DotNetHelper");
 
-        public static void DotnetAction(string msbuildCommand, string targetCommand, string arguments, string workingDir)
+        public static void DotnetAction(string msbuildCommand, string targetCommand, string arguments,
+            string workingDir)
         {
             CommandInfo info =
                 new CommandInfo($"{msbuildCommand} {targetCommand} {arguments}", workingDir, true)
@@ -28,9 +29,10 @@ namespace Byt3.Utilities.DotNet
             DotnetAction(msbuildCommand, "new", arguments, workingDir);
         }
 
-        public static string BuildProject(string msbuildCommand, string projectFile, AssemblyDefinition definitions, bool lib = true)
+        public static string BuildProject(string msbuildCommand, string projectFile, AssemblyDefinition definitions,
+            bool lib = true)
         {
-            Logger.Log(LogType.Log,"Building Assembly: " + definitions.AssemblyName);
+            Logger.Log(LogType.Log, "Building Assembly: " + definitions.AssemblyName);
             string arguments = $"-c {definitions.BuildConfiguration}";
             if (!definitions.NoTargetRuntime)
             {
@@ -39,7 +41,8 @@ namespace Byt3.Utilities.DotNet
 
             string workingDir = Path.GetDirectoryName(projectFile);
             DotnetAction(msbuildCommand, "build", arguments, workingDir);
-            string ret = Path.Combine(workingDir, "bin", definitions.BuildConfiguration, lib? "netstandard2.0":"netcoreapp2.2");
+            string ret = Path.Combine(workingDir, "bin", definitions.BuildConfiguration,
+                lib ? "netstandard2.0" : "netcoreapp2.2");
             if (!definitions.NoTargetRuntime)
             {
                 ret = Path.Combine(ret, definitions.BuildTargetRuntime);
@@ -48,7 +51,8 @@ namespace Byt3.Utilities.DotNet
             return ret;
         }
 
-        public static string PublishProject(string msbuildCommand, string projectFile, AssemblyDefinition definitions, bool lib = true)
+        public static string PublishProject(string msbuildCommand, string projectFile, AssemblyDefinition definitions,
+            bool lib = true)
         {
             Logger.Log(LogType.Log, "Publishing Assembly: " + definitions.AssemblyName);
             string arguments = $"-c {definitions.BuildConfiguration}";
@@ -58,7 +62,8 @@ namespace Byt3.Utilities.DotNet
             }
             string workingDir = Path.GetDirectoryName(projectFile);
             DotnetAction(msbuildCommand, "publish", arguments, workingDir);
-            string ret = Path.Combine(workingDir, "bin", definitions.BuildConfiguration, lib ? "netstandard2.0" : "netcoreapp2.2");
+            string ret = Path.Combine(workingDir, "bin", definitions.BuildConfiguration,
+                lib ? "netstandard2.0" : "netcoreapp2.2");
             if (!definitions.NoTargetRuntime)
             {
                 ret = Path.Combine(ret, definitions.BuildTargetRuntime);
@@ -71,17 +76,22 @@ namespace Byt3.Utilities.DotNet
 
         private static void OnErrorReceived(object sender, DataReceivedEventArgs e)
         {
-            if (string.IsNullOrEmpty(e.Data)) return;
+            if (string.IsNullOrEmpty(e.Data))
+            {
+                return;
+            }
             Logger.Log(LogType.Error, "\t[ERR]" + e.Data);
 
         }
 
         private static void OnOutReceived(object sender, DataReceivedEventArgs e)
         {
-            if (string.IsNullOrEmpty(e.Data)) return;
+            if (string.IsNullOrEmpty(e.Data))
+            {
+                return;
+            }
             Logger.Log(LogType.Log, "\t" + e.Data);
 
         }
-
     }
 }

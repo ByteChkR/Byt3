@@ -10,7 +10,6 @@ namespace Byt3.CommandRunner
     /// </summary>
     public static class Runner
     {
-
         private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("Command Runner");
         /// <summary>
         /// All Commands currently loaded in the Library
@@ -43,7 +42,7 @@ namespace Byt3.CommandRunner
             List<AbstractCommand> cmds = AssemblyHelper.LoadCommandsFromAssembly(asm);
             for (int i = 0; i < cmds.Count; i++)
             {
-                Logger.Log(LogType.Log,"Adding Command: " + cmds[i].GetType().FullName);
+                Logger.Log(LogType.Log, "Adding Command: " + cmds[i].GetType().FullName);
                 AddCommand(cmds[i]);
             }
         }
@@ -54,13 +53,19 @@ namespace Byt3.CommandRunner
         /// <param name="cmd"></param>
         public static void AddCommand(AbstractCommand cmd)
         {
-            if (IsInterfering(cmd)) Logger.Log(LogType.Log, "Command:" + cmd.GetType().FullName + " is interfering with other Commands.");
+            if (IsInterfering(cmd))
+            {
+                Logger.Log(LogType.Log, "Command:" + cmd.GetType().FullName + " is interfering with other Commands.");
+            }
             Commands.Add(cmd);
         }
 
         public static void RemoveAt(int index)
         {
-            if (index >= 0 && Commands.Count > index) Commands.RemoveAt(index);
+            if (index >= 0 && Commands.Count > index)
+            {
+                Commands.RemoveAt(index);
+            }
         }
 
         public static void RemoveAllCommands()
@@ -77,7 +82,10 @@ namespace Byt3.CommandRunner
         {
             for (int i = 0; i < Commands.Count; i++)
             {
-                if (cmd.IsInterfering(Commands[i])) return true;
+                if (cmd.IsInterfering(Commands[i]))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -114,7 +122,8 @@ namespace Byt3.CommandRunner
             StartupArgumentInfo argumentInfo = new StartupArgumentInfo(args);
 
 
-            if (argumentInfo.GetCommandEntries("noflag") != 0 || argumentInfo.GetCommandEntries("noflag") == 0 && argumentInfo.CommandCount == 0)
+            if (argumentInfo.GetCommandEntries("noflag") != 0 ||
+                argumentInfo.GetCommandEntries("noflag") == 0 && argumentInfo.CommandCount == 0)
             {
                 List<AbstractCommand> cmds = Commands.Where(x => x.DefaultCommand).ToList();
                 if (cmds.Count == 0)
@@ -131,10 +140,12 @@ namespace Byt3.CommandRunner
                 }
 
                 if (argumentInfo.GetCommandEntries("noflag") != 0)
+                {
                     for (int j = 0; j < argumentInfo.GetCommandEntries("noflag"); j++)
                     {
                         cmds[0].CommandAction?.Invoke(argumentInfo, argumentInfo.GetValues("noflag", j).ToArray());
                     }
+                }
                 else
                 {
                     cmds[0].CommandAction?.Invoke(argumentInfo, new string[0]);
@@ -148,7 +159,8 @@ namespace Byt3.CommandRunner
                     for (int j = 0; j < argumentInfo.GetCommandEntries(Commands[i].CommandKeys[0]); j++)
                     {
                         didExecute = true;
-                        Commands[i].CommandAction?.Invoke(argumentInfo, argumentInfo.GetValues(Commands[i].CommandKeys[0], j).ToArray());
+                        Commands[i].CommandAction?.Invoke(argumentInfo,
+                            argumentInfo.GetValues(Commands[i].CommandKeys[0], j).ToArray());
                     }
                 }
             }

@@ -53,7 +53,10 @@ namespace Byt3.ADL.Streams
         public static Log Deserialize(byte[] buffer, int startIndex, out int bytesRead)
         {
             bytesRead = 0;
-            if (buffer.Length < startIndex + sizeof(int) * 2 + 1) return new Log();
+            if (buffer.Length < startIndex + sizeof(int) * 2 + 1)
+            {
+                return new Log();
+            }
 
 
             int mask = BitConverter.ToInt32(buffer, startIndex);
@@ -64,7 +67,10 @@ namespace Byt3.ADL.Streams
                 return new Log();
             }
 
-            if (msgLength > buffer.Length - startIndex - sizeof(int) * 2) return new Log();
+            if (msgLength > buffer.Length - startIndex - sizeof(int) * 2)
+            {
+                return new Log();
+            }
 
             string message = Debug.TextEncoding.GetString(buffer, startIndex + sizeof(int) * 2, msgLength);
 

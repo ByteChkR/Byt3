@@ -12,6 +12,7 @@ namespace Byt3.ExtPP.Base.Plugins
         /// Specifies the plugin type. Fullscript or Line Script
         /// </summary>
         public override PluginType PluginTypeToggle { get; } = PluginType.FullScriptPlugin;
+
         /// <summary>
         /// Gets called once on each file.
         /// Looping Through All the Files
@@ -21,10 +22,12 @@ namespace Byt3.ExtPP.Base.Plugins
         /// <param name="sourceManager">the current source manager</param>
         /// <param name="defTable">the current definitions</param>
         /// <returns>state of the process(if false will abort processing)</returns>
-        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
+            IDefinitions defTable)
         {
             return FullScriptStage(script, sourceManager, defTable);
         }
+
         /// <summary>
         /// Gets called once on each file.
         /// Looping Through All the Files
@@ -34,10 +37,12 @@ namespace Byt3.ExtPP.Base.Plugins
         /// <param name="sourceManager">the current source manager</param>
         /// <param name="defTable">the current definitions</param>
         /// <returns>state of the process(if false will abort processing)</returns>
-        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
+            IDefinitions defTable)
         {
             return FullScriptStage(script, sourceManager, defTable);
         }
+
         /// <summary>
         /// Gets called once on each file.
         /// Looping Through All the Files
@@ -49,7 +54,5 @@ namespace Byt3.ExtPP.Base.Plugins
         /// <returns>state of the process(if false will abort processing)</returns>
         public abstract bool FullScriptStage(ISourceScript script, ISourceManager sourceManager,
             IDefinitions defTable);
-
-
     }
 }

@@ -9,7 +9,6 @@ using Utils = Byt3.ExtPP.Base.Utils;
 
 namespace Byt3.ExtPP
 {
-
     /// <summary>
     /// A class that keeps track on what scripts are loaded and their processing state.
     /// This class also defines a Compute Scheme to alter the keys the file gets matched with, to enable loading the same file multiple times.
@@ -39,7 +38,6 @@ namespace Byt3.ExtPP
         {
             SetComputingScheme(ComputeFileNameAndKey_Default);
         }
-
 
 
         /// <summary>
@@ -129,7 +127,8 @@ namespace Byt3.ExtPP
         /// <param name="script">The script that got referenced.</param>
         public void FixOrder(ISourceScript script)
         {
-            Logger.Log(PPLogType.Log, Verbosity.Level3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
+            Logger.Log(PPLogType.Log, Verbosity.Level3, "Fixing Build Order of file: {0}",
+                Path.GetFileName(script.GetFileInterface().GetKey()));
             int idx = IndexOfFile(script.GetKey());
             ISourceScript a = sources[idx];
             ProcessStage ab = doneState[idx];
@@ -159,7 +158,8 @@ namespace Byt3.ExtPP
         {
             if (!IsIncluded(script))
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level3, "Adding Script to Todo List: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
+                Logger.Log(PPLogType.Log, Verbosity.Level3, "Adding Script to Todo List: {0}",
+                    Path.GetFileName(script.GetFileInterface().GetKey()));
                 AddFile(script, false);
                 doneState.Add(ProcessStage.Queued);
             }
@@ -176,7 +176,8 @@ namespace Byt3.ExtPP
             {
                 doneState[IndexOfFile(script.GetKey())] = stage;
 
-                Logger.Log(PPLogType.Log, Verbosity.Level3, "Finished Script: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
+                Logger.Log(PPLogType.Log, Verbosity.Level3, "Finished Script: {0}",
+                    Path.GetFileName(script.GetFileInterface().GetKey()));
             }
         }
 
@@ -249,12 +250,14 @@ namespace Byt3.ExtPP
         /// <param name="key">the key of the file</param>
         /// <param name="importInfo">the import info of the key and path importation</param>
         /// <returns>the success state of the operation</returns>
-        public bool TryCreateScript(out ISourceScript script, string separator, IFileContent file, ImportResult importInfo)
+        public bool TryCreateScript(out ISourceScript script, string separator, IFileContent file,
+            ImportResult importInfo)
         {
             if (lockScriptCreation)
             {
                 script = null;
-                Logger.Log(PPLogType.Warning, Verbosity.Level3, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
+                Logger.Log(PPLogType.Warning, Verbosity.Level3,
+                    "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
                 return false;
             }
 

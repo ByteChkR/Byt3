@@ -9,7 +9,6 @@ namespace Byt3.ExtPP.Base
     [Serializable]
     public class CommandMetaData
     {
-
         /// <summary>
         /// The help text of the Command
         /// </summary>
@@ -36,7 +35,9 @@ namespace Byt3.ExtPP.Base
         [XmlElement]
         public string Command { get; set; }
 
-        public CommandMetaData() { }
+        public CommandMetaData()
+        {
+        }
 
         /// <summary>
         /// Constructor

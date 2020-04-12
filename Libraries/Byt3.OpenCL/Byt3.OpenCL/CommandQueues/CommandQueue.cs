@@ -47,7 +47,8 @@ namespace Byt3.OpenCL.CommandQueues
         {
             // Creates the new command queue for the specified context and device
             IntPtr commandQueuePointer =
-                CommandQueuesNativeApi.CreateCommandQueueWithProperties(context.Handle, device.Handle, IntPtr.Zero, out Result result);
+                CommandQueuesNativeApi.CreateCommandQueueWithProperties(context.Handle, device.Handle, IntPtr.Zero,
+                    out Result result);
 
             // Checks if the command queue creation was successful, if not, then an exception is thrown
             if (result != Result.Success)

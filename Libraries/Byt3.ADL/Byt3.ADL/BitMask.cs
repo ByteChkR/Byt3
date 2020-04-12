@@ -52,7 +52,7 @@ namespace Byt3.ADL
         {
             Mask = FlipMask(Mask);
         }
-        
+
         #region MaskOperations
 
         /// <summary>
@@ -65,15 +65,26 @@ namespace Byt3.ADL
         public static bool IsContainedInMask(int mask, int flag, bool matchType)
         {
             if (mask == 0 && flag == 0)
+            {
                 return true; //Hidden Channel
-            if (mask == 0 || flag == 0) return false; //Anti-Wildcard
+            }
+            if (mask == 0 || flag == 0)
+            {
+                return false; //Anti-Wildcard
+            }
             if (matchType) //If true it compares the whole mask with the whole flag(if constructed from different flags)
+            {
                 return (mask & flag) == flag;
+            }
 
             List<int> a = GetUniqueMasksSet(flag);
             foreach (int f in a)
+            {
                 if ((mask & f) == f)
+                {
                     return true;
+                }
+            }
 
             return false;
         }
@@ -85,12 +96,18 @@ namespace Byt3.ADL
         /// <returns></returns>
         public static List<int> GetUniqueMasksSet(int mask)
         {
-            if (IsUniqueMask(mask)) return new List<int> {mask};
+            if (IsUniqueMask(mask))
+            {
+                return new List<int> {mask};
+            }
             List<int> ret = new List<int>();
             for (int i = 0; i < sizeof(int) * Utils.ByteSize; i++)
             {
                 int f = 1 << i;
-                if (IsContainedInMask(mask, f, true)) ret.Add(f);
+                if (IsContainedInMask(mask, f, true))
+                {
+                    ret.Add(f);
+                }
             }
 
             return ret;
@@ -114,10 +131,15 @@ namespace Byt3.ADL
         /// <returns></returns>
         public static int CombineMasks(MaskCombineType combineType = MaskCombineType.BitOr, params int[] masks)
         {
-            if (masks.Length == 0) return 0;
+            if (masks.Length == 0)
+            {
+                return 0;
+            }
             int mask = masks[0];
             for (int i = 1; i < masks.Length; i++)
+            {
                 mask = combineType == MaskCombineType.BitOr ? mask | masks[i] : mask & masks[i];
+            }
             return mask;
         }
 
@@ -174,7 +196,10 @@ namespace Byt3.ADL
         /// <param name="wildcard">If true, its a wildcard mask(everything)</param>
         public BitMask(bool wildcard = false)
         {
-            if (wildcard) Mask = ~0;
+            if (wildcard)
+            {
+                Mask = ~0;
+            }
         }
 
         /// <summary>
@@ -239,9 +264,13 @@ namespace Byt3.ADL
         {
             int f = Convert.ToInt32(flag);
             if (yes)
+            {
                 CombineMasks(MaskCombineType.BitOr, Mask, f);
+            }
             else
+            {
                 RemoveFlags(Mask, f);
+            }
         }
 
         /// <summary>
@@ -313,7 +342,10 @@ namespace Byt3.ADL
         /// <param name="wildcard">If true, its a wildcard mask(everything)</param>
         public BitMask(bool wildcard = false)
         {
-            if (wildcard) Mask = ~0;
+            if (wildcard)
+            {
+                Mask = ~0;
+            }
         }
 
         /// <summary>

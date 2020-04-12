@@ -32,9 +32,15 @@ namespace Byt3.ADL
         /// <returns></returns>
         public static int IntPow(int basis, int exp)
         {
-            if (exp == 0) return 1;
+            if (exp == 0)
+            {
+                return 1;
+            }
             int ret = basis;
-            for (int i = 1; i < exp; i++) ret *= basis;
+            for (int i = 1; i < exp; i++)
+            {
+                ret *= basis;
+            }
             return ret;
         }
 
@@ -73,8 +79,10 @@ namespace Byt3.ADL
             };
 
             for (int x = 0, i = 0; i < hex.Length; i += 2, x += 1)
-                bytes[x] = (byte)((hexValue[char.ToUpper(hex[i + 0]) - '0'] << 4) |
+            {
+                bytes[x] = (byte) ((hexValue[char.ToUpper(hex[i + 0]) - '0'] << 4) |
                                    hexValue[char.ToUpper(hex[i + 1]) - '0']);
+            }
 
             return bytes;
         }

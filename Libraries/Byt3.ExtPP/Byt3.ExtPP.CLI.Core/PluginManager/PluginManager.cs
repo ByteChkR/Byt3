@@ -18,7 +18,8 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         /// <summary>
         /// Directory of the ext_pp_cli.dll library
         /// </summary>
-        private readonly string rootDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+        private readonly string rootDir =
+            Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
         /// <summary>
         /// Config path for the cache
         /// </summary>
@@ -62,7 +63,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         private void Initialize()
         {
             FileStream fs = new FileStream(ConfigPath, FileMode.Open);
-            info = (PluginManagerDatabase)Serializer.Deserialize(fs);
+            info = (PluginManagerDatabase) Serializer.Deserialize(fs);
             fs.Close();
 
         }
@@ -145,7 +146,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             }
             else
             {
-                Logger.Log(PPLogType.Error, Verbosity.Level1,"Folder does not exist: {0}", folder);
+                Logger.Log(PPLogType.Error, Verbosity.Level1, "Folder does not exist: {0}", folder);
             }
 
             Save();
@@ -158,7 +159,9 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             {
                 string assemblyPath = fallbackPath;
                 if (!assembly.IsDynamic)
+                {
                     assemblyPath = new Uri(assembly.CodeBase).AbsolutePath;
+                }
                 AddAssembly(assembly, assemblyPath, false);
             }
 
@@ -181,11 +184,14 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             List<PluginInformation> val = new List<PluginInformation>();
 
             if (plugins.Count != 0)
+            {
                 Logger.Log(PPLogType.Log, Verbosity.Level1, "Adding {0} plugins from {1}", plugins.Count, asm.FullName);
+            }
 
             for (int i = 0; i < plugins.Count; i++)
             {
-                val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, fullpath, plugins[i].Info.Select(x => x.Meta).ToArray()));
+                val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, fullpath,
+                    plugins[i].Info.Select(x => x.Meta).ToArray()));
             }
             info.Cache.AddRange(val);
 
@@ -223,11 +229,14 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
                 List<PluginInformation> val = new List<PluginInformation>();
 
                 if (plugins.Count != 0)
+                {
                     Logger.Log(PPLogType.Log, Verbosity.Level1, "Adding {0} plugins from {1}", plugins.Count, fullpath);
+                }
 
                 for (int i = 0; i < plugins.Count; i++)
                 {
-                    val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, fullpath, plugins[i].Info.Select(x => x.Meta).ToArray()));
+                    val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, fullpath,
+                        plugins[i].Info.Select(x => x.Meta).ToArray()));
                 }
                 info.Cache.AddRange(val);
             }
@@ -293,7 +302,8 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         /// <param name="prefix">The prefix to be searched for</param>
         /// <param name="val">the out variable containing the plugin information(null if not found)</param>
         /// <returns>the success state of the operation</returns>
-        public static bool TryGetPluginInfoByPathAndPrefix(PluginManagerDatabase pmd, string file, string prefix, out PluginInformation val)
+        public static bool TryGetPluginInfoByPathAndPrefix(PluginManagerDatabase pmd, string file, string prefix,
+            out PluginInformation val)
         {
 
             for (int i = 0; i < pmd.Cache.Count; i++)
@@ -304,7 +314,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
                     return true;
                 }
             }
-
 
 
             val = new PluginInformation();
@@ -402,13 +411,15 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             {
                 if (!Directory.Exists(info.IncludedDirectories[i]))
                 {
-                    Logger.Log(PPLogType.Error, Verbosity.Level1, "Folder does not exist: {0} Removing..", info.IncludedDirectories[i]);
+                    Logger.Log(PPLogType.Error, Verbosity.Level1, "Folder does not exist: {0} Removing..",
+                        info.IncludedDirectories[i]);
                     info.IncludedDirectories.RemoveAt(i);
 
                 }
                 else
                 {
-                    Logger.Log(PPLogType.Log, Verbosity.Level1, "Discovering Files in {0}", info.IncludedDirectories[i]);
+                    Logger.Log(PPLogType.Log, Verbosity.Level1, "Discovering Files in {0}",
+                        info.IncludedDirectories[i]);
                     string[] files = Directory.GetFiles(info.IncludedDirectories[i], "*.dll");
                     foreach (string file in files)
                     {
@@ -418,7 +429,8 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
                         Logger.Log(PPLogType.Log, Verbosity.Level1, "Adding {0} plugins from {1}", plugins.Count, file);
                         for (int j = 0; j < plugins.Count; j++)
                         {
-                            info.Cache.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, file, plugins[i].Info.Select(x => x.Meta).ToArray()));
+                            info.Cache.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, file,
+                                plugins[i].Info.Select(x => x.Meta).ToArray()));
                         }
                     }
                 }
@@ -426,7 +438,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
 
             List<string> manuallyIncluded = new List<string>(info.IncludedFiles);
             info.IncludedFiles.Clear();
-
 
 
             foreach (string inc in manuallyIncluded)
@@ -456,7 +467,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             {
                 if (!type.IsAbstract && type.IsSubclassOf(typeof(AbstractPlugin)))
                 {
-                    ret.Add((AbstractPlugin)Activator.CreateInstance(type));
+                    ret.Add((AbstractPlugin) Activator.CreateInstance(type));
                 }
             }
 
@@ -564,8 +575,5 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             path = prefix;
             return false;
         }
-
-
-
     }
 }

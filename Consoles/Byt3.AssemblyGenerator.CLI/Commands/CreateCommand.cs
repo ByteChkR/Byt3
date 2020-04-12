@@ -6,8 +6,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
 {
     public class CreateCommand : AbstractCommand
     {
-
-        public CreateCommand() : base( new[] { "--create", "-c" }, "Creates a new AssemblyModule Config")
+        public CreateCommand() : base(new[] {"--create", "-c"}, "Creates a new AssemblyModule Config")
         {
             CommandAction = Create;
         }
@@ -18,6 +17,5 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             Logger.Log(LogType.Log, "Saving new Assembly Definition to file: " + Program.Target);
             AssemblyDefinition.Save(Program.Target, definition);
         }
-
     }
 }

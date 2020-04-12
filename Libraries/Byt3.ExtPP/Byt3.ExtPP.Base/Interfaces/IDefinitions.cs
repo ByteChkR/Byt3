@@ -10,21 +10,25 @@
         /// </summary>
         /// <param name="keys">The keys that will be set</param>
         void Set(string[] keys);
+
         /// <summary>
         /// Set an array of definitions to false
         /// </summary>
         /// <param name="keys">The keys that will be unset</param>
         void Unset(string[] keys);
+
         /// <summary>
         /// Set a specific definition to true
         /// </summary>
         /// <param name="key">The key that will be set</param>
         void Set(string key);
+
         /// <summary>
         /// Set a specific definition to false
         /// </summary>
         /// <param name="key">The key that will be unset</param>
         void Unset(string key);
+
         /// <summary>
         /// Returns true if the definition is "set" and returns false if the definition is "unset"
         /// </summary>

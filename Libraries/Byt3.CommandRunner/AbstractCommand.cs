@@ -39,7 +39,8 @@ namespace Byt3.CommandRunner
         /// <param name="keys">Keys of the Command</param>
         /// <param name="helpText">Optional Help Text</param>
         /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
-        protected AbstractCommand(Action<StartupArgumentInfo, string[]> action, string[] keys, string helpText = "No Help Text Available", bool defaultCommand = false)
+        protected AbstractCommand(Action<StartupArgumentInfo, string[]> action, string[] keys,
+            string helpText = "No Help Text Available", bool defaultCommand = false)
         {
             Logger = new ADLLogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandAction = action;
@@ -54,7 +55,8 @@ namespace Byt3.CommandRunner
         /// <param name="keys">Keys of the Command</param>
         /// <param name="helpText">Optional Help Text</param>
         /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
-        protected AbstractCommand( string[] keys, string helpText = "No Help Text Available", bool defaultCommand = false)
+        protected AbstractCommand(string[] keys, string helpText = "No Help Text Available",
+            bool defaultCommand = false)
         {
             Logger = new ADLLogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandKeys = keys;
@@ -63,12 +65,14 @@ namespace Byt3.CommandRunner
         }
 
 
-
         public bool IsInterfering(AbstractCommand other)
         {
             for (int i = 0; i < CommandKeys.Length; i++)
             {
-                if (other.CommandKeys.Contains(CommandKeys[i])) return true;
+                if (other.CommandKeys.Contains(CommandKeys[i]))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -87,7 +91,7 @@ namespace Byt3.CommandRunner
             }
 
             sb.AppendLine("\nDefault Command: " + DefaultCommand + "\n");
-            string[] helpText = HelpText.Split(new[] { '\n' });
+            string[] helpText = HelpText.Split(new[] {'\n'});
             for (int i = 0; i < helpText.Length; i++)
             {
                 sb.AppendLine($"\t{helpText[i]}");

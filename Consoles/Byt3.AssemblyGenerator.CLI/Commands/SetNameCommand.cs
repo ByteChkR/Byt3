@@ -4,9 +4,9 @@ using Byt3.Utilities.DotNet;
 
 namespace Byt3.AssemblyGenerator.CLI.Commands
 {
-    public class SetNameCommand:AbstractCommand
+    public class SetNameCommand : AbstractCommand
     {
-        public SetNameCommand() : base( new[] {"--set-assembly-name", "-sname"},
+        public SetNameCommand() : base(new[] {"--set-assembly-name", "-sname"},
             "Sets the Assembly name. Default: TestAssembly")
         {
             CommandAction = SetName;

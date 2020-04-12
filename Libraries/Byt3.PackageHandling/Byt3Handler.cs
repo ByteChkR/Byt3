@@ -14,7 +14,8 @@ namespace Byt3.PackageHandling
         private bool TraverseUp => (LookupType & Byt3HandlerLookupType.TraverseUp) != 0;
         private bool IncludeInterfaces => (LookupType & Byt3HandlerLookupType.IncludeInterfaces) != 0;
 
-        public Byt3Handler(Byt3HandlerLookupType lookupType = Byt3HandlerLookupType.TraverseUp, AHandler fallback = null)
+        public Byt3Handler(Byt3HandlerLookupType lookupType = Byt3HandlerLookupType.TraverseUp,
+            AHandler fallback = null)
         {
             LookupType = lookupType;
             fallbackHandler = fallback ?? new DefaultHandler();
@@ -38,20 +39,37 @@ namespace Byt3.PackageHandling
 
         public void AddHandler(Type t, AHandler handler)
         {
-            if (handlers.ContainsKey(t)) return;
+            if (handlers.ContainsKey(t))
+            {
+                return;
+            }
 
-            if (implicitHandlerMap.ContainsKey(t)) implicitHandlerMap.Remove(t); //Remove From cache and add to handlers
+            if (implicitHandlerMap.ContainsKey(t))
+            {
+                implicitHandlerMap.Remove(t); //Remove From cache and add to handlers
+            }
 
             handlers.Add(t, handler);
         }
 
         private bool HasHandler(Type t)
         {
-            if (handlers.ContainsKey(t)) return true; //Exact
-            if (ExactOnly) return false;
-            if (implicitHandlerMap.ContainsKey(t)) return true; //Implicit Hit
+            if (handlers.ContainsKey(t))
+            {
+                return true; //Exact
+            }
+            if (ExactOnly)
+            {
+                return false;
+            }
+            if (implicitHandlerMap.ContainsKey(t))
+            {
+                return true; //Implicit Hit
+            }
             if (TraverseUp)
+            {
                 return TryAddImplicitHandler(t, out AHandler _); //Traverse Up(only fails if UseFallback == false)
+            }
             return false;
         }
 

@@ -11,9 +11,18 @@ namespace Byt3.Utilities.DotNet
         {
             CSharpReference ret = new CSharpReference();
 
-            if (node.Name == "PackageReference") ret.ReferenceType = CSharpReferenceType.PackageReference;
-            if (node.Name == "ProjectReference") ret.ReferenceType = CSharpReferenceType.ProjectReference;
-            if (node.Name == "EmbeddedResource") ret.ReferenceType = CSharpReferenceType.EmbeddedResource;
+            if (node.Name == "PackageReference")
+            {
+                ret.ReferenceType = CSharpReferenceType.PackageReference;
+            }
+            if (node.Name == "ProjectReference")
+            {
+                ret.ReferenceType = CSharpReferenceType.ProjectReference;
+            }
+            if (node.Name == "EmbeddedResource")
+            {
+                ret.ReferenceType = CSharpReferenceType.EmbeddedResource;
+            }
             ret.internalAttributes = new List<SerializableKeyValuePair<string, string>>();
             List<XmlAttribute> attribs = CSharpProject.GetAttributes(node);
 

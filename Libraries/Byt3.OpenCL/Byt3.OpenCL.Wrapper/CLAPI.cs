@@ -115,8 +115,6 @@ namespace Byt3.OpenCL.Wrapper
         }
 
 
-
-
         /// <summary>
         /// A Delegate to create random numbers for every data type
         /// </summary>
@@ -238,7 +236,9 @@ namespace Byt3.OpenCL.Wrapper
             catch (Exception e)
             {
                 Logger.Log(LogType.Error, e.ToString());
-                throw new Exception("Could not initialize OpenCL with Device: " + chosenDevice.Name + "@" + chosenDevice.Vendor + "\n\t" + e.Message, e);
+                throw new Exception(
+                    "Could not initialize OpenCL with Device: " + chosenDevice.Name + "@" + chosenDevice.Vendor +
+                    "\n\t" + e.Message, e);
             }
 
         }
@@ -347,7 +347,7 @@ namespace Byt3.OpenCL.Wrapper
 
             MemoryBuffer buffer = buf;
 
-            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int)buffer.Size);
+            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int) buffer.Size);
 
 
             WriteRandom(data, enabledChannels, rnd, uniform);
@@ -463,7 +463,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns></returns>
         public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags) where T : struct
         {
-            object[] arr = Array.ConvertAll(data, x => (object)x);
+            object[] arr = Array.ConvertAll(data, x => (object) x);
             return CreateBuffer(instance, arr, typeof(T), flags);
         }
 
@@ -505,6 +505,7 @@ namespace Byt3.OpenCL.Wrapper
             target.UnlockBits(data);
 
         }
+
         #endregion
     }
 }

@@ -44,7 +44,6 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
         }
 
 
-
         public XmlNode ProjectNode => document.FirstChild;
         public List<CSharpReference> References => ParseReferences(GetChildren(ProjectNode).ToArray());
 
@@ -55,6 +54,7 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
         public List<CSharpReference> PackageReferences =>
             References.Where(x => x.ReferenceType == CSharpReferenceType.PackageReference).ToList();
         private readonly XmlDocument document;
+
         internal CSharpProject(XmlDocument document)
         {
             this.document = document;

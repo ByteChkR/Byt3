@@ -5,7 +5,6 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
 {
     public class ProjectLoader
     {
-
         public static CSharpProject LoadProject(string path)
         {
             Stream s = File.OpenRead(path);
@@ -14,6 +13,5 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
             s.Close();
             return new CSharpProject(d);
         }
-
     }
 }

@@ -28,7 +28,7 @@ namespace Byt3.Utilities.Serialization
 
             Marshal.Copy(bytes, 0, ptr, size);
 
-            outObj = (T)Marshal.PtrToStructure(ptr, outObj.GetType());
+            outObj = (T) Marshal.PtrToStructure(ptr, outObj.GetType());
             Marshal.FreeHGlobal(ptr);
 
         }

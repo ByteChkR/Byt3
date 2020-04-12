@@ -4,7 +4,6 @@ using Xunit;
 
 namespace Byt3.ADL.Tests
 {
-    
     public class MaskOperations
     {
         [Fact]

@@ -3,10 +3,11 @@
 namespace Byt3.ADL
 {
     public class LevelFilteredLogger<T> : ADLLogger<T>
-    where T: struct
+        where T : struct
     {
-
-        public LevelFilteredLogger(string projectName = "ExtPP") : base("ExtPP") { }
+        public LevelFilteredLogger(string projectName = "ExtPP") : base("ExtPP")
+        {
+        }
 
         /// <summary>
         /// The Verbosity level
@@ -41,6 +42,5 @@ namespace Byt3.ADL
         {
             Log(Convert.ToInt32(mask), level, format, objs);
         }
-
     }
 }

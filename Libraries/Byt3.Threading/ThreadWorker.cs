@@ -2,7 +2,6 @@
 
 namespace Byt3.Threading
 {
-
     public abstract class ThreadWorker : ThreadLoop
     {
         private readonly ConcurrentQueue<ThreadWorkerItem> queue = new ConcurrentQueue<ThreadWorkerItem>();
@@ -27,9 +26,10 @@ namespace Byt3.Threading
     public abstract class ThreadWorker<TIn, TOut> : ThreadWorker
     {
         protected abstract TOut DoWork(TIn input);
+
         protected override object DoWork(object input)
         {
-            return DoWork((TIn)input);
+            return DoWork((TIn) input);
         }
     }
 }

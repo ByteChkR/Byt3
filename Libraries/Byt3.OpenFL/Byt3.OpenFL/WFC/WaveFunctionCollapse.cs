@@ -46,7 +46,7 @@ namespace Byt3.OpenFL.WFC
             Fmx = width;
             Fmy = height;
         }
-        
+
 
         private void Init()
         {
@@ -226,7 +226,8 @@ namespace Byt3.OpenFL.WFC
             {
                 if (l % 250 == 0)
                 {
-                    Logger.Log(DebugChannel.Log | DebugChannel.OpenFL_WFC, Verbosity.Level6, "Starting Iteration: " + l);
+                    Logger.Log(DebugChannel.Log | DebugChannel.OpenFL_WFC, Verbosity.Level6,
+                        "Starting Iteration: " + l);
                 }
 
                 bool? result = Observe();

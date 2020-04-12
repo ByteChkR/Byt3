@@ -12,22 +12,26 @@ namespace Byt3.ExtPP.Plugins
 {
     public class IncludePlugin : AbstractFullScriptPlugin
     {
-        public override string[] Cleanup => new[] { IncludeKeyword };
+        public override string[] Cleanup => new[] {IncludeKeyword};
         public override ProcessStage ProcessStages => ProcessStage.OnMain;
-        public override string[] Prefix => new[] { "inc", "Include" };
+        public override string[] Prefix => new[] {"inc", "Include"};
         public string IncludeKeyword { get; set; } = "#include";
         public string IncludeInlineKeyword { get; set; } = "#includeinl";
         public string Separator { get; set; } = " ";
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
-            new CommandInfo("set-include", "i", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
+            new CommandInfo("set-include", "i",
+                PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
                 "Sets the keyword that is used to include other files into the build process."),
-            new CommandInfo("set-include-inline", "ii", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(IncludeInlineKeyword)),
+            new CommandInfo("set-include-inline", "ii",
+                PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(IncludeInlineKeyword)),
                 "Sets the keyword that is used to insert other files directly into the current file"),
-            new CommandInfo("set-separator","s", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(Separator)),
+            new CommandInfo("set-separator", "s",
+                PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(Separator)),
                 "Sets the separator that is used to separate the include statement from the filepath"),
-            };
+        };
+
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
 
@@ -86,7 +90,8 @@ namespace Byt3.ExtPP.Plugins
                 {
                     foreach (ISourceScript sourceScript in sources)
                     {
-                        Logger.Log(PPLogType.Log, Verbosity.Level6, "Processing Include: {0}", Path.GetFileName(sourceScript.GetFileInterface().GetKey()));
+                        Logger.Log(PPLogType.Log, Verbosity.Level6, "Processing Include: {0}",
+                            Path.GetFileName(sourceScript.GetFileInterface().GetKey()));
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -102,7 +107,8 @@ namespace Byt3.ExtPP.Plugins
                 }
                 else
                 {
-                    return false; //We crash if we didnt find the file. but if the user forgets to specify the path we will just log the error
+                    return
+                        false; //We crash if we didnt find the file. but if the user forgets to specify the path we will just log the error
                 }
 
             }
@@ -113,7 +119,8 @@ namespace Byt3.ExtPP.Plugins
         }
 
 
-        private bool GetISourceScript(ISourceManager manager, string statement, string currentPath, out List<ISourceScript> scripts)
+        private bool GetISourceScript(ISourceManager manager, string statement, string currentPath,
+            out List<ISourceScript> scripts)
         {
             string[] vars = Utils.SplitAndRemoveFirst(statement, Separator);
 
@@ -161,9 +168,11 @@ namespace Byt3.ExtPP.Plugins
                 for (int index = scripts.Count - 1; index >= 0; index--)
                 {
                     ISourceScript sourceScript = scripts[index];
-                    if (sourceScript.GetFileInterface().HasValidFilepath && !Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface()))
+                    if (sourceScript.GetFileInterface().HasValidFilepath &&
+                        !Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface()))
                     {
-                        Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not find File: {0}", sourceScript.GetFileInterface());
+                        Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not find File: {0}",
+                            sourceScript.GetFileInterface());
                         scripts.RemoveAt(index);
                     }
                 }

@@ -39,7 +39,10 @@ namespace Byt3.Serialization
         /// <param name="packetSerializer">The Serializer that can de/serialize objects of type</param>
         public static void AddSerializer(Type type, ASerializer packetSerializer)
         {
-            if (CanSerialize(type)) return;
+            if (CanSerialize(type))
+            {
+                return;
+            }
             object key = BaseSerializer.GetKey(type);
             KeyTypeCache.Add(key, type);
             TypeKeyCache.Add(type, key);
@@ -63,23 +66,29 @@ namespace Byt3.Serialization
         /// <param name="baseSerializer">The Base Initializer to use</param>
         public static void SetBaseSerializer(ABaseSerializer baseSerializer)
         {
-            BaseSerializer = baseSerializer ?? throw new ArgumentNullException("baseSerializer", "Base serializer is not allowed to be null");
+            BaseSerializer = baseSerializer ??
+                             throw new ArgumentNullException("baseSerializer",
+                                 "Base serializer is not allowed to be null");
         }
 
         public static void RemoveSerializer(Type t)
         {
             if (Serializers.ContainsKey(t))
+            {
                 Serializers.Remove(t);
+            }
         }
 
         public static void RemoveAllSerializers(bool keepCache = false)
         {
             Serializers.Clear();
-            if (keepCache) return;
+            if (keepCache)
+            {
+                return;
+            }
             KeyTypeCache.Clear();
             TypeKeyCache.Clear();
         }
-
 
         #endregion
 
@@ -124,9 +133,18 @@ namespace Byt3.Serialization
         /// <param name="obj">Object to Serialize</param>
         public static bool TryWritePacket(Stream stream, object obj)
         {
-            if (obj == null) throw new ArgumentNullException("obj", "Can not be null.");
-            if (stream == null) throw new ArgumentNullException("stream", "Can not be null.");
-            if (!CanSerialize(obj.GetType())) throw new SerializationException("Can not Serialize Type: " + obj.GetType());
+            if (obj == null)
+            {
+                throw new ArgumentNullException("obj", "Can not be null.");
+            }
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream", "Can not be null.");
+            }
+            if (!CanSerialize(obj.GetType()))
+            {
+                throw new SerializationException("Can not Serialize Type: " + obj.GetType());
+            }
 
             Type objType = obj.GetType();
             object key = GetKeyByType(objType);
@@ -144,13 +162,12 @@ namespace Byt3.Serialization
         /// <param name="obj">Object to Serialize</param>
         public static bool TryWritePacket<T>(Stream stream, T obj)
         {
-            return TryWritePacket(stream, (object)obj);
+            return TryWritePacket(stream, (object) obj);
         }
 
         #endregion
 
         #region Read
-
 
         private static bool TryBaseRead(Stream stream, out BasePacket packet)
         {
@@ -171,7 +188,7 @@ namespace Byt3.Serialization
 
         private static object MainRead(BasePacket basePacket)
         {
-            MemoryStream ms = new MemoryStream(basePacket.Payload) { Position = 0 };
+            MemoryStream ms = new MemoryStream(basePacket.Payload) {Position = 0};
             Type packetType = GetTypeByKey(basePacket.PacketType);
 
             PrimitiveValueWrapper mainStage = new PrimitiveValueWrapper(ms);
@@ -190,7 +207,10 @@ namespace Byt3.Serialization
         /// <returns>The Deserialized Object</returns>
         public static bool TryReadPacket(Stream stream, out object deserializedPacket)
         {
-            if (stream == null) throw new ArgumentNullException("stream", "Can not be null.");
+            if (stream == null)
+            {
+                throw new ArgumentNullException("stream", "Can not be null.");
+            }
 
             if (!TryBaseRead(stream, out BasePacket basePacket))
             {
@@ -199,7 +219,10 @@ namespace Byt3.Serialization
             }
 
             if (!CanSerializeByKey(basePacket.PacketType))
-                throw new SerializationException("Could not find a deserializer for type key: " + basePacket.PacketType);
+            {
+                throw new SerializationException("Could not find a deserializer for type key: " +
+                                                 basePacket.PacketType);
+            }
 
             deserializedPacket = MainRead(basePacket);
 
@@ -216,7 +239,10 @@ namespace Byt3.Serialization
         {
             bool ret = TryReadPacket(stream, out object obj);
             deserializedObject = default(T);
-            if (ret) deserializedObject = (T)obj;
+            if (ret)
+            {
+                deserializedObject = (T) obj;
+            }
             return ret;
         }
 
@@ -254,7 +280,6 @@ namespace Byt3.Serialization
             return CanSerialize(typeof(T));
         }
 
-
         #endregion
 
 
@@ -266,7 +291,10 @@ namespace Byt3.Serialization
         /// <exception cref="Exception">Gets thrown when The KeyTypeCache does not contain the key.</exception>
         private static object GetKeyByType(Type type)
         {
-            if (TypeKeyCache.ContainsKey(type)) return TypeKeyCache[type];
+            if (TypeKeyCache.ContainsKey(type))
+            {
+                return TypeKeyCache[type];
+            }
             throw new Exception("Could not Find the Key for Type: " + type);
         }
 
@@ -278,7 +306,10 @@ namespace Byt3.Serialization
         /// <exception cref="Exception">Gets thrown when The KeyTypeCache does not contain the key.</exception>
         public static Type GetTypeByKey(object key)
         {
-            if (KeyTypeCache.ContainsKey(key)) return KeyTypeCache[key];
+            if (KeyTypeCache.ContainsKey(key))
+            {
+                return KeyTypeCache[key];
+            }
             throw new Exception("Could not Find the Type with Key: " + key);
         }
 
@@ -293,6 +324,5 @@ namespace Byt3.Serialization
         {
             return GetSerializerByType(GetTypeByKey(key));
         }
-
     }
 }

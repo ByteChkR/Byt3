@@ -43,9 +43,13 @@ namespace Byt3.Utilities.Threading
             if (commandInfo.CaptureConsoleOut)
             {
                 if (commandInfo.OnOutputReceived != null)
+                {
                     p.OutputDataReceived += commandInfo.OnOutputReceived;
+                }
                 if (commandInfo.OnErrorReceived != null)
+                {
                     p.ErrorDataReceived += commandInfo.OnErrorReceived;
+                }
             }
 
             p.BeginErrorReadLine();
@@ -57,7 +61,9 @@ namespace Byt3.Utilities.Threading
             }
 
             if (commandInfo.WaitForExitTimeout == -1)
+            {
                 p.WaitForExit();
+            }
             else
             {
                 p.WaitForExit(commandInfo.WaitForExitTimeout);

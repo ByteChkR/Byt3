@@ -24,7 +24,7 @@ namespace Byt3.CommandRunner
             {
                 if (typeof(AbstractCommand).IsAssignableFrom(types[i]) && types[i] != typeof(AbstractCommand))
                 {
-                    ret.Add((AbstractCommand)Activator.CreateInstance(types[i]));
+                    ret.Add((AbstractCommand) Activator.CreateInstance(types[i]));
                 }
             }
 
@@ -44,7 +44,7 @@ namespace Byt3.CommandRunner
                 asm = Assembly.LoadFile(path);
                 return true;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 asm = null;
                 return false;

@@ -1,6 +1,5 @@
 ﻿namespace Byt3.ADL
 {
-
     /// <summary>
     /// An enum used to give logs an importance.
     /// </summary>
@@ -9,7 +8,7 @@
         /// <summary>
         /// Lowest Verbosity Level, no output on console.
         /// </summary>
-        Silent=0,
+        Silent = 0,
         /// <summary>
         /// Only critical errors and general information
         /// </summary>
@@ -24,7 +23,5 @@
         /// Highest Level of verbosity, you will get every log that gets sent.
         /// </summary>
         Level8
-
-
     }
 }

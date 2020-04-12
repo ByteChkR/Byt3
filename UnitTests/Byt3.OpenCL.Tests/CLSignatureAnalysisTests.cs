@@ -2,17 +2,14 @@ using System.Linq;
 using Byt3.OpenCL.Wrapper;
 using Xunit;
 
-
 namespace Byt3.OpenCL.Tests
 {
-    
     public class CLSignatureAnalysisTests
     {
-       
         [Fact]
         public void OpenCL_KernelSignatureAnalysis_Test()
         {
-            
+
             Assert.True(TestSetup.KernelDb.TryGetClKernel("addv", out CLKernel kernel), "Didnt find kernel");
 
             Assert.True(kernel.Parameter.Count == 6, "Kernel header is not == 6");
@@ -24,18 +21,21 @@ namespace Byt3.OpenCL.Tests
             Assert.True(kernel.Parameter.ElementAt(0).Value.Name == "image", "Image has wrong argument name");
 
             Assert.False(kernel.Parameter.ElementAt(1).Value.IsArray, "Dimensions is detected as array");
-            Assert.True(kernel.Parameter.ElementAt(1).Value.DataType == Wrapper.TypeEnums.DataTypes.Int3, "Dimensions has the wrong type");
+            Assert.True(kernel.Parameter.ElementAt(1).Value.DataType == Wrapper.TypeEnums.DataTypes.Int3,
+                "Dimensions has the wrong type");
             Assert.True(kernel.Parameter.ElementAt(1).Value.Id == 1, "dimensions has the wrong id");
             Assert.True(kernel.Parameter.ElementAt(1).Value.Name == "dimensions", "dimensions has wrong argument name");
 
             Assert.False(kernel.Parameter.ElementAt(2).Value.IsArray, "channelCount is detected as array");
-            Assert.True(kernel.Parameter.ElementAt(2).Value.DataType == Wrapper.TypeEnums.DataTypes.Int1, "channelCount has the wrong type");
+            Assert.True(kernel.Parameter.ElementAt(2).Value.DataType == Wrapper.TypeEnums.DataTypes.Int1,
+                "channelCount has the wrong type");
             Assert.True(kernel.Parameter.ElementAt(2).Value.Id == 2, "channelCount has the wrong id");
             Assert.True(kernel.Parameter.ElementAt(2).Value.Name == "channelCount",
                 "channelCount has wrong argument name");
 
             Assert.False(kernel.Parameter.ElementAt(3).Value.IsArray, "maxValue is detected as array");
-            Assert.True(kernel.Parameter.ElementAt(3).Value.DataType == Wrapper.TypeEnums.DataTypes.Float1, "maxValue has the wrong type");
+            Assert.True(kernel.Parameter.ElementAt(3).Value.DataType == Wrapper.TypeEnums.DataTypes.Float1,
+                "maxValue has the wrong type");
             Assert.True(kernel.Parameter.ElementAt(3).Value.Id == 3, "maxValue has the wrong id");
             Assert.True(kernel.Parameter.ElementAt(3).Value.Name == "maxValue", "maxValue has wrong argument name");
 
@@ -47,7 +47,8 @@ namespace Byt3.OpenCL.Tests
                 "channelEnableState has wrong argument name");
 
             Assert.False(kernel.Parameter.ElementAt(5).Value.IsArray, "value is detected as array");
-            Assert.True(kernel.Parameter.ElementAt(5).Value.DataType == Wrapper.TypeEnums.DataTypes.Float1, "value has the wrong type");
+            Assert.True(kernel.Parameter.ElementAt(5).Value.DataType == Wrapper.TypeEnums.DataTypes.Float1,
+                "value has the wrong type");
             Assert.True(kernel.Parameter.ElementAt(5).Value.Id == 5, "value has the wrong id");
             Assert.True(kernel.Parameter.ElementAt(5).Value.Name == "value", "value has wrong argument name");
         }

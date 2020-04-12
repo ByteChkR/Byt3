@@ -12,8 +12,6 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class CLProgram
     {
-
-        
         /// <summary>
         /// The filepath of the program source
         /// </summary>
@@ -96,7 +94,7 @@ namespace Byt3.OpenCL.Wrapper
         private void Initialize(CLAPI instance)
         {
             int vnum = GetVectorNum(genType);
-            
+
             string source = TextProcessorAPI.PreprocessSource(filePath, new Dictionary<string, bool>());
             string[] kernelNames = FindKernelNames(source);
 

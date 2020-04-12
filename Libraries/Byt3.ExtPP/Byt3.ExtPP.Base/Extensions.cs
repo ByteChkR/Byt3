@@ -24,7 +24,9 @@ namespace Byt3.ExtPP.Base
         public static string Unpack(this IEnumerable<object> arr, string separator)
         {
             if (arr == null || !arr.Any())
+            {
                 return string.Empty;
+            }
             Sb.Clear();
             object[] enumerable = arr as object[] ?? arr.ToArray();
             if (enumerable.Length == 0)
@@ -51,7 +53,7 @@ namespace Byt3.ExtPP.Base
         /// <returns></returns>
         public static IEnumerable<string> Pack(this string arr, string separator)
         {
-            return arr.Split(new []{ separator }, StringSplitOptions.None);
+            return arr.Split(new[] {separator}, StringSplitOptions.None);
         }
 
 
@@ -101,9 +103,5 @@ namespace Byt3.ExtPP.Base
             }
             return str.All(char.IsDigit);
         }
-
-        
-
-
     }
 }

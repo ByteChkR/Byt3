@@ -96,7 +96,6 @@ namespace Byt3.OpenCL.Wrapper
             }
 
 
-
             Kernel.SetKernelArgumentVal(index, Parameter.ElementAt(index).Value.CastToType(instance, value));
 
         }

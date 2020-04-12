@@ -4,14 +4,12 @@ namespace Byt3.CommandRunner
 {
     public class DefaultHelpCommand : AbstractCommand
     {
-
-
-        public DefaultHelpCommand() : base(new[] { "--help", "-h", "-?" }, "Prints this help text")
+        public DefaultHelpCommand() : base(new[] {"--help", "-h", "-?"}, "Prints this help text")
         {
             CommandAction = DefaultHelp;
         }
 
-        private void DefaultHelp( StartupArgumentInfo argumentInfo, string[] args)
+        private void DefaultHelp(StartupArgumentInfo argumentInfo, string[] args)
         {
             for (int i = 0; i < Runner.CommandCount; i++)
             {
@@ -20,6 +18,5 @@ namespace Byt3.CommandRunner
                 Logger.Log(LogType.Log, Runner.GetCommandAt(i).ToString());
             }
         }
-
     }
 }

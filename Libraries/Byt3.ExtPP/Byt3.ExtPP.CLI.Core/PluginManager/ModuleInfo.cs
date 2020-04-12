@@ -12,6 +12,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             "Byt3.ExtPP.dll"
         };
         public override string ModuleName => "extpp";
+
         public override void RunArgs(string[] args)
         {
             CLI._Main(args);

@@ -38,7 +38,10 @@ namespace Byt3.Threading
 
             while (!stopServer)
             {
-                if (token.IsCancellationRequested) break;
+                if (token.IsCancellationRequested)
+                {
+                    break;
+                }
                 Update();
                 Thread.Sleep(Tick);
             }

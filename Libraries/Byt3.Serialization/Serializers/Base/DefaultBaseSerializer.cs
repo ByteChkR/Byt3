@@ -27,7 +27,7 @@ namespace Byt3.Serialization.Serializers.Base
         /// <param name="obj">BasePacket to Serialize</param>
         public override void SerializePacket(PrimitiveValueWrapper pvw, BasePacket obj)
         {
-            pvw.Write((string)obj.PacketType);
+            pvw.Write((string) obj.PacketType);
             pvw.Write(obj.Payload);
         }
 

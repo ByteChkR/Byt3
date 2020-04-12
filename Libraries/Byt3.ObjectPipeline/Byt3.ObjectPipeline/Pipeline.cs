@@ -14,8 +14,14 @@ namespace Byt3.ObjectPipeline
 
         public override object Process(object input)
         {
-            if (input == null) throw new ArgumentNullException("input", "Argument is not allowed to be null.");
-            if (!Verified && !Verify()) throw new PipelineNotValidException(this, "Can not use a Pipline that is incomplete.");
+            if (input == null)
+            {
+                throw new ArgumentNullException("input", "Argument is not allowed to be null.");
+            }
+            if (!Verified && !Verify())
+            {
+                throw new PipelineNotValidException(this, "Can not use a Pipline that is incomplete.");
+            }
             object currentIn = input;
             foreach (PipelineStage internalPipelineStage in Stages)
             {
@@ -26,23 +32,27 @@ namespace Byt3.ObjectPipeline
 
 
         }
-
     }
 
-    public class Pipeline<I, O> : Pipeline<PipelineStage, I, O> {}
+    public class Pipeline<I, O> : Pipeline<PipelineStage, I, O>
+    {
+    }
 
     public class Pipeline<T, I, O> : Pipeline<T>
         where T : PipelineStage
     {
-        public Pipeline() : base(typeof(I), typeof(O)) { }
+        public Pipeline() : base(typeof(I), typeof(O))
+        {
+        }
+
         public O Process(I input)
         {
-            return (O)Process((object)input);
+            return (O) Process((object) input);
         }
     }
 
     public class Pipeline<T> : PipelineStage<T>
-    where T : PipelineStage
+        where T : PipelineStage
     {
         public Pipeline(Type inType, Type outType, params T[] stages) : base(inType, outType)
         {
@@ -54,8 +64,14 @@ namespace Byt3.ObjectPipeline
 
         public override object Process(object input)
         {
-            if (input == null) throw new ArgumentNullException("input", "Argument is not allowed to be null.");
-            if (!Verified && !Verify()) throw new PipelineNotValidException(this, "Can not use a Pipline that is incomplete.");
+            if (input == null)
+            {
+                throw new ArgumentNullException("input", "Argument is not allowed to be null.");
+            }
+            if (!Verified && !Verify())
+            {
+                throw new PipelineNotValidException(this, "Can not use a Pipline that is incomplete.");
+            }
             object currentIn = input;
             foreach (T internalPipelineStage in Stages)
             {
@@ -66,6 +82,5 @@ namespace Byt3.ObjectPipeline
 
 
         }
-
     }
 }

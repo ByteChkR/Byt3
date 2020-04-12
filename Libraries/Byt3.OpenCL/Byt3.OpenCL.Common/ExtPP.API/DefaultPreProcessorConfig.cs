@@ -19,7 +19,7 @@ namespace Byt3.OpenCL.Common.ExtPP.API
             {
                 new FakeGenericsPlugin(),
                 new IncludePlugin(),
-                new ConditionalPlugin{EnableDefine = true},
+                new ConditionalPlugin {EnableDefine = true},
                 new ExceptionPlugin(),
                 new MultiLinePlugin()
             };

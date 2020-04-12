@@ -2,12 +2,10 @@
 using System.IO;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
-
 using Xunit;
 
 namespace Byt3.ExtPP.Tests
 {
-
     public class PreProcessorTests
     {
         private static List<AbstractPlugin> Plugins
@@ -53,7 +51,7 @@ namespace Byt3.ExtPP.Tests
                 //Directory.SetCurrentDirectory(ResourceFolder);
                 PreProcessor pp = new PreProcessor();
                 pp.SetFileProcessingChain(Plugins);
-                pp.Run(new[] { file }, new Definitions());
+                pp.Run(new[] {file}, new Definitions());
             }
 
         }

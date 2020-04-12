@@ -6,7 +6,6 @@ namespace Byt3.Collections.Smoothing
 {
     public static class GeometicInterpolation
     {
-
         public static IVec3 Lerp(IVec3 from, IVec3 to, float t)
         {
             IVec3 dir = VectorMath.Subtract(to, from);
@@ -23,7 +22,10 @@ namespace Byt3.Collections.Smoothing
         /// <returns></returns>
         public static List<IVec3> Chaikin(List<IVec3> pts, int smoothness = 1)
         {
-            if (smoothness < 1) return pts;
+            if (smoothness < 1)
+            {
+                return pts;
+            }
 
             List<IVec3> ret = pts;
             for (int i = 0; i < smoothness; i++)
@@ -44,11 +46,11 @@ namespace Byt3.Collections.Smoothing
             for (int i = 0; i < pts.Count - 2; i++)
             {
                 newPts[j] = VectorMath.Add(pts[i], VectorMath.Scale(VectorMath.Subtract(pts[i + 1], pts[i]), 0.75f));
-                newPts[j + 1] = VectorMath.Add(pts[i + 1], VectorMath.Scale(VectorMath.Subtract(pts[i + 2], pts[i + 1]), 0.25f));
+                newPts[j + 1] = VectorMath.Add(pts[i + 1],
+                    VectorMath.Scale(VectorMath.Subtract(pts[i + 2], pts[i + 1]), 0.25f));
                 j += 2;
             }
             return newPts.ToList();
         }
-
     }
 }

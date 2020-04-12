@@ -9,7 +9,7 @@ namespace Byt3.OpenFL
     /// <summary>
     /// Partial Class that Contains the Baked FL Functions
     /// </summary>
-    public partial class FLInterpreter 
+    public partial class FLInterpreter
     {
         /// <summary>
         /// The implementation of the command setactive
@@ -34,7 +34,8 @@ namespace Byt3.OpenFL
                 byte channel = (byte) Convert.ChangeType(val, typeof(byte));
                 if (channel >= channelCount)
                 {
-                    Logger.Log(DebugChannel.Error, Verbosity.Level1, "Script is enabling channels beyond channel count. Ignoring...",
+                    Logger.Log(DebugChannel.Error, Verbosity.Level1,
+                        "Script is enabling channels beyond channel count. Ignoring...",
                         DebugChannel.Warning | DebugChannel.OpenFL, 10);
                 }
                 else
@@ -71,13 +72,15 @@ namespace Byt3.OpenFL
 
             if (needCopy)
             {
-                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Updating Channel Buffer", DebugChannel.Log | DebugChannel.OpenFL, 6);
+                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Updating Channel Buffer",
+                    DebugChannel.Log | DebugChannel.OpenFL, 6);
                 activeChannels = temp;
                 CLAPI.WriteToBuffer(instance, activeChannelBuffer, activeChannels);
             }
             else
             {
-                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Skipping Updating Channel Buffer", DebugChannel.Log | DebugChannel.OpenFL, 6);
+                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Skipping Updating Channel Buffer",
+                    DebugChannel.Log | DebugChannel.OpenFL, 6);
             }
         }
 

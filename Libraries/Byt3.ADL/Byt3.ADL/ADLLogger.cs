@@ -9,7 +9,10 @@ namespace Byt3.ADL
     {
         private Dictionary<int, string> ProcessPrefixes(string[] prefixes)
         {
-            if (prefixes.Length > sizeof(int) * 8) throw new Exception("Can not add more than " + sizeof(int) * 8 + " prefixes");
+            if (prefixes.Length > sizeof(int) * 8)
+            {
+                throw new Exception("Can not add more than " + sizeof(int) * 8 + " prefixes");
+            }
             Dictionary<int, string> ret = new Dictionary<int, string>();
             int s = 1;
             for (int i = 0; i < prefixes.Length; i++)
@@ -34,6 +37,7 @@ namespace Byt3.ADL
         public readonly string ProjectName;
         public virtual string[] ProjectMaskPrefixes { get; } = new string[0];
         public virtual PrefixLookupSettings LookupSettings { get; set; } = PrefixLookupSettings.Addprefixifavailable;
+
         public ADLLogger(string projectName)
         {
             ProjectName = projectName;
@@ -78,13 +82,11 @@ namespace Byt3.ADL
         {
             return Debug.GetAllPrefixes(Prefixes);
         }
-
     }
 
     public class ADLLogger<T> : ADLLogger
-    where T : struct
+        where T : struct
     {
-
         protected bool IsPowerOfTwo(int value)
         {
             return value != 0 && (value & (value - 1)) == 0;
@@ -107,7 +109,9 @@ namespace Byt3.ADL
             }
         }
 
-        public ADLLogger(string projectName) : base(projectName) { }
+        public ADLLogger(string projectName) : base(projectName)
+        {
+        }
 
         public void Log(T mask, string message)
         {

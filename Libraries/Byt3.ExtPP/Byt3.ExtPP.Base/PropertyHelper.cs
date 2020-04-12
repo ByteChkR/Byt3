@@ -31,7 +31,6 @@ namespace Byt3.ExtPP.Base
 
     public static class PropertyHelper<T>
     {
-
         /// <summary>
         /// Returns the property info of type t using lambda functions
         /// </summary>
@@ -43,6 +42,7 @@ namespace Byt3.ExtPP.Base
         {
             return GetMemberInfo(selector) as PropertyInfo;
         }
+
         /// <summary>
         /// Returns the member info of type t using lambda functions
         /// </summary>
@@ -55,12 +55,12 @@ namespace Byt3.ExtPP.Base
             Expression body = selector;
             if (body is LambdaExpression)
             {
-                body = ((LambdaExpression)body).Body;
+                body = ((LambdaExpression) body).Body;
             }
 
             if (body.NodeType == ExpressionType.MemberAccess)
             {
-                return ((MemberExpression)body).Member as MemberInfo;
+                return ((MemberExpression) body).Member as MemberInfo;
             }
             return null;
 

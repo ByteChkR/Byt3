@@ -11,14 +11,18 @@ namespace Byt3.Utilities.DotNet
     {
         public string Name;
         public string RootDirectory;
-        public string[] ScriptFiles => Directory.GetFiles(RootDirectory, "*.cs", SearchOption.AllDirectories).Where(x => !x.Contains("\\bin\\") && !x.Contains("\\obj\\")).ToArray();
+        public string[] ScriptFiles => Directory.GetFiles(RootDirectory, "*.cs", SearchOption.AllDirectories)
+            .Where(x => !x.Contains("\\bin\\") && !x.Contains("\\obj\\")).ToArray();
         public CSharpReference[] Packages;
         public CSharpReference[] Projects;
         public CSharpReference[] EmbeddedFiles;
 
-        public ModuleDefinition() { }
+        public ModuleDefinition()
+        {
+        }
 
-        public ModuleDefinition(string name, string rootDirectory, CSharpReference[] packages, CSharpReference[] projects, CSharpReference[] embeddedFiles)
+        public ModuleDefinition(string name, string rootDirectory, CSharpReference[] packages,
+            CSharpReference[] projects, CSharpReference[] embeddedFiles)
         {
             Packages = packages;
             Projects = projects;
@@ -31,7 +35,7 @@ namespace Byt3.Utilities.DotNet
         {
             XmlSerializer xs = new XmlSerializer(typeof(ModuleDefinition));
             Stream s = File.OpenRead(path);
-            ModuleDefinition ret = (ModuleDefinition)xs.Deserialize(s);
+            ModuleDefinition ret = (ModuleDefinition) xs.Deserialize(s);
             s.Close();
             return ret;
         }
@@ -44,6 +48,5 @@ namespace Byt3.Utilities.DotNet
             xs.Serialize(s, definition);
             s.Close();
         }
-
     }
 }

@@ -24,6 +24,5 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         /// </summary>
 
         public List<PluginInformation> Cache { get; set; } = new List<PluginInformation>();
-
     }
 }

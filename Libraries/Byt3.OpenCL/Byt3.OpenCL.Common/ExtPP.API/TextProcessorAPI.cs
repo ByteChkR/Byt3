@@ -13,22 +13,22 @@ namespace Byt3.OpenCL.Common.ExtPP.API
     /// </summary>
     public static class TextProcessorAPI
     {
-
         private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>("TextProcessorAPI");
         public static IIOCallback PpCallback = null;
 
-        private static readonly Dictionary<string, APreProcessorConfig> Configs = new Dictionary<string, APreProcessorConfig>
-        {
-            {".fl", new FLPreProcessorConfig()},
-            {".vs", new GLCLPreProcessorConfig()},
-            {".fs", new GLCLPreProcessorConfig()},
-            {".cl", new GLCLPreProcessorConfig()},
-            {"***", new DefaultPreProcessorConfig()}
-        };
+        private static readonly Dictionary<string, APreProcessorConfig> Configs =
+            new Dictionary<string, APreProcessorConfig>
+            {
+                {".fl", new FLPreProcessorConfig()},
+                {".vs", new GLCLPreProcessorConfig()},
+                {".fs", new GLCLPreProcessorConfig()},
+                {".cl", new GLCLPreProcessorConfig()},
+                {"***", new DefaultPreProcessorConfig()}
+            };
 
         public static string[] GenericIncludeToSource(string ext, string file, params string[] genType)
         {
-            return new[] { Configs[ext].GetGenericInclude(file, genType) };
+            return new[] {Configs[ext].GetGenericInclude(file, genType)};
         }
 
         public static string[] PreprocessLines(string filename, Dictionary<string, bool> defs)
@@ -58,7 +58,10 @@ namespace Byt3.OpenCL.Common.ExtPP.API
                 key = "LINUX";
             }
 
-            if (defs == null) defs = new Dictionary<string, bool>();
+            if (defs == null)
+            {
+                defs = new Dictionary<string, bool>();
+            }
             if (!defs.ContainsKey(key))
             {
                 defs.Add(key, true);
@@ -66,11 +69,11 @@ namespace Byt3.OpenCL.Common.ExtPP.API
 
             if (Configs.ContainsKey(ext))
             {
-                Logger.Log(DebugChannel.Log,  "Found Matching PreProcessor Config for: " + ext);
+                Logger.Log(DebugChannel.Log, "Found Matching PreProcessor Config for: " + ext);
                 return Configs[ext].Preprocess(file, defs);
             }
 
-            Logger.Log(DebugChannel.Log,"Loading File with Default PreProcessing");
+            Logger.Log(DebugChannel.Log, "Loading File with Default PreProcessing");
             return Configs["***"].Preprocess(file, defs);
         }
 
@@ -103,7 +106,5 @@ namespace Byt3.OpenCL.Common.ExtPP.API
 
             return sb.ToString();
         }
-
-
     }
 }

@@ -3,16 +3,13 @@ using System.IO;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
-
 using Xunit;
 
 namespace Byt3.ExtPP.Tests
 {
-
     public class IncludeFakeGenericsTests
     {
         private static string ResourceFolder { get; } = TestHelper.ResF + "compiler_tests/";
-
 
 
         [Fact]
@@ -21,7 +18,8 @@ namespace Byt3.ExtPP.Tests
 
             //Directory.SetCurrentDirectory(ResourceFolder);
             string file = Path.Combine(ResourceFolder, "includecircular.cl");
-            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new IncludePlugin() }, new[] { file });
+            ISourceScript[] ret =
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new IncludePlugin()}, new[] {file});
 
             Assert.Equal(
                 3,
@@ -33,7 +31,9 @@ namespace Byt3.ExtPP.Tests
         {
             //Directory.SetCurrentDirectory(ResourceFolder);
             string file = Path.Combine(ResourceFolder, "genericincludepassthrough.cl");
-            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), }, new[] { file });
+            ISourceScript[] ret =
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new FakeGenericsPlugin(), new IncludePlugin(),},
+                    new[] {file});
             Assert.Equal(
                 5,
                 ret.Length);
@@ -44,7 +44,9 @@ namespace Byt3.ExtPP.Tests
         {
             //Directory.SetCurrentDirectory(ResourceFolder);
             string file = Path.Combine(ResourceFolder, "typePassing.cl");
-            ISourceScript[] ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), }, new[] { file });
+            ISourceScript[] ret =
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new FakeGenericsPlugin(), new IncludePlugin(),},
+                    new[] {file});
 
             Assert.Equal(
                 4,

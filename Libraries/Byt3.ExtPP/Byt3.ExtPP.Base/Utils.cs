@@ -32,7 +32,8 @@ namespace Byt3.ExtPP.Base
                     if (source[i].Trim().StartsWith(t))
                     {
 
-                        Logger.Log(PPLogType.Log, Verbosity.Level7, string.Format("Removing statement {0} on line {1}",t, i));
+                        Logger.Log(PPLogType.Log, Verbosity.Level7,
+                            string.Format("Removing statement {0} on line {1}", t, i));
                         source.RemoveAt(i);
                         break;
                     }
@@ -50,7 +51,7 @@ namespace Byt3.ExtPP.Base
         /// <returns>the fixed line without any excess spaces</returns>
         public static string RemoveExcessSpaces(string line, string separator)
         {
-            string ret = line.Split(new []{ separator }, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
+            string ret = line.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
             Logger.Log(PPLogType.Log, Verbosity.Level7, "Removing Excess Spaces: {0} => {1}", line, ret);
             return ret;
         }
@@ -98,10 +99,12 @@ namespace Byt3.ExtPP.Base
         /// <returns>true if the relative path is pointing towards a valid file.</returns>
         public static bool FileExistsRelativeTo(string currentPath, IFileContent file)
         {
-            if (file.HasValidFilepath) return FileExistsRelativeTo(currentPath, file.GetFilePath());
+            if (file.HasValidFilepath)
+            {
+                return FileExistsRelativeTo(currentPath, file.GetFilePath());
+            }
             return true;
         }
-
 
 
         /// <summary>
@@ -140,7 +143,7 @@ namespace Byt3.ExtPP.Base
                 return new string[0];
             }
 
-            string[] ret = statement.Split(new []{ separator }, StringSplitOptions.None);
+            string[] ret = statement.Split(new[] {separator}, StringSplitOptions.None);
 
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }
@@ -152,6 +155,7 @@ namespace Byt3.ExtPP.Base
         /// <param name="value">the output of the parser</param>
         /// <returns>success state of the operation</returns>
         private delegate bool TryParse(string val, out object value);
+
         /// <summary>
         /// The List of implemented parsers.
         /// </summary>
@@ -298,7 +302,7 @@ namespace Byt3.ExtPP.Base
         /// <returns>The obj array cast to T</returns>
         public static T Parse<T>(string obj, object defaul)
         {
-            return (T)Parse(typeof(T), obj, defaul);
+            return (T) Parse(typeof(T), obj, defaul);
         }
 
         /// <summary>
@@ -323,21 +327,21 @@ namespace Byt3.ExtPP.Base
 
             int ret = -1;
 
-            string[] ands = input.Split(new []{ '&' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] ands = input.Split(new[] {'&'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string and in ands)
             {
-                string[] ors = and.Split(new []{ '|' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] ors = and.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                 int r = -1;
                 foreach (string or in ors)
                 {
                     string enumStr = or.Trim();
                     if (r == -1)
                     {
-                        r = (int)Enum.Parse(enu, enumStr);
+                        r = (int) Enum.Parse(enu, enumStr);
                     }
                     else
                     {
-                        r |= (int)Enum.Parse(enu, enumStr);
+                        r |= (int) Enum.Parse(enu, enumStr);
                     }
                 }
 

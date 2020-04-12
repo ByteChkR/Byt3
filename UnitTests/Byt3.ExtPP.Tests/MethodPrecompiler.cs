@@ -5,15 +5,13 @@ using System.Runtime.CompilerServices;
 
 namespace Byt3.ExtPP.Tests
 {
-
     public static class MethodPrecompiler
     {
         public static void Precompile(string methodName)
         {
-    
-                RuntimeMethodHandle handle = FindMethodWithName(methodName).MethodHandle;
-                RuntimeHelpers.PrepareMethod(handle);
 
+            RuntimeMethodHandle handle = FindMethodWithName(methodName).MethodHandle;
+            RuntimeHelpers.PrepareMethod(handle);
 
 
         }
@@ -31,7 +29,6 @@ namespace Byt3.ExtPP.Tests
                 RuntimeHelpers.PrepareMethod(runtimeMethodHandle.MethodHandle);
             }
         }
-
 
 
         private static MethodInfo FindMethodWithName(string methodName)

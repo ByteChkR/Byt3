@@ -63,6 +63,7 @@ namespace Byt3.OpenCL.Common
             ThreadManager<T> manager = GetManager<T>();
             manager.RunTask(CreateTask(task, onFinish));
         }
+
         /// <summary>
         /// Runs a Task on a different thread
         /// </summary>

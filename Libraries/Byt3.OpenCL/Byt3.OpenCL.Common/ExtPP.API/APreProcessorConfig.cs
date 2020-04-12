@@ -37,10 +37,10 @@ namespace Byt3.OpenCL.Common.ExtPP.API
                 definitions = new Definitions(defs);
             }
 
-            string[] ret = { "FILE NOT FOUND" };
+            string[] ret = {"FILE NOT FOUND"};
             try
             {
-                ret = pp.Run(new[] { filename }, new Settings(), definitions);
+                ret = pp.Run(new[] {filename}, new Settings(), definitions);
             }
             catch (ProcessorException ex)
             {

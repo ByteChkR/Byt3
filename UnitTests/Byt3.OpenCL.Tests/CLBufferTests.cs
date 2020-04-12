@@ -3,14 +3,10 @@ using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Xunit;
 
-
 namespace Byt3.OpenCL.Tests
 {
-    
     public class CLBufferTests
     {
-     
-        
         private static bool CheckValues(float[] values, float[] reference)
         {
             bool working = true;

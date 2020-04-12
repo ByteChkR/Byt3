@@ -18,7 +18,9 @@ namespace Byt3.ExtPP
         /// <summary>
         /// Convenience Wrapper
         /// </summary>
-        public Definitions() : this(new Dictionary<string, bool>()) { }
+        public Definitions() : this(new Dictionary<string, bool>())
+        {
+        }
 
 
         /// <summary>
@@ -101,6 +103,5 @@ namespace Byt3.ExtPP
         {
             return definitions.ContainsKey(key) && definitions[key];
         }
-
     }
 }

@@ -6,14 +6,11 @@ using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Base.Plugins
 {
-
     /// <summary>
     /// Specifies the functionality needed to be incorporated in the processing chain of ext_pp
     /// </summary>
     public abstract class AbstractPlugin : ALoggable<PPLogType>
     {
-        
-
         /// <summary>
         /// Returns the plugins that are meant to be run at the specified stage
         /// </summary>
@@ -21,11 +18,12 @@ namespace Byt3.ExtPP.Base.Plugins
         /// <param name="type">The plugin type</param>
         /// <param name="stage">the process stage</param>
         /// <returns></returns>
-        public static List<AbstractPlugin> GetPluginsForStage(List<AbstractPlugin> plugins, PluginType type, ProcessStage stage)
+        public static List<AbstractPlugin> GetPluginsForStage(List<AbstractPlugin> plugins, PluginType type,
+            ProcessStage stage)
         {
             return plugins.Where(
-                x => BitMask.IsContainedInMask((int)x.PluginTypeToggle, (int)type, true) &&
-                     BitMask.IsContainedInMask((int)x.ProcessStages, (int)stage, true)).ToList();
+                x => BitMask.IsContainedInMask((int) x.PluginTypeToggle, (int) type, true) &&
+                     BitMask.IsContainedInMask((int) x.ProcessStages, (int) stage, true)).ToList();
         }
 
         /// <summary>
@@ -124,6 +122,5 @@ namespace Byt3.ExtPP.Base.Plugins
         /// <param name="sourceManager">the source manager</param>
         /// <param name="defTable">the definitions</param>
         public abstract void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable);
-
     }
 }

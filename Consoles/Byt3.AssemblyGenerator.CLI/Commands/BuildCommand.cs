@@ -8,8 +8,8 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
 {
     public class BuildCommand : AbstractCommand
     {
-
-        public BuildCommand() : base(new[] { "--build", "-b" }, "Builds the Target Assembly Config and stores the build output in a folder in the current working directory")
+        public BuildCommand() : base(new[] {"--build", "-b"},
+            "Builds the Target Assembly Config and stores the build output in a folder in the current working directory")
         {
             CommandAction = Build;
         }
@@ -34,6 +34,5 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             Logger.Log(LogType.Log, "AAAAAAAAAAAAAA:" + path);
             AssemblyGenerator.GenerateAssembly("dotnet", def, path, buildType, !Program.BuildConsole);
         }
-
     }
 }

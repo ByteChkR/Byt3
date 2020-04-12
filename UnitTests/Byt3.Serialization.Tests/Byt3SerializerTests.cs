@@ -3,10 +3,8 @@ using System.IO;
 using Byt3.Serialization.Serializers;
 using Xunit;
 
-
 namespace Byt3.Serialization.Tests
 {
-    
     public class Byt3SerializerTests
     {
         #region Example Packet / Serializer

@@ -3,10 +3,8 @@ using System.IO;
 using System.Text;
 using Xunit;
 
-
 namespace Byt3.ObjectPipeline.Tests
 {
-    
     public class PipelineTests
     {
         #region Example Pipeline Stages
@@ -15,8 +13,14 @@ namespace Byt3.ObjectPipeline.Tests
         {
             public override byte[] Process(string input)
             {
-                if(Path.GetFullPath(input) == Path.GetFullPath("C:\\TestFile")) return Encoding.ASCII.GetBytes("Hello World!");
-                if(Path.GetFullPath(input) == Path.GetFullPath("C:\\InterceptedFile")) return Encoding.ASCII.GetBytes("!dlroW olleH");
+                if (Path.GetFullPath(input) == Path.GetFullPath("C:\\TestFile"))
+                {
+                    return Encoding.ASCII.GetBytes("Hello World!");
+                }
+                if (Path.GetFullPath(input) == Path.GetFullPath("C:\\InterceptedFile"))
+                {
+                    return Encoding.ASCII.GetBytes("!dlroW olleH");
+                }
                 return File.ReadAllBytes(input);
             }
         }
@@ -24,6 +28,7 @@ namespace Byt3.ObjectPipeline.Tests
         private class InterceptFilePathStage : PipelineStage<string, string>
         {
             private readonly string fileToIntercept = "C:\\TestFile";
+
             public override string Process(string input)
             {
                 return Path.GetFullPath(input) == Path.GetFullPath(fileToIntercept) ? "C:\\InterceptedFile" : input;
@@ -74,7 +79,8 @@ namespace Byt3.ObjectPipeline.Tests
             Assert.Throws<PipelineNotValidException>(() => loadFilePipeline.AddSubStage(new ToLowerStage()));
 
             //Adding a valid State but with incompatible outtype to complete the pipeline
-            loadFilePipeline.AddSubStage(new BytesToTextStage()); //Works but the pipline is incomplete because pipline out != last item out
+            loadFilePipeline.AddSubStage(
+                new BytesToTextStage()); //Works but the pipline is incomplete because pipline out != last item out
 
             //Verification Fails
             Assert.False(loadFilePipeline.Verify());
@@ -91,7 +97,8 @@ namespace Byt3.ObjectPipeline.Tests
 
             //Delegate Pipeline requires no creation of classes.
             //This implements the same logic as the ToLowerStage class.
-            DelegatePipelineStage<string, string> processTextExample = new DelegatePipelineStage<string, string>((input) => input.ToLower());
+            DelegatePipelineStage<string, string> processTextExample =
+                new DelegatePipelineStage<string, string>((input) => input.ToLower());
 
             BytesToTextStage decodeTextExample = new BytesToTextStage();
 

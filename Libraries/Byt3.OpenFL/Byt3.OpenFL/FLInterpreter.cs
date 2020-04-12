@@ -18,7 +18,7 @@ namespace Byt3.OpenFL
     /// <summary>
     /// The FL Interpreter
     /// </summary>
-    public partial class FLInterpreter :ALoggable<DebugChannel>
+    public partial class FLInterpreter : ALoggable<DebugChannel>
     {
         #region Static Properties
 
@@ -204,7 +204,7 @@ namespace Byt3.OpenFL
                 int idx = data.Source.IndexOf(ENTRY_SIGNATURE + FUNCTION_NAME_POSTFIX);
                 if (idx == -1 || data.Source.Count - 1 == idx)
                 {
-                    throw new  FLInvalidEntryPointException("There needs to be a main function.");
+                    throw new FLInvalidEntryPointException("There needs to be a main function.");
                 }
 
                 return idx + 1;
@@ -347,7 +347,8 @@ namespace Byt3.OpenFL
                 {
                     if (memoryBuffer.Value.IsInternal)
                     {
-                        Logger.Log(DebugChannel.Log | DebugChannel.OpenFL,Verbosity.Level5,"Freeing Buffer: " + memoryBuffer.Value);
+                        Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+                            "Freeing Buffer: " + memoryBuffer.Value);
                         memoryBuffer.Value.Buffer.Dispose();
                     }
                 }
@@ -416,7 +417,7 @@ namespace Byt3.OpenFL
         /// <returns>The Sanizied line</returns>
         private static string SanitizeLine(string line)
         {
-            return line.Split(new []{ COMMENT_PREFIX }, StringSplitOptions.None)[0];
+            return line.Split(new[] {COMMENT_PREFIX}, StringSplitOptions.None)[0];
         }
 
         /// <summary>
@@ -426,7 +427,7 @@ namespace Byt3.OpenFL
         /// <returns></returns>
         private static string[] SplitLine(string line)
         {
-            return line.Split(new []{ WORD_SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
+            return line.Split(new[] {WORD_SEPARATOR}, StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>
@@ -562,7 +563,8 @@ namespace Byt3.OpenFL
                 {
                     FLInterpreterState lastState = jumpStack.Pop();
 
-                    Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8, "Returning to location: " + data.Source[lastState.Line]);
+                    Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8,
+                        "Returning to location: " + data.Source[lastState.Line]);
                     currentIndex = lastState.Line;
 
 
@@ -588,7 +590,8 @@ namespace Byt3.OpenFL
         /// <param name="leaveBuffer">a flag to optionally keep the current buffer</param>
         private void JumpTo(int index, bool leaveBuffer = false)
         {
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level6, "Jumping To Function: " + data.Source[index]);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level6,
+                "Jumping To Function: " + data.Source[index]);
             jumpStack.Push(new FLInterpreterState(currentIndex, currentBuffer, currentArgStack));
             stepResult.HasJumped = true;
 
@@ -640,7 +643,8 @@ namespace Byt3.OpenFL
             {
                 if (source[i].StartsWith(key))
                 {
-                    string[] kvp = source[i].Remove(0, key.Length).Split(new []{ FUNCTION_NAME_POSTFIX }, StringSplitOptions.None);
+                    string[] kvp = source[i].Remove(0, key.Length)
+                        .Split(new[] {FUNCTION_NAME_POSTFIX}, StringSplitOptions.None);
 
                     handler?.Invoke(instance, kvp, defines, width, height, depth, channelCount, kernelDb);
                     source.RemoveAt(i);
@@ -677,7 +681,7 @@ namespace Byt3.OpenFL
                 }
                 else
                 {
-                    lines[i] = line.Split(new []{ COMMENT_PREFIX }, StringSplitOptions.None)[0].Trim();
+                    lines[i] = line.Split(new[] {COMMENT_PREFIX}, StringSplitOptions.None)[0].Trim();
                 }
             }
 
@@ -689,32 +693,39 @@ namespace Byt3.OpenFL
             int channelCount,
             KernelDatabase db, Dictionary<string, FLInterpreterFunctionInfo> funcs)
         {
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level6, "Loading Script Data for File: " + file);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level6,
+                "Loading Script Data for File: " + file);
 
             FLScriptData ret = new FLScriptData(LoadSource(file, channelCount));
 
 
             ret.Defines.Add(INPUT_BUFFER_NAME, inBuffer);
 
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5, "Parsing Texture Defines for File: " + file);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+                "Parsing Texture Defines for File: " + file);
             ParseDefines(instance, DEFINE_KEY, DefineTexture, ret.Source, ret.Defines, width, height, depth,
                 channelCount, db);
 
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5, "Parsing Script Defines for File: " + file);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+                "Parsing Script Defines for File: " + file);
             ParseDefines(instance, SCRIPT_DEFINE_KEY, DefineScript, ret.Source, ret.Defines, width, height, depth,
                 channelCount,
                 db);
 
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5, "Parsing JumpLocations for File: " + file);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+                "Parsing JumpLocations for File: " + file);
             ret.JumpLocations = ParseJumpLocations(ret.Source);
 
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5, "Parsing Instruction Data for File: " + file);
+            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+                "Parsing Instruction Data for File: " + file);
             foreach (string line in ret.Source)
             {
-                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level3, "Parsing Instruction Data for Line: " + line);
+                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level3,
+                    "Parsing Instruction Data for Line: " + line);
                 FLInstructionData data = GetInstructionData(line, ret.Defines, ret.JumpLocations, funcs, db);
 
-                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level3, "Parsed Instruction Data: " + Enum.GetName(typeof(FLInstructionType), data.InstructionType));
+                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level3,
+                    "Parsed Instruction Data: " + Enum.GetName(typeof(FLInstructionType), data.InstructionType));
 
                 ret.ParsedSource.Add(data);
             }
@@ -724,7 +735,8 @@ namespace Byt3.OpenFL
         }
 
         private FLInstructionData GetInstructionData(string line, Dictionary<string, CLBufferInfo> defines,
-            Dictionary<string, int> jumpLocations, Dictionary<string, FLInterpreterFunctionInfo> funcs, KernelDatabase db)
+            Dictionary<string, int> jumpLocations, Dictionary<string, FLInterpreterFunctionInfo> funcs,
+            KernelDatabase db)
         {
             string[] code = SplitLine(SanitizeLine(line));
 

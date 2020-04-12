@@ -40,7 +40,8 @@ namespace Byt3.CommandRunner
         /// All Values/Arguments Ordered by First command key.
         /// Multiple Keys Possible.
         /// </summary>
-        private readonly List<KeyValuePair<string, List<string>>> values = new List<KeyValuePair<string, List<string>>>();
+        private readonly List<KeyValuePair<string, List<string>>> values =
+            new List<KeyValuePair<string, List<string>>>();
 
         /// <summary>
         /// Public constructors
@@ -101,7 +102,7 @@ namespace Byt3.CommandRunner
         /// <returns></returns>
         public List<string> GetValues(string flag, int id = 0)
         {
-           return  values.Where(x => x.Key == flag).ElementAt(id).Value;
+            return values.Where(x => x.Key == flag).ElementAt(id).Value;
         }
 
         /// <summary>

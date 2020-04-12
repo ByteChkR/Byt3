@@ -12,7 +12,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             CommandAction = SetBuildConfig;
         }
 
-        private  void SetBuildConfig(StartupArgumentInfo argumentInfo, string[] args)
+        private void SetBuildConfig(StartupArgumentInfo argumentInfo, string[] args)
         {
             if (!Program.HasTarget)
             {

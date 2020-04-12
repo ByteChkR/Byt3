@@ -14,12 +14,13 @@ namespace Byt3.ExtPP.Plugins
 {
     public class ConditionalPlugin : AbstractFullScriptPlugin
     {
-
         private static readonly StringBuilder Sb = new StringBuilder();
 
-        public override string[] Cleanup => new[] { DefineKeyword, UndefineKeyword };
-        public override string[] Prefix => new[] { "con", "Conditional" };
-        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.OnLoadStage : ProcessStage.OnMain;
+        public override string[] Cleanup => new[] {DefineKeyword, UndefineKeyword};
+        public override string[] Prefix => new[] {"con", "Conditional"};
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload"
+            ? ProcessStage.OnLoadStage
+            : ProcessStage.OnMain;
         public string StartCondition { get; set; } = "#if";
         public string ElseIfCondition { get; set; } = "#elseif";
         public string ElseCondition { get; set; } = "#else";
@@ -37,31 +38,43 @@ namespace Byt3.ExtPP.Plugins
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
-            new CommandInfo("set-define", "d", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
+            new CommandInfo("set-define", "d",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
                 "Sets the keyword that is used to define variables during the compilation."),
-            new CommandInfo("set-undefine", "u", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
+            new CommandInfo("set-undefine", "u",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
                 "Sets the keyword that is used to undefine previously defined variables during the compilation."),
-            new CommandInfo("set-if","if", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(StartCondition)),
+            new CommandInfo("set-if", "if",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(StartCondition)),
                 "Sets the keyword that is used to start a new condition block."),
-            new CommandInfo("set-elseif","elif", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition)),
+            new CommandInfo("set-elseif", "elif",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition)),
                 "Sets the keyword that is used to continue a previously started condition block with another condition block."),
-            new CommandInfo("set-else", "else", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(ElseCondition)),
-            "Sets the keyword that is used to start a new condition block that is taken when the previous blocks evaluated to false."),
-            new CommandInfo("set-endif", "eif", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EndCondition)),
+            new CommandInfo("set-else", "else",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(ElseCondition)),
+                "Sets the keyword that is used to start a new condition block that is taken when the previous blocks evaluated to false."),
+            new CommandInfo("set-endif", "eif",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EndCondition)),
                 "Sets the keyword that is used to end a previously started condition block."),
-            new CommandInfo("set-not","n", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(NotOperator)),
+            new CommandInfo("set-not", "n",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(NotOperator)),
                 "Sets the keyword that is used to negate an expression in if conditions."),
-            new CommandInfo("set-and","a", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(AndOperator)),
+            new CommandInfo("set-and", "a",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(AndOperator)),
                 "Sets the keyword for the logical AND operator"),
-            new CommandInfo("set-or","o", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
+            new CommandInfo("set-or", "o",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
                 "Sets the keyword for the logical OR operator"),
-            new CommandInfo("enable-define", "eD", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EnableDefine)),
+            new CommandInfo("enable-define", "eD",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EnableDefine)),
                 "Enables/Disables the detection of define statements(defines can still be set via the defines object/the command line)"),
-            new CommandInfo("enable-undefine","eU", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
+            new CommandInfo("enable-undefine", "eU",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
                 "Enables/Disables the detection of undefine statements"),
             new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
-            new CommandInfo("set-separator", "s", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(Separator)),
+            new CommandInfo("set-separator", "s",
+                PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(Separator)),
                 "Sets the separator that is used to separate different generic types"),
         };
 
@@ -75,7 +88,8 @@ namespace Byt3.ExtPP.Plugins
 
         public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
-            Logger.Log(PPLogType.Log, Verbosity.Level4, "Starting Condition Solver passes on file: {0}", Path.GetFileName(file.GetFileInterface().GetKey()));
+            Logger.Log(PPLogType.Log, Verbosity.Level4, "Starting Condition Solver passes on file: {0}",
+                Path.GetFileName(file.GetFileInterface().GetKey()));
             bool ret = true;
             int openIf = 0;
             bool foundConditions = false;
@@ -96,7 +110,8 @@ namespace Byt3.ExtPP.Plugins
                     string line = lastPass[i].TrimStart();
                     if (IsKeyWord(line, StartCondition))
                     {
-                        KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs, lastPass, i,
+                        KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs,
+                            lastPass, i,
                             solvedFile);
 
                         elseIsValid = prep.Key;
@@ -110,7 +125,8 @@ namespace Byt3.ExtPP.Plugins
                     {
                         if (!expectEndOrIf && openIf > 0)
                         {
-                            KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs, lastPass, i,
+                            KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs,
+                                lastPass, i,
                                 solvedFile);
 
                             elseIsValid = prep.Key;
@@ -119,13 +135,15 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else if (expectEndOrIf)
                         {
-                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} can not be followed by an {1}", ElseCondition, ElseIfCondition);
+                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} can not be followed by an {1}",
+                                ElseCondition, ElseIfCondition);
                             ret = false;
                             break;
                         }
                         else
                         {
-                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} should be preceeded by a {1}", ElseIfCondition, StartCondition);
+                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} should be preceeded by a {1}",
+                                ElseIfCondition, StartCondition);
                             ret = false;
                             break;
                         }
@@ -144,7 +162,8 @@ namespace Byt3.ExtPP.Plugins
                             }
                             else
                             {
-                                Logger.Log(PPLogType.Log, Verbosity.Level5, "Ignored since a previous condition was true");
+                                Logger.Log(PPLogType.Log, Verbosity.Level5,
+                                    "Ignored since a previous condition was true");
                             }
                             i += size;
                             foundConditions = true;
@@ -152,7 +171,8 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else
                         {
-                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} should be preceeded by a {1}", ElseCondition, StartCondition);
+                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} should be preceeded by a {1}",
+                                ElseCondition, StartCondition);
                             ret = false;
                             break;
                         }
@@ -168,7 +188,8 @@ namespace Byt3.ExtPP.Plugins
                         {
                             ret = false;
 
-                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} should be preceeded by a {1}", EndCondition, StartCondition);
+                            Logger.Log(PPLogType.Error, Verbosity.Level1, "A {0} should be preceeded by a {1}",
+                                EndCondition, StartCondition);
                             break;
                         }
                     }
@@ -204,7 +225,6 @@ namespace Byt3.ExtPP.Plugins
                 solvedFile = new List<string>();
 
 
-
             } while (foundConditions);
 
             file.SetSource(lastPass.ToArray());
@@ -216,7 +236,8 @@ namespace Byt3.ExtPP.Plugins
         }
 
 
-        private KeyValuePair<bool, int> PrepareForConditionalEvaluation(string keyword, string line, IDefinitions defs, IReadOnlyList<string> lastPass, int i, List<string> solvedFile)
+        private KeyValuePair<bool, int> PrepareForConditionalEvaluation(string keyword, string line, IDefinitions defs,
+            IReadOnlyList<string> lastPass, int i, List<string> solvedFile)
         {
             Logger.Log(PPLogType.Log, Verbosity.Level5, "Found a {0} Statement", keyword);
             bool r = EvaluateConditional(line, defs);
@@ -275,6 +296,7 @@ namespace Byt3.ExtPP.Plugins
             string[] cs = condition.Pack(Separator).ToArray();
             return EvaluateConditional(cs, defs);
         }
+
         private bool EvaluateConditional(string[] expression, IDefinitions defs)
         {
 
@@ -355,6 +377,7 @@ namespace Byt3.ExtPP.Plugins
 
             return val;
         }
+
         private string FixCondition(string line)
         {
 
@@ -411,13 +434,11 @@ namespace Byt3.ExtPP.Plugins
         }
 
 
-
         private static bool IsKeyWord(string line, string keyword)
         {
             string tmp = line.TrimStart();
 
             return tmp.StartsWith(keyword);
         }
-
     }
 }

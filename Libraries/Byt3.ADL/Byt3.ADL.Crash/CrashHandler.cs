@@ -9,7 +9,9 @@ namespace Byt3.ADL.Crash
     {
         private enum CrashLogType
         {
-            CrashShort, Error, Crash
+            CrashShort,
+            Error,
+            Crash
         }
 
         private static bool initialized = false;
@@ -22,14 +24,17 @@ namespace Byt3.ADL.Crash
         {
             ConfigManager.SaveToFile(configPath, Config);
         }
+
         public static void Initialize(string configPath = "adl_crash.xml")
         {
             Initialize(ConfigManager.ReadFromFile<CrashConfig>(configPath));
         }
+
         public static void Initialize(CrashConfig config)
         {
             Initialize(config.ShortenCrashInfo);
         }
+
         public static void Initialize(bool shortenCrashInfo)
         {
             Config.ShortenCrashInfo = shortenCrashInfo;
@@ -38,7 +43,12 @@ namespace Byt3.ADL.Crash
             initialized = true;
         }
 
-        public static void Log(Exception exception, bool includeInner = true)
+        public static void Log(Exception exception)
+        {
+            Log(exception, true);
+        }
+
+        public static void Log(Exception exception, bool includeInner)
         {
             if (!initialized)
             {
@@ -52,12 +62,11 @@ namespace Byt3.ADL.Crash
             }
             else
             {
-                CrashLogger.Log(CrashLogType.Crash, ExceptionToString(exception, includeInner) );
+                CrashLogger.Log(CrashLogType.Crash, ExceptionToString(exception, includeInner));
             }
 
             CrashLogType lt = Config.ShortenCrashInfo ? CrashLogType.CrashShort : CrashLogType.Crash;
 
-            
 
         }
 
@@ -117,7 +126,9 @@ namespace Byt3.ADL.Crash
                     sb.Append(dictionaryEntry.Key);
                     sb.Append(":");
                     if (!dictionaryEntry.Value.GetType().IsArray)
+                    {
                         sb.Append(dictionaryEntry.Value.ToString());
+                    }
                     else
                     {
                         sb.Append(UnpackToString(dictionaryEntry.Value));
@@ -141,7 +152,7 @@ namespace Byt3.ADL.Crash
             string ret = "";
             if (obj.GetType().IsArray)
             {
-                IEnumerable o = (IEnumerable)obj;
+                IEnumerable o = (IEnumerable) obj;
                 foreach (object entry in o)
                 {
                     ret += UnpackToString(entry, depth + 1) + "\n";
@@ -159,6 +170,5 @@ namespace Byt3.ADL.Crash
 
             return ret;
         }
-
     }
 }

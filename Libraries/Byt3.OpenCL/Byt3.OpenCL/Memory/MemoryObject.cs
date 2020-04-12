@@ -80,7 +80,6 @@ namespace Byt3.OpenCL.Memory
             : base(handle)
         {
         }
-        
 
         #endregion
 

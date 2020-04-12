@@ -12,12 +12,12 @@
         }
     }
 
-    internal class ThreadWorkerItem<TIn, TOut> 
+    internal class ThreadWorkerItem<TIn, TOut>
     {
         public TIn WorkItem;
         public OnThreadWorkerItemFinish<TOut> OnFinishEvent;
 
-        public ThreadWorkerItem(TIn workItem, OnThreadWorkerItemFinish<TOut> onFinishEvent = null) 
+        public ThreadWorkerItem(TIn workItem, OnThreadWorkerItemFinish<TOut> onFinishEvent = null)
         {
             WorkItem = workItem;
             OnFinishEvent = onFinishEvent;

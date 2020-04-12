@@ -6,7 +6,8 @@ namespace Byt3.ObjectPipeline.AssetLoaderFramework
 {
     public sealed class AssetLoader<TOut> : PipelineStage<string, TOut>
     {
-        private readonly Dictionary<string, AssetTypeLoader<TOut>> typeLoaders = new Dictionary<string, AssetTypeLoader<TOut>>();
+        private readonly Dictionary<string, AssetTypeLoader<TOut>> typeLoaders =
+            new Dictionary<string, AssetTypeLoader<TOut>>();
         private PipelineStage<string, Stream> fileLoader;
 
         public AssetLoader(PipelineStage<string, Stream> fileLoader = null, params AssetTypeLoader<TOut>[] typeLoaders)
@@ -33,7 +34,9 @@ namespace Byt3.ObjectPipeline.AssetLoaderFramework
         {
             string ext = Path.GetExtension(input);
             if (typeLoaders.ContainsKey(ext))
+            {
                 return typeLoaders[ext].Process(fileLoader.Process(input));
+            }
 
             throw new UnknownFileFormatException(input);
         }

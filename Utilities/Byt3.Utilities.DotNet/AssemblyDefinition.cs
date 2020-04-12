@@ -19,7 +19,8 @@ namespace Byt3.Utilities.DotNet
             IncludedModules = new List<ModuleDefinition>();
         }
 
-        public AssemblyDefinition( string assemblyName, string buildConfiguration = "Release", bool noTargetRuntime = false, string buildTargetRuntime = "win-x64") : this()
+        public AssemblyDefinition(string assemblyName, string buildConfiguration = "Release",
+            bool noTargetRuntime = false, string buildTargetRuntime = "win-x64") : this()
         {
             AssemblyName = assemblyName;
             BuildConfiguration = buildConfiguration;
@@ -31,7 +32,7 @@ namespace Byt3.Utilities.DotNet
         {
             XmlSerializer xs = new XmlSerializer(typeof(AssemblyDefinition));
             Stream s = File.OpenRead(path);
-            AssemblyDefinition ret = (AssemblyDefinition)xs.Deserialize(s);
+            AssemblyDefinition ret = (AssemblyDefinition) xs.Deserialize(s);
             s.Close();
             return ret;
         }

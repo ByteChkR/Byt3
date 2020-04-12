@@ -7,13 +7,13 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
 {
     public class DefaultCommand : AbstractCommand
     {
-        public DefaultCommand() : base( new[] { "--set-target", "-t" },
+        public DefaultCommand() : base(new[] {"--set-target", "-t"},
             "Sets the AssemblyModule Target for the current operation", true)
         {
             CommandAction = Default;
         }
 
-        private  void Default(StartupArgumentInfo argumentInfo, string[] args)
+        private void Default(StartupArgumentInfo argumentInfo, string[] args)
         {
             string target = "";
             if (args.Length > 0)
@@ -22,8 +22,9 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             }
             else
             {
-                target= Directory.GetFiles(Directory.GetCurrentDirectory(), "*.assemblyconfig", SearchOption.TopDirectoryOnly)
-                                             .FirstOrDefault();
+                target = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.assemblyconfig",
+                        SearchOption.TopDirectoryOnly)
+                    .FirstOrDefault();
                 if (target == null)
                 {
                     target = "";

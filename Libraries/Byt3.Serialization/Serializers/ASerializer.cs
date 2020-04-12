@@ -1,7 +1,5 @@
 ﻿namespace Byt3.Serialization.Serializers
 {
-
-
     /// <summary>
     /// Base Class for all Serializers
     /// </summary>

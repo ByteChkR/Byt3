@@ -18,7 +18,7 @@ namespace Byt3.ADL.Configs
 
         public static T GetDefault<T>() where T : AbstractADLConfig
         {
-            return (T)Activator.CreateInstance<T>().GetStandard();
+            return (T) Activator.CreateInstance<T>().GetStandard();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Byt3.ADL.Configs
             {
                 ret = GetDefault<T>();
                 Logger.Log(LogType.Warning,
-                   "Config Manager: Failed to deserialize XML file. Either XML file is corrupted or file access is denied.");
+                    "Config Manager: Failed to deserialize XML file. Either XML file is corrupted or file access is denied.");
             }
 
             return ret;
@@ -75,7 +75,7 @@ namespace Byt3.ADL.Configs
             catch (Exception)
             {
                 Logger.Log(LogType.Warning,
-                   "Config Manager: Failed to save xml file. Directory exists? Access to Write to directory?");
+                    "Config Manager: Failed to save xml file. Directory exists? Access to Write to directory?");
             }
         }
     }

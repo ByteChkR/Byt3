@@ -50,12 +50,14 @@ namespace Byt3.ExtPP.Base
         /// <param name="helpText">the help text of the command</param>
         /// <param name="defaultIfNotSpecified">the default value</param>
         /// <param name="global">a flag if this command can be invoked with a global prefix</param>
-        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText, object defaultIfNotSpecified, bool global)
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText,
+            object defaultIfNotSpecified, bool global)
         {
             Field = field;
             Meta = new CommandMetaData(command, shortcut, helpText, global);
             DefaultIfNotSpecified = defaultIfNotSpecified;
         }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -63,10 +65,12 @@ namespace Byt3.ExtPP.Base
         /// <param name="shortcut">shortcut command prefix</param>
         /// <param name="field">the property info of the corresponding field</param>
         /// <param name="helpText">the help text of the command</param>
-        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText) : this(command, shortcut, field, helpText, null, false)
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText) : this(command,
+            shortcut, field, helpText, null, false)
         {
 
         }
+
         /// <summary>
         /// Constructor
         /// </summary>

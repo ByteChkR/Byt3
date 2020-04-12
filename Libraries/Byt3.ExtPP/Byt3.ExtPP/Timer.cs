@@ -2,8 +2,6 @@
 
 namespace Byt3.ExtPP
 {
-
-
     /// <summary>
     /// A timer class used to measure time during compilation
     /// </summary>
@@ -18,7 +16,7 @@ namespace Byt3.ExtPP
         /// A static wrapper for the singleton(showing the total ellapsed milliseconds since assembly load.
         /// </summary>
         public static long MS => GlobalTimer.StopWatch.ElapsedMilliseconds;
-        
+
         /// <summary>
         /// The underlying stopwatch
         /// </summary>
@@ -32,7 +30,7 @@ namespace Byt3.ExtPP
         {
             StopWatch.Start();
         }
-        
+
         /// <summary>
         /// Resets and Starts the timer
         /// </summary>
@@ -44,6 +42,7 @@ namespace Byt3.ExtPP
             Start();
             return ret;
         }
+
         /// <summary>
         /// Resets the Timer.
         /// </summary>
@@ -54,6 +53,5 @@ namespace Byt3.ExtPP
             StopWatch.Reset();
             return ret;
         }
-
     }
 }

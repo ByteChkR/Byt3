@@ -10,13 +10,11 @@ using Utils = Byt3.ExtPP.Base.Utils;
 
 namespace Byt3.ExtPP
 {
-
     /// <summary>
     /// 
     /// </summary>
     public class PreProcessor : ALoggable<PPLogType>
     {
-
         /// <summary>
         /// List of loaded plugins
         /// </summary>
@@ -118,8 +116,6 @@ namespace Byt3.ExtPP
         }
 
 
-
-
         /// <summary>
         /// Initializing all Plugins with the settings, definitions and the source manager for this compilation
         /// </summary>
@@ -133,10 +129,10 @@ namespace Byt3.ExtPP
             {
                 Logger.Log(PPLogType.Log, Verbosity.Level2, "Initializing Plugin: {0}", plugin.GetType().Name);
 
-                plugin.Initialize(settings.GetSettingsWithPrefix(plugin.Prefix, plugin.IncludeGlobal), sourceManager, def);
+                plugin.Initialize(settings.GetSettingsWithPrefix(plugin.Prefix, plugin.IncludeGlobal), sourceManager,
+                    def);
             }
         }
-
 
 
         /// <summary>
@@ -158,7 +154,9 @@ namespace Byt3.ExtPP
             {
                 string[] sr = src[i].GetSource();
                 if (sr != null && sr.Length != 0)
+                {
                     ret.AddRange(sr);
+                }
             }
 
             Logger.Log(PPLogType.Log, Verbosity.Level2, "Finished Compilation...");
@@ -166,7 +164,8 @@ namespace Byt3.ExtPP
 
             string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray()).ToArray();
 
-            Logger.Log(PPLogType.Progress, Verbosity.Level1, "Finished Compiling {1} Files({0}ms)", Timer.MS - old, src.Length);
+            Logger.Log(PPLogType.Progress, Verbosity.Level1, "Finished Compiling {1} Files({0}ms)", Timer.MS - old,
+                src.Length);
             Logger.Log(PPLogType.Log, Verbosity.Level2, "Total Lines: {0}", rrr.Length);
             return rrr;
         }
@@ -188,7 +187,8 @@ namespace Byt3.ExtPP
 
             long old = Timer.MS;
             InitializePlugins(settings, definitions, sm);
-            Logger.Log(PPLogType.Progress, Verbosity.Level1, "Finished Initializing {1} Plugins({0}ms)", Timer.MS - old, plugins.Count);
+            Logger.Log(PPLogType.Progress, Verbosity.Level1, "Finished Initializing {1} Plugins({0}ms)", Timer.MS - old,
+                plugins.Count);
 
             old = Timer.MS;
             foreach (IFileContent file in files)
@@ -200,7 +200,8 @@ namespace Byt3.ExtPP
                 sm.AddToTodo(sss);
             }
 
-            Logger.Log(PPLogType.Progress, Verbosity.Level1, "Loaded {1} Files in {0}ms", Timer.MS - old, sm.GetTodoCount());
+            Logger.Log(PPLogType.Progress, Verbosity.Level1, "Loaded {1} Files in {0}ms", Timer.MS - old,
+                sm.GetTodoCount());
 
             Logger.Log(PPLogType.Log, Verbosity.Level1, "Starting Processing of Files: {0}", files.Unpack(", "));
 
@@ -216,7 +217,8 @@ namespace Byt3.ExtPP
                 }
 
                 Logger.Log(PPLogType.Progress, Verbosity.Level1, "Remaining Files: {0}", sm.GetTodoCount());
-                Logger.Log(PPLogType.Log, Verbosity.Level2, "Selecting File: {0}", Path.GetFileName(ss.GetFileInterface().GetKey()));
+                Logger.Log(PPLogType.Log, Verbosity.Level2, "Selecting File: {0}",
+                    Path.GetFileName(ss.GetFileInterface().GetKey()));
                 //RUN MAIN
                 sm.SetLock(false);
                 RunStages(this, ProcessStage.OnMain, ss, sm, definitions);
@@ -231,12 +233,14 @@ namespace Byt3.ExtPP
             Logger.Log(PPLogType.Log, Verbosity.Level1, "Finishing Up...");
             foreach (ISourceScript finishedScript in ret)
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level2, "Selecting File: {0}", Path.GetFileName(finishedScript.GetFileInterface().GetKey()));
+                Logger.Log(PPLogType.Log, Verbosity.Level2, "Selecting File: {0}",
+                    Path.GetFileName(finishedScript.GetFileInterface().GetKey()));
                 RunStages(this, ProcessStage.OnFinishUp, finishedScript, sm, definitions);
             }
             Logger.Log(PPLogType.Log, Verbosity.Level1, "Finished Processing Files.");
 
-            Logger.Log(PPLogType.Progress, Verbosity.Level1, "Processed {1} Files into {2} scripts in {0}ms", Timer.MS - old, sm.GetList().Count, ret.Length);
+            Logger.Log(PPLogType.Progress, Verbosity.Level1, "Processed {1} Files into {2} scripts in {0}ms",
+                Timer.MS - old, sm.GetList().Count, ret.Length);
 
             return ret;
 
@@ -251,14 +255,16 @@ namespace Byt3.ExtPP
         /// <param name="sourceManager"></param>
         /// <param name="defTable">the definitions that are used</param>
         /// <returns></returns>
-        private static bool RunStages(PreProcessor pp, ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
+        private static bool RunStages(PreProcessor pp, ProcessStage stage, ISourceScript script,
+            ISourceManager sourceManager,
             IDefinitions defTable)
         {
             if (!pp.RunPluginStage(PluginType.LinePluginBefore, stage, script, sourceManager, defTable))
             {
                 return false;
             }
-            if (stage != ProcessStage.OnFinishUp && !pp.RunPluginStage(PluginType.FullScriptPlugin, stage, script, sourceManager, defTable))
+            if (stage != ProcessStage.OnFinishUp &&
+                !pp.RunPluginStage(PluginType.FullScriptPlugin, stage, script, sourceManager, defTable))
             {
                 return false;
             }
@@ -279,7 +285,8 @@ namespace Byt3.ExtPP
         /// <param name="sourceManager"></param>
         /// <param name="defTable">the definitions that are used</param>
         /// <returns>True if the operation completed successfully</returns>
-        private bool RunPluginStage(PluginType type, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        private bool RunPluginStage(PluginType type, ProcessStage stage, ISourceScript script,
+            ISourceManager sourceManager, IDefinitions defTable)
         {
             List<AbstractPlugin> chain = AbstractPlugin.GetPluginsForStage(plugins, type, stage);
 
@@ -338,19 +345,20 @@ namespace Byt3.ExtPP
         /// <summary>
         /// 
         /// </summary>
-
         /// <param name="fullScriptStage">The chain for this stage</param>
         /// <param name="stage">The stage of the current processing</param>
         /// <param name="script">The script to operate on</param>
         /// <param name="sourceManager">The sourcemanager used.</param>
         /// <param name="defTable">The definitions used</param>
         /// <returns></returns>
-        private bool RunFullScriptStage(List<AbstractPlugin> fullScriptStage, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        private bool RunFullScriptStage(List<AbstractPlugin> fullScriptStage, ProcessStage stage, ISourceScript script,
+            ISourceManager sourceManager, IDefinitions defTable)
         {
             foreach (AbstractPlugin abstractPlugin in fullScriptStage)
             {
                 bool ret = true;
-                Logger.Log(PPLogType.Log, Verbosity.Level3, "Running Plugin: {0}: {1} on file {2}", abstractPlugin, stage, Path.GetFileName(script.GetFileInterface().GetKey()));
+                Logger.Log(PPLogType.Log, Verbosity.Level3, "Running Plugin: {0}: {1} on file {2}", abstractPlugin,
+                    stage, Path.GetFileName(script.GetFileInterface().GetKey()));
                 if (stage == ProcessStage.OnLoadStage)
                 {
                     ret = abstractPlugin.OnLoad_FullScriptStage(script, sourceManager, defTable);
@@ -362,7 +370,8 @@ namespace Byt3.ExtPP
 
                 if (!ret)
                 {
-                    Logger.Log(PPLogType.Error, Verbosity.Level1,"Processing was aborted by Plugin: {0}", abstractPlugin);
+                    Logger.Log(PPLogType.Error, Verbosity.Level1, "Processing was aborted by Plugin: {0}",
+                        abstractPlugin);
                     return false;
                 }
             }

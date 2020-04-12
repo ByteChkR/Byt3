@@ -15,6 +15,7 @@ namespace Byt3.ExtPP.Base.Interfaces
         /// A flag indicating the success state of the Import Operation
         /// </summary>
         private bool result;
+
         /// <summary>
         /// Sets a key value pair.
         /// </summary>
@@ -42,6 +43,7 @@ namespace Byt3.ExtPP.Base.Interfaces
         {
             return data[key];
         }
+
         /// <summary>
         /// Returns a value from the custom data
         /// </summary>
@@ -49,7 +51,7 @@ namespace Byt3.ExtPP.Base.Interfaces
         /// <returns>the object cast to string</returns>
         public string GetString(string key)
         {
-            return (string)data[key];
+            return (string) data[key];
         }
 
         /// <summary>

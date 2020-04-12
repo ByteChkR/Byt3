@@ -13,10 +13,6 @@ namespace Byt3.ADL.Streams
     /// </summary>
     public class LogStream : Stream
     {
-        
-
-
-
         /// <summary>
         ///     Base stream
         /// </summary>
@@ -30,9 +26,7 @@ namespace Byt3.ADL.Streams
         /// <summary>
         ///     Is the stream closed?
         /// </summary>
-        public bool IsClosed
-        { get; protected set; }
-        
+        public bool IsClosed { get; protected set; }
 
 
         /// <summary>
@@ -56,8 +50,14 @@ namespace Byt3.ADL.Streams
         /// <param name="log">the log to send</param>
         public virtual void Write(Log log)
         {
-            if (IsClosed) return;
-            if (AddTimeStamp) log.Message = Utils.TimeStamp + log.Message;
+            if (IsClosed)
+            {
+                return;
+            }
+            if (AddTimeStamp)
+            {
+                log.Message = Utils.TimeStamp + log.Message;
+            }
             byte[] buffer = log.Serialize();
             BaseStream.Write(buffer, 0, buffer.Length);
             Flush();

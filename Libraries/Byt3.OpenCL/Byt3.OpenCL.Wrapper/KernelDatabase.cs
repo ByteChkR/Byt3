@@ -85,7 +85,8 @@ namespace Byt3.OpenCL.Wrapper
                 }
                 else
                 {
-                    logger.Log(LogType.Log, "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...");
+                    logger.Log(LogType.Log,
+                        "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...");
                 }
             }
         }

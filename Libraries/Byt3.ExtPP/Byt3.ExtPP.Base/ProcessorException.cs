@@ -11,6 +11,8 @@ namespace Byt3.ExtPP.Base
         /// Constructor
         /// </summary>
         /// <param name="message">Message providing info about the crash</param>
-        public ProcessorException(string message) : base(message) { }
+        public ProcessorException(string message) : base(message)
+        {
+        }
     }
 }

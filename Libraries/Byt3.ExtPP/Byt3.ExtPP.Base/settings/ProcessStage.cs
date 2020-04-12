@@ -1,6 +1,5 @@
 ﻿namespace Byt3.ExtPP.Base.settings
 {
-
     /// <summary>
     /// An enum that contains all possible process stages.
     /// </summary>

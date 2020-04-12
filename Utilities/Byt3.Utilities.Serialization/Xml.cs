@@ -10,8 +10,10 @@ namespace Byt3.Utilities.Serialization
     {
         #region Fields
 
-        private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings { OmitXmlDeclaration = true, Indent = true };
-        private static readonly XmlSerializerNamespaces Namespaces = new XmlSerializerNamespaces(new[] { new XmlQualifiedName("", "") });
+        private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings
+            {OmitXmlDeclaration = true, Indent = true};
+        private static readonly XmlSerializerNamespaces Namespaces =
+            new XmlSerializerNamespaces(new[] {new XmlQualifiedName("", "")});
 
         #endregion
 
@@ -29,7 +31,10 @@ namespace Byt3.Utilities.Serialization
 
         private static string DoSerialize(object obj, Type[] extraTypes = null)
         {
-            if (extraTypes == null) extraTypes = new Type[0];
+            if (extraTypes == null)
+            {
+                extraTypes = new Type[0];
+            }
             using (MemoryStream ms = new MemoryStream())
             using (XmlWriter writer = XmlWriter.Create(ms, WriterSettings))
             {
@@ -55,7 +60,7 @@ namespace Byt3.Utilities.Serialization
             using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(data)))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
-                return (T)serializer.Deserialize(ms);
+                return (T) serializer.Deserialize(ms);
             }
         }
 

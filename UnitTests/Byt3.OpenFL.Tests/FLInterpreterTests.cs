@@ -9,11 +9,8 @@ using Xunit;
 
 namespace Byt3.OpenFL.Tests
 {
-    
     public class FLInterpreterTests
     {
-   
-
         [Fact]
         public void OpenFL_Comments_Test()
         {

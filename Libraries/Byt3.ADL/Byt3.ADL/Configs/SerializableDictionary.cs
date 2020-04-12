@@ -46,7 +46,10 @@ namespace Byt3.ADL.Configs
         {
             for (int i = 0; i < Values.Count; i++)
             {
-                if (Keys[i].Equals(key)) return Values[i];
+                if (Keys[i].Equals(key))
+                {
+                    return Values[i];
+                }
             }
             throw new Exception("Thats fucked up");
         }
@@ -58,7 +61,10 @@ namespace Byt3.ADL.Configs
         public Dictionary<T1, T2> ToDictionary()
         {
             Dictionary<T1, T2> ret = new Dictionary<T1, T2>();
-            for (int i = 0; i < Keys.Count; i++) ret.Add(Keys[i], Values[i]);
+            for (int i = 0; i < Keys.Count; i++)
+            {
+                ret.Add(Keys[i], Values[i]);
+            }
             return ret;
         }
     }

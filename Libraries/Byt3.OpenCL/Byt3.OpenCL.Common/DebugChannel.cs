@@ -28,6 +28,5 @@ namespace Byt3.OpenCL.Common
         OpenFL = 1 << 4,
         WFC = 1 << 5,
         OpenFL_WFC = OpenFL | WFC
-
     }
 }

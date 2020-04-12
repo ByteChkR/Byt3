@@ -6,7 +6,6 @@ namespace Byt3.ExtPP
 {
     internal class SourceScript : ALoggable<PPLogType>, ISourceScript
     {
-
         /// <summary>
         /// The full filepath of the script
         /// </summary>
@@ -89,7 +88,6 @@ namespace Byt3.ExtPP
         }
 
 
-
         /// <summary>
         /// Returns true if the plugin cache contains an item of type T with key
         /// </summary>
@@ -109,7 +107,7 @@ namespace Byt3.ExtPP
         /// <returns>the value casted to type t</returns>
         public T GetValueFromCache<T>(string key)
         {
-            return (T)importInfo.GetValue(key);
+            return (T) importInfo.GetValue(key);
         }
 
         /// <summary>
@@ -132,7 +130,7 @@ namespace Byt3.ExtPP
             bool ret = LoadSource();
             if (!ret)
             {
-                Logger.Log(PPLogType.Error,Verbosity.Level1, "Could not load file: {0}", filepath);
+                Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not load file: {0}", filepath);
 
             }
 
@@ -148,7 +146,5 @@ namespace Byt3.ExtPP
             bool ret = filepath.TryGetLines(out source);
             return ret;
         }
-
     }
 }
-

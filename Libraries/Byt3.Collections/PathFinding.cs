@@ -6,6 +6,7 @@ namespace Byt3.Collections
     public static class PathFinding
     {
         #region Pathfinding
+
         public static List<INode> FindPath(INode from, INode to)
         {
             INode current;
@@ -36,25 +37,34 @@ namespace Byt3.Collections
                     //Reset Node Graph
                     ResetNodes(doneNodes);
                     ResetNodes(connectedNodes.GetData());
-                    return ret;//Generated Path
+                    return ret; //Generated Path
                 }
                 else
                 {
                     for (int i = 0; i < current.ConnectedNodes.Length; i++)
                     {
                         INode connected = current.ConnectedNodes[i];
-                        if (!connected.NodeIsActive || connected.NodeState == Enums.NodeState.Closed) continue;
+                        if (!connected.NodeIsActive || connected.NodeState == Enums.NodeState.Closed)
+                        {
+                            continue;
+                        }
                         if (connected.NodeState == Enums.NodeState.Untested)
                         {
                             connected.NodeParentNode = current;
-                            connected.NodeCurrentCost = current.NodeCurrentCost + VectorMath.GetDistance(current.NodePosition, connected.NodePosition) * connected.NodeCost;
-                            connected.NodeEstimatedCost = connected.NodeCurrentCost + VectorMath.GetDistance(connected.NodePosition, to.NodePosition);
+                            connected.NodeCurrentCost =
+                                current.NodeCurrentCost +
+                                VectorMath.GetDistance(current.NodePosition, connected.NodePosition) *
+                                connected.NodeCost;
+                            connected.NodeEstimatedCost =
+                                connected.NodeCurrentCost +
+                                VectorMath.GetDistance(connected.NodePosition, to.NodePosition);
                             connected.NodeState = Enums.NodeState.Open;
                             connectedNodes.Enqueue(connected);
                         }
                         if (current != connected)
                         {
-                            float newCostCurrent = current.NodeCurrentCost + VectorMath.GetDistance(current.NodePosition, connected.NodePosition);
+                            float newCostCurrent = current.NodeCurrentCost +
+                                                   VectorMath.GetDistance(current.NodePosition, connected.NodePosition);
                             if (newCostCurrent < connected.NodeCurrentCost)
                             {
                                 connected.NodeParentNode = current;
@@ -91,7 +101,5 @@ namespace Byt3.Collections
             ret.Reverse();
             return ret;
         }
-
-        
     }
 }

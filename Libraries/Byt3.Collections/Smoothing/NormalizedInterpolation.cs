@@ -4,14 +4,17 @@ using System.Linq;
 namespace Byt3.Collections.Smoothing
 {
     public static class NormalizedInterpolation
-    { 
+    {
         public static void ExampleInterpolatorUse()
         {
 
-            Interpolator interpolator = Interpolator.CreateInterpolator(Slerp, Arch2); //Creates interpolation (first Slerp T then use it to create arch2)
-            interpolator = 
+            Interpolator
+                interpolator =
+                    Interpolator.CreateInterpolator(Slerp,
+                        Arch2); //Creates interpolation (first Slerp T then use it to create arch2)
+            interpolator =
                 Interpolator.CreateInterpolator(Flip, Slerp //Normal Interpolation Delegate
-                , (float time) => SmoothStart(time, 1) //Sometimes you need to use anonymous functions.(GOD BLESS C#)
+                    , (float time) => SmoothStart(time, 1) //Sometimes you need to use anonymous functions.(GOD BLESS C#)
                 ); //Creates interpolation (first Slerp T then use it to plug a SmoothStartCurve)
 
             Interpolator test = Interpolator.CreateInterpolator(Flip, Flip);
@@ -20,7 +23,7 @@ namespace Byt3.Collections.Smoothing
             for (int i = 0; i < 10000; i++)
             {
                 float t = i / 10000f;
-               float ff = test.Interpolate(t);
+                float ff = test.Interpolate(t);
             }
 
             test = Interpolator.CreateInterpolator(Flip);
@@ -29,12 +32,13 @@ namespace Byt3.Collections.Smoothing
                 float t = i / 10000f;
                 float hh = interpolator.Interpolate(t);
             }
-            
+
         }
 
         public class Interpolator
         {
             public delegate float InterpolatingDelegate(float time);
+
             private List<InterpolatingDelegate> interpolations;
 
 
@@ -58,7 +62,6 @@ namespace Byt3.Collections.Smoothing
                 Interpolator ret = new Interpolator {interpolations = interpolations.ToList()};
                 return ret;
             }
-
         }
 
         public static float Slerp(float t)
@@ -68,13 +71,13 @@ namespace Byt3.Collections.Smoothing
 
         public static float SmoothStart(float t, float smoothness = 1)
         {
-            int pow = (int)smoothness;
+            int pow = (int) smoothness;
             return Mix(SmoothStart(t, pow), SmoothStart(t, pow + 1), smoothness - pow);
         }
 
         public static float SmoothStop(float t, float smoothness = 1)
         {
-            int pow = (int)smoothness;
+            int pow = (int) smoothness;
             return Mix(SmoothStop(t, pow), SmoothStop(t, pow + 1), smoothness - pow);
         }
 
@@ -124,7 +127,7 @@ namespace Byt3.Collections.Smoothing
             float t2 = t * t;
             float s2 = s * s;
             float t3 = t2 * t;
-            return (3f * b * s2 * t) + (3f * c * s * t2) + t3;
+            return 3f * b * s2 * t + 3f * c * s * t2 + t3;
         }
 
         public static float SmoothStepArch4(float t)
@@ -151,6 +154,5 @@ namespace Byt3.Collections.Smoothing
         {
             return t * scale;
         }
-
     }
 }

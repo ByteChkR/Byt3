@@ -6,7 +6,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
 {
     public class SetTargetRuntimeCommand : AbstractCommand
     {
-        public SetTargetRuntimeCommand() : base( new[] {"--set-target-runtime", "-sruntime"},
+        public SetTargetRuntimeCommand() : base(new[] {"--set-target-runtime", "-sruntime"},
             "Sets the Assembly name. Default: TestAssembly")
         {
             CommandAction = SetTargetRuntime;

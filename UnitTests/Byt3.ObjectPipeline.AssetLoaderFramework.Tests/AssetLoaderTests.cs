@@ -3,7 +3,6 @@ using Xunit;
 
 namespace Byt3.ObjectPipeline.AssetLoaderFramework.Tests
 {
-    
     public class AssetLoaderTests
     {
         [Fact]

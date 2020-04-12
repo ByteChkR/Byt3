@@ -62,7 +62,8 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         /// <returns>the description of the Plugin</returns>
         public string GetDescription(bool shortDesc)
         {
-            return Name + ": \n" + Path + "\nPrefixes:\n\t" + Prefixes.Unpack("\n\t") + (shortDesc ? "" : "\nCommand Info: \n\t" + Data.Select(x => x.ToString()).Unpack("\n\t"));
+            return Name + ": \n" + Path + "\nPrefixes:\n\t" + Prefixes.Unpack("\n\t") +
+                   (shortDesc ? "" : "\nCommand Info: \n\t" + Data.Select(x => x.ToString()).Unpack("\n\t"));
         }
 
         /// <summary>

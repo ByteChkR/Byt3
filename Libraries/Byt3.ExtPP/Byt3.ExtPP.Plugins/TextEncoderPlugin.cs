@@ -16,10 +16,8 @@ namespace Byt3.ExtPP.Plugins
     {
         public class TextEncoding
         {
-
-
-
             public delegate string EncodeDel(string text, string[] parameter);
+
             public delegate string DecodeDel(string text, string[] parameter);
 
             public string Key { get; private set; }
@@ -70,6 +68,7 @@ namespace Byt3.ExtPP.Plugins
             private const char SPACE = ' ';
             private const char LOWER_A = 'a';
             private const char UPPER_A = 'A';
+
             public static string DeEncode_ROT(string text, string[] parameter, bool encode)
             {
                 int amount = Math.Abs(int.Parse(parameter[0]) % 13);
@@ -108,20 +107,15 @@ namespace Byt3.ExtPP.Plugins
                             offset = 26 + offset;
                         }
                     }
-                    ret.Append((char)(begin + offset));
+                    ret.Append((char) (begin + offset));
                 }
 
                 return ret.ToString();
             }
 
-
-
             #endregion
 
             #endregion
-
-
-
         }
 
         private static readonly List<TextEncoding> Encoders = new List<TextEncoding>
@@ -129,7 +123,9 @@ namespace Byt3.ExtPP.Plugins
             TextEncoding.Base64, TextEncoding.Rot
         };
 
-        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.OnLoadStage : ProcessStage.OnMain;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload"
+            ? ProcessStage.OnLoadStage
+            : ProcessStage.OnMain;
 
         public override string[] Cleanup => new[]
         {
@@ -147,23 +143,26 @@ namespace Byt3.ExtPP.Plugins
 
         public string BlockDecodeEndKeyword { get; set; } = "#endblock decode";
 
-        public override string[] Prefix => new[] { "tenc", "TextEncoderPlugin" };
+        public override string[] Prefix => new[] {"tenc", "TextEncoderPlugin"};
 
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
-            new CommandInfo("set-stage","ss", PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(Stage)),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnMain"),
-            new CommandInfo("set-start-encode-keyword","ssek", PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(BlockEncodeStartKeyword)),
+            new CommandInfo("set-start-encode-keyword", "ssek",
+                PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(BlockEncodeStartKeyword)),
                 "Sets the keyword that is used to open a Encode block"),
-            new CommandInfo("set-end-encode-keyword","seek", PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(BlockEncodeEndKeyword)),
+            new CommandInfo("set-end-encode-keyword", "seek",
+                PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(BlockEncodeEndKeyword)),
                 "Sets the keyword that is used to end a Encode block"),
-            new CommandInfo("set-start-decode-keyword","ssdk", PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(BlockDecodeStartKeyword)),
+            new CommandInfo("set-start-decode-keyword", "ssdk",
+                PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(BlockDecodeStartKeyword)),
                 "Sets the keyword that is used to open a Decode block"),
-            new CommandInfo("set-end-decode-keyword","sedk", PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(BlockDecodeEndKeyword)),
+            new CommandInfo("set-end-decode-keyword", "sedk",
+                PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(BlockDecodeEndKeyword)),
                 "Sets the keyword that is used to end a Decode block"),
         };
-
 
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
@@ -177,8 +176,9 @@ namespace Byt3.ExtPP.Plugins
         {
 
 
-            string[] data = line.Replace(BlockDecodeStartKeyword,"").Replace(BlockEncodeStartKeyword,"").Trim().Split(' ');
-            
+            string[] data = line.Replace(BlockDecodeStartKeyword, "").Replace(BlockEncodeStartKeyword, "").Trim()
+                .Split(' ');
+
             parameter = new string[0];
             if (data.Length == 0 || !Encoders.TryFindByKey(data[0], out encoding))
             {
@@ -194,7 +194,6 @@ namespace Byt3.ExtPP.Plugins
                 parameter = Utils.SplitAndRemoveFirst(data.Unpack(" "), " ");
             }
 
-            
 
             return true;
 
@@ -216,7 +215,7 @@ namespace Byt3.ExtPP.Plugins
                     bool encodingOk = TryParseDecodeStatement(lines[i].TrimStart(), out TextEncoding enc,
                         out string[] encParameter);
 
-                    i++;//Move forward.
+                    i++; //Move forward.
                     if (!encodingOk)
                     {
                         Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not load encoder: {0}", lines[i]);
@@ -229,7 +228,7 @@ namespace Byt3.ExtPP.Plugins
                         if (lines[i].TrimStart().StartsWith(BlockEncodeEndKeyword))
                         {
                             removeIndices.Add(i);
-                            i++;//Move Forward
+                            i++; //Move Forward
                             break;
                         }
 
@@ -244,7 +243,7 @@ namespace Byt3.ExtPP.Plugins
 
                     bool decodingOk = TryParseDecodeStatement(lines[i].TrimStart(), out TextEncoding enc,
                         out string[] encParameter);
-                    i++;//Move forward.
+                    i++; //Move forward.
 
                     if (!decodingOk)
                     {
@@ -257,7 +256,7 @@ namespace Byt3.ExtPP.Plugins
                         if (lines[i].TrimStart().StartsWith(BlockDecodeEndKeyword))
                         {
                             removeIndices.Add(i);
-                            i++;//Move Forward
+                            i++; //Move Forward
                             break;
                         }
 

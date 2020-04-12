@@ -8,7 +8,7 @@ namespace Byt3.PackageHandling
 
         protected AHandler()
         {
-            Logger= new ADLLogger<LogType>("Handler: "+ GetType().Name);
+            Logger = new ADLLogger<LogType>("Handler: " + GetType().Name);
         }
 
         internal abstract void Handle(object objectToHandle, object context);
@@ -18,7 +18,7 @@ namespace Byt3.PackageHandling
     {
         internal override void Handle(object objectToHandle, object context)
         {
-            Handle((T)objectToHandle, context);
+            Handle((T) objectToHandle, context);
         }
 
         public abstract void Handle(T objectToHandle, object context);

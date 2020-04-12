@@ -32,9 +32,7 @@ namespace Byt3.ADL.Configs
         //public bool CheckForUpdates;
 
 
-
-        [XmlIgnore]
-        public Encoding TextEncoding;
+        [XmlIgnore] public Encoding TextEncoding;
 
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace Byt3.ADL.Configs
                                    PrefixLookupSettings.Deconstructmasktofind,
                 TextEncoding = Encoding.ASCII,
                 TimeFormatString = "MM-dd-yyyy-H-mm-ss"
-            }; 
+            };
         }
 
         #region Lookup Presets

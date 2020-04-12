@@ -2,7 +2,6 @@
 {
     public static class Analysis
     {
-
         /// <summary>
         /// Finds the largest sub array in the give array
         /// </summary>
@@ -65,6 +64,5 @@
                 }
             }
         }
-
     }
 }
