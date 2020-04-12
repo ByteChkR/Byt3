@@ -28,6 +28,7 @@ install:
 #Also the build order matters since the MinorEngine solution needs references from the other submodules
 script:
   - dotnet build $SOLUTION -c $BUILDCONFIG
+  - dotnet publish $SOLUTION -c $BUILDCONFIG
 
 #Testing all included projects.
 after_script:
