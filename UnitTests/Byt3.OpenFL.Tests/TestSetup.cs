@@ -14,7 +14,7 @@ namespace Byt3.OpenFL.Tests
                 if (kernelDb == null)
                 {
                     kernelDb = new KernelDatabase(CLAPI.MainThread, "resources/kernel",
-                        DataTypes.Uchar1);
+                        DataVectorTypes.Uchar1);
                 }
 
                 return kernelDb;

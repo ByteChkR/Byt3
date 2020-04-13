@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Byt3.OpenCLNetStandard.DataTypes;
+using Byt3.OpenCL.DataTypes;
 
 namespace Byt3.OpenCL.Wrapper
 {
@@ -15,173 +15,173 @@ namespace Byt3.OpenCL.Wrapper
         /// Dictionary containing the ToConverter
         /// From Array of objects(need to be implicitly converted into to the specifed base type)
         /// </summary>
-        private static readonly Dictionary<TypeEnums.DataTypes, ConvertToN> ToConverter =
-            new Dictionary<TypeEnums.DataTypes, ConvertToN>
+        private static readonly Dictionary<TypeEnums.DataVectorTypes, ConvertToN> ToConverter =
+            new Dictionary<TypeEnums.DataVectorTypes, ConvertToN>
             {
-                {TypeEnums.DataTypes.Uchar2, CreateByte2},
-                {TypeEnums.DataTypes.Uchar3, CreateByte3},
-                {TypeEnums.DataTypes.Uchar4, CreateByte4},
-                {TypeEnums.DataTypes.Uchar8, CreateByte8},
-                {TypeEnums.DataTypes.Uchar16, CreateByte16},
-                {TypeEnums.DataTypes.Char2, CreateSByte2},
-                {TypeEnums.DataTypes.Char3, CreateSByte3},
-                {TypeEnums.DataTypes.Char4, CreateSByte4},
-                {TypeEnums.DataTypes.Char8, CreateSByte8},
-                {TypeEnums.DataTypes.Char16, CreateSByte16},
+                {TypeEnums.DataVectorTypes.Uchar2, CreateByte2},
+                {TypeEnums.DataVectorTypes.Uchar3, CreateByte3},
+                {TypeEnums.DataVectorTypes.Uchar4, CreateByte4},
+                {TypeEnums.DataVectorTypes.Uchar8, CreateByte8},
+                {TypeEnums.DataVectorTypes.Uchar16, CreateByte16},
+                {TypeEnums.DataVectorTypes.Char2, CreateSByte2},
+                {TypeEnums.DataVectorTypes.Char3, CreateSByte3},
+                {TypeEnums.DataVectorTypes.Char4, CreateSByte4},
+                {TypeEnums.DataVectorTypes.Char8, CreateSByte8},
+                {TypeEnums.DataVectorTypes.Char16, CreateSByte16},
 
-                {TypeEnums.DataTypes.Ulong2, CreateULong2},
-                {TypeEnums.DataTypes.Ulong3, CreateULong3},
-                {TypeEnums.DataTypes.Ulong4, CreateULong4},
-                {TypeEnums.DataTypes.Ulong8, CreateULong8},
-                {TypeEnums.DataTypes.Ulong16, CreateULong16},
-                {TypeEnums.DataTypes.Long2, CreateLong2},
-                {TypeEnums.DataTypes.Long3, CreateLong3},
-                {TypeEnums.DataTypes.Long4, CreateLong4},
-                {TypeEnums.DataTypes.Long8, CreateLong8},
-                {TypeEnums.DataTypes.Long16, CreateLong16},
+                {TypeEnums.DataVectorTypes.Ulong2, CreateULong2},
+                {TypeEnums.DataVectorTypes.Ulong3, CreateULong3},
+                {TypeEnums.DataVectorTypes.Ulong4, CreateULong4},
+                {TypeEnums.DataVectorTypes.Ulong8, CreateULong8},
+                {TypeEnums.DataVectorTypes.Ulong16, CreateULong16},
+                {TypeEnums.DataVectorTypes.Long2, CreateLong2},
+                {TypeEnums.DataVectorTypes.Long3, CreateLong3},
+                {TypeEnums.DataVectorTypes.Long4, CreateLong4},
+                {TypeEnums.DataVectorTypes.Long8, CreateLong8},
+                {TypeEnums.DataVectorTypes.Long16, CreateLong16},
 
-                {TypeEnums.DataTypes.Uint2, CreateUInt2},
-                {TypeEnums.DataTypes.Uint3, CreateUInt3},
-                {TypeEnums.DataTypes.Uint4, CreateUInt4},
-                {TypeEnums.DataTypes.Uint8, CreateUInt8},
-                {TypeEnums.DataTypes.Uint16, CreateUInt16},
-                {TypeEnums.DataTypes.Int2, CreateInt2},
-                {TypeEnums.DataTypes.Int3, CreateInt3},
-                {TypeEnums.DataTypes.Int4, CreateInt4},
-                {TypeEnums.DataTypes.Int8, CreateInt8},
-                {TypeEnums.DataTypes.Int16, CreateInt16},
+                {TypeEnums.DataVectorTypes.Uint2, CreateUInt2},
+                {TypeEnums.DataVectorTypes.Uint3, CreateUInt3},
+                {TypeEnums.DataVectorTypes.Uint4, CreateUInt4},
+                {TypeEnums.DataVectorTypes.Uint8, CreateUInt8},
+                {TypeEnums.DataVectorTypes.Uint16, CreateUInt16},
+                {TypeEnums.DataVectorTypes.Int2, CreateInt2},
+                {TypeEnums.DataVectorTypes.Int3, CreateInt3},
+                {TypeEnums.DataVectorTypes.Int4, CreateInt4},
+                {TypeEnums.DataVectorTypes.Int8, CreateInt8},
+                {TypeEnums.DataVectorTypes.Int16, CreateInt16},
 
-                {TypeEnums.DataTypes.Ushort2, CreateUShort2},
-                {TypeEnums.DataTypes.Ushort3, CreateUShort3},
-                {TypeEnums.DataTypes.Ushort4, CreateShort4},
-                {TypeEnums.DataTypes.Ushort8, CreateUShort8},
-                {TypeEnums.DataTypes.Ushort16, CreateUShort16},
-                {TypeEnums.DataTypes.Short2, CreateShort2},
-                {TypeEnums.DataTypes.Short3, CreateShort3},
-                {TypeEnums.DataTypes.Short4, CreateShort4},
-                {TypeEnums.DataTypes.Short8, CreateShort8},
-                {TypeEnums.DataTypes.Short16, CreateShort16},
+                {TypeEnums.DataVectorTypes.Ushort2, CreateUShort2},
+                {TypeEnums.DataVectorTypes.Ushort3, CreateUShort3},
+                {TypeEnums.DataVectorTypes.Ushort4, CreateShort4},
+                {TypeEnums.DataVectorTypes.Ushort8, CreateUShort8},
+                {TypeEnums.DataVectorTypes.Ushort16, CreateUShort16},
+                {TypeEnums.DataVectorTypes.Short2, CreateShort2},
+                {TypeEnums.DataVectorTypes.Short3, CreateShort3},
+                {TypeEnums.DataVectorTypes.Short4, CreateShort4},
+                {TypeEnums.DataVectorTypes.Short8, CreateShort8},
+                {TypeEnums.DataVectorTypes.Short16, CreateShort16},
 
-                {TypeEnums.DataTypes.Float2, CreateFloat2},
-                {TypeEnums.DataTypes.Float3, CreateFloat3},
-                {TypeEnums.DataTypes.Float4, CreateFloat4},
-                {TypeEnums.DataTypes.Float8, CreateFloat8},
-                {TypeEnums.DataTypes.Float16, CreateFloat16}
+                {TypeEnums.DataVectorTypes.Float2, CreateFloat2},
+                {TypeEnums.DataVectorTypes.Float3, CreateFloat3},
+                {TypeEnums.DataVectorTypes.Float4, CreateFloat4},
+                {TypeEnums.DataVectorTypes.Float8, CreateFloat8},
+                {TypeEnums.DataVectorTypes.Float16, CreateFloat16}
             };
 
         /// <summary>
         /// A dictionary containing the Base types for the different CL typee
         /// </summary>
-        private static readonly Dictionary<TypeEnums.DataTypes, Type> BaseTypes =
-            new Dictionary<TypeEnums.DataTypes, Type>
+        private static readonly Dictionary<TypeEnums.DataVectorTypes, Type> BaseTypes =
+            new Dictionary<TypeEnums.DataVectorTypes, Type>
             {
-                {TypeEnums.DataTypes.Uchar2, typeof(byte)},
-                {TypeEnums.DataTypes.Uchar3, typeof(byte)},
-                {TypeEnums.DataTypes.Uchar4, typeof(byte)},
-                {TypeEnums.DataTypes.Uchar8, typeof(byte)},
-                {TypeEnums.DataTypes.Uchar16, typeof(byte)},
-                {TypeEnums.DataTypes.Char2, typeof(sbyte)},
-                {TypeEnums.DataTypes.Char3, typeof(sbyte)},
-                {TypeEnums.DataTypes.Char4, typeof(sbyte)},
-                {TypeEnums.DataTypes.Char8, typeof(sbyte)},
-                {TypeEnums.DataTypes.Char16, typeof(sbyte)},
+                {TypeEnums.DataVectorTypes.Uchar2, typeof(byte)},
+                {TypeEnums.DataVectorTypes.Uchar3, typeof(byte)},
+                {TypeEnums.DataVectorTypes.Uchar4, typeof(byte)},
+                {TypeEnums.DataVectorTypes.Uchar8, typeof(byte)},
+                {TypeEnums.DataVectorTypes.Uchar16, typeof(byte)},
+                {TypeEnums.DataVectorTypes.Char2, typeof(sbyte)},
+                {TypeEnums.DataVectorTypes.Char3, typeof(sbyte)},
+                {TypeEnums.DataVectorTypes.Char4, typeof(sbyte)},
+                {TypeEnums.DataVectorTypes.Char8, typeof(sbyte)},
+                {TypeEnums.DataVectorTypes.Char16, typeof(sbyte)},
 
-                {TypeEnums.DataTypes.Ulong2, typeof(ulong)},
-                {TypeEnums.DataTypes.Ulong3, typeof(ulong)},
-                {TypeEnums.DataTypes.Ulong4, typeof(ulong)},
-                {TypeEnums.DataTypes.Ulong8, typeof(ulong)},
-                {TypeEnums.DataTypes.Ulong16, typeof(ulong)},
-                {TypeEnums.DataTypes.Long2, typeof(long)},
-                {TypeEnums.DataTypes.Long3, typeof(long)},
-                {TypeEnums.DataTypes.Long4, typeof(long)},
-                {TypeEnums.DataTypes.Long8, typeof(long)},
-                {TypeEnums.DataTypes.Long16, typeof(long)},
+                {TypeEnums.DataVectorTypes.Ulong2, typeof(ulong)},
+                {TypeEnums.DataVectorTypes.Ulong3, typeof(ulong)},
+                {TypeEnums.DataVectorTypes.Ulong4, typeof(ulong)},
+                {TypeEnums.DataVectorTypes.Ulong8, typeof(ulong)},
+                {TypeEnums.DataVectorTypes.Ulong16, typeof(ulong)},
+                {TypeEnums.DataVectorTypes.Long2, typeof(long)},
+                {TypeEnums.DataVectorTypes.Long3, typeof(long)},
+                {TypeEnums.DataVectorTypes.Long4, typeof(long)},
+                {TypeEnums.DataVectorTypes.Long8, typeof(long)},
+                {TypeEnums.DataVectorTypes.Long16, typeof(long)},
 
-                {TypeEnums.DataTypes.Uint2, typeof(uint)},
-                {TypeEnums.DataTypes.Uint3, typeof(uint)},
-                {TypeEnums.DataTypes.Uint4, typeof(uint)},
-                {TypeEnums.DataTypes.Uint8, typeof(uint)},
-                {TypeEnums.DataTypes.Uint16, typeof(uint)},
-                {TypeEnums.DataTypes.Int2, typeof(int)},
-                {TypeEnums.DataTypes.Int3, typeof(int)},
-                {TypeEnums.DataTypes.Int4, typeof(int)},
-                {TypeEnums.DataTypes.Int8, typeof(int)},
-                {TypeEnums.DataTypes.Int16, typeof(int)},
+                {TypeEnums.DataVectorTypes.Uint2, typeof(uint)},
+                {TypeEnums.DataVectorTypes.Uint3, typeof(uint)},
+                {TypeEnums.DataVectorTypes.Uint4, typeof(uint)},
+                {TypeEnums.DataVectorTypes.Uint8, typeof(uint)},
+                {TypeEnums.DataVectorTypes.Uint16, typeof(uint)},
+                {TypeEnums.DataVectorTypes.Int2, typeof(int)},
+                {TypeEnums.DataVectorTypes.Int3, typeof(int)},
+                {TypeEnums.DataVectorTypes.Int4, typeof(int)},
+                {TypeEnums.DataVectorTypes.Int8, typeof(int)},
+                {TypeEnums.DataVectorTypes.Int16, typeof(int)},
 
-                {TypeEnums.DataTypes.Ushort2, typeof(ushort)},
-                {TypeEnums.DataTypes.Ushort3, typeof(ushort)},
-                {TypeEnums.DataTypes.Ushort4, typeof(short)},
-                {TypeEnums.DataTypes.Ushort8, typeof(ushort)},
-                {TypeEnums.DataTypes.Ushort16, typeof(ushort)},
-                {TypeEnums.DataTypes.Short2, typeof(short)},
-                {TypeEnums.DataTypes.Short3, typeof(short)},
-                {TypeEnums.DataTypes.Short4, typeof(short)},
-                {TypeEnums.DataTypes.Short8, typeof(short)},
-                {TypeEnums.DataTypes.Short16, typeof(short)},
+                {TypeEnums.DataVectorTypes.Ushort2, typeof(ushort)},
+                {TypeEnums.DataVectorTypes.Ushort3, typeof(ushort)},
+                {TypeEnums.DataVectorTypes.Ushort4, typeof(short)},
+                {TypeEnums.DataVectorTypes.Ushort8, typeof(ushort)},
+                {TypeEnums.DataVectorTypes.Ushort16, typeof(ushort)},
+                {TypeEnums.DataVectorTypes.Short2, typeof(short)},
+                {TypeEnums.DataVectorTypes.Short3, typeof(short)},
+                {TypeEnums.DataVectorTypes.Short4, typeof(short)},
+                {TypeEnums.DataVectorTypes.Short8, typeof(short)},
+                {TypeEnums.DataVectorTypes.Short16, typeof(short)},
 
-                {TypeEnums.DataTypes.Float2, typeof(float)},
-                {TypeEnums.DataTypes.Float3, typeof(float)},
-                {TypeEnums.DataTypes.Float4, typeof(float)},
-                {TypeEnums.DataTypes.Float8, typeof(float)},
-                {TypeEnums.DataTypes.Float16, typeof(float)}
+                {TypeEnums.DataVectorTypes.Float2, typeof(float)},
+                {TypeEnums.DataVectorTypes.Float3, typeof(float)},
+                {TypeEnums.DataVectorTypes.Float4, typeof(float)},
+                {TypeEnums.DataVectorTypes.Float8, typeof(float)},
+                {TypeEnums.DataVectorTypes.Float16, typeof(float)}
             };
 
         /// <summary>
         /// Dictionary containing the FromConverter
         /// From the CL Type to an Array of objects
         /// </summary>
-        private static readonly Dictionary<TypeEnums.DataTypes, ConvertFromN> FromConverter =
-            new Dictionary<TypeEnums.DataTypes, ConvertFromN>
+        private static readonly Dictionary<TypeEnums.DataVectorTypes, ConvertFromN> FromConverter =
+            new Dictionary<TypeEnums.DataVectorTypes, ConvertFromN>
             {
-                {TypeEnums.DataTypes.Uchar2, FromByte2},
-                {TypeEnums.DataTypes.Uchar3, FromByte3},
-                {TypeEnums.DataTypes.Uchar4, FromByte4},
-                {TypeEnums.DataTypes.Uchar8, FromByte8},
-                {TypeEnums.DataTypes.Uchar16, FromByte16},
-                {TypeEnums.DataTypes.Char2, FromSByte2},
-                {TypeEnums.DataTypes.Char3, FromSByte3},
-                {TypeEnums.DataTypes.Char4, FromSByte4},
-                {TypeEnums.DataTypes.Char8, FromSByte8},
-                {TypeEnums.DataTypes.Char16, FromSByte16},
+                {TypeEnums.DataVectorTypes.Uchar2, FromByte2},
+                {TypeEnums.DataVectorTypes.Uchar3, FromByte3},
+                {TypeEnums.DataVectorTypes.Uchar4, FromByte4},
+                {TypeEnums.DataVectorTypes.Uchar8, FromByte8},
+                {TypeEnums.DataVectorTypes.Uchar16, FromByte16},
+                {TypeEnums.DataVectorTypes.Char2, FromSByte2},
+                {TypeEnums.DataVectorTypes.Char3, FromSByte3},
+                {TypeEnums.DataVectorTypes.Char4, FromSByte4},
+                {TypeEnums.DataVectorTypes.Char8, FromSByte8},
+                {TypeEnums.DataVectorTypes.Char16, FromSByte16},
 
-                {TypeEnums.DataTypes.Ulong2, FromULong2},
-                {TypeEnums.DataTypes.Ulong3, FromULong3},
-                {TypeEnums.DataTypes.Ulong4, FromULong4},
-                {TypeEnums.DataTypes.Ulong8, FromULong8},
-                {TypeEnums.DataTypes.Ulong16, FromULong16},
-                {TypeEnums.DataTypes.Long2, FromLong2},
-                {TypeEnums.DataTypes.Long3, FromLong3},
-                {TypeEnums.DataTypes.Long4, FromLong4},
-                {TypeEnums.DataTypes.Long8, FromLong8},
-                {TypeEnums.DataTypes.Long16, FromLong16},
+                {TypeEnums.DataVectorTypes.Ulong2, FromULong2},
+                {TypeEnums.DataVectorTypes.Ulong3, FromULong3},
+                {TypeEnums.DataVectorTypes.Ulong4, FromULong4},
+                {TypeEnums.DataVectorTypes.Ulong8, FromULong8},
+                {TypeEnums.DataVectorTypes.Ulong16, FromULong16},
+                {TypeEnums.DataVectorTypes.Long2, FromLong2},
+                {TypeEnums.DataVectorTypes.Long3, FromLong3},
+                {TypeEnums.DataVectorTypes.Long4, FromLong4},
+                {TypeEnums.DataVectorTypes.Long8, FromLong8},
+                {TypeEnums.DataVectorTypes.Long16, FromLong16},
 
-                {TypeEnums.DataTypes.Uint2, FromUInt2},
-                {TypeEnums.DataTypes.Uint3, FromUInt3},
-                {TypeEnums.DataTypes.Uint4, FromUInt4},
-                {TypeEnums.DataTypes.Uint8, FromUInt8},
-                {TypeEnums.DataTypes.Uint16, FromUInt16},
-                {TypeEnums.DataTypes.Int2, FromInt2},
-                {TypeEnums.DataTypes.Int3, FromInt3},
-                {TypeEnums.DataTypes.Int4, FromInt4},
-                {TypeEnums.DataTypes.Int8, FromInt8},
-                {TypeEnums.DataTypes.Int16, FromInt16},
+                {TypeEnums.DataVectorTypes.Uint2, FromUInt2},
+                {TypeEnums.DataVectorTypes.Uint3, FromUInt3},
+                {TypeEnums.DataVectorTypes.Uint4, FromUInt4},
+                {TypeEnums.DataVectorTypes.Uint8, FromUInt8},
+                {TypeEnums.DataVectorTypes.Uint16, FromUInt16},
+                {TypeEnums.DataVectorTypes.Int2, FromInt2},
+                {TypeEnums.DataVectorTypes.Int3, FromInt3},
+                {TypeEnums.DataVectorTypes.Int4, FromInt4},
+                {TypeEnums.DataVectorTypes.Int8, FromInt8},
+                {TypeEnums.DataVectorTypes.Int16, FromInt16},
 
-                {TypeEnums.DataTypes.Ushort2, FromUShort2},
-                {TypeEnums.DataTypes.Ushort3, FromUShort3},
-                {TypeEnums.DataTypes.Ushort4, Fromshort4},
-                {TypeEnums.DataTypes.Ushort8, FromUShort8},
-                {TypeEnums.DataTypes.Ushort16, FromUShort16},
-                {TypeEnums.DataTypes.Short2, Fromshort2},
-                {TypeEnums.DataTypes.Short3, Fromshort3},
-                {TypeEnums.DataTypes.Short4, Fromshort4},
-                {TypeEnums.DataTypes.Short8, Fromshort8},
-                {TypeEnums.DataTypes.Short16, Fromshort16},
+                {TypeEnums.DataVectorTypes.Ushort2, FromUShort2},
+                {TypeEnums.DataVectorTypes.Ushort3, FromUShort3},
+                {TypeEnums.DataVectorTypes.Ushort4, Fromshort4},
+                {TypeEnums.DataVectorTypes.Ushort8, FromUShort8},
+                {TypeEnums.DataVectorTypes.Ushort16, FromUShort16},
+                {TypeEnums.DataVectorTypes.Short2, Fromshort2},
+                {TypeEnums.DataVectorTypes.Short3, Fromshort3},
+                {TypeEnums.DataVectorTypes.Short4, Fromshort4},
+                {TypeEnums.DataVectorTypes.Short8, Fromshort8},
+                {TypeEnums.DataVectorTypes.Short16, Fromshort16},
 
-                {TypeEnums.DataTypes.Float2, FromFloat2},
-                {TypeEnums.DataTypes.Float3, FromFloat3},
-                {TypeEnums.DataTypes.Float4, FromFloat4},
-                {TypeEnums.DataTypes.Float8, FromFloat8},
-                {TypeEnums.DataTypes.Float16, FromFloat16}
+                {TypeEnums.DataVectorTypes.Float2, FromFloat2},
+                {TypeEnums.DataVectorTypes.Float3, FromFloat3},
+                {TypeEnums.DataVectorTypes.Float4, FromFloat4},
+                {TypeEnums.DataVectorTypes.Float8, FromFloat8},
+                {TypeEnums.DataVectorTypes.Float16, FromFloat16}
             };
 
         /// <summary>
@@ -205,8 +205,8 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns>The value as the new Type</returns>
         public static object Convert(Type newType, object value)
         {
-            TypeEnums.DataTypes olddt = KernelParameter.GetEnumFromType(value.GetType());
-            TypeEnums.DataTypes dt = KernelParameter.GetEnumFromType(newType);
+            TypeEnums.DataVectorTypes olddt = KernelParameter.GetEnumFromType(value.GetType());
+            TypeEnums.DataVectorTypes dt = KernelParameter.GetEnumFromType(newType);
 
             string oldName = KernelParameter.GetDataString(olddt);
             string newName = KernelParameter.GetDataString(dt);

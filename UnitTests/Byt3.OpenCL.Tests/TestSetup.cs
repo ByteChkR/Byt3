@@ -23,7 +23,7 @@ namespace Byt3.OpenCL.Tests
                     var dirPath = Path.GetDirectoryName(codeBasePath);
                     string ResourceFolder = Path.Combine(dirPath, "resources", "kernel");
                     kernelDb = new KernelDatabase(CLAPI.MainThread, ResourceFolder,
-                        Wrapper.TypeEnums.DataTypes.Uchar1);
+                        Wrapper.TypeEnums.DataVectorTypes.Uchar1);
                 }
 
                 return kernelDb;

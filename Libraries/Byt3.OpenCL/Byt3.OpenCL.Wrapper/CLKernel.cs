@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Byt3.OpenCL.CommandQueues;
+using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Memory;
-using Byt3.OpenCLNetStandard.DataTypes;
+
 
 namespace Byt3.OpenCL.Wrapper
 {

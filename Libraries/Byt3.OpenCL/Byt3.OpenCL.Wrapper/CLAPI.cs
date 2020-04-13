@@ -8,12 +8,12 @@ using System.Runtime.InteropServices;
 using Byt3.ADL;
 using Byt3.OpenCL.CommandQueues;
 using Byt3.OpenCL.Contexts;
+using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Devices;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Platforms;
 using Byt3.OpenCL.Programs;
-using Byt3.OpenCLNetStandard.DataTypes;
 
 namespace Byt3.OpenCL.Wrapper
 {

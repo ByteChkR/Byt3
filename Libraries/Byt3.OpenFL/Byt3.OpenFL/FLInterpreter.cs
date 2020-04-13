@@ -7,10 +7,10 @@ using Byt3.ExtPP.Base.Interfaces;
 using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.Common.ExtPP.API;
+using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
-using Byt3.OpenCLNetStandard.DataTypes;
 using Byt3.OpenFL.FLDataObjects;
 
 namespace Byt3.OpenFL
@@ -254,7 +254,7 @@ namespace Byt3.OpenFL
         /// </summary>
         /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="file">The file containing the source</param>
-        /// <param name="genType">The Type of the data the interpreter is operating on</param>
+        /// <param name="genVectorType">The Type of the data the interpreter is operating on</param>
         /// <param name="input">The input buffer</param>
         /// <param name="width">Width of the input buffer</param>
         /// <param name="height">Height of the input buffer</param>
@@ -262,12 +262,12 @@ namespace Byt3.OpenFL
         /// <param name="channelCount">The Channel Count</param>
         /// <param name="kernelDbFolder">The folder the kernel data base will be initialized in</param>
         /// <param name="ignoreDebug">a flag to ignore the brk statement</param>
-        public FLInterpreter(CLAPI instance, string file, DataTypes genType, MemoryBuffer input,
+        public FLInterpreter(CLAPI instance, string file, DataVectorTypes genVectorType, MemoryBuffer input,
             int width, int height,
             int depth,
             int channelCount, string kernelDbFolder,
             bool ignoreDebug) : this(instance, file, input, width, height, depth, channelCount,
-            new KernelDatabase(instance, kernelDbFolder, genType), ignoreDebug)
+            new KernelDatabase(instance, kernelDbFolder, genVectorType), ignoreDebug)
         {
         }
 
@@ -276,18 +276,18 @@ namespace Byt3.OpenFL
         /// </summary>
         /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="file">The file containing the source</param>
-        /// <param name="genType">The Type of the data the interpreter is operating on</param>
+        /// <param name="genVectorType">The Type of the data the interpreter is operating on</param>
         /// <param name="input">The input buffer</param>
         /// <param name="width">Width of the input buffer</param>
         /// <param name="height">Height of the input buffer</param>
         /// <param name="depth">Depth of the input buffer</param>
         /// <param name="channelCount">The Channel Count</param>
         /// <param name="kernelDbFolder">The folder the kernel data base will be initialized in</param>
-        public FLInterpreter(CLAPI instance, string file, DataTypes genType, MemoryBuffer input,
+        public FLInterpreter(CLAPI instance, string file, DataVectorTypes genVectorType, MemoryBuffer input,
             int width, int height,
             int depth,
             int channelCount, string kernelDbFolder) : this(instance, file, input, width, height, depth, channelCount,
-            new KernelDatabase(instance, kernelDbFolder, genType), false)
+            new KernelDatabase(instance, kernelDbFolder, genVectorType), false)
         {
         }
 

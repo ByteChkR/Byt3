@@ -26,10 +26,10 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="folderName">Folder name where the kernels are located</param>
-        /// <param name="genDataType">The DataTypes used to compile the FL Database</param>
-        public KernelDatabase(CLAPI instance, string folderName, TypeEnums.DataTypes genDataType)
+        /// <param name="genDataVectorType">The DataVectorTypes used to compile the FL Database</param>
+        public KernelDatabase(CLAPI instance, string folderName, TypeEnums.DataVectorTypes genDataVectorType)
         {
-            GenDataType = KernelParameter.GetDataString(genDataType);
+            GenDataType = KernelParameter.GetDataString(genDataVectorType);
             if (!CLAPI.DirectoryExists(folderName))
             {
                 throw new Exception(folderName);

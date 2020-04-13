@@ -19,10 +19,10 @@ namespace Byt3.OpenFL.Threading
         public int ItemsInQueue => ProcessQueue.Count;
 
         public FLScriptRunner(
-            CLAPI instance, DataTypes dataTypes = DataTypes.Uchar1, string kernelFolder = "assets/kernel/")
+            CLAPI instance, DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1, string kernelFolder = "assets/kernel/")
         {
             Instance = instance;
-            Db = new KernelDatabase(instance, kernelFolder, dataTypes);
+            Db = new KernelDatabase(instance, kernelFolder, dataVectorTypes);
             ProcessQueue = new Queue<FlScriptExecutionContext>();
         }
 

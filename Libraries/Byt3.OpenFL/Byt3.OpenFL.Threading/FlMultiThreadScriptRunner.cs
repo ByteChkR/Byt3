@@ -15,8 +15,8 @@ namespace Byt3.OpenFL.Threading
         //private GameWindow window;
 
         public FlMultiThreadScriptRunner(Action onFinishQueueCallback,
-            DataTypes dataTypes = DataTypes.Uchar1, string kernelFolder = "assets/kernel/") : base(
-            CLAPI.GetInstance(), dataTypes, kernelFolder)
+            DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1, string kernelFolder = "assets/kernel/") : base(
+            CLAPI.GetInstance(), dataVectorTypes, kernelFolder)
         {
         }
 

@@ -3,7 +3,7 @@
     /// <summary>
     /// An Enum containing all possible data types that plain OpenCL can handle
     /// </summary>
-    public enum DataTypes
+    public enum DataVectorTypes
     {
         Unknown,
         Float1,

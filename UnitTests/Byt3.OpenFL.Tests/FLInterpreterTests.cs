@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using Byt3.OpenCL.Common.Exceptions;
+using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
-using Byt3.OpenCLNetStandard.DataTypes;
 using Xunit;
 
 namespace Byt3.OpenFL.Tests
@@ -19,7 +19,7 @@ namespace Byt3.OpenFL.Tests
                 CLAPI.CreateEmpty<byte>(CLAPI.MainThread, 128 * 128 * 4,
                     MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite), 128, 128,
                 1,
-                4, new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataTypes.Uchar1)); //We need to Create a "fresh" database since xunit is making the cl context invalid when changing the test
+                4, new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataVectorTypes.Uchar1)); //We need to Create a "fresh" database since xunit is making the cl context invalid when changing the test
             while (!p.Terminated)
             {
                 p.Step();
@@ -139,7 +139,7 @@ namespace Byt3.OpenFL.Tests
             string path = "resources/filter/tests";
             string[] files = Directory.GetFiles(path, "*.fl");
             KernelDatabase db =
-                new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataTypes.Uchar1);
+                new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataVectorTypes.Uchar1);
             foreach (string file in files)
             {
                 FLInterpreter p = new FLInterpreter(CLAPI.MainThread, file,

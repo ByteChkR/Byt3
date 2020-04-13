@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper.TypeEnums;
-using Byt3.OpenCLNetStandard.DataTypes;
+
 
 namespace Byt3.OpenCL.Wrapper
 {
@@ -17,64 +18,64 @@ namespace Byt3.OpenCL.Wrapper
         /// Item 2: The maximum value of the data type
         /// Item 3: The Enum Representation of the Type
         /// </summary>
-        private static readonly List<Tuple<string, float, DataTypes>> DataTypePairs =
-            new List<Tuple<string, float, DataTypes>>
+        private static readonly List<Tuple<string, float, DataVectorTypes>> DataTypePairs =
+            new List<Tuple<string, float, DataVectorTypes>>
             {
-                new Tuple<string, float, DataTypes>("float", float.MaxValue, DataTypes.Float1),
-                new Tuple<string, float, DataTypes>("float2", float.MaxValue, DataTypes.Float2),
-                new Tuple<string, float, DataTypes>("float3", float.MaxValue, DataTypes.Float3),
-                new Tuple<string, float, DataTypes>("float4", float.MaxValue, DataTypes.Float4),
-                new Tuple<string, float, DataTypes>("float8", float.MaxValue, DataTypes.Float8),
-                new Tuple<string, float, DataTypes>("float16", float.MaxValue, DataTypes.Float16),
-                new Tuple<string, float, DataTypes>("int", int.MaxValue, DataTypes.Int1),
-                new Tuple<string, float, DataTypes>("int2", int.MaxValue, DataTypes.Int2),
-                new Tuple<string, float, DataTypes>("int3", int.MaxValue, DataTypes.Int3),
-                new Tuple<string, float, DataTypes>("int4", int.MaxValue, DataTypes.Int4),
-                new Tuple<string, float, DataTypes>("int8", int.MaxValue, DataTypes.Int8),
-                new Tuple<string, float, DataTypes>("int16", int.MaxValue, DataTypes.Int16),
-                new Tuple<string, float, DataTypes>("uint", uint.MaxValue, DataTypes.Uint1),
-                new Tuple<string, float, DataTypes>("uint2", uint.MaxValue, DataTypes.Uint2),
-                new Tuple<string, float, DataTypes>("uint3", uint.MaxValue, DataTypes.Uint3),
-                new Tuple<string, float, DataTypes>("uint4", uint.MaxValue, DataTypes.Uint4),
-                new Tuple<string, float, DataTypes>("uint8", uint.MaxValue, DataTypes.Uint8),
-                new Tuple<string, float, DataTypes>("uint16", uint.MaxValue, DataTypes.Uint16),
-                new Tuple<string, float, DataTypes>("char", sbyte.MaxValue, DataTypes.Char1),
-                new Tuple<string, float, DataTypes>("char2", sbyte.MaxValue, DataTypes.Char2),
-                new Tuple<string, float, DataTypes>("char3", sbyte.MaxValue, DataTypes.Char3),
-                new Tuple<string, float, DataTypes>("char4", sbyte.MaxValue, DataTypes.Char4),
-                new Tuple<string, float, DataTypes>("char8", sbyte.MaxValue, DataTypes.Char8),
-                new Tuple<string, float, DataTypes>("char16", sbyte.MaxValue, DataTypes.Char16),
-                new Tuple<string, float, DataTypes>("uchar", byte.MaxValue, DataTypes.Uchar1),
-                new Tuple<string, float, DataTypes>("uchar2", byte.MaxValue, DataTypes.Uchar2),
-                new Tuple<string, float, DataTypes>("uchar3", byte.MaxValue, DataTypes.Uchar3),
-                new Tuple<string, float, DataTypes>("uchar4", byte.MaxValue, DataTypes.Uchar4),
-                new Tuple<string, float, DataTypes>("uchar8", byte.MaxValue, DataTypes.Uchar8),
-                new Tuple<string, float, DataTypes>("uchar16", byte.MaxValue, DataTypes.Uchar16),
-                new Tuple<string, float, DataTypes>("short", short.MaxValue, DataTypes.Short1),
-                new Tuple<string, float, DataTypes>("short2", short.MaxValue, DataTypes.Short2),
-                new Tuple<string, float, DataTypes>("short3", short.MaxValue, DataTypes.Short3),
-                new Tuple<string, float, DataTypes>("short4", short.MaxValue, DataTypes.Short4),
-                new Tuple<string, float, DataTypes>("short8", short.MaxValue, DataTypes.Short8),
-                new Tuple<string, float, DataTypes>("short16", short.MaxValue, DataTypes.Short16),
-                new Tuple<string, float, DataTypes>("ushort", ushort.MaxValue, DataTypes.Ushort1),
-                new Tuple<string, float, DataTypes>("ushort2", ushort.MaxValue, DataTypes.Ushort2),
-                new Tuple<string, float, DataTypes>("ushort3", ushort.MaxValue, DataTypes.Ushort3),
-                new Tuple<string, float, DataTypes>("ushort4", ushort.MaxValue, DataTypes.Ushort4),
-                new Tuple<string, float, DataTypes>("ushort8", ushort.MaxValue, DataTypes.Ushort8),
-                new Tuple<string, float, DataTypes>("ushort16", ushort.MaxValue,
-                    DataTypes.Ushort16),
-                new Tuple<string, float, DataTypes>("long", long.MaxValue, DataTypes.Long1),
-                new Tuple<string, float, DataTypes>("long2", long.MaxValue, DataTypes.Long2),
-                new Tuple<string, float, DataTypes>("long3", long.MaxValue, DataTypes.Long3),
-                new Tuple<string, float, DataTypes>("long4", long.MaxValue, DataTypes.Long4),
-                new Tuple<string, float, DataTypes>("long8", long.MaxValue, DataTypes.Long8),
-                new Tuple<string, float, DataTypes>("long16", long.MaxValue, DataTypes.Long16),
-                new Tuple<string, float, DataTypes>("ulong", ulong.MaxValue, DataTypes.Ulong1),
-                new Tuple<string, float, DataTypes>("ulong2", ulong.MaxValue, DataTypes.Ulong2),
-                new Tuple<string, float, DataTypes>("ulong3", ulong.MaxValue, DataTypes.Ulong3),
-                new Tuple<string, float, DataTypes>("ulong4", ulong.MaxValue, DataTypes.Ulong4),
-                new Tuple<string, float, DataTypes>("ulong8", ulong.MaxValue, DataTypes.Ulong8),
-                new Tuple<string, float, DataTypes>("ulong16", ulong.MaxValue, DataTypes.Ulong16)
+                new Tuple<string, float, DataVectorTypes>("float", float.MaxValue, DataVectorTypes.Float1),
+                new Tuple<string, float, DataVectorTypes>("float2", float.MaxValue, DataVectorTypes.Float2),
+                new Tuple<string, float, DataVectorTypes>("float3", float.MaxValue, DataVectorTypes.Float3),
+                new Tuple<string, float, DataVectorTypes>("float4", float.MaxValue, DataVectorTypes.Float4),
+                new Tuple<string, float, DataVectorTypes>("float8", float.MaxValue, DataVectorTypes.Float8),
+                new Tuple<string, float, DataVectorTypes>("float16", float.MaxValue, DataVectorTypes.Float16),
+                new Tuple<string, float, DataVectorTypes>("int", int.MaxValue, DataVectorTypes.Int1),
+                new Tuple<string, float, DataVectorTypes>("int2", int.MaxValue, DataVectorTypes.Int2),
+                new Tuple<string, float, DataVectorTypes>("int3", int.MaxValue, DataVectorTypes.Int3),
+                new Tuple<string, float, DataVectorTypes>("int4", int.MaxValue, DataVectorTypes.Int4),
+                new Tuple<string, float, DataVectorTypes>("int8", int.MaxValue, DataVectorTypes.Int8),
+                new Tuple<string, float, DataVectorTypes>("int16", int.MaxValue, DataVectorTypes.Int16),
+                new Tuple<string, float, DataVectorTypes>("uint", uint.MaxValue, DataVectorTypes.Uint1),
+                new Tuple<string, float, DataVectorTypes>("uint2", uint.MaxValue, DataVectorTypes.Uint2),
+                new Tuple<string, float, DataVectorTypes>("uint3", uint.MaxValue, DataVectorTypes.Uint3),
+                new Tuple<string, float, DataVectorTypes>("uint4", uint.MaxValue, DataVectorTypes.Uint4),
+                new Tuple<string, float, DataVectorTypes>("uint8", uint.MaxValue, DataVectorTypes.Uint8),
+                new Tuple<string, float, DataVectorTypes>("uint16", uint.MaxValue, DataVectorTypes.Uint16),
+                new Tuple<string, float, DataVectorTypes>("char", sbyte.MaxValue, DataVectorTypes.Char1),
+                new Tuple<string, float, DataVectorTypes>("char2", sbyte.MaxValue, DataVectorTypes.Char2),
+                new Tuple<string, float, DataVectorTypes>("char3", sbyte.MaxValue, DataVectorTypes.Char3),
+                new Tuple<string, float, DataVectorTypes>("char4", sbyte.MaxValue, DataVectorTypes.Char4),
+                new Tuple<string, float, DataVectorTypes>("char8", sbyte.MaxValue, DataVectorTypes.Char8),
+                new Tuple<string, float, DataVectorTypes>("char16", sbyte.MaxValue, DataVectorTypes.Char16),
+                new Tuple<string, float, DataVectorTypes>("uchar", byte.MaxValue, DataVectorTypes.Uchar1),
+                new Tuple<string, float, DataVectorTypes>("uchar2", byte.MaxValue, DataVectorTypes.Uchar2),
+                new Tuple<string, float, DataVectorTypes>("uchar3", byte.MaxValue, DataVectorTypes.Uchar3),
+                new Tuple<string, float, DataVectorTypes>("uchar4", byte.MaxValue, DataVectorTypes.Uchar4),
+                new Tuple<string, float, DataVectorTypes>("uchar8", byte.MaxValue, DataVectorTypes.Uchar8),
+                new Tuple<string, float, DataVectorTypes>("uchar16", byte.MaxValue, DataVectorTypes.Uchar16),
+                new Tuple<string, float, DataVectorTypes>("short", short.MaxValue, DataVectorTypes.Short1),
+                new Tuple<string, float, DataVectorTypes>("short2", short.MaxValue, DataVectorTypes.Short2),
+                new Tuple<string, float, DataVectorTypes>("short3", short.MaxValue, DataVectorTypes.Short3),
+                new Tuple<string, float, DataVectorTypes>("short4", short.MaxValue, DataVectorTypes.Short4),
+                new Tuple<string, float, DataVectorTypes>("short8", short.MaxValue, DataVectorTypes.Short8),
+                new Tuple<string, float, DataVectorTypes>("short16", short.MaxValue, DataVectorTypes.Short16),
+                new Tuple<string, float, DataVectorTypes>("ushort", ushort.MaxValue, DataVectorTypes.Ushort1),
+                new Tuple<string, float, DataVectorTypes>("ushort2", ushort.MaxValue, DataVectorTypes.Ushort2),
+                new Tuple<string, float, DataVectorTypes>("ushort3", ushort.MaxValue, DataVectorTypes.Ushort3),
+                new Tuple<string, float, DataVectorTypes>("ushort4", ushort.MaxValue, DataVectorTypes.Ushort4),
+                new Tuple<string, float, DataVectorTypes>("ushort8", ushort.MaxValue, DataVectorTypes.Ushort8),
+                new Tuple<string, float, DataVectorTypes>("ushort16", ushort.MaxValue,
+                    DataVectorTypes.Ushort16),
+                new Tuple<string, float, DataVectorTypes>("long", long.MaxValue, DataVectorTypes.Long1),
+                new Tuple<string, float, DataVectorTypes>("long2", long.MaxValue, DataVectorTypes.Long2),
+                new Tuple<string, float, DataVectorTypes>("long3", long.MaxValue, DataVectorTypes.Long3),
+                new Tuple<string, float, DataVectorTypes>("long4", long.MaxValue, DataVectorTypes.Long4),
+                new Tuple<string, float, DataVectorTypes>("long8", long.MaxValue, DataVectorTypes.Long8),
+                new Tuple<string, float, DataVectorTypes>("long16", long.MaxValue, DataVectorTypes.Long16),
+                new Tuple<string, float, DataVectorTypes>("ulong", ulong.MaxValue, DataVectorTypes.Ulong1),
+                new Tuple<string, float, DataVectorTypes>("ulong2", ulong.MaxValue, DataVectorTypes.Ulong2),
+                new Tuple<string, float, DataVectorTypes>("ulong3", ulong.MaxValue, DataVectorTypes.Ulong3),
+                new Tuple<string, float, DataVectorTypes>("ulong4", ulong.MaxValue, DataVectorTypes.Ulong4),
+                new Tuple<string, float, DataVectorTypes>("ulong8", ulong.MaxValue, DataVectorTypes.Ulong8),
+                new Tuple<string, float, DataVectorTypes>("ulong16", ulong.MaxValue, DataVectorTypes.Ulong16)
             };
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// The Data type
         /// </summary>
-        public DataTypes DataType { get; set; }
+        public DataVectorTypes DataType { get; set; }
 
         /// <summary>
         /// Is the Argument an Array?
@@ -190,17 +191,17 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="t">The type</param>
         /// <returns>The Data type or UNKNOWN if not found</returns>
-        public static DataTypes GetEnumFromType(Type t)
+        public static DataVectorTypes GetEnumFromType(Type t)
         {
             for (int i = 0; i < Converters.Length; i++)
             {
                 if (Converters[i] == t)
                 {
-                    return (DataTypes) i;
+                    return (DataVectorTypes) i;
                 }
             }
 
-            return DataTypes.Unknown;
+            return DataVectorTypes.Unknown;
         }
 
         /// <summary>
@@ -257,9 +258,9 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="type"></param>
         /// <returns>The keyword for OpenCL as string</returns>
-        public static string GetDataString(DataTypes type)
+        public static string GetDataString(DataVectorTypes type)
         {
-            foreach (Tuple<string, float, DataTypes> dataTypePair in DataTypePairs)
+            foreach (Tuple<string, float, DataVectorTypes> dataTypePair in DataTypePairs)
             {
                 if (dataTypePair.Item3 == type)
                 {
@@ -278,7 +279,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns>max value of the data type</returns>
         public static float GetDataMaxSize(string genType)
         {
-            foreach (Tuple<string, float, DataTypes> dataTypePair in DataTypePairs)
+            foreach (Tuple<string, float, DataVectorTypes> dataTypePair in DataTypePairs)
             {
                 if (dataTypePair.Item1 == genType)
                 {
@@ -294,9 +295,9 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         /// <param name="str">String Representation of the CL Type</param>
         /// <returns>The data type</returns>
-        public static DataTypes GetDataType(string str)
+        public static DataVectorTypes GetDataType(string str)
         {
-            foreach (Tuple<string, float, DataTypes> dataTypePair in DataTypePairs)
+            foreach (Tuple<string, float, DataVectorTypes> dataTypePair in DataTypePairs)
             {
                 if (dataTypePair.Item1 == str)
                 {
@@ -304,7 +305,7 @@ namespace Byt3.OpenCL.Wrapper
                 }
             }
 
-            return DataTypes.Unknown;
+            return DataVectorTypes.Unknown;
         }
 
         /// <summary>
