@@ -22,7 +22,7 @@
 // terms of the License.
 #endregion
 
-namespace Byt3.OpenCLNetStandard.DataTypes
+namespace Byt3.OpenCL.DataTypes
 {
 	using System;
 	using System.Diagnostics;

@@ -65,11 +65,11 @@ Small Library that is containing Serialization Utilities.
 Implements ProcessRunner class that can run Cmd or Bash Scripts and commands.
 
 ## Unit Tests
-* Byt3.ADL.Tests -> 19 Tests
-* Byt3.ExtPP.Tests -> 13 Tests
-* Byt3.ObjectPipeline.AssetLoaderFramework.Tests -> 1 Test
-* Byt3.ObjectPipeline.Tests -> 3 Tests
-* Byt3.OpenCL.Tests -> 4 Tests
-* Byt3.OpenFL.Tests -> 8 Tests
-* Byt3.PackageHandling.Tests -> 3 Tests
-* Byt3.Serialization.Tests -> 1 Test
+*  Byt3.ADL.Tests -> 19 Tests
+*  Byt3.ExtPP.Tests -> 13 Tests
+*  Byt3.ObjectPipeline.AssetLoaderFramework.Tests -> 1 Test
+*  Byt3.ObjectPipeline.Tests -> 3 Tests
+*  Byt3.OpenCL.Tests -> 4 Tests
+*  Byt3.OpenFL.Tests -> 8 Tests
+*  Byt3.PackageHandling.Tests -> 3 Tests
+*  Byt3.Serialization.Tests -> 1 Test
