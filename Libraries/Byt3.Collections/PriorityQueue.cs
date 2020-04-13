@@ -90,7 +90,7 @@ namespace Byt3.Collections
 
                 if ((IsDescending ? -1 : 1) * list[c].CompareTo(root) >= 0)
                 {
-                    break; //
+                    break;
                 }
                 list[i] = list[c];
                 i = c;
