@@ -21,7 +21,12 @@ namespace Byt3.ExtPP.Base
             return File.ReadAllLines(file);
         }
 
-        public virtual string[] GetFiles(string path, string searchPattern = "*.*")
+        public virtual string[] GetFiles(string path)
+        {
+            return GetFiles(path, "*.*");
+        }
+
+        public virtual string[] GetFiles(string path, string searchPattern)
         {
             return Directory.GetFiles(path, searchPattern, SearchOption.AllDirectories);
         }
