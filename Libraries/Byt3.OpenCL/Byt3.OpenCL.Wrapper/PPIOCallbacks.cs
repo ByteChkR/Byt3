@@ -21,9 +21,13 @@ namespace Byt3.OpenCL.Wrapper
             return ret;
         }
 
-        public string[] GetFiles(string path, string searchPattern = "*")
+        public string[] GetFiles(string path, string searchPattern)
         {
             return CLAPI.GetFiles(path, searchPattern);
+        }
+        public string[] GetFiles(string path)
+        {
+            return GetFiles(path, "*.*");
         }
     }
 }

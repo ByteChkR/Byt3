@@ -24,9 +24,14 @@ namespace Byt3.Callbacks
             return File.OpenRead(path);
         }
 
-        public virtual string[] GetFiles(string path, string searchPattern = "*.*")
+        public virtual string[] GetFiles(string path, string searchPattern)
         {
             return Directory.GetFiles(path, searchPattern, SearchOption.AllDirectories);
+        }
+
+        public virtual string[] GetFiles(string path)
+        {
+            return GetFiles(path, "*.*");
         }
     }
 }

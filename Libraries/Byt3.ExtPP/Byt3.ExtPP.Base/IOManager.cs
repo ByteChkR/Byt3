@@ -2,7 +2,7 @@
 
 namespace Byt3.ExtPP.Base
 {
-    public class IOManager
+    public static class IOManager
     {
         public static IOCallback Callback { get; private set; } = new DefaultIOCallback();
 

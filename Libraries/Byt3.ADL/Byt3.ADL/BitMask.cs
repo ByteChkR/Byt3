@@ -98,7 +98,7 @@ namespace Byt3.ADL
         {
             if (IsUniqueMask(mask))
             {
-                return new List<int> {mask};
+                return new List<int> { mask };
             }
             List<int> ret = new List<int>();
             for (int i = 0; i < sizeof(int) * Utils.ByteSize; i++)
@@ -129,7 +129,7 @@ namespace Byt3.ADL
         /// <param name="combineType">How the Masks should be compared with each other</param>
         /// <param name="masks">the array of masks. SHOULD BE POWER OF 2 NUMBERS</param>
         /// <returns></returns>
-        public static int CombineMasks(MaskCombineType combineType = MaskCombineType.BitOr, params int[] masks)
+        public static int CombineMasks(MaskCombineType combineType, params int[] masks)
         {
             if (masks.Length == 0)
             {
@@ -190,11 +190,16 @@ namespace Byt3.ADL
 
         #region Constructors
 
+        public BitMask() : this(true)
+        {
+
+        }
+
         /// <summary>
         ///     Creates an Empty mask
         /// </summary>
         /// <param name="wildcard">If true, its a wildcard mask(everything)</param>
-        public BitMask(bool wildcard = false)
+        public BitMask(bool wildcard)
         {
             if (wildcard)
             {

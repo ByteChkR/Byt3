@@ -67,12 +67,12 @@ namespace Byt3.Collections
         /// <summary>
         /// Number of bytes in a kilobyte
         /// </summary>
-        public const long KB = 1024;
+        public static readonly long KB = 1024;
 
         /// <summary>
         /// Number of bytes in a megabyte
         /// </summary>
-        public const long MB = KB * 1024;
+        public static readonly long MB = KB * 1024;
 
         #endregion
 

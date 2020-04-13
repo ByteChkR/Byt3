@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Byt3.ADL.Streams
 {
-    public class GenPipeStream<T> : Stream
+    public class GenPipeStream<T> : Stream, IDisposable
     {
         #region Private Variables
 

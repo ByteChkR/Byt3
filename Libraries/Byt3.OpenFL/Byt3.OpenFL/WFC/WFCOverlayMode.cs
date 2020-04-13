@@ -40,27 +40,29 @@ namespace Byt3.OpenFL.WFC
             colors = new List<Color>();
 
             for (int y = 0; y < smy; y++)
-            for (int x = 0; x < smx; x++)
             {
-                Color color = bitmap.GetPixel(x, y);
-
-                int i = 0;
-                foreach (Color c in colors)
+                for (int x = 0; x < smx; x++)
                 {
-                    if (c == color)
+                    Color color = bitmap.GetPixel(x, y);
+
+                    int i = 0;
+                    foreach (Color c in colors)
                     {
-                        break;
+                        if (c == color)
+                        {
+                            break;
+                        }
+
+                        i++;
                     }
 
-                    i++;
-                }
+                    if (i == colors.Count)
+                    {
+                        colors.Add(color);
+                    }
 
-                if (i == colors.Count)
-                {
-                    colors.Add(color);
+                    sample[x, y] = (byte) i;
                 }
-
-                sample[x, y] = (byte) i;
             }
 
             Logger.Log(DebugChannel.Log | DebugChannel.OpenFL_WFC, Verbosity.Level3,
@@ -72,9 +74,11 @@ namespace Byt3.OpenFL.WFC
             {
                 byte[] result = new byte[n * n];
                 for (int y = 0; y < n; y++)
-                for (int x = 0; x < n; x++)
                 {
-                    result[x + y * n] = f(x, y);
+                    for (int x = 0; x < n; x++)
+                    {
+                        result[x + y * n] = f(x, y);
+                    }
                 }
 
                 return result;
@@ -138,30 +142,32 @@ namespace Byt3.OpenFL.WFC
             List<long> ordering = new List<long>();
 
             for (int y = 0; y < (periodicInput ? smy : smy - n + 1); y++)
-            for (int x = 0; x < (periodicInput ? smx : smx - n + 1); x++)
             {
-                byte[][] ps = new byte[8][];
-
-                ps[0] = PatternFromSample(x, y);
-                ps[1] = Reflect(ps[0]);
-                ps[2] = Rotate(ps[0]);
-                ps[3] = Reflect(ps[2]);
-                ps[4] = Rotate(ps[2]);
-                ps[5] = Reflect(ps[4]);
-                ps[6] = Rotate(ps[4]);
-                ps[7] = Reflect(ps[6]);
-
-                for (int k = 0; k < symmetry; k++)
+                for (int x = 0; x < (periodicInput ? smx : smx - n + 1); x++)
                 {
-                    long ind = Index(ps[k]);
-                    if (weights.ContainsKey(ind))
+                    byte[][] ps = new byte[8][];
+
+                    ps[0] = PatternFromSample(x, y);
+                    ps[1] = Reflect(ps[0]);
+                    ps[2] = Rotate(ps[0]);
+                    ps[3] = Reflect(ps[2]);
+                    ps[4] = Rotate(ps[2]);
+                    ps[5] = Reflect(ps[4]);
+                    ps[6] = Rotate(ps[4]);
+                    ps[7] = Reflect(ps[6]);
+
+                    for (int k = 0; k < symmetry; k++)
                     {
-                        weights[ind]++;
-                    }
-                    else
-                    {
-                        weights.Add(ind, 1);
-                        ordering.Add(ind);
+                        long ind = Index(ps[k]);
+                        if (weights.ContainsKey(ind))
+                        {
+                            weights[ind]++;
+                        }
+                        else
+                        {
+                            weights.Add(ind, 1);
+                            ordering.Add(ind);
+                        }
                     }
                 }
             }
@@ -186,11 +192,13 @@ namespace Byt3.OpenFL.WFC
                     ymin = dy < 0 ? 0 : dy,
                     ymax = dy < 0 ? dy + n : n;
                 for (int y = ymin; y < ymax; y++)
-                for (int x = xmin; x < xmax; x++)
                 {
-                    if (p1[x + n * y] != p2[x - dx + n * (y - dy)])
+                    for (int x = xmin; x < xmax; x++)
                     {
-                        return false;
+                        if (p1[x + n * y] != p2[x - dx + n * (y - dy)])
+                        {
+                            return false;
+                        }
                     }
                 }
 
@@ -264,35 +272,37 @@ namespace Byt3.OpenFL.WFC
                     int x = i % Fmx, y = i / Fmx;
 
                     for (int dy = 0; dy < n; dy++)
-                    for (int dx = 0; dx < n; dx++)
                     {
-                        int sx = x - dx;
-                        if (sx < 0)
+                        for (int dx = 0; dx < n; dx++)
                         {
-                            sx += Fmx;
-                        }
-
-                        int sy = y - dy;
-                        if (sy < 0)
-                        {
-                            sy += Fmy;
-                        }
-
-                        int s = sx + sy * Fmx;
-                        if (OnBoundary(sx, sy))
-                        {
-                            continue;
-                        }
-
-                        for (int t = 0; t < T; t++)
-                        {
-                            if (Wave[s][t])
+                            int sx = x - dx;
+                            if (sx < 0)
                             {
-                                contributors++;
-                                Color color = colors[patterns[t][dx + dy * n]];
-                                r += color.R;
-                                g += color.G;
-                                b += color.B;
+                                sx += Fmx;
+                            }
+
+                            int sy = y - dy;
+                            if (sy < 0)
+                            {
+                                sy += Fmy;
+                            }
+
+                            int s = sx + sy * Fmx;
+                            if (OnBoundary(sx, sy))
+                            {
+                                continue;
+                            }
+
+                            for (int t = 0; t < T; t++)
+                            {
+                                if (Wave[s][t])
+                                {
+                                    contributors++;
+                                    Color color = colors[patterns[t][dx + dy * n]];
+                                    r += color.R;
+                                    g += color.G;
+                                    b += color.B;
+                                }
                             }
                         }
                     }
