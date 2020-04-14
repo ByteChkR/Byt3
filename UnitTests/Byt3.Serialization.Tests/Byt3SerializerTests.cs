@@ -51,24 +51,26 @@ namespace Byt3.Serialization.Tests
         {
             public override Packet DeserializePacket(PrimitiveValueWrapper wrapper)
             {
-                Packet p = new Packet();
+                Packet p = new Packet
+                {
+                    valfloat = wrapper.ReadFloat(),
+                    valdouble = wrapper.ReadDouble(),
+                    valint = wrapper.ReadInt(),
+                    valuint = wrapper.ReadUInt(),
+                    valshort = wrapper.ReadShort(),
+                    valushort = wrapper.ReadUShort(),
+                    vallong = wrapper.ReadLong(),
+                    valulong = wrapper.ReadULong(),
+                    valbytes = wrapper.ReadBytes(),
+                    valbyte = wrapper.ReadByte(),
+                    valstring = wrapper.ReadString()
+                };
 
-                p.valfloat = wrapper.ReadFloat();
-                p.valdouble = wrapper.ReadDouble();
 
-                p.valint = wrapper.ReadInt();
-                p.valuint = wrapper.ReadUInt();
 
-                p.valshort = wrapper.ReadShort();
-                p.valushort = wrapper.ReadUShort();
 
-                p.vallong = wrapper.ReadLong();
-                p.valulong = wrapper.ReadULong();
 
-                p.valbytes = wrapper.ReadBytes();
-                p.valbyte = wrapper.ReadByte();
 
-                p.valstring = wrapper.ReadString();
 
                 return p;
             }
@@ -108,7 +110,7 @@ namespace Byt3.Serialization.Tests
             Assert.True(ret);
             stream.Position = 0;
 
-            bool p2ret = Byt3Serializer.TryReadPacket<Packet>(stream, out Packet p2);
+            bool p2ret = Byt3Serializer.TryReadPacket(stream, out Packet p2);
 
             Assert.True(p2ret);
 

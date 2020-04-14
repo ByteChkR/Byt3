@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Byt3.OpenCL.Common.ExtPP.API;
+using Byt3.ExtPP.API;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Programs;
 

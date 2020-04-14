@@ -2,9 +2,9 @@
 {
     public enum PPLogType
     {
-        Log,
-        Warning,
-        Error,
-        Progress
+        Log = 1,
+        Warning = 2,
+        Error = 4,
+        Progress = 8
     }
 }

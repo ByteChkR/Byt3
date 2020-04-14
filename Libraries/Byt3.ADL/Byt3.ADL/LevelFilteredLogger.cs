@@ -5,7 +5,7 @@ namespace Byt3.ADL
     public class LevelFilteredLogger<T> : ADLLogger<T>
         where T : struct
     {
-        public LevelFilteredLogger(string projectName = "ExtPP") : base("ExtPP")
+        public LevelFilteredLogger(string projectName) : base(projectName)
         {
         }
 
@@ -13,7 +13,7 @@ namespace Byt3.ADL
         /// The Verbosity level
         /// Everything lower than this will be sent to the log output
         /// </summary>
-        public Verbosity VerbosityLevel { get; set; } = Verbosity.Level2;
+        public Verbosity VerbosityLevel { get; set; } = Verbosity.Level8;
 
         /// <summary>
         /// Logs a message in the specified mask and verbosity level

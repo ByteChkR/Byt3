@@ -6,7 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Byt3.ADL;
+using Byt3.ExtPP.API;
 using Byt3.OpenCL.CommandQueues;
+using Byt3.OpenCL.Common.ExtPP.API;
 using Byt3.OpenCL.Contexts;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Devices;
@@ -142,6 +144,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private CLAPI()
         {
+            TextProcessorAPI.AddProcessorConfig(".cl", new CLPreProcessorConfig());
             InitializeOpenCl();
         }
 

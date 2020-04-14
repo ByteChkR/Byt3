@@ -65,12 +65,13 @@ namespace Byt3.OpenFL.Threading
 
             do
             {
-                ret.Step();
+                FLInterpreterStepResult step = ret.Step();
+                Console.WriteLine(step);
             } while (!ret.Terminated);
 
 
             byte[] buffer = ret.GetResult<byte>();
-            Dictionary<string, byte[]> result = new Dictionary<string, byte[]> {{"result", buffer}};
+            Dictionary<string, byte[]> result = new Dictionary<string, byte[]> { { "result", buffer } };
 
             foreach (KeyValuePair<string, Bitmap> keyValuePair in context.TextureMap)
             {
@@ -80,7 +81,7 @@ namespace Byt3.OpenFL.Threading
                     continue;
                 }
 
-                byte[] spec = CLAPI.ReadBuffer<byte>(Instance, mbuf.Buffer, (int) mbuf.Buffer.Size);
+                byte[] spec = CLAPI.ReadBuffer<byte>(Instance, mbuf.Buffer, (int)mbuf.Buffer.Size);
                 result.Add(keyValuePair.Key, spec);
                 mbuf.Buffer.Dispose();
             }

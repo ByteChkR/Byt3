@@ -14,11 +14,12 @@ namespace Byt3.OpenFL
         /// <param name="line">The line where the interpreter is</param>
         /// <param name="activeBuffer">The active buffer</param>
         /// <param name="argumentStack">The unfinished argument stack</param>
-        internal FLInterpreterState(int line, CLBufferInfo activeBuffer, Stack<object> argumentStack)
+        internal FLInterpreterState(int line, CLBufferInfo activeBuffer, Stack<object> argumentStack, byte[] channelBuffer)
         {
             Line = line;
             ActiveBuffer = activeBuffer;
             ArgumentStack = argumentStack;
+            ChannelBuffer = channelBuffer;
         }
 
         /// <summary>
@@ -31,6 +32,7 @@ namespace Byt3.OpenFL
         /// </summary>
         public CLBufferInfo ActiveBuffer { get; }
 
+        public byte[] ChannelBuffer;
         /// <summary>
         /// The unfinished argument stack
         /// </summary>

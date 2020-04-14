@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
     <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
+    <ProjectReference Include="..\..\Byt3.ExtPP\Byt3.ExtPP.API\Byt3.ExtPP.API.csproj" />
     <ProjectReference Include="..\..\Byt3.ExtPP\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
     <ProjectReference Include="..\..\Byt3.ExtPP\Byt3.ExtPP.Plugins\Byt3.ExtPP.Plugins.csproj" />
     <ProjectReference Include="..\..\Byt3.ExtPP\Byt3.ExtPP\Byt3.ExtPP.csproj" />

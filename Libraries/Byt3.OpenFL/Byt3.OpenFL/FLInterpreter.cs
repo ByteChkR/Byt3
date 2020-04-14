@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using Byt3.ADL;
+using Byt3.ExtPP.API;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
@@ -11,6 +13,7 @@ using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.Exceptions;
 using Byt3.OpenFL.FLDataObjects;
 
 namespace Byt3.OpenFL
@@ -18,7 +21,7 @@ namespace Byt3.OpenFL
     /// <summary>
     /// The FL Interpreter
     /// </summary>
-    public partial class FLInterpreter : ALoggable<DebugChannel>
+    public partial class FLInterpreter : ALoggable<LogType>
     {
         #region Static Properties
 
@@ -347,7 +350,7 @@ namespace Byt3.OpenFL
                 {
                     if (memoryBuffer.Value.IsInternal)
                     {
-                        Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+                        Logger.Log(LogType.Log, Verbosity.Level5,
                             "Freeing Buffer: " + memoryBuffer.Value);
                         memoryBuffer.Value.Buffer.Dispose();
                     }
@@ -377,6 +380,8 @@ namespace Byt3.OpenFL
             //Clear old stuff
 
             ReleaseResources();
+
+            TextProcessorAPI.AddProcessorConfig(".fl", new FLPreProcessorConfig());
 
             //Setting variables
             currentBuffer = new CLBufferInfo(input, false);
@@ -417,7 +422,7 @@ namespace Byt3.OpenFL
         /// <returns>The Sanizied line</returns>
         private static string SanitizeLine(string line)
         {
-            return line.Split(new[] {COMMENT_PREFIX}, StringSplitOptions.None)[0];
+            return line.Split(new[] { COMMENT_PREFIX }, StringSplitOptions.None)[0];
         }
 
         /// <summary>
@@ -427,7 +432,7 @@ namespace Byt3.OpenFL
         /// <returns></returns>
         private static string[] SplitLine(string line)
         {
-            return line.Split(new[] {WORD_SEPARATOR}, StringSplitOptions.RemoveEmptyEntries);
+            return line.Split(new[] { WORD_SEPARATOR }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>
@@ -494,8 +499,8 @@ namespace Byt3.OpenFL
                 if (data.Arguments[currentWord].argType == FLArgumentType.Function)
                 {
                     bool keepBuffer = data.InstructionType == FLInstructionType.FlFunction &&
-                                      ((FLInterpreterFunctionInfo) data.Instruction).LeaveStack;
-                    JumpTo((int) data.Arguments[currentWord].value, keepBuffer);
+                                      ((FLInterpreterFunctionInfo)data.Instruction).LeaveStack;
+                    JumpTo((int)data.Arguments[currentWord].value, keepBuffer);
                     ret = FLLineAnalysisResult.Jump; //We Jumped to another point in the code.
                     currentArgStack
                         .Push(null); //Push null to signal the interpreter that he returned before assigning the right value.
@@ -513,11 +518,12 @@ namespace Byt3.OpenFL
             {
                 if (data.InstructionType == FLInstructionType.FlFunction)
                 {
-                    ((FLInterpreterFunctionInfo) data.Instruction).Run();
+                    ((FLInterpreterFunctionInfo)data.Instruction).Run();
                     return FLLineAnalysisResult.IncreasePc;
                 }
 
-                CLKernel k = (CLKernel) data.Instruction;
+                CLKernel k = (CLKernel)data.Instruction;
+                Logger.Log(LogType.Log, "Running Kernel: " + k.Name);
                 if (k == null || data.Arguments.Count != k.Parameter.Count - FL_HEADER_ARG_COUNT)
                 {
                     throw new FLInvalidFunctionUseException(this.data.Source[currentIndex],
@@ -531,15 +537,27 @@ namespace Byt3.OpenFL
                     if (obj is CLBufferInfo buf) //Unpack the Buffer from the CLBuffer Object.
                     {
                         obj = buf.Buffer;
+
+                        Bitmap bb = new Bitmap(width, height);
+                        CLAPI.UpdateBitmap(instance, bb, CLAPI.ReadBuffer<byte>(instance, buf.Buffer, width * height * depth * channelCount));
+
+                        bb.Save($"./Debug/{currentBuffer.DefinedBufferName}.arg{i}.{k.Name}.png");
+
                     }
 
                     k.SetArg(i, obj);
                 }
 
-                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8, "Running kernel: " + k.Name);
+                Logger.Log(LogType.Log, Verbosity.Level8, "Running kernel: " + k.Name);
                 CLAPI.Run(instance, k, currentBuffer.Buffer, new int3(width, height, depth),
                     KernelParameter.GetDataMaxSize(kernelDb.GenDataType), activeChannelBuffer,
                     channelCount); //Running the kernel
+
+                Bitmap bmp = new Bitmap(width, height);
+                CLAPI.UpdateBitmap(instance, bmp, CLAPI.ReadBuffer<byte>(instance, currentBuffer.Buffer, width*height*depth*channelCount));
+
+                bmp.Save($"./Debug/{currentBuffer.DefinedBufferName}.{k.Name}.png");
+
             }
 
             return ret;
@@ -555,7 +573,7 @@ namespace Byt3.OpenFL
             {
                 if (jumpStack.Count == 0)
                 {
-                    Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8, "Reached End of Code");
+                    Logger.Log(LogType.Log, Verbosity.Level8, "Reached End of Code");
 
                     Terminated = true;
                 }
@@ -563,9 +581,12 @@ namespace Byt3.OpenFL
                 {
                     FLInterpreterState lastState = jumpStack.Pop();
 
-                    Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8,
+                    Logger.Log(LogType.Log, Verbosity.Level8,
                         "Returning to location: " + data.Source[lastState.Line]);
                     currentIndex = lastState.Line;
+
+                    activeChannels = lastState.ChannelBuffer;
+                    UpdateActiveChannels();
 
 
                     if (lastState.ArgumentStack.Count != 0 && lastState.ArgumentStack.Peek() == null)
@@ -574,6 +595,8 @@ namespace Byt3.OpenFL
                         lastState.ArgumentStack.Pop();
                         lastState.ArgumentStack.Push(currentBuffer);
                     }
+
+                    
 
                     currentArgStack = lastState.ArgumentStack;
                     currentBuffer = lastState.ActiveBuffer;
@@ -590,12 +613,12 @@ namespace Byt3.OpenFL
         /// <param name="leaveBuffer">a flag to optionally keep the current buffer</param>
         private void JumpTo(int index, bool leaveBuffer = false)
         {
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level6,
+            Logger.Log(LogType.Log, Verbosity.Level6,
                 "Jumping To Function: " + data.Source[index]);
-            jumpStack.Push(new FLInterpreterState(currentIndex, currentBuffer, currentArgStack));
+            jumpStack.Push(new FLInterpreterState(currentIndex, currentBuffer, currentArgStack, activeChannels));
             stepResult.HasJumped = true;
 
-            int size = (int) currentBuffer.Buffer.Size;
+            int size = (int)currentBuffer.Buffer.Size;
 
 
             if (!leaveBuffer)
@@ -644,7 +667,7 @@ namespace Byt3.OpenFL
                 if (source[i].StartsWith(key))
                 {
                     string[] kvp = source[i].Remove(0, key.Length)
-                        .Split(new[] {FUNCTION_NAME_POSTFIX}, StringSplitOptions.None);
+                        .Split(new[] { FUNCTION_NAME_POSTFIX }, StringSplitOptions.None);
 
                     handler?.Invoke(instance, kvp, defines, width, height, depth, channelCount, kernelDb);
                     source.RemoveAt(i);
@@ -660,7 +683,7 @@ namespace Byt3.OpenFL
         /// <param name="channelCount"></param>
         private List<string> LoadSource(string file, int channelCount)
         {
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level8, "Loading Source..");
+            Logger.Log(LogType.Log, Verbosity.Level8, "Loading Source..");
 
             Dictionary<string, bool> defs = new Dictionary<string, bool>();
 
@@ -681,7 +704,7 @@ namespace Byt3.OpenFL
                 }
                 else
                 {
-                    lines[i] = line.Split(new[] {COMMENT_PREFIX}, StringSplitOptions.None)[0].Trim();
+                    lines[i] = line.Split(new[] { COMMENT_PREFIX }, StringSplitOptions.None)[0].Trim();
                 }
             }
 
@@ -693,7 +716,7 @@ namespace Byt3.OpenFL
             int channelCount,
             KernelDatabase db, Dictionary<string, FLInterpreterFunctionInfo> funcs)
         {
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level6,
+            Logger.Log(LogType.Log, Verbosity.Level6,
                 "Loading Script Data for File: " + file);
 
             FLScriptData ret = new FLScriptData(LoadSource(file, channelCount));
@@ -701,30 +724,30 @@ namespace Byt3.OpenFL
 
             ret.Defines.Add(INPUT_BUFFER_NAME, inBuffer);
 
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+            Logger.Log(LogType.Log, Verbosity.Level5,
                 "Parsing Texture Defines for File: " + file);
             ParseDefines(instance, DEFINE_KEY, DefineTexture, ret.Source, ret.Defines, width, height, depth,
                 channelCount, db);
 
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+            Logger.Log(LogType.Log, Verbosity.Level5,
                 "Parsing Script Defines for File: " + file);
             ParseDefines(instance, SCRIPT_DEFINE_KEY, DefineScript, ret.Source, ret.Defines, width, height, depth,
                 channelCount,
                 db);
 
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+            Logger.Log(LogType.Log, Verbosity.Level5,
                 "Parsing JumpLocations for File: " + file);
             ret.JumpLocations = ParseJumpLocations(ret.Source);
 
-            Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level5,
+            Logger.Log(LogType.Log, Verbosity.Level5,
                 "Parsing Instruction Data for File: " + file);
             foreach (string line in ret.Source)
             {
-                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level3,
+                Logger.Log(LogType.Log, Verbosity.Level3,
                     "Parsing Instruction Data for Line: " + line);
                 FLInstructionData data = GetInstructionData(line, ret.Defines, ret.JumpLocations, funcs, db);
 
-                Logger.Log(DebugChannel.Log | DebugChannel.OpenFL, Verbosity.Level3,
+                Logger.Log(LogType.Log, Verbosity.Level3,
                     "Parsed Instruction Data: " + Enum.GetName(typeof(FLInstructionType), data.InstructionType));
 
                 ret.ParsedSource.Add(data);
@@ -742,12 +765,12 @@ namespace Byt3.OpenFL
 
             if (code.Length == 0)
             {
-                return new FLInstructionData {InstructionType = FLInstructionType.Nop};
+                return new FLInstructionData { InstructionType = FLInstructionType.Nop };
             }
 
             if (code[0].Trim().EndsWith(FUNCTION_NAME_POSTFIX))
             {
-                return new FLInstructionData {InstructionType = FLInstructionType.FunctionHeader};
+                return new FLInstructionData { InstructionType = FLInstructionType.FunctionHeader };
             }
 
             bool isBakedFunction = funcs.ContainsKey(code[0]);
@@ -770,20 +793,20 @@ namespace Byt3.OpenFL
             {
                 if (defines.ContainsKey(code[i]))
                 {
-                    argData.Add(new FLArgumentData {value = defines[code[i]], argType = FLArgumentType.Buffer});
+                    argData.Add(new FLArgumentData { value = defines[code[i]], argType = FLArgumentType.Buffer });
                 }
                 else if (jumpLocations.ContainsKey(code[i]))
                 {
                     argData.Add(
-                        new FLArgumentData {value = jumpLocations[code[i]], argType = FLArgumentType.Function});
+                        new FLArgumentData { value = jumpLocations[code[i]], argType = FLArgumentType.Function });
                 }
                 else if (decimal.TryParse(code[i], NumberStyles.Any, NumberParsingHelper, out decimal valResult))
                 {
-                    argData.Add(new FLArgumentData {value = valResult, argType = FLArgumentType.Number});
+                    argData.Add(new FLArgumentData { value = valResult, argType = FLArgumentType.Number });
                 }
                 else
                 {
-                    argData.Add(new FLArgumentData {value = null, argType = FLArgumentType.Unknown});
+                    argData.Add(new FLArgumentData { value = null, argType = FLArgumentType.Unknown });
                     throw new FLInvalidArgumentType(code[i], "Number or Defined buffer.");
                 }
             }
@@ -827,7 +850,7 @@ namespace Byt3.OpenFL
         /// <returns>The active buffer read from the gpu and placed in cpu memory</returns>
         public T[] GetResult<T>() where T : struct
         {
-            return CLAPI.ReadBuffer<T>(instance, currentBuffer.Buffer, (int) currentBuffer.Buffer.Size);
+            return CLAPI.ReadBuffer<T>(instance, currentBuffer.Buffer, (int)currentBuffer.Buffer.Size);
         }
 
         /// <summary>

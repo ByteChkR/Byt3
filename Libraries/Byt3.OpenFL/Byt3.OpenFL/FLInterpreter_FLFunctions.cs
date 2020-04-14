@@ -3,6 +3,7 @@ using Byt3.ADL;
 using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.Wrapper;
+using Byt3.OpenFL.Exceptions;
 
 namespace Byt3.OpenFL
 {
@@ -34,9 +35,8 @@ namespace Byt3.OpenFL
                 byte channel = (byte) Convert.ChangeType(val, typeof(byte));
                 if (channel >= channelCount)
                 {
-                    Logger.Log(DebugChannel.Error, Verbosity.Level1,
-                        "Script is enabling channels beyond channel count. Ignoring...",
-                        DebugChannel.Warning | DebugChannel.OpenFL, 10);
+                    Logger.Log(LogType.Error, Verbosity.Level1,
+                        "Script is enabling channels beyond channel count. Ignoring...");
                 }
                 else
                 {
@@ -72,16 +72,21 @@ namespace Byt3.OpenFL
 
             if (needCopy)
             {
-                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Updating Channel Buffer",
-                    DebugChannel.Log | DebugChannel.OpenFL, 6);
                 activeChannels = temp;
-                CLAPI.WriteToBuffer(instance, activeChannelBuffer, activeChannels);
+                UpdateActiveChannels();
             }
             else
             {
-                Logger.Log(DebugChannel.Error, Verbosity.Level1, "Skipping Updating Channel Buffer",
-                    DebugChannel.Log | DebugChannel.OpenFL, 6);
+                Logger.Log(LogType.Log, Verbosity.Level1, "Skipping Updating Channel Buffer",
+                    LogType.Log, 6);
             }
+        }
+
+        private void UpdateActiveChannels()
+        {
+            Logger.Log(LogType.Log, Verbosity.Level1, "Updating Channel Buffer",
+                LogType.Log, 6);
+            CLAPI.WriteToBuffer(instance, activeChannelBuffer, activeChannels);
         }
 
         /// <summary>
@@ -143,7 +148,7 @@ namespace Byt3.OpenFL
         /// </summary>
         private void CmdJump() //Dummy function. Implementation in AnalyzeLine(code) function(look for isDirectExecute)
         {
-            Logger.Log(DebugChannel.Error, Verbosity.Level1, "Jumping.", DebugChannel.Log | DebugChannel.OpenFL, 6);
+            Logger.Log(LogType.Log, Verbosity.Level1, "Jumping.", LogType.Log, 6);
         }
 
         /// <summary>
