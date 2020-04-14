@@ -538,10 +538,10 @@ namespace Byt3.OpenFL
                     {
                         obj = buf.Buffer;
 
-                        Bitmap bb = new Bitmap(width, height);
-                        CLAPI.UpdateBitmap(instance, bb, CLAPI.ReadBuffer<byte>(instance, buf.Buffer, width * height * depth * channelCount));
+                        //Bitmap bb = new Bitmap(width, height);
+                        //CLAPI.UpdateBitmap(instance, bb, CLAPI.ReadBuffer<byte>(instance, buf.Buffer, width * height * depth * channelCount));
 
-                        bb.Save($"./Debug/{currentBuffer.DefinedBufferName}.arg{i}.{k.Name}.png");
+                        //bb.Save($"./Debug/{currentBuffer.DefinedBufferName}.arg{i}.{k.Name}.png");
 
                     }
 
@@ -553,10 +553,10 @@ namespace Byt3.OpenFL
                     KernelParameter.GetDataMaxSize(kernelDb.GenDataType), activeChannelBuffer,
                     channelCount); //Running the kernel
 
-                Bitmap bmp = new Bitmap(width, height);
-                CLAPI.UpdateBitmap(instance, bmp, CLAPI.ReadBuffer<byte>(instance, currentBuffer.Buffer, width*height*depth*channelCount));
+                //Bitmap bmp = new Bitmap(width, height);
+                //CLAPI.UpdateBitmap(instance, bmp, CLAPI.ReadBuffer<byte>(instance, currentBuffer.Buffer, width*height*depth*channelCount));
 
-                bmp.Save($"./Debug/{currentBuffer.DefinedBufferName}.{k.Name}.png");
+                //bmp.Save($"./Debug/{currentBuffer.DefinedBufferName}.{k.Name}.png");
 
             }
 

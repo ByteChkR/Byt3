@@ -91,6 +91,11 @@ namespace Byt3.OpenCL.Wrapper
             }
         }
 
+        public CLKernel GetClKernel(string name)
+        {
+            return LoadedKernels[name];
+        }
+
         /// <summary>
         /// Tries to get the CLKernel by the specified name
         /// </summary>
