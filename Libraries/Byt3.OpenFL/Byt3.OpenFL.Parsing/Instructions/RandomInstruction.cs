@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using Byt3.OpenCL.Wrapper;
+using Byt3.OpenFL.Parsing.DataObjects;
+using Byt3.OpenFL.Parsing.Exceptions;
+
+namespace Byt3.OpenFL.Parsing.Instructions
+{
+    public class RandomInstruction : Instruction
+    {
+        private static readonly Random Rnd = new Random();
+        /// <summary>
+        /// A function used as RandomFunc of type byte>
+        /// </summary>
+        /// <returns>a random byte</returns>
+        private static byte Randombytesource()
+        {
+            return (byte)Rnd.Next();
+        }
+
+        public RandomInstruction(List<InstructionArgument> arguments) : base(arguments) { }
+
+
+        public override void Process()
+        {
+            if (Arguments.Count == 0)
+            {
+                CLAPI.WriteRandom(Root.Instance, Root.ActiveBuffer.Buffer, Randombytesource, Root.ActiveChannels, false);
+            }
+
+            for (int i = 0; i < Arguments.Count; i++)
+            {
+                InstructionArgument obj = Arguments[i];
+
+                if (obj.Type != InstructionArgumentType.Buffer)
+                {
+                    throw
+                        new FLInvalidArgumentType("Argument: " + obj.Value, "MemoyBuffer/Image");
+                }
+
+                CLAPI.WriteRandom(Root.Instance, ((FLBufferInfo)obj.Value).Buffer, Randombytesource, Root.ActiveChannels, false);
+            }
+        }
+    }
+}

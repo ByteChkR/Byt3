@@ -7,9 +7,11 @@ using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
-using Byt3.OpenFL.New;
-using Byt3.OpenFL.New.DataObjects;
-using Byt3.OpenFL.New.Parsing;
+using Byt3.OpenFL.Parsing;
+using Byt3.OpenFL.Parsing.Stages;
+//using Byt3.OpenFL.New;
+//using Byt3.OpenFL.New.DataObjects;
+//using Byt3.OpenFL.New.Parsing;
 using Xunit;
 
 namespace Byt3.OpenFL.Tests
@@ -23,6 +25,22 @@ namespace Byt3.OpenFL.Tests
             string[] files = Directory.GetFiles(path, "*.fl", SearchOption.TopDirectoryOnly);
             KernelDatabase db =
                 new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataVectorTypes.Uchar1);
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                FLParseResult res = FLParser.Parse(new FLParserInput(files[i]));
+                FLBufferInfo buffer = new FLBufferInfo(CLAPI.MainThread, 256, 256);
+                res.Run(CLAPI.MainThread, db, buffer); //Running it
+
+                Bitmap bmp = new Bitmap(res.Dimensions.x, res.Dimensions.y); //Getting the Output
+                CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, CLAPI.ReadBuffer<byte>(CLAPI.MainThread, res.ActiveBuffer.Buffer, res.InputSize));
+
+                buffer.Dispose();
+
+                string pp = Path.GetFullPath("./out/" + Path.GetFileNameWithoutExtension(files[i]) + ".png"); //Saving for debug reasons.
+                //bmp.Save(pp);
+
+            }
 
 
             //ParsedSource mulsource= FLParser.ParseFile(CLAPI.MainThread, "resources/filter/tests/multex.fl"); //parsing the FL Script
@@ -38,24 +56,24 @@ namespace Byt3.OpenFL.Tests
             //mulbmp.Save(ppp);
 
 
-            List<ParsedSource> src = new List<ParsedSource>();
-            for (int i = 0; i < files.Length; i++)
-            {
-                src.Add(FLParser.ParseFile(CLAPI.MainThread, files[i])); //parsing the FL Script
-                FLBufferInfo buffer = new FLBufferInfo(CLAPI.MainThread, 256, 256);
-                src[i].Run(CLAPI.MainThread, db,buffer); //Running it
+            //List<ParsedSource> src = new List<ParsedSource>();
+            //for (int i = 0; i < files.Length; i++)
+            //{
+            //    src.Add(FLParser.ParseFile(CLAPI.MainThread, files[i])); //parsing the FL Script
+            //    FLBufferInfo buffer = new FLBufferInfo(CLAPI.MainThread, 256, 256);
+            //    src[i].Run(CLAPI.MainThread, db,buffer); //Running it
 
-                Bitmap bmp = new Bitmap(src[i].Dimensions.x, src[i].Dimensions.y); //Getting the Output
-                CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, CLAPI.ReadBuffer<byte>(CLAPI.MainThread, src[i].ActiveBuffer.Buffer, src[i].InputSize));
+            //    Bitmap bmp = new Bitmap(src[i].Dimensions.x, src[i].Dimensions.y); //Getting the Output
+            //    CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, CLAPI.ReadBuffer<byte>(CLAPI.MainThread, src[i].ActiveBuffer.Buffer, src[i].InputSize));
 
-                buffer.Dispose();
+            //    buffer.Dispose();
 
-                string pp = Path.GetFullPath("./out/" + Path.GetFileNameWithoutExtension(files[i]) + ".png"); //Saving for debug reasons.
-                //bmp.Save(pp);
+            //    string pp = Path.GetFullPath("./out/" + Path.GetFileNameWithoutExtension(files[i]) + ".png"); //Saving for debug reasons.
+            //    //bmp.Save(pp);
 
 
-                src[i].FreeResources();
-            }
+            //    src[i].FreeResources();
+            //}
         }
 
         [Fact]
