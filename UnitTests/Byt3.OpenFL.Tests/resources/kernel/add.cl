@@ -21,7 +21,7 @@ __kernel void addv(__global uchar* image, int3 dimensions, int channelCount, flo
 		return;
 	}
 
-	image[idx] += value;
+	image[idx] += value*maxValue;
 }
 
 __kernel void addc(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, __global uchar* overlay)
@@ -49,6 +49,6 @@ __kernel void addvc(__global uchar* image, int3 dimensions, int channelCount, fl
 
 
 	int val = image[idx];
-	val += (int)value;
+	val += (int)(value*maxValue);
 	image[idx] = (uchar)clamp(val, 0, (int)maxValue);
 }

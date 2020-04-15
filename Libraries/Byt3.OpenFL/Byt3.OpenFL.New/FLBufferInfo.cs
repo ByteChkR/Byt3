@@ -7,10 +7,10 @@ using Image = System.Drawing.Image;
 
 namespace Byt3.OpenFL.New
 {
-    public class UnloadedDefinedFLBufferInfo : FLBufferInfo
+    public class UnloadedDefinedFLBufferInfo : FLBufferInfo, IDisposable
     {
-        public delegate Bitmap BufferLoader();
-        private readonly BufferLoader _loader;
+        public delegate FLBufferInfo BufferLoader(ParsedSource root);
+        protected BufferLoader Loader;
         private MemoryBuffer _buffer;
 
         public override MemoryBuffer Buffer
@@ -19,9 +19,7 @@ namespace Byt3.OpenFL.New
             {
                 if (_buffer == null)
                 {
-                    Bitmap bmp = _loader();
-
-                    FLBufferInfo i = new FLBufferInfo(Root.Instance, new Bitmap(bmp, Root.Dimensions.x, Root.Dimensions.y));
+                    FLBufferInfo i = Loader(Root);
 
                     _buffer = i.Buffer;
                     Width = i.Width;
@@ -32,72 +30,68 @@ namespace Byt3.OpenFL.New
             }
         }
 
-        public UnloadedDefinedFLBufferInfo(BufferLoader Loader) : base(default(MemoryBuffer), -1, -1)
+        public UnloadedDefinedFLBufferInfo(BufferLoader loader) : base(default(MemoryBuffer), -1, -1)
         {
-            _loader = Loader;
+            Loader = loader;
+        }
+
+        public override void Dispose()
+        {
+            _buffer?.Dispose();
+            _buffer = null;
         }
     }
 
-    public class UnloadedFLBufferInfo : FLBufferInfo
+
+    public class UnloadedFLBufferInfo : UnloadedDefinedFLBufferInfo
     {
         private readonly string File;
 
-        private MemoryBuffer _buffer;
-        private readonly CLAPI _initInstance;
 
-        public override MemoryBuffer Buffer
+        public UnloadedFLBufferInfo(string file) : base(null)
         {
-            get
+            Loader = root =>
             {
-                if (_buffer == null)
+                if (File == "INPUT")
                 {
-                    if (File == "INPUT")
-                    {
-                        return Root.Input.Buffer;
-                    }
-                    Bitmap bmp = new Bitmap((Bitmap)Image.FromFile(File), Root.Dimensions.x, Root.Dimensions.y);
-                    _buffer = CLAPI.CreateFromImage(_initInstance, bmp, MemoryFlag.CopyHostPointer);
-                    Width = bmp.Width;
-                    Height = bmp.Height;
+                    return root.Input;
                 }
 
-                return _buffer;
-            }
+                Bitmap bmp = new Bitmap((Bitmap)Image.FromFile(File), root.Dimensions.x, root.Dimensions.y);
+                return new FLBufferInfo(root.Instance, bmp);
+            };
+            File = file;
+
         }
 
-        public UnloadedFLBufferInfo(CLAPI instance, string file) : base(default(MemoryBuffer), -1, -1)
-        {
-            File = file;
-            _initInstance = instance;
-        }
     }
 
     /// <summary>
     /// Wrapper for the Memory Buffer holding some useful additional data
     /// </summary>
-    public class FLBufferInfo : ParsedObject
+    public class FLBufferInfo : ParsedObject, IDisposable
     {
         /// <summary>
         /// The buffer
         /// </summary>
-        public virtual MemoryBuffer Buffer { get; protected set; }
+        public virtual MemoryBuffer Buffer { get; }
 
         public int Width;
         public int Height;
 
         public FLBufferInfo(CLAPI instance, int width, int height) : this(
-            CLAPI.CreateEmpty<byte>(instance, width * height * 4, MemoryFlag.CopyHostPointer), width, height)
+            CLAPI.CreateEmpty<byte>(instance, width * height * 4, MemoryFlag.ReadWrite), width, height)
         {
 
         }
 
         public FLBufferInfo(CLAPI instance, byte[] data, int width, int height) : this(
-            CLAPI.CreateBuffer(instance, data, MemoryFlag.CopyHostPointer), width, height)
+            CLAPI.CreateBuffer(instance, data, MemoryFlag.ReadWrite), width, height)
         {
 
         }
 
-        public FLBufferInfo(CLAPI instance, Bitmap bitmap) : this(CLAPI.CreateFromImage(instance, bitmap, MemoryFlag.CopyHostPointer), bitmap.Width, bitmap.Height)
+        public FLBufferInfo(CLAPI instance, Bitmap bitmap) : this(CLAPI.CreateFromImage(instance, bitmap, MemoryFlag.ReadWrite), bitmap.Width, bitmap.Height)
         {
 
         }
@@ -149,6 +143,12 @@ namespace Byt3.OpenFL.New
         public override string ToString()
         {
             return DefinedBufferName + "_" + (IsInternal ? "internal" : "unmanaged");
+        }
+
+
+        public virtual void Dispose()
+        {
+            Buffer.Dispose();
         }
     }
 }

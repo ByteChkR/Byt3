@@ -5,7 +5,6 @@ pp_includeinl: pptests/includeinl.fl
 
 Main:
 	#random noisetextemp
-	setactive 3
 	jmp PlainPerlin
 	setactive 0 1 2
-	set wfctest
+	mul wfctest

@@ -2,7 +2,7 @@
 
 namespace Byt3.OpenFL.New.DataObjects
 {
-    public class InstructionArgument
+    public class InstructionArgument : ParsedObject
     {
         public InstructionArgumentType Type
         {
@@ -22,17 +22,11 @@ namespace Byt3.OpenFL.New.DataObjects
                     case FunctionObject _:
                         ret = InstructionArgumentType.Function;
                         break;
-                    case ParsedSource _:
-                        ret = InstructionArgumentType.Script;
-                        break;
                     case UnresolvedFunction _:
                         ret = InstructionArgumentType.UnresolvedFunction;
                         break;
                     case UnresolvedDefinedBuffer _:
                         ret = InstructionArgumentType.UnresolvedDefinedBuffer;
-                        break;
-                    case UnresolvedDefinedScript _:
-                        ret = InstructionArgumentType.UnresolvedScript;
                         break;
                 }
 
@@ -45,6 +39,17 @@ namespace Byt3.OpenFL.New.DataObjects
         public InstructionArgument(object value)
         {
             Value = value;
+        }
+
+        public override void SetRoot(ParsedSource root)
+        {
+            base.SetRoot(root);
+
+            //HERE
+            if (Type == InstructionArgumentType.Buffer || Type == InstructionArgumentType.Function)
+            {
+                ((ParsedObject)Value).SetRoot(root);
+            }
         }
     }
 }

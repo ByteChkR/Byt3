@@ -3,10 +3,12 @@
     public class UnresolvedFunction
     {
         public string FunctionName;
+        public bool External;
 
-        public UnresolvedFunction(string functionName)
+        public UnresolvedFunction(string functionName, bool external)
         {
             FunctionName = functionName;
+            External = external;
         }
     }
 }

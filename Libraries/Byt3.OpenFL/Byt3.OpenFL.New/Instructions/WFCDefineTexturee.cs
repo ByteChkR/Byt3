@@ -21,25 +21,32 @@ namespace Byt3.OpenFL.New.Instructions
             return (byte)Rnd.Next();
         }
 
-        public static FLBufferInfo ComputeRnd(ParsedSource Root, string[] args)
+        public static FLBufferInfo ComputeRnd(string[] args)
         {
-            MemoryBuffer buf =
-                CLAPI.CreateEmpty<byte>(Root.Instance, Root.InputSize, MemoryFlag.ReadWrite | MemoryFlag.CopyHostPointer);
-            CLAPI.WriteRandom(Root.Instance, buf, Randombytesource, new byte[] { 1, 1, 1, 1 }, false);
 
-            FLBufferInfo info = new FLBufferInfo(buf, Root.Dimensions.x, Root.Dimensions.y);
-            info.SetKey("RNDBuffer");
+
+            UnloadedDefinedFLBufferInfo info = new UnloadedDefinedFLBufferInfo(root =>
+            {
+                MemoryBuffer buf =
+                    CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite);
+                CLAPI.WriteRandom(root.Instance, buf, Randombytesource, new byte[] { 1, 1, 1, 1 }, false);
+                
+                return new FLBufferInfo(buf, root.Dimensions.x, root.Dimensions.y);
+            });
             return info;
         }
 
-        public static FLBufferInfo ComputeUrnd(ParsedSource Root, string[] args)
+        public static FLBufferInfo ComputeUrnd(string[] args)
         {
-            MemoryBuffer buf =
-                CLAPI.CreateEmpty<byte>(Root.Instance, Root.InputSize, MemoryFlag.ReadWrite | MemoryFlag.CopyHostPointer);
-            CLAPI.WriteRandom(Root.Instance, buf, Randombytesource, new byte[] { 1, 1, 1, 1 }, true);
+            UnloadedDefinedFLBufferInfo info = new UnloadedDefinedFLBufferInfo(root =>
+            {
+                MemoryBuffer buf =
+                    CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite);
+                CLAPI.WriteRandom(root.Instance, buf, Randombytesource, new byte[] { 1, 1, 1, 1 }, true);
 
-            FLBufferInfo info = new FLBufferInfo(buf, Root.Dimensions.x, Root.Dimensions.y);
-            info.SetKey("URNDBuffer");
+                return new FLBufferInfo(buf, root.Dimensions.x, root.Dimensions.y);
+            });
+
             return info;
         }
 
@@ -93,7 +100,7 @@ namespace Byt3.OpenFL.New.Instructions
                     if (CLAPI.FileExists(fn))
                     {
 
-                        UnloadedDefinedFLBufferInfo info = new UnloadedDefinedFLBufferInfo(() =>
+                        UnloadedDefinedFLBufferInfo info = new UnloadedDefinedFLBufferInfo(root =>
                         {
                             Bitmap bmp;
                             WFCOverlayMode wfc = new WFCOverlayMode(fn, n, widh,
@@ -112,7 +119,9 @@ namespace Byt3.OpenFL.New.Instructions
                                 bmp = new Bitmap(wfc.Graphics(), new Size(widh, heigt)); //Apply scaling
                             }
 
-                            return bmp;
+                            Bitmap b = new Bitmap(bmp, root.Dimensions.x, root.Dimensions.y);
+
+                            return new FLBufferInfo(root.Instance, b);
                         });
                         info.SetKey("WFCBuffer");
                         return info;

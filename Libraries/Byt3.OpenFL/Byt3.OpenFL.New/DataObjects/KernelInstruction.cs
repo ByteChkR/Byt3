@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 
@@ -29,36 +28,33 @@ namespace Byt3.OpenFL.New.DataObjects
                 int kernelArgIndex = i + FL_HEADER_ARG_COUNT;
                 if (Arguments[i].Type == InstructionArgumentType.Buffer)
                 {
-                    Kernel.SetBuffer(kernelArgIndex, ((FLBufferInfo)Arguments[i].Value).Buffer);
+                    FLBufferInfo bi = (FLBufferInfo)Arguments[i].Value;
+                    Kernel.SetBuffer(kernelArgIndex, bi.Buffer);
                 }
                 else if (Arguments[i].Type == InstructionArgumentType.Function)
                 {
-                    FLBufferInfo buffer = new FLBufferInfo(Root.Instance, Root.Dimensions.x, Root.Dimensions.y);
+                    FLBufferInfo buffer = Root.RegisterUnmanagedBuffer(new FLBufferInfo(Root.Instance, Root.Dimensions.x, Root.Dimensions.y));
 
                     Root.PushContext(); //Store Dynamic Variables
 
-                    Root.ActiveChannels = new byte[] { 1, 1, 1, 1 }; //Reset the Active Channels
-
-                    Root.ActiveBuffer = buffer; //Set the Active buffer as new buffer
-
-                    ((FunctionObject)Arguments[i].Value).Process(); //Process the Function Object
-
+                    FunctionObject function = (FunctionObject) Arguments[i].Value; //Process the Function Object
+                    Root.Run(Root.Instance, Root.KernelDB, buffer, function);
                     Kernel.SetBuffer(kernelArgIndex, Root.ActiveBuffer.Buffer); //Set the Active Buffer as the Kernel Argument
 
                     Root.ReturnFromContext(); //Restore active channels and buffer
                 }
-                else if(Arguments[i].Type == InstructionArgumentType.Number)
+                else if (Arguments[i].Type == InstructionArgumentType.Number)
                 {
                     Kernel.SetArg(kernelArgIndex, Arguments[i].Value); //The Value is a Decimal
                 }
                 else
                 {
-                    throw new InvalidOperationException("Can not parse: "+ Arguments[i].Value);
+                    throw new InvalidOperationException("Can not parse: " + Arguments[i].Value);
                 }
             }
 
             CLAPI.Run(Root.Instance, Kernel, Root.ActiveBuffer.Buffer, Root.Dimensions,
-                KernelParameter.GetDataMaxSize(Root.KernelDB.GenDataType), CLAPI.CreateBuffer(Root.Instance, Root.ActiveChannels, MemoryFlag.CopyHostPointer), 4);
+                KernelParameter.GetDataMaxSize(Root.KernelDB.GenDataType), CLAPI.CreateBuffer(Root.Instance, Root.ActiveChannels, MemoryFlag.ReadOnly), 4);
         }
     }
 }

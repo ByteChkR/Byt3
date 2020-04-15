@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Byt3.ADL;
-using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;

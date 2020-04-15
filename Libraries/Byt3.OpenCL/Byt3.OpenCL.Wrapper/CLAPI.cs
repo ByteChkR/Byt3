@@ -6,9 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Byt3.ADL;
-using Byt3.ExtPP.API;
 using Byt3.OpenCL.CommandQueues;
-using Byt3.OpenCL.Common.ExtPP.API;
 using Byt3.OpenCL.Contexts;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Devices;
@@ -350,7 +348,7 @@ namespace Byt3.OpenCL.Wrapper
 
             MemoryBuffer buffer = buf;
 
-            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int) buffer.Size);
+            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int)buffer.Size);
 
 
             WriteRandom(data, enabledChannels, rnd, uniform);
@@ -466,7 +464,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns></returns>
         public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags) where T : struct
         {
-            object[] arr = Array.ConvertAll(data, x => (object) x);
+            object[] arr = Array.ConvertAll(data, x => (object)x);
             return CreateBuffer(instance, arr, typeof(T), flags);
         }
 
@@ -487,7 +485,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns></returns>
         public static MemoryBuffer CreateFromImage(CLAPI instance, Bitmap bmp, MemoryFlag flags)
         {
-            bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            //bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
             BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
@@ -495,13 +493,47 @@ namespace Byt3.OpenCL.Wrapper
             Marshal.Copy(data.Scan0, buffer, 0, buffer.Length);
             bmp.UnlockBits(data);
 
+            ARGBtoBGRA(buffer);
+
             MemoryBuffer mb = CreateBuffer(instance, buffer, flags);
             return mb;
         }
 
+        private static void ARGBtoBGRA(byte[] bytes)
+        {
+            byte[] ret = new byte[bytes.Length];
+            for (int i = 0; i < bytes.Length / 4; i++)
+            {
+                byte a = bytes[i];
+                byte r = bytes[i + 1];
+                byte g = bytes[i + 2];
+                byte b = bytes[i + 3];
+                ret[i] = b;
+                ret[i + 1] = g;
+                ret[i + 2] = r;
+                ret[i + 3] = a;
+            }
+        }
+
+        private static void BGRAtoARGB(byte[] bytes)
+        {
+            byte[] ret = new byte[bytes.Length];
+            for (int i = 0; i < bytes.Length / 4; i++)
+            {
+                byte b = bytes[i];
+                byte g = bytes[i + 1];
+                byte r = bytes[i + 2];
+                byte a = bytes[i + 3];
+                ret[i] = a;
+                ret[i + 1] = r;
+                ret[i + 2] = g;
+                ret[i + 3] = b;
+            }
+        }
 
         public static void UpdateBitmap(CLAPI instance, Bitmap target, byte[] bytes)
         {
+            BGRAtoARGB(bytes);
             BitmapData data = target.LockBits(new Rectangle(0, 0, target.Width, target.Height), ImageLockMode.WriteOnly,
                 PixelFormat.Format32bppArgb);
             Marshal.Copy(bytes, 0, data.Scan0, bytes.Length);

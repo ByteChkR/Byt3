@@ -6,11 +6,12 @@ using Byt3.OpenCL.Wrapper;
 
 namespace Byt3.OpenFL.New.DataObjects
 {
-
     public class ParsedSource
     {
         public string ScriptName;
-        internal ParsedSource(string scriptName, FunctionObject[] functions, Dictionary<string, FLBufferInfo> definedBuffers, Dictionary<string, ParsedSource> definedScripts)
+
+        internal ParsedSource(string scriptName, FunctionObject[] functions,
+            Dictionary<string, FLBufferInfo> definedBuffers, Dictionary<string, FunctionObject> definedScripts)
         {
             ScriptName = scriptName;
             Functions = functions;
@@ -18,11 +19,33 @@ namespace Byt3.OpenFL.New.DataObjects
             DefinedScripts = definedScripts;
         }
 
+        public void FreeResources()
+        {
+            List<string> removeList = new List<string>();
+            foreach (KeyValuePair<string, FLBufferInfo> definedBuffer in DefinedBuffers)
+            {
+                definedBuffer.Value.Dispose();
+                if (!(definedBuffer.Value is UnloadedDefinedFLBufferInfo)) removeList.Add(definedBuffer.Key);
+            }
+
+            for (int i = 0; i < removeList.Count; i++)
+            {
+                throw new Exception("Check this");
+                DefinedBuffers.Remove(removeList[i]);
+            }
+
+            for (int i = 0; i < internalBuffers.Count; i++)
+            {
+                internalBuffers[i].Dispose();
+            }
+            internalBuffers.Clear();
+        }
+
         //Parsed Objects
         public FunctionObject[] Functions;
         public FunctionObject EntryPoint => Functions.First(x => x.Name == "Main");
         public Dictionary<string, FLBufferInfo> DefinedBuffers;
-        public Dictionary<string, ParsedSource> DefinedScripts;
+        public Dictionary<string, FunctionObject> DefinedScripts;
 
         //Semi Static Objects. Get Set when the Source is actually beeing ran
         public CLAPI Instance;
@@ -50,7 +73,15 @@ namespace Byt3.OpenFL.New.DataObjects
             ActiveBuffer = context.ActiveBuffer;
         }
 
-        public void Run(CLAPI instance, KernelDatabase kernelDB, FLBufferInfo input)
+        private List<FLBufferInfo> internalBuffers = new List<FLBufferInfo>();
+        internal FLBufferInfo RegisterUnmanagedBuffer(FLBufferInfo buffer)
+        {
+            internalBuffers.Add(buffer);
+
+            return buffer;
+        }
+
+        public void Run(CLAPI instance, KernelDatabase kernelDB, FLBufferInfo input, FunctionObject entry = null)
         {
             //Setting Run Dependent Variables.
             Instance = instance;
@@ -59,11 +90,10 @@ namespace Byt3.OpenFL.New.DataObjects
 
             //Start Setup
             ActiveBuffer = input;
-            ActiveChannels = new byte[]{1,1,1,1};
+            ActiveChannels = new byte[] { 1, 1, 1, 1 };
 
-            EntryPoint.Process();
+            FunctionObject entryPoint = entry ?? EntryPoint;
+            entryPoint.Process();
         }
-
-        
     }
 }

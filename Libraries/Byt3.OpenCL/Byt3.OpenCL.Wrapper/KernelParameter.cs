@@ -179,7 +179,7 @@ namespace Byt3.OpenCL.Wrapper
 
                 return CLAPI.CreateBuffer(instance,
                     Array.ConvertAll(data, x => CastToType(Converters[(int) DataType], x)),
-                    Converters[(int) DataType], MemoryFlag.CopyHostPointer | MemoryFlag.ReadOnly);
+                    Converters[(int) DataType], MemoryFlag.ReadOnly);
             }
 
 

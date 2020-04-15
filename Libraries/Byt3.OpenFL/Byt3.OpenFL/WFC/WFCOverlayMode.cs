@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Byt3.ADL;
-using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Wrapper;
 
 namespace Byt3.OpenFL.WFC

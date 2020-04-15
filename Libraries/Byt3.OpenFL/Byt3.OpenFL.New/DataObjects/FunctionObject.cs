@@ -20,5 +20,14 @@ namespace Byt3.OpenFL.New.DataObjects
                 Instructions[i].Process();
             }
         }
+
+        public override void SetRoot(ParsedSource root)
+        {
+            base.SetRoot(root);
+            for (int i = 0; i < Instructions.Count; i++)
+            {
+                Instructions[i].SetRoot(root);
+            }
+        }
     }
 }

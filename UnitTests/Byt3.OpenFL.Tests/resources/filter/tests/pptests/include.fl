@@ -1,4 +1,6 @@
 PlainPerlin:
+  setactive 3
+  setv 1
 	setactive 0 1 2
 	#Initializes the active buffer with random data
  	rnd

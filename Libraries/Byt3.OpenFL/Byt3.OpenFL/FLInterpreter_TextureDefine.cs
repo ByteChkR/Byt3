@@ -4,7 +4,6 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using Byt3.ADL;
-using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
@@ -81,7 +80,7 @@ namespace Byt3.OpenFL
                 {
                     Bitmap bmp = new Bitmap((Bitmap) System.Drawing.Image.FromFile(fn), width, height);
                     CLBufferInfo info = new CLBufferInfo(CLAPI.CreateFromImage(instance, bmp,
-                        MemoryFlag.CopyHostPointer | flags), true);
+                        flags), true);
                     info.SetKey(varname);
                     defines.Add(varname, info);
                 }
@@ -95,7 +94,7 @@ namespace Byt3.OpenFL
             else if (filename == "rnd")
             {
                 MemoryBuffer buf =
-                    CLAPI.CreateEmpty<byte>(instance, inputBufferSize, flags | MemoryFlag.CopyHostPointer);
+                    CLAPI.CreateEmpty<byte>(instance, inputBufferSize, flags);
                 CLAPI.WriteRandom(instance, buf, Randombytesource, activeChannels, false);
 
                 CLBufferInfo info = new CLBufferInfo(buf, true);
@@ -105,7 +104,7 @@ namespace Byt3.OpenFL
             else if (filename == "urnd")
             {
                 MemoryBuffer buf =
-                    CLAPI.CreateEmpty<byte>(instance, inputBufferSize, flags | MemoryFlag.CopyHostPointer);
+                    CLAPI.CreateEmpty<byte>(instance, inputBufferSize, flags);
                 CLAPI.WriteRandom(instance, buf, Randombytesource, activeChannels, true);
 
                 CLBufferInfo info = new CLBufferInfo(buf, true);
@@ -181,8 +180,7 @@ namespace Byt3.OpenFL
                             bmp = new Bitmap(wfc.Graphics(), new Size(width, height)); //Apply scaling
                         }
 
-                        CLBufferInfo info = new CLBufferInfo(CLAPI.CreateFromImage(instance, bmp,
-                            MemoryFlag.CopyHostPointer | flags), true);
+                        CLBufferInfo info = new CLBufferInfo(CLAPI.CreateFromImage(instance, bmp, flags), true);
                         info.SetKey(varname);
                         defines.Add(varname, info);
                     }

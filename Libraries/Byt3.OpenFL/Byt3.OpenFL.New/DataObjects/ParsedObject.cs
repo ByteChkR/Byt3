@@ -2,6 +2,11 @@
 {
     public abstract class ParsedObject
     {
-        public ParsedSource Root;
+        public ParsedSource Root { get; private set; }
+
+        public virtual void SetRoot(ParsedSource root)
+        {
+            Root = root;
+        }
     }
 }

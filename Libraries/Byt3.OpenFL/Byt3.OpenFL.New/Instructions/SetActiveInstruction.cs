@@ -11,7 +11,6 @@ namespace Byt3.OpenFL.New.Instructions
         public override void Process()
         {
             byte[] newFlags = new byte[4];
-            int off = 0;
             for (int i = 0; i < Arguments.Count; i++)
             {
                 if (i == 0)
@@ -21,14 +20,19 @@ namespace Byt3.OpenFL.New.Instructions
                         Root.ActiveBuffer = (FLBufferInfo)Arguments[i].Value;
                         continue;
                     }
-                    else if (Arguments[i].Type == InstructionArgumentType.Script)
+
+
+
+                    if (Arguments[i].Type == InstructionArgumentType.Function)
                     {
-                        FLBufferInfo buffer = new FLBufferInfo(Root.Instance, Root.Dimensions.x, Root.Dimensions.y);
-                        ParsedSource source = (ParsedSource)Arguments[i].Value;
-
-                        source.Run(Root.Instance, Root.KernelDB, buffer);
-
-                        Root.DefinedBuffers.Add(source.ScriptName, buffer);
+                        FLBufferInfo buffer = Root.RegisterUnmanagedBuffer(new FLBufferInfo(Root.Instance, Root.Dimensions.x, Root.Dimensions.y));
+                        FunctionObject source = (FunctionObject)Arguments[i].Value;
+                        
+                        Root.PushContext();
+                        Root.Run(Root.Instance, Root.KernelDB, buffer, source);
+                        FLBufferInfo output = Root.ActiveBuffer;
+                        Root.ReturnFromContext();
+                        Root.ActiveBuffer = output;
                         continue;
                     }
 

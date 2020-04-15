@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Byt3.ExtPP.API;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.New.DataObjects;
@@ -31,7 +30,7 @@ namespace Byt3.OpenFL.New.Parsing
         {
             string[] scriptStrings = FindDefineScriptsStatements(source);
 
-            Dictionary<string, ParsedSource> scripts =
+            Dictionary<string, FunctionObject> scripts =
                 ParseScriptDefines(instance, path, scriptStrings);
 
 
@@ -48,9 +47,9 @@ namespace Byt3.OpenFL.New.Parsing
             return ret;
         }
 
-        private static Dictionary<string, ParsedSource> ParseScriptDefines(CLAPI instance, string path, string[] statements)
+        private static Dictionary<string, FunctionObject> ParseScriptDefines(CLAPI instance, string path, string[] statements)
         {
-            Dictionary<string, ParsedSource> ret = new Dictionary<string, ParsedSource>();
+            Dictionary<string, FunctionObject> ret = new Dictionary<string, FunctionObject>();
             string dir = Path.GetDirectoryName(path);
             for (int i = 0; i < statements.Length; i++)
             {
@@ -59,26 +58,22 @@ namespace Byt3.OpenFL.New.Parsing
                 string p = relPath;
                 ParsedSource ps = ParseFile(instance, p);
                 ps.ScriptName = name;
-                ret.Add(name, ps);
+
+                ret.Add(name, ps.EntryPoint);
             }
 
             return ret;
         }
 
         private static void ResolveReferences(FunctionObject[] functions,
-            Dictionary<string, FLBufferInfo> definedBuffers, Dictionary<string, ParsedSource> definedScripts, ParsedSource source)
+            Dictionary<string, FLBufferInfo> definedBuffers, Dictionary<string, FunctionObject> definedScripts, ParsedSource source)
         {
-            foreach (KeyValuePair<string, FLBufferInfo> definedBuffer in definedBuffers)
-            {
-                definedBuffer.Value.Root = source;
-            }
+            
 
             for (int i = 0; i < functions.Length; i++)
             {
-                functions[i].Root = source;
                 for (int j = 0; j < functions[i].Instructions.Count; j++)
                 {
-                    functions[i].Instructions[j].Root = source;
                     for (int k = 0; k < functions[i].Instructions[j].Arguments.Count; k++)
                     {
                         if (functions[i].Instructions[j].Arguments[k].Type ==
@@ -86,8 +81,11 @@ namespace Byt3.OpenFL.New.Parsing
                         {
                             UnresolvedFunction uf =
                                 (UnresolvedFunction)functions[i].Instructions[j].Arguments[k].Value;
-                            functions[i].Instructions[j].Arguments[k].Value =
-                                functions.First(x => x.Name == uf.FunctionName);
+                            if (uf.External) functions[i].Instructions[j].Arguments[k].Value =
+                                 definedScripts[uf.FunctionName];
+                            else
+                                functions[i].Instructions[j].Arguments[k].Value =
+                                    functions.First(x => x.Name == uf.FunctionName);
                         }
                         else if (functions[i].Instructions[j].Arguments[k].Type ==
                                  InstructionArgumentType.UnresolvedDefinedBuffer)
@@ -96,15 +94,21 @@ namespace Byt3.OpenFL.New.Parsing
                                 (UnresolvedDefinedBuffer)functions[i].Instructions[j].Arguments[k].Value;
                             functions[i].Instructions[j].Arguments[k].Value = definedBuffers[uf.BufferName];
                         }
-                        else if (functions[i].Instructions[j].Arguments[k].Type == InstructionArgumentType.UnresolvedScript)
-                        {
-                            UnresolvedDefinedScript us =
-                                (UnresolvedDefinedScript)functions[i].Instructions[j].Arguments[k].Value;
-                            functions[i].Instructions[j].Arguments[k].Value = definedScripts[us.ScriptName];
-                        }
                     }
                 }
             }
+
+            foreach (KeyValuePair<string, FLBufferInfo> definedBuffer in definedBuffers)
+            {
+                definedBuffer.Value.SetRoot(source);
+            }
+
+            foreach (KeyValuePair<string, FunctionObject> functionObject in definedScripts)
+            {
+                functionObject.Value.SetRoot(source);
+            }
+
+            source.EntryPoint.SetRoot(source);
         }
 
         private static FunctionObject[] ParseFunctions(string[] functionHeaders, string[] definedBuffers, string[] definedScripts,
@@ -160,26 +164,31 @@ namespace Byt3.OpenFL.New.Parsing
                 args.Add(ParseInstructionArgument(functionHeaders, definedBuffers, definedScripts, parts[i]));
             }
 
+            Instruction ret = null;
+
             if (FLInstructions.ContainsKey(inst))
             {
-                return (Instruction)Activator.CreateInstance(FLInstructions[inst], new object[] { args });
+                ret = (Instruction)Activator.CreateInstance(FLInstructions[inst], new object[] { args });
             }
-
-            return new KernelInstruction(inst, args.ToList());
+            else
+            {
+                ret = new KernelInstruction(inst, args.ToList());
+            }
+            return ret;
         }
 
 
         private static InstructionArgument ParseInstructionArgument(string[] functionHeaders, string[] definedBuffers, string[] definedScripts,
             string argument)
         {
-            if (decimal.TryParse(argument, out decimal value))
+            if (decimal.TryParse(argument, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out decimal value))
             {
                 return new InstructionArgument(value);
             }
 
             if (functionHeaders.Contains(argument))
             {
-                return new InstructionArgument(new UnresolvedFunction(argument));
+                return new InstructionArgument(new UnresolvedFunction(argument, false));
             }
 
             if (definedBuffers.Select(GetBufferName).Contains(argument))
@@ -189,7 +198,7 @@ namespace Byt3.OpenFL.New.Parsing
 
             if (definedScripts.Select(GetScriptName).Contains(argument))
             {
-                return new InstructionArgument(new UnresolvedDefinedScript(argument));
+                return new InstructionArgument(new UnresolvedFunction(argument, true));
             }
 
             throw new InvalidOperationException("Can not parse argument: " + argument);
@@ -226,16 +235,37 @@ namespace Byt3.OpenFL.New.Parsing
                     .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
                 if (data[0].Trim() == "in")
                 {
-                    definedBuffers.Add(data[0].Trim(), new UnloadedFLBufferInfo(instance, "INPUT"));
+                    FLBufferInfo bi = new UnloadedFLBufferInfo("INPUT");
+                    bi.SetKey("in");
+                    definedBuffers.Add(data[0].Trim(), bi);
+                    continue;
                 }
-                else if (data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0] == "wfc")
+
+                string paramPart = data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                if (paramPart == "wfc" || paramPart == "wfcf")
                 {
                     FLBufferInfo ii = WFCDefineTexture.ComputeWFC(instance, data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
                     ii.SetKey(data[0].Trim());
                     definedBuffers.Add(ii.DefinedBufferName, ii);
                 }
+                else if (paramPart == "rnd")
+                {
+                    FLBufferInfo ii = WFCDefineTexture.ComputeRnd(data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                    ii.SetKey(data[0].Trim());
+                    definedBuffers.Add(ii.DefinedBufferName, ii);
+                }
+                else if (paramPart == "urnd")
+                {
+                    FLBufferInfo ii = WFCDefineTexture.ComputeUrnd(data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                    ii.SetKey(data[0].Trim());
+                    definedBuffers.Add(ii.DefinedBufferName, ii);
+                }
                 else
-                    definedBuffers.Add(data[0].Trim(), new UnloadedFLBufferInfo(instance, data[1].Trim().Replace("\"", "")));
+                {
+                    FLBufferInfo bi = new UnloadedFLBufferInfo(data[1].Trim().Replace("\"", ""));
+                    bi.SetKey(data[0].Trim());
+                    definedBuffers.Add(data[0].Trim(), bi);
+                }
             }
 
             return definedBuffers;

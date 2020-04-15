@@ -1,6 +1,5 @@
 ﻿using System;
 using Byt3.ADL;
-using Byt3.OpenCL.Common;
 
 /*
 The MIT License(MIT)

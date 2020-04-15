@@ -1,8 +1,7 @@
 --define texture other: "resources/textures/TEST.png"
 
 Main:
-  setactive 3
+  setactive 3 0 1 2
   setv 1
   setactive 0 1 2
-  invert #everything should be white(we get the inverse of the Test texture by 1-other)
   sub other

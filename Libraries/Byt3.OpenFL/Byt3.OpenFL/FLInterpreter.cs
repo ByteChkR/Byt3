@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using Byt3.ADL;
 using Byt3.ExtPP.API;
 using Byt3.ExtPP.Base.Interfaces;
-using Byt3.OpenCL.Common;
 using Byt3.OpenCL.Common.Exceptions;
-using Byt3.OpenCL.Common.ExtPP.API;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
@@ -400,7 +397,7 @@ namespace Byt3.OpenFL
             }
 
             activeChannelBuffer =
-                CLAPI.CreateBuffer(instance, activeChannels, MemoryFlag.ReadOnly | MemoryFlag.CopyHostPointer);
+                CLAPI.CreateBuffer(instance, activeChannels, MemoryFlag.ReadOnly);
 
             //Parsing File
             currentBuffer.SetKey(INPUT_BUFFER_NAME);
@@ -624,7 +621,7 @@ namespace Byt3.OpenFL
             {
                 currentBuffer =
                     new CLBufferInfo(
-                        CLAPI.CreateEmpty<byte>(instance, size, MemoryFlag.ReadWrite | MemoryFlag.CopyHostPointer),
+                        CLAPI.CreateEmpty<byte>(instance, size, MemoryFlag.ReadWrite),
                         true);
                 currentBuffer.SetKey("Internal_JumpBuffer_Stack_Index" + (jumpStack.Count - 1));
             }

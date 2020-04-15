@@ -1,3 +1,5 @@
 Main:
-	setactive 0 1 2 3
+	setactive 3
   setv 1
+  setactive 0 1 2
+  setv 0.5
