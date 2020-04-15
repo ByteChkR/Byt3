@@ -31,7 +31,7 @@ namespace Byt3.ExtPP.API
                     Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
                     for (int i = 0; i < asms.Length; i++)
                     {
-                        Type[] ts = asms[i].GetTypes();
+                        Type[] ts = asms[i].GetExportedTypes();
                         for (int j = 0; j < ts.Length; j++)
                         {
                             if (t.IsAssignableFrom(ts[j]) && ts[j] != t)
