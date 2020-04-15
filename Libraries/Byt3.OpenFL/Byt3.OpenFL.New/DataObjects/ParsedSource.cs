@@ -6,31 +6,37 @@ using Byt3.OpenCL.Wrapper;
 
 namespace Byt3.OpenFL.New.DataObjects
 {
+
     public class ParsedSource
     {
-        internal ParsedSource(FunctionObject[] functions, Dictionary<string, FLBufferInfo> definedBuffers)
+        public string ScriptName;
+        internal ParsedSource(string scriptName, FunctionObject[] functions, Dictionary<string, FLBufferInfo> definedBuffers, Dictionary<string, ParsedSource> definedScripts)
         {
+            ScriptName = scriptName;
             Functions = functions;
             DefinedBuffers = definedBuffers;
+            DefinedScripts = definedScripts;
         }
 
         //Parsed Objects
         public FunctionObject[] Functions;
         public FunctionObject EntryPoint => Functions.First(x => x.Name == "Main");
         public Dictionary<string, FLBufferInfo> DefinedBuffers;
+        public Dictionary<string, ParsedSource> DefinedScripts;
 
         //Semi Static Objects. Get Set when the Source is actually beeing ran
         public CLAPI Instance;
         public KernelDatabase KernelDB;
         public FLBufferInfo Input;
         public int3 Dimensions => new int3(Input.Width, Input.Height, 4);
+        public int InputSize => Dimensions.x * Dimensions.y * Dimensions.z;
 
 
         //Dynamic Variables that change during the execution
         public FLBufferInfo ActiveBuffer;
         public byte[] ActiveChannels;
 
-        private Stack<FLExecutionContext> ContextStack = new Stack<FLExecutionContext>();
+        private readonly Stack<FLExecutionContext> ContextStack = new Stack<FLExecutionContext>();
 
         public void PushContext()
         {

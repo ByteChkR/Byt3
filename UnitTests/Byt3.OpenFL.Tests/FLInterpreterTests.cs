@@ -1,16 +1,46 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Reflection.Metadata.Ecma335;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.FLDataObjects;
+using Byt3.OpenFL.New;
+using Byt3.OpenFL.New.DataObjects;
+using Byt3.OpenFL.New.Parsing;
 using Xunit;
 
 namespace Byt3.OpenFL.Tests
 {
     public class FLInterpreterTests
     {
+        [Fact]
+        public void OpenCL_New_Parse_Test()
+        {
+            string path = "resources/filter/tests";
+            string[] files = Directory.GetFiles(path, "*.fl");
+            KernelDatabase db =
+                new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataVectorTypes.Uchar1);
+
+            List<ParsedSource> src = new List<ParsedSource>();
+            for (int i = 0; i < files.Length; i++)
+            {
+                src.Add(FLParser.ParseFile(CLAPI.MainThread, files[i])); //parsing the FL Script
+
+                src[i].Run(CLAPI.MainThread, db, new FLBufferInfo(CLAPI.MainThread, 256, 256)); //Running it
+
+                Bitmap bmp = new Bitmap(src[i].Dimensions.x, src[i].Dimensions.y); //Getting the Output
+                CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, CLAPI.ReadBuffer<byte>(CLAPI.MainThread, src[i].ActiveBuffer.Buffer, src[i].InputSize));
+
+                string pp = Path.GetFullPath("./out/" + Path.GetFileNameWithoutExtension(files[i]) + ".png"); //Saving for debug reasons.
+                bmp.Save(pp);
+            }
+        }
+
         [Fact]
         public void OpenFL_Comments_Test()
         {
@@ -189,9 +219,9 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_TypeConversion_Test()
         {
             float f = float.MaxValue / 2;
-            byte b = (byte) CLTypeConverter.Convert(typeof(byte), f);
+            byte b = (byte)CLTypeConverter.Convert(typeof(byte), f);
             float4 f4 = new float4(f);
-            uchar4 i4 = (uchar4) CLTypeConverter.Convert(typeof(uchar4), f4);
+            uchar4 i4 = (uchar4)CLTypeConverter.Convert(typeof(uchar4), f4);
             Assert.True(b == 128);
 
             for (int i = 0; i < 4; i++)

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using Byt3.ADL;
@@ -16,15 +18,33 @@ namespace Byt3.ExtPP.API
     {
         private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("TextProcessorAPI");
 
-        private static readonly Dictionary<string, APreProcessorConfig> Configs =
-            new Dictionary<string, APreProcessorConfig>
-            {
-                {"***", new DefaultPreProcessorConfig()}
-            };
+        private static Dictionary<string, APreProcessorConfig> _configs;
 
-        public static void AddProcessorConfig(string fileExtension, APreProcessorConfig config)
+        private static Dictionary<string, APreProcessorConfig> Configs
         {
-            Configs[fileExtension] = config;
+            get
+            {
+                if (_configs == null)
+                {
+                    _configs = new Dictionary<string, APreProcessorConfig>();
+                    Type t = typeof(APreProcessorConfig);
+                    Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
+                    for (int i = 0; i < asms.Length; i++)
+                    {
+                        Type[] ts = asms[i].GetTypes();
+                        for (int j = 0; j < ts.Length; j++)
+                        {
+                            if (t.IsAssignableFrom(ts[j]) && ts[j] != t)
+                            {
+                                APreProcessorConfig config = (APreProcessorConfig)Activator.CreateInstance(ts[j]);
+                                _configs[config.FileExtension] = config;
+                            }
+                        }
+                    }
+                }
+
+                return _configs;
+            }
         }
 
         public static string[] GenericIncludeToSource(string ext, string file, params string[] genType)
@@ -66,10 +86,12 @@ namespace Byt3.ExtPP.API
             {
                 defs = new Dictionary<string, bool>();
             }
+
             if (!defs.ContainsKey(key))
             {
                 defs.Add(key, true);
             }
+
 
             if (Configs.ContainsKey(ext))
             {
@@ -115,7 +137,5 @@ namespace Byt3.ExtPP.API
         }
 
         #endregion
-        
-
     }
 }

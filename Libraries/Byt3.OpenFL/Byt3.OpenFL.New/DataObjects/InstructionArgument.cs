@@ -22,11 +22,17 @@ namespace Byt3.OpenFL.New.DataObjects
                     case FunctionObject _:
                         ret = InstructionArgumentType.Function;
                         break;
+                    case ParsedSource _:
+                        ret = InstructionArgumentType.Script;
+                        break;
                     case UnresolvedFunction _:
                         ret = InstructionArgumentType.UnresolvedFunction;
                         break;
                     case UnresolvedDefinedBuffer _:
                         ret = InstructionArgumentType.UnresolvedDefinedBuffer;
+                        break;
+                    case UnresolvedDefinedScript _:
+                        ret = InstructionArgumentType.UnresolvedScript;
                         break;
                 }
 

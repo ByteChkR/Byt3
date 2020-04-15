@@ -72,7 +72,7 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else
                         {
-                            Logger.Log(PPLogType.Error, Verbosity.Level1, "File does not exist: {0}", args[0]);
+                            Logger.Log(PPLogType.Error, Verbosity.Level1, $"File does not exist: {args[0]}");
                         }
                     }
                 }
@@ -84,14 +84,13 @@ namespace Byt3.ExtPP.Plugins
 
             foreach (string includes in incs)
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level5, "Processing Statement: {0}", includes);
+                Logger.Log(PPLogType.Log, Verbosity.Level5, $"Processing Statement: {includes}");
                 bool tmp = GetISourceScript(sourceManager, includes, currentPath, out List<ISourceScript> sources);
                 if (tmp)
                 {
                     foreach (ISourceScript sourceScript in sources)
                     {
-                        Logger.Log(PPLogType.Log, Verbosity.Level6, "Processing Include: {0}",
-                            Path.GetFileName(sourceScript.GetFileInterface().GetKey()));
+                        Logger.Log(PPLogType.Log, Verbosity.Level6, $"Processing Include: {Path.GetFileName(sourceScript.GetFileInterface().GetKey())}");
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -171,8 +170,7 @@ namespace Byt3.ExtPP.Plugins
                     if (sourceScript.GetFileInterface().HasValidFilepath &&
                         !Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface()))
                     {
-                        Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not find File: {0}",
-                            sourceScript.GetFileInterface());
+                        Logger.Log(PPLogType.Error, Verbosity.Level1, $"Could not find File: {sourceScript.GetFileInterface()}");
                         scripts.RemoveAt(index);
                     }
                 }

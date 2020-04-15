@@ -6,7 +6,9 @@
         Number,
         Buffer,
         Function,
+        Script,
         UnresolvedFunction,
-        UnresolvedDefinedBuffer
+        UnresolvedDefinedBuffer,
+        UnresolvedScript
     }
 }

@@ -1,18 +1,86 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
+using Byt3.OpenFL.New.DataObjects;
+using Image = System.Drawing.Image;
 
 namespace Byt3.OpenFL.New
 {
+    public class UnloadedDefinedFLBufferInfo : FLBufferInfo
+    {
+        public delegate Bitmap BufferLoader();
+        private readonly BufferLoader _loader;
+        private MemoryBuffer _buffer;
+
+        public override MemoryBuffer Buffer
+        {
+            get
+            {
+                if (_buffer == null)
+                {
+                    Bitmap bmp = _loader();
+
+                    FLBufferInfo i = new FLBufferInfo(Root.Instance, new Bitmap(bmp, Root.Dimensions.x, Root.Dimensions.y));
+
+                    _buffer = i.Buffer;
+                    Width = i.Width;
+                    Height = i.Height;
+                }
+
+                return _buffer;
+            }
+        }
+
+        public UnloadedDefinedFLBufferInfo(BufferLoader Loader) : base(default(MemoryBuffer), -1, -1)
+        {
+            _loader = Loader;
+        }
+    }
+
+    public class UnloadedFLBufferInfo : FLBufferInfo
+    {
+        private readonly string File;
+
+        private MemoryBuffer _buffer;
+        private readonly CLAPI _initInstance;
+
+        public override MemoryBuffer Buffer
+        {
+            get
+            {
+                if (_buffer == null)
+                {
+                    if (File == "INPUT")
+                    {
+                        return Root.Input.Buffer;
+                    }
+                    Bitmap bmp = new Bitmap((Bitmap)Image.FromFile(File), Root.Dimensions.x, Root.Dimensions.y);
+                    _buffer = CLAPI.CreateFromImage(_initInstance, bmp, MemoryFlag.CopyHostPointer);
+                    Width = bmp.Width;
+                    Height = bmp.Height;
+                }
+
+                return _buffer;
+            }
+        }
+
+        public UnloadedFLBufferInfo(CLAPI instance, string file) : base(default(MemoryBuffer), -1, -1)
+        {
+            File = file;
+            _initInstance = instance;
+        }
+    }
+
     /// <summary>
     /// Wrapper for the Memory Buffer holding some useful additional data
     /// </summary>
-    public class FLBufferInfo
+    public class FLBufferInfo : ParsedObject
     {
         /// <summary>
         /// The buffer
         /// </summary>
-        public MemoryBuffer Buffer;
+        public virtual MemoryBuffer Buffer { get; protected set; }
 
         public int Width;
         public int Height;

@@ -86,7 +86,7 @@ namespace Byt3.ExtPP.Plugins
                 string key = SurroundingChar + keyword.Key + SurroundingChar;
                 if (ret.Contains(key))
                 {
-                    Logger.Log(PPLogType.Log, Verbosity.Level6, "Replacing {0} with {1}", key, keyword.Value);
+                    Logger.Log(PPLogType.Log, Verbosity.Level6, $"Replacing {key} with {keyword.Value}");
                     ret = ret.Replace(key, keyword.Value);
                 }
             }

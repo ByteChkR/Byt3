@@ -86,8 +86,7 @@ namespace Byt3.ExtPP.Plugins
                 for (int i = genParams.Length - 1; i >= 0; i--)
                 {
 
-                    Logger.Log(PPLogType.Log, Verbosity.Level6, "Replacing Keyword {0}{1} with {2} in file {3}",
-                        GenericKeyword, i, genParams[i], file.GetKey());
+                    Logger.Log(PPLogType.Log, Verbosity.Level6, $"Replacing Keyword {GenericKeyword}{i} with {genParams[i]} in file {file.GetKey()}");
                     Utils.ReplaceKeyWord(file.GetSource(), genParams[i],
                         GenericKeyword + i);
                 }

@@ -77,15 +77,13 @@ namespace Byt3.OpenFL
             }
             else
             {
-                Logger.Log(LogType.Log, Verbosity.Level1, "Skipping Updating Channel Buffer",
-                    LogType.Log, 6);
+                Logger.Log(LogType.Log, Verbosity.Level1, "Skipping Updating Channel Buffer");
             }
         }
 
         private void UpdateActiveChannels()
         {
-            Logger.Log(LogType.Log, Verbosity.Level1, "Updating Channel Buffer",
-                LogType.Log, 6);
+            Logger.Log(LogType.Log, Verbosity.Level1, "Updating Channel Buffer");
             CLAPI.WriteToBuffer(instance, activeChannelBuffer, activeChannels);
         }
 
@@ -148,7 +146,7 @@ namespace Byt3.OpenFL
         /// </summary>
         private void CmdJump() //Dummy function. Implementation in AnalyzeLine(code) function(look for isDirectExecute)
         {
-            Logger.Log(LogType.Log, Verbosity.Level1, "Jumping.", LogType.Log, 6);
+            Logger.Log(LogType.Log, Verbosity.Level1, "Jumping.");
         }
 
         /// <summary>

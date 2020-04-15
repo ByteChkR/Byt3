@@ -5,6 +5,8 @@ namespace Byt3.ADL
     public class LevelFilteredLogger<T> : ADLLogger<T>
         where T : struct
     {
+        public static Verbosity DefaultVerbosity = Verbosity.Level8;
+
         public LevelFilteredLogger(string projectName) : base(projectName)
         {
         }
@@ -13,7 +15,7 @@ namespace Byt3.ADL
         /// The Verbosity level
         /// Everything lower than this will be sent to the log output
         /// </summary>
-        public Verbosity VerbosityLevel { get; set; } = Verbosity.Level8;
+        public Verbosity VerbosityLevel { get; set; } = DefaultVerbosity;
 
         /// <summary>
         /// Logs a message in the specified mask and verbosity level
@@ -22,11 +24,11 @@ namespace Byt3.ADL
         /// <param name="level">the debug level of the log</param>
         /// <param name="format">the format string(the message)</param>
         /// <param name="objs">the format params</param>
-        private void Log(int mask, Verbosity level, string format, params object[] objs)
+        private void Log(int mask, Verbosity level, string message)
         {
             if (level <= VerbosityLevel)
             {
-                base.Log(mask, string.Format(format, objs));
+                base.Log(mask, $"[{level}]{message}");
             }
 
         }
@@ -38,9 +40,9 @@ namespace Byt3.ADL
         /// <param name="level">the debug level of the log</param>
         /// <param name="format">the format string(the message)</param>
         /// <param name="objs">the format params</param>
-        public void Log(T mask, Verbosity level, string format, params object[] objs)
+        public void Log(T mask, Verbosity level, string message)
         {
-            Log(Convert.ToInt32(mask), level, format, objs);
+            Log(Convert.ToInt32(mask), level, message);
         }
     }
 }

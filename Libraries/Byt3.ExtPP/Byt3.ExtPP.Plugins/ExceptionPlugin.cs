@@ -44,7 +44,7 @@ namespace Byt3.ExtPP.Plugins
             {
                 string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
 
-                Logger.Log(PPLogType.Error, Verbosity.Level1, "Warning: {0}", err);
+                Logger.Log(PPLogType.Error, Verbosity.Level1, $"Warning: {err}");
                 return "";
             }
 
@@ -52,7 +52,7 @@ namespace Byt3.ExtPP.Plugins
             if (Utils.IsStatement(source, ErrorKeyword))
             {
                 string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
-                Logger.Log(PPLogType.Error, Verbosity.Level1, "Error {0}", err);
+                Logger.Log(PPLogType.Error, Verbosity.Level1, $"Error {err}");
                 return "";
             }
 

@@ -380,8 +380,7 @@ namespace Byt3.OpenFL
             //Clear old stuff
 
             ReleaseResources();
-
-            TextProcessorAPI.AddProcessorConfig(".fl", new FLPreProcessorConfig());
+            
 
             //Setting variables
             currentBuffer = new CLBufferInfo(input, false);

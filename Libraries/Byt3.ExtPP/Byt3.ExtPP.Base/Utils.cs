@@ -52,7 +52,7 @@ namespace Byt3.ExtPP.Base
         public static string RemoveExcessSpaces(string line, string separator)
         {
             string ret = line.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
-            Logger.Log(PPLogType.Log, Verbosity.Level7, "Removing Excess Spaces: {0} => {1}", line, ret);
+            Logger.Log(PPLogType.Log, Verbosity.Level7, $"Removing Excess Spaces: {line} => {ret}");
             return ret;
         }
 

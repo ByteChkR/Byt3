@@ -36,8 +36,7 @@ namespace Byt3.OpenFL
             string varname = arg[0].Trim();
             if (defines.ContainsKey(varname))
             {
-                Logger.Log(LogType.Error, Verbosity.Level1, "Overwriting " + varname,
-                    LogType.Warning);
+                Logger.Log(LogType.Error, Verbosity.Level1, $"Overwriting {varname}");
                 defines.Remove(varname);
             }
 

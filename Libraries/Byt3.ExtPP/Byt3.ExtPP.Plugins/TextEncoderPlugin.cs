@@ -218,7 +218,7 @@ namespace Byt3.ExtPP.Plugins
                     i++; //Move forward.
                     if (!encodingOk)
                     {
-                        Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not load encoder: {0}", lines[i]);
+                        Logger.Log(PPLogType.Error, Verbosity.Level1, $"Could not load encoder: {lines[i]}");
                     }
 
 
@@ -232,7 +232,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                        Logger.Log(PPLogType.Log, Verbosity.Level7, "Encoding line {0}.", i);
+                        Logger.Log(PPLogType.Log, Verbosity.Level7, $"Encoding line {i}.");
                         lines[i] = encodingOk ? enc.Encode(lines[i], encParameter) : lines[i];
 
                     }
@@ -247,7 +247,7 @@ namespace Byt3.ExtPP.Plugins
 
                     if (!decodingOk)
                     {
-                        Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not load decoder: {0}", lines[i]);
+                        Logger.Log(PPLogType.Error, Verbosity.Level1, $"Could not load decoder: {lines[i]}");
                     }
 
                     Logger.Log(PPLogType.Log, Verbosity.Level6, "Found Block Decode Keyword.");
@@ -260,7 +260,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                        Logger.Log(PPLogType.Log, Verbosity.Level7, "Decoding line {0}.", i);
+                        Logger.Log(PPLogType.Log, Verbosity.Level7, $"Decoding line {i}.");
                         lines[i] = decodingOk ? enc.Decode(lines[i], encParameter) : lines[i];
 
                     }

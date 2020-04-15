@@ -12,6 +12,7 @@ namespace Byt3.OpenCL.Common.ExtPP.API
     /// </summary>
     public class CLPreProcessorConfig : APreProcessorConfig
     {
+        public override string FileExtension => ".cl";
         private static readonly StringBuilder Sb = new StringBuilder();
         protected override Verbosity VerbosityLevel { get; } = Verbosity.Silent;
 

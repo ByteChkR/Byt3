@@ -13,6 +13,7 @@ namespace Byt3.ExtPP.API.Configuration
     /// </summary>
     public abstract class APreProcessorConfig : ALoggable<PPLogType>
     {
+        public abstract string FileExtension { get; }
         protected abstract Verbosity VerbosityLevel { get; }
         protected abstract List<AbstractPlugin> Plugins { get; }
         public abstract string GetGenericInclude(string filename, string[] genType);

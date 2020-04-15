@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Byt3.OpenCL\Byt3.OpenCL.Wrapper\Byt3.OpenCL.Wrapper.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.New\Byt3.OpenFL.New.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL\Byt3.OpenFL.csproj" />
   </ItemGroup>
 

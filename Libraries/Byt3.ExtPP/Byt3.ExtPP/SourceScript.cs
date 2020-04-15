@@ -130,7 +130,7 @@ namespace Byt3.ExtPP
             bool ret = LoadSource();
             if (!ret)
             {
-                Logger.Log(PPLogType.Error, Verbosity.Level1, "Could not load file: {0}", filepath);
+                Logger.Log(PPLogType.Error, Verbosity.Level1, $"Could not load file: {filepath}");
 
             }
 

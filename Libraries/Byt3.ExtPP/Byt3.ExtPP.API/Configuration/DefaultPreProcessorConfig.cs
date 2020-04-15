@@ -11,6 +11,7 @@ namespace Byt3.ExtPP.API.Configuration
     /// </summary>
     public class DefaultPreProcessorConfig : APreProcessorConfig
     {
+        public override string FileExtension => "***";
         private static readonly StringBuilder Sb = new StringBuilder();
         protected override Verbosity VerbosityLevel { get; } = Verbosity.Silent;
 

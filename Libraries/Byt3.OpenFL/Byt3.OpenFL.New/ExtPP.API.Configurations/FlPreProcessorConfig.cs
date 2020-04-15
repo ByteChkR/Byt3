@@ -5,7 +5,7 @@ using Byt3.ExtPP.API.Configuration;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
 
-namespace Byt3.OpenCL.Common.ExtPP.API
+namespace Byt3.OpenFL.New.ExtPP.API.Configurations
 {
     /// <summary>
     /// The PreProcessor Configuration used for OpenFL files

@@ -51,7 +51,7 @@ namespace Byt3.ExtPP
                 return;
             }
             computeScheme = scheme;
-            Logger.Log(PPLogType.Log, Verbosity.Level2, "Changed Computing Scheme to: {0}", scheme.Method.Name);
+            Logger.Log(PPLogType.Log, Verbosity.Level2, $"Changed Computing Scheme to: {scheme.Method.Name}");
         }
 
         /// <summary>
@@ -127,8 +127,7 @@ namespace Byt3.ExtPP
         /// <param name="script">The script that got referenced.</param>
         public void FixOrder(ISourceScript script)
         {
-            Logger.Log(PPLogType.Log, Verbosity.Level3, "Fixing Build Order of file: {0}",
-                Path.GetFileName(script.GetFileInterface().GetKey()));
+            Logger.Log(PPLogType.Log, Verbosity.Level3, "Fixing Build Order of file: {Path.GetFileName(script.GetFileInterface().GetKey())}");
             int idx = IndexOfFile(script.GetKey());
             ISourceScript a = sources[idx];
             ProcessStage ab = doneState[idx];
@@ -158,8 +157,7 @@ namespace Byt3.ExtPP
         {
             if (!IsIncluded(script))
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level3, "Adding Script to Todo List: {0}",
-                    Path.GetFileName(script.GetFileInterface().GetKey()));
+                Logger.Log(PPLogType.Log, Verbosity.Level3, $"Adding Script to Todo List: {Path.GetFileName(script.GetFileInterface().GetKey())}");
                 AddFile(script, false);
                 doneState.Add(ProcessStage.Queued);
             }
@@ -176,8 +174,7 @@ namespace Byt3.ExtPP
             {
                 doneState[IndexOfFile(script.GetKey())] = stage;
 
-                Logger.Log(PPLogType.Log, Verbosity.Level3, "Finished Script: {0}",
-                    Path.GetFileName(script.GetFileInterface().GetKey()));
+                Logger.Log(PPLogType.Log, Verbosity.Level3, $"Finished Script: {Path.GetFileName(script.GetFileInterface().GetKey())}");
             }
         }
 

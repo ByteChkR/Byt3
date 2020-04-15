@@ -144,7 +144,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private CLAPI()
         {
-            TextProcessorAPI.AddProcessorConfig(".cl", new CLPreProcessorConfig());
+            //TextProcessorAPI.AddProcessorConfig(".cl", new CLPreProcessorConfig());
             InitializeOpenCl();
         }
 

@@ -8,7 +8,7 @@ namespace Byt3.OpenFL.New.DataObjects
 {
     public class KernelInstruction : Instruction
     {
-        private string KernelName;
+        private readonly string KernelName;
 
         public KernelInstruction(string kernelName, List<InstructionArgument> arguments) : base(arguments)
         {
@@ -24,11 +24,12 @@ namespace Byt3.OpenFL.New.DataObjects
 
         public override void Process()
         {
-            for (int i = FL_HEADER_ARG_COUNT; i < Arguments.Count; i++)
+            for (int i = 0; i < Arguments.Count; i++)
             {
+                int kernelArgIndex = i + FL_HEADER_ARG_COUNT;
                 if (Arguments[i].Type == InstructionArgumentType.Buffer)
                 {
-                    Kernel.SetBuffer(i, ((FLBufferInfo)Arguments[i].Value).Buffer);
+                    Kernel.SetBuffer(kernelArgIndex, ((FLBufferInfo)Arguments[i].Value).Buffer);
                 }
                 else if (Arguments[i].Type == InstructionArgumentType.Function)
                 {
@@ -42,13 +43,13 @@ namespace Byt3.OpenFL.New.DataObjects
 
                     ((FunctionObject)Arguments[i].Value).Process(); //Process the Function Object
 
-                    Kernel.SetBuffer(i, Root.ActiveBuffer.Buffer); //Set the Active Buffer as the Kernel Argument
+                    Kernel.SetBuffer(kernelArgIndex, Root.ActiveBuffer.Buffer); //Set the Active Buffer as the Kernel Argument
 
                     Root.ReturnFromContext(); //Restore active channels and buffer
                 }
                 else if(Arguments[i].Type == InstructionArgumentType.Number)
                 {
-                    Kernel.SetArg(i, Arguments[i].Value); //The Value is a Decimal
+                    Kernel.SetArg(kernelArgIndex, Arguments[i].Value); //The Value is a Decimal
                 }
                 else
                 {

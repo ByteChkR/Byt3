@@ -1,37 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using Byt3.ExtPP.API;
+using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.New.DataObjects;
+using Byt3.OpenFL.New.Instructions;
 
 namespace Byt3.OpenFL.New.Parsing
 {
     public static class FLParser
     {
-
-        private static Dictionary<string, Type> FLInstructions = new Dictionary<string, Type>();
-
-        public static ParsedSource ParseFile(string file)
+        private static readonly Dictionary<string, Type> FLInstructions = new Dictionary<string, Type>
         {
-            throw new NotImplementedException();
+            {"setactive", typeof(SetActiveInstruction)},
+            {"jmp", typeof(JumpInstruction) },
+            {"urnd", typeof(URandomInstruction)},
+            {"rnd", typeof(RandomInstruction) },
+        };
+
+        public static ParsedSource ParseFile(CLAPI instance, string file)
+        {
+            string[] source = TextProcessorAPI.PreprocessLines(file, new Dictionary<string, bool>());
+            return ParseSource(instance, file, source);
         }
 
-        private static ParsedSource ParseSource(string[] source)
+        private static ParsedSource ParseSource(CLAPI instance, string path, string[] source)
         {
+            string[] scriptStrings = FindDefineScriptsStatements(source);
+
+            Dictionary<string, ParsedSource> scripts =
+                ParseScriptDefines(instance, path, scriptStrings);
+
+
             string[] defines = FindDefineStatements(source);
+
+            Dictionary<string, FLBufferInfo> definedBuffers = ParseDefinedBuffers(instance, path, defines);
             string[] functionHeader = FindFunctionHeaders(source);
-            Dictionary<string, FLBufferInfo> definedBuffers = ParseDefinedBuffers(FindDefineStatements(source));
-            FunctionObject[] functions = ParseFunctions(functionHeader, defines, source);
+            FunctionObject[] functions = ParseFunctions(functionHeader, defines, scriptStrings, source);
 
-            ParsedSource ret = new ParsedSource(functions, definedBuffers);
+            ParsedSource ret = new ParsedSource(path, functions, definedBuffers, scripts);
 
-            ResolveReferences(functions, definedBuffers, ret);
+            ResolveReferences(functions, definedBuffers, scripts, ret);
 
             return ret;
         }
 
-        private static void ResolveReferences(FunctionObject[] functions, Dictionary<string, FLBufferInfo> definedBuffers, ParsedSource source)
+        private static Dictionary<string, ParsedSource> ParseScriptDefines(CLAPI instance, string path, string[] statements)
         {
+            Dictionary<string, ParsedSource> ret = new Dictionary<string, ParsedSource>();
+            string dir = Path.GetDirectoryName(path);
+            for (int i = 0; i < statements.Length; i++)
+            {
+                string name = GetScriptName(statements[i]);
+                string relPath = GetScriptPath(statements[i]);
+                string p = relPath;
+                ParsedSource ps = ParseFile(instance, p);
+                ps.ScriptName = name;
+                ret.Add(name, ps);
+            }
+
+            return ret;
+        }
+
+        private static void ResolveReferences(FunctionObject[] functions,
+            Dictionary<string, FLBufferInfo> definedBuffers, Dictionary<string, ParsedSource> definedScripts, ParsedSource source)
+        {
+            foreach (KeyValuePair<string, FLBufferInfo> definedBuffer in definedBuffers)
+            {
+                definedBuffer.Value.Root = source;
+            }
+
             for (int i = 0; i < functions.Length; i++)
             {
                 functions[i].Root = source;
@@ -55,61 +96,81 @@ namespace Byt3.OpenFL.New.Parsing
                                 (UnresolvedDefinedBuffer)functions[i].Instructions[j].Arguments[k].Value;
                             functions[i].Instructions[j].Arguments[k].Value = definedBuffers[uf.BufferName];
                         }
+                        else if (functions[i].Instructions[j].Arguments[k].Type == InstructionArgumentType.UnresolvedScript)
+                        {
+                            UnresolvedDefinedScript us =
+                                (UnresolvedDefinedScript)functions[i].Instructions[j].Arguments[k].Value;
+                            functions[i].Instructions[j].Arguments[k].Value = definedScripts[us.ScriptName];
+                        }
                     }
                 }
             }
         }
 
-        private static FunctionObject[] ParseFunctions(string[] functionHeaders, string[] definedBuffers, string[] source)
+        private static FunctionObject[] ParseFunctions(string[] functionHeaders, string[] definedBuffers, string[] definedScripts,
+            string[] source)
         {
-            string[] header = FindFunctionHeaders(source);
-            FunctionObject[] functions = new FunctionObject[header.Length];
-            for (int i = 0; i < header.Length; i++)
+            FunctionObject[] functions = new FunctionObject[functionHeaders.Length];
+            for (int i = 0; i < functionHeaders.Length; i++)
             {
-                functions[i] = ParseFunctionObject(functionHeaders, definedBuffers, header[i], GetFunctionBody(header[i], source));
+                functions[i] = ParseFunctionObject(functionHeaders, definedBuffers, definedScripts, functionHeaders[i],
+                    GetFunctionBody(functionHeaders[i], source));
             }
 
             return functions;
         }
 
-        private static FunctionObject ParseFunctionObject(string[] functionHeaders, string[] definedBuffers, string name, string[] functionPart)
+        private static FunctionObject ParseFunctionObject(string[] functionHeaders, string[] definedBuffers, string[] definedScripts,
+            string name, string[] functionPart)
         {
-            List<Instruction> instructions = ParseInstructions(functionHeaders, definedBuffers, functionPart);
+            List<Instruction> instructions = ParseInstructions(functionHeaders, definedBuffers, definedScripts, functionPart);
             return new FunctionObject(name, instructions);
         }
 
-        private static List<Instruction> ParseInstructions(string[] functionHeaders, string[] definedBuffers, string[] functionBody)
+        private static List<Instruction> ParseInstructions(string[] functionHeaders, string[] definedBuffers, string[] definedScripts,
+            string[] functionBody)
         {
             List<Instruction> instructions = new List<Instruction>();
             for (int i = 0; i < functionBody.Length; i++)
             {
-                instructions.Add(ParseInstruction(functionHeaders, definedBuffers, functionBody[i]));
+                if (!IsComment(functionBody[i]) && !IsDefineScriptStatement(functionBody[i]) &&
+                    !IsDefineStatement(functionBody[i]))
+                {
+                    Instruction inst =
+                        ParseInstruction(functionHeaders, definedBuffers, definedScripts, functionBody[i]);
+                    if (inst != null)
+                        instructions.Add(inst);
+                }
             }
 
             return instructions;
         }
 
-        private static Instruction ParseInstruction(string[] functionHeaders, string[] definedBuffers, string instruction)
+        private static Instruction ParseInstruction(string[] functionHeaders, string[] definedBuffers, string[] definedScripts,
+            string instruction)
         {
-            string[] parts = instruction.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (instruction == "") return null;
+            string[] parts = instruction.Split(new[] { ' ' }, StringSplitOptions.None);
             string inst = parts[0];
 
-            InstructionArgument[] args = new InstructionArgument[parts.Length - 1];
+            List<InstructionArgument> args = new List<InstructionArgument>();
             for (int i = 1; i < parts.Length; i++)
             {
-                args[i - 1] = ParseInstructionArgument(functionHeaders, definedBuffers, parts[i]);
+                if (IsComment(parts[i])) break;
+                args.Add(ParseInstructionArgument(functionHeaders, definedBuffers, definedScripts, parts[i]));
             }
 
             if (FLInstructions.ContainsKey(inst))
             {
                 return (Instruction)Activator.CreateInstance(FLInstructions[inst], new object[] { args });
             }
+
             return new KernelInstruction(inst, args.ToList());
         }
 
 
-
-        private static InstructionArgument ParseInstructionArgument(string[] functionHeaders, string[] definedBuffers, string argument)
+        private static InstructionArgument ParseInstructionArgument(string[] functionHeaders, string[] definedBuffers, string[] definedScripts,
+            string argument)
         {
             if (decimal.TryParse(argument, out decimal value))
             {
@@ -121,21 +182,85 @@ namespace Byt3.OpenFL.New.Parsing
                 return new InstructionArgument(new UnresolvedFunction(argument));
             }
 
-            if (definedBuffers.Contains(argument))
+            if (definedBuffers.Select(GetBufferName).Contains(argument))
             {
                 return new InstructionArgument(new UnresolvedDefinedBuffer(argument));
             }
+
+            if (definedScripts.Select(GetScriptName).Contains(argument))
+            {
+                return new InstructionArgument(new UnresolvedDefinedScript(argument));
+            }
+
             throw new InvalidOperationException("Can not parse argument: " + argument);
         }
 
-        private static Dictionary<string, FLBufferInfo> ParseDefinedBuffers(string[] defineStatements)
+
+        private static string GetScriptName(string definedScriptLine)
         {
-            throw new NotImplementedException();
+            return definedScriptLine.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
+                .Replace("--define script", "").Trim();
+        }
+        private static string GetScriptPath(string definedScriptLine)
+        {
+            return definedScriptLine.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[1].Trim().Replace("\"", "");
+        }
+
+        private static string GetBufferName(string definedBufferLine)
+        {
+            return definedBufferLine.Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
+                .Replace("--define texture", "").Trim();
+        }
+
+
+
+
+        private static Dictionary<string, FLBufferInfo> ParseDefinedBuffers(CLAPI instance, string path,
+            string[] defineStatements)
+        {
+            Dictionary<string, FLBufferInfo> definedBuffers = new Dictionary<string, FLBufferInfo>();
+            string dir = Path.GetDirectoryName(path);
+            for (int i = 0; i < defineStatements.Length; i++)
+            {
+                string[] data = defineStatements[i].Replace("--define texture", "")
+                    .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                if (data[0].Trim() == "in")
+                {
+                    definedBuffers.Add(data[0].Trim(), new UnloadedFLBufferInfo(instance, "INPUT"));
+                }
+                else if (data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0] == "wfc")
+                {
+                    FLBufferInfo ii = WFCDefineTexture.ComputeWFC(instance, data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                    ii.SetKey(data[0].Trim());
+                    definedBuffers.Add(ii.DefinedBufferName, ii);
+                }
+                else
+                    definedBuffers.Add(data[0].Trim(), new UnloadedFLBufferInfo(instance, data[1].Trim().Replace("\"", "")));
+            }
+
+            return definedBuffers;
         }
 
         private static string[] FindDefineStatements(string[] source)
         {
-            return source.Where(IsDefineStatement).ToArray();
+            List<string> ret = source.Where(IsDefineStatement).ToList();
+            ret.Add("--define texture in:");
+            return ret.ToArray();
+        }
+
+        private static bool IsDefineStatement(string line)
+        {
+            return !IsComment(line) && line.StartsWith("--define texture");
+        }
+
+        private static string[] FindDefineScriptsStatements(string[] source)
+        {
+            return source.Where(IsDefineScriptStatement).ToArray();
+        }
+
+        private static bool IsDefineScriptStatement(string line)
+        {
+            return !IsComment(line) && line.StartsWith("--define script");
         }
 
         private static string[] FindFunctionHeaders(string[] source)
@@ -148,10 +273,6 @@ namespace Byt3.OpenFL.New.Parsing
             return line.StartsWith("#");
         }
 
-        private static bool IsDefineStatement(string line)
-        {
-            return !IsComment(line) && line.StartsWith("--define texture");
-        }
 
         private static bool IsFunctionHeader(string line)
         {
@@ -160,12 +281,12 @@ namespace Byt3.OpenFL.New.Parsing
 
         private static string[] GetFunctionBody(string functionHeader, string[] source)
         {
-            int index = source.ToList().IndexOf(functionHeader);
+            int index = source.ToList().IndexOf(functionHeader + ":");
             List<string> ret = new List<string>();
             for (int i = index + 1; i < source.Length; i++)
             {
                 if (IsFunctionHeader(source[i])) break;
-                ret.Add(source[i]);
+                ret.Add(source[i].Trim());
             }
 
             return ret.ToArray();

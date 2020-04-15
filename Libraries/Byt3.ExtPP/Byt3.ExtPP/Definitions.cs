@@ -83,7 +83,7 @@ namespace Byt3.ExtPP
         /// <param name="state">The state of the key</param>
         private void Change(string key, bool state)
         {
-            Logger.Log(PPLogType.Log, Verbosity.Level6, "Setting Key: {0} to value: {1}", key, state);
+            Logger.Log(PPLogType.Log, Verbosity.Level6, $"Setting Key: {key} to value: {state}");
             if (definitions.ContainsKey(key))
             {
                 definitions[key] = state;
