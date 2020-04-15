@@ -31,15 +31,23 @@ namespace Byt3.ExtPP.API
                     Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
                     for (int i = 0; i < asms.Length; i++)
                     {
-                        Type[] ts = asms[i].GetExportedTypes();
-                        for (int j = 0; j < ts.Length; j++)
+                        try
                         {
-                            if (t.IsAssignableFrom(ts[j]) && ts[j] != t)
+                            Type[] ts = asms[i].GetExportedTypes();
+                            for (int j = 0; j < ts.Length; j++)
                             {
-                                APreProcessorConfig config = (APreProcessorConfig)Activator.CreateInstance(ts[j]);
-                                _configs[config.FileExtension] = config;
+                                if (t.IsAssignableFrom(ts[j]) && ts[j] != t)
+                                {
+                                    APreProcessorConfig config = (APreProcessorConfig)Activator.CreateInstance(ts[j]);
+                                    _configs[config.FileExtension] = config;
+                                }
                             }
                         }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Can not Load Assembly: "+ asms[i].FullName);
+                        }
+                        
                     }
                 }
 
