@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;

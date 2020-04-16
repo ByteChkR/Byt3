@@ -39,7 +39,6 @@ namespace Byt3.OpenFL.Parsing.Stages
         private static Dictionary<string, FunctionObject> ParseScriptDefines(CLAPI instance, string path, string[] statements)
         {
             Dictionary<string, FunctionObject> ret = new Dictionary<string, FunctionObject>();
-            string dir = Path.GetDirectoryName(path);
             for (int i = 0; i < statements.Length; i++)
             {
                 string name = FLParser.GetScriptName(statements[i]);

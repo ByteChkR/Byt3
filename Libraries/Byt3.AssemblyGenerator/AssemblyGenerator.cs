@@ -16,7 +16,7 @@ namespace Byt3.AssemblyGenerator
         #region API Calls
 
         public static void GenerateAssembly(string msBuildPath, AssemblyDefinition assemblyDefinitions,
-            string outputFolder, AssemblyGeneratorBuildType buildType, bool lib = true)
+            string outputFolder, AssemblyGeneratorBuildType buildType, bool lib)
         {
             if (msBuildPath == null)
             {
@@ -102,8 +102,7 @@ namespace Byt3.AssemblyGenerator
             return def;
         }
 
-        public static ModuleDefinition[] GenerateModuleDefinitions(string folder, string moduleConfigOutputDir,
-            bool isWhiteList = false, string[] exceptionList = null)
+        public static ModuleDefinition[] GenerateModuleDefinitions(string folder, string moduleConfigOutputDir, bool isWhiteList, string[] exceptionList)
         {
 
             if (folder == null)
@@ -217,7 +216,7 @@ namespace Byt3.AssemblyGenerator
         }
 
         private static Tuple<string, List<ModuleDefinition>> GenerateProject(string msBuildPath, string workingDir,
-            AssemblyDefinition definition, bool lib = true)
+            AssemblyDefinition definition, bool lib)
         {
             if (workingDir == null)
             {
@@ -235,7 +234,10 @@ namespace Byt3.AssemblyGenerator
 
             Logger.Log(LogType.Log, "Generating csproject File...", 1);
 
-            DotNetHelper.New(msBuildPath, workingDir, definition.AssemblyName, lib);
+            if (lib)
+                DotNetHelper.NewLib(msBuildPath, workingDir, definition.AssemblyName);
+            else
+                DotNetHelper.NewCommandLine(msBuildPath, workingDir, definition.AssemblyName);
 
             File.Delete(Path.Combine(workingDir, definition.AssemblyName,
                 lib ? "Class1.cs" : "Program.cs")); //Delete Default Class

@@ -23,9 +23,15 @@ namespace Byt3.Utilities.DotNet
             ProcessRunner.RunCommand(info);
         }
 
-        public static void New(string msbuildCommand, string workingDir, string projectName, bool lib = true)
+        public static void NewCommandLine(string msbuildCommand, string workingDir, string projectName)
         {
-            string arguments = $"{(lib ? "classlib" : "console")} -n {projectName}";
+            string arguments = $"console -n {projectName}";
+            DotnetAction(msbuildCommand, "new", arguments, workingDir);
+        }
+
+        public static void NewLib(string msbuildCommand, string workingDir, string projectName)
+        {
+            string arguments = $"classlib -n {projectName}";
             DotnetAction(msbuildCommand, "new", arguments, workingDir);
         }
 

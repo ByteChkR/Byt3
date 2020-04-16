@@ -2,10 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Byt3.Utilities.Exceptions;
 using Byt3.Utilities.Serialization;
 
 namespace Byt3.Serialization
 {
+
+    public class PrimitiveValueWrapperException : Byt3Exception
+    {
+        public PrimitiveValueWrapperException(string message):base(message)
+        {
+
+        }
+    }
+
     /// <summary>
     /// Simple Wrapper that Sequentially Read and Write Primitive Values to a Specified Stream
     /// </summary>
@@ -41,7 +51,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = new byte[sizeof(int)];
             stream.Read(buf, 0, buf.Length);
@@ -56,7 +66,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = new byte[sizeof(uint)];
             stream.Read(buf, 0, buf.Length);
@@ -71,7 +81,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = new byte[sizeof(long)];
             stream.Read(buf, 0, buf.Length);
@@ -86,7 +96,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = new byte[sizeof(ulong)];
             stream.Read(buf, 0, buf.Length);
@@ -101,7 +111,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = new byte[sizeof(short)];
             stream.Read(buf, 0, buf.Length);
@@ -116,7 +126,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = new byte[sizeof(ushort)];
             stream.Read(buf, 0, buf.Length);
@@ -131,7 +141,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = new byte[sizeof(bool)];
             stream.Read(buf, 0, buf.Length);
@@ -146,7 +156,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = new byte[sizeof(float)];
             stream.Read(buf, 0, buf.Length);
@@ -172,7 +182,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             int len = ReadInt();
             byte[] buf = new byte[len];
@@ -193,7 +203,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             int len = ReadInt();
             byte[] buf = new byte[len];
@@ -210,7 +220,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             int w = Write(value.Length);
             packetCache.AddRange(value);
@@ -226,7 +236,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -242,7 +252,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -258,7 +268,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -274,7 +284,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -290,7 +300,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -306,7 +316,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -322,7 +332,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -338,7 +348,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             packetCache.Add(value);
             return 1;
@@ -353,7 +363,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -369,7 +379,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -385,7 +395,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = BitConverter.GetBytes(value);
             packetCache.AddRange(buf);
@@ -401,7 +411,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             byte[] buf = Encoding.ASCII.GetBytes(value);
             int w = Write(buf.Length);
@@ -437,7 +447,7 @@ namespace Byt3.Serialization
         {
             if (!IsValid)
             {
-                throw new Exception("Trying to access an invalid PrimitiveValueWrapper.");
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
             stream.Write(packetCache.ToArray(), 0, packetCache.Count);
             packetCache.Clear();

@@ -38,7 +38,7 @@ namespace Byt3.ExtPP.API.Configuration
                 definitions = new Definitions(defs);
             }
 
-            string[] ret = {"FILE NOT FOUND"};
+            string[] ret;
             try
             {
                 ret = pp.Run(new[] {filename}, new Settings(), definitions);

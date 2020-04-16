@@ -2,8 +2,8 @@
 {
     public class FLExecutionContext
     {
-        public byte[] ActiveChannels;
-        public FLBufferInfo ActiveBuffer;
+        public byte[] ActiveChannels { get; }
+        public FLBufferInfo ActiveBuffer { get; }
 
         public FLExecutionContext(byte[] activeChannels, FLBufferInfo activeBuffer)
         {

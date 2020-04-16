@@ -6,12 +6,12 @@ namespace Byt3.OpenFL.Parsing.Stages
 {
     public class ParseTreeStageResult
     {
-        public readonly CLAPI Instance;
-        public readonly string Filename;
-        public readonly string[] Source;
-        public readonly Dictionary<string, FLBufferInfo> DefinedBuffers;
-        public readonly FunctionObject[] Functions;
-        public readonly Dictionary<string, FunctionObject> DefinedScripts;
+        public CLAPI Instance { get; }
+        public string Filename { get; }
+        public string[] Source { get; }
+        public Dictionary<string, FLBufferInfo> DefinedBuffers { get; }
+        public FunctionObject[] Functions { get; }
+        public Dictionary<string, FunctionObject> DefinedScripts { get; }
 
         public ParseTreeStageResult(CLAPI instance, string filename, string[] source, Dictionary<string, FunctionObject> definedScripts, Dictionary<string, FLBufferInfo> definedBuffers, FunctionObject[] functions)
         {

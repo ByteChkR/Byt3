@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Byt3.ADL;
-using Byt3.ExtPP.Base.Interfaces;
 using Byt3.OpenCL.CommandQueues;
 using Byt3.OpenCL.Contexts;
 using Byt3.OpenCL.DataTypes;

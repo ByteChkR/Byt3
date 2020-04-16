@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.OpenCL.Wrapper;
@@ -36,12 +35,7 @@ namespace Byt3.OpenFL.CLI.Commands
                     : $"./{Path.GetFileNameWithoutExtension(inp)}.out.png";
 
                 Bitmap bmp = new Bitmap(Program.Settings.InternalResolution.X, Program.Settings.InternalResolution.Y);
-
-                Dictionary<string, Bitmap> dic = new Dictionary<string, Bitmap>
-                {
-                    {"result", bmp}
-                };
-
+                
                 runner.Enqueue(new FlScriptExecutionContext(inp, bmp, result => OnFinishCallback(result, outp)));
             }
 

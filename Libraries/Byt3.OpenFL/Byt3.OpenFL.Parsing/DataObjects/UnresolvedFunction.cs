@@ -2,8 +2,8 @@
 {
     public class UnresolvedFunction
     {
-        public string FunctionName;
-        public bool External;
+        public string FunctionName { get; }
+        public bool External { get; }
 
         public UnresolvedFunction(string functionName, bool external)
         {

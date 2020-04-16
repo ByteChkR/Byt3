@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
-using Byt3.ExtPP.API;
-using Byt3.ExtPP.API.Configuration;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Wrapper;
-using Byt3.OpenCL.Wrapper.ExtPP.API;
 using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Parsing;
 using Byt3.OpenFL.Parsing.DataObjects;
-using Byt3.OpenFL.Parsing.ExtPP.API.Configurations;
 using Byt3.OpenFL.Parsing.Stages;
 using Byt3.Utilities.Exceptions;
 using NUnit.Framework;
@@ -19,11 +13,7 @@ namespace Byt3.OpenFL.Tests
 {
     public class FLInterpreterTests
     {
-
-
-
-
-
+        
         [Test]
         public void OpenFL_Comments_Test()
         {

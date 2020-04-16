@@ -4,9 +4,9 @@ namespace Byt3.OpenFL.Parsing.Stages
 {
     public class LoadSourceStageResult
     {
-        public readonly CLAPI Instance;
-        public readonly string Filename;
-        public readonly string[] Source;
+        public  CLAPI Instance { get; }
+        public  string Filename { get; }
+        public  string[] Source { get; }
 
         public LoadSourceStageResult(CLAPI instance, string filename, string[] source)
         {

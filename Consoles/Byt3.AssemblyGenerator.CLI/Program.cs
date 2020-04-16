@@ -5,7 +5,7 @@ using Byt3.CommandRunner;
 
 namespace Byt3.AssemblyGenerator.CLI
 {
-    internal class Program
+    internal static class Program
     {
         public static bool BuildConsole;
         public static string Target;

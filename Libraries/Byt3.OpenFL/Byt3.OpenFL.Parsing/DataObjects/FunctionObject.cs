@@ -4,8 +4,8 @@ namespace Byt3.OpenFL.Parsing.DataObjects
 {
     public class FunctionObject : ParsedObject
     {
-        public string Name;
-        public List<Instruction> Instructions;
+        public string Name { get; }
+        public List<Instruction> Instructions { get; }
 
         public FunctionObject( string name, List<Instruction> instructions)
         {

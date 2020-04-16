@@ -365,18 +365,7 @@ namespace Byt3.ADL
             }
         }
 
-        ///// <summary>
-        /////     Generic Version. T is your Enum
-        ///// </summary>
-        ///// <typeparam name="T">Enum</typeparam>
-        ///// <param name="mask">Enum Mask</param>
-        ///// <param name="message">Message</param>
-        //internal static void LogGen<T>(T mask, string message) where T : struct
-        //{
-        //    var m = Convert.ToInt32(mask);
-        //    if (!AdlEnabled && (!SendWarnings || m != AdlWarningMask)) return;
-        //    Log(m, message);
-        //}
+
 
         /// <summary>
         ///     Gets the Mask of the Specified Prefix

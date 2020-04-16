@@ -59,24 +59,24 @@ namespace Byt3.ADL.Configs
 
         #region Lookup Presets
 
-        public static PrefixLookupSettings LowestPerformance =
+        public static PrefixLookupSettings LowestPerformance =>
             PrefixLookupSettings.Addprefixifavailable |
             PrefixLookupSettings.Deconstructmasktofind;
 
-        public static PrefixLookupSettings LowPerformance =
+        public static PrefixLookupSettings LowPerformance =>
             PrefixLookupSettings.Addprefixifavailable |
             PrefixLookupSettings.Deconstructmasktofind |
             PrefixLookupSettings.Onlyoneprefix;
 
-        public static PrefixLookupSettings MediumPerformance =
+        public static PrefixLookupSettings MediumPerformance =>
             PrefixLookupSettings.Addprefixifavailable |
             PrefixLookupSettings.Deconstructmasktofind |
             PrefixLookupSettings.Bakeprefixes;
 
-        public static PrefixLookupSettings HighPerformance =
+        public static PrefixLookupSettings HighPerformance =>
             PrefixLookupSettings.Addprefixifavailable;
 
-        public static PrefixLookupSettings HighestPerformance =
+        public static PrefixLookupSettings HighestPerformance =>
             PrefixLookupSettings.Noprefix;
 
         #endregion

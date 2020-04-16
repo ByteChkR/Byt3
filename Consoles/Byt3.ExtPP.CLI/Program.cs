@@ -4,7 +4,7 @@ using Byt3.ADL.Crash;
 
 namespace Byt3.ExtPP.CLI
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main(string[] args)
         {

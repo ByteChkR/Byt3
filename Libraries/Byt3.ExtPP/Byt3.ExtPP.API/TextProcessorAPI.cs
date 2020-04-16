@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using Byt3.ADL;
@@ -28,29 +26,7 @@ namespace Byt3.ExtPP.API
                 {
 
                     _configs = new Dictionary<string, APreProcessorConfig> {["***"] = new DefaultPreProcessorConfig()};
-                    //Type t = typeof(APreProcessorConfig);
-                    //Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
-                    //for (int i = 0; i < asms.Length; i++)
-                    //{
-                    //    try
-                    //    {
-                    //        Type[] ts = asms[i].GetExportedTypes();
-                    //        for (int j = 0; j < ts.Length; j++)
-                    //        {
-                    //            if (t.IsAssignableFrom(ts[j]) && ts[j] != t)
-                    //            {
-                    //                APreProcessorConfig config = (APreProcessorConfig)Activator.CreateInstance(ts[j]);
-                    //                _configs[config.FileExtension] = config;
-                    //            }
-                    //        }
-                    //    }
-                    //    catch (Exception)
-                    //    {
-                    //        //Logger.Log(LogType.Error, "Can not Load Assembly: " + asms[i].FullName, 1);
-                    //    }
-
-                    //}
-
+                    
                 }
 
                 return _configs;

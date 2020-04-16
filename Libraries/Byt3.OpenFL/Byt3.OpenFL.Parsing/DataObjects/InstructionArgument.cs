@@ -32,7 +32,7 @@
             }
         }
 
-        public object Value;
+        public object Value { get; internal set; }
 
         public InstructionArgument(object value)
         {

@@ -2,7 +2,7 @@
 {
     public class UnresolvedDefinedBuffer
     {
-        public string BufferName;
+        public string BufferName { get; }
 
         public UnresolvedDefinedBuffer(string bufferName)
         {

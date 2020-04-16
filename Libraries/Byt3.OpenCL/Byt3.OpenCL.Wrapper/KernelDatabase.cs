@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Byt3.ADL;
 using Byt3.ExtPP.API;
-using Byt3.ExtPP.Base.Interfaces;
 using Byt3.OpenCL.Wrapper.ExtPP.API;
 
 namespace Byt3.OpenCL.Wrapper

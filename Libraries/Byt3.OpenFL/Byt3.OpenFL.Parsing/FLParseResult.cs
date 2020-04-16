@@ -8,20 +8,22 @@ namespace Byt3.OpenFL.Parsing
 {
     public class FLParseResult
     {
-        public CLAPI Instance;
-        public KernelDatabase KernelDB;
-        public FLBufferInfo ActiveBuffer;
-        public byte[] ActiveChannels;
+        private readonly List<FLBufferInfo> internalBuffers = new List<FLBufferInfo>();
 
-        public FLBufferInfo Input;
+        public CLAPI Instance { get; private set; }
+        public KernelDatabase KernelDB { get; private set; }
+        public FLBufferInfo ActiveBuffer { get; set; }
+        public byte[] ActiveChannels { get; set; }
+
+        public FLBufferInfo Input { get; private set; }
         public int3 Dimensions => new int3(Input.Width, Input.Height, 4);
         public int InputSize => Dimensions.x * Dimensions.y * Dimensions.z;
 
-        public readonly string Filename;
-        public readonly string[] Source;
-        public readonly Dictionary<string, FLBufferInfo> DefinedBuffers;
-        public readonly FunctionObject[] Functions;
-        public readonly Dictionary<string, FunctionObject> DefinedScripts;
+        public string Filename { get; }
+        public string[] Source { get; }
+        public Dictionary<string, FLBufferInfo> DefinedBuffers { get; }
+        public FunctionObject[] Functions { get; }
+        public Dictionary<string, FunctionObject> DefinedScripts { get; }
 
 
         private readonly Stack<FLExecutionContext> ContextStack = new Stack<FLExecutionContext>();
@@ -64,7 +66,6 @@ namespace Byt3.OpenFL.Parsing
             ActiveBuffer = context.ActiveBuffer;
         }
 
-        private List<FLBufferInfo> internalBuffers = new List<FLBufferInfo>();
         internal FLBufferInfo RegisterUnmanagedBuffer(FLBufferInfo buffer)
         {
             internalBuffers.Add(buffer);
