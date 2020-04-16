@@ -1,19 +1,45 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using Byt3.ExtPP.API;
+using Byt3.ExtPP.API.Configuration;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Wrapper;
+using Byt3.OpenCL.Wrapper.ExtPP.API;
 using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Parsing;
 using Byt3.OpenFL.Parsing.DataObjects;
+using Byt3.OpenFL.Parsing.ExtPP.API.Configurations;
 using Byt3.OpenFL.Parsing.Stages;
 using Byt3.Utilities.Exceptions;
 using Xunit;
 
 namespace Byt3.OpenFL.Tests
 {
+    [CollectionDefinition("PPCollection", DisableParallelization = true)]
+    public class ExtPPApiFixtureCollection : ICollectionFixture<ExtPPApiFixture> { }
+    public class ExtPPApiFixture
+    {
+        public ExtPPApiFixture()
+        {
+            TextProcessorAPI.Configs = new Dictionary<string, APreProcessorConfig>()
+            {
+                {".fl", new FLPreProcessorConfig() },
+                {".cl", new CLPreProcessorConfig() },
+                {"***", new DefaultPreProcessorConfig() }
+            };
+        }
+    }
+
+    [Collection("PPCollection")]
     public class FLInterpreterTests
     {
 
+        public FLInterpreterTests(ExtPPApiFixture fixture)
+        {
+
+        }
 
         [Fact]
         public void OpenFL_Comments_Test()
@@ -58,7 +84,7 @@ namespace Byt3.OpenFL.Tests
 
             string file = "resources/filter/defines/test_wrong_script_invalid_file.fl";
             Assert.ThrowsAny<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
-            
+
         }
 
 
@@ -69,7 +95,7 @@ namespace Byt3.OpenFL.Tests
             string file = "resources/filter/defines/test_wrong_script_.fl";
             Assert.ThrowsAny<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
 
-            
+
         }
 
         [Fact]

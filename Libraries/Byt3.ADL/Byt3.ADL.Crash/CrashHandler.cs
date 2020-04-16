@@ -149,26 +149,28 @@ namespace Byt3.ADL.Crash
 
         public static string UnpackToString(object obj, int depth = 0)
         {
-            string ret = "";
+            StringBuilder ret = new StringBuilder();
             if (obj.GetType().IsArray)
             {
                 IEnumerable o = (IEnumerable) obj;
                 foreach (object entry in o)
                 {
-                    ret += UnpackToString(entry, depth + 1) + "\n";
+                    ret.AppendLine(UnpackToString(entry, depth + 1));
                 }
             }
             else
             {
-                string ind = "";
+                StringBuilder ind = new StringBuilder();
                 for (int i = 0; i < depth; i++)
                 {
-                    ind += "\t";
+                    ind.Append('\t');
                 }
-                ret = ind + obj.ToString();
+
+                ret.Append(ind);
+                ret.Append(obj);
             }
 
-            return ret;
+            return ret.ToString();
         }
     }
 }

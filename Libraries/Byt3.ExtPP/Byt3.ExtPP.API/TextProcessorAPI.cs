@@ -20,7 +20,7 @@ namespace Byt3.ExtPP.API
 
         private static Dictionary<string, APreProcessorConfig> _configs;
 
-        private static Dictionary<string, APreProcessorConfig> Configs
+        public static Dictionary<string, APreProcessorConfig> Configs
         {
             get
             {
@@ -55,6 +55,7 @@ namespace Byt3.ExtPP.API
 
                 return _configs;
             }
+            set => _configs = value;
         }
 
         public static string[] GenericIncludeToSource(string ext, string file, params string[] genType)
