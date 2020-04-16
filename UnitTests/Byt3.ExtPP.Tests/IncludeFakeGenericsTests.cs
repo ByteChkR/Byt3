@@ -9,7 +9,7 @@ namespace Byt3.ExtPP.Tests
 {
     public class IncludeFakeGenericsTests
     {
-        private static string ResourceFolder { get; } = TestHelper.ResF + "compiler_tests/";
+        private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "compiler_tests/";
 
 
         [Test]

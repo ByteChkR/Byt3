@@ -57,6 +57,7 @@ namespace Byt3.OpenFL.Parsing
         public void PushContext()
         {
             ContextStack.Push(new FLExecutionContext(new List<byte>(ActiveChannels).ToArray(), ActiveBuffer));
+            ActiveChannels = new byte[] { 1, 1, 1, 1 };
         }
 
         public void ReturnFromContext()
@@ -73,12 +74,19 @@ namespace Byt3.OpenFL.Parsing
             return buffer;
         }
 
-        public void Run(CLAPI instance, KernelDatabase kernelDB, FLBufferInfo input, FunctionObject entry = null)
+
+        public void SetCLVariables(CLAPI instance, KernelDatabase kernelDB, FLBufferInfo input)
         {
             //Setting Run Dependent Variables.
             Instance = instance;
             KernelDB = kernelDB;
-            Input = input;
+            Input = ActiveBuffer = DefinedBuffers["in"] = input;
+            Input.SetKey("in");
+        }
+
+        public void Run(CLAPI instance, KernelDatabase kernelDB, FLBufferInfo input, FunctionObject entry = null)
+        {
+            SetCLVariables(instance, kernelDB, input);
 
             //Start Setup
             ActiveBuffer = input;

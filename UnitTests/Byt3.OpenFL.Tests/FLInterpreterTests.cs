@@ -13,7 +13,7 @@ namespace Byt3.OpenFL.Tests
 {
     public class FLInterpreterTests
     {
-        
+
         [Test]
         public void OpenFL_Comments_Test()
         {
@@ -28,7 +28,7 @@ namespace Byt3.OpenFL.Tests
         {
 
             string file = "resources/filter/defines/test_wrong_define_invalid_file.fl";
-            
+
 
             Assert.Catch<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
 
@@ -83,7 +83,7 @@ namespace Byt3.OpenFL.Tests
             for (int i = 0; i < files.Length; i++)
             {
                 FLParseResult res = FLParser.Parse(new FLParserInput(files[i]));
-                FLBufferInfo buffer = new FLBufferInfo(CLAPI.MainThread, 32, 32);
+                FLBufferInfo buffer = new FLBufferInfo(CLAPI.MainThread, 512, 512);
                 res.Run(CLAPI.MainThread, db, buffer); //Running it
 
                 Bitmap bmp = new Bitmap(res.Dimensions.x, res.Dimensions.y); //Getting the Output
@@ -91,6 +91,9 @@ namespace Byt3.OpenFL.Tests
 
                 buffer.Dispose();
                 res.FreeResources();
+
+                //bmp.Save(Path.Combine("./out", Path.GetFileNameWithoutExtension(files[i]) + ".png"));
+
                 bmp.Dispose();
 
             }

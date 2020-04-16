@@ -9,7 +9,7 @@ namespace Byt3.ExtPP.Tests
 {
     public class ChangeCharCaseTests
     {
-        private static string ResourceFolder { get; } = TestHelper.ResF + "CCC_tests/";
+        private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "CCC_tests/";
 
         [Test]
         public void ExtPP_Plugins_ChangeCharCase_ToLower_Test()

@@ -84,10 +84,7 @@ namespace Byt3.OpenFL.Parsing.Stages
                 definedBuffer.Value.SetRoot(source);
             }
 
-            foreach (KeyValuePair<string, FunctionObject> functionObject in source.DefinedScripts)
-            {
-                functionObject.Value.SetRoot(source);
-            }
+
 
             source.EntryPoint.SetRoot(source);
         }

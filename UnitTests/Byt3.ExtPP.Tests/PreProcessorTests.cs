@@ -37,7 +37,7 @@ namespace Byt3.ExtPP.Tests
                 };
             }
         }
-        private static string ResourceFolder { get; } = Path.GetFullPath(TestHelper.ResF);
+        private static string ResourceFolder { get; } = Path.GetFullPath(TestHelper.ResourceFolder);
 
 
         [Test]

@@ -38,14 +38,16 @@ namespace Byt3.OpenFL.Parsing.Instructions
 
                         Logger.Log(LogType.Log, $"Executing Function: {source.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 
-                        Root.Run(Root.Instance, Root.KernelDB, buffer, source);
+                        Root.ActiveBuffer = buffer;
+                        source.Process();
+
                         FLBufferInfo output = Root.ActiveBuffer;
 
                         Logger.Log(LogType.Log, $"Returning from Function Context", MIN_INSTRUCTION_SEVERITY + 3);
                         Root.ReturnFromContext();
 
-                        Logger.Log(LogType.Log, "Setting Active Buffer: " + output.DefinedBufferName, MIN_INSTRUCTION_SEVERITY);
                         Root.ActiveBuffer = output;
+
                         continue;
                     }
 

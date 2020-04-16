@@ -10,7 +10,7 @@ namespace Byt3.ExtPP.Tests
 {
     public class ExceptionPluginTests
     {
-        private static string ResourceFolder { get; } = TestHelper.ResF + "EX_tests/";
+        private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "EX_tests/";
 
 
         [Test]

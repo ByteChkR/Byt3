@@ -36,6 +36,24 @@ namespace Byt3.OpenFL.Parsing.Stages
                 functions);
         }
 
+        public class ExternalFunctionObject : FunctionObject
+        {
+            private readonly FLParseResult ExternalFunction;
+            public ExternalFunctionObject(string name, FLParseResult external) : base(name, new List<Instruction>())
+            {
+                ExternalFunction = external;
+            }
+
+            public override void Process()
+            {
+                ExternalFunction.ActiveChannels = Root.ActiveChannels;
+                ExternalFunction.SetCLVariables(Root.Instance, Root.KernelDB, Root.ActiveBuffer);
+                ExternalFunction.EntryPoint.Process();
+                Root.ActiveChannels = ExternalFunction.ActiveChannels;
+                Root.ActiveBuffer = ExternalFunction.ActiveBuffer;
+            }
+        }
+
         private static Dictionary<string, FunctionObject> ParseScriptDefines(CLAPI instance, string[] statements)
         {
             Dictionary<string, FunctionObject> ret = new Dictionary<string, FunctionObject>();
@@ -51,7 +69,7 @@ namespace Byt3.OpenFL.Parsing.Stages
                 }
 
                 FLParseResult ps = FLParser.Parse(new FLParserInput(p, instance));
-                ret.Add(name, ps.EntryPoint);
+                ret.Add(name, new ExternalFunctionObject(name, ps));
             }
 
             return ret;

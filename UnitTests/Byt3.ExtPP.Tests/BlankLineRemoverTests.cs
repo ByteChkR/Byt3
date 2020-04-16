@@ -8,7 +8,7 @@ namespace Byt3.ExtPP.Tests
 {
     public class BlankLineRemoverTests
     {
-        private static string ResourceFolder { get; } = TestHelper.ResF + "BLR_tests/";
+        private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "BLR_tests/";
 
         
 

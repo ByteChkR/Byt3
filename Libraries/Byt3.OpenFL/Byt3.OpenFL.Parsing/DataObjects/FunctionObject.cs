@@ -13,7 +13,7 @@ namespace Byt3.OpenFL.Parsing.DataObjects
             Instructions = instructions;
         }
 
-        public void Process()
+        public virtual void Process()
         {
             for (int i = 0; i < Instructions.Count; i++)
             {

@@ -9,7 +9,7 @@ namespace Byt3.ExtPP.Tests
 {
     public class TextEncoderPluginTests
     {
-        private static string ResourceFolder { get; } = TestHelper.ResF + "TENC_tests/";
+        private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "TENC_tests/";
 
 
         [Test]

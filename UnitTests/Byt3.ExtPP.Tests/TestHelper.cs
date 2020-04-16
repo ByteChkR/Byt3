@@ -12,7 +12,7 @@ namespace Byt3.ExtPP.Tests
 {
     public static class TestHelper
     {
-        public static string ResF
+        public static string ResourceFolder
         {
             get
             {
@@ -22,8 +22,7 @@ namespace Byt3.ExtPP.Tests
                 return Path.Combine(dirPath, "res/");
             }
         }
-
-        private static string ResourceFolderBackingProperty { get; } = Path.GetFullPath("../../../res/");
+        
 
         private static PreProcessor SetUp(List<AbstractPlugin> chain)
         {
