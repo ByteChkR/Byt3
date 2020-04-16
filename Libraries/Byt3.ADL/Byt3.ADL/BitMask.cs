@@ -9,8 +9,8 @@ namespace Byt3.ADL
     /// </summary>
     public class BitMask
     {
-        public const int EMPTY = 0;
-        public const int WILD_CARD = ~0;
+        public static readonly int Empty = 0;
+        public static readonly int WildCard = ~0;
 
         protected int Mask;
 

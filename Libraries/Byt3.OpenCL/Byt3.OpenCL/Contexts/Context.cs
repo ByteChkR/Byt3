@@ -293,7 +293,7 @@ namespace Byt3.OpenCL.Contexts
             {
                 using (StreamReader stringReader = new StreamReader(source))
                 {
-                    sourceList.Add(await stringReader.ReadToEndAsync().ConfigureAwait(false));
+                    sourceList.Add(await stringReader.ReadToEndAsync());
                 }
             }
 
@@ -359,12 +359,12 @@ namespace Byt3.OpenCL.Contexts
             {
                 using (StreamReader streamRreader = File.OpenText(fileName))
                 {
-                    sourceList.Add(await streamRreader.ReadToEndAsync().ConfigureAwait(false));
+                    sourceList.Add(await streamRreader.ReadToEndAsync());
                 }
             }
 
             // Compiles and returnes the program
-            return await CreateAndBuildProgramFromStringAsync(sourceList).ConfigureAwait(false);
+            return await CreateAndBuildProgramFromStringAsync(sourceList);
         }
 
         /// <summary>
