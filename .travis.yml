@@ -16,11 +16,6 @@ jobs:
       env:
         - SOLUTION="Byt3.sln"
         - BUILDCONFIG="Release"
-    - dotnet: 2.1
-      env:
-        - SOLUTION="Byt3.sln"
-        - BUILDCONFIG="Release"
-
 #Restore the Submodules and the Project
 install:
   - bash opencl_travis_setup.sh
