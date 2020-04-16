@@ -16,9 +16,9 @@ namespace Byt3.OpenCL.Tests
             {
                 if (kernelDb == null)
                 {
-                    var codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
-                    var codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
-                    var dirPath = Path.GetDirectoryName(codeBasePath);
+                    Uri codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+                    string codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
+                    string dirPath = Path.GetDirectoryName(codeBasePath);
                     string ResourceFolder = Path.Combine(dirPath, "resources", "kernel");
                     kernelDb = new KernelDatabase(CLAPI.MainThread, ResourceFolder,
                         Wrapper.TypeEnums.DataVectorTypes.Uchar1);

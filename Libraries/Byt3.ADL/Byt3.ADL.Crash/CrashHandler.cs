@@ -64,8 +64,7 @@ namespace Byt3.ADL.Crash
             {
                 CrashLogger.Log(CrashLogType.Crash, ExceptionToString(exception, includeInner), 1);
             }
-
-            CrashLogType lt = Config.ShortenCrashInfo ? CrashLogType.CrashShort : CrashLogType.Crash;
+            
 
 
         }

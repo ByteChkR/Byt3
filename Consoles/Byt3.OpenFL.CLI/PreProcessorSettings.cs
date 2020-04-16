@@ -20,7 +20,7 @@
 
         public static PreProcessorSettings GetDefault()
         {
-            return new PreProcessorSettings() { InternalResolution = new Resolution(512, 512), KernelFolder = "./kernels" };
+            return new PreProcessorSettings { InternalResolution = new Resolution(512, 512), KernelFolder = "./kernels" };
         }
     }
 }

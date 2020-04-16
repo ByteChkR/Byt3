@@ -26,7 +26,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             Logger.Log(LogType.Log, "Script Nodes: " + scripts.Select(x=>x.Key).Unpack(", "), 4);
             
             Logger.Log(LogType.Log, "Creating Defined Buffer Nodes..", 3);
-            Dictionary<string, FLBufferInfo> definedBuffers = ParseDefinedBuffers(input.Instance, input.Filename, input.DefinedBuffers);
+            Dictionary<string, FLBufferInfo> definedBuffers = ParseDefinedBuffers(input.Instance,input.DefinedBuffers);
             Logger.Log(LogType.Log, "Buffer Nodes: " + definedBuffers.Select(x => x.Key).Unpack(", "), 4);
 
             Logger.Log(LogType.Log, "Creating Defined Function Nodes..", 3);
@@ -164,8 +164,7 @@ namespace Byt3.OpenFL.Parsing.Stages
 
 
 
-        private static Dictionary<string, FLBufferInfo> ParseDefinedBuffers(CLAPI instance, string path,
-            string[] defineStatements)
+        private static Dictionary<string, FLBufferInfo> ParseDefinedBuffers(CLAPI instance, string[] defineStatements)
         {
             Dictionary<string, FLBufferInfo> definedBuffers = new Dictionary<string, FLBufferInfo>();
             for (int i = 0; i < defineStatements.Length; i++)

@@ -17,10 +17,6 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private readonly string filePath;
 
-        /// <summary>
-        /// The gentype the program source is compiled for
-        /// </summary>
-        private readonly string genType;
 
         /// <summary>
         /// Public Constructor
@@ -28,10 +24,9 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="filePath">The FilePath where the source is located</param>
         /// <param name="genType">The Gen Type used</param>
-        public CLProgram(CLAPI instance, string filePath, string genType)
+        public CLProgram(CLAPI instance, string filePath)
         {
             this.filePath = filePath;
-            this.genType = genType;
 
             ContainedKernels = new Dictionary<string, CLKernel>();
 

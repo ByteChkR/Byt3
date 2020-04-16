@@ -106,18 +106,18 @@ namespace Byt3.OpenCL
         /// <summary>
         /// Checks if the specified object is equal to this.
         /// </summary>
-        /// <param name="otherHandleBase">The other object that is to be tested for equality.</param>
+        /// <param name="other">The other object that is to be tested for equality.</param>
         /// <returns>Returns <c>true</c> if both objects point to the same underlying unmanaged memory and <c>false</c> otherwise.</returns>
-        public bool Equals(HandleBase otherHandleBase)
+        public bool Equals(HandleBase other)
         {
             // Checks if the other object is null, in that case it is not equal to this object
-            if (otherHandleBase == null)
+            if (other == null)
             {
                 return false;
             }
 
             // Checks if the handles, that both objects contain are the same, in that case they are equal, if not they are not equal
-            return Handle == otherHandleBase.Handle;
+            return Handle == other.Handle;
         }
 
         /// <summary>

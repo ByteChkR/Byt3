@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using NUnit.Framework;
@@ -39,7 +40,7 @@ namespace Byt3.ObjectPipeline.Tests
         {
             public override string Process(string input)
             {
-                return input.ToLower();
+                return input.ToLower(CultureInfo.InvariantCulture);
             }
         }
 

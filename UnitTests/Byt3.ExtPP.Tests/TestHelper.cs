@@ -16,14 +16,10 @@ namespace Byt3.ExtPP.Tests
         {
             get
             {
-                string resourceFolder = "res/";
-                var codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
-                var codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
-                var dirPath = Path.GetDirectoryName(codeBasePath);
-                resourceFolder = Path.Combine(dirPath, "res/");
-                return resourceFolder;
-
-
+                Uri codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
+                string codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
+                string dirPath = Path.GetDirectoryName(codeBasePath);
+                return Path.Combine(dirPath, "res/");
             }
         }
 

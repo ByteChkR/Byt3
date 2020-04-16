@@ -81,8 +81,8 @@ namespace Byt3.PackageHandling.Tests
             Byt3Handler handler = GetHandler(Byt3HandlerLookupType.None, null);
 
             //handler.AddHandler(new HandlerA());
-            handler.AddHandler(new HandlerB() {TestInstance = this});
-            handler.AddHandler(new HandlerC() {TestInstance = this});
+            handler.AddHandler(new HandlerB {TestInstance = this});
+            handler.AddHandler(new HandlerC {TestInstance = this});
             //handler.AddHandler(new HandlerD());
 
             Assert.Throws<HandlerNotFoundException>(() =>
@@ -100,8 +100,8 @@ namespace Byt3.PackageHandling.Tests
         {
             Byt3Handler handler = GetHandler(Byt3HandlerLookupType.TraverseUp, null);
 
-            handler.AddHandler(new HandlerA() {TestInstance = this});
-            handler.AddHandler(new HandlerB() {TestInstance = this});
+            handler.AddHandler(new HandlerA {TestInstance = this});
+            handler.AddHandler(new HandlerB {TestInstance = this});
             //handler.AddHandler(new HandlerC());
             //handler.AddHandler(new HandlerD());
 
