@@ -28,28 +28,29 @@ namespace Byt3.ExtPP.API
                 {
 
                     _configs = new Dictionary<string, APreProcessorConfig>();
-                    Type t = typeof(APreProcessorConfig);
-                    Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
-                    for (int i = 0; i < asms.Length; i++)
-                    {
-                        try
-                        {
-                            Type[] ts = asms[i].GetExportedTypes();
-                            for (int j = 0; j < ts.Length; j++)
-                            {
-                                if (t.IsAssignableFrom(ts[j]) && ts[j] != t)
-                                {
-                                    APreProcessorConfig config = (APreProcessorConfig)Activator.CreateInstance(ts[j]);
-                                    _configs[config.FileExtension] = config;
-                                }
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            //Logger.Log(LogType.Error, "Can not Load Assembly: " + asms[i].FullName, 1);
-                        }
+                    _configs["***"] = new DefaultPreProcessorConfig();
+                    //Type t = typeof(APreProcessorConfig);
+                    //Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
+                    //for (int i = 0; i < asms.Length; i++)
+                    //{
+                    //    try
+                    //    {
+                    //        Type[] ts = asms[i].GetExportedTypes();
+                    //        for (int j = 0; j < ts.Length; j++)
+                    //        {
+                    //            if (t.IsAssignableFrom(ts[j]) && ts[j] != t)
+                    //            {
+                    //                APreProcessorConfig config = (APreProcessorConfig)Activator.CreateInstance(ts[j]);
+                    //                _configs[config.FileExtension] = config;
+                    //            }
+                    //        }
+                    //    }
+                    //    catch (Exception)
+                    //    {
+                    //        //Logger.Log(LogType.Error, "Can not Load Assembly: " + asms[i].FullName, 1);
+                    //    }
 
-                    }
+                    //}
 
                 }
 

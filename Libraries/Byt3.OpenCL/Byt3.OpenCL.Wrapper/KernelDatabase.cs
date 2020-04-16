@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using Byt3.ADL;
+using Byt3.ExtPP.API;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.OpenCL.Wrapper.ExtPP.API;
 
 namespace Byt3.OpenCL.Wrapper
 {
@@ -11,6 +13,12 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class KernelDatabase : ALoggable<LogType>
     {
+
+        static KernelDatabase()
+        {
+            TextProcessorAPI.Configs[".cl"] = new CLPreProcessorConfig();
+        }
+
         //private readonly ADLLogger<LogType> logger = new ADLLogger<LogType>(OpenCLDebugConfig.Settings, "CL-KernelDB");
         /// <summary>
         /// The Folder that will get searched when initializing the database.
