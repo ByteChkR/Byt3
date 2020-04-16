@@ -35,6 +35,7 @@ namespace Byt3.ObjectPipeline
             {
                 throw new ArgumentNullException("stage", "Argument is not allowed to be null.");
             }
+
             Verified = false;
             if (Stages.Count == 0)
             {

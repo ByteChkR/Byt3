@@ -12,6 +12,9 @@ namespace Byt3.OpenFL.Parsing.Stages
             Filename = filename;
             Instance = instance;
         }
-        public FLParserInput(string filename):this(filename, CLAPI.MainThread) { }
+
+        public FLParserInput(string filename) : this(filename, CLAPI.MainThread)
+        {
+        }
     }
 }

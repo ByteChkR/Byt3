@@ -12,21 +12,21 @@ namespace Byt3.OpenFL.Parsing
 {
     public class FLParser : Pipeline<FLParserInput, FLParseResult>
     {
-
         static FLParser()
         {
             TextProcessorAPI.Configs[".fl"] = new FLPreProcessorConfig();
         }
 
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "FLParser");
+        private static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "FLParser");
 
 
         internal static Dictionary<string, Type> FLInstructions => new Dictionary<string, Type>
         {
             {"setactive", typeof(SetActiveInstruction)},
-            {"jmp", typeof(JumpInstruction) },
+            {"jmp", typeof(JumpInstruction)},
             {"urnd", typeof(URandomInstruction)},
-            {"rnd", typeof(RandomInstruction) },
+            {"rnd", typeof(RandomInstruction)},
         };
 
         public static FLParseResult Parse(FLParserInput input)
@@ -53,16 +53,18 @@ namespace Byt3.OpenFL.Parsing
             ret.Add("--define texture in:");
             return ret.ToArray();
         }
+
         internal static string[] FindDefineScriptsStatements(string[] source)
         {
             return source.Where(IsDefineScriptStatement).ToArray();
         }
+
         internal static string[] FindFunctionHeaders(string[] source)
         {
             return source.Where(IsFunctionHeader).Select(x =>
             {
                 string r = RemoveComment(x);
-                r=r.Remove(r.Length - 1, 1);
+                r = r.Remove(r.Length - 1, 1);
                 return r;
             }).ToArray();
         }
@@ -75,17 +77,19 @@ namespace Byt3.OpenFL.Parsing
 
         internal static string GetScriptName(string definedScriptLine)
         {
-            return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
+            return RemoveComment(definedScriptLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[0]
                 .Replace("--define script", "").Trim();
         }
+
         internal static string GetScriptPath(string definedScriptLine)
         {
-            return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[1].Trim().Replace("\"", "");
+            return RemoveComment(definedScriptLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
+                .Replace("\"", "");
         }
 
         internal static string GetBufferName(string definedBufferLine)
         {
-            return RemoveComment(definedBufferLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
+            return RemoveComment(definedBufferLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[0]
                 .Replace("--define texture", "").Trim();
         }
 
@@ -102,7 +106,7 @@ namespace Byt3.OpenFL.Parsing
 
         internal static string RemoveComment(string line)
         {
-            return line.Split(new[] { '#' }, StringSplitOptions.None).First().Trim();
+            return line.Split(new[] {'#'}, StringSplitOptions.None).First().Trim();
         }
 
         internal static bool IsFunctionHeader(string line)
@@ -120,6 +124,7 @@ namespace Byt3.OpenFL.Parsing
                 {
                     break;
                 }
+
                 ret.Add(source[i].Trim());
             }
 

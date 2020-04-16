@@ -14,7 +14,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             CommandAction = (info, strings) => Build(strings);
         }
 
-        private void Build( string[] args)
+        private void Build(string[] args)
         {
             if (!Program.HasTarget)
             {

@@ -9,12 +9,12 @@
         /// <summary>
         /// Custom Key that is used to determine the type of the Packet
         /// </summary>
-        public  object PacketType { get;  }
+        public object PacketType { get; }
 
         /// <summary>
         /// Serialized Packet that this Base Packet is wrapping around
         /// </summary>
-        public  byte[] Payload { get; }
+        public byte[] Payload { get; }
 
         /// <summary>
         /// Public Constructor

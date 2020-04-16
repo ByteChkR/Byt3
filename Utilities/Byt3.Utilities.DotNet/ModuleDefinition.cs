@@ -11,6 +11,7 @@ namespace Byt3.Utilities.DotNet
     {
         public string Name { get; set; }
         public string RootDirectory { get; set; }
+
         public string[] ScriptFiles => Directory.GetFiles(RootDirectory, "*.cs", SearchOption.AllDirectories)
             .Where(x => !x.Contains("\\bin\\") && !x.Contains("\\obj\\")).ToArray();
 

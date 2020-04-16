@@ -12,7 +12,8 @@ namespace Byt3.ExtPP.Base
     /// </summary>
     public static class Utils
     {
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(ExtPPDebugConfig.Settings, "PP Utils");
+        private static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(ExtPPDebugConfig.Settings, "PP Utils");
 
         /// <summary>
         /// Removes all lines of the source that start with one of the statements
@@ -27,10 +28,8 @@ namespace Byt3.ExtPP.Base
             {
                 foreach (string t in statements)
                 {
-
                     if (source[i].Trim().StartsWith(t))
                     {
-
                         Logger.Log(LogType.Log,
                             string.Format("Removing statement {0} on line {1}", t, i), 7);
                         source.RemoveAt(i);
@@ -38,6 +37,7 @@ namespace Byt3.ExtPP.Base
                     }
                 }
             }
+
             return source;
         }
 
@@ -51,7 +51,7 @@ namespace Byt3.ExtPP.Base
         public static string RemoveExcessSpaces(string line, string separator)
         {
             string ret = line.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
-            Logger.Log(LogType.Log,  $"Removing Excess Spaces: {line} => {ret}", 7);
+            Logger.Log(LogType.Log, $"Removing Excess Spaces: {line} => {ret}", 7);
             return ret;
         }
 
@@ -64,7 +64,6 @@ namespace Byt3.ExtPP.Base
         /// <param name="keyword">the keyword that will be pasted for the replacement</param>
         public static void ReplaceKeyWord(string[] source, string replacement, string keyword)
         {
-
             for (int i = 0; i < source.Length; i++)
             {
                 if (source[i].Contains(keyword))
@@ -83,7 +82,7 @@ namespace Byt3.ExtPP.Base
         public static bool FileExistsRelativeTo(string currentPath, string file)
         {
             bool ret1 = IOManager.FileExists(Path.Combine(currentPath, file));
-            
+
             return ret1;
         }
 
@@ -99,6 +98,7 @@ namespace Byt3.ExtPP.Base
             {
                 return FileExistsRelativeTo(currentPath, file.GetFilePath());
             }
+
             return true;
         }
 
@@ -226,7 +226,6 @@ namespace Byt3.ExtPP.Base
 
 
             return ret;
-
         }
 
         /// <summary>
@@ -255,10 +254,10 @@ namespace Byt3.ExtPP.Base
             {
                 return null;
             }
+
             object[] ret = new object[obj.Length];
             for (int index = 0; index < obj.Length; index++)
             {
-
                 if (t.IsEnum)
                 {
                     ret[index] = ParseEnum(t, obj[index], defaul);
@@ -285,6 +284,7 @@ namespace Byt3.ExtPP.Base
             {
                 return ParseEnum(t, obj, defaul);
             }
+
             Parser[t](obj, out object val);
             return val ?? defaul;
         }

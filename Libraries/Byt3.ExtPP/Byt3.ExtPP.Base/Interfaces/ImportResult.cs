@@ -11,6 +11,7 @@ namespace Byt3.ExtPP.Base.Interfaces
         /// The underlying data structure that is used to hold the custom data
         /// </summary>
         private readonly Dictionary<string, object> data = new Dictionary<string, object>();
+
         /// <summary>
         /// A flag indicating the success state of the Import Operation
         /// </summary>
@@ -26,7 +27,6 @@ namespace Byt3.ExtPP.Base.Interfaces
             if (data.ContainsKey(key))
             {
                 data[key] = value;
-
             }
             else
             {

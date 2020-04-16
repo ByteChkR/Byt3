@@ -21,15 +21,13 @@ namespace Byt3.OpenFL.CLI.Commands
             }
         }
 
-        
-
 
         public SetSettingsCommand(Dictionary<string, FieldInformations> rootNodes) :
-            base( new[] {"--set-settings", "-ss" }, "Sets the Settings")
+            base(new[] {"--set-settings", "-ss"}, "Sets the Settings")
         {
             CommandAction = (info, strings) => ReflectData(strings);
             RootNodes = rootNodes;
-            Logger.Log(LogType.Log,"Root Nodes: " + RootNodes.Count, 1);
+            Logger.Log(LogType.Log, "Root Nodes: " + RootNodes.Count, 1);
         }
 
         private void ReflectData(string[] args)
@@ -38,11 +36,12 @@ namespace Byt3.OpenFL.CLI.Commands
             {
                 string[] parts = args[i].Split(':');
                 string fullpath = parts[0];
-                Logger.Log(LogType.Log, "Trying to Find Field: " + fullpath,3);
+                Logger.Log(LogType.Log, "Trying to Find Field: " + fullpath, 3);
                 if (parts.Length != 2 || fullpath.IndexOf('.') == -1)
                 {
                     continue;
                 }
+
                 string root = fullpath.Substring(0, fullpath.IndexOf('.'));
                 string data = parts[1];
                 if (RootNodes.ContainsKey(root))
@@ -76,18 +75,19 @@ namespace Byt3.OpenFL.CLI.Commands
                 }
                 else
                 {
-                    Logger.Log(LogType.Error,"Can not Find a Field with Path: " + fullpath, 1);
+                    Logger.Log(LogType.Error, "Can not Find a Field with Path: " + fullpath, 1);
                 }
             }
         }
 
-        private static void RecursiveAddFields(string parentPath, object parentRef, FieldInfo current, Dictionary<string, FieldInformation> infos)
+        private static void RecursiveAddFields(string parentPath, object parentRef, FieldInfo current,
+            Dictionary<string, FieldInformation> infos)
         {
             string thisPath = parentPath + "." + current.Name;
             if (current.FieldType == typeof(float) || current.FieldType == typeof(string) ||
                 current.FieldType == typeof(int) || current.FieldType == typeof(bool))
             {
-                infos.Add(thisPath, new FieldInformation { reference = parentRef, info = current, path = thisPath });
+                infos.Add(thisPath, new FieldInformation {reference = parentRef, info = current, path = thisPath});
             }
             else
             {
@@ -156,7 +156,5 @@ namespace Byt3.OpenFL.CLI.Commands
 
             return new ObjectFieldContainer(rootName, ret);
         }
-
-
     }
 }

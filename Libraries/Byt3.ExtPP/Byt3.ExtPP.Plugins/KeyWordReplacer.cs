@@ -20,11 +20,9 @@ namespace Byt3.ExtPP.Plugins
 
         private Dictionary<string, string> GetKeywords()
         {
-
             Dictionary<string, string> ret = new Dictionary<string, string>();
             if (!NoDefaultKeywords)
             {
-
                 ret.Add("DATE_TIME", DateTime.Now.ToString(DateTimeFormatString));
                 ret.Add("DATE", DateTime.Now.ToString(DateFormatString));
                 ret.Add("TIME", DateTime.Now.ToString(TimeFormatString));
@@ -34,6 +32,7 @@ namespace Byt3.ExtPP.Plugins
             {
                 return ret;
             }
+
             for (int i = 0; i < Keywords.Length; i++)
             {
                 string[] s = Keywords[i].Split(':');
@@ -41,7 +40,6 @@ namespace Byt3.ExtPP.Plugins
             }
 
             return ret;
-
         }
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
@@ -68,14 +66,12 @@ namespace Byt3.ExtPP.Plugins
             new CommandInfo("set-kwdata", "kwd",
                 PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Keywords)),
                 "Sets the Keywords that need to be replaced with values. <keyword>:<value>"),
-
         };
 
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
             settings.ApplySettings(Info, this);
-
         }
 
         public override string LineStage(string source)
@@ -86,7 +82,7 @@ namespace Byt3.ExtPP.Plugins
                 string key = SurroundingChar + keyword.Key + SurroundingChar;
                 if (ret.Contains(key))
                 {
-                   Logger.Log(LogType.Log,  $"Replacing {key} with {keyword.Value}", PLUGIN_MIN_SEVERITY);
+                    Logger.Log(LogType.Log, $"Replacing {key} with {keyword.Value}", PLUGIN_MIN_SEVERITY);
                     ret = ret.Replace(key, keyword.Value);
                 }
             }

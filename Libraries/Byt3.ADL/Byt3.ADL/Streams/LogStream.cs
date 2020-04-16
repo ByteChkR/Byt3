@@ -48,10 +48,12 @@ namespace Byt3.ADL.Streams
             {
                 return;
             }
+
             if (AddTimeStamp)
             {
                 log.Message = Utils.TimeStamp + log.Message;
             }
+
             byte[] buffer = log.Serialize();
             BaseStream.Write(buffer, 0, buffer.Length);
             Flush();
@@ -107,7 +109,7 @@ namespace Byt3.ADL.Streams
             IsClosed = true;
             BaseStream.Close();
         }
-        
+
 
         [Obsolete]
         protected override WaitHandle CreateWaitHandle()

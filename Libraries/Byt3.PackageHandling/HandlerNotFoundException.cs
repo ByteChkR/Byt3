@@ -4,6 +4,8 @@ namespace Byt3.PackageHandling
 {
     public class HandlerNotFoundException : Byt3Exception
     {
-        public HandlerNotFoundException(string message) : base(message) { }
+        public HandlerNotFoundException(string message) : base(message)
+        {
+        }
     }
 }

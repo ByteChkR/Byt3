@@ -18,15 +18,11 @@ namespace Byt3.OpenFL.Threading
 
         public override void Process()
         {
-            ThreadManager.RunTask(_proc, x =>
-            {
-                
-            });
+            ThreadManager.RunTask(_proc, x => { });
         }
 
         private object _proc()
         {
-
             while (ProcessQueue.Count != 0)
             {
                 FlScriptExecutionContext fle = ProcessQueue.Dequeue();

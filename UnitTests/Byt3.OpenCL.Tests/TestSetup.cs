@@ -27,6 +27,5 @@ namespace Byt3.OpenCL.Tests
                 return kernelDb;
             }
         }
-        
     }
 }

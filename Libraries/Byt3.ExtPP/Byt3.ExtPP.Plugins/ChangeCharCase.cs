@@ -12,6 +12,7 @@ namespace Byt3.ExtPP.Plugins
         public string CaseChange { get; set; } = "tolower";
 
         private bool ToLower => CaseChange.ToLower(CultureInfo.InvariantCulture) == "tolower";
+
         public override List<CommandInfo> Info =>
             new List<CommandInfo>
             {

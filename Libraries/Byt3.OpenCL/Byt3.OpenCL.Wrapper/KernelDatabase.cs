@@ -12,7 +12,6 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class KernelDatabase : ALoggable<LogType>
     {
-
         static KernelDatabase()
         {
             TextProcessorAPI.Configs[".cl"] = new CLPreProcessorConfig();
@@ -34,7 +33,8 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="folderName">Folder name where the kernels are located</param>
         /// <param name="genDataVectorType">The DataVectorTypes used to compile the FL Database</param>
-        public KernelDatabase(CLAPI instance, string folderName, TypeEnums.DataVectorTypes genDataVectorType) : base(OpenCLDebugConfig.Settings)
+        public KernelDatabase(CLAPI instance, string folderName, TypeEnums.DataVectorTypes genDataVectorType) : base(
+            OpenCLDebugConfig.Settings)
         {
             GenDataType = KernelParameter.GetDataString(genDataVectorType);
             if (!CLAPI.DirectoryExists(folderName))
@@ -74,7 +74,7 @@ namespace Byt3.OpenCL.Wrapper
         {
             if (!CLAPI.FileExists(file))
             {
-                throw new FileNotFoundException("File not found: "+ file);
+                throw new FileNotFoundException("File not found: " + file);
             }
 
 

@@ -7,7 +7,6 @@ namespace Byt3.Collections.Smoothing
     {
         public static void ExampleInterpolatorUse()
         {
-
             Interpolator
                 interpolator =
                     Interpolator.CreateInterpolator(Slerp,
@@ -32,7 +31,6 @@ namespace Byt3.Collections.Smoothing
                 float t = i / 10000f;
                 float hh = interpolator.Interpolate(t);
             }
-
         }
 
         public class Interpolator
@@ -54,6 +52,7 @@ namespace Byt3.Collections.Smoothing
                 {
                     ret = iDel(ret);
                 }
+
                 return ret;
             }
 
@@ -88,6 +87,7 @@ namespace Byt3.Collections.Smoothing
             {
                 ret *= t;
             }
+
             return ret;
         }
 

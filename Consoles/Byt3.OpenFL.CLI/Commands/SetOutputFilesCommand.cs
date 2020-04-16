@@ -7,7 +7,7 @@ namespace Byt3.OpenFL.CLI.Commands
         internal static string[] OutputFiles { get; set; } = new string[0];
 
 
-        public SetOutputFilesCommand() : base((info, strings) => SetOutputFiles(strings), new[] { "--output", "-o" },
+        public SetOutputFilesCommand() : base((info, strings) => SetOutputFiles(strings), new[] {"--output", "-o"},
             "Sets the Output for the Files specified as input")
         {
         }
@@ -17,6 +17,5 @@ namespace Byt3.OpenFL.CLI.Commands
         {
             OutputFiles = args;
         }
-
     }
 }

@@ -456,7 +456,8 @@ namespace Byt3.OpenCL.Contexts
 
                 // Creates a new memory buffer for the specified value
                 IntPtr memoryBufferPointer = MemoryNativeApi.CreateBuffer(Handle,
-                    (Interop.Memory.MemoryFlag) memoryFlags, new UIntPtr((uint) size), hostBufferPointer, out Result result);
+                    (Interop.Memory.MemoryFlag) memoryFlags, new UIntPtr((uint) size), hostBufferPointer,
+                    out Result result);
 
                 // Checks if the creation of the memory buffer was successful, if not, then an exception is thrown
                 if (result != Result.Success)

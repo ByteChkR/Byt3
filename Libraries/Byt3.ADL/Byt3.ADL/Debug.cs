@@ -23,7 +23,8 @@ namespace Byt3.ADL
         private static bool FirstLog = true;
 
 
-        private static readonly ADLLogger<LogType> InternalLogger = new ADLLogger<LogType>(InternalADLProjectDebugConfig.Settings, "ADL_Internal");
+        private static readonly ADLLogger<LogType> InternalLogger =
+            new ADLLogger<LogType>(InternalADLProjectDebugConfig.Settings, "ADL_Internal");
 
         private static readonly object PrefixLock = new object();
 
@@ -136,6 +137,7 @@ namespace Byt3.ADL
                     "AddOutputStream(" + stream +
                     "): ADL is disabled, you are adding an Output Stream while ADL is disabled.", 1);
             }
+
             bool contains = false;
             lock (Streams)
             {
@@ -182,6 +184,7 @@ namespace Byt3.ADL
                     "RemoveOutputStream(" + stream +
                     "): ADL is disabled, you are removing an Output Stream while while ADL is disabled.", 1);
             }
+
             lock (Streams)
             {
                 Streams.Remove(stream);
@@ -209,6 +212,7 @@ namespace Byt3.ADL
                         ls.Close();
                     }
                 }
+
                 Streams.Clear();
             }
         }
@@ -230,12 +234,14 @@ namespace Byt3.ADL
                     "AddPrefixForMask(" + mask +
                     "): ADL is disabled, you are adding a prefix for a mask while ADL is disabled.", 1);
             }
+
             if (!BitMask.IsUniqueMask(mask))
             {
                 InternalLogger.Log(LogType.Warning,
                     "AddPrefixForMask(" + mask + "): Adding Prefix: " + prefix + " for mask: " + mask +
                     ". Mask is not unique.", 1);
             }
+
             lock (PrefixLock)
             {
                 if (prefixes.ContainsKey(mask))
@@ -268,6 +274,7 @@ namespace Byt3.ADL
                 {
                     return;
                 }
+
                 prefixes.Remove(mask);
             }
         }
@@ -319,6 +326,7 @@ namespace Byt3.ADL
                 InternalLogger.Log(LogType.Warning,
                     "GetAllPrefixes(): ADL is disabled, you are getting all prefixes while ADL is disabled.", 1);
             }
+
             lock (prefixes)
             {
                 return new Dictionary<int, string>(prefixes);
@@ -358,13 +366,13 @@ namespace Byt3.ADL
                         Streams.RemoveAt(i);
                     }
                 }
+
                 foreach (LogStream logs in Streams)
                 {
                     logs.Write(logs.OverrideChannelTag ? new Log(mask, messg) : new Log(mask, mesg));
                 }
             }
         }
-
 
 
         /// <summary>
@@ -386,6 +394,7 @@ namespace Byt3.ADL
             {
                 return false;
             }
+
             foreach (KeyValuePair<int, string> kvp in prefx)
             {
                 if (prefix == kvp.Value)
@@ -409,6 +418,7 @@ namespace Byt3.ADL
             {
                 return "";
             }
+
             StringBuilder.Length = 0;
             lock (prefixes)
             {
@@ -447,12 +457,12 @@ namespace Byt3.ADL
                     {
                         return StringBuilder.ToString();
                     }
+
                     lock (PrefixLock)
                     {
                         prefixes.Add(mask,
                             StringBuilder.ToString()); //Create a "custom prefix" with the constructed mask.
                     }
-                    
                 }
             }
 

@@ -8,6 +8,7 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
     {
         [XmlElement(ElementName = "Attributes")]
         public List<SerializableKeyValuePair<string, string>> internalAttributes;
+
         [XmlIgnore]
         public Dictionary<string, string> Attributes
         {
@@ -18,6 +19,7 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
                 return ret;
             }
         }
+
         public CSharpReferenceType ReferenceType;
     }
 }

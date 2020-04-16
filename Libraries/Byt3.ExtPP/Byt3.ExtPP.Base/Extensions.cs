@@ -27,12 +27,14 @@ namespace Byt3.ExtPP.Base
             {
                 return string.Empty;
             }
+
             Sb.Clear();
             object[] enumerable = arr as object[] ?? arr.ToArray();
             if (enumerable.Length == 0)
             {
                 return string.Empty;
             }
+
             for (int i = 0; i < enumerable.Count(); i++)
             {
                 Sb.Append(enumerable.ElementAt(i));
@@ -101,6 +103,7 @@ namespace Byt3.ExtPP.Base
             {
                 return false;
             }
+
             return str.All(char.IsDigit);
         }
     }

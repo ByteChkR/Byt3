@@ -7,7 +7,9 @@ namespace Byt3.OpenFL.Parsing.Instructions
 {
     public class SetActiveInstruction : Instruction
     {
-        public SetActiveInstruction(List<InstructionArgument> arguments) : base(arguments) { }
+        public SetActiveInstruction(List<InstructionArgument> arguments) : base(arguments)
+        {
+        }
 
         public override void Process()
         {
@@ -18,20 +20,22 @@ namespace Byt3.OpenFL.Parsing.Instructions
                 {
                     if (Arguments[i].Type == InstructionArgumentType.Buffer)
                     {
-                        FLBufferInfo obj = (FLBufferInfo)Arguments[i].Value;
-                        Logger.Log(LogType.Log, "Setting Active Buffer: " + obj.DefinedBufferName, MIN_INSTRUCTION_SEVERITY);
+                        FLBufferInfo obj = (FLBufferInfo) Arguments[i].Value;
+                        Logger.Log(LogType.Log, "Setting Active Buffer: " + obj.DefinedBufferName,
+                            MIN_INSTRUCTION_SEVERITY);
 
                         Root.ActiveBuffer = obj;
                         continue;
                     }
 
 
-
                     if (Arguments[i].Type == InstructionArgumentType.Function)
                     {
-                        FLBufferInfo buffer = Root.RegisterUnmanagedBuffer(new FLBufferInfo(Root.Instance, Root.Dimensions.x, Root.Dimensions.y));
-                        FunctionObject source = (FunctionObject)Arguments[i].Value;
-                        
+                        FLBufferInfo buffer =
+                            Root.RegisterUnmanagedBuffer(new FLBufferInfo(Root.Instance, Root.Dimensions.x,
+                                Root.Dimensions.y));
+                        FunctionObject source = (FunctionObject) Arguments[i].Value;
+
 
                         Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
                         Root.PushContext();
@@ -50,7 +54,6 @@ namespace Byt3.OpenFL.Parsing.Instructions
 
                         continue;
                     }
-
                 }
 
                 if (Arguments[i].Type == InstructionArgumentType.Number)
@@ -63,7 +66,6 @@ namespace Byt3.OpenFL.Parsing.Instructions
                 {
                     throw new InvalidOperationException("Invalid Channel ID");
                 }
-
             }
 
             Root.ActiveChannels = newFlags;

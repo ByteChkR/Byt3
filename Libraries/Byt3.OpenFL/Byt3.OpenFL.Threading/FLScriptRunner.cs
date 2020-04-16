@@ -18,7 +18,8 @@ namespace Byt3.OpenFL.Threading
         public int ItemsInQueue => ProcessQueue.Count;
 
         public FLScriptRunner(
-            CLAPI instance, DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1, string kernelFolder = "assets/kernel/")
+            CLAPI instance, DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1,
+            string kernelFolder = "assets/kernel/")
         {
             Instance = instance;
             Db = new KernelDatabase(instance, kernelFolder, dataVectorTypes);
@@ -45,7 +46,7 @@ namespace Byt3.OpenFL.Threading
             FLBufferInfo input = new FLBufferInfo(Instance, context.Input, context.Width, context.Height);
 
             FLParseResult parseResult = FLParser.Parse(new FLParserInput(context.Filename, Instance));
-            
+
             parseResult.Run(Instance, Db, input);
 
             return parseResult;

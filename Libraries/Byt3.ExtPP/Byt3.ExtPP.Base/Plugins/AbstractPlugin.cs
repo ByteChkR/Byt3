@@ -11,9 +11,11 @@ namespace Byt3.ExtPP.Base.Plugins
     /// </summary>
     public abstract class AbstractPlugin : ALoggable<LogType>
     {
-        protected const int PLUGIN_MIN_SEVERITY=5;
+        protected const int PLUGIN_MIN_SEVERITY = 5;
 
-        protected AbstractPlugin() : base(ExtPPDebugConfig.Settings) { }
+        protected AbstractPlugin() : base(ExtPPDebugConfig.Settings)
+        {
+        }
 
         /// <summary>
         /// Returns the plugins that are meant to be run at the specified stage
@@ -34,6 +36,7 @@ namespace Byt3.ExtPP.Base.Plugins
         /// Returns a list of prefixes the plugin should be able to listen to when receiving settings
         /// </summary>
         public abstract string[] Prefix { get; }
+
         /// <summary>
         /// A flag that will, when turned on, redirect all settings that have a global prefix
         /// </summary>
@@ -43,6 +46,7 @@ namespace Byt3.ExtPP.Base.Plugins
         /// Specifies the plugin type. Fullscript or Line Script
         /// </summary>
         public virtual PluginType PluginTypeToggle => PluginType.FullScriptPlugin;
+
         /// <summary>
         /// Specifies the order on what "event" the plugin should execute
         /// </summary>

@@ -16,13 +16,12 @@ namespace Byt3.ExtPP.Base
 
         public bool TryGetLines(out string[] lines)
         {
-
-
             lines = null;
             if (!IOManager.FileExists(filePath))
             {
                 return false;
             }
+
             lines = IOManager.ReadAllLines(filePath);
 
             return true;

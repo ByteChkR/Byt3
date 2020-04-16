@@ -36,11 +36,13 @@ namespace Byt3.ADL
             {
                 return 1;
             }
+
             int ret = basis;
             for (int i = 1; i < exp; i++)
             {
                 ret *= basis;
             }
+
             return ret;
         }
 

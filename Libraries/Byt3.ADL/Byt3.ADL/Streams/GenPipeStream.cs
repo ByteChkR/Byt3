@@ -65,6 +65,7 @@ namespace Byt3.ADL.Streams
                 {
                     return;
                 }
+
                 lock (mBuffer)
                 {
                     Monitor.Pulse(mBuffer);
@@ -194,6 +195,7 @@ namespace Byt3.ADL.Streams
             {
                 throw new NotSupportedException();
             }
+
             return ReadGen(buffer as T[], offset, count);
         }
 
@@ -220,18 +222,22 @@ namespace Byt3.ADL.Streams
             {
                 throw new NotSupportedException("Offsets with value of non-zero are not supported");
             }
+
             if (buffer == null)
             {
                 throw new ArgumentException("Buffer is null");
             }
+
             if (offset + count > buffer.Length)
             {
                 throw new ArgumentException("The sum of offset and count is greater than the buffer length. ");
             }
+
             if (offset < 0 || count < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(offset), "offset or count is negative.");
             }
+
             if (BlockLastReadBuffer && count >= MaxBufferLength)
             {
                 throw new ArgumentException($"count({count}) > mMaxBufferLength({MaxBufferLength})");
@@ -280,14 +286,17 @@ namespace Byt3.ADL.Streams
             {
                 throw new ArgumentException("Buffer is null");
             }
+
             if (offset + count > buffer.Length)
             {
                 throw new ArgumentException("The sum of offset and count is greater than the buffer length. ");
             }
+
             if (offset < 0 || count < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(offset), "offset or count is negative.");
             }
+
             if (count == 0)
             {
                 return;
@@ -326,6 +335,7 @@ namespace Byt3.ADL.Streams
             {
                 throw new NotSupportedException();
             }
+
             WriteGen(buffer as T[], offset, count);
         }
 

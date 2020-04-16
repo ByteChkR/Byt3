@@ -77,7 +77,6 @@ namespace Byt3.PackageHandling.Tests
         [Test]
         public void Handler_ExactOnly_Test()
         {
-
             Byt3Handler handler = GetHandler(Byt3HandlerLookupType.None, null);
 
             //handler.AddHandler(new HandlerA());
@@ -89,7 +88,8 @@ namespace Byt3.PackageHandling.Tests
                 handler.Handle(new A(), null)); //Crash because of Exact only and A is missing
             handler.Handle(new B(), null); //Works
             handler.Handle(new C_B(), null); //Works
-            Assert.Throws<HandlerNotFoundException>(() => handler.Handle(new D_C(), null)); //Crash because no traversal up
+            Assert.Throws<HandlerNotFoundException>(() =>
+                handler.Handle(new D_C(), null)); //Crash because no traversal up
 
             Assert.True(BCalled && CCalled);
             Assert.False(ACalled && DCalled);

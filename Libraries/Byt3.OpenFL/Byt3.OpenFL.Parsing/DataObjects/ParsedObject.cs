@@ -6,7 +6,9 @@ namespace Byt3.OpenFL.Parsing.DataObjects
     {
         public FLParseResult Root { get; private set; }
 
-        protected ParsedObject() : base(OpenFLDebugConfig.Settings) { }
+        protected ParsedObject() : base(OpenFLDebugConfig.Settings)
+        {
+        }
 
         public virtual void SetRoot(FLParseResult root)
         {

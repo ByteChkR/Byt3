@@ -13,10 +13,12 @@ namespace Byt3.ExtPP.Plugins
 {
     public class FakeGenericsPlugin : AbstractFullScriptPlugin
     {
-        public override string[] Prefix => new[] { "gen", "FakeGen" };
+        public override string[] Prefix => new[] {"gen", "FakeGen"};
+
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload"
             ? ProcessStage.OnLoadStage
             : ProcessStage.OnMain;
+
         public string Stage { get; set; } = "onmain";
         public string GenericKeyword { get; set; } = "#type";
         public string Separator { get; set; } = " ";
@@ -36,7 +38,6 @@ namespace Byt3.ExtPP.Plugins
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
-
             settings.ApplySettings(Info, this);
             sourceManager.SetComputingScheme(ComputeNameAndKey_Generic);
         }
@@ -64,6 +65,7 @@ namespace Byt3.ExtPP.Plugins
             {
                 ret.SetValue("genParams", genParams);
             }
+
             ret.SetValue("filename", filePath);
             ret.SetValue("key", key);
             ret.SetResult(true);
@@ -80,20 +82,21 @@ namespace Byt3.ExtPP.Plugins
 
             string[] genParams = file.GetValueFromCache<string[]>("genParams");
 
-           Logger.Log(LogType.Log, "Discovering Generic Keywords...", PLUGIN_MIN_SEVERITY);
+            Logger.Log(LogType.Log, "Discovering Generic Keywords...", PLUGIN_MIN_SEVERITY);
             if (genParams != null && genParams.Length > 0)
             {
                 for (int i = genParams.Length - 1; i >= 0; i--)
                 {
-
-                   Logger.Log(LogType.Log, $"Replacing Keyword {GenericKeyword}{i} with {genParams[i]} in file {file.GetKey()}", PLUGIN_MIN_SEVERITY +1);
+                    Logger.Log(LogType.Log,
+                        $"Replacing Keyword {GenericKeyword}{i} with {genParams[i]} in file {file.GetKey()}",
+                        PLUGIN_MIN_SEVERITY + 1);
                     Utils.ReplaceKeyWord(file.GetSource(), genParams[i],
                         GenericKeyword + i);
                 }
             }
 
 
-           Logger.Log(LogType.Log, "Generic Keyword Replacement Finished", PLUGIN_MIN_SEVERITY );
+            Logger.Log(LogType.Log, "Generic Keyword Replacement Finished", PLUGIN_MIN_SEVERITY);
 
             return true;
         }

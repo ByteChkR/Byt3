@@ -12,19 +12,19 @@ namespace Byt3.OpenFL.CLI.Commands
 {
     public class RunCommand : AbstractCommand
     {
-
-        public RunCommand() : base(new[] { "--run", "-r" }, "Runs a FL Script", true)
+        public RunCommand() : base(new[] {"--run", "-r"}, "Runs a FL Script", true)
         {
             CommandAction = (info, strings) => Run(strings);
         }
 
-        private void Run( string[] args)
+        private void Run(string[] args)
         {
-            FLScriptRunner runner = new FLScriptRunner(CLAPI.MainThread, DataVectorTypes.Uchar1, Program.Settings.KernelFolder);
+            FLScriptRunner runner =
+                new FLScriptRunner(CLAPI.MainThread, DataVectorTypes.Uchar1, Program.Settings.KernelFolder);
 
             string[] inputFiles = args;
             string[] outputFiles = SetOutputFilesCommand.OutputFiles;
-            
+
 
             for (int i = 0; i < inputFiles.Length; i++)
             {
@@ -34,7 +34,7 @@ namespace Byt3.OpenFL.CLI.Commands
                     : $"./{Path.GetFileNameWithoutExtension(inp)}.out.png";
 
                 Bitmap bmp = new Bitmap(Program.Settings.InternalResolution.X, Program.Settings.InternalResolution.Y);
-                
+
                 runner.Enqueue(new FlScriptExecutionContext(inp, bmp, result => OnFinishCallback(result, outp)));
             }
 
@@ -46,9 +46,9 @@ namespace Byt3.OpenFL.CLI.Commands
             Logger.Log(LogType.Log, "Saving Output File: " + Path.GetFullPath(outputFile), 1);
             FLBufferInfo result = obj.ActiveBuffer;
             Bitmap bmp = new Bitmap(result.Width, result.Height);
-            CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int)result.Size));
+            CLAPI.UpdateBitmap(CLAPI.MainThread, bmp,
+                CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int) result.Size));
             bmp.Save(outputFile);
         }
-
     }
 }

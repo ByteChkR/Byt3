@@ -10,8 +10,6 @@ namespace Byt3.ExtPP.Tests
     {
         private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "BLR_tests/";
 
-        
-
 
         [Test]
         public void ExtPP_Plugins_BlankLineRemover_Test()

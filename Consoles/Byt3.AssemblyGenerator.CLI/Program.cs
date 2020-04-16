@@ -13,7 +13,6 @@ namespace Byt3.AssemblyGenerator.CLI
 
         private static void Main(string[] args)
         {
-
             Debug.DefaultInitialization();
             Runner.AddCommand(new DefaultCommand());
             Runner.AddCommand(new CreateCommand());

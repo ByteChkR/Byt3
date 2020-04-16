@@ -10,7 +10,9 @@ namespace Byt3.CommandRunner
     /// </summary>
     public static class Runner
     {
-        private static ADLLogger<LogType> Logger => _logger ?? (_logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Runner"));
+        private static ADLLogger<LogType> Logger =>
+            _logger ?? (_logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Runner"));
+
         private static ADLLogger<LogType> _logger;
 
         /// <summary>
@@ -57,8 +59,10 @@ namespace Byt3.CommandRunner
             Logger.Log(LogType.Log, "Adding Command: " + cmd.GetType().FullName, 2);
             if (IsInterfering(cmd))
             {
-                Logger.Log(LogType.Log, "Command:" + cmd.GetType().FullName + " is interfering with other Commands.", 1);
+                Logger.Log(LogType.Log, "Command:" + cmd.GetType().FullName + " is interfering with other Commands.",
+                    1);
             }
+
             Commands.Add(cmd);
         }
 
@@ -133,6 +137,7 @@ namespace Byt3.CommandRunner
                     Logger.Log(LogType.Warning, "No Default Command Found", 1);
                     return didExecute;
                 }
+
                 didExecute = true;
 
                 if (cmds.Count != 1)

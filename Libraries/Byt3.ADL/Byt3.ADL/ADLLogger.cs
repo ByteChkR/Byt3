@@ -17,11 +17,10 @@ namespace Byt3.ADL
 
         internal Dictionary<int, string> Prefixes =>
             hasProcessedPrefixes ? prefixes : prefixes = ProcessPrefixes(ProjectMaskPrefixes);
+
         /// <summary>
         ///     Dictionary of Prefixes for the corresponding Masks
         /// </summary>
-
-
         public ADLLogger(IProjectDebugConfig projectDebugConfig, string subProjectName = "")
         {
             ProjectDebugConfig = projectDebugConfig;
@@ -85,6 +84,7 @@ namespace Byt3.ADL
             {
                 throw new InvalidOperationException("Can not add more than " + sizeof(int) * 8 + " prefixes");
             }
+
             Dictionary<int, string> ret = new Dictionary<int, string>();
             int s = 1;
             for (int i = 0; i < prefixes.Length; i++)
@@ -96,7 +96,6 @@ namespace Byt3.ADL
             hasProcessedPrefixes = true;
             return ret;
         }
-
     }
 
     public class ADLLogger<T> : ADLLogger
@@ -114,7 +113,7 @@ namespace Byt3.ADL
                 List<string> names = Enum.GetNames(typeof(T)).ToList();
                 for (int i = names.Count - 1; i >= 0; i--)
                 {
-                    if (!IsPowerOfTwo((int)Enum.Parse(typeof(T), names[i])))
+                    if (!IsPowerOfTwo((int) Enum.Parse(typeof(T), names[i])))
                     {
                         names.RemoveAt(i);
                     }
@@ -124,7 +123,8 @@ namespace Byt3.ADL
             }
         }
 
-        public ADLLogger(IProjectDebugConfig projectDebugConfig, string subProjectname="") : base(projectDebugConfig, subProjectname)
+        public ADLLogger(IProjectDebugConfig projectDebugConfig, string subProjectname = "") : base(projectDebugConfig,
+            subProjectname)
         {
         }
 

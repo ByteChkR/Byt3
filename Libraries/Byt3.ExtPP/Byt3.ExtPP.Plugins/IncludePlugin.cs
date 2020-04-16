@@ -34,15 +34,13 @@ namespace Byt3.ExtPP.Plugins
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
-
             settings.ApplySettings(Info, this);
         }
 
 
         public override bool FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
         {
-
-           Logger.Log(LogType.Log,  "Disovering Include Statments...", PLUGIN_MIN_SEVERITY);
+            Logger.Log(LogType.Log, "Disovering Include Statments...", PLUGIN_MIN_SEVERITY);
             List<string> source = script.GetSource().ToList();
             string currentPath = Path.GetDirectoryName(script.GetFileInterface().GetFilePath());
             bool hasIncludedInline;
@@ -53,18 +51,18 @@ namespace Byt3.ExtPP.Plugins
                 {
                     if (Utils.IsStatement(source[i], IncludeInlineKeyword))
                     {
-                       Logger.Log(LogType.Log,  "Found Inline Include Statement...", PLUGIN_MIN_SEVERITY +1);
+                        Logger.Log(LogType.Log, "Found Inline Include Statement...", PLUGIN_MIN_SEVERITY + 1);
                         string[] args = Utils.SplitAndRemoveFirst(source[i], Separator);
                         if (args.Length == 0)
                         {
-
-                           Logger.Log(LogType.Error,  "No File Specified",1);
+                            Logger.Log(LogType.Error, "No File Specified", 1);
                             continue;
                         }
 
                         if (Utils.FileExistsRelativeTo(currentPath, args[0]))
                         {
-                           Logger.Log(LogType.Log,  "Replacing Inline Keyword with file content", PLUGIN_MIN_SEVERITY +2);
+                            Logger.Log(LogType.Log, "Replacing Inline Keyword with file content",
+                                PLUGIN_MIN_SEVERITY + 2);
                             source.RemoveAt(i);
 
                             source.InsertRange(i, IOManager.ReadAllLines(Path.Combine(currentPath, args[0])));
@@ -72,10 +70,11 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else
                         {
-                           Logger.Log(LogType.Error,  $"File does not exist: {args[0]}",1);
+                            Logger.Log(LogType.Error, $"File does not exist: {args[0]}", 1);
                         }
                     }
                 }
+
                 script.SetSource(source.ToArray());
             } while (hasIncludedInline);
 
@@ -84,13 +83,15 @@ namespace Byt3.ExtPP.Plugins
 
             foreach (string includes in incs)
             {
-               Logger.Log(LogType.Log,  $"Processing Statement: {includes}", PLUGIN_MIN_SEVERITY +1);
+                Logger.Log(LogType.Log, $"Processing Statement: {includes}", PLUGIN_MIN_SEVERITY + 1);
                 bool tmp = GetISourceScript(sourceManager, includes, currentPath, out List<ISourceScript> sources);
                 if (tmp)
                 {
                     foreach (ISourceScript sourceScript in sources)
                     {
-                       Logger.Log(LogType.Log,  $"Processing Include: {Path.GetFileName(sourceScript.GetFileInterface().GetKey())}", PLUGIN_MIN_SEVERITY +2);
+                        Logger.Log(LogType.Log,
+                            $"Processing Include: {Path.GetFileName(sourceScript.GetFileInterface().GetKey())}",
+                            PLUGIN_MIN_SEVERITY + 2);
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -100,21 +101,17 @@ namespace Byt3.ExtPP.Plugins
                         {
                             sourceManager.FixOrder(sourceScript);
                         }
-
                     }
-
                 }
                 else
                 {
                     return
                         false; //We crash if we didnt find the file. but if the user forgets to specify the path we will just log the error
                 }
-
             }
 
-           Logger.Log(LogType.Log,  "Inclusion of Files Finished", PLUGIN_MIN_SEVERITY);
+            Logger.Log(LogType.Log, "Inclusion of Files Finished", PLUGIN_MIN_SEVERITY);
             return true;
-
         }
 
 
@@ -129,9 +126,8 @@ namespace Byt3.ExtPP.Plugins
                 ImportResult importInfo = manager.GetComputingScheme()(vars, currentPath);
                 if (!importInfo)
                 {
-                   Logger.Log(LogType.Error,  "Invalid Include Statement",1);
+                    Logger.Log(LogType.Error, "Invalid Include Statement", 1);
                     return false;
-
                 }
 
                 string filepath = importInfo.GetString("filename");
@@ -170,14 +166,13 @@ namespace Byt3.ExtPP.Plugins
                     if (sourceScript.GetFileInterface().HasValidFilepath &&
                         !Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface()))
                     {
-                       Logger.Log(LogType.Error,  $"Could not find File: {sourceScript.GetFileInterface()}",1);
+                        Logger.Log(LogType.Error, $"Could not find File: {sourceScript.GetFileInterface()}", 1);
                         scripts.RemoveAt(index);
                     }
                 }
 
 
                 return true;
-
             }
 
 

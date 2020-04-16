@@ -44,6 +44,7 @@ namespace Byt3.ExtPP.Plugins
             #region En/Decodings
 
             public static TextEncoding Base64 { get; } = new TextEncoding("b64", Encode_BASE64, Decode_BASE64);
+
             public static TextEncoding Rot { get; } = new TextEncoding("rot",
                 (text, parameter) => DeEncode_ROT(text, parameter, true),
                 (text, parameter) => DeEncode_ROT(text, parameter, false));
@@ -81,7 +82,6 @@ namespace Byt3.ExtPP.Plugins
                     {
                         ret.Append(' ');
                         continue;
-
                     }
 
                     if (char.IsLower(text[i]))
@@ -94,6 +94,7 @@ namespace Byt3.ExtPP.Plugins
                         offset = text[i] - UPPER_A;
                         begin = UPPER_A;
                     }
+
                     if (encode)
                     {
                         offset += amount;
@@ -107,7 +108,8 @@ namespace Byt3.ExtPP.Plugins
                             offset = 26 + offset;
                         }
                     }
-                    ret.Append((char)(begin + offset));
+
+                    ret.Append((char) (begin + offset));
                 }
 
                 return ret.ToString();
@@ -143,7 +145,7 @@ namespace Byt3.ExtPP.Plugins
 
         public string BlockDecodeEndKeyword { get; set; } = "#endblock decode";
 
-        public override string[] Prefix => new[] { "tenc", "TextEncoderPlugin" };
+        public override string[] Prefix => new[] {"tenc", "TextEncoderPlugin"};
 
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
@@ -174,8 +176,6 @@ namespace Byt3.ExtPP.Plugins
 
         private bool TryParseDecodeStatement(string line, out TextEncoding encoding, out string[] parameter)
         {
-
-
             string[] data = line.Replace(BlockDecodeStartKeyword, "").Replace(BlockEncodeStartKeyword, "").Trim()
                 .Split(' ');
 
@@ -196,7 +196,6 @@ namespace Byt3.ExtPP.Plugins
 
 
             return true;
-
         }
 
         public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
@@ -209,7 +208,6 @@ namespace Byt3.ExtPP.Plugins
                 string line = lines[i].TrimStart();
                 if (line.StartsWith(BlockEncodeStartKeyword))
                 {
-
                     removeIndices.Add(i);
 
                     bool encodingOk = TryParseDecodeStatement(lines[i].TrimStart(), out TextEncoding enc,
@@ -234,7 +232,6 @@ namespace Byt3.ExtPP.Plugins
 
                         Logger.Log(LogType.Log, $"Encoding line {i}.", PLUGIN_MIN_SEVERITY + 2);
                         lines[i] = encodingOk ? enc.Encode(lines[i], encParameter) : lines[i];
-
                     }
                 }
                 else if (line.StartsWith(BlockDecodeStartKeyword))
@@ -262,17 +259,15 @@ namespace Byt3.ExtPP.Plugins
 
                         Logger.Log(LogType.Log, $"Decoding line {i}.", PLUGIN_MIN_SEVERITY + 2);
                         lines[i] = decodingOk ? enc.Decode(lines[i], encParameter) : lines[i];
-
                     }
                 }
-
-
             }
 
             for (int i = removeIndices.Count - 1; i >= 0; i--)
             {
                 lines.RemoveAt(removeIndices[i]);
             }
+
             removeIndices.Clear();
 
 

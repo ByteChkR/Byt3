@@ -29,6 +29,7 @@ namespace Byt3.ADL.Streams
                 {
                     break; //Break manually when the logs end before the end of the buffer was reached.
                 }
+
                 if (bytesRead != 0)
                 {
                     logs.Add(l);
@@ -56,6 +57,7 @@ namespace Byt3.ADL.Streams
                 {
                     l.Message = Utils.TimeStamp + l.Message;
                 }
+
                 ret.AddRange(l.Serialize());
             }
 

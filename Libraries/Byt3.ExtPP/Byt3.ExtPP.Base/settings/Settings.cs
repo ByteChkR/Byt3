@@ -30,7 +30,6 @@ namespace Byt3.ExtPP.Base.settings
         /// </summary>
         public Settings() : this(null)
         {
-
         }
 
         /// <summary>
@@ -160,7 +159,6 @@ namespace Byt3.ExtPP.Base.settings
             Settings s = GetSettingsWithPrefix(prefix, "--", includeShared);
             s = s.Merge(GetSettingsWithPrefix(prefix, "-", includeShared));
             return s;
-
         }
 
         /// <summary>
@@ -228,9 +226,9 @@ namespace Byt3.ExtPP.Base.settings
             string[] cmdVal = FindCommandValue(info);
             if (cmdVal == null)
             {
-
                 return;
             }
+
             object val = Utils.Parse(t, cmdVal.Length > 0 ? cmdVal.First() : null, info.DefaultIfNotSpecified);
             info.Field.SetValue(obj, val);
         }
@@ -248,6 +246,7 @@ namespace Byt3.ExtPP.Base.settings
             {
                 return;
             }
+
             string[] val = Utils.ParseArray(
                     info.Field.PropertyType.IsArray
                         ? info.Field.PropertyType.GetElementType()

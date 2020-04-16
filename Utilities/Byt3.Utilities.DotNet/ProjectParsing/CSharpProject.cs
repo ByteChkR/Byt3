@@ -49,10 +49,13 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
 
         public List<CSharpReference> ProjectReferences =>
             References.Where(x => x.ReferenceType == CSharpReferenceType.ProjectReference).ToList();
+
         public List<CSharpReference> EmbeddedReferences =>
             References.Where(x => x.ReferenceType == CSharpReferenceType.EmbeddedResource).ToList();
+
         public List<CSharpReference> PackageReferences =>
             References.Where(x => x.ReferenceType == CSharpReferenceType.PackageReference).ToList();
+
         private readonly XmlDocument document;
 
         internal CSharpProject(XmlDocument document)
@@ -75,6 +78,7 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
                 a.Value = reference.internalAttributes[i].Value;
                 node.Attributes.Append(a);
             }
+
             container.AppendChild(node);
             ProjectNode.AppendChild(container);
         }

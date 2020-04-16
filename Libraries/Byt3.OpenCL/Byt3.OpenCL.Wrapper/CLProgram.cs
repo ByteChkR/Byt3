@@ -88,7 +88,6 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private void Initialize(CLAPI instance)
         {
-
             string source = TextProcessorAPI.PreprocessSource(filePath, new Dictionary<string, bool>());
             string[] kernelNames = FindKernelNames(source);
 

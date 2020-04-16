@@ -9,6 +9,7 @@
         /// Lowest Verbosity Level, no output on console.
         /// </summary>
         Silent = 0,
+
         /// <summary>
         /// Only critical errors and general information
         /// </summary>
@@ -31,6 +32,7 @@
         Level17,
         Level18,
         Level19,
+
         /// <summary>
         /// Highest Level of verbosity, you will get every log that gets sent.
         /// </summary>

@@ -7,18 +7,17 @@ namespace Byt3.OpenFL.CLI
 {
     internal static class Program
     {
-
         internal readonly static PreProcessorSettings Settings = PreProcessorSettings.GetDefault();
 
         private static void Main(string[] args)
         {
-
             Debug.DefaultInitialization();
 
 
             Runner.AddCommand(new DefaultHelpCommand());
             Runner.AddCommand(new SetOutputFilesCommand());
-            Runner.AddCommand(new SetSettingsCommand(SetSettingsCommand.Create(SetSettingsCommand.Create("Settings", Settings))));
+            Runner.AddCommand(
+                new SetSettingsCommand(SetSettingsCommand.Create(SetSettingsCommand.Create("Settings", Settings))));
             Runner.AddCommand(new RunCommand());
             Runner.RunCommands(args);
 #if DEBUG
@@ -26,8 +25,5 @@ namespace Byt3.OpenFL.CLI
             Console.ReadLine();
 #endif
         }
-
-
-
     }
 }

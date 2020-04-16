@@ -7,7 +7,9 @@ namespace Byt3.OpenFL.Parsing.Instructions
 {
     public class JumpInstruction : Instruction
     {
-        public JumpInstruction(List<InstructionArgument> arguments) : base(arguments) { }
+        public JumpInstruction(List<InstructionArgument> arguments) : base(arguments)
+        {
+        }
 
 
         public override void Process()
@@ -22,7 +24,6 @@ namespace Byt3.OpenFL.Parsing.Instructions
             Logger.Log(LogType.Log, "Jumping to " + obj.Name, MIN_INSTRUCTION_SEVERITY);
 
             obj.Process();
-
         }
     }
 }

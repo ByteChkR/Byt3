@@ -13,7 +13,6 @@ namespace Byt3.OpenFL.Tests
 {
     public class FLInterpreterTests
     {
-
         [Test]
         public void OpenFL_Comments_Test()
         {
@@ -26,18 +25,15 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_DefineFile_Wrong_Test()
         {
-
             string file = "resources/filter/defines/test_wrong_define_invalid_file.fl";
 
 
             Assert.Catch<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
-
         }
 
         [Test]
         public void OpenFL_Defines_Test()
         {
-
             string file = Path.GetFullPath("resources/filter/defines/test.fl");
 
 
@@ -55,21 +51,16 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_DefineScriptFile_Wrong_Test()
         {
-
             string file = "resources/filter/defines/test_wrong_script_invalid_file.fl";
             Assert.Catch<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
-
         }
 
 
         [Test]
         public void OpenFL_DefineScriptNoFile_Wrong_Test()
         {
-
             string file = "resources/filter/defines/test_wrong_script_.fl";
             Assert.Catch<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
-
-
         }
 
         [Test]
@@ -87,7 +78,8 @@ namespace Byt3.OpenFL.Tests
                 res.Run(CLAPI.MainThread, db, buffer); //Running it
 
                 Bitmap bmp = new Bitmap(res.Dimensions.x, res.Dimensions.y); //Getting the Output
-                CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, CLAPI.ReadBuffer<byte>(CLAPI.MainThread, res.ActiveBuffer.Buffer, res.InputSize));
+                CLAPI.UpdateBitmap(CLAPI.MainThread, bmp,
+                    CLAPI.ReadBuffer<byte>(CLAPI.MainThread, res.ActiveBuffer.Buffer, res.InputSize));
 
                 buffer.Dispose();
                 res.FreeResources();
@@ -95,14 +87,12 @@ namespace Byt3.OpenFL.Tests
                 //bmp.Save(Path.Combine("./out", Path.GetFileNameWithoutExtension(files[i]) + ".png"));
 
                 bmp.Dispose();
-
             }
         }
 
         [Test]
         public void OpenFL_WFCDefines_Wrong_Test()
         {
-
             string[] files = Directory.GetFiles("resources/filter/defines/", "test_wrong_define_wfc_*.fl");
 
 
@@ -116,9 +106,9 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_TypeConversion_Test()
         {
             float f = float.MaxValue / 2;
-            byte b = (byte)CLTypeConverter.Convert(typeof(byte), f);
+            byte b = (byte) CLTypeConverter.Convert(typeof(byte), f);
             float4 f4 = new float4(f);
-            uchar4 i4 = (uchar4)CLTypeConverter.Convert(typeof(uchar4), f4);
+            uchar4 i4 = (uchar4) CLTypeConverter.Convert(typeof(uchar4), f4);
             Assert.True(b == 128);
 
             for (int i = 0; i < 4; i++)

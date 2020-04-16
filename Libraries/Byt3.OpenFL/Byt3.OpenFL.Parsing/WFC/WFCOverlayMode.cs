@@ -65,7 +65,7 @@ namespace Byt3.OpenFL.Parsing.WFC
             }
 
             Logger.Log(LogType.Log,
-                "Color Patterns found: " + colors.Count,3);
+                "Color Patterns found: " + colors.Count, 3);
             int colorsCount = colors.Count;
             long nPow = WaveCollapseUtils.Power(colorsCount, n * n);
 

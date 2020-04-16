@@ -48,6 +48,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
                 ret.Add("Plugin Commands:");
                 ret.AddRange(ListAllCommands(plugin.Info, plugin.Prefix));
             }
+
             ret.Add("");
             return ret;
         }
@@ -79,7 +80,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             List<string> ret = new List<string>();
             for (int i = 0; i < info.Count; i++)
             {
-
                 string[] helpt = info[i].HelpText.Split(new[] {'\n'});
                 ret.Add(tab + info[i].Command + "/" + info[i].ShortCut);
                 ret.Add(tab + "\t" + helpt.Unpack("\n\t" + tab));

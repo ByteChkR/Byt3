@@ -1,12 +1,10 @@
-﻿
-using System.IO;
+﻿using System.IO;
 using Byt3.ADL.Configs;
 using Byt3.ADL.Streams;
 using NUnit.Framework;
 
 namespace Byt3.ADL.Tests
 {
-    
     public class DebugOperations
     {
         [Test]
@@ -138,10 +136,12 @@ namespace Byt3.ADL.Tests
             {
                 Assert.True(bm == 1);
             }
+
             if (logger.GetPrefixMask("HELLO1", out bm))
             {
                 Assert.True(bm == 2);
             }
+
             if (logger.GetPrefixMask("HOLA2", out bm))
             {
                 Assert.True(bm == 4);
@@ -205,7 +205,7 @@ namespace Byt3.ADL.Tests
 
 
             Debug.AddOutputStream(lts);
-            logger.Log(1, "ffffffffff",0);
+            logger.Log(1, "ffffffffff", 0);
 
             byte[] buf = new byte[lts.Length];
             lts.Read(buf, 0, buf.Length);

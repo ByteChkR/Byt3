@@ -22,7 +22,7 @@ namespace Byt3.Utilities.Exceptions
         /// <param name="inner">Inner exeption</param>
         public Byt3Exception(string errorMessage, Exception inner) : base(errorMessage, inner)
         {
-            Logger = new ADLLogger<LogType>(Settings,GetType().Name);
+            Logger = new ADLLogger<LogType>(Settings, GetType().Name);
         }
 
         /// <summary>

@@ -228,7 +228,7 @@ namespace Byt3.OpenFL.Parsing.WFC
                 if (l % 250 == 0)
                 {
                     Logger.Log(LogType.Log,
-                        "Starting Iteration: " + l,6);
+                        "Starting Iteration: " + l, 6);
                 }
 
                 bool? result = Observe();

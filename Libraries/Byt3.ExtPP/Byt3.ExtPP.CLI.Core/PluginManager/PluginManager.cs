@@ -20,18 +20,22 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         /// </summary>
         private readonly string rootDir =
             Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+
         /// <summary>
         /// Config path for the cache
         /// </summary>
         private string ConfigPath => Path.Combine(rootDir, "plugin_manager.xml");
+
         /// <summary>
         /// Default folder for plugins.
         /// </summary>
         private string DefaultPluginFolder => Path.Combine(rootDir, "plugins");
+
         /// <summary>
         /// The Database of all plugins.
         /// </summary>
         private PluginManagerDatabase info;
+
         /// <summary>
         /// Serializer for loading/saving the cache to disk.
         /// </summary>
@@ -47,6 +51,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             {
                 Directory.CreateDirectory(DefaultPluginFolder);
             }
+
             if (File.Exists(ConfigPath))
             {
                 Initialize();
@@ -63,9 +68,8 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         private void Initialize()
         {
             FileStream fs = new FileStream(ConfigPath, FileMode.Open);
-            info = (PluginManagerDatabase)Serializer.Deserialize(fs);
+            info = (PluginManagerDatabase) Serializer.Deserialize(fs);
             fs.Close();
-
         }
 
         /// <summary>
@@ -111,7 +115,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         /// </summary>
         public void ListCachedFolders()
         {
-
             Logger.Log(LogType.Log, "Directories:", 1);
             for (int i = 0; i < info.IncludedDirectories.Count; i++)
             {
@@ -124,7 +127,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         /// </summary>
         public void ListManuallyCachedFiles()
         {
-
             Logger.Log(LogType.Log, "Manually Included Files:", 1);
             for (int i = 0; i < info.IncludedFiles.Count; i++)
             {
@@ -140,7 +142,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         {
             if (Directory.Exists(folder))
             {
-
                 Logger.Log(LogType.Log, $"Adding Directory: {folder}", 1);
                 info.IncludedDirectories.Add(Path.GetFullPath(folder));
             }
@@ -162,6 +163,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
                 {
                     assemblyPath = new Uri(assembly.CodeBase).AbsolutePath;
                 }
+
                 AddAssembly(assembly, assemblyPath, false);
             }
 
@@ -193,6 +195,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
                 val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, fullpath,
                     plugins[i].Info.Select(x => x.Meta).ToArray()));
             }
+
             info.Cache.AddRange(val);
 
             if (save)
@@ -210,9 +213,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         {
             if (!File.Exists(file))
             {
-
                 Logger.Log(LogType.Error, $"File does not exist: {file}", 1);
-
             }
             else
             {
@@ -238,6 +239,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
                     val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, fullpath,
                         plugins[i].Info.Select(x => x.Meta).ToArray()));
                 }
+
                 info.Cache.AddRange(val);
             }
 
@@ -291,7 +293,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
 
             val = new PluginInformation();
             return false;
-
         }
 
         /// <summary>
@@ -305,7 +306,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         public static bool TryGetPluginInfoByPathAndPrefix(PluginManagerDatabase pmd, string file, string prefix,
             out PluginInformation val)
         {
-
             for (int i = 0; i < pmd.Cache.Count; i++)
             {
                 if (pmd.Cache[i].Path == file && pmd.Cache[i].Prefixes.Contains(prefix))
@@ -331,6 +331,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             {
                 return new PluginInformation[0];
             }
+
             List<PluginInformation> ret = new List<PluginInformation>();
             foreach (PluginInformation inf in info.Cache)
             {
@@ -360,15 +361,13 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
                 {
                     return false;
                 }
+
                 foreach (PluginInformation name in inf)
                 {
-
                     Logger.Log(LogType.Log, $"\n{name.GetDescription(shortDesc)}", 1);
-
                 }
 
                 return true;
-
             }
 
             foreach (string name in names)
@@ -390,7 +389,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         public void AddFile(string file)
         {
             AddFile(file, true);
-
         }
 
 
@@ -399,7 +397,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         /// </summary>
         public void Refresh()
         {
-
             info.Cache.Clear();
 
 
@@ -413,7 +410,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
                 {
                     Logger.Log(LogType.Error, $"Folder does not exist: {info.IncludedDirectories[i]} Removing..", 1);
                     info.IncludedDirectories.RemoveAt(i);
-
                 }
                 else
                 {
@@ -465,7 +461,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             {
                 if (!type.IsAbstract && type.IsSubclassOf(typeof(AbstractPlugin)))
                 {
-                    ret.Add((AbstractPlugin)Activator.CreateInstance(type));
+                    ret.Add((AbstractPlugin) Activator.CreateInstance(type));
                 }
             }
 
@@ -504,6 +500,7 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             {
                 File.Delete(ConfigPath);
             }
+
             FileStream fs = new FileStream(ConfigPath, FileMode.Create);
             Serializer.Serialize(fs, info);
             fs.Close();
@@ -515,7 +512,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
         /// </summary>
         private void FirstStart()
         {
-
             Logger.Log(LogType.Log, "First start of Plugin Manager. Setting up...", 1);
             FileStream fs = new FileStream(ConfigPath, FileMode.Create);
             info = new PluginManagerDatabase
@@ -531,10 +527,10 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
             {
                 Directory.CreateDirectory(DefaultPluginFolder);
             }
+
             Serializer.Serialize(fs, info);
             fs.Close();
             Refresh();
-
         }
 
 

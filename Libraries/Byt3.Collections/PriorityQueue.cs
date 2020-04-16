@@ -50,7 +50,6 @@ namespace Byt3.Collections
 
         public void Enqueue(T x)
         {
-
             list.Add(x);
             int i = Count - 1; //Position of x
 
@@ -74,7 +73,6 @@ namespace Byt3.Collections
 
         public T Dequeue()
         {
-
             T target = Peek(); //Get first in list
             T root = list[Count - 1]; //Hold last of the list
             list.RemoveAt(Count - 1); //But remove it from the list
@@ -92,6 +90,7 @@ namespace Byt3.Collections
                 {
                     break;
                 }
+
                 list[i] = list[c];
                 i = c;
             }
@@ -100,6 +99,7 @@ namespace Byt3.Collections
             {
                 list[i] = root;
             }
+
             return target;
         }
 
@@ -109,6 +109,7 @@ namespace Byt3.Collections
             {
                 throw new InvalidOperationException("Queue is empty.");
             }
+
             return list[0];
         }
 

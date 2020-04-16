@@ -8,6 +8,7 @@ namespace Byt3.ObjectPipeline.AssetLoaderFramework
     {
         private readonly Dictionary<string, AssetTypeLoader<TOut>> typeLoaders =
             new Dictionary<string, AssetTypeLoader<TOut>>();
+
         private PipelineStage<string, Stream> fileLoader;
 
         public AssetLoader(PipelineStage<string, Stream> fileLoader = null, params AssetTypeLoader<TOut>[] typeLoaders)

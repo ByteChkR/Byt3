@@ -37,13 +37,13 @@ namespace Byt3.ExtPP.Tests
                 };
             }
         }
+
         private static string ResourceFolder { get; } = Path.GetFullPath(TestHelper.ResourceFolder);
 
 
         [Test]
         public void ExtPP_PreProcessor_FilterRun_Test()
         {
-            
             string[] files = Directory.GetFiles(Path.Combine(ResourceFolder, "filter/tests/"), "*.fl");
             foreach (string file in files)
             {
@@ -51,7 +51,6 @@ namespace Byt3.ExtPP.Tests
                 pp.SetFileProcessingChain(Plugins);
                 pp.Run(new[] {file}, new Definitions());
             }
-
         }
     }
 }

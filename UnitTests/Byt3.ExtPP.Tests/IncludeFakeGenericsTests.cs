@@ -15,10 +15,9 @@ namespace Byt3.ExtPP.Tests
         [Test]
         public void ExtPP_Plugins_Include_Circular_Test()
         {
-            
             string file = Path.Combine(ResourceFolder, "includecircular.cl");
             ISourceScript[] ret =
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new IncludePlugin() }, new[] { file });
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new IncludePlugin()}, new[] {file});
 
             Assert.AreEqual(
                 3,
@@ -30,8 +29,8 @@ namespace Byt3.ExtPP.Tests
         {
             string file = Path.Combine(ResourceFolder, "genericincludepassthrough.cl");
             ISourceScript[] ret =
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), },
-                    new[] { file });
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new FakeGenericsPlugin(), new IncludePlugin(),},
+                    new[] {file});
             Assert.AreEqual(
                 5,
                 ret.Length);
@@ -42,8 +41,8 @@ namespace Byt3.ExtPP.Tests
         {
             string file = Path.Combine(ResourceFolder, "typePassing.cl");
             ISourceScript[] ret =
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), },
-                    new[] { file });
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new FakeGenericsPlugin(), new IncludePlugin(),},
+                    new[] {file});
 
             Assert.AreEqual(
                 4,

@@ -59,18 +59,22 @@ namespace Byt3.PackageHandling
             {
                 return true; //Exact
             }
+
             if (ExactOnly)
             {
                 return false;
             }
+
             if (implicitHandlerMap.ContainsKey(t))
             {
                 return true; //Implicit Hit
             }
+
             if (TraverseUp)
             {
                 return TryAddImplicitHandler(t, out AHandler _); //Traverse Up(only fails if UseFallback == false)
             }
+
             return false;
         }
 

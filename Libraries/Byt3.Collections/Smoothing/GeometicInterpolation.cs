@@ -32,6 +32,7 @@ namespace Byt3.Collections.Smoothing
             {
                 ret = Chaikin(ret);
             }
+
             return ret;
         }
 
@@ -50,6 +51,7 @@ namespace Byt3.Collections.Smoothing
                     VectorMath.Scale(VectorMath.Subtract(pts[i + 2], pts[i + 1]), 0.25f));
                 j += 2;
             }
+
             return newPts.ToList();
         }
     }

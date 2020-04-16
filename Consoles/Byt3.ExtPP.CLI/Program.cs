@@ -8,7 +8,6 @@ namespace Byt3.ExtPP.CLI
     {
         private static void Main(string[] args)
         {
-
             //ADL Setup
             Debug.DefaultInitialization();
             CrashHandler.Initialize();

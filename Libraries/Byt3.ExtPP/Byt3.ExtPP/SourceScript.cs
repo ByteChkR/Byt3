@@ -10,6 +10,7 @@ namespace Byt3.ExtPP
         /// The full filepath of the script
         /// </summary>
         private readonly IFileContent filepath;
+
         /// <summary>
         /// if the source was requested at least once, it remains cached in here
         /// </summary>
@@ -39,7 +40,8 @@ namespace Byt3.ExtPP
         /// <param name="path">the path to the file</param>
         /// <param name="key">the key of the source file</param>
         /// <param name="pluginCache">the plugin cache that is used.</param>
-        public SourceScript(string separator, IFileContent path, ImportResult importInfo) : base(ExtPPDebugConfig.Settings)
+        public SourceScript(string separator, IFileContent path, ImportResult importInfo) : base(ExtPPDebugConfig
+            .Settings)
         {
             this.importInfo = importInfo;
             filepath = path;
@@ -75,6 +77,7 @@ namespace Byt3.ExtPP
             {
                 Load();
             }
+
             return source;
         }
 
@@ -126,12 +129,10 @@ namespace Byt3.ExtPP
         /// <returns>the success state of the operation</returns>
         public bool Load()
         {
-
             bool ret = LoadSource();
             if (!ret)
             {
-                Logger.Log(LogType.Error, $"Could not load file: {filepath}",1);
-
+                Logger.Log(LogType.Error, $"Could not load file: {filepath}", 1);
             }
 
             return ret;

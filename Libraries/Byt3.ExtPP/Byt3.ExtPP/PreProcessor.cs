@@ -15,7 +15,9 @@ namespace Byt3.ExtPP
     /// </summary>
     public class PreProcessor : ALoggable<LogType>
     {
-        public PreProcessor() : base(ExtPPDebugConfig.Settings) { }
+        public PreProcessor() : base(ExtPPDebugConfig.Settings)
+        {
+        }
 
         /// <summary>
         /// List of loaded plugins
@@ -41,8 +43,8 @@ namespace Byt3.ExtPP
                 {
                     ret.AddRange(plugin.Cleanup);
                 }
-                return ret;
 
+                return ret;
             }
         }
 
@@ -78,7 +80,7 @@ namespace Byt3.ExtPP
         {
             ISourceScript[] src = Process(files, settings, defs);
             string[] ret = Compile(src, false);
-            
+
 
             Timer.GlobalTimer.Reset();
 
@@ -145,7 +147,7 @@ namespace Byt3.ExtPP
             {
                 Timer.GlobalTimer.Restart();
             }
-            
+
             Logger.Log(LogType.Log, "Starting Compilation of File Tree...", 4);
             List<string> ret = new List<string>();
             for (int i = src.Length - 1; i >= 0; i--)
@@ -156,10 +158,10 @@ namespace Byt3.ExtPP
                     ret.AddRange(sr);
                 }
             }
-            
+
 
             string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray()).ToArray();
-            
+
             return rrr;
         }
 
@@ -177,12 +179,11 @@ namespace Byt3.ExtPP
             IDefinitions definitions = defs ?? new Definitions();
             settings = settings ?? new Settings();
             SourceManager sm = new SourceManager(plugins);
-            
+
             InitializePlugins(settings, definitions, sm);
-            
+
             foreach (IFileContent file in files)
             {
-
                 sm.SetLock(false);
                 sm.TryCreateScript(out ISourceScript sss, sep, file, new ImportResult());
                 sm.SetLock(true);
@@ -193,7 +194,6 @@ namespace Byt3.ExtPP
 
             do
             {
-
                 Logger.Log(LogType.Log, "Selecting Current File: " + ss.GetFileInterface().GetFilePath(), 2);
 
 
@@ -201,7 +201,7 @@ namespace Byt3.ExtPP
                 {
                     RunStages(this, ProcessStage.OnLoadStage, ss, sm, definitions);
                 }
-                
+
                 Logger.Log(LogType.Log, $"Selecting File: {Path.GetFileName(ss.GetFileInterface().GetKey())}", 3);
                 //RUN MAIN
                 sm.SetLock(false);
@@ -211,19 +211,20 @@ namespace Byt3.ExtPP
                 ss = sm.NextItem;
             } while (ss != null);
 
-            
+
             ISourceScript[] ret = sm.GetList().ToArray();
 
             foreach (ISourceScript finishedScript in ret)
             {
-                Logger.Log(LogType.Log, $"Selecting File: {Path.GetFileName(finishedScript.GetFileInterface().GetKey())}", 3);
+                Logger.Log(LogType.Log,
+                    $"Selecting File: {Path.GetFileName(finishedScript.GetFileInterface().GetKey())}", 3);
                 RunStages(this, ProcessStage.OnFinishUp, finishedScript, sm, definitions);
             }
+
             Logger.Log(LogType.Log, "Finished Processing Files.", 2);
-            
+
 
             return ret;
-
         }
 
 
@@ -243,15 +244,18 @@ namespace Byt3.ExtPP
             {
                 return false;
             }
+
             if (stage != ProcessStage.OnFinishUp &&
                 !pp.RunPluginStage(PluginType.FullScriptPlugin, stage, script, sourceManager, defTable))
             {
                 return false;
             }
+
             if (!pp.RunPluginStage(PluginType.LinePluginAfter, stage, script, sourceManager, defTable))
             {
                 return false;
             }
+
             return true;
         }
 
@@ -285,6 +289,7 @@ namespace Byt3.ExtPP
                 RunLineStage(chain, stage, src);
                 script.SetSource(src);
             }
+
             if (!ret)
             {
                 return false;
@@ -322,7 +327,6 @@ namespace Byt3.ExtPP
                     }
                 }
             }
-
         }
 
         /// <summary>

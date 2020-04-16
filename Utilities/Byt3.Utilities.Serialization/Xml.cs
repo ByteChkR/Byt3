@@ -12,6 +12,7 @@ namespace Byt3.Utilities.Serialization
 
         private static readonly XmlWriterSettings WriterSettings = new XmlWriterSettings
             {OmitXmlDeclaration = true, Indent = true};
+
         private static readonly XmlSerializerNamespaces Namespaces =
             new XmlSerializerNamespaces(new[] {new XmlQualifiedName("", "")});
 
@@ -35,6 +36,7 @@ namespace Byt3.Utilities.Serialization
             {
                 extraTypes = new Type[0];
             }
+
             using (MemoryStream ms = new MemoryStream())
             using (XmlWriter writer = XmlWriter.Create(ms, WriterSettings))
             {

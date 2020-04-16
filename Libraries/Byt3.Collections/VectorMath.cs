@@ -13,6 +13,7 @@ namespace Byt3.Collections
             {
                 return null;
             }
+
             IVec3 ret = vecs[0].GetNewInstance(0, 0, 0);
             for (int i = 0; i < vecs.Length; i++)
             {
@@ -20,6 +21,7 @@ namespace Byt3.Collections
                 ret.Y += vecs[i].Y;
                 ret.Z += vecs[i].Z;
             }
+
             return ret;
         }
 
@@ -30,6 +32,7 @@ namespace Byt3.Collections
             {
                 return first;
             }
+
             IVec3 vec = first.GetNewInstance(first.X, first.Y, first.Z);
             for (int i = 0; i < vecs.Length; i++)
             {
@@ -37,6 +40,7 @@ namespace Byt3.Collections
                 vec.Y -= vecs[i].Y;
                 vec.Z -= vecs[i].Z;
             }
+
             return vec;
         }
 
@@ -82,12 +86,14 @@ namespace Byt3.Collections
             {
                 return null;
             }
+
             IVec2 ret = vecs[0].GetNewInstance(0, 0);
             for (int i = 0; i < vecs.Length; i++)
             {
                 ret.X += vecs[i].X;
                 ret.Y += vecs[i].Y;
             }
+
             return ret;
         }
 
@@ -98,12 +104,14 @@ namespace Byt3.Collections
             {
                 return first;
             }
+
             IVec2 vec = first.GetNewInstance(first.X, first.Y);
             for (int i = 0; i < vecs.Length; i++)
             {
                 vec.X -= vecs[i].X;
                 vec.Y -= vecs[i].Y;
             }
+
             return vec;
         }
 

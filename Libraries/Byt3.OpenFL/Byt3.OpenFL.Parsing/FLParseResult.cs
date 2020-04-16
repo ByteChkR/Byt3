@@ -31,7 +31,8 @@ namespace Byt3.OpenFL.Parsing
         public FunctionObject EntryPoint => Functions.First(x => x.Name == "Main");
 
 
-        public FLParseResult(string filename, string[] source, Dictionary<string, FunctionObject> definedScripts, Dictionary<string, FLBufferInfo> definedBuffers, FunctionObject[] functions)
+        public FLParseResult(string filename, string[] source, Dictionary<string, FunctionObject> definedScripts,
+            Dictionary<string, FLBufferInfo> definedBuffers, FunctionObject[] functions)
         {
             Filename = filename;
             Source = source;
@@ -51,13 +52,14 @@ namespace Byt3.OpenFL.Parsing
             {
                 internalBuffer.Dispose();
             }
+
             internalBuffers.Clear();
         }
 
         public void PushContext()
         {
             ContextStack.Push(new FLExecutionContext(new List<byte>(ActiveChannels).ToArray(), ActiveBuffer));
-            ActiveChannels = new byte[] { 1, 1, 1, 1 };
+            ActiveChannels = new byte[] {1, 1, 1, 1};
         }
 
         public void ReturnFromContext()
@@ -90,7 +92,7 @@ namespace Byt3.OpenFL.Parsing
 
             //Start Setup
             ActiveBuffer = input;
-            ActiveChannels = new byte[] { 1, 1, 1, 1 };
+            ActiveChannels = new byte[] {1, 1, 1, 1};
 
             FunctionObject entryPoint = entry ?? EntryPoint;
             entryPoint.Process();

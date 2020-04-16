@@ -10,6 +10,7 @@ namespace Byt3.OpenFL.Parsing
     public class UnloadedDefinedFLBufferInfo : FLBufferInfo, IDisposable
     {
         public delegate FLBufferInfo BufferLoader(FLParseResult root);
+
         protected BufferLoader Loader;
         private MemoryBuffer _buffer;
 
@@ -57,13 +58,11 @@ namespace Byt3.OpenFL.Parsing
                     return root.Input;
                 }
 
-                Bitmap bmp = new Bitmap((Bitmap)Image.FromFile(File), root.Dimensions.x, root.Dimensions.y);
+                Bitmap bmp = new Bitmap((Bitmap) Image.FromFile(File), root.Dimensions.x, root.Dimensions.y);
                 return new FLBufferInfo(root.Instance, bmp);
             };
             File = file;
-
         }
-
     }
 
     /// <summary>
@@ -84,18 +83,16 @@ namespace Byt3.OpenFL.Parsing
         public FLBufferInfo(CLAPI instance, int width, int height) : this(
             CLAPI.CreateEmpty<byte>(instance, width * height * 4, MemoryFlag.ReadWrite), width, height)
         {
-
         }
 
         public FLBufferInfo(CLAPI instance, byte[] data, int width, int height) : this(
             CLAPI.CreateBuffer(instance, data, MemoryFlag.ReadWrite), width, height)
         {
-
         }
 
-        public FLBufferInfo(CLAPI instance, Bitmap bitmap) : this(CLAPI.CreateFromImage(instance, bitmap, MemoryFlag.ReadWrite), bitmap.Width, bitmap.Height)
+        public FLBufferInfo(CLAPI instance, Bitmap bitmap) : this(
+            CLAPI.CreateFromImage(instance, bitmap, MemoryFlag.ReadWrite), bitmap.Width, bitmap.Height)
         {
-
         }
 
         /// <summary>

@@ -22,9 +22,8 @@ namespace Byt3.ExtPP.Tests
         [Test]
         public void ExtPP_Plugins_ChangeCharCase_ToUpper_Test()
         {
-
             string file = Path.Combine(ResourceFolder, "toupper_test.txt");
-            
+
             string[] ret = TestHelper.SetUpAndCompile(
                 new List<AbstractPlugin> {new ChangeCharCase()},
                 new Settings(new Dictionary<string, string[]>

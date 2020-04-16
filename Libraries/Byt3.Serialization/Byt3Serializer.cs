@@ -22,6 +22,7 @@ namespace Byt3.Serialization
         /// that gets used during Deserialization
         /// </summary>
         private static readonly Dictionary<Type, object> TypeKeyCache = new Dictionary<Type, object>();
+
         private static readonly Dictionary<object, Type> KeyTypeCache = new Dictionary<object, Type>();
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace Byt3.Serialization
             {
                 return;
             }
+
             object key = BaseSerializer.GetKey(type);
             KeyTypeCache.Add(key, type);
             TypeKeyCache.Add(type, key);
@@ -86,6 +88,7 @@ namespace Byt3.Serialization
             {
                 return;
             }
+
             KeyTypeCache.Clear();
             TypeKeyCache.Clear();
         }
@@ -122,6 +125,7 @@ namespace Byt3.Serialization
             {
                 ret = false;
             }
+
             baseStage.SetInvalid();
             return ret;
         }
@@ -137,10 +141,12 @@ namespace Byt3.Serialization
             {
                 throw new ArgumentNullException("obj", "Can not be null.");
             }
+
             if (stream == null)
             {
                 throw new ArgumentNullException("stream", "Can not be null.");
             }
+
             if (!CanSerialize(obj.GetType()))
             {
                 throw new SerializationException("Can not Serialize Type: " + obj.GetType());
@@ -243,6 +249,7 @@ namespace Byt3.Serialization
             {
                 deserializedObject = (T) obj;
             }
+
             return ret;
         }
 
@@ -295,6 +302,7 @@ namespace Byt3.Serialization
             {
                 return TypeKeyCache[type];
             }
+
             throw new KeyNotFoundException("Could not Find the Key for Type: " + type);
         }
 
@@ -310,6 +318,7 @@ namespace Byt3.Serialization
             {
                 return KeyTypeCache[key];
             }
+
             throw new KeyNotFoundException("Could not Find the Type with Key: " + key);
         }
 

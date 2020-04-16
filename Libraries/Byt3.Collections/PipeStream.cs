@@ -195,18 +195,22 @@ namespace Byt3.Collections
             {
                 throw new NotSupportedException("Offsets with value of non-zero are not supported");
             }
+
             if (buffer == null)
             {
                 throw new ArgumentException("Buffer is null");
             }
+
             if (offset + count > buffer.Length)
             {
                 throw new ArgumentException("The sum of offset and count is greater than the buffer length. ");
             }
+
             if (offset < 0 || count < 0)
             {
                 throw new ArgumentOutOfRangeException("offset", "offset or count is negative.");
             }
+
             if (BlockLastReadBuffer && count >= mMaxBufferLength)
             {
                 throw new ArgumentException(
@@ -235,6 +239,7 @@ namespace Byt3.Collections
 
                 Monitor.Pulse(mBuffer);
             }
+
             return readLength;
         }
 
@@ -267,14 +272,17 @@ namespace Byt3.Collections
             {
                 throw new ArgumentException("Buffer is null");
             }
+
             if (offset + count > buffer.Length)
             {
                 throw new ArgumentException("The sum of offset and count is greater than the buffer length. ");
             }
+
             if (offset < 0 || count < 0)
             {
                 throw new ArgumentOutOfRangeException("offset", "offset or count is negative.");
             }
+
             if (count == 0)
             {
                 return;

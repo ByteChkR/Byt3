@@ -51,6 +51,7 @@ namespace Byt3.ExtPP
             {
                 return;
             }
+
             computeScheme = scheme;
         }
 
@@ -127,7 +128,8 @@ namespace Byt3.ExtPP
         /// <param name="script">The script that got referenced.</param>
         public void FixOrder(ISourceScript script)
         {
-            Logger.Log(LogType.Log,  "Fixing Build Order of file: {Path.GetFileName(script.GetFileInterface().GetKey())}",3);
+            Logger.Log(LogType.Log,
+                "Fixing Build Order of file: {Path.GetFileName(script.GetFileInterface().GetKey())}", 3);
             int idx = IndexOfFile(script.GetKey());
             ISourceScript a = sources[idx];
             ProcessStage ab = doneState[idx];
@@ -172,7 +174,6 @@ namespace Byt3.ExtPP
             if (IsIncluded(script))
             {
                 doneState[IndexOfFile(script.GetKey())] = stage;
-                
             }
         }
 
@@ -197,8 +198,8 @@ namespace Byt3.ExtPP
             {
                 return;
             }
-            sources.Add(script);
 
+            sources.Add(script);
         }
 
         /// <summary>
@@ -251,8 +252,8 @@ namespace Byt3.ExtPP
             if (lockScriptCreation)
             {
                 script = null;
-                Logger.Log(LogType.Warning, 
-                    "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?",3);
+                Logger.Log(LogType.Warning,
+                    "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?", 3);
                 return false;
             }
 

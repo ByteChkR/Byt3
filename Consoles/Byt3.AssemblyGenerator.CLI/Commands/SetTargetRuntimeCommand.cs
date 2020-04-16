@@ -13,7 +13,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             CommandAction = (info, strings) => SetTargetRuntime(strings);
         }
 
-        private void SetTargetRuntime( string[] args)
+        private void SetTargetRuntime(string[] args)
         {
             if (!Program.HasTarget)
             {

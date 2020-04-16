@@ -68,10 +68,12 @@ namespace Byt3.ADL
             {
                 return true; //Hidden Channel
             }
+
             if (mask == 0 || flag == 0)
             {
                 return false; //Anti-Wildcard
             }
+
             if (matchType) //If true it compares the whole mask with the whole flag(if constructed from different flags)
             {
                 return (mask & flag) == flag;
@@ -98,8 +100,9 @@ namespace Byt3.ADL
         {
             if (IsUniqueMask(mask))
             {
-                return new List<int> { mask };
+                return new List<int> {mask};
             }
+
             List<int> ret = new List<int>();
             for (int i = 0; i < sizeof(int) * Utils.ByteSize; i++)
             {
@@ -135,11 +138,13 @@ namespace Byt3.ADL
             {
                 return 0;
             }
+
             int mask = masks[0];
             for (int i = 1; i < masks.Length; i++)
             {
                 mask = combineType == MaskCombineType.BitOr ? mask | masks[i] : mask & masks[i];
             }
+
             return mask;
         }
 
@@ -192,7 +197,6 @@ namespace Byt3.ADL
 
         public BitMask() : this(true)
         {
-
         }
 
         /// <summary>

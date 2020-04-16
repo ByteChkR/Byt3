@@ -18,7 +18,8 @@ namespace Byt3.ADL.Crash
 
         private static readonly CrashConfig Config = ConfigManager.GetDefault<CrashConfig>();
 
-        private static readonly ADLLogger<CrashLogType> CrashLogger = new ADLLogger<CrashLogType>(InternalADLProjectDebugConfig.Settings, "Crash");
+        private static readonly ADLLogger<CrashLogType> CrashLogger =
+            new ADLLogger<CrashLogType>(InternalADLProjectDebugConfig.Settings, "Crash");
 
         public static void SaveCurrentConfig(string configPath = "adl_crash.xml")
         {
@@ -64,9 +65,6 @@ namespace Byt3.ADL.Crash
             {
                 CrashLogger.Log(CrashLogType.Crash, ExceptionToString(exception, includeInner), 1);
             }
-            
-
-
         }
 
         private static string ExceptionHeader(Exception exception)
@@ -79,11 +77,13 @@ namespace Byt3.ADL.Crash
                 sb.Append("\nException Message: ");
                 sb.Append(exception.Message);
             }
+
             if (exception.Source != null)
             {
                 sb.Append("\nException Source: ");
                 sb.Append(exception.Source);
             }
+
             return sb.ToString();
         }
 
@@ -97,16 +97,19 @@ namespace Byt3.ADL.Crash
                 sb.Append("\nException Message: ");
                 sb.Append(exception.Message);
             }
+
             if (exception.Source != null)
             {
                 sb.Append("\nException Source: ");
                 sb.Append(exception.Source);
             }
+
             if (exception.HelpLink != null)
             {
                 sb.Append("\nException Help Link: ");
                 sb.Append(exception.HelpLink);
             }
+
             sb.Append("\nException HResult: ");
             sb.Append(exception.HResult.ToString());
 
@@ -142,7 +145,6 @@ namespace Byt3.ADL.Crash
             }
 
             return sb.ToString();
-
         }
 
 

@@ -26,6 +26,7 @@
                 {
                     e = potentialNext;
                 }
+
                 if (s < e)
                 {
                     s = e;
@@ -57,6 +58,7 @@
                 {
                     e = array[i] + e;
                 }
+
                 if (s < e)
                 {
                     s = e;

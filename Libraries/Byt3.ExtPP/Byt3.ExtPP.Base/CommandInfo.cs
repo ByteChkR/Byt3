@@ -11,16 +11,19 @@ namespace Byt3.ExtPP.Base
         /// The help text of the command
         /// </summary>
         public string HelpText => Meta.HelpText;
+
         /// <summary>
         /// The primary command.
         /// Can be accessed with --
         /// </summary>
         public string Command => Meta.Command;
+
         /// <summary>
         /// The shortcut for the command
         /// Can be accessed with -
         /// </summary>
         public string ShortCut => Meta.ShortCut;
+
         /// <summary>
         /// If this parameter can be set by a global prefix
         /// </summary>
@@ -68,7 +71,6 @@ namespace Byt3.ExtPP.Base
         public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText) : this(command,
             shortcut, field, helpText, null, false)
         {
-
         }
 
         /// <summary>
@@ -81,7 +83,6 @@ namespace Byt3.ExtPP.Base
         public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText,
             object defaultIfNotSpecified) : this(command, shortcut, field, helpText, defaultIfNotSpecified, false)
         {
-
         }
 
 
@@ -95,7 +96,6 @@ namespace Byt3.ExtPP.Base
         public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText,
             bool global) : this(command, shortcut, field, helpText, null, global)
         {
-
         }
 
 

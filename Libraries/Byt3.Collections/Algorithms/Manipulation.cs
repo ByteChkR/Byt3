@@ -14,8 +14,8 @@ namespace Byt3.Collections.Algorithms
                 {
                     FloodFill(ifnode, newValue); //Call the "child" node
                 }
-
             }
+
             startNode.FillValue = newValue; //Finally change the value on our root(all the children are done)
         }
     }

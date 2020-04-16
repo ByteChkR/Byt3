@@ -49,7 +49,7 @@
             //HERE
             if (Type == InstructionArgumentType.Buffer || Type == InstructionArgumentType.Function)
             {
-                ((ParsedObject)Value).SetRoot(root);
+                ((ParsedObject) Value).SetRoot(root);
             }
         }
     }

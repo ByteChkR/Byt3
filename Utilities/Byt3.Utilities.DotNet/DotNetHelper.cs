@@ -7,7 +7,8 @@ namespace Byt3.Utilities.DotNet
 {
     public static class DotNetHelper
     {
-        public static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(UtilitiesDotNetDebugConfig.Settings, "DotNetHelper");
+        public static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(UtilitiesDotNetDebugConfig.Settings, "DotNetHelper");
 
         public static void DotnetAction(string msbuildCommand, string targetCommand, string arguments,
             string workingDir)
@@ -66,6 +67,7 @@ namespace Byt3.Utilities.DotNet
             {
                 arguments = $"--runtime {definitions.BuildTargetRuntime} {arguments}";
             }
+
             string workingDir = Path.GetDirectoryName(projectFile);
             DotnetAction(msbuildCommand, "publish", arguments, workingDir);
             string ret = Path.Combine(workingDir, "bin", definitions.BuildConfiguration,
@@ -86,8 +88,8 @@ namespace Byt3.Utilities.DotNet
             {
                 return;
             }
-            Logger.Log(LogType.Error, "\t[ERR]" + e.Data,5);
 
+            Logger.Log(LogType.Error, "\t[ERR]" + e.Data, 5);
         }
 
         private static void OnOutReceived(object sender, DataReceivedEventArgs e)
@@ -96,8 +98,8 @@ namespace Byt3.Utilities.DotNet
             {
                 return;
             }
-            Logger.Log(LogType.Log, "\t" + e.Data,5);
 
+            Logger.Log(LogType.Log, "\t" + e.Data, 5);
         }
     }
 }

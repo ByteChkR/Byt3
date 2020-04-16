@@ -78,7 +78,6 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="obj">The buffer to be set</param>
         public void SetBuffer(int index, MemoryObject obj)
         {
-
             Kernel.SetKernelArgument(index, obj);
         }
 
@@ -98,7 +97,6 @@ namespace Byt3.OpenCL.Wrapper
 
 
             Kernel.SetKernelArgumentVal(index, Parameter.ElementAt(index).Value.CastToType(instance, value));
-
         }
 
         /// <summary>
@@ -113,7 +111,6 @@ namespace Byt3.OpenCL.Wrapper
         internal void Run(CommandQueue cq, MemoryBuffer image, int3 dimensions, float genTypeMaxVal,
             MemoryBuffer enabledChannels, int channelCount)
         {
-
             int size = dimensions.x * dimensions.y * dimensions.z * channelCount;
 
 
@@ -123,7 +120,6 @@ namespace Byt3.OpenCL.Wrapper
             SetArg(3, genTypeMaxVal);
             SetArg(4, enabledChannels);
             Run(cq, 1, size);
-
         }
 
 

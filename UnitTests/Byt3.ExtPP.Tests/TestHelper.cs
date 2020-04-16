@@ -22,7 +22,7 @@ namespace Byt3.ExtPP.Tests
                 return Path.Combine(dirPath, "res/");
             }
         }
-        
+
 
         private static PreProcessor SetUp(List<AbstractPlugin> chain)
         {
@@ -34,7 +34,6 @@ namespace Byt3.ExtPP.Tests
         public static ISourceScript[] SetUpAndProcess(List<AbstractPlugin> chain, Settings settings,
             IDefinitions definitions, params string[] fileNames)
         {
-
             PreProcessor pp = SetUp(chain);
             return pp.ProcessFiles(
                 fileNames.Select(x => new FilePathContent(Path.GetFullPath(x))).OfType<IFileContent>().ToArray(),
@@ -50,7 +49,6 @@ namespace Byt3.ExtPP.Tests
         public static ISourceScript[] SetUpAndProcess(List<AbstractPlugin> chain, IDefinitions definitions,
             params string[] fileNames)
         {
-
             return SetUpAndProcess(chain, new Settings(), definitions, fileNames);
         }
 
@@ -77,7 +75,6 @@ namespace Byt3.ExtPP.Tests
         public static string[] SetUpAndCompile(List<AbstractPlugin> chain, IDefinitions definitions,
             params string[] fileNames)
         {
-
             return SetUpAndCompile(chain, new Settings(), definitions, fileNames);
         }
 

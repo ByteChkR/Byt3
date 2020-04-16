@@ -17,14 +17,14 @@ namespace Byt3.ExtPP.Tests
         public void ExtPP_Plugins_Exception_Warning_Test()
         {
             string file = Path.Combine(ResourceFolder, "warning_test.txt");
-            
+
             Settings s = new Settings(new Dictionary<string, string[]>
             {
                 {"-ex:tow", new string[0]}
             });
             try
             {
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, s, file);
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new ExceptionPlugin()}, s, file);
                 Assert.True(false);
             }
             catch (Exception)
@@ -37,10 +37,10 @@ namespace Byt3.ExtPP.Tests
         public void ExtPP_Plugins_Exception_Error_Test()
         {
             string file = Path.Combine(ResourceFolder, "error_test.txt");
-            
+
             try
             {
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, file);
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new ExceptionPlugin()}, file);
                 Assert.True(false);
             }
             catch (Exception)

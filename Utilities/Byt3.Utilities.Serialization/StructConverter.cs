@@ -21,8 +21,6 @@ namespace Byt3.Utilities.Serialization
 
         public static void BytesToStruct<T>(byte[] bytes, ref T outObj) where T : struct
         {
-
-
             int size = Marshal.SizeOf(outObj);
             IntPtr ptr = Marshal.AllocHGlobal(size);
 
@@ -30,7 +28,6 @@ namespace Byt3.Utilities.Serialization
 
             outObj = (T) Marshal.PtrToStructure(ptr, outObj.GetType());
             Marshal.FreeHGlobal(ptr);
-
         }
     }
 }

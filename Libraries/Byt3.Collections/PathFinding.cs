@@ -15,6 +15,7 @@ namespace Byt3.Collections
             {
                 connectedNodes.Enqueue(inode);
             }
+
             List<INode> doneNodes = new List<INode>();
             while (true)
             {
@@ -48,6 +49,7 @@ namespace Byt3.Collections
                         {
                             continue;
                         }
+
                         if (connected.NodeState == Enums.NodeState.Untested)
                         {
                             connected.NodeParentNode = current;
@@ -61,6 +63,7 @@ namespace Byt3.Collections
                             connected.NodeState = Enums.NodeState.Open;
                             connectedNodes.Enqueue(connected);
                         }
+
                         if (current != connected)
                         {
                             float newCostCurrent = current.NodeCurrentCost +
@@ -98,6 +101,7 @@ namespace Byt3.Collections
                 ret.Add(current);
                 current = current.NodeParentNode;
             }
+
             ret.Reverse();
             return ret;
         }

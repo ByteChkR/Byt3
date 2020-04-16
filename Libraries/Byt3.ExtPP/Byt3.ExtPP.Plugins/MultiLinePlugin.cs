@@ -31,9 +31,7 @@ namespace Byt3.ExtPP.Plugins
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
-
             settings.ApplySettings(Info, this);
-
         }
 
         public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
@@ -41,7 +39,6 @@ namespace Byt3.ExtPP.Plugins
             List<string> source = file.GetSource().ToList();
             for (int i = source.Count - 1; i >= 0; i--)
             {
-
                 if (i < source.Count - 1 && source[i].TrimEnd().EndsWith(MultiLineKeyword))
                 {
                     string newstr = source[i].Substring(0, source[i].Length - MultiLineKeyword.Length) + source[i + 1];
@@ -49,6 +46,7 @@ namespace Byt3.ExtPP.Plugins
                     source[i] = newstr;
                 }
             }
+
             file.SetSource(source.ToArray());
             return true;
         }

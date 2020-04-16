@@ -16,7 +16,6 @@ namespace Byt3.CommandRunner
         /// <returns></returns>
         public static List<AbstractCommand> LoadCommandsFromAssembly(Assembly asm)
         {
-
             List<AbstractCommand> ret = new List<AbstractCommand>();
 
             Type[] types = asm.GetTypes();

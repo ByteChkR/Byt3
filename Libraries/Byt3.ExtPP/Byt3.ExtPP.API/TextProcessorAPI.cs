@@ -14,7 +14,8 @@ namespace Byt3.ExtPP.API
     /// </summary>
     public static class TextProcessorAPI
     {
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(ExtPPDebugConfig.Settings, "TextProcessorAPI");
+        private static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(ExtPPDebugConfig.Settings, "TextProcessorAPI");
 
         private static Dictionary<string, APreProcessorConfig> _configs;
 
@@ -24,9 +25,7 @@ namespace Byt3.ExtPP.API
             {
                 if (_configs == null)
                 {
-
                     _configs = new Dictionary<string, APreProcessorConfig> {["***"] = new DefaultPreProcessorConfig()};
-                    
                 }
 
                 return _configs;
@@ -36,7 +35,7 @@ namespace Byt3.ExtPP.API
 
         public static string[] GenericIncludeToSource(string ext, string file, params string[] genType)
         {
-            return new[] { Configs[ext].GetGenericInclude(file, genType) };
+            return new[] {Configs[ext].GetGenericInclude(file, genType)};
         }
 
 

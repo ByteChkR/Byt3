@@ -55,6 +55,4 @@ namespace Byt3.ADL.Configs
             PrefixLookupSettings = lookupSettings;
         }
     }
-
-
 }

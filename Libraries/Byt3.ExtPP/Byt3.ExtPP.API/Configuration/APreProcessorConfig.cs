@@ -13,8 +13,9 @@ namespace Byt3.ExtPP.API.Configuration
     /// </summary>
     public abstract class APreProcessorConfig : ALoggable<LogType>
     {
-
-        protected APreProcessorConfig() : base(ExtPPDebugConfig.Settings) { }
+        protected APreProcessorConfig() : base(ExtPPDebugConfig.Settings)
+        {
+        }
 
         public abstract string FileExtension { get; }
         protected abstract List<AbstractPlugin> Plugins { get; }
@@ -22,7 +23,6 @@ namespace Byt3.ExtPP.API.Configuration
 
         public string[] Preprocess(IFileContent filename, Dictionary<string, bool> defs)
         {
-
             PreProcessor pp = new PreProcessor();
 
 

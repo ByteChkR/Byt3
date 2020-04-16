@@ -51,6 +51,7 @@ namespace Byt3.ADL.Configs
                     return Values[i];
                 }
             }
+
             throw new KeyNotFoundException("Could not find Value with Key: " + key);
         }
 
@@ -65,6 +66,7 @@ namespace Byt3.ADL.Configs
             {
                 ret.Add(Keys[i], Values[i]);
             }
+
             return ret;
         }
     }

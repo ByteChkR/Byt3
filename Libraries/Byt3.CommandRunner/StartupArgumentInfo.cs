@@ -13,6 +13,7 @@ namespace Byt3.CommandRunner
         /// Defines the Prefix for Command Keys that are longer.
         /// </summary>
         public static readonly string LongCommandPrefix = "--";
+
         /// <summary>
         /// Defines the Prefix for Command Keys that act as shortcuts to longer commands.
         /// </summary>
@@ -49,7 +50,6 @@ namespace Byt3.CommandRunner
         /// <param name="args">Command Line Input.</param>
         public StartupArgumentInfo(string[] args)
         {
-
             //Resolve File Refs
             List<string> argss = new List<string>();
             for (int i = 0; i < args.Length; i++)

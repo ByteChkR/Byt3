@@ -101,7 +101,7 @@ namespace Byt3.ADL.Tests
             Assert.True(gbm.HasFlag(TestEnum.A, MaskMatchType.MatchOne));
 
             gbm.SetFlag(TestEnum.C, true);
-            
+
 
             Assert.False(gbm.HasFlag(TestEnum.C, MaskMatchType.MatchOne));
 

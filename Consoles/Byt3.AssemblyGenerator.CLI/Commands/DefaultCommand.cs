@@ -13,7 +13,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             CommandAction = (info, strings) => Default(strings);
         }
 
-        private void Default( string[] args)
+        private void Default(string[] args)
         {
             string target = "";
             if (args.Length > 0)

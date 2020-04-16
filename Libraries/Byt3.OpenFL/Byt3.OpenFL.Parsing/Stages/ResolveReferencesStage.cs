@@ -8,26 +8,24 @@ namespace Byt3.OpenFL.Parsing.Stages
 {
     public class ResolveReferencesStage : PipelineStage<ParseTreeStageResult, FLParseResult>
     {
-
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "LoadSourceStage");
+        private static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "LoadSourceStage");
 
         public override FLParseResult Process(ParseTreeStageResult input)
         {
             Logger.Log(LogType.Log, "Resolving References: " + input.Filename, 2);
 
-            FLParseResult parseResult = new FLParseResult(input.Filename, input.Source, input.DefinedScripts, input.DefinedBuffers, input.Functions);
+            FLParseResult parseResult = new FLParseResult(input.Filename, input.Source, input.DefinedScripts,
+                input.DefinedBuffers, input.Functions);
 
             ResolveReferences(parseResult);
 
             return parseResult;
-
         }
 
 
         private static void ResolveReferences(FLParseResult source)
         {
-
-
             for (int i = 0; i < source.Functions.Length; i++)
             {
                 string name = source.Functions[i].Name;
@@ -38,19 +36,19 @@ namespace Byt3.OpenFL.Parsing.Stages
                     Logger.Log(LogType.Log, $"Resolving References for Instruction: {instructionName}", 4);
                     for (int k = 0; k < source.Functions[i].Instructions[j].Arguments.Count; k++)
                     {
-
-                        string instructionArgumentName = $"{instructionName}.{source.Functions[i].Instructions[j].Arguments[k].Type}";
+                        string instructionArgumentName =
+                            $"{instructionName}.{source.Functions[i].Instructions[j].Arguments[k].Type}";
                         Logger.Log(LogType.Log,
                             $"Resolving References for Argument: {instructionArgumentName}", 5);
                         if (source.Functions[i].Instructions[j].Arguments[k].Type ==
                             InstructionArgumentType.UnresolvedFunction)
                         {
-
                             UnresolvedFunction uf =
-                                (UnresolvedFunction)source.Functions[i].Instructions[j].Arguments[k].Value;
+                                (UnresolvedFunction) source.Functions[i].Instructions[j].Arguments[k].Value;
 
                             Logger.Log(LogType.Log,
-                                $"Resolving {(uf.External ? "External " : "")}Function for Argument: {instructionArgumentName}", 6);
+                                $"Resolving {(uf.External ? "External " : "")}Function for Argument: {instructionArgumentName}",
+                                6);
 
                             if (uf.External)
                             {
@@ -67,13 +65,14 @@ namespace Byt3.OpenFL.Parsing.Stages
                                  InstructionArgumentType.UnresolvedDefinedBuffer)
                         {
                             UnresolvedDefinedBuffer uf =
-                                (UnresolvedDefinedBuffer)source.Functions[i].Instructions[j].Arguments[k].Value;
+                                (UnresolvedDefinedBuffer) source.Functions[i].Instructions[j].Arguments[k].Value;
 
 
                             Logger.Log(LogType.Log,
                                 $"Resolving Buffer \"{uf.BufferName}\" for Argument: {instructionArgumentName}", 6);
 
-                            source.Functions[i].Instructions[j].Arguments[k].Value = source.DefinedBuffers[uf.BufferName];
+                            source.Functions[i].Instructions[j].Arguments[k].Value =
+                                source.DefinedBuffers[uf.BufferName];
                         }
                     }
                 }
@@ -83,7 +82,6 @@ namespace Byt3.OpenFL.Parsing.Stages
             {
                 definedBuffer.Value.SetRoot(source);
             }
-
 
 
             source.EntryPoint.SetRoot(source);

@@ -52,7 +52,6 @@ namespace Byt3.ExtPP.CLI.Core.PluginManager
 
         public PluginInformation()
         {
-
         }
 
         /// <summary>

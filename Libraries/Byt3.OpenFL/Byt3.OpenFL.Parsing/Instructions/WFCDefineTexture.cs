@@ -8,7 +8,6 @@ namespace Byt3.OpenFL.Parsing.Instructions
 {
     public static class WFCDefineTexture
     {
-
         public static UnloadedDefinedFLBufferInfo ComputeWFC(CLAPI instance, string[] args)
         {
             string filename = args[0];
@@ -30,12 +29,10 @@ namespace Byt3.OpenFL.Parsing.Instructions
                 else if (!int.TryParse(args[4], out int heigt))
                 {
                     throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
-
                 }
                 else if (!bool.TryParse(args[5], out bool periodicInput))
                 {
                     throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
-
                 }
                 else if (!bool.TryParse(args[6], out bool periodicOutput))
                 {
@@ -58,7 +55,6 @@ namespace Byt3.OpenFL.Parsing.Instructions
                     string fn = args[1].Trim().Replace("\"", "");
                     if (CLAPI.FileExists(fn))
                     {
-
                         UnloadedDefinedFLBufferInfo info = new UnloadedDefinedFLBufferInfo(root =>
                         {
                             Bitmap bmp;

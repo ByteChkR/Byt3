@@ -18,10 +18,12 @@ namespace Byt3.ObjectPipeline.Tests
                 {
                     return Encoding.ASCII.GetBytes("Hello World!");
                 }
+
                 if (Path.GetFullPath(input) == Path.GetFullPath("C:\\InterceptedFile"))
                 {
                     return Encoding.ASCII.GetBytes("!dlroW olleH");
                 }
+
                 return File.ReadAllBytes(input);
             }
         }
@@ -57,7 +59,6 @@ namespace Byt3.ObjectPipeline.Tests
         [Test]
         public void Pipeline_InvalidStates_Test()
         {
-
             //Argument null not allowed.
             Assert.Throws<ArgumentNullException>(() =>
                 new DelegatePipelineStage<string, string>(null));

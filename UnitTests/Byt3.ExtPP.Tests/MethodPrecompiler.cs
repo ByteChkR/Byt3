@@ -9,11 +9,8 @@ namespace Byt3.ExtPP.Tests
     {
         public static void Precompile(string methodName)
         {
-
             RuntimeMethodHandle handle = FindMethodWithName(methodName).MethodHandle;
             RuntimeHelpers.PrepareMethod(handle);
-
-
         }
 
         public static void PrecompileClass<T>()

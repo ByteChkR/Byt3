@@ -12,6 +12,7 @@ namespace Byt3.ExtPP.Plugins
     {
         public string BlankLineRemovalKeyword { get; set; } = "###REMOVE###";
         public override string[] Prefix => new[] {"blr", "BLRemover"};
+
         public override string[] Cleanup => new[]
             {BlankLineRemovalKeyword, BlankLineRemovalKeyword.ToLower(CultureInfo.InvariantCulture)};
 
@@ -31,7 +32,6 @@ namespace Byt3.ExtPP.Plugins
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
             settings.ApplySettings(Info, this);
-
         }
 
 
@@ -39,9 +39,11 @@ namespace Byt3.ExtPP.Plugins
         {
             if (source.Trim() == "")
             {
-               Logger.Log(LogType.Log, $"Adding {BlankLineRemovalKeyword} for line removal later", PLUGIN_MIN_SEVERITY);
+                Logger.Log(LogType.Log, $"Adding {BlankLineRemovalKeyword} for line removal later",
+                    PLUGIN_MIN_SEVERITY);
                 return BlankLineRemovalKeyword;
             }
+
             return source;
         }
     }

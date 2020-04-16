@@ -26,6 +26,7 @@ namespace Byt3.ADL.Streams
             {
                 log.Message = Utils.TimeStamp + log.Message;
             }
+
             byte[] tmp = Debug.TextEncoding.GetBytes(log.Message);
             BaseStream.Write(tmp, 0, tmp.Length);
             Flush();

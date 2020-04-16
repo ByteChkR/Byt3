@@ -48,7 +48,6 @@ namespace Byt3.ExtPP.Base
         /// <param name="global"></param>
         public CommandMetaData(string command, string shortcut, string helpText, bool global)
         {
-
             Command = command;
             HelpText = helpText;
             ShortCut = shortcut;

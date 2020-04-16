@@ -22,7 +22,6 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class CLAPI : ALoggable<LogType>, IDisposable
     {
-
         public delegate string[] IOReadLinesCallback(string file);
 
         public delegate string IOReadTextCallback(string file);
@@ -36,6 +35,7 @@ namespace Byt3.OpenCL.Wrapper
         public delegate Stream IOGetStreamCallback(string file);
 
         private static IOReadLinesCallback ReadLinesCallback = File.ReadAllLines;
+
         public static IOReadLinesCallback ReadLines
         {
             get => ReadLinesCallback;
@@ -49,6 +49,7 @@ namespace Byt3.OpenCL.Wrapper
         }
 
         private static IOReadTextCallback ReadTextCallback = File.ReadAllText;
+
         public static IOReadTextCallback ReadText
         {
             get => ReadTextCallback;
@@ -62,6 +63,7 @@ namespace Byt3.OpenCL.Wrapper
         }
 
         private static IOFileExistsCallback FileExistsCallback = File.Exists;
+
         public static IOFileExistsCallback FileExists
         {
             get => FileExistsCallback;
@@ -75,6 +77,7 @@ namespace Byt3.OpenCL.Wrapper
         }
 
         private static IODirectoryExistsCallback DirectoryExistsCallback = Directory.Exists;
+
         public static IODirectoryExistsCallback DirectoryExists
         {
             get => DirectoryExistsCallback;
@@ -88,6 +91,7 @@ namespace Byt3.OpenCL.Wrapper
         }
 
         private static IOGetFilesCallback GetFilesCallback = Directory.GetFiles;
+
         public static IOGetFilesCallback GetFiles
         {
             get => GetFilesCallback;
@@ -101,6 +105,7 @@ namespace Byt3.OpenCL.Wrapper
         }
 
         private static IOGetStreamCallback GetStreamCallback = File.OpenRead;
+
         public static IOGetStreamCallback GetStream
         {
             get => GetStreamCallback;
@@ -194,7 +199,6 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private void InitializeOpenCl()
         {
-
             IEnumerable<Platform> platforms = Platform.GetPlatforms();
             List<Device> devs = new List<Device>();
             for (int i = 0; i < platforms.Count(); i++)
@@ -206,7 +210,6 @@ namespace Byt3.OpenCL.Wrapper
                     Logger.Log(LogType.Log, "Adding Device: " + ds.ElementAt(j).Name + "@" + ds.ElementAt(j).Vendor, 1);
                     devs.Add(ds.ElementAt(j));
                 }
-
             }
 
             Device chosenDevice = null;
@@ -239,7 +242,6 @@ namespace Byt3.OpenCL.Wrapper
                     "Could not initialize OpenCL with Device: " + chosenDevice.Name + "@" + chosenDevice.Vendor +
                     "\n\t" + e.Message, e);
             }
-
         }
 
 
@@ -251,7 +253,6 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns>The Compiled and Linked Kernel</returns>
         internal static Kernel CreateKernelFromName(Program program, string name)
         {
-
             if (program == null)
             {
                 return null;
@@ -343,10 +344,9 @@ namespace Byt3.OpenCL.Wrapper
             bool uniform)
             where T : struct
         {
-
             MemoryBuffer buffer = buf;
 
-            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int)buffer.Size);
+            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int) buffer.Size);
 
 
             WriteRandom(data, enabledChannels, rnd, uniform);
@@ -421,7 +421,6 @@ namespace Byt3.OpenCL.Wrapper
 
         internal static Program CreateClProgramFromSource(CLAPI instance, string source)
         {
-
             try
             {
                 return instance.context.CreateAndBuildProgramFromString(source);
@@ -430,7 +429,6 @@ namespace Byt3.OpenCL.Wrapper
             {
                 throw new OpenClException("Could not compile file", e);
             }
-
         }
 
         internal static Program CreateClProgramFromSource(CLAPI instance, string[] source)
@@ -462,7 +460,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns></returns>
         public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags) where T : struct
         {
-            object[] arr = Array.ConvertAll(data, x => (object)x);
+            object[] arr = Array.ConvertAll(data, x => (object) x);
             return CreateBuffer(instance, arr, typeof(T), flags);
         }
 
@@ -534,7 +532,6 @@ namespace Byt3.OpenCL.Wrapper
                 PixelFormat.Format32bppArgb);
             Marshal.Copy(bytes, 0, data.Scan0, bytes.Length);
             target.UnlockBits(data);
-
         }
 
         #endregion

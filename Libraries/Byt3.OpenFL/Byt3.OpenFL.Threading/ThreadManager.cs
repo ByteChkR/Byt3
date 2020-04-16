@@ -10,6 +10,7 @@ namespace Byt3.OpenFL.Threading
         /// A List of all Running Tasks
         /// </summary>
         public List<TaskReference<T>> RunningTasks = new List<TaskReference<T>>();
+
         /// <summary>
         /// The Type of the TheadManager
         /// to comply with the IThreadManager Interface

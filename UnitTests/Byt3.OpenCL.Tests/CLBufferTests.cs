@@ -31,7 +31,7 @@ namespace Byt3.OpenCL.Tests
             }
 
             MemoryBuffer buffer =
-                CLAPI.CreateBuffer(CLAPI.MainThread, b,MemoryFlag.ReadWrite);
+                CLAPI.CreateBuffer(CLAPI.MainThread, b, MemoryFlag.ReadWrite);
 
             Assert.True(buffer != null);
             Assert.True(buffer.Size == 255);
@@ -47,7 +47,7 @@ namespace Byt3.OpenCL.Tests
             }
 
             MemoryBuffer buffer =
-                CLAPI.CreateBuffer(CLAPI.MainThread, b,  MemoryFlag.ReadWrite);
+                CLAPI.CreateBuffer(CLAPI.MainThread, b, MemoryFlag.ReadWrite);
 
             float[] c = CLAPI.ReadBuffer<float>(CLAPI.MainThread, buffer, b.Length);
 
@@ -58,7 +58,6 @@ namespace Byt3.OpenCL.Tests
         [Test]
         public void OpenCL_WriteBuffer_Test()
         {
-            
             float[] b = new float[255];
             for (int i = 0; i < b.Length; i++)
             {
@@ -66,7 +65,7 @@ namespace Byt3.OpenCL.Tests
             }
 
             MemoryBuffer buffer = CLAPI.CreateEmpty<float>(CLAPI.MainThread, b.Length,
-                 MemoryFlag.ReadWrite);
+                MemoryFlag.ReadWrite);
 
 
             CLAPI.WriteToBuffer(CLAPI.MainThread, buffer, b);

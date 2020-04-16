@@ -62,8 +62,8 @@ namespace Byt3.ExtPP.Base
             {
                 return ((MemberExpression) body).Member as MemberInfo;
             }
-            return null;
 
+            return null;
         }
 
         /// <summary>
@@ -75,7 +75,6 @@ namespace Byt3.ExtPP.Base
         public static FieldInfo GetFieldInfo<TValue>(
             Expression<Func<T, TValue>> selector)
         {
-
             return GetMemberInfo(selector) as FieldInfo;
         }
     }

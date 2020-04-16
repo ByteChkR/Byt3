@@ -41,25 +41,23 @@ namespace Byt3.Threading
                 {
                     break;
                 }
+
                 Update();
                 Thread.Sleep(Tick);
             }
 
             stopServer = false;
             OnLoopExit();
-
         }
 
         protected abstract void Update();
 
         protected virtual void OnLoopExit()
         {
-
         }
 
         protected virtual void OnLoopEnter()
         {
-
         }
     }
 }

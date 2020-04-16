@@ -1203,7 +1203,6 @@ namespace Byt3.OpenCL.Interop.EnqueuedCommands
             [Out] out IntPtr waitEvent
         );
 
-
         #endregion
 
         #region Public Deprecated Methods

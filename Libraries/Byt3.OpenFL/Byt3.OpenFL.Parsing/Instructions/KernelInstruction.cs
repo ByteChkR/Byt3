@@ -29,37 +29,44 @@ namespace Byt3.OpenFL.Parsing.Instructions
             Logger.Log(LogType.Log, $"Running CL Kernel: {Kernel.Name}", MIN_INSTRUCTION_SEVERITY);
             for (int i = 0; i < Arguments.Count; i++)
             {
-                Logger.Log(LogType.Log, $"[{Kernel.Name}]Setting Kernel Argument {Kernel.Parameter.First(x => x.Value.Id == i)}", MIN_INSTRUCTION_SEVERITY + 1);
+                Logger.Log(LogType.Log,
+                    $"[{Kernel.Name}]Setting Kernel Argument {Kernel.Parameter.First(x => x.Value.Id == i)}",
+                    MIN_INSTRUCTION_SEVERITY + 1);
                 int kernelArgIndex = i + FL_HEADER_ARG_COUNT;
                 if (Arguments[i].Type == InstructionArgumentType.Buffer)
                 {
-                    FLBufferInfo bi = (FLBufferInfo)Arguments[i].Value;
-                    Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{bi.DefinedBufferName}", MIN_INSTRUCTION_SEVERITY + 2);
+                    FLBufferInfo bi = (FLBufferInfo) Arguments[i].Value;
+                    Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{bi.DefinedBufferName}",
+                        MIN_INSTRUCTION_SEVERITY + 2);
                     Kernel.SetBuffer(kernelArgIndex, bi.Buffer);
                 }
                 else if (Arguments[i].Type == InstructionArgumentType.Function)
                 {
-                    FLBufferInfo buffer = Root.RegisterUnmanagedBuffer(new FLBufferInfo(Root.Instance, Root.Dimensions.x, Root.Dimensions.y));
+                    FLBufferInfo buffer =
+                        Root.RegisterUnmanagedBuffer(new FLBufferInfo(Root.Instance, Root.Dimensions.x,
+                            Root.Dimensions.y));
 
-                    Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY+3);
+                    Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
                     Root.PushContext(); //Store Dynamic Variables
 
-                    FunctionObject function = (FunctionObject)Arguments[i].Value; //Process the Function Object
-                    
-                    Logger.Log(LogType.Log, $"Executing Function: {function.Name}", MIN_INSTRUCTION_SEVERITY+2);
+                    FunctionObject function = (FunctionObject) Arguments[i].Value; //Process the Function Object
+
+                    Logger.Log(LogType.Log, $"Executing Function: {function.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 
                     Root.Run(Root.Instance, Root.KernelDB, buffer, function);
 
-                    Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{Root.ActiveBuffer.DefinedBufferName}", MIN_INSTRUCTION_SEVERITY + 2);
-                    Kernel.SetBuffer(kernelArgIndex, Root.ActiveBuffer.Buffer); //Set the Active Buffer as the Kernel Argument
+                    Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{Root.ActiveBuffer.DefinedBufferName}",
+                        MIN_INSTRUCTION_SEVERITY + 2);
+                    Kernel.SetBuffer(kernelArgIndex,
+                        Root.ActiveBuffer.Buffer); //Set the Active Buffer as the Kernel Argument
 
-                    Logger.Log(LogType.Log, $"Returning from Function Context", MIN_INSTRUCTION_SEVERITY+3);
+                    Logger.Log(LogType.Log, $"Returning from Function Context", MIN_INSTRUCTION_SEVERITY + 3);
                     Root.ReturnFromContext(); //Restore active channels and buffer
-                    
                 }
                 else if (Arguments[i].Type == InstructionArgumentType.Number)
                 {
-                    Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Value{Arguments[i].Value}", MIN_INSTRUCTION_SEVERITY + 1);
+                    Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Value{Arguments[i].Value}",
+                        MIN_INSTRUCTION_SEVERITY + 1);
                     Kernel.SetArg(kernelArgIndex, Arguments[i].Value); //The Value is a Decimal
                 }
                 else
@@ -69,7 +76,8 @@ namespace Byt3.OpenFL.Parsing.Instructions
             }
 
             CLAPI.Run(Root.Instance, Kernel, Root.ActiveBuffer.Buffer, Root.Dimensions,
-                KernelParameter.GetDataMaxSize(Root.KernelDB.GenDataType), CLAPI.CreateBuffer(Root.Instance, Root.ActiveChannels, MemoryFlag.ReadOnly), 4);
+                KernelParameter.GetDataMaxSize(Root.KernelDB.GenDataType),
+                CLAPI.CreateBuffer(Root.Instance, Root.ActiveChannels, MemoryFlag.ReadOnly), 4);
         }
     }
 }

@@ -7,9 +7,11 @@ namespace Byt3.Utilities.Threading
 {
     public static class ProcessRunner
     {
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(UtilitiesThreadingDebugConfig.Settings, "Process Type");
+        private static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(UtilitiesThreadingDebugConfig.Settings, "Process Type");
 
         public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
         public static string ShellCommand =>
             IsWindows ? "cmd.exe" : "/bin/bash";
 
@@ -46,6 +48,7 @@ namespace Byt3.Utilities.Threading
                 {
                     p.OutputDataReceived += commandInfo.OnOutputReceived;
                 }
+
                 if (commandInfo.OnErrorReceived != null)
                 {
                     p.ErrorDataReceived += commandInfo.OnErrorReceived;
@@ -69,7 +72,7 @@ namespace Byt3.Utilities.Threading
                 p.WaitForExit(commandInfo.WaitForExitTimeout);
                 if (!p.HasExited)
                 {
-                    Logger.Log(LogType.Warning, $"Command \"{commandInfo.Command}\" Timed Out",1);
+                    Logger.Log(LogType.Warning, $"Command \"{commandInfo.Command}\" Timed Out", 1);
                     p.Kill();
                 }
             }
