@@ -3,7 +3,7 @@ using System.IO;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
 using Byt3.ExtPP.Plugins;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ExtPP.Tests
 {
@@ -11,7 +11,7 @@ namespace Byt3.ExtPP.Tests
     {
         private static string ResourceFolder { get; } = TestHelper.ResF + "CCC_tests/";
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_ChangeCharCase_ToLower_Test()
         {
             string file = Path.Combine(ResourceFolder, "tolower_test.txt");
@@ -20,7 +20,7 @@ namespace Byt3.ExtPP.Tests
             Assert.True(ret[0] == "hello_this_works right?");
         }
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_ChangeCharCase_ToUpper_Test()
         {
 

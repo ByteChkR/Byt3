@@ -4,16 +4,29 @@ using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
+using Byt3.Utilities.Exceptions;
 using Utils = Byt3.ExtPP.Base.Utils;
 
 namespace Byt3.ExtPP.Plugins
 {
+    public class ErrorException : Byt3Exception
+    {
+        public ErrorException(string message):base(message)
+        {
+
+        }
+    }
+
     public class ExceptionPlugin : AbstractLinePlugin
     {
-        public override string[] Prefix => new[] {"ex", "ExceptionPlugin"};
+        public override string[] Prefix => new[] { "ex", "ExceptionPlugin" };
         public string WarningKeyword { get; set; } = "#warning";
         public string ErrorKeyword { get; set; } = "#error";
         public string Separator { get; set; } = " ";
+        public bool ThrowOnError { get; set; } = true;
+        public bool ThrowOnWarning { get; set; }
+
+
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
@@ -30,6 +43,10 @@ namespace Byt3.ExtPP.Plugins
                 "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
             new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(ExceptionPlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+            new CommandInfo("throw-on-error", "toe", PropertyHelper.GetPropertyInfo(typeof(ExceptionPlugin), nameof(ThrowOnError)),
+                "When an Error Occurs it will throw an exception that will halt the processing."),
+            new CommandInfo("throw-on-warning", "tow", PropertyHelper.GetPropertyInfo(typeof(ExceptionPlugin), nameof(ThrowOnWarning)),
+                "When a Warning Occurs it will throw an exception that will halt the processing."),
         };
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
@@ -44,7 +61,8 @@ namespace Byt3.ExtPP.Plugins
             {
                 string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
 
-               Logger.Log(LogType.Error, $"Warning: {err}",1);
+                Logger.Log(LogType.Error, $"Warning: {err}", 1);
+                if (ThrowOnWarning) throw new ErrorException(err);
                 return "";
             }
 
@@ -52,7 +70,8 @@ namespace Byt3.ExtPP.Plugins
             if (Utils.IsStatement(source, ErrorKeyword))
             {
                 string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
-               Logger.Log(LogType.Error,  $"Error {err}",1);
+                Logger.Log(LogType.Error, $"Error {err}", 1);
+                if(ThrowOnError)throw new ErrorException(err);
                 return "";
             }
 

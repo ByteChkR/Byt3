@@ -2,7 +2,7 @@
 using System.IO;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ExtPP.Tests
 {
@@ -40,7 +40,7 @@ namespace Byt3.ExtPP.Tests
         private static string ResourceFolder { get; } = Path.GetFullPath(TestHelper.ResF);
 
 
-        [Fact]
+        [Test]
         public void ExtPP_PreProcessor_FilterRun_Test()
         {
             //Directory.SetCurrentDirectory(ResourceFolder);

@@ -1,7 +1,7 @@
 ﻿using System;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.OpenCL.Tests
 {
@@ -21,7 +21,7 @@ namespace Byt3.OpenCL.Tests
             return working;
         }
 
-        [Fact]
+        [Test]
         public void OpenCL_CreateBuffer_Test()
         {
             //CLAPI.Reinitialize();
@@ -38,7 +38,7 @@ namespace Byt3.OpenCL.Tests
             Assert.True(buffer.Size == 255);
         }
 
-        [Fact]
+        [Test]
         public void OpenCL_ReadBuffer_Test()
         {
             //CLAPI.Reinitialize();
@@ -57,7 +57,7 @@ namespace Byt3.OpenCL.Tests
             Assert.True(CheckValues(c, b));
         }
 
-        [Fact]
+        [Test]
         public void OpenCL_WriteBuffer_Test()
         {
 

@@ -7,25 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.collector" Version="1.2.1">
+    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.console" Version="2.4.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Plugins\Byt3.ExtPP.Plugins.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP\Byt3.ExtPP.csproj" />
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,9 +7,6 @@ using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
-using Xunit;
-
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 namespace Byt3.ExtPP.Tests
 {

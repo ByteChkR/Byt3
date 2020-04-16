@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using Byt3.Serialization.Serializers;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.Serialization.Tests
 {
@@ -98,7 +98,7 @@ namespace Byt3.Serialization.Tests
 
         #endregion
 
-        [Fact]
+        [Test]
         public void Serializer_ReadWrite_Test()
         {
             Packet p = new Packet(true);

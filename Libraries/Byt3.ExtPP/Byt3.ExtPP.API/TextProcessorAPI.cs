@@ -27,8 +27,7 @@ namespace Byt3.ExtPP.API
                 if (_configs == null)
                 {
 
-                    _configs = new Dictionary<string, APreProcessorConfig>();
-                    _configs["***"] = new DefaultPreProcessorConfig();
+                    _configs = new Dictionary<string, APreProcessorConfig> {["***"] = new DefaultPreProcessorConfig()};
                     //Type t = typeof(APreProcessorConfig);
                     //Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
                     //for (int i = 0; i < asms.Length; i++)

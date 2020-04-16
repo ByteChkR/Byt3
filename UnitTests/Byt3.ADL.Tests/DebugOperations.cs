@@ -1,13 +1,14 @@
 ﻿using System.IO;
 using Byt3.ADL.Configs;
 using Byt3.ADL.Streams;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ADL.Tests
 {
+    
     public class DebugOperations
     {
-        [Fact]
+        [Test]
         public void ADL_Debug_AddOutputStream_Test()
         {
             Debug.RemoveAllOutputStreams(); //Remove streams because unit tests may leave streams attached.
@@ -15,14 +16,14 @@ namespace Byt3.ADL.Tests
 
             Debug.AddOutputStream(null);
 
-            Assert.Equal(0, Debug.LogStreamCount);
+            Assert.AreEqual(0, Debug.LogStreamCount);
 
             Debug.RemoveAllOutputStreams();
             Debug.AdlEnabled = false;
             LogStream ls = new LogStream(new MemoryStream());
             Debug.AddOutputStream(ls);
             Debug.AddOutputStream(ls);
-            Assert.Equal(1, Debug.LogStreamCount);
+            Assert.AreEqual(1, Debug.LogStreamCount);
 
             Debug.RemoveAllOutputStreams();
 
@@ -30,7 +31,7 @@ namespace Byt3.ADL.Tests
         }
 
 
-        [Fact]
+        [Test]
         public void ADL_Debug_AddPrefixForMask_Test()
         {
             //Flag is required to find tags made up of unique masks(example: 2|8)
@@ -52,7 +53,7 @@ namespace Byt3.ADL.Tests
             Assert.True(ret);
         }
 
-        [Fact]
+        [Test]
         public void ADL_Debug_RemovePrefixForMask_Test()
         {
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
@@ -70,7 +71,7 @@ namespace Byt3.ADL.Tests
             Assert.True(logger.GetAllPrefixes().Count == 0);
         }
 
-        [Fact]
+        [Test]
         public void ADL_Debug_RemoveAllPrefixes_Test()
         {
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
@@ -80,7 +81,7 @@ namespace Byt3.ADL.Tests
             Assert.True(logger.GetAllPrefixes().Count == 0);
         }
 
-        [Fact]
+        [Test]
         public void ADL_Debug_SetAllPrefixes_Test()
         {
             //Flag is required to find tags made up of unique masks(example: 2|8)
@@ -105,7 +106,7 @@ namespace Byt3.ADL.Tests
             Debug.AdlEnabled = true;
         }
 
-        [Fact]
+        [Test]
         public void ADL_Debug_GetAllPrefixes_Test()
         {
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
@@ -127,7 +128,7 @@ namespace Byt3.ADL.Tests
         }
 
 
-        [Fact]
+        [Test]
         public void ADL_Debug_GetPrefixMask_Test()
         {
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
@@ -146,7 +147,7 @@ namespace Byt3.ADL.Tests
             }
         }
 
-        [Fact]
+        [Test]
         public void ADL_Debug_GetMaskPrefix_Test()
         {
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
@@ -169,7 +170,7 @@ namespace Byt3.ADL.Tests
             Assert.False(logger.GetMaskPrefix(bm) == "HELLO1");
         }
 
-        [Fact]
+        [Test]
         public void ADL_Debug_LogSerialization_Test()
         {
             Log l = new Log(-1, "Hello");
@@ -186,7 +187,7 @@ namespace Byt3.ADL.Tests
         }
 
 
-        [Fact]
+        [Test]
         public void ADL_Debug_Log_Test()
         {
             LogTextStream lts = new LogTextStream(new PipeStream())
@@ -209,7 +210,7 @@ namespace Byt3.ADL.Tests
             lts.Read(buf, 0, buf.Length);
             string s = Debug.TextEncoding.GetString(buf);
 
-            Assert.EndsWith("ffffffffff\n", s); //ADL is appending the \n when using LogTextStreams
+            Assert.True(s.EndsWith("ffffffffff\n")); //ADL is appending the \n when using LogTextStreams
 
 
             logger.Log(1, "ffffffffff", 0);
@@ -220,7 +221,7 @@ namespace Byt3.ADL.Tests
             lts.Read(buf, 0, buf.Length);
             s = Debug.TextEncoding.GetString(buf);
 
-            Assert.EndsWith("ffffffffff\n", s);
+            Assert.True(s.EndsWith("ffffffffff\n"));
 
 
             Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable | PrefixLookupSettings.Bakeprefixes;
@@ -229,7 +230,7 @@ namespace Byt3.ADL.Tests
             logger.Log(2 | 4, "CODE COVERAGE", 0);
         }
 
-        [Fact]
+        [Test]
         public void ADL_Debug_RemoveOutputStream_Test()
         {
             LogTextStream lts = new LogTextStream(new PipeStream());
@@ -246,7 +247,7 @@ namespace Byt3.ADL.Tests
             Assert.True(Debug.LogStreamCount == newCount - 1);
         }
 
-        [Fact]
+        [Test]
         public void ADL_Debug_LoadConfig_Test()
         {
             ADLConfig config = ConfigManager.GetDefault<ADLConfig>();

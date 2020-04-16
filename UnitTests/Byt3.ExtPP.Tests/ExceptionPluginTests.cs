@@ -4,7 +4,7 @@ using System.IO;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
 using Byt3.ExtPP.Plugins;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ExtPP.Tests
 {
@@ -13,7 +13,7 @@ namespace Byt3.ExtPP.Tests
         private static string ResourceFolder { get; } = TestHelper.ResF + "EX_tests/";
 
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_Exception_Warning_Test()
         {
             string file = Path.Combine(ResourceFolder, "warning_test.txt");
@@ -24,7 +24,7 @@ namespace Byt3.ExtPP.Tests
             });
             try
             {
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new ExceptionPlugin()}, s, file);
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, s, file);
                 Assert.True(false);
             }
             catch (Exception)
@@ -33,14 +33,14 @@ namespace Byt3.ExtPP.Tests
             }
         }
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_Exception_Error_Test()
         {
             string file = Path.Combine(ResourceFolder, "error_test.txt");
             //Directory.SetCurrentDirectory(ResourceFolder);
             try
             {
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new ExceptionPlugin()}, file);
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, file);
                 Assert.True(false);
             }
             catch (Exception)

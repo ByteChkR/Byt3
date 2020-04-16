@@ -3,7 +3,7 @@ using System.IO;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ExtPP.Tests
 {
@@ -12,7 +12,7 @@ namespace Byt3.ExtPP.Tests
         private static string ResourceFolder { get; } = TestHelper.ResF + "TENC_tests/";
 
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_TextEncoder_Base64BlockDecode_Test()
         {
             //Directory.SetCurrentDirectory(ResourceFolder);
@@ -22,7 +22,7 @@ namespace Byt3.ExtPP.Tests
         }
 
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_TextEncoder_Base64BlockEncode_Test()
         {
             //Directory.SetCurrentDirectory(ResourceFolder);
@@ -31,7 +31,7 @@ namespace Byt3.ExtPP.Tests
             Assert.True(ret[0].GetSource()[0] == "SGVsbG9XQVNBQUFBQUFBQUFBQUFCSQ==");
         }
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_TextEncoder_ROTBlockDecode_Test()
         {
             //Directory.SetCurrentDirectory(ResourceFolder);
@@ -41,7 +41,7 @@ namespace Byt3.ExtPP.Tests
         }
 
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_TextEncoder_ROTBlockEncode_Test()
         {
             //Directory.SetCurrentDirectory(ResourceFolder);

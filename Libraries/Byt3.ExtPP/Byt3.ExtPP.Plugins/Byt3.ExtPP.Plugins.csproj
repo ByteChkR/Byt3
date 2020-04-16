@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
     <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
     <ProjectReference Include="..\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
   </ItemGroup>

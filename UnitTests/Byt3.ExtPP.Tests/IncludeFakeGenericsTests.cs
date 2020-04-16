@@ -3,7 +3,7 @@ using System.IO;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ExtPP.Tests
 {
@@ -12,43 +12,43 @@ namespace Byt3.ExtPP.Tests
         private static string ResourceFolder { get; } = TestHelper.ResF + "compiler_tests/";
 
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_Include_Circular_Test()
         {
 
             //Directory.SetCurrentDirectory(ResourceFolder);
             string file = Path.Combine(ResourceFolder, "includecircular.cl");
             ISourceScript[] ret =
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new IncludePlugin()}, new[] {file});
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new IncludePlugin() }, new[] { file });
 
-            Assert.Equal(
+            Assert.AreEqual(
                 3,
                 ret.Length);
         }
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_Include_FakeGenerics_GenericCircular_Test()
         {
             //Directory.SetCurrentDirectory(ResourceFolder);
             string file = Path.Combine(ResourceFolder, "genericincludepassthrough.cl");
             ISourceScript[] ret =
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new FakeGenericsPlugin(), new IncludePlugin(),},
-                    new[] {file});
-            Assert.Equal(
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), },
+                    new[] { file });
+            Assert.AreEqual(
                 5,
                 ret.Length);
         }
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_Include_FakeGenerics_TypePassing_Test()
         {
             //Directory.SetCurrentDirectory(ResourceFolder);
             string file = Path.Combine(ResourceFolder, "typePassing.cl");
             ISourceScript[] ret =
-                TestHelper.SetUpAndProcess(new List<AbstractPlugin> {new FakeGenericsPlugin(), new IncludePlugin(),},
-                    new[] {file});
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), },
+                    new[] { file });
 
-            Assert.Equal(
+            Assert.AreEqual(
                 4,
                 ret.Length);
         }

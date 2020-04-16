@@ -13,35 +13,18 @@ using Byt3.OpenFL.Parsing.DataObjects;
 using Byt3.OpenFL.Parsing.ExtPP.API.Configurations;
 using Byt3.OpenFL.Parsing.Stages;
 using Byt3.Utilities.Exceptions;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.OpenFL.Tests
 {
-    [CollectionDefinition("PPCollection", DisableParallelization = true)]
-    public class ExtPPApiFixtureCollection : ICollectionFixture<ExtPPApiFixture> { }
-    public class ExtPPApiFixture
-    {
-        public ExtPPApiFixture()
-        {
-            TextProcessorAPI.Configs = new Dictionary<string, APreProcessorConfig>()
-            {
-                {".fl", new FLPreProcessorConfig() },
-                {".cl", new CLPreProcessorConfig() },
-                {"***", new DefaultPreProcessorConfig() }
-            };
-        }
-    }
-
-    [Collection("PPCollection")]
     public class FLInterpreterTests
     {
 
-        public FLInterpreterTests(ExtPPApiFixture fixture)
-        {
 
-        }
 
-        [Fact]
+
+
+        [Test]
         public void OpenFL_Comments_Test()
         {
             string file = Path.GetFullPath("resources/filter/comments/test.fl");
@@ -50,17 +33,18 @@ namespace Byt3.OpenFL.Tests
             FunctionObject entryPoint = pr.EntryPoint; //Provoking an exception if main function is not found
         }
 
-        [Fact]
+        [Test]
         public void OpenFL_DefineFile_Wrong_Test()
         {
 
             string file = "resources/filter/defines/test_wrong_define_invalid_file.fl";
+            
 
-            Assert.ThrowsAny<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
+            Assert.Catch<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
 
         }
 
-        [Fact]
+        [Test]
         public void OpenFL_Defines_Test()
         {
 
@@ -78,27 +62,27 @@ namespace Byt3.OpenFL.Tests
             Assert.True(result.DefinedBuffers.ContainsKey("textureA"));
         }
 
-        [Fact]
+        [Test]
         public void OpenFL_DefineScriptFile_Wrong_Test()
         {
 
             string file = "resources/filter/defines/test_wrong_script_invalid_file.fl";
-            Assert.ThrowsAny<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
+            Assert.Catch<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
 
         }
 
 
-        [Fact]
+        [Test]
         public void OpenFL_DefineScriptNoFile_Wrong_Test()
         {
 
             string file = "resources/filter/defines/test_wrong_script_.fl";
-            Assert.ThrowsAny<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
+            Assert.Catch<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
 
 
         }
 
-        [Fact]
+        [Test]
         public void OpenFL_Kernels_Test()
         {
             string path = "resources/filter/tests";
@@ -124,7 +108,7 @@ namespace Byt3.OpenFL.Tests
             }
         }
 
-        [Fact]
+        [Test]
         public void OpenFL_WFCDefines_Wrong_Test()
         {
 
@@ -133,11 +117,11 @@ namespace Byt3.OpenFL.Tests
 
             foreach (string file in files)
             {
-                Assert.ThrowsAny<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
+                Assert.Catch<Byt3Exception>(() => FLParser.Parse(new FLParserInput(file)));
             }
         }
 
-        [Fact]
+        [Test]
         public void OpenFL_TypeConversion_Test()
         {
             float f = float.MaxValue / 2;

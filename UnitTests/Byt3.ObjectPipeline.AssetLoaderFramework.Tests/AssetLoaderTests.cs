@@ -1,11 +1,11 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ObjectPipeline.AssetLoaderFramework.Tests
 {
     public class AssetLoaderTests
     {
-        [Fact]
+        [Test]
         public void AssetLoader_ExceptionsTest()
         {
 

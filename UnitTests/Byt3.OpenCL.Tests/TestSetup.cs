@@ -2,9 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Byt3.OpenCL.Wrapper;
-using Xunit;
 
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 namespace Byt3.OpenCL.Tests
 {

@@ -2,11 +2,11 @@
 using System.IO;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ExtPP.Tests
 {
-    public class BlankLineRemoverTests : IClassFixture<TestHelper>
+    public class BlankLineRemoverTests
     {
         private static string ResourceFolder { get; } = TestHelper.ResF + "BLR_tests/";
 
@@ -15,7 +15,7 @@ namespace Byt3.ExtPP.Tests
         }
 
 
-        [Fact]
+        [Test]
         public void ExtPP_Plugins_BlankLineRemover_Test()
         {
             // Directory.SetCurrentDirectory(ResourceFolder);

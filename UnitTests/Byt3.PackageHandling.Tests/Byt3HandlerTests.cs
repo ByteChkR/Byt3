@@ -1,5 +1,5 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.PackageHandling.Tests
 {
@@ -74,7 +74,7 @@ namespace Byt3.PackageHandling.Tests
             return handler;
         }
 
-        [Fact]
+        [Test]
         public void Handler_ExactOnly_Test()
         {
 
@@ -95,7 +95,7 @@ namespace Byt3.PackageHandling.Tests
             Assert.False(ACalled && DCalled);
         }
 
-        [Fact]
+        [Test]
         public void Handler_TraverseUp_Test()
         {
             Byt3Handler handler = GetHandler(Byt3HandlerLookupType.TraverseUp, null);
@@ -114,7 +114,7 @@ namespace Byt3.PackageHandling.Tests
             Assert.False(CCalled && DCalled);
         }
 
-        [Fact]
+        [Test]
         public void Handler_UseFallback_Test()
         {
             Byt3Handler handler = GetHandler(Byt3HandlerLookupType.UseFallback, null);

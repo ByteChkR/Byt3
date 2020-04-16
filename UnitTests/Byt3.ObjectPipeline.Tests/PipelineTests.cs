@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ObjectPipeline.Tests
 {
@@ -53,7 +53,7 @@ namespace Byt3.ObjectPipeline.Tests
 
         #endregion
 
-        [Fact]
+        [Test]
         public void Pipeline_InvalidStates_Test()
         {
 
@@ -89,7 +89,7 @@ namespace Byt3.ObjectPipeline.Tests
             Assert.Throws<PipelineNotValidException>(() => loadFilePipeline.Process("Test"));
         }
 
-        [Fact]
+        [Test]
         public void Pipeline_ValidStates_Test()
         {
             InterceptFilePathStage interceptFilePathExample = new InterceptFilePathStage();
@@ -129,7 +129,7 @@ namespace Byt3.ObjectPipeline.Tests
             Assert.True(loadTextPipeline.Verify());
         }
 
-        [Fact]
+        [Test]
         public void Pipeline_Usage_Test()
         {
             //Set up the pipelines as in TestValidStates

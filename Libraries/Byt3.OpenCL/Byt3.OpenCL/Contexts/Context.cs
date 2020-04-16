@@ -62,10 +62,9 @@ namespace Byt3.OpenCL.Contexts
             ProgramBuildInformation programBuildInformation)
         {
             // Retrieves the size of the return value in bytes, this is used to later get the full information
-            UIntPtr returnValueSize;
             Result result = ProgramsNativeApi.GetProgramBuildInformation(program, device.Handle,
                 programBuildInformation,
-                UIntPtr.Zero, null, out returnValueSize);
+                UIntPtr.Zero, null, out UIntPtr returnValueSize);
             if (result != Result.Success)
             {
                 throw new OpenClException("The program build information could not be retrieved.", result);
@@ -131,11 +130,10 @@ namespace Byt3.OpenCL.Contexts
             TaskCompletionSource<Program> taskCompletionSource = new TaskCompletionSource<Program>();
 
             // Loads the program from the specified source string
-            Result result;
             IntPtr[] sourceList = sources.Select(source => Marshal.StringToHGlobalAnsi(source)).ToArray();
             uint[] sourceLengths = sources.Select(source => (uint) source.Length).ToArray();
             IntPtr programPointer =
-                ProgramsNativeApi.CreateProgramWithSource(Handle, 1, sourceList, sourceLengths, out result);
+                ProgramsNativeApi.CreateProgramWithSource(Handle, 1, sourceList, sourceLengths, out Result result);
 
             // Checks if the program creation was successful, if not, then an exception is thrown
             if (result != Result.Success)
@@ -212,11 +210,10 @@ namespace Byt3.OpenCL.Contexts
         public Program CreateAndBuildProgramFromString(IEnumerable<string> sources)
         {
             // Loads the program from the specified source string
-            Result result;
             IntPtr[] sourceList = sources.Select(source => Marshal.StringToHGlobalAnsi(source)).ToArray();
             uint[] sourceLengths = sources.Select(source => (uint) source.Length).ToArray();
             IntPtr programPointer =
-                ProgramsNativeApi.CreateProgramWithSource(Handle, 1, sourceList, sourceLengths, out result);
+                ProgramsNativeApi.CreateProgramWithSource(Handle, 1, sourceList, sourceLengths, out Result result);
 
             // Checks if the program creation was successful, if not, then an exception is thrown
             if (result != Result.Success)
@@ -417,9 +414,8 @@ namespace Byt3.OpenCL.Contexts
         public MemoryBuffer CreateBuffer(Memory.MemoryFlag memoryFlags, int size)
         {
             // Creates a new memory buffer of the specified size and with the specified memory flags
-            Result result;
             IntPtr memoryBufferPointer = MemoryNativeApi.CreateBuffer(Handle, (Interop.Memory.MemoryFlag) memoryFlags,
-                new UIntPtr((uint) size), IntPtr.Zero, out result);
+                new UIntPtr((uint) size), IntPtr.Zero, out Result result);
 
             // Checks if the creation of the memory buffer was successful, if not, then an exception is thrown
             if (result != Result.Success)
@@ -472,9 +468,8 @@ namespace Byt3.OpenCL.Contexts
                 }
 
                 // Creates a new memory buffer for the specified value
-                Result result;
                 IntPtr memoryBufferPointer = MemoryNativeApi.CreateBuffer(Handle,
-                    (Interop.Memory.MemoryFlag) memoryFlags, new UIntPtr((uint) size), hostBufferPointer, out result);
+                    (Interop.Memory.MemoryFlag) memoryFlags, new UIntPtr((uint) size), hostBufferPointer, out Result result);
 
                 // Checks if the creation of the memory buffer was successful, if not, then an exception is thrown
                 if (result != Result.Success)
@@ -559,9 +554,8 @@ namespace Byt3.OpenCL.Contexts
         public static Context CreateContext(IEnumerable<Device> devices)
         {
             // Creates the new context for the specified devices
-            Result result;
             IntPtr contextPointer = ContextsNativeApi.CreateContext(IntPtr.Zero, (uint) devices.Count(),
-                devices.Select(device => device.Handle).ToArray(), IntPtr.Zero, IntPtr.Zero, out result);
+                devices.Select(device => device.Handle).ToArray(), IntPtr.Zero, IntPtr.Zero, out Result result);
 
             // Checks if the device creation was successful, if not, then an exception is thrown
             if (result != Result.Success)

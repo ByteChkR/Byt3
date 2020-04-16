@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.ADL.Tests
 {
     public class MaskOperations
     {
-        [Fact]
+        [Test]
         public void ADL_Mask_IsContainedInMask_Test()
         {
             BitMask<char> bm1 = new BitMask<char>(1 | 4 | 16);
@@ -19,13 +19,13 @@ namespace Byt3.ADL.Tests
             Assert.False(BitMask.IsContainedInMask(bm1, bm2 | bm3, true)); //False
         }
 
-        [Fact]
+        [Test]
         public void ADL_Mask_GetUniqueMaskSet_Test()
         {
             BitMask<char> bm = new BitMask<char>(1 | 2 | 8 | 16 | 64);
             List<int> ret = BitMask.GetUniqueMasksSet(bm);
 
-            Assert.Equal(5, ret.Count);
+            Assert.AreEqual(5, ret.Count);
             Assert.Contains(1, ret);
             Assert.Contains(2, ret);
             Assert.Contains(8, ret);
@@ -33,7 +33,7 @@ namespace Byt3.ADL.Tests
             Assert.Contains(64, ret);
         }
 
-        [Fact]
+        [Test]
         public void ADL_Mask_IsUniqueMask_Test()
         {
             BitMask<char> bm = new BitMask<char>(2 | 4);
@@ -43,7 +43,7 @@ namespace Byt3.ADL.Tests
             Assert.False(BitMask.IsUniqueMask(bm));
         }
 
-        [Fact]
+        [Test]
         public void ADL_Mask_CombineMasks_Test()
         {
             BitMask<TestEnum> bm1 = new BitMask<TestEnum>(TestEnum.B | TestEnum.D | TestEnum.F);
@@ -55,7 +55,7 @@ namespace Byt3.ADL.Tests
             Assert.True(BitMask.IsContainedInMask(ret, 2, false));
         }
 
-        [Fact]
+        [Test]
         public void ADL_Mask_RemoveFlags_Test()
         {
             BitMask<char> bm1 = new BitMask<char>(2 | 8 | 16);
@@ -64,26 +64,26 @@ namespace Byt3.ADL.Tests
             Assert.True(BitMask.IsContainedInMask(bm1, 2, true));
         }
 
-        [Fact]
+        [Test]
         public void ADL_Mask_Constructors_Test()
         {
             BitMask bm = new BitMask(2, 8, 16);
             BitMask bm1 = new BitMask(2 | 8 | 16);
 
 
-            Assert.Equal((int) bm, (int) bm1);
+            Assert.AreEqual((int) bm, (int) bm1);
         }
 
-        [Fact]
+        [Test]
         public void ADL_Mask_FlagOperations_Test()
         {
             BitMask bm = new BitMask(true);
             bm.SetAllFlags(2 | 4);
-            Assert.Equal(6, (int) bm);
+            Assert.AreEqual(6, (int) bm);
 
             bm.SetFlag(2 | 4, false);
             bm.SetFlag(16 | 8, true);
-            Assert.Equal((int) bm, 16 | 8);
+            Assert.AreEqual((int) bm, 16 | 8);
 
 
             Assert.True(bm.HasFlag(16, MaskMatchType.MatchOne));

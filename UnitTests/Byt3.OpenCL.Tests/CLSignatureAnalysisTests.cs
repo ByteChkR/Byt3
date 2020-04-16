@@ -1,12 +1,12 @@
 using System.Linq;
 using Byt3.OpenCL.Wrapper;
-using Xunit;
+using NUnit.Framework;
 
 namespace Byt3.OpenCL.Tests
 {
     public class CLSignatureAnalysisTests
     {
-        [Fact]
+        [Test]
         public void OpenCL_KernelSignatureAnalysis_Test()
         {
 
