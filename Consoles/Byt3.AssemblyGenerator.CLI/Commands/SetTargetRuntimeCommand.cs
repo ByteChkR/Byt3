@@ -10,10 +10,10 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         public SetTargetRuntimeCommand() : base(new[] {"--set-target-runtime", "-sruntime"},
             "Sets the Assembly name. Default: TestAssembly")
         {
-            CommandAction = SetTargetRuntime;
+            CommandAction = (info, strings) => SetTargetRuntime(strings);
         }
 
-        private void SetTargetRuntime(StartupArgumentInfo argumentInfo, string[] args)
+        private void SetTargetRuntime( string[] args)
         {
             if (!Program.HasTarget)
             {

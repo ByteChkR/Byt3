@@ -76,11 +76,9 @@ namespace Byt3.ExtPP
         /// <returns>Array of Compiled Lines</returns>
         public string[] Run(IFileContent[] files, Settings settings, IDefinitions defs)
         {
-            //Logger.Log(LogType.Log, "Starting Pre Processor...", 1);
             ISourceScript[] src = Process(files, settings, defs);
             string[] ret = Compile(src, false);
-
-            //Logger.Log(LogType.Progress, $"Finished in {Timer.MS}ms.", 1);
+            
 
             Timer.GlobalTimer.Reset();
 
@@ -159,14 +157,10 @@ namespace Byt3.ExtPP
                     ret.AddRange(sr);
                 }
             }
-
-            //Logger.Log(LogType.Log, "Finished Compilation...", 2);
-            //this.Log(PPLogType.Log,  "Cleaning up: {0}", CleanUpList.Unpack(", "));
+            
 
             string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray()).ToArray();
-
-            //Logger.Log(LogType.Progress, $"Finished Compiling {Timer.MS - old} Files({Timer.MS - old}ms)", 1);
-            //Logger.Log(LogType.Log, $"Total Lines: {rrr.Length}", 1);
+            
             return rrr;
         }
 
@@ -181,16 +175,12 @@ namespace Byt3.ExtPP
         {
             Logger.Log(LogType.Log, "Preprocessing files: " + files.Unpack(", "), 1);
             Timer.GlobalTimer.Restart();
-            //string dir = Directory.GetCurrentDirectory();
             IDefinitions definitions = defs ?? new Definitions();
             settings = settings ?? new Settings();
             SourceManager sm = new SourceManager(plugins);
-
-            long old = Timer.MS;
+            
             InitializePlugins(settings, definitions, sm);
-            //Logger.Log(LogType.Progress, $"Finished Initializing {plugins.Count} Plugins({Timer.MS - old}ms)", 1);
-
-            old = Timer.MS;
+            
             foreach (IFileContent file in files)
             {
 
@@ -200,11 +190,6 @@ namespace Byt3.ExtPP
                 sm.AddToTodo(sss);
             }
 
-            //Logger.Log(LogType.Progress, $"Loaded {sm.GetTodoCount()} Files in {Timer.MS - old}ms", 1);
-
-            //Logger.Log(LogType.Log, $"Starting Processing of Files: {files.Unpack(", ")}", 1);
-
-            old = Timer.MS;
             ISourceScript ss = sm.NextItem;
 
             do
@@ -217,8 +202,7 @@ namespace Byt3.ExtPP
                 {
                     RunStages(this, ProcessStage.OnLoadStage, ss, sm, definitions);
                 }
-
-                //Logger.Log(LogType.Progress, $"Remaining Files: {sm.GetTodoCount()}", 1);
+                
                 Logger.Log(LogType.Log, $"Selecting File: {Path.GetFileName(ss.GetFileInterface().GetKey())}", 3);
                 //RUN MAIN
                 sm.SetLock(false);
@@ -228,8 +212,7 @@ namespace Byt3.ExtPP
                 ss = sm.NextItem;
             } while (ss != null);
 
-
-            //Directory.SetCurrentDirectory(dir);
+            
             ISourceScript[] ret = sm.GetList().ToArray();
 
             foreach (ISourceScript finishedScript in ret)
@@ -238,8 +221,7 @@ namespace Byt3.ExtPP
                 RunStages(this, ProcessStage.OnFinishUp, finishedScript, sm, definitions);
             }
             Logger.Log(LogType.Log, "Finished Processing Files.", 2);
-
-            //Logger.Log(LogType.Progress,$"Processed {sm.GetList().Count} Files into {ret.Length} scripts in {Timer.MS - old}ms", 1);
+            
 
             return ret;
 

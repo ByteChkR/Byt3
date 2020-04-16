@@ -7,13 +7,13 @@ namespace Byt3.OpenFL.CLI.Commands
         internal static string[] OutputFiles { get; set; } = new string[0];
 
 
-        public SetOutputFilesCommand() : base(SetOutputFiles,new[] {"--output", "-o"},
+        public SetOutputFilesCommand() : base((info, strings) => SetOutputFiles(strings), new[] { "--output", "-o" },
             "Sets the Output for the Files specified as input")
         {
         }
 
 
-        private static void SetOutputFiles(StartupArgumentInfo info, string[] args)
+        private static void SetOutputFiles(string[] args)
         {
             OutputFiles = args;
         }

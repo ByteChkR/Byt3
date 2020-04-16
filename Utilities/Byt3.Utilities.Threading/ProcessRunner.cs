@@ -38,7 +38,7 @@ namespace Byt3.Utilities.Threading
             info.CreateNoWindow = !commandInfo.CreateWindow;
             Process p = Process.Start(info);
             p.EnableRaisingEvents = true;
-            p.Exited += (sender, args) => ProcessExited(sender, args, p);
+            p.Exited += (sender, args) => ProcessExited(p);
 
             if (commandInfo.CaptureConsoleOut)
             {
@@ -76,7 +76,7 @@ namespace Byt3.Utilities.Threading
             }
         }
 
-        private static void ProcessExited(object sender, EventArgs e, Process process)
+        private static void ProcessExited(Process process)
         {
             process.CancelErrorRead();
             process.CancelOutputRead();

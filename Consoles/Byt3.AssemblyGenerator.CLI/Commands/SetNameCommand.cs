@@ -9,10 +9,10 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         public SetNameCommand() : base(new[] {"--set-assembly-name", "-sname"},
             "Sets the Assembly name. Default: TestAssembly")
         {
-            CommandAction = SetName;
+            CommandAction = (info, strings) => SetName(strings);
         }
 
-        private void SetName(StartupArgumentInfo argumentInfo, string[] args)
+        private void SetName(string[] args)
         {
             if (!Program.HasTarget)
             {

@@ -11,10 +11,10 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         public BuildCommand() : base(new[] {"--build", "-b"},
             "Builds the Target Assembly Config and stores the build output in a folder in the current working directory")
         {
-            CommandAction = Build;
+            CommandAction = (info, strings) => Build(strings);
         }
 
-        private void Build(StartupArgumentInfo argumentInfo, string[] args)
+        private void Build( string[] args)
         {
             if (!Program.HasTarget)
             {

@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace Byt3.Utilities.DotNet.ProjectParsing
 {
-    public class ProjectLoader
+    public static class ProjectLoader
     {
         public static CSharpProject LoadProject(string path)
         {

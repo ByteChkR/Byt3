@@ -51,7 +51,7 @@ namespace Byt3.ADL.Configs
                     return Values[i];
                 }
             }
-            throw new Exception("Thats fucked up");
+            throw new KeyNotFoundException("Could not find Value with Key: " + key);
         }
 
         /// <summary>

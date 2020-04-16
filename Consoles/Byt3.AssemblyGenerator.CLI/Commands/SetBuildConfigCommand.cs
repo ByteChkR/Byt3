@@ -9,10 +9,10 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         public SetBuildConfigCommand() : base(new[] {"--set-build-config", "-sbuild"},
             "Sets the build Config. Default: Release")
         {
-            CommandAction = SetBuildConfig;
+            CommandAction = (info, strings) => SetBuildConfig(strings);
         }
 
-        private void SetBuildConfig(StartupArgumentInfo argumentInfo, string[] args)
+        private void SetBuildConfig(string[] args)
         {
             if (!Program.HasTarget)
             {

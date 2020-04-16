@@ -6,10 +6,10 @@ namespace Byt3.CommandRunner
     {
         public DefaultHelpCommand() : base(new[] { "--help", "-h", "-?" }, "Prints this help text")
         {
-            CommandAction = DefaultHelp;
+            CommandAction = (info, strings) => DefaultHelp();
         }
 
-        private void DefaultHelp(StartupArgumentInfo argumentInfo, string[] args)
+        private void DefaultHelp()
         {
             for (int i = 0; i < Runner.CommandCount; i++)
             {

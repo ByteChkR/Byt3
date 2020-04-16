@@ -15,17 +15,16 @@ namespace Byt3.OpenFL.CLI.Commands
 
         public RunCommand() : base(new[] { "--run", "-r" }, "Runs a FL Script", true)
         {
-            CommandAction = Run;
+            CommandAction = (info, strings) => Run(strings);
         }
 
-        private void Run(StartupArgumentInfo info, string[] args)
+        private void Run( string[] args)
         {
             FLScriptRunner runner = new FLScriptRunner(CLAPI.MainThread, DataVectorTypes.Uchar1, Program.Settings.KernelFolder);
 
             string[] inputFiles = args;
             string[] outputFiles = SetOutputFilesCommand.OutputFiles;
-
-            //Console.ReadLine();
+            
 
             for (int i = 0; i < inputFiles.Length; i++)
             {

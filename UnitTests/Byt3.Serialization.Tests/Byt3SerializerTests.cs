@@ -66,12 +66,6 @@ namespace Byt3.Serialization.Tests
                     valstring = wrapper.ReadString()
                 };
 
-
-
-
-
-
-
                 return p;
             }
 

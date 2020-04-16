@@ -1203,25 +1203,6 @@ namespace Byt3.OpenCL.Interop.EnqueuedCommands
             [Out] out IntPtr waitEvent
         );
 
-        //[DllImport("OpenCL", EntryPoint = "EnqueueAcquireGLObjects")]
-        //public static extern Result EnqueueAcquireGLObjects(
-        //    [In] IntPtr commandQueue,
-        //    [In] [MarshalAs(UnmanagedType.U4)] uint numObjects,
-        //    [In] [MarshalAs(UnmanagedType.LPArray)] IntPtr[] memPointer,
-        //    [In] [MarshalAs(UnmanagedType.U4)] uint numberOfEventsInWaitList,
-        //    [In] [MarshalAs(UnmanagedType.LPArray)] IntPtr[] eventWaitList,
-        //    [Out] out IntPtr waitEvent
-        //);
-
-        //[DllImport("OpenCL", EntryPoint = "EnqueueReleaseGLObjects")]
-        //public static extern Result EnqueueReleaseGLObjects(
-        //    [In] IntPtr commandQueue,
-        //    [In] [MarshalAs(UnmanagedType.U4)] uint numObjects,
-        //    [In] [MarshalAs(UnmanagedType.LPArray)] IntPtr[] memPointer,
-        //    [In] [MarshalAs(UnmanagedType.U4)] uint numberOfEventsInWaitList,
-        //    [In] [MarshalAs(UnmanagedType.LPArray)] IntPtr[] eventWaitList,
-        //    [Out] out IntPtr waitEvent
-        //);
 
         #endregion
 

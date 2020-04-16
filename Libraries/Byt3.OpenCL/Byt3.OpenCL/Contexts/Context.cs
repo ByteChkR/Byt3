@@ -427,19 +427,6 @@ namespace Byt3.OpenCL.Contexts
             return new MemoryBuffer(memoryBufferPointer);
         }
 
-        //public MemoryBuffer CreateFromGLTexture2D(Memory.MemoryFlag memoryFlags,uint gltex_target, int miplevel, uint gltex)
-        //{
-        //    // Creates a new memory buffer of the specified size and with the specified memory flags
-        //    Result result;
-        //    IntPtr memoryBufferPointer = ContextsNativeApi.CreateFromGLTexture2D(this.Handle, (Interop.Memory.MemoryFlag)memoryFlags, gltex_target, miplevel, gltex, out result);
-
-        //    // Checks if the creation of the memory buffer was successful, if not, then an exception is thrown
-        //    if (result != Result.Success)
-        //        throw new OpenClException("The memory buffer could not be created.", result);
-
-        //    // Creates the memory buffer from the pointer to the memory buffer and returns it
-        //    return new MemoryBuffer(memoryBufferPointer);
-        //}
 
         /// <summary>
         /// Creates a new memory buffer with the specified flags. The size of memory allocated for the memory buffer is determined by <see cref="T"/> and the number of elements.
@@ -501,33 +488,6 @@ namespace Byt3.OpenCL.Contexts
         public MemoryBuffer CreateBuffer<T>(Memory.MemoryFlag memoryFlags, T[] value) where T : struct
         {
             return CreateBuffer(memoryFlags, typeof(T), Array.ConvertAll(value, x => (object) x));
-            //// Tries to create the memory buffer, if anything goes wrong, then it is crucial to free the allocated memory
-            //IntPtr hostBufferPointer = IntPtr.Zero;
-            //try
-            //{
-            //    // Determines the size of the specified value and creates a pointer that points to the data inside the structure
-            //    int size = Marshal.SizeOf<T>() * value.Length;
-            //    hostBufferPointer = Marshal.AllocHGlobal(size);
-            //    for (int i = 0; i < value.Length; i++)
-            //        Marshal.StructureToPtr(value[i], IntPtr.Add(hostBufferPointer, i * Marshal.SizeOf<T>()), false);
-
-            //    // Creates a new memory buffer for the specified value
-            //    Result result;
-            //    IntPtr memoryBufferPointer = MemoryNativeApi.CreateBuffer(this.Handle, (Interop.Memory.MemoryFlag)memoryFlags, new UIntPtr((uint)size), hostBufferPointer, out result);
-
-            //    // Checks if the creation of the memory buffer was successful, if not, then an exception is thrown
-            //    if (result != Result.Success)
-            //        throw new OpenClException("The memory buffer could not be created.", result);
-
-            //    // Creates the memory buffer from the pointer to the memory buffer and returns it
-            //    return new MemoryBuffer(memoryBufferPointer);
-            //}
-            //finally
-            //{
-            //    // Deallocates the host memory allocated for the value
-            //    if (hostBufferPointer != IntPtr.Zero)
-            //        Marshal.FreeHGlobal(hostBufferPointer);
-            //}
         }
 
         #endregion

@@ -8,10 +8,10 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
     {
         public AddCommand() : base(new[] {"--add", "-a"}, "Adds a new csproj or moduleconfig file to the target")
         {
-            CommandAction = Add;
+            CommandAction = (info, strings) => Add(strings);
         }
 
-        private void Add(StartupArgumentInfo argumentInfo, string[] args)
+        private void Add(string[] args)
         {
             if (!Program.HasTarget)
             {

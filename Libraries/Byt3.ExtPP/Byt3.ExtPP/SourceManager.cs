@@ -52,7 +52,6 @@ namespace Byt3.ExtPP
                 return;
             }
             computeScheme = scheme;
-            //Logger.Log(LogType.Log,  $"Changed Computing Scheme to: {scheme.Method.Name}",2);
         }
 
         /// <summary>
@@ -173,8 +172,7 @@ namespace Byt3.ExtPP
             if (IsIncluded(script))
             {
                 doneState[IndexOfFile(script.GetKey())] = stage;
-
-                //Logger.Log(LogType.Log,  $"Finished Script: {Path.GetFileName(script.GetFileInterface().GetKey())}",3);
+                
             }
         }
 

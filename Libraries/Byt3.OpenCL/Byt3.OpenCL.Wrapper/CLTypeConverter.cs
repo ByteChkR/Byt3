@@ -10,7 +10,6 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public static class CLTypeConverter
     {
-        //private delegate decimal ConvertRange(decimal value, decimal max);
         /// <summary>
         /// Dictionary containing the ToConverter
         /// From Array of objects(need to be implicitly converted into to the specifed base type)
@@ -53,7 +52,7 @@ namespace Byt3.OpenCL.Wrapper
 
                 {TypeEnums.DataVectorTypes.Ushort2, CreateUShort2},
                 {TypeEnums.DataVectorTypes.Ushort3, CreateUShort3},
-                {TypeEnums.DataVectorTypes.Ushort4, CreateShort4},
+                {TypeEnums.DataVectorTypes.Ushort4, CreateUShort4},
                 {TypeEnums.DataVectorTypes.Ushort8, CreateUShort8},
                 {TypeEnums.DataVectorTypes.Ushort16, CreateUShort16},
                 {TypeEnums.DataVectorTypes.Short2, CreateShort2},
@@ -168,7 +167,7 @@ namespace Byt3.OpenCL.Wrapper
 
                 {TypeEnums.DataVectorTypes.Ushort2, FromUShort2},
                 {TypeEnums.DataVectorTypes.Ushort3, FromUShort3},
-                {TypeEnums.DataVectorTypes.Ushort4, Fromshort4},
+                {TypeEnums.DataVectorTypes.Ushort4, FromUShort4},
                 {TypeEnums.DataVectorTypes.Ushort8, FromUShort8},
                 {TypeEnums.DataVectorTypes.Ushort16, FromUShort16},
                 {TypeEnums.DataVectorTypes.Short2, Fromshort2},

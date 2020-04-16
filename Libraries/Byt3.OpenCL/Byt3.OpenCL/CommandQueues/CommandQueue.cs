@@ -311,26 +311,6 @@ namespace Byt3.OpenCL.CommandQueues
             }
         }
 
-        //public void EnqueueAcquireGLObjects(MemoryObject[] objs)
-        //{
-        //    IntPtr waitEventPointer;
-        //    Result result = EnqueuedCommandsNativeApi.EnqueueAcquireGLObjects(this.Handle, (uint)objs.Length, objs.Select(x=>x.Handle).ToArray(), 0, null, out waitEventPointer);
-
-        //    // Checks if the kernel was enqueued successfully, if not, then an exception is thrown
-        //    if (result != Result.Success)
-        //        throw new OpenClException("The Gl Objects could not be acuired.", result);
-        //}
-
-        //public void EnqueueReleaseGLObjects(MemoryObject[] objs)
-        //{
-        //    IntPtr waitEventPointer;
-        //    Result result = EnqueuedCommandsNativeApi.EnqueueReleaseGLObjects(this.Handle, (uint)objs.Length, objs.Select(x => x.Handle).ToArray(), 0, null, out waitEventPointer);
-
-        //    // Checks if the kernel was enqueued successfully, if not, then an exception is thrown
-        //    if (result != Result.Success)
-        //        throw new OpenClException("The Gl Objects could not be acuired.", result);
-        //}
-
         #endregion
     }
 }

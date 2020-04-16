@@ -17,7 +17,7 @@ namespace Byt3.ExtPP.Tests
         public void ExtPP_Plugins_Exception_Warning_Test()
         {
             string file = Path.Combine(ResourceFolder, "warning_test.txt");
-            //Directory.SetCurrentDirectory(ResourceFolder);
+            
             Settings s = new Settings(new Dictionary<string, string[]>
             {
                 {"-ex:tow", new string[0]}
@@ -37,7 +37,7 @@ namespace Byt3.ExtPP.Tests
         public void ExtPP_Plugins_Exception_Error_Test()
         {
             string file = Path.Combine(ResourceFolder, "error_test.txt");
-            //Directory.SetCurrentDirectory(ResourceFolder);
+            
             try
             {
                 TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, file);

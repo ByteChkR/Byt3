@@ -10,10 +10,10 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         public DefaultCommand() : base(new[] {"--set-target", "-t"},
             "Sets the AssemblyModule Target for the current operation", true)
         {
-            CommandAction = Default;
+            CommandAction = (info, strings) => Default(strings);
         }
 
-        private void Default(StartupArgumentInfo argumentInfo, string[] args)
+        private void Default( string[] args)
         {
             string target = "";
             if (args.Length > 0)

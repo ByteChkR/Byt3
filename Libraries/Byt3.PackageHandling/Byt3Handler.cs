@@ -26,7 +26,7 @@ namespace Byt3.PackageHandling
             Type t = objectToHandle.GetType();
             if (!TryGetHandler(t, out AHandler handler))
             {
-                throw new Exception("Has no Handler for type: " + t.AssemblyQualifiedName);
+                throw new HandlerNotFoundException("Has no Handler for type: " + t.AssemblyQualifiedName);
             }
 
             handler.Handle(objectToHandle, context);
@@ -52,7 +52,7 @@ namespace Byt3.PackageHandling
             handlers.Add(t, handler);
         }
 
-        private bool HasHandler(Type t)
+        public bool HasHandler(Type t)
         {
             if (handlers.ContainsKey(t))
             {

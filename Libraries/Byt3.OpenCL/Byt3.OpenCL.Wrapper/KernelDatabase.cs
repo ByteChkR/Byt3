@@ -18,7 +18,6 @@ namespace Byt3.OpenCL.Wrapper
             TextProcessorAPI.Configs[".cl"] = new CLPreProcessorConfig();
         }
 
-        //private readonly ADLLogger<LogType> logger = new ADLLogger<LogType>(OpenCLDebugConfig.Settings, "CL-KernelDB");
         /// <summary>
         /// The Folder that will get searched when initializing the database.
         /// </summary>
@@ -40,7 +39,7 @@ namespace Byt3.OpenCL.Wrapper
             GenDataType = KernelParameter.GetDataString(genDataVectorType);
             if (!CLAPI.DirectoryExists(folderName))
             {
-                throw new Exception(folderName);
+                throw new OpenClException("Can not find directory: " + folderName);
             }
 
             this.folderName = folderName;
@@ -75,26 +74,26 @@ namespace Byt3.OpenCL.Wrapper
         {
             if (!CLAPI.FileExists(file))
             {
-                throw new Exception(file);
+                throw new FileNotFoundException("File not found: "+ file);
             }
 
 
             string path = Path.GetFullPath(file);
 
-            Logger.Log(LogType.Log, "Creating CLProgram from file: " + file,3);
+            Logger.Log(LogType.Log, "Creating CLProgram from file: " + file, 3);
             CLProgram program = new CLProgram(instance, path, GenDataType);
 
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
             {
                 if (!LoadedKernels.ContainsKey(containedKernel.Key))
                 {
-                    Logger.Log(LogType.Log, "Adding Kernel: " + containedKernel.Key,4);
+                    Logger.Log(LogType.Log, "Adding Kernel: " + containedKernel.Key, 4);
                     LoadedKernels.Add(containedKernel.Key, containedKernel.Value);
                 }
                 else
                 {
                     Logger.Log(LogType.Log,
-                        "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...",5);
+                        "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...", 5);
                 }
             }
         }

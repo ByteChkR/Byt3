@@ -17,7 +17,7 @@ namespace Byt3.OpenCL
         /// Initializes a new <see cref="HandleBase"/> instance.
         /// </summary>
         /// <param name="handle">The handle that represents the OpenCL object.</param>
-        public HandleBase(IntPtr handle)
+        protected HandleBase(IntPtr handle)
         {
             Handle = handle;
         }

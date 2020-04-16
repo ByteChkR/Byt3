@@ -49,34 +49,6 @@ namespace Byt3.OpenFL.Threading
             parseResult.Run(Instance, Db, input);
 
             return parseResult;
-
-            //FLInterpreter ret = new FLInterpreter(Instance, context.Filename, buf, context.Width,
-            //    context.Height, 1, 4, Db, true);
-
-            //do
-            //{
-            //    FLInterpreterStepResult step = ret.Step();
-            //    //Console.WriteLine(step);
-            //} while (!ret.Terminated);
-
-
-            //byte[] buffer = ret.GetResult<byte>();
-            //Dictionary<string, byte[]> result = new Dictionary<string, byte[]> { { "result", buffer } };
-
-            //foreach (KeyValuePair<string, Bitmap> keyValuePair in context.TextureMap)
-            //{
-            //    CLBufferInfo mbuf = ret.GetBuffer(keyValuePair.Key);
-            //    if (mbuf == null)
-            //    {
-            //        continue;
-            //    }
-
-            //    byte[] spec = CLAPI.ReadBuffer<byte>(Instance, mbuf.Buffer, (int)mbuf.Buffer.Size);
-            //    result.Add(keyValuePair.Key, spec);
-            //    mbuf.Buffer.Dispose();
-            //}
-
-            //return result;
         }
     }
 }

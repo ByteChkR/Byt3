@@ -22,7 +22,6 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class CLAPI : ALoggable<LogType>, IDisposable
     {
-        //private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(OpenCLDebugConfig.Settings, "CL-API");
 
         public delegate string[] IOReadLinesCallback(string file);
 
@@ -237,7 +236,7 @@ namespace Byt3.OpenCL.Wrapper
             catch (Exception e)
             {
                 Logger.Log(LogType.Error, e.ToString(), 1);
-                throw new Exception(
+                throw new OpenClException(
                     "Could not initialize OpenCL with Device: " + chosenDevice.Name + "@" + chosenDevice.Vendor +
                     "\n\t" + e.Message, e);
             }
@@ -430,7 +429,7 @@ namespace Byt3.OpenCL.Wrapper
             }
             catch (Exception e)
             {
-                throw new Exception("Could not compile file", e);
+                throw new OpenClException("Could not compile file", e);
             }
 
         }
@@ -485,8 +484,6 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns></returns>
         public static MemoryBuffer CreateFromImage(CLAPI instance, Bitmap bmp, MemoryFlag flags)
         {
-            //bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
-
             BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
             byte[] buffer = new byte[bmp.Width * bmp.Height * 4];

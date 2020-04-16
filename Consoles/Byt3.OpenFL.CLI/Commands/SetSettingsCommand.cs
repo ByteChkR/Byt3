@@ -27,12 +27,12 @@ namespace Byt3.OpenFL.CLI.Commands
         public SetSettingsCommand(Dictionary<string, FieldInformations> rootNodes) :
             base( new[] {"--set-settings", "-ss" }, "Sets the Settings")
         {
-            CommandAction = ReflectData;
+            CommandAction = (info, strings) => ReflectData(strings);
             RootNodes = rootNodes;
             Logger.Log(LogType.Log,"Root Nodes: " + RootNodes.Count, 1);
         }
 
-        private void ReflectData(StartupArgumentInfo info, string[] args)
+        private void ReflectData(string[] args)
         {
             for (int i = 0; i < args.Length; i++)
             {

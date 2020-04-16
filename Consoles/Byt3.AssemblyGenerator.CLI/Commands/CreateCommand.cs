@@ -8,10 +8,10 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
     {
         public CreateCommand() : base(new[] {"--create", "-c"}, "Creates a new AssemblyModule Config")
         {
-            CommandAction = Create;
+            CommandAction = (info, strings) => Create();
         }
 
-        private void Create(StartupArgumentInfo argumentInfo, string[] args)
+        private void Create()
         {
             AssemblyDefinition definition = new AssemblyDefinition();
             Logger.Log(LogType.Log, "Saving new Assembly Definition to file: " + Program.Target, 1);

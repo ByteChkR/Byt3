@@ -107,7 +107,7 @@ namespace Byt3.ExtPP.Plugins
                             offset = 26 + offset;
                         }
                     }
-                    ret.Append((char) (begin + offset));
+                    ret.Append((char)(begin + offset));
                 }
 
                 return ret.ToString();
@@ -143,7 +143,7 @@ namespace Byt3.ExtPP.Plugins
 
         public string BlockDecodeEndKeyword { get; set; } = "#endblock decode";
 
-        public override string[] Prefix => new[] {"tenc", "TextEncoderPlugin"};
+        public override string[] Prefix => new[] { "tenc", "TextEncoderPlugin" };
 
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
@@ -182,7 +182,7 @@ namespace Byt3.ExtPP.Plugins
             parameter = new string[0];
             if (data.Length == 0 || !Encoders.TryFindByKey(data[0], out encoding))
             {
-               Logger.Log(LogType.Error,  "Decode block has no Specified decoding scheme.",1);
+                Logger.Log(LogType.Error, "Decode block has no Specified decoding scheme.", 1);
 
                 encoding = null;
                 parameter = null;
@@ -203,7 +203,7 @@ namespace Byt3.ExtPP.Plugins
         {
             List<string> lines = file.GetSource().ToList();
             List<int> removeIndices = new List<int>();
-           Logger.Log(LogType.Log,  "Discovering Block Keywords.", PLUGIN_MIN_SEVERITY );
+            Logger.Log(LogType.Log, "Discovering Block Keywords.", PLUGIN_MIN_SEVERITY);
             for (int i = 0; i < lines.Count; i++)
             {
                 string line = lines[i].TrimStart();
@@ -218,11 +218,11 @@ namespace Byt3.ExtPP.Plugins
                     i++; //Move forward.
                     if (!encodingOk)
                     {
-                       Logger.Log(LogType.Error,  $"Could not load encoder: {lines[i]}", 1);
+                        Logger.Log(LogType.Error, $"Could not load encoder: {lines[i]}", 1);
                     }
 
 
-                   Logger.Log(LogType.Log,  "Found Block Encode Keyword.", PLUGIN_MIN_SEVERITY +1);
+                    Logger.Log(LogType.Log, "Found Block Encode Keyword.", PLUGIN_MIN_SEVERITY + 1);
                     for (; i < lines.Count; i++)
                     {
                         if (lines[i].TrimStart().StartsWith(BlockEncodeEndKeyword))
@@ -232,7 +232,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                       Logger.Log(LogType.Log,  $"Encoding line {i}.", PLUGIN_MIN_SEVERITY +2);
+                        Logger.Log(LogType.Log, $"Encoding line {i}.", PLUGIN_MIN_SEVERITY + 2);
                         lines[i] = encodingOk ? enc.Encode(lines[i], encParameter) : lines[i];
 
                     }
@@ -247,10 +247,10 @@ namespace Byt3.ExtPP.Plugins
 
                     if (!decodingOk)
                     {
-                       Logger.Log(LogType.Error,  $"Could not load decoder: {lines[i]}",1);
+                        Logger.Log(LogType.Error, $"Could not load decoder: {lines[i]}", 1);
                     }
 
-                   Logger.Log(LogType.Log,  "Found Block Decode Keyword.", PLUGIN_MIN_SEVERITY +1);
+                    Logger.Log(LogType.Log, "Found Block Decode Keyword.", PLUGIN_MIN_SEVERITY + 1);
                     for (; i < lines.Count; i++)
                     {
                         if (lines[i].TrimStart().StartsWith(BlockDecodeEndKeyword))
@@ -260,7 +260,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                       Logger.Log(LogType.Log,  $"Decoding line {i}.", PLUGIN_MIN_SEVERITY +2);
+                        Logger.Log(LogType.Log, $"Decoding line {i}.", PLUGIN_MIN_SEVERITY + 2);
                         lines[i] = decodingOk ? enc.Decode(lines[i], encParameter) : lines[i];
 
                     }

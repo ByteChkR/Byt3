@@ -7,8 +7,8 @@ namespace Byt3.ADL
 {
     public class ADLLogger
     {
-        public readonly IProjectDebugConfig ProjectDebugConfig;
-        public readonly string SubProjectName;
+        private readonly IProjectDebugConfig ProjectDebugConfig;
+        private readonly string SubProjectName;
 
         private Dictionary<int, string> prefixes = new Dictionary<int, string>();
         private bool hasProcessedPrefixes = false;

@@ -18,7 +18,6 @@ namespace Byt3.ExtPP.Tests
         [Test]
         public void ExtPP_Plugins_BlankLineRemover_Test()
         {
-            // Directory.SetCurrentDirectory(ResourceFolder);
             string[] ret = TestHelper.SetUpAndCompile(new List<AbstractPlugin> {new BlankLineRemover()},
                 Path.Combine(ResourceFolder, "blankline_test.txt"));
             Assert.True(ret.Length == 0);

@@ -1,14 +1,13 @@
 ﻿using System;
+using Byt3.Utilities.Exceptions;
 
 namespace Byt3.ObjectPipeline.AssetLoaderFramework
 {
-    public class UnknownFileFormatException : ApplicationException
+    public class UnknownFileFormatException : Byt3Exception
     {
-        public readonly string FilePath;
 
-        public UnknownFileFormatException(string filePath)
+        public UnknownFileFormatException(string filePath):base("Unknown File format: "+ filePath)
         {
-            FilePath = filePath;
         }
     }
 }

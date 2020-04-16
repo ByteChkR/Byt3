@@ -76,7 +76,7 @@ namespace Byt3.OpenCL.Memory
         /// Initializes a new <see cref="MemoryObject"/> instance.
         /// </summary>
         /// <param name="handle">The handle to the OpenCL memory object.</param>
-        internal MemoryObject(IntPtr handle)
+        protected MemoryObject(IntPtr handle)
             : base(handle)
         {
         }

@@ -27,10 +27,6 @@ namespace Byt3.OpenCL.Tests
                 return kernelDb;
             }
         }
-
-        //public static void ApplyDebugSettings()
-        //{
-        //    EngineConfig.LoadConfig("resources/engine.settings.xml", typeof(GameEngine).Assembly, "Engine.Core");
-        //}
+        
     }
 }

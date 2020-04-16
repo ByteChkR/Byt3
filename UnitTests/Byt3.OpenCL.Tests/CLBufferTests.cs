@@ -24,7 +24,6 @@ namespace Byt3.OpenCL.Tests
         [Test]
         public void OpenCL_CreateBuffer_Test()
         {
-            //CLAPI.Reinitialize();
             byte[] b = new byte[255];
             for (int i = 0; i < b.Length; i++)
             {
@@ -41,7 +40,6 @@ namespace Byt3.OpenCL.Tests
         [Test]
         public void OpenCL_ReadBuffer_Test()
         {
-            //CLAPI.Reinitialize();
             float[] b = new float[255];
             for (int i = 0; i < b.Length; i++)
             {
@@ -60,8 +58,7 @@ namespace Byt3.OpenCL.Tests
         [Test]
         public void OpenCL_WriteBuffer_Test()
         {
-
-            //CLAPI.Reinitialize();
+            
             float[] b = new float[255];
             for (int i = 0; i < b.Length; i++)
             {

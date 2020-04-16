@@ -85,11 +85,11 @@ namespace Byt3.PackageHandling.Tests
             handler.AddHandler(new HandlerC() {TestInstance = this});
             //handler.AddHandler(new HandlerD());
 
-            Assert.Throws<Exception>(() =>
+            Assert.Throws<HandlerNotFoundException>(() =>
                 handler.Handle(new A(), null)); //Crash because of Exact only and A is missing
             handler.Handle(new B(), null); //Works
             handler.Handle(new C_B(), null); //Works
-            Assert.Throws<Exception>(() => handler.Handle(new D_C(), null)); //Crash because no traversal up
+            Assert.Throws<HandlerNotFoundException>(() => handler.Handle(new D_C(), null)); //Crash because no traversal up
 
             Assert.True(BCalled && CCalled);
             Assert.False(ACalled && DCalled);
