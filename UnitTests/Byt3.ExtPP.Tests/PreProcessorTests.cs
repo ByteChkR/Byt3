@@ -47,8 +47,6 @@ namespace Byt3.ExtPP.Tests
             string[] files = Directory.GetFiles(Path.Combine(ResourceFolder, "filter/tests/"), "*.fl");
             foreach (string file in files)
             {
-                string dir = Directory.GetCurrentDirectory();
-                
                 PreProcessor pp = new PreProcessor();
                 pp.SetFileProcessingChain(Plugins);
                 pp.Run(new[] {file}, new Definitions());

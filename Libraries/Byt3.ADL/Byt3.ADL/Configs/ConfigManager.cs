@@ -11,10 +11,6 @@ namespace Byt3.ADL.Configs
     {
         private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(InternalADLProjectDebugConfig.Settings, "ConfigManager");
 
-        /// <summary>
-        ///     The field of the serializer that gets used.
-        /// </summary>
-        private static XmlSerializer Serializer;
 
         public static T GetDefault<T>() where T : AbstractADLConfig
         {
@@ -30,7 +26,7 @@ namespace Byt3.ADL.Configs
         public static T ReadFromFile<T>(string path) where T : AbstractADLConfig
         {
             T ret;
-            Serializer = new XmlSerializer(typeof(T));
+            XmlSerializer Serializer = new XmlSerializer(typeof(T));
             if (!File.Exists(path))
             {
                 Logger.Log(LogType.Warning, "Config Manager: File" + path + "does not exist",1);
@@ -67,7 +63,7 @@ namespace Byt3.ADL.Configs
                 {
                     File.Delete(path);
                 }
-                Serializer = new XmlSerializer(typeof(T));
+                XmlSerializer Serializer = new XmlSerializer(typeof(T));
                 FileStream fs = File.Open(path, FileMode.Create, FileAccess.Write);
                 Serializer.Serialize(fs, data);
                 fs.Close();

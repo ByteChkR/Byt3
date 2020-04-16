@@ -9,7 +9,7 @@ namespace Byt3.OpenFL.CLI.Commands
 {
     public class SetSettingsCommand : AbstractCommand
     {
-        private Dictionary<string, FieldInformations> RootNodes;
+        private readonly Dictionary<string, FieldInformations> RootNodes;
 
         public List<string> AllPaths
         {
@@ -87,7 +87,7 @@ namespace Byt3.OpenFL.CLI.Commands
             if (current.FieldType == typeof(float) || current.FieldType == typeof(string) ||
                 current.FieldType == typeof(int) || current.FieldType == typeof(bool))
             {
-                infos.Add(thisPath, new FieldInformation() { reference = parentRef, info = current, path = thisPath });
+                infos.Add(thisPath, new FieldInformation { reference = parentRef, info = current, path = thisPath });
             }
             else
             {

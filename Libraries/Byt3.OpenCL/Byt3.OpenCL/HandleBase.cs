@@ -9,7 +9,7 @@ namespace Byt3.OpenCL
     /// <summary>
     /// Represents the abstract base class for all OpenCL objects, that are represented by a handle.
     /// </summary>
-    public abstract class HandleBase : IDisposable
+    public abstract class HandleBase : IDisposable, IEquatable<HandleBase>
     {
         #region Constructors
 

@@ -10,9 +10,7 @@ namespace Byt3.ExtPP.Tests
     {
         private static string ResourceFolder { get; } = TestHelper.ResF + "BLR_tests/";
 
-        public BlankLineRemoverTests()
-        {
-        }
+        
 
 
         [Test]

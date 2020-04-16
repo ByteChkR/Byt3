@@ -11,7 +11,7 @@ namespace Byt3.CommandRunner
     public static class Runner
     {
         private static ADLLogger<LogType> Logger => _logger ?? (_logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Runner"));
-        private static ADLLogger<LogType> _logger = null;
+        private static ADLLogger<LogType> _logger;
 
         /// <summary>
         /// All Commands currently loaded in the Library

@@ -11,7 +11,7 @@ namespace Byt3.ADL
         private readonly string SubProjectName;
 
         private Dictionary<int, string> prefixes = new Dictionary<int, string>();
-        private bool hasProcessedPrefixes = false;
+        private bool hasProcessedPrefixes;
         public virtual string[] ProjectMaskPrefixes { get; } = new string[0];
 
 

@@ -9,7 +9,7 @@ namespace Byt3.Utilities.DotNet
     public class AssemblyDefinition
     {
         public List<ModuleDefinition> IncludedModules { get; set; } = new List<ModuleDefinition>();
-        public bool NoTargetRuntime { get; set; } = false;
+        public bool NoTargetRuntime { get; set; }
         public string AssemblyName { get; set; } = "TestAssembly";
         public string BuildConfiguration { get; set; } = "Release";
         public string BuildTargetRuntime { get; set; } = "win-x64";

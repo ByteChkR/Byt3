@@ -10,7 +10,7 @@ namespace Byt3.ADL.Crash
 
         public override AbstractADLConfig GetStandard()
         {
-            return new CrashConfig() { };
+            return new CrashConfig();
         }
     }
 }

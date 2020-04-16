@@ -145,8 +145,7 @@ namespace Byt3.ExtPP
             {
                 Timer.GlobalTimer.Restart();
             }
-
-            long old = Timer.MS;
+            
             Logger.Log(LogType.Log, "Starting Compilation of File Tree...", 4);
             List<string> ret = new List<string>();
             for (int i = src.Length - 1; i >= 0; i--)

@@ -14,7 +14,7 @@ namespace Byt3.ADL.Crash
             Crash
         }
 
-        private static bool initialized = false;
+        private static bool initialized;
 
         private static readonly CrashConfig Config = ConfigManager.GetDefault<CrashConfig>();
 

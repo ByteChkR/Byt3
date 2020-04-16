@@ -71,7 +71,6 @@ namespace Byt3.Utilities.Threading
                 {
                     Logger.Log(LogType.Warning, $"Command \"{commandInfo.Command}\" Timed Out",1);
                     p.Kill();
-                    return;
                 }
             }
         }

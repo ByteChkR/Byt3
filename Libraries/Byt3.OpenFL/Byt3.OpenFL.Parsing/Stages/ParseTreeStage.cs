@@ -168,7 +168,6 @@ namespace Byt3.OpenFL.Parsing.Stages
             string[] defineStatements)
         {
             Dictionary<string, FLBufferInfo> definedBuffers = new Dictionary<string, FLBufferInfo>();
-            string dir = Path.GetDirectoryName(path);
             for (int i = 0; i < defineStatements.Length; i++)
             {
                 string[] data = defineStatements[i].Replace("--define texture", "")

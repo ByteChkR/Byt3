@@ -16,18 +16,18 @@ namespace Byt3.ExtPP.Tests
         {
             get
             {
+                string resourceFolder = "res/";
                 var codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
                 var codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
                 var dirPath = Path.GetDirectoryName(codeBasePath);
-                ResourceFolder = Path.Combine(dirPath, "res/");
-                return ResourceFolder;
+                resourceFolder = Path.Combine(dirPath, "res/");
+                return resourceFolder;
 
 
             }
         }
 
         private static string ResourceFolderBackingProperty { get; } = Path.GetFullPath("../../../res/");
-        private static string ResourceFolder = "res/";
 
         private static PreProcessor SetUp(List<AbstractPlugin> chain)
         {

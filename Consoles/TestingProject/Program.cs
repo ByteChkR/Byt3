@@ -18,7 +18,6 @@ namespace TestingProject
             AssemblyDefinition defs = AssemblyDefinition.Load(".\\GeneratedModules\\Byt3.assemblyconfig");
             AssemblyGeneratorBuildTest(defs);
             Console.ReadLine();
-            return;
         }
 
         private const string MSBUILD_PATH =

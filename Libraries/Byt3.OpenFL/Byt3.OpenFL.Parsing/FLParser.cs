@@ -107,7 +107,6 @@ namespace Byt3.OpenFL.Parsing
 
         internal static bool IsFunctionHeader(string line)
         {
-            string l = RemoveComment(line);
             return !IsComment(line) && RemoveComment(line).EndsWith(":");
         }
 
