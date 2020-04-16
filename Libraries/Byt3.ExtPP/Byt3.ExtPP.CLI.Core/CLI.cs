@@ -578,7 +578,7 @@ namespace Byt3.ExtPP.CLI.Core
             {
                 File.Delete(file);
             }
-            LogTextStream lll = new LogTextStream(File.OpenWrite(file), MaskMatchType.MatchAll, timestamp);
+            LogTextStream lll = new LogTextStream(File.OpenWrite(file), timestamp);
             Debug.AddOutputStream(lll);
         }
 

@@ -77,10 +77,10 @@ namespace Byt3.ADL.Streams
 
         #region Methods
 
-        public override void Write(byte[] value, int offset, int count)
+        public override void Write(byte[] buffer, int offset, int count)
         {
             byte[] tmp = new byte[count];
-            Array.Copy(value, 0, tmp, 0, count);
+            Array.Copy(buffer, 0, tmp, 0, count);
             BaseStream.Write(tmp, 0, count);
             Flush();
         }
@@ -107,11 +107,7 @@ namespace Byt3.ADL.Streams
             IsClosed = true;
             BaseStream.Close();
         }
-
-        //public override ObjRef CreateObjRef(Type requestedType)
-        //{
-        //    return BaseStream.CreateObjRef(requestedType);
-        //}
+        
 
         [Obsolete]
         protected override WaitHandle CreateWaitHandle()

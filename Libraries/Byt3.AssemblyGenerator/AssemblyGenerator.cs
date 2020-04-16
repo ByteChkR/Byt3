@@ -237,7 +237,9 @@ namespace Byt3.AssemblyGenerator
                 DotNetHelper.NewLib(msBuildPath, workingDir, definition.AssemblyName);
             }
             else
+            {
                 DotNetHelper.NewCommandLine(msBuildPath, workingDir, definition.AssemblyName);
+            }
 
             File.Delete(Path.Combine(workingDir, definition.AssemblyName,
                 lib ? "Class1.cs" : "Program.cs")); //Delete Default Class

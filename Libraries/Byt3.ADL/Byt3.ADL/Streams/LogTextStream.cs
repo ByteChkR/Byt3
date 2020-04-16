@@ -11,8 +11,8 @@ namespace Byt3.ADL.Streams
         /// <param name="mask"></param>
         /// <param name="maskMatchType"></param>
         /// <param name="setTimeStamp"></param>
-        public LogTextStream(Stream baseStream, MaskMatchType maskMatchType = MaskMatchType.MatchAll,
-            bool setTimeStamp = false) : base(baseStream, maskMatchType, setTimeStamp)
+        public LogTextStream(Stream baseStream,
+            bool setTimeStamp = false) : base(baseStream, setTimeStamp)
         {
         }
 
