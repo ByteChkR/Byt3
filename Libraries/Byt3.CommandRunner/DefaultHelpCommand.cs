@@ -13,9 +13,9 @@ namespace Byt3.CommandRunner
         {
             for (int i = 0; i < Runner.CommandCount; i++)
             {
-                Logger.Log(LogType.Log, "__________________________________________________________");
-                Logger.Log(LogType.Log, "");
-                Logger.Log(LogType.Log, Runner.GetCommandAt(i).ToString());
+                Logger.Log(LogType.Log, "__________________________________________________________",1);
+                Logger.Log(LogType.Log, "", 1);
+                Logger.Log(LogType.Log, Runner.GetCommandAt(i).ToString(), 1);
             }
         }
     }

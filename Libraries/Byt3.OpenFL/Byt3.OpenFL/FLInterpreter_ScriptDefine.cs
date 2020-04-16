@@ -35,7 +35,7 @@ namespace Byt3.OpenFL
             string varname = arg[0].Trim();
             if (defines.ContainsKey(varname))
             {
-                Logger.Log(LogType.Error, Verbosity.Level1, $"Overwriting {varname}");
+                Logger.Log(LogType.Error,  $"Overwriting {varname}", 1);
                 defines.Remove(varname);
             }
 
@@ -48,7 +48,7 @@ namespace Byt3.OpenFL
 
             if (IsSurroundedBy(filename, FILEPATH_INDICATOR))
             {
-                Logger.Log(LogType.Error, Verbosity.Level1, "Loading SubScript...");
+                Logger.Log(LogType.Error,  "Loading SubScript...", 1);
 
                 MemoryBuffer buf =
                     CLAPI.CreateEmpty<byte>(instance, inputBufferSize, MemoryFlag.ReadWrite);

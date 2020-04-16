@@ -64,8 +64,8 @@ namespace Byt3.OpenFL.Parsing.WFC
                 }
             }
 
-            Logger.Log(LogType.Log, Verbosity.Level3,
-                "Color Patterns found: " + colors.Count);
+            Logger.Log(LogType.Log,
+                "Color Patterns found: " + colors.Count,3);
             int colorsCount = colors.Count;
             long nPow = WaveCollapseUtils.Power(colorsCount, n * n);
 

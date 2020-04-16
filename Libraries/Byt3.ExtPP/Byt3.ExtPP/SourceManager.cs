@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Byt3.ADL;
+using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
@@ -13,7 +14,7 @@ namespace Byt3.ExtPP
     /// A class that keeps track on what scripts are loaded and their processing state.
     /// This class also defines a Compute Scheme to alter the keys the file gets matched with, to enable loading the same file multiple times.
     /// </summary>
-    public class SourceManager : ALoggable<PPLogType>, ISourceManager
+    public class SourceManager : ALoggable<LogType>, ISourceManager
     {
         /// <summary>
         /// List of Scripts that are included in this Processing run
@@ -34,7 +35,7 @@ namespace Byt3.ExtPP
         /// Empty Constructor
         /// Sets the compute scheme to the default(the file name)
         /// </summary>
-        public SourceManager(List<AbstractPlugin> pluginChain)
+        public SourceManager(List<AbstractPlugin> pluginChain) : base(ExtPPDebugConfig.Settings)
         {
             SetComputingScheme(ComputeFileNameAndKey_Default);
         }
@@ -51,7 +52,7 @@ namespace Byt3.ExtPP
                 return;
             }
             computeScheme = scheme;
-            Logger.Log(PPLogType.Log, Verbosity.Level2, $"Changed Computing Scheme to: {scheme.Method.Name}");
+            //Logger.Log(LogType.Log,  $"Changed Computing Scheme to: {scheme.Method.Name}",2);
         }
 
         /// <summary>
@@ -127,7 +128,7 @@ namespace Byt3.ExtPP
         /// <param name="script">The script that got referenced.</param>
         public void FixOrder(ISourceScript script)
         {
-            Logger.Log(PPLogType.Log, Verbosity.Level3, "Fixing Build Order of file: {Path.GetFileName(script.GetFileInterface().GetKey())}");
+            Logger.Log(LogType.Log,  "Fixing Build Order of file: {Path.GetFileName(script.GetFileInterface().GetKey())}",3);
             int idx = IndexOfFile(script.GetKey());
             ISourceScript a = sources[idx];
             ProcessStage ab = doneState[idx];
@@ -157,7 +158,7 @@ namespace Byt3.ExtPP
         {
             if (!IsIncluded(script))
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level3, $"Adding Script to Todo List: {Path.GetFileName(script.GetFileInterface().GetKey())}");
+                Logger.Log(LogType.Log,  $"Adding Script to Todo List: {Path.GetFileName(script.GetFileInterface().GetKey())}",4);
                 AddFile(script, false);
                 doneState.Add(ProcessStage.Queued);
             }
@@ -174,7 +175,7 @@ namespace Byt3.ExtPP
             {
                 doneState[IndexOfFile(script.GetKey())] = stage;
 
-                Logger.Log(PPLogType.Log, Verbosity.Level3, $"Finished Script: {Path.GetFileName(script.GetFileInterface().GetKey())}");
+                Logger.Log(LogType.Log,  $"Finished Script: {Path.GetFileName(script.GetFileInterface().GetKey())}",3);
             }
         }
 
@@ -253,8 +254,8 @@ namespace Byt3.ExtPP
             if (lockScriptCreation)
             {
                 script = null;
-                Logger.Log(PPLogType.Warning, Verbosity.Level3,
-                    "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
+                Logger.Log(LogType.Warning, 
+                    "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?",3);
                 return false;
             }
 

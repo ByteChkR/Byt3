@@ -16,13 +16,13 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         {
             if (!Program.HasTarget)
             {
-                Logger.Log(LogType.Error, "You need to specify a target config");
+                Logger.Log(LogType.Error, "You need to specify a target config", 1);
                 return;
             }
 
             if (args.Length != 1)
             {
-                Logger.Log(LogType.Error, "Only 1 argument allowed.");
+                Logger.Log(LogType.Error, "Only 1 argument allowed.", 1);
                 return;
             }
 

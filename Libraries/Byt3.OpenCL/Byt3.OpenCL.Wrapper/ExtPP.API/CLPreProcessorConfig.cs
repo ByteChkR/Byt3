@@ -14,7 +14,6 @@ namespace Byt3.OpenCL.Common.ExtPP.API
     {
         public override string FileExtension => ".cl";
         private static readonly StringBuilder Sb = new StringBuilder();
-        protected override Verbosity VerbosityLevel { get; } = Verbosity.Silent;
 
         protected override List<AbstractPlugin> Plugins =>
             new List<AbstractPlugin>

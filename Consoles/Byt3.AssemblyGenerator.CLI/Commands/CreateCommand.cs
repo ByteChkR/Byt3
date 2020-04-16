@@ -14,7 +14,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         private void Create(StartupArgumentInfo argumentInfo, string[] args)
         {
             AssemblyDefinition definition = new AssemblyDefinition();
-            Logger.Log(LogType.Log, "Saving new Assembly Definition to file: " + Program.Target);
+            Logger.Log(LogType.Log, "Saving new Assembly Definition to file: " + Program.Target, 1);
             AssemblyDefinition.Save(Program.Target, definition);
         }
     }

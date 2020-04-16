@@ -1,10 +1,11 @@
 ﻿using Byt3.ADL;
+using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 
 namespace Byt3.ExtPP
 {
-    internal class SourceScript : ALoggable<PPLogType>, ISourceScript
+    internal class SourceScript : ALoggable<LogType>, ISourceScript
     {
         /// <summary>
         /// The full filepath of the script
@@ -39,7 +40,7 @@ namespace Byt3.ExtPP
         /// <param name="path">the path to the file</param>
         /// <param name="key">the key of the source file</param>
         /// <param name="pluginCache">the plugin cache that is used.</param>
-        public SourceScript(string separator, IFileContent path, ImportResult importInfo)
+        public SourceScript(string separator, IFileContent path, ImportResult importInfo) : base(ExtPPDebugConfig.Settings)
         {
             this.importInfo = importInfo;
             filepath = path;
@@ -130,7 +131,7 @@ namespace Byt3.ExtPP
             bool ret = LoadSource();
             if (!ret)
             {
-                Logger.Log(PPLogType.Error, Verbosity.Level1, $"Could not load file: {filepath}");
+                Logger.Log(LogType.Error, $"Could not load file: {filepath}",1);
 
             }
 

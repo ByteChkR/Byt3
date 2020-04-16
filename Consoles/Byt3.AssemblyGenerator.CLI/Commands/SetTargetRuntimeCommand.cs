@@ -16,19 +16,19 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         {
             if (!Program.HasTarget)
             {
-                Logger.Log(LogType.Error, "You need to specify a target config");
+                Logger.Log(LogType.Error, "You need to specify a target config", 1);
                 return;
             }
 
             if (args.Length != 1)
             {
-                Logger.Log(LogType.Error, "Only 1 argument allowed.");
+                Logger.Log(LogType.Error, "Only 1 argument allowed.", 1);
                 return;
             }
 
             AssemblyDefinition definition = AssemblyDefinition.Load(Program.Target);
 
-            Logger.Log(LogType.Log, "Setting Target Runtime: " + args[0]);
+            Logger.Log(LogType.Log, "Setting Target Runtime: " + args[0], 1);
             definition.NoTargetRuntime = args[0].ToLower() == "none";
             definition.BuildTargetRuntime = args[0];
 

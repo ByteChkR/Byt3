@@ -10,7 +10,7 @@ namespace Byt3.CommandRunner
     /// </summary>
     public static class Runner
     {
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("Command Runner");
+        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Command Runner");
         /// <summary>
         /// All Commands currently loaded in the Library
         /// </summary>
@@ -42,7 +42,7 @@ namespace Byt3.CommandRunner
             List<AbstractCommand> cmds = AssemblyHelper.LoadCommandsFromAssembly(asm);
             for (int i = 0; i < cmds.Count; i++)
             {
-                Logger.Log(LogType.Log, "Adding Command: " + cmds[i].GetType().FullName);
+                Logger.Log(LogType.Log, "Adding Command: " + cmds[i].GetType().FullName, 1);
                 AddCommand(cmds[i]);
             }
         }
@@ -55,7 +55,7 @@ namespace Byt3.CommandRunner
         {
             if (IsInterfering(cmd))
             {
-                Logger.Log(LogType.Log, "Command:" + cmd.GetType().FullName + " is interfering with other Commands.");
+                Logger.Log(LogType.Log, "Command:" + cmd.GetType().FullName + " is interfering with other Commands.", 1);
             }
             Commands.Add(cmd);
         }
@@ -128,15 +128,15 @@ namespace Byt3.CommandRunner
                 List<AbstractCommand> cmds = Commands.Where(x => x.DefaultCommand).ToList();
                 if (cmds.Count == 0)
                 {
-                    Logger.Log(LogType.Warning, "No Default Command Found");
+                    Logger.Log(LogType.Warning, "No Default Command Found", 1);
                     return didExecute;
                 }
                 didExecute = true;
 
                 if (cmds.Count != 1)
                 {
-                    Logger.Log(LogType.Warning, "Found more than one Default Command.");
-                    Logger.Log(LogType.Log, "Using Command: " + cmds[0].CommandKeys[0]);
+                    Logger.Log(LogType.Warning, "Found more than one Default Command.", 1);
+                    Logger.Log(LogType.Log, "Using Command: " + cmds[0].CommandKeys[0], 1);
                 }
 
                 if (argumentInfo.GetCommandEntries("noflag") != 0)

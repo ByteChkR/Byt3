@@ -13,7 +13,7 @@ namespace Byt3.ExtPP.Base
     /// </summary>
     public static class Utils
     {
-        private static readonly LevelFilteredLogger<PPLogType> Logger = new LevelFilteredLogger<PPLogType>("PP Utils");
+        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(ExtPPDebugConfig.Settings, "PP Utils");
 
         /// <summary>
         /// Removes all lines of the source that start with one of the statements
@@ -32,8 +32,8 @@ namespace Byt3.ExtPP.Base
                     if (source[i].Trim().StartsWith(t))
                     {
 
-                        Logger.Log(PPLogType.Log, Verbosity.Level7,
-                            string.Format("Removing statement {0} on line {1}", t, i));
+                        Logger.Log(LogType.Log,
+                            string.Format("Removing statement {0} on line {1}", t, i), 7);
                         source.RemoveAt(i);
                         break;
                     }
@@ -52,7 +52,7 @@ namespace Byt3.ExtPP.Base
         public static string RemoveExcessSpaces(string line, string separator)
         {
             string ret = line.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
-            Logger.Log(PPLogType.Log, Verbosity.Level7, $"Removing Excess Spaces: {line} => {ret}");
+            Logger.Log(LogType.Log,  $"Removing Excess Spaces: {line} => {ret}", 7);
             return ret;
         }
 

@@ -182,7 +182,7 @@ namespace Byt3.ExtPP.Plugins
             parameter = new string[0];
             if (data.Length == 0 || !Encoders.TryFindByKey(data[0], out encoding))
             {
-                Logger.Log(PPLogType.Error, Verbosity.Level1, "Decode block has no Specified decoding scheme.");
+               Logger.Log(LogType.Error,  "Decode block has no Specified decoding scheme.",1);
 
                 encoding = null;
                 parameter = null;
@@ -203,7 +203,7 @@ namespace Byt3.ExtPP.Plugins
         {
             List<string> lines = file.GetSource().ToList();
             List<int> removeIndices = new List<int>();
-            Logger.Log(PPLogType.Log, Verbosity.Level5, "Discovering Block Keywords.");
+           Logger.Log(LogType.Log,  "Discovering Block Keywords.",5);
             for (int i = 0; i < lines.Count; i++)
             {
                 string line = lines[i].TrimStart();
@@ -218,11 +218,11 @@ namespace Byt3.ExtPP.Plugins
                     i++; //Move forward.
                     if (!encodingOk)
                     {
-                        Logger.Log(PPLogType.Error, Verbosity.Level1, $"Could not load encoder: {lines[i]}");
+                       Logger.Log(LogType.Error,  $"Could not load encoder: {lines[i]}", 1);
                     }
 
 
-                    Logger.Log(PPLogType.Log, Verbosity.Level6, "Found Block Encode Keyword.");
+                   Logger.Log(LogType.Log,  "Found Block Encode Keyword.",6);
                     for (; i < lines.Count; i++)
                     {
                         if (lines[i].TrimStart().StartsWith(BlockEncodeEndKeyword))
@@ -232,7 +232,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                        Logger.Log(PPLogType.Log, Verbosity.Level7, $"Encoding line {i}.");
+                       Logger.Log(LogType.Log,  $"Encoding line {i}.",7);
                         lines[i] = encodingOk ? enc.Encode(lines[i], encParameter) : lines[i];
 
                     }
@@ -247,10 +247,10 @@ namespace Byt3.ExtPP.Plugins
 
                     if (!decodingOk)
                     {
-                        Logger.Log(PPLogType.Error, Verbosity.Level1, $"Could not load decoder: {lines[i]}");
+                       Logger.Log(LogType.Error,  $"Could not load decoder: {lines[i]}",1);
                     }
 
-                    Logger.Log(PPLogType.Log, Verbosity.Level6, "Found Block Decode Keyword.");
+                   Logger.Log(LogType.Log,  "Found Block Decode Keyword.",6);
                     for (; i < lines.Count; i++)
                     {
                         if (lines[i].TrimStart().StartsWith(BlockDecodeEndKeyword))
@@ -260,7 +260,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                        Logger.Log(PPLogType.Log, Verbosity.Level7, $"Decoding line {i}.");
+                       Logger.Log(LogType.Log,  $"Decoding line {i}.",7);
                         lines[i] = decodingOk ? enc.Decode(lines[i], encParameter) : lines[i];
 
                     }

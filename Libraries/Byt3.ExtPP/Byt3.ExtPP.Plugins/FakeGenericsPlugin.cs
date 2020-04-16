@@ -13,7 +13,7 @@ namespace Byt3.ExtPP.Plugins
 {
     public class FakeGenericsPlugin : AbstractFullScriptPlugin
     {
-        public override string[] Prefix => new[] {"gen", "FakeGen"};
+        public override string[] Prefix => new[] { "gen", "FakeGen" };
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload"
             ? ProcessStage.OnLoadStage
             : ProcessStage.OnMain;
@@ -80,20 +80,20 @@ namespace Byt3.ExtPP.Plugins
 
             string[] genParams = file.GetValueFromCache<string[]>("genParams");
 
-            Logger.Log(PPLogType.Log, Verbosity.Level5, "Discovering Generic Keywords...");
+           Logger.Log(LogType.Log, "Discovering Generic Keywords...", 5);
             if (genParams != null && genParams.Length > 0)
             {
                 for (int i = genParams.Length - 1; i >= 0; i--)
                 {
 
-                    Logger.Log(PPLogType.Log, Verbosity.Level6, $"Replacing Keyword {GenericKeyword}{i} with {genParams[i]} in file {file.GetKey()}");
+                   Logger.Log(LogType.Log, $"Replacing Keyword {GenericKeyword}{i} with {genParams[i]} in file {file.GetKey()}", 6);
                     Utils.ReplaceKeyWord(file.GetSource(), genParams[i],
                         GenericKeyword + i);
                 }
             }
 
 
-            Logger.Log(PPLogType.Log, Verbosity.Level5, "Generic Keyword Replacement Finished");
+           Logger.Log(LogType.Log, "Generic Keyword Replacement Finished", 5);
 
             return true;
         }

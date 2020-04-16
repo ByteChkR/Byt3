@@ -7,45 +7,38 @@ namespace Byt3.ADL
 {
     public class ADLLogger
     {
-        private Dictionary<int, string> ProcessPrefixes(string[] prefixes)
-        {
-            if (prefixes.Length > sizeof(int) * 8)
-            {
-                throw new Exception("Can not add more than " + sizeof(int) * 8 + " prefixes");
-            }
-            Dictionary<int, string> ret = new Dictionary<int, string>();
-            int s = 1;
-            for (int i = 0; i < prefixes.Length; i++)
-            {
-                ret[s] = prefixes[i];
-                s <<= 1;
-            }
+        public readonly IProjectDebugConfig ProjectDebugConfig;
+        public readonly string SubProjectName;
 
-            hasProcessedPrefixes = true;
-            return ret;
-        }
+        private Dictionary<int, string> prefixes = new Dictionary<int, string>();
+        private bool hasProcessedPrefixes = false;
+        public virtual string[] ProjectMaskPrefixes { get; } = new string[0];
+
 
         internal Dictionary<int, string> Prefixes =>
             hasProcessedPrefixes ? prefixes : prefixes = ProcessPrefixes(ProjectMaskPrefixes);
         /// <summary>
         ///     Dictionary of Prefixes for the corresponding Masks
         /// </summary>
-        private Dictionary<int, string> prefixes = new Dictionary<int, string>();
 
-        private bool hasProcessedPrefixes = false;
 
-        public readonly string ProjectName;
-        public virtual string[] ProjectMaskPrefixes { get; } = new string[0];
-        public virtual PrefixLookupSettings LookupSettings { get; set; } = PrefixLookupSettings.Addprefixifavailable;
-
-        public ADLLogger(string projectName)
+        public ADLLogger(IProjectDebugConfig projectDebugConfig, string subProjectName = "")
         {
-            ProjectName = projectName;
+            ProjectDebugConfig = projectDebugConfig;
+            SubProjectName = subProjectName;
         }
 
-        public void Log(int mask, string message)
+        public void Log(int mask, string message, int severity)
         {
-            Debug.Log(this, mask, $"[{ProjectName}] {message}");
+            if (ProjectDebugConfig.GetMinSeverity() < severity) return;
+
+            string subp = "";
+            if (!string.IsNullOrEmpty(SubProjectName))
+            {
+                subp = $".{SubProjectName}";
+            }
+
+            Debug.Log(this, mask, $"[{ProjectDebugConfig.GetProjectName()}{subp}][S:{severity}]: {message}");
         }
 
         public string GetMaskPrefix(BitMask mask)
@@ -82,6 +75,25 @@ namespace Byt3.ADL
         {
             return Debug.GetAllPrefixes(Prefixes);
         }
+
+        private Dictionary<int, string> ProcessPrefixes(string[] prefixes)
+        {
+            if (prefixes.Length > sizeof(int) * 8)
+            {
+                throw new Exception("Can not add more than " + sizeof(int) * 8 + " prefixes");
+            }
+            Dictionary<int, string> ret = new Dictionary<int, string>();
+            int s = 1;
+            for (int i = 0; i < prefixes.Length; i++)
+            {
+                ret[s] = prefixes[i];
+                s <<= 1;
+            }
+
+            hasProcessedPrefixes = true;
+            return ret;
+        }
+
     }
 
     public class ADLLogger<T> : ADLLogger
@@ -99,7 +111,7 @@ namespace Byt3.ADL
                 List<string> names = Enum.GetNames(typeof(T)).ToList();
                 for (int i = names.Count - 1; i >= 0; i--)
                 {
-                    if (!IsPowerOfTwo((int) Enum.Parse(typeof(T), names[i])))
+                    if (!IsPowerOfTwo((int)Enum.Parse(typeof(T), names[i])))
                     {
                         names.RemoveAt(i);
                     }
@@ -109,13 +121,13 @@ namespace Byt3.ADL
             }
         }
 
-        public ADLLogger(string projectName) : base(projectName)
+        public ADLLogger(IProjectDebugConfig projectDebugConfig, string subProjectname="") : base(projectDebugConfig, subProjectname)
         {
         }
 
-        public void Log(T mask, string message)
+        public void Log(T mask, string message, int severity)
         {
-            Log(Convert.ToInt32(mask), message);
+            Log(Convert.ToInt32(mask), message, severity);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Byt3.ExtPP.CLI.Core
     /// <summary>
     /// Command Line Interface of the EXT_PP project.
     /// </summary>
-    public class CLI : ALoggable<PPLogType>
+    public class CLI : ALoggable<LogType>
     {
         /// <summary>
         /// A delegate used to handle all commands in the Command Line Interface
@@ -285,7 +285,7 @@ namespace Byt3.ExtPP.CLI.Core
 
             if (helpParams.Length == 0)
             {
-                Logger.Log(PPLogType.Log, Verbosity.Silent, $"\n{Info.ListAllCommands(new[] { "" }).Unpack("\n")}");
+                Logger.Log(LogType.Log,  $"\n{Info.ListAllCommands(new[] { "" }).Unpack("\n")}",0);
                 return true;
             }
 
@@ -301,15 +301,15 @@ namespace Byt3.ExtPP.CLI.Core
                     }
 
                     List<AbstractPlugin> plugins = CreatePluginChain(new[] { file }, true).ToList();
-                    Logger.Log(PPLogType.Log, Verbosity.Silent, "Listing Plugins: ");
+                    Logger.Log(LogType.Log,  "Listing Plugins: ",0);
                     foreach (AbstractPlugin plugin in plugins)
                     {
-                        Logger.Log(PPLogType.Log, Verbosity.Silent, $"\n{PluginExtensions.ListInfo(plugin, true).Unpack("\n")}");
+                        Logger.Log(LogType.Log,  $"\n{PluginExtensions.ListInfo(plugin, true).Unpack("\n")}", 0);
                     }
                 }
                 else
                 {
-                    Logger.Log(PPLogType.Log, Verbosity.Silent, $"\n{Info.ListAllCommands(new[] { "" }).Unpack("\n")}");
+                    Logger.Log(LogType.Log,  $"\n{Info.ListAllCommands(new[] { "" }).Unpack("\n")}", 0);
                 }
 
 
@@ -332,14 +332,14 @@ namespace Byt3.ExtPP.CLI.Core
             //Error Checking
             if (Output.Length == 0 && !OutputToConsole || Input.Length == 0)
             {
-                Logger.Log(PPLogType.Log, Verbosity.Silent, HelpText);
-                Logger.Log(PPLogType.Error, Verbosity.Level1, "Not enough arguments specified. Aborting..");
+                Logger.Log(LogType.Log,  HelpText, 1);
+                Logger.Log(LogType.Error,  "Not enough arguments specified. Aborting..", 1);
                 return true;
             }
 
             if (Input.Length > Output.Length)
             {
-                Logger.Log(PPLogType.Error, Verbosity.Level1, "Not enough outputs specified. Aborting..");
+                Logger.Log(LogType.Error,  "Not enough outputs specified. Aborting..", 1);
                 return true;
             }
 
@@ -360,18 +360,18 @@ namespace Byt3.ExtPP.CLI.Core
             {
                 if (ReadmeArgs[0] == "self")
                 {
-                    Logger.Log(PPLogType.Log, Verbosity.Level1, "Generating Readme for self.");
+                    Logger.Log(LogType.Log,  "Generating Readme for self.",1);
                     List<string> ret = PluginExtensions.ToMarkdown(Info).ToList();
-                    Logger.Log(PPLogType.Log, Verbosity.Level1, $"Writing Readme to file: {ReadmeArgs[1]}");
+                    Logger.Log(LogType.Log,  $"Writing Readme to file: {ReadmeArgs[1]}", 1);
                     File.WriteAllLines(ReadmeArgs[1], ret.ToArray());
                     return true;
                 }
 
-                Logger.Log(PPLogType.Log, Verbosity.Level1, $"Generating Readme for file: {ReadmeArgs[0]}");
+                Logger.Log(LogType.Log,  $"Generating Readme for file: {ReadmeArgs[0]}", 1);
                 PluginManager.PluginManager pm = new PluginManager.PluginManager();
                 List<string> ht = GenerateReadme(pm.FromFile(ReadmeArgs[0]));
 
-                Logger.Log(PPLogType.Log, Verbosity.Level1, $"Writing Readme to file: { ReadmeArgs[1]}");
+                Logger.Log(LogType.Log,  $"Writing Readme to file: { ReadmeArgs[1]}", 1);
                 File.WriteAllLines(ReadmeArgs[1], ht.ToArray());
                 return true;
             }
@@ -390,7 +390,7 @@ namespace Byt3.ExtPP.CLI.Core
 
             foreach (AbstractPlugin abstractPlugin in plugins)
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level1, $"Generating Readme for plugin: {abstractPlugin.GetType().Name}");
+                Logger.Log(LogType.Log,  $"Generating Readme for plugin: {abstractPlugin.GetType().Name}", 1);
                 ret.AddRange(PluginExtensions.ToMarkdown(abstractPlugin));
             }
 
@@ -409,7 +409,7 @@ namespace Byt3.ExtPP.CLI.Core
         {
             if (ShowVersion)
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level1, Version);
+                Logger.Log(LogType.Log,  Version, 1);
                 return true;
             }
 
@@ -520,7 +520,7 @@ namespace Byt3.ExtPP.CLI.Core
             {
                 foreach (string s in PluginAdd)
                 {
-                    Logger.Log(PPLogType.Log, Verbosity.Level1, $"Adding: {s}");
+                    Logger.Log(LogType.Log,  $"Adding: {s}", 1);
                     FileAttributes attr = File.GetAttributes(s);
                     if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
                     {
@@ -599,7 +599,7 @@ namespace Byt3.ExtPP.CLI.Core
 
                 if (vars[0] != "all")
                 {
-                    mask = (int)Utils.Parse(typeof(PPLogType), vars[0], -1);
+                    mask = (int)Utils.Parse(typeof(LogType), vars[0], -1);
                 }
                 if (vars.Length > 1)
                 {
@@ -646,11 +646,11 @@ namespace Byt3.ExtPP.CLI.Core
             if (ChainParams != null)
             {
                 chain = CreatePluginChain(ChainParams, NoCollections).ToList();
-                Logger.Log(PPLogType.Log, Verbosity.Level2, $"{chain.Count} Plugins Loaded..");
+                Logger.Log(LogType.Log,  $"{chain.Count} Plugins Loaded..",2);
             }
             else
             {
-                Logger.Log(PPLogType.Error, Verbosity.Level1, "Not plugin chain specified. 0 Plugins Loaded..");
+                Logger.Log(LogType.Error,  "Not plugin chain specified. 0 Plugins Loaded..", 1);
                 chain = new List<AbstractPlugin>();
             }
 
@@ -699,12 +699,12 @@ namespace Byt3.ExtPP.CLI.Core
             {
                 List<AbstractPlugin> r = collection.Chain
                     .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
-                Logger.Log(PPLogType.Log, Verbosity.Level2, $"Creating Chain Collection with Plugins: {r.Select(x => x.GetType().Name).Unpack(", ")}");
+                Logger.Log(LogType.Log,  $"Creating Chain Collection with Plugins: {r.Select(x => x.GetType().Name).Unpack(", ")}",2);
                 return r;
             }
             else
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level2, "Could not find a Chain collection in the specified file.");
+                Logger.Log(LogType.Log,  "Could not find a Chain collection in the specified file.",2);
 
             }
 
@@ -757,7 +757,7 @@ namespace Byt3.ExtPP.CLI.Core
             else
             {
                 names[0] = names[0].Trim('(', ')');
-                Logger.Log(PPLogType.Log, Verbosity.Level2, $"Searching Chain Collection: {names[0]}");
+                Logger.Log(LogType.Log,  $"Searching Chain Collection: {names[0]}",2);
 
                 ret.AddRange(CreateChainCollection(asm, names[0]));
             }
@@ -774,7 +774,7 @@ namespace Byt3.ExtPP.CLI.Core
         private List<AbstractPlugin> ProcessPluginChain(string[] names, string path)
         {
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
-            Logger.Log(PPLogType.Log, Verbosity.Level4,$"Loading {(names == null ? "all plugins" : names.Unpack(", "))} in file {path}");
+            Logger.Log(LogType.Log, $"Loading {(names == null ? "all plugins" : names.Unpack(", "))} in file {path}",4);
 
             if (names == null)
             {
@@ -790,7 +790,7 @@ namespace Byt3.ExtPP.CLI.Core
                     {
                         if (plugins[j].Prefix.Contains(names[i]))
                         {
-                            Logger.Log(PPLogType.Log, Verbosity.Level5, $"Creating instance of: {plugins[j].GetType().Name}");
+                            Logger.Log(LogType.Log,  $"Creating instance of: {plugins[j].GetType().Name}",5);
                             ret.Add(plugins[j]);
                         }
                     }
@@ -829,7 +829,7 @@ namespace Byt3.ExtPP.CLI.Core
             else
             {
 
-                Logger.Log(PPLogType.Error, Verbosity.Level1, $"Could not load file: {path}");
+                Logger.Log(LogType.Error,  $"Could not load file: {path}",1);
             }
 
             return ret;
@@ -845,7 +845,7 @@ namespace Byt3.ExtPP.CLI.Core
         private IEnumerable<AbstractPlugin> CreatePluginChain(string[] arg, bool noCollection)
         {
 
-            Logger.Log(PPLogType.Log, Verbosity.Level3, "Creating Plugin Chain...");
+            Logger.Log(LogType.Log,  "Creating Plugin Chain...",3);
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
 
             string[] names = null;
@@ -887,7 +887,7 @@ namespace Byt3.ExtPP.CLI.Core
                     }
                     else
                     {
-                        Logger.Log(PPLogType.Error, Verbosity.Level1, "Can not find: " + path);
+                        Logger.Log(LogType.Error,  "Can not find: " + path, 1);
                     }
                 }
             }
@@ -1001,7 +1001,7 @@ namespace Byt3.ExtPP.CLI.Core
         /// Constructor that does the parameter analysis.
         /// </summary>
         /// <param name="args"></param>
-        public CLI(string[] args)
+        public CLI(string[] args):base(ExtPPDebugConfig.Settings)
         {
 
             pluginManager = new PluginManager.PluginManager();

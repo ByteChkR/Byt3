@@ -18,7 +18,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         {
             if (!Program.HasTarget)
             {
-                Logger.Log(LogType.Log, "You need to specify a target config");
+                Logger.Log(LogType.Log, "You need to specify a target config", 1);
                 return;
             }
 
@@ -27,11 +27,10 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             AssemblyGeneratorBuildType buildType = AssemblyGeneratorBuildType.Publish;
             if (args.Length == 1 && !Enum.TryParse(args[0], out buildType))
             {
-                Logger.Log(LogType.Log, "Can not parse the BuildType. Using Default:" + buildType);
+                Logger.Log(LogType.Log, "Can not parse the BuildType. Using Default:" + buildType, 1);
             }
 
             string path = Path.Combine(Path.GetDirectoryName(Program.Target), $"{def.AssemblyName}_build");
-            Logger.Log(LogType.Log, "AAAAAAAAAAAAAA:" + path);
             AssemblyGenerator.GenerateAssembly("dotnet", def, path, buildType, !Program.BuildConsole);
         }
     }

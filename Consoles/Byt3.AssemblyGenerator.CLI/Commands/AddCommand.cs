@@ -15,13 +15,13 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
         {
             if (!Program.HasTarget)
             {
-                Logger.Log(LogType.Log, "You need to specify a target config");
+                Logger.Log(LogType.Log, "You need to specify a target config", 1);
                 return;
             }
 
             if (args.Length != 1)
             {
-                Logger.Log(LogType.Log, "Only 1 argument allowed.");
+                Logger.Log(LogType.Log, "Only 1 argument allowed.", 1);
                 return;
             }
 
@@ -36,7 +36,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             }
             else
             {
-                Logger.Log(LogType.Log, "Can not Parse File: " + args[0]);
+                Logger.Log(LogType.Log, "Can not Parse File: " + args[0], 1);
                 return;
             }
 

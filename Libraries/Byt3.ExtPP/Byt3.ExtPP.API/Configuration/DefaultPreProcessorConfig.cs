@@ -13,7 +13,6 @@ namespace Byt3.ExtPP.API.Configuration
     {
         public override string FileExtension => "***";
         private static readonly StringBuilder Sb = new StringBuilder();
-        protected override Verbosity VerbosityLevel { get; } = Verbosity.Silent;
 
         protected override List<AbstractPlugin> Plugins =>
             new List<AbstractPlugin>

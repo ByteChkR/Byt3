@@ -42,7 +42,7 @@ namespace Byt3.ExtPP.Plugins
         public override bool FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
         {
 
-            Logger.Log(PPLogType.Log, Verbosity.Level5, "Disovering Include Statments...");
+           Logger.Log(LogType.Log,  "Disovering Include Statments...",5);
             List<string> source = script.GetSource().ToList();
             string currentPath = Path.GetDirectoryName(script.GetFileInterface().GetFilePath());
             bool hasIncludedInline;
@@ -53,18 +53,18 @@ namespace Byt3.ExtPP.Plugins
                 {
                     if (Utils.IsStatement(source[i], IncludeInlineKeyword))
                     {
-                        Logger.Log(PPLogType.Log, Verbosity.Level6, "Found Inline Include Statement...");
+                       Logger.Log(LogType.Log,  "Found Inline Include Statement...",6);
                         string[] args = Utils.SplitAndRemoveFirst(source[i], Separator);
                         if (args.Length == 0)
                         {
 
-                            Logger.Log(PPLogType.Error, Verbosity.Level1, "No File Specified");
+                           Logger.Log(LogType.Error,  "No File Specified",1);
                             continue;
                         }
 
                         if (Utils.FileExistsRelativeTo(currentPath, args[0]))
                         {
-                            Logger.Log(PPLogType.Log, Verbosity.Level6, "Replacing Inline Keyword with file content");
+                           Logger.Log(LogType.Log,  "Replacing Inline Keyword with file content",6);
                             source.RemoveAt(i);
 
                             source.InsertRange(i, IOManager.ReadAllLines(Path.Combine(currentPath, args[0])));
@@ -72,7 +72,7 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else
                         {
-                            Logger.Log(PPLogType.Error, Verbosity.Level1, $"File does not exist: {args[0]}");
+                           Logger.Log(LogType.Error,  $"File does not exist: {args[0]}",1);
                         }
                     }
                 }
@@ -84,13 +84,13 @@ namespace Byt3.ExtPP.Plugins
 
             foreach (string includes in incs)
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level5, $"Processing Statement: {includes}");
+               Logger.Log(LogType.Log,  $"Processing Statement: {includes}",5);
                 bool tmp = GetISourceScript(sourceManager, includes, currentPath, out List<ISourceScript> sources);
                 if (tmp)
                 {
                     foreach (ISourceScript sourceScript in sources)
                     {
-                        Logger.Log(PPLogType.Log, Verbosity.Level6, $"Processing Include: {Path.GetFileName(sourceScript.GetFileInterface().GetKey())}");
+                       Logger.Log(LogType.Log,  $"Processing Include: {Path.GetFileName(sourceScript.GetFileInterface().GetKey())}",6);
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -112,7 +112,7 @@ namespace Byt3.ExtPP.Plugins
 
             }
 
-            Logger.Log(PPLogType.Log, Verbosity.Level5, "Inclusion of Files Finished");
+           Logger.Log(LogType.Log,  "Inclusion of Files Finished",5);
             return true;
 
         }
@@ -129,7 +129,7 @@ namespace Byt3.ExtPP.Plugins
                 ImportResult importInfo = manager.GetComputingScheme()(vars, currentPath);
                 if (!importInfo)
                 {
-                    Logger.Log(PPLogType.Error, Verbosity.Level1, "Invalid Include Statement");
+                   Logger.Log(LogType.Error,  "Invalid Include Statement",1);
                     return false;
 
                 }
@@ -170,7 +170,7 @@ namespace Byt3.ExtPP.Plugins
                     if (sourceScript.GetFileInterface().HasValidFilepath &&
                         !Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface()))
                     {
-                        Logger.Log(PPLogType.Error, Verbosity.Level1, $"Could not find File: {sourceScript.GetFileInterface()}");
+                       Logger.Log(LogType.Error,  $"Could not find File: {sourceScript.GetFileInterface()}",1);
                         scripts.RemoveAt(index);
                     }
                 }

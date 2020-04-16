@@ -7,7 +7,7 @@ namespace Byt3.Utilities.Threading
 {
     public static class ProcessRunner
     {
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("Process Type");
+        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(UtilitiesThreadingDebugConfig.Settings, "Process Type");
 
         public static bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         public static string ShellCommand =>
@@ -69,7 +69,7 @@ namespace Byt3.Utilities.Threading
                 p.WaitForExit(commandInfo.WaitForExitTimeout);
                 if (!p.HasExited)
                 {
-                    Logger.Log(LogType.Warning, $"Command \"{commandInfo.Command}\" Timed Out");
+                    Logger.Log(LogType.Warning, $"Command \"{commandInfo.Command}\" Timed Out",1);
                     p.Kill();
                     return;
                 }

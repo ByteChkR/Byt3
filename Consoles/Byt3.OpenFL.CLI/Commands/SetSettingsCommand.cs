@@ -29,7 +29,7 @@ namespace Byt3.OpenFL.CLI.Commands
         {
             CommandAction = ReflectData;
             RootNodes = rootNodes;
-            Logger.Log(LogType.Log,"Root Nodes: " + RootNodes.Count);
+            Logger.Log(LogType.Log,"Root Nodes: " + RootNodes.Count, 1);
         }
 
         private void ReflectData(StartupArgumentInfo info, string[] args)
@@ -38,7 +38,7 @@ namespace Byt3.OpenFL.CLI.Commands
             {
                 string[] parts = args[i].Split(':');
                 string fullpath = parts[0];
-                Logger.Log(LogType.Log, "Trying to Find Field: " + fullpath);
+                Logger.Log(LogType.Log, "Trying to Find Field: " + fullpath,3);
                 if (parts.Length != 2 || fullpath.IndexOf('.') == -1)
                 {
                     continue;
@@ -50,7 +50,7 @@ namespace Byt3.OpenFL.CLI.Commands
                     FieldInformations fis = RootNodes[root];
                     if (fis.Fields.ContainsKey(fullpath))
                     {
-                        Logger.Log(LogType.Log, "Setting " + fullpath + " to " + data);
+                        Logger.Log(LogType.Log, "Setting " + fullpath + " to " + data, 1);
                         FieldInformation fi = fis.Fields[fullpath];
                         if (fi.info.FieldType == typeof(float))
                         {
@@ -71,12 +71,12 @@ namespace Byt3.OpenFL.CLI.Commands
                     }
                     else
                     {
-                        Logger.Log(LogType.Error, "Can not Find a Field with Path: " + fullpath);
+                        Logger.Log(LogType.Error, "Can not Find a Field with Path: " + fullpath, 1);
                     }
                 }
                 else
                 {
-                    Logger.Log(LogType.Error,"Can not Find a Field with Path: " + fullpath);
+                    Logger.Log(LogType.Error,"Can not Find a Field with Path: " + fullpath, 1);
                 }
             }
         }

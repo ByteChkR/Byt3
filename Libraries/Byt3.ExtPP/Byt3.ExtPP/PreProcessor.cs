@@ -13,8 +13,10 @@ namespace Byt3.ExtPP
     /// <summary>
     /// 
     /// </summary>
-    public class PreProcessor : ALoggable<PPLogType>
+    public class PreProcessor : ALoggable<LogType>
     {
+        public PreProcessor() : base(ExtPPDebugConfig.Settings) { }
+
         /// <summary>
         /// List of loaded plugins
         /// </summary>
@@ -75,11 +77,11 @@ namespace Byt3.ExtPP
         public string[] Run(IFileContent[] files, Settings settings, IDefinitions defs)
         {
 
-            Logger.Log(PPLogType.Log, Verbosity.Level1, "Starting Pre Processor...");
+            //Logger.Log(LogType.Log, "Starting Pre Processor...", 1);
             ISourceScript[] src = Process(files, settings, defs);
             string[] ret = Compile(src, false);
 
-            Logger.Log(PPLogType.Progress, Verbosity.Level1, $"Finished in {Timer.MS}ms.");
+            //Logger.Log(LogType.Progress, $"Finished in {Timer.MS}ms.", 1);
 
             Timer.GlobalTimer.Reset();
 
@@ -124,10 +126,10 @@ namespace Byt3.ExtPP
         /// <param name="sourceManager">Sourcemanager used</param>
         private void InitializePlugins(Settings settings, IDefinitions def, ISourceManager sourceManager)
         {
-            Logger.Log(PPLogType.Log, Verbosity.Level1, "Initializing Plugins...");
+            Logger.Log(LogType.Log, "Initializing Plugins...", 2);
             foreach (AbstractPlugin plugin in plugins)
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level2, $"Initializing Plugin: {plugin.GetType().Name}");
+                Logger.Log(LogType.Log, $"Initializing Plugin: {plugin.GetType().Name}", 3);
 
                 plugin.Initialize(settings.GetSettingsWithPrefix(plugin.Prefix, plugin.IncludeGlobal), sourceManager,
                     def);
@@ -148,7 +150,7 @@ namespace Byt3.ExtPP
             }
 
             long old = Timer.MS;
-            Logger.Log(PPLogType.Log, Verbosity.Level2, "Starting Compilation of File Tree...");
+            Logger.Log(LogType.Log, "Starting Compilation of File Tree...", 4);
             List<string> ret = new List<string>();
             for (int i = src.Length - 1; i >= 0; i--)
             {
@@ -159,13 +161,13 @@ namespace Byt3.ExtPP
                 }
             }
 
-            Logger.Log(PPLogType.Log, Verbosity.Level2, "Finished Compilation...");
-            //this.Log(PPLogType.Log, Verbosity.LEVEL3, "Cleaning up: {0}", CleanUpList.Unpack(", "));
+            //Logger.Log(LogType.Log, "Finished Compilation...", 2);
+            //this.Log(PPLogType.Log,  "Cleaning up: {0}", CleanUpList.Unpack(", "));
 
             string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray()).ToArray();
 
-            Logger.Log(PPLogType.Progress, Verbosity.Level1, $"Finished Compiling {Timer.MS - old} Files({Timer.MS - old}ms)");
-            Logger.Log(PPLogType.Log, Verbosity.Level2, $"Total Lines: {rrr.Length}");
+            //Logger.Log(LogType.Progress, $"Finished Compiling {Timer.MS - old} Files({Timer.MS - old}ms)", 1);
+            //Logger.Log(LogType.Log, $"Total Lines: {rrr.Length}", 1);
             return rrr;
         }
 
@@ -186,7 +188,7 @@ namespace Byt3.ExtPP
 
             long old = Timer.MS;
             InitializePlugins(settings, definitions, sm);
-            Logger.Log(PPLogType.Progress, Verbosity.Level1, $"Finished Initializing {plugins.Count} Plugins({Timer.MS - old}ms)");
+            //Logger.Log(LogType.Progress, $"Finished Initializing {plugins.Count} Plugins({Timer.MS - old}ms)", 1);
 
             old = Timer.MS;
             foreach (IFileContent file in files)
@@ -198,9 +200,9 @@ namespace Byt3.ExtPP
                 sm.AddToTodo(sss);
             }
 
-            Logger.Log(PPLogType.Progress, Verbosity.Level1, $"Loaded {sm.GetTodoCount()} Files in {Timer.MS - old}ms");
+            //Logger.Log(LogType.Progress, $"Loaded {sm.GetTodoCount()} Files in {Timer.MS - old}ms", 1);
 
-            Logger.Log(PPLogType.Log, Verbosity.Level1, $"Starting Processing of Files: {files.Unpack(", ")}");
+            //Logger.Log(LogType.Log, $"Starting Processing of Files: {files.Unpack(", ")}", 1);
 
             old = Timer.MS;
             ISourceScript ss = sm.NextItem;
@@ -213,8 +215,8 @@ namespace Byt3.ExtPP
                     RunStages(this, ProcessStage.OnLoadStage, ss, sm, definitions);
                 }
 
-                Logger.Log(PPLogType.Progress, Verbosity.Level1, $"Remaining Files: {sm.GetTodoCount()}");
-                Logger.Log(PPLogType.Log, Verbosity.Level2, $"Selecting File: {Path.GetFileName(ss.GetFileInterface().GetKey())}");
+                //Logger.Log(LogType.Progress, $"Remaining Files: {sm.GetTodoCount()}", 1);
+                Logger.Log(LogType.Log, $"Selecting File: {Path.GetFileName(ss.GetFileInterface().GetKey())}", 3);
                 //RUN MAIN
                 sm.SetLock(false);
                 RunStages(this, ProcessStage.OnMain, ss, sm, definitions);
@@ -226,16 +228,15 @@ namespace Byt3.ExtPP
 
             //Directory.SetCurrentDirectory(dir);
             ISourceScript[] ret = sm.GetList().ToArray();
-            Logger.Log(PPLogType.Log, Verbosity.Level1, "Finishing Up...");
+
             foreach (ISourceScript finishedScript in ret)
             {
-                Logger.Log(PPLogType.Log, Verbosity.Level2,$"Selecting File: {Path.GetFileName(finishedScript.GetFileInterface().GetKey())}");
+                Logger.Log(LogType.Log, $"Selecting File: {Path.GetFileName(finishedScript.GetFileInterface().GetKey())}", 3);
                 RunStages(this, ProcessStage.OnFinishUp, finishedScript, sm, definitions);
             }
-            Logger.Log(PPLogType.Log, Verbosity.Level1, "Finished Processing Files.");
+            Logger.Log(LogType.Log, "Finished Processing Files.", 2);
 
-            Logger.Log(PPLogType.Progress, Verbosity.Level1,
-                $"Processed {sm.GetList().Count} Files into {ret.Length} scripts in {Timer.MS - old}ms");
+            //Logger.Log(LogType.Progress,$"Processed {sm.GetList().Count} Files into {ret.Length} scripts in {Timer.MS - old}ms", 1);
 
             return ret;
 
@@ -285,6 +286,8 @@ namespace Byt3.ExtPP
         {
             List<AbstractPlugin> chain = AbstractPlugin.GetPluginsForStage(plugins, type, stage);
 
+
+            Logger.Log(LogType.Log, "Running Stage: " + stage + "|" + type, 3);
 
             bool ret = true;
 
@@ -352,7 +355,7 @@ namespace Byt3.ExtPP
             foreach (AbstractPlugin abstractPlugin in fullScriptStage)
             {
                 bool ret = true;
-                Logger.Log(PPLogType.Log, Verbosity.Level3, $"Running Plugin: {abstractPlugin}: {stage} on file {Path.GetFileName(script.GetFileInterface().GetKey())}" );
+                Logger.Log(LogType.Log, $"Running Plugin: {abstractPlugin}: {stage} on file {Path.GetFileName(script.GetFileInterface().GetKey())}", 4);
                 if (stage == ProcessStage.OnLoadStage)
                 {
                     ret = abstractPlugin.OnLoad_FullScriptStage(script, sourceManager, defTable);
@@ -364,7 +367,7 @@ namespace Byt3.ExtPP
 
                 if (!ret)
                 {
-                    Logger.Log(PPLogType.Error, Verbosity.Level1, $"Processing was aborted by Plugin: {abstractPlugin}");
+                    Logger.Log(LogType.Error, $"Processing was aborted by Plugin: {abstractPlugin}", 1);
                     return false;
                 }
             }

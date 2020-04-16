@@ -23,7 +23,7 @@ namespace Byt3.ADL
         private static bool FirstLog = true;
 
 
-        private static readonly ADLLogger<LogType> InternalLogger = new ADLLogger<LogType>("ADL_Internal");
+        private static readonly ADLLogger<LogType> InternalLogger = new ADLLogger<LogType>(InternalADLProjectDebugConfig.Settings, "ADL_Internal");
 
         private static readonly object PrefixLock = new object();
 
@@ -126,7 +126,7 @@ namespace Byt3.ADL
         {
             if (stream == null)
             {
-                InternalLogger.Log(LogType.Warning, "AddOutputStream(NULL): The Supplied stream is a nullpointer.");
+                InternalLogger.Log(LogType.Warning, "AddOutputStream(NULL): The Supplied stream is a nullpointer.", 1);
                 return;
             }
 
@@ -134,7 +134,7 @@ namespace Byt3.ADL
             {
                 InternalLogger.Log(LogType.Warning,
                     "AddOutputStream(" + stream +
-                    "): ADL is disabled, you are adding an Output Stream while ADL is disabled.");
+                    "): ADL is disabled, you are adding an Output Stream while ADL is disabled.", 1);
             }
             bool contains = false;
             lock (Streams)
@@ -145,7 +145,7 @@ namespace Byt3.ADL
             if (contains)
             {
                 InternalLogger.Log(LogType.Warning,
-                    "AddOutputStream(" + stream + "): Supplied stream is already in the list. Aborting!");
+                    "AddOutputStream(" + stream + "): Supplied stream is already in the list. Aborting!", 1);
                 return;
             }
 
@@ -172,7 +172,7 @@ namespace Byt3.ADL
             if (!contains)
             {
                 InternalLogger.Log(LogType.Warning,
-                    "RemoveOutputStream(" + stream + "): Supplied stream is not in the list. Aborting!");
+                    "RemoveOutputStream(" + stream + "): Supplied stream is not in the list. Aborting!", 1);
                 return;
             }
 
@@ -180,7 +180,7 @@ namespace Byt3.ADL
             {
                 InternalLogger.Log(LogType.Warning,
                     "RemoveOutputStream(" + stream +
-                    "): ADL is disabled, you are removing an Output Stream while while ADL is disabled.");
+                    "): ADL is disabled, you are removing an Output Stream while while ADL is disabled.", 1);
             }
             lock (Streams)
             {
@@ -199,7 +199,7 @@ namespace Byt3.ADL
         /// <param name="closeStream">If streams should be closed upon removal from the system</param>
         public static void RemoveAllOutputStreams(bool closeStream = true)
         {
-            InternalLogger.Log(LogType.Log, "Debug Queue Emptied");
+            InternalLogger.Log(LogType.Log, "Debug Queue Emptied", 1);
             lock (Streams)
             {
                 if (closeStream)
@@ -228,13 +228,13 @@ namespace Byt3.ADL
             {
                 InternalLogger.Log(LogType.Warning,
                     "AddPrefixForMask(" + mask +
-                    "): ADL is disabled, you are adding a prefix for a mask while ADL is disabled.");
+                    "): ADL is disabled, you are adding a prefix for a mask while ADL is disabled.", 1);
             }
             if (!BitMask.IsUniqueMask(mask))
             {
                 InternalLogger.Log(LogType.Warning,
                     "AddPrefixForMask(" + mask + "): Adding Prefix: " + prefix + " for mask: " + mask +
-                    ". Mask is not unique.");
+                    ". Mask is not unique.", 1);
             }
             lock (PrefixLock)
             {
@@ -259,7 +259,7 @@ namespace Byt3.ADL
             {
                 InternalLogger.Log(LogType.Warning,
                     "RemovePrefixForMask(" + mask +
-                    "): ADL is disabled, you are removing a prefix for a mask while ADL is disabled.");
+                    "): ADL is disabled, you are removing a prefix for a mask while ADL is disabled.", 1);
             }
 
             lock (PrefixLock)
@@ -297,7 +297,7 @@ namespace Byt3.ADL
                 prefixes.ToList().ForEach(x => info += x + ", ");
                 InternalLogger.Log(LogType.Warning,
                     "SetAllPrefixes(" + info +
-                    "): ADL is disabled, you are removing a prefix for a mask while ADL is disabled.");
+                    "): ADL is disabled, you are removing a prefix for a mask while ADL is disabled.", 1);
             }
 
             RemoveAllPrefixes(prefixes);
@@ -317,7 +317,7 @@ namespace Byt3.ADL
             if (!AdlEnabled)
             {
                 InternalLogger.Log(LogType.Warning,
-                    "GetAllPrefixes(): ADL is disabled, you are getting all prefixes while ADL is disabled.");
+                    "GetAllPrefixes(): ADL is disabled, you are getting all prefixes while ADL is disabled.", 1);
             }
             lock (prefixes)
             {

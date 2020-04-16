@@ -42,7 +42,7 @@ namespace Byt3.CommandRunner
         protected AbstractCommand(Action<StartupArgumentInfo, string[]> action, string[] keys,
             string helpText = "No Help Text Available", bool defaultCommand = false)
         {
-            Logger = new ADLLogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
+            Logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandAction = action;
             CommandKeys = keys;
             HelpText = helpText;
@@ -58,7 +58,7 @@ namespace Byt3.CommandRunner
         protected AbstractCommand(string[] keys, string helpText = "No Help Text Available",
             bool defaultCommand = false)
         {
-            Logger = new ADLLogger<LogType>("Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
+            Logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandKeys = keys;
             HelpText = helpText;
             DefaultCommand = defaultCommand;

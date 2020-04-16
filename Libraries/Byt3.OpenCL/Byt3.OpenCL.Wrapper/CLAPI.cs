@@ -22,7 +22,7 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class CLAPI : IDisposable
     {
-        internal static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("CL-API");
+        internal static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(OpenCLDebugConfig.Settings, "CL-API");
 
         public delegate string[] IOReadLinesCallback(string file);
 
@@ -205,7 +205,7 @@ namespace Byt3.OpenCL.Wrapper
 
                 for (int j = 0; j < ds.Count(); j++)
                 {
-                    Logger.Log(LogType.Log, "Adding Device: " + ds.ElementAt(j).Name + "@" + ds.ElementAt(j).Vendor);
+                    Logger.Log(LogType.Log, "Adding Device: " + ds.ElementAt(j).Name + "@" + ds.ElementAt(j).Vendor, 1);
                     devs.Add(ds.ElementAt(j));
                 }
 
@@ -218,7 +218,7 @@ namespace Byt3.OpenCL.Wrapper
                 bool o = devs[i].IsAvailable;
                 if (o)
                 {
-                    Logger.Log(LogType.Log, "Choosing Device: " + devs[i].Name + "@" + devs[i].Vendor);
+                    Logger.Log(LogType.Log, "Choosing Device: " + devs[i].Name + "@" + devs[i].Vendor, 1);
                     chosenDevice = devs[i];
                     break;
                 }
@@ -236,7 +236,7 @@ namespace Byt3.OpenCL.Wrapper
             }
             catch (Exception e)
             {
-                Logger.Log(LogType.Error, e.ToString());
+                Logger.Log(LogType.Error, e.ToString(), 1);
                 throw new Exception(
                     "Could not initialize OpenCL with Device: " + chosenDevice.Name + "@" + chosenDevice.Vendor +
                     "\n\t" + e.Message, e);

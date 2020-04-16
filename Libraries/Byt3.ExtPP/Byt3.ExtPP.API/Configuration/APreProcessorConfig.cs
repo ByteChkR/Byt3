@@ -11,18 +11,21 @@ namespace Byt3.ExtPP.API.Configuration
     /// <summary>
     /// Abstract PreProcessor Configuration
     /// </summary>
-    public abstract class APreProcessorConfig : ALoggable<PPLogType>
+    public abstract class APreProcessorConfig : ALoggable<LogType>
     {
+
+        protected APreProcessorConfig() : base(ExtPPDebugConfig.Settings) { }
+
         public abstract string FileExtension { get; }
-        protected abstract Verbosity VerbosityLevel { get; }
         protected abstract List<AbstractPlugin> Plugins { get; }
         public abstract string GetGenericInclude(string filename, string[] genType);
 
         public string[] Preprocess(IFileContent filename, Dictionary<string, bool> defs)
         {
-            PreProcessor pp = new PreProcessor();
 
-            Logger.VerbosityLevel = VerbosityLevel;
+            Logger.Log(LogType.Log, "Preprocessing file: " + filename.GetFilePath(),1);
+
+            PreProcessor pp = new PreProcessor();
 
 
             pp.SetFileProcessingChain(Plugins);

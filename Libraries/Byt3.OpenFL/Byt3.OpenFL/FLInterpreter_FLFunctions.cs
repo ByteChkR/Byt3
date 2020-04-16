@@ -34,8 +34,8 @@ namespace Byt3.OpenFL
                 byte channel = (byte) Convert.ChangeType(val, typeof(byte));
                 if (channel >= channelCount)
                 {
-                    Logger.Log(LogType.Error, Verbosity.Level1,
-                        "Script is enabling channels beyond channel count. Ignoring...");
+                    Logger.Log(LogType.Error, 
+                        "Script is enabling channels beyond channel count. Ignoring...",1);
                 }
                 else
                 {
@@ -76,13 +76,13 @@ namespace Byt3.OpenFL
             }
             else
             {
-                Logger.Log(LogType.Log, Verbosity.Level1, "Skipping Updating Channel Buffer");
+                Logger.Log(LogType.Log,  "Skipping Updating Channel Buffer", 1);
             }
         }
 
         private void UpdateActiveChannels()
         {
-            Logger.Log(LogType.Log, Verbosity.Level1, "Updating Channel Buffer");
+            Logger.Log(LogType.Log,  "Updating Channel Buffer", 1);
             CLAPI.WriteToBuffer(instance, activeChannelBuffer, activeChannels);
         }
 
@@ -145,7 +145,7 @@ namespace Byt3.OpenFL
         /// </summary>
         private void CmdJump() //Dummy function. Implementation in AnalyzeLine(code) function(look for isDirectExecute)
         {
-            Logger.Log(LogType.Log, Verbosity.Level1, "Jumping.");
+            Logger.Log(LogType.Log,  "Jumping.", 1);
         }
 
         /// <summary>

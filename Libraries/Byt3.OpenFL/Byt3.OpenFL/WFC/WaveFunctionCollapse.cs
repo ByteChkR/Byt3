@@ -1,5 +1,6 @@
 ﻿using System;
 using Byt3.ADL;
+using Byt3.ExtPP.Base;
 
 /*
 The MIT License(MIT)
@@ -16,7 +17,7 @@ namespace Byt3.OpenFL.WFC
     /// </summary>
     public abstract class WaveFunctionCollapse
     {
-        protected static readonly LevelFilteredLogger<LogType> Logger = new LevelFilteredLogger<LogType>("WFC");
+        protected static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "WFC");
         protected static readonly int[] Dx = {-1, 0, 1, 0};
         protected static readonly int[] Dy = {0, 1, 0, -1};
         private static readonly int[] Opposite = {2, 3, 0, 1};
@@ -225,8 +226,8 @@ namespace Byt3.OpenFL.WFC
             {
                 if (l % 250 == 0)
                 {
-                    Logger.Log(LogType.Log, Verbosity.Level6,
-                        "Starting Iteration: " + l);
+                    Logger.Log(LogType.Log,
+                        "Starting Iteration: " + l,6);
                 }
 
                 bool? result = Observe();

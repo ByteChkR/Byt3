@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Byt3.ADL;
 using Byt3.ExtPP.API;
+using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.OpenCL.Common.Exceptions;
 using Byt3.OpenCL.DataTypes;
@@ -230,7 +231,7 @@ namespace Byt3.OpenFL
         public FLInterpreter(CLAPI instance, string file, MemoryBuffer input, int width, int height, int depth,
             int channelCount,
             KernelDatabase kernelDb,
-            bool ignoreDebug)
+            bool ignoreDebug):base(OpenFLDebugConfig.Settings)
         {
             this.instance = instance;
             flFunctions = new Dictionary<string, FLInterpreterFunctionInfo>
@@ -347,8 +348,8 @@ namespace Byt3.OpenFL
                 {
                     if (memoryBuffer.Value.IsInternal)
                     {
-                        Logger.Log(LogType.Log, Verbosity.Level5,
-                            "Freeing Buffer: " + memoryBuffer.Value);
+                        Logger.Log(LogType.Log, 
+                            "Freeing Buffer: " + memoryBuffer.Value,5);
                         memoryBuffer.Value.Buffer.Dispose();
                     }
                 }
@@ -519,7 +520,7 @@ namespace Byt3.OpenFL
                 }
 
                 CLKernel k = (CLKernel)data.Instruction;
-                Logger.Log(LogType.Log, "Running Kernel: " + k.Name);
+                Logger.Log(LogType.Log, "Running Kernel: " + k.Name,4);
                 if (k == null || data.Arguments.Count != k.Parameter.Count - FL_HEADER_ARG_COUNT)
                 {
                     throw new FLInvalidFunctionUseException(this.data.Source[currentIndex],
@@ -544,7 +545,7 @@ namespace Byt3.OpenFL
                     k.SetArg(i, obj);
                 }
 
-                Logger.Log(LogType.Log, Verbosity.Level8, "Running kernel: " + k.Name);
+                Logger.Log(LogType.Log,  "Running kernel: " + k.Name,8);
                 CLAPI.Run(instance, k, currentBuffer.Buffer, new int3(width, height, depth),
                     KernelParameter.GetDataMaxSize(kernelDb.GenDataType), activeChannelBuffer,
                     channelCount); //Running the kernel
@@ -569,7 +570,7 @@ namespace Byt3.OpenFL
             {
                 if (jumpStack.Count == 0)
                 {
-                    Logger.Log(LogType.Log, Verbosity.Level8, "Reached End of Code");
+                    Logger.Log(LogType.Log,  "Reached End of Code",8);
 
                     Terminated = true;
                 }
@@ -577,8 +578,8 @@ namespace Byt3.OpenFL
                 {
                     FLInterpreterState lastState = jumpStack.Pop();
 
-                    Logger.Log(LogType.Log, Verbosity.Level8,
-                        "Returning to location: " + data.Source[lastState.Line]);
+                    Logger.Log(LogType.Log, 
+                        "Returning to location: " + data.Source[lastState.Line],8);
                     currentIndex = lastState.Line;
 
                     activeChannels = lastState.ChannelBuffer;
@@ -609,8 +610,8 @@ namespace Byt3.OpenFL
         /// <param name="leaveBuffer">a flag to optionally keep the current buffer</param>
         private void JumpTo(int index, bool leaveBuffer = false)
         {
-            Logger.Log(LogType.Log, Verbosity.Level6,
-                "Jumping To Function: " + data.Source[index]);
+            Logger.Log(LogType.Log, 
+                "Jumping To Function: " + data.Source[index],6);
             jumpStack.Push(new FLInterpreterState(currentIndex, currentBuffer, currentArgStack, activeChannels));
             stepResult.HasJumped = true;
 
@@ -679,7 +680,7 @@ namespace Byt3.OpenFL
         /// <param name="channelCount"></param>
         private List<string> LoadSource(string file, int channelCount)
         {
-            Logger.Log(LogType.Log, Verbosity.Level8, "Loading Source..");
+            Logger.Log(LogType.Log,  "Loading Source..",8);
 
             Dictionary<string, bool> defs = new Dictionary<string, bool>();
 
@@ -712,39 +713,39 @@ namespace Byt3.OpenFL
             int channelCount,
             KernelDatabase db, Dictionary<string, FLInterpreterFunctionInfo> funcs)
         {
-            Logger.Log(LogType.Log, Verbosity.Level6,
-                "Loading Script Data for File: " + file);
+            Logger.Log(LogType.Log, 
+                "Loading Script Data for File: " + file,6);
 
             FLScriptData ret = new FLScriptData(LoadSource(file, channelCount));
 
 
             ret.Defines.Add(INPUT_BUFFER_NAME, inBuffer);
 
-            Logger.Log(LogType.Log, Verbosity.Level5,
-                "Parsing Texture Defines for File: " + file);
+            Logger.Log(LogType.Log, 
+                "Parsing Texture Defines for File: " + file,5);
             ParseDefines(instance, DEFINE_KEY, DefineTexture, ret.Source, ret.Defines, width, height, depth,
                 channelCount, db);
 
-            Logger.Log(LogType.Log, Verbosity.Level5,
-                "Parsing Script Defines for File: " + file);
+            Logger.Log(LogType.Log, 
+                "Parsing Script Defines for File: " + file, 5);
             ParseDefines(instance, SCRIPT_DEFINE_KEY, DefineScript, ret.Source, ret.Defines, width, height, depth,
                 channelCount,
                 db);
 
-            Logger.Log(LogType.Log, Verbosity.Level5,
-                "Parsing JumpLocations for File: " + file);
+            Logger.Log(LogType.Log, 
+                "Parsing JumpLocations for File: " + file, 5);
             ret.JumpLocations = ParseJumpLocations(ret.Source);
 
-            Logger.Log(LogType.Log, Verbosity.Level5,
-                "Parsing Instruction Data for File: " + file);
+            Logger.Log(LogType.Log, 
+                "Parsing Instruction Data for File: " + file, 5);
             foreach (string line in ret.Source)
             {
-                Logger.Log(LogType.Log, Verbosity.Level3,
-                    "Parsing Instruction Data for Line: " + line);
+                Logger.Log(LogType.Log, 
+                    "Parsing Instruction Data for Line: " + line,3);
                 FLInstructionData data = GetInstructionData(line, ret.Defines, ret.JumpLocations, funcs, db);
 
-                Logger.Log(LogType.Log, Verbosity.Level3,
-                    "Parsed Instruction Data: " + Enum.GetName(typeof(FLInstructionType), data.InstructionType));
+                Logger.Log(LogType.Log, 
+                    "Parsed Instruction Data: " + Enum.GetName(typeof(FLInstructionType), data.InstructionType),3);
 
                 ret.ParsedSource.Add(data);
             }

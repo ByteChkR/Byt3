@@ -1,6 +1,9 @@
 ﻿using System;
 using Byt3.ADL;
+using Byt3.ADL.Configs;
 using Byt3.CommandRunner;
+using Byt3.ExtPP.Base;
+using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.CLI.Commands;
 
 namespace Byt3.OpenFL.CLI
@@ -14,6 +17,13 @@ namespace Byt3.OpenFL.CLI
         {
 
             Debug.DefaultInitialization();
+
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Silent;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Silent;
+            InternalADLProjectDebugConfig.Settings.MinSeverity = Verbosity.Silent;
+            CommandRunnerDebugConfig.Settings.MinSeverity = Verbosity.Silent;
+
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level4;
 
             Runner.AddCommand(new DefaultHelpCommand());
             Runner.AddCommand(new SetOutputFilesCommand());

@@ -18,7 +18,7 @@ namespace Byt3.ADL.Crash
 
         private static readonly CrashConfig Config = ConfigManager.GetDefault<CrashConfig>();
 
-        private static readonly ADLLogger<CrashLogType> CrashLogger = new ADLLogger<CrashLogType>("ADL.Crash");
+        private static readonly ADLLogger<CrashLogType> CrashLogger = new ADLLogger<CrashLogType>(InternalADLProjectDebugConfig.Settings, "Crash");
 
         public static void SaveCurrentConfig(string configPath = "adl_crash.xml")
         {
@@ -52,17 +52,17 @@ namespace Byt3.ADL.Crash
         {
             if (!initialized)
             {
-                CrashLogger.Log(CrashLogType.Error, "Crash handler was not initialized");
+                CrashLogger.Log(CrashLogType.Error, "Crash handler was not initialized", 1);
                 return;
             }
 
             if (Config.ShortenCrashInfo)
             {
-                CrashLogger.Log(CrashLogType.CrashShort, ExceptionHeader(exception));
+                CrashLogger.Log(CrashLogType.CrashShort, ExceptionHeader(exception), 1);
             }
             else
             {
-                CrashLogger.Log(CrashLogType.Crash, ExceptionToString(exception, includeInner));
+                CrashLogger.Log(CrashLogType.Crash, ExceptionToString(exception, includeInner), 1);
             }
 
             CrashLogType lt = Config.ShortenCrashInfo ? CrashLogType.CrashShort : CrashLogType.Crash;

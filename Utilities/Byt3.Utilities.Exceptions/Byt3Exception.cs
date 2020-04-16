@@ -1,5 +1,6 @@
 ﻿using System;
 using Byt3.ADL;
+using Byt3.ADL.Configs;
 
 namespace Byt3.Utilities.Exceptions
 {
@@ -8,6 +9,11 @@ namespace Byt3.Utilities.Exceptions
     /// </summary>
     public class Byt3Exception : ApplicationException
     {
+        public static readonly ProjectDebugConfig<LogType, Verbosity> Settings =
+            new ProjectDebugConfig<LogType, Verbosity>("Byt3.Utilities.Exceptions", LogType.All, Verbosity.Level8,
+                PrefixLookupSettings.Addprefixifavailable | PrefixLookupSettings.Bakeprefixes |
+                PrefixLookupSettings.Deconstructmasktofind);
+
         protected readonly ADLLogger<LogType> Logger;
 
         /// <summary>
@@ -17,7 +23,7 @@ namespace Byt3.Utilities.Exceptions
         /// <param name="inner">Inner exeption</param>
         public Byt3Exception(string errorMessage, Exception inner) : base(errorMessage, inner)
         {
-            Logger = new ADLLogger<LogType>(GetType().Name);
+            Logger = new ADLLogger<LogType>(Settings,GetType().Name);
         }
 
         /// <summary>

@@ -26,7 +26,7 @@ namespace Byt3.OpenFL.CLI.Commands
             string[] inputFiles = args;
             string[] outputFiles = SetOutputFilesCommand.OutputFiles;
 
-            Console.ReadLine();
+            //Console.ReadLine();
 
             for (int i = 0; i < inputFiles.Length; i++)
             {
@@ -50,7 +50,7 @@ namespace Byt3.OpenFL.CLI.Commands
 
         private void OnFinishCallback(Dictionary<Bitmap, byte[]> obj, string outputFile)
         {
-            Logger.Log(LogType.Log, "Saving Output File: " + Path.GetFullPath(outputFile));
+            Logger.Log(LogType.Log, "Saving Output File: " + Path.GetFullPath(outputFile), 1);
             KeyValuePair<Bitmap, byte[]> result = obj.ElementAt(0);
             CLAPI.UpdateBitmap(CLAPI.MainThread, result.Key, result.Value);
 

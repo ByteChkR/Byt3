@@ -9,8 +9,11 @@ namespace Byt3.ExtPP.Base.Plugins
     /// <summary>
     /// Specifies the functionality needed to be incorporated in the processing chain of ext_pp
     /// </summary>
-    public abstract class AbstractPlugin : ALoggable<PPLogType>
+    public abstract class AbstractPlugin : ALoggable<LogType>
     {
+
+        protected AbstractPlugin() : base(ExtPPDebugConfig.Settings) { }
+
         /// <summary>
         /// Returns the plugins that are meant to be run at the specified stage
         /// </summary>

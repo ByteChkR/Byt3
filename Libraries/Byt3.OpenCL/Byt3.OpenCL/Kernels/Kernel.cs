@@ -40,10 +40,9 @@ namespace Byt3.OpenCL.Kernels
         private T GetKernelInformation<T>(KernelInformation kernelInformation)
         {
             // Retrieves the size of the return value in bytes, this is used to later get the full information
-            UIntPtr returnValueSize;
             Result result =
                 KernelsNativeApi.GetKernelInformation(Handle, kernelInformation, UIntPtr.Zero, null,
-                    out returnValueSize);
+                    out UIntPtr returnValueSize);
             if (result != Result.Success)
             {
                 throw new OpenClException("The kernel information could not be retrieved.", result);

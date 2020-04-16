@@ -35,7 +35,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
                 }
             }
 
-            Logger.Log(LogType.Log, "Targeting Config: " + target);
+            Logger.Log(LogType.Log, "Targeting Config: " + target, 1);
             Program.Target = target;
         }
     }

@@ -66,7 +66,7 @@ namespace Byt3.OpenFL.Threading
             do
             {
                 FLInterpreterStepResult step = ret.Step();
-                Console.WriteLine(step);
+                //Console.WriteLine(step);
             } while (!ret.Terminated);
 
 

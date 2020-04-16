@@ -16,7 +16,7 @@ namespace Byt3.ExtPP.API
     /// </summary>
     public static class TextProcessorAPI
     {
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("TextProcessorAPI");
+        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(ExtPPDebugConfig.Settings, "TextProcessorAPI");
 
         private static Dictionary<string, APreProcessorConfig> _configs;
 
@@ -43,9 +43,9 @@ namespace Byt3.ExtPP.API
                                 }
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
-                            Console.WriteLine("Can not Load Assembly: "+ asms[i].FullName);
+                            Logger.Log(LogType.Error, "Can not Load Assembly: "+ asms[i].FullName,1);
                         }
                         
                     }
@@ -103,11 +103,11 @@ namespace Byt3.ExtPP.API
 
             if (Configs.ContainsKey(ext))
             {
-                Logger.Log(LogType.Log, "Found Matching PreProcessor Config for: " + ext);
+                Logger.Log(LogType.Log, "Found Matching PreProcessor Config for: " + ext, 5);
                 return Configs[ext].Preprocess(file, defs);
             }
 
-            Logger.Log(LogType.Log, "Loading File with Default PreProcessing");
+            Logger.Log(LogType.Log, "Loading File with Default PreProcessing", 5);
             return Configs["***"].Preprocess(file, defs);
         }
 

@@ -8,7 +8,7 @@ namespace Byt3.PackageHandling
 
         protected AHandler()
         {
-            Logger = new ADLLogger<LogType>("Handler: " + GetType().Name);
+            Logger = new ADLLogger<LogType>(PackageHandlerDebugConfig.Settings, "Handler: " + GetType().Name);
         }
 
         internal abstract void Handle(object objectToHandle, object context);

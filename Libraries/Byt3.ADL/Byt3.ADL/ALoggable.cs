@@ -1,4 +1,5 @@
 ﻿using Byt3.ADL;
+using Byt3.ADL.Configs;
 
 namespace Byt3.ExtPP.Base.Interfaces
 {
@@ -8,11 +9,11 @@ namespace Byt3.ExtPP.Base.Interfaces
     /// </summary>
     public abstract class ALoggable<T> where T : struct
     {
-        protected readonly LevelFilteredLogger<T> Logger;
+        protected readonly ADLLogger<T> Logger;
 
-        protected ALoggable()
+        protected ALoggable(IProjectDebugConfig settings)
         {
-            Logger = new LevelFilteredLogger<T>(GetType().Name);
+            Logger = new ADLLogger<T>(settings, GetType().Name);
         }
     }
 }

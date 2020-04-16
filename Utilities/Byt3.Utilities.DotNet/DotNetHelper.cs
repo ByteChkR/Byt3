@@ -7,7 +7,7 @@ namespace Byt3.Utilities.DotNet
 {
     public static class DotNetHelper
     {
-        public static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>("DotNetHelper");
+        public static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(UtilitiesDotNetDebugConfig.Settings, "DotNetHelper");
 
         public static void DotnetAction(string msbuildCommand, string targetCommand, string arguments,
             string workingDir)
@@ -32,7 +32,7 @@ namespace Byt3.Utilities.DotNet
         public static string BuildProject(string msbuildCommand, string projectFile, AssemblyDefinition definitions,
             bool lib = true)
         {
-            Logger.Log(LogType.Log, "Building Assembly: " + definitions.AssemblyName);
+            Logger.Log(LogType.Log, "Building Assembly: " + definitions.AssemblyName, 1);
             string arguments = $"-c {definitions.BuildConfiguration}";
             if (!definitions.NoTargetRuntime)
             {
@@ -54,7 +54,7 @@ namespace Byt3.Utilities.DotNet
         public static string PublishProject(string msbuildCommand, string projectFile, AssemblyDefinition definitions,
             bool lib = true)
         {
-            Logger.Log(LogType.Log, "Publishing Assembly: " + definitions.AssemblyName);
+            Logger.Log(LogType.Log, "Publishing Assembly: " + definitions.AssemblyName, 1);
             string arguments = $"-c {definitions.BuildConfiguration}";
             if (!definitions.NoTargetRuntime)
             {
@@ -80,7 +80,7 @@ namespace Byt3.Utilities.DotNet
             {
                 return;
             }
-            Logger.Log(LogType.Error, "\t[ERR]" + e.Data);
+            Logger.Log(LogType.Error, "\t[ERR]" + e.Data,5);
 
         }
 
@@ -90,7 +90,7 @@ namespace Byt3.Utilities.DotNet
             {
                 return;
             }
-            Logger.Log(LogType.Log, "\t" + e.Data);
+            Logger.Log(LogType.Log, "\t" + e.Data,5);
 
         }
     }

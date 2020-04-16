@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Byt3.ADL;
+using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 
@@ -8,7 +9,7 @@ namespace Byt3.ExtPP
     /// <summary>
     /// Contains the Values on what is Defined as a Variable when Processing the text
     /// </summary>
-    public class Definitions : ALoggable<PPLogType>, IDefinitions
+    public class Definitions : ALoggable<LogType>, IDefinitions
     {
         /// <summary>
         /// Dictionary to keep track of what is defined and what is not
@@ -27,7 +28,7 @@ namespace Byt3.ExtPP
         /// Creates a Definitions Object with predefined definitions
         /// </summary>
         /// <param name="definitions">the predefined definitions</param>
-        public Definitions(Dictionary<string, bool> definitions)
+        public Definitions(Dictionary<string, bool> definitions) : base(ExtPPDebugConfig.Settings)
         {
             this.definitions = definitions;
         }
@@ -83,7 +84,7 @@ namespace Byt3.ExtPP
         /// <param name="state">The state of the key</param>
         private void Change(string key, bool state)
         {
-            Logger.Log(PPLogType.Log, Verbosity.Level6, $"Setting Key: {key} to value: {state}");
+            Logger.Log(LogType.Log,  $"Setting Key: {key} to value: {state}",6);
             if (definitions.ContainsKey(key))
             {
                 definitions[key] = state;
