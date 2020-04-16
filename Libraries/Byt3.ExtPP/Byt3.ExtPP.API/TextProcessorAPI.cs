@@ -26,6 +26,7 @@ namespace Byt3.ExtPP.API
             {
                 if (_configs == null)
                 {
+
                     _configs = new Dictionary<string, APreProcessorConfig>();
                     Type t = typeof(APreProcessorConfig);
                     Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
@@ -45,10 +46,11 @@ namespace Byt3.ExtPP.API
                         }
                         catch (Exception)
                         {
-                            Logger.Log(LogType.Error, "Can not Load Assembly: "+ asms[i].FullName,1);
+                            //Logger.Log(LogType.Error, "Can not Load Assembly: " + asms[i].FullName, 1);
                         }
-                        
+
                     }
+
                 }
 
                 return _configs;
@@ -57,7 +59,7 @@ namespace Byt3.ExtPP.API
 
         public static string[] GenericIncludeToSource(string ext, string file, params string[] genType)
         {
-            return new[] {Configs[ext].GetGenericInclude(file, genType)};
+            return new[] { Configs[ext].GetGenericInclude(file, genType) };
         }
 
 
