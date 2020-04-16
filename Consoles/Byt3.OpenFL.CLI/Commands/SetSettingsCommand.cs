@@ -9,7 +9,7 @@ namespace Byt3.OpenFL.CLI.Commands
 {
     public class SetSettingsCommand : AbstractCommand
     {
-        private static Dictionary<string, FieldInformations> RootNodes;
+        private Dictionary<string, FieldInformations> RootNodes;
 
         public List<string> AllPaths
         {
@@ -157,9 +157,6 @@ namespace Byt3.OpenFL.CLI.Commands
             return new ObjectFieldContainer(rootName, ret);
         }
 
-        //private static KeyValuePair<string, FieldInformations> Create(string RootName, object o)
-        //{
-        //	return new KeyValuePair<string, FieldInformations>(RootName, new FieldInformations(GenerateFieldInformation(RootName, o)));
-        //}
+
     }
 }

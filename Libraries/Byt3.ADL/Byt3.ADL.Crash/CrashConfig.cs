@@ -6,7 +6,7 @@ namespace Byt3.ADL.Crash
     [Serializable]
     public class CrashConfig : AbstractADLConfig
     {
-        public bool ShortenCrashInfo;
+        public bool ShortenCrashInfo { get; set; }
 
         public override AbstractADLConfig GetStandard()
         {

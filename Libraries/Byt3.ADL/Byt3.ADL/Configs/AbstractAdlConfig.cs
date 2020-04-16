@@ -13,7 +13,6 @@ namespace Byt3.ADL.Configs
         /////     Used by the Config Manager to read the standard config when reading the actual config file failed.
         ///// </summary>
         ///// <returns></returns>
-        //AbstractADLConfig GetStandard();
         public abstract AbstractADLConfig GetStandard();
     }
 }

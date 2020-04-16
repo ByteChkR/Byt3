@@ -141,7 +141,6 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private CLAPI() : base(OpenCLDebugConfig.Settings)
         {
-            //TextProcessorAPI.AddProcessorConfig(".cl", new CLPreProcessorConfig());
             InitializeOpenCl();
         }
 
@@ -225,7 +224,7 @@ namespace Byt3.OpenCL.Wrapper
 
             if (chosenDevice == null)
             {
-                throw new Exception("Could not Get Device. Total Devices: " + devs.Count);
+                throw new OpenClException("Could not Get Device. Total Devices: " + devs.Count);
             }
 
             try

@@ -8,19 +8,18 @@ namespace Byt3.Utilities.DotNet
     [Serializable]
     public class AssemblyDefinition
     {
-        public List<ModuleDefinition> IncludedModules;
-        public bool NoTargetRuntime = false;
-        public string AssemblyName = "TestAssembly";
-        public string BuildConfiguration = "Release";
-        public string BuildTargetRuntime = "win-x64";
+        public List<ModuleDefinition> IncludedModules { get; set; } = new List<ModuleDefinition>();
+        public bool NoTargetRuntime { get; set; } = false;
+        public string AssemblyName { get; set; } = "TestAssembly";
+        public string BuildConfiguration { get; set; } = "Release";
+        public string BuildTargetRuntime { get; set; } = "win-x64";
 
         public AssemblyDefinition()
         {
-            IncludedModules = new List<ModuleDefinition>();
         }
 
         public AssemblyDefinition(string assemblyName, string buildConfiguration = "Release",
-            bool noTargetRuntime = false, string buildTargetRuntime = "win-x64") : this()
+            bool noTargetRuntime = false, string buildTargetRuntime = "win-x64")
         {
             AssemblyName = assemblyName;
             BuildConfiguration = buildConfiguration;

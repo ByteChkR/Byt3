@@ -26,7 +26,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// The currently loaded kernels
         /// </summary>
-        public readonly Dictionary<string, CLKernel> LoadedKernels;
+        private readonly Dictionary<string, CLKernel> loadedKernels;
 
         /// <summary>
         /// Public constructor
@@ -43,7 +43,7 @@ namespace Byt3.OpenCL.Wrapper
             }
 
             this.folderName = folderName;
-            LoadedKernels = new Dictionary<string, CLKernel>();
+            loadedKernels = new Dictionary<string, CLKernel>();
             Initialize(instance);
         }
 
@@ -85,10 +85,10 @@ namespace Byt3.OpenCL.Wrapper
 
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
             {
-                if (!LoadedKernels.ContainsKey(containedKernel.Key))
+                if (!loadedKernels.ContainsKey(containedKernel.Key))
                 {
                     Logger.Log(LogType.Log, "Adding Kernel: " + containedKernel.Key, 4);
-                    LoadedKernels.Add(containedKernel.Key, containedKernel.Value);
+                    loadedKernels.Add(containedKernel.Key, containedKernel.Value);
                 }
                 else
                 {
@@ -100,7 +100,7 @@ namespace Byt3.OpenCL.Wrapper
 
         public CLKernel GetClKernel(string name)
         {
-            return LoadedKernels[name];
+            return loadedKernels[name];
         }
 
         /// <summary>
@@ -111,9 +111,9 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns>Returns True if the kernel has been found</returns>
         public bool TryGetClKernel(string name, out CLKernel kernel)
         {
-            if (LoadedKernels.ContainsKey(name))
+            if (loadedKernels.ContainsKey(name))
             {
-                kernel = LoadedKernels[name];
+                kernel = loadedKernels[name];
                 return true;
             }
 

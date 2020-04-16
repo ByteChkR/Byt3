@@ -560,7 +560,7 @@ namespace Byt3.ExtPP.CLI.Core
                     : new string[0];
                 KeyValuePair<int, bool> ts = ParseLogParams(arguments.Length != 0 ? arguments[0] : "");
 
-                AddLogOutput(LogToFileParams[0], ts.Key, ts.Value);
+                AddLogOutput(LogToFileParams[0], ts.Value);
 
             }
             return false;
@@ -572,7 +572,7 @@ namespace Byt3.ExtPP.CLI.Core
         /// <param name="file"></param>
         /// <param name="mask"></param>
         /// <param name="timestamp"></param>
-        private static void AddLogOutput(string file, int mask, bool timestamp)
+        private static void AddLogOutput(string file,  bool timestamp)
         {
             if (File.Exists(file))
             {

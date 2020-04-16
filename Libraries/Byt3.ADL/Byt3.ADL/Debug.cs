@@ -41,7 +41,7 @@ namespace Byt3.ADL
         /// <summary>
         ///     Contains the flags that determine the way prefixes get looked up
         /// </summary>
-        private static PrefixLookupSettings LookupMode = PrefixLookupSettings.Addprefixifavailable;
+        private static PrefixLookupSettings LookupMode = PrefixLookupSettings.AddPrefixIfAvailable;
 
         /// <summary>
         ///     The extracted flag if we should put tags at all
@@ -105,12 +105,12 @@ namespace Byt3.ADL
             set
             {
                 AddPrefix =
-                    BitMask.IsContainedInMask((int) value, (int) PrefixLookupSettings.Addprefixifavailable, false);
+                    BitMask.IsContainedInMask((int) value, (int) PrefixLookupSettings.AddPrefixIfAvailable, false);
                 Deconstructtofind = BitMask.IsContainedInMask((int) value,
-                    (int) PrefixLookupSettings.Deconstructmasktofind, false);
-                Onlyone = BitMask.IsContainedInMask((int) value, (int) PrefixLookupSettings.Onlyoneprefix, false);
+                    (int) PrefixLookupSettings.DeconstructMaskToFind, false);
+                Onlyone = BitMask.IsContainedInMask((int) value, (int) PrefixLookupSettings.OnlyOnePrefix, false);
                 LookupMode = value;
-                BakePrefixes = BitMask.IsContainedInMask((int) value, (int) PrefixLookupSettings.Bakeprefixes, false);
+                BakePrefixes = BitMask.IsContainedInMask((int) value, (int) PrefixLookupSettings.BakePrefixes, false);
             }
         }
 
@@ -452,8 +452,7 @@ namespace Byt3.ADL
                         prefixes.Add(mask,
                             StringBuilder.ToString()); //Create a "custom prefix" with the constructed mask.
                     }
-
-                    //Log(new BitMask(true), "Baked Prefix: "+_stringBuilder.ToString());
+                    
                 }
             }
 

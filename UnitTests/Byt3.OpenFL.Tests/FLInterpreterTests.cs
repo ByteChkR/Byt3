@@ -91,9 +91,7 @@ namespace Byt3.OpenFL.Tests
 
                 buffer.Dispose();
                 res.FreeResources();
-
-                string pp = Path.GetFullPath("./out/" + Path.GetFileNameWithoutExtension(files[i]) + ".png"); //Saving for debug reasons.
-                //bmp.Save(pp);
+                bmp.Dispose();
 
             }
         }

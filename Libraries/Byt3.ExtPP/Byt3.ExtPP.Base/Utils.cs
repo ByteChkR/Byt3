@@ -83,10 +83,7 @@ namespace Byt3.ExtPP.Base
         public static bool FileExistsRelativeTo(string currentPath, string file)
         {
             bool ret1 = IOManager.FileExists(Path.Combine(currentPath, file));
-            //var p = Directory.GetCurrentDirectory();
-            //Directory.SetCurrentDirectory(currentPath);
-            //var ret = File.Exists(file);
-            //Directory.SetCurrentDirectory(p);
+            
             return ret1;
         }
 

@@ -5,7 +5,7 @@ using Byt3.Utilities.Serialization;
 
 namespace Byt3.Utilities.DotNet
 {
-    internal class ReferenceParser
+    internal static class ReferenceParser
     {
         public static CSharpReference Parse(XmlNode node)
         {

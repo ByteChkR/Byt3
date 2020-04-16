@@ -176,25 +176,7 @@ namespace Byt3.AssemblyGenerator
 
         #region Private Functions
 
-        private static CSharpReference PrepareForTransfer(CSharpReference reference, ModuleDefinition original)
-        {
-            List<SerializableKeyValuePair<string, string>> attribs = reference.internalAttributes;
-            for (int i = 0; i < attribs.Count; i++)
-            {
-                if (attribs[i].Key == "Include")
-                {
-                    SerializableKeyValuePair<string, string> serializableKeyValuePair = attribs[i];
-                    serializableKeyValuePair.Value = Path.GetFullPath(Path.Combine(original.RootDirectory,
-                        reference.internalAttributes[i].Value));
-                    attribs[i] = serializableKeyValuePair;
-                }
-            }
-
-            reference.internalAttributes = attribs;
-            return reference;
-
-        }
-
+        
         private static void DiscoverModules(ModuleDefinition module, List<ModuleDefinition> definitions)
         {
             Logger.Log(LogType.Log, "Adding Module: " + module.Name, 1);
@@ -360,7 +342,7 @@ namespace Byt3.AssemblyGenerator
                 Path.GetFileNameWithoutExtension(Path.GetTempFileName())); //Something Like C:\Temp\tmp02qa\
             if (Directory.Exists(ret))
             {
-                throw new Exception("Temp Dir already exists");
+                throw new InvalidOperationException("Temp Dir already exists");
             }
             Directory.CreateDirectory(ret);
             return ret;
@@ -374,7 +356,7 @@ namespace Byt3.AssemblyGenerator
             string ret = Path.Combine(parentFolder, newFolderName);
             if (Directory.Exists(ret))
             {
-                throw new Exception("Directory Already exists");
+                throw new InvalidOperationException("Directory Already exists");
             }
             else
             {

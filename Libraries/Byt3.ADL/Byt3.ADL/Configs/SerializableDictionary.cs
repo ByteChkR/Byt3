@@ -14,12 +14,12 @@ namespace Byt3.ADL.Configs
         /// <summary>
         ///     The Stored Keys
         /// </summary>
-        public List<T1> Keys;
+        public List<T1> Keys { get; set; }
 
         /// <summary>
         ///     The Stored Values
         /// </summary>
-        public List<T2> Values;
+        public List<T2> Values { get; set; }
 
         /// <summary>
         ///     Converts dict into a Serializable Dictionary

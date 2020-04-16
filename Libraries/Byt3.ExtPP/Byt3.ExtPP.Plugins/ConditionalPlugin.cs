@@ -110,7 +110,7 @@ namespace Byt3.ExtPP.Plugins
                     if (IsKeyWord(line, StartCondition))
                     {
                         Logger.Log(LogType.Log, $"Found a {StartCondition} Statement", PLUGIN_MIN_SEVERITY + 2);
-                        KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs,
+                        KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation( line, defs,
                             lastPass, i,
                             solvedFile);
 
@@ -126,7 +126,7 @@ namespace Byt3.ExtPP.Plugins
                         Logger.Log(LogType.Log, $"Found a {ElseIfCondition} Statement", PLUGIN_MIN_SEVERITY + 2);
                         if (!expectEndOrIf && openIf > 0)
                         {
-                            KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs,
+                            KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation( line, defs,
                                 lastPass, i,
                                 solvedFile);
 
@@ -233,7 +233,7 @@ namespace Byt3.ExtPP.Plugins
         }
 
 
-        private KeyValuePair<bool, int> PrepareForConditionalEvaluation(string keyword, string line, IDefinitions defs,
+        private KeyValuePair<bool, int> PrepareForConditionalEvaluation(string line, IDefinitions defs,
             IReadOnlyList<string> lastPass, int i, List<string> solvedFile)
         {
             bool r = EvaluateConditional(line, defs);

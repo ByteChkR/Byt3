@@ -310,7 +310,7 @@ namespace Byt3.Serialization
             {
                 return KeyTypeCache[key];
             }
-            throw new Exception("Could not Find the Type with Key: " + key);
+            throw new KeyNotFoundException("Could not Find the Type with Key: " + key);
         }
 
 

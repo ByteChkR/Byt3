@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿
+using System.IO;
 using Byt3.ADL.Configs;
 using Byt3.ADL.Streams;
 using NUnit.Framework;
@@ -36,7 +37,7 @@ namespace Byt3.ADL.Tests
         {
             //Flag is required to find tags made up of unique masks(example: 2|8)
             Debug.PrefixLookupMode =
-                PrefixLookupSettings.Addprefixifavailable | PrefixLookupSettings.Deconstructmasktofind;
+                PrefixLookupSettings.AddPrefixIfAvailable | PrefixLookupSettings.DeconstructMaskToFind;
 
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
 
@@ -85,7 +86,7 @@ namespace Byt3.ADL.Tests
         public void ADL_Debug_SetAllPrefixes_Test()
         {
             //Flag is required to find tags made up of unique masks(example: 2|8)
-            Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable;
+            Debug.PrefixLookupMode = PrefixLookupSettings.AddPrefixIfAvailable;
 
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
 
@@ -111,7 +112,7 @@ namespace Byt3.ADL.Tests
         {
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
             //Flag is required to find tags made up of unique masks(example: 2|8)
-            Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable;
+            Debug.PrefixLookupMode = PrefixLookupSettings.AddPrefixIfAvailable;
 
 
             logger.SetAllPrefixes("Hello", "HELLO1", "HOLA2");
@@ -152,19 +153,19 @@ namespace Byt3.ADL.Tests
         {
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
             //Flag is required to find tags made up of unique masks(example: 2|8)
-            Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable;
+            Debug.PrefixLookupMode = PrefixLookupSettings.AddPrefixIfAvailable;
 
             logger.SetAllPrefixes("Hello", "HELLO1", "HOLA2");
             BitMask bm = 2;
             Assert.True(logger.GetMaskPrefix(bm) == "HELLO1");
 
-            Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable | PrefixLookupSettings.Onlyoneprefix;
+            Debug.PrefixLookupMode = PrefixLookupSettings.AddPrefixIfAvailable | PrefixLookupSettings.OnlyOnePrefix;
 
             bm = 32;
             Assert.False(logger.GetMaskPrefix(bm) == "HELLO1");
 
-            Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable | PrefixLookupSettings.Bakeprefixes |
-                                     PrefixLookupSettings.Deconstructmasktofind;
+            Debug.PrefixLookupMode = PrefixLookupSettings.AddPrefixIfAvailable | PrefixLookupSettings.BakePrefixes |
+                                     PrefixLookupSettings.DeconstructMaskToFind;
 
             bm = 32;
             Assert.False(logger.GetMaskPrefix(bm) == "HELLO1");
@@ -196,8 +197,8 @@ namespace Byt3.ADL.Tests
             };
 
 
-            Debug.PrefixLookupMode = PrefixLookupSettings.Noprefix;
-            Assert.True(Debug.PrefixLookupMode == PrefixLookupSettings.Noprefix);
+            Debug.PrefixLookupMode = PrefixLookupSettings.NoPrefix;
+            Assert.True(Debug.PrefixLookupMode == PrefixLookupSettings.NoPrefix);
 
 
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
@@ -224,7 +225,7 @@ namespace Byt3.ADL.Tests
             Assert.True(s.EndsWith("ffffffffff\n"));
 
 
-            Debug.PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable | PrefixLookupSettings.Bakeprefixes;
+            Debug.PrefixLookupMode = PrefixLookupSettings.AddPrefixIfAvailable | PrefixLookupSettings.BakePrefixes;
 
             logger.Log(2 | 4, "CODE COVERAGE", 0);
             logger.Log(2 | 4, "CODE COVERAGE", 0);

@@ -9,14 +9,14 @@ namespace Byt3.Utilities.DotNet
     [Serializable]
     public class ModuleDefinition
     {
-        public string Name;
-        public string RootDirectory;
+        public string Name { get; set; }
+        public string RootDirectory { get; set; }
         public string[] ScriptFiles => Directory.GetFiles(RootDirectory, "*.cs", SearchOption.AllDirectories)
             .Where(x => !x.Contains("\\bin\\") && !x.Contains("\\obj\\")).ToArray();
 
-        public CSharpReference[] Packages;
-        public CSharpReference[] Projects;
-        public CSharpReference[] EmbeddedFiles;
+        public CSharpReference[] Packages { get; set; }
+        public CSharpReference[] Projects { get; set; }
+        public CSharpReference[] EmbeddedFiles { get; set; }
 
         public ModuleDefinition()
         {

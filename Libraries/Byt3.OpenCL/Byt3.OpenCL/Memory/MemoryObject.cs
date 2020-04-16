@@ -26,10 +26,9 @@ namespace Byt3.OpenCL.Memory
         private T GetMemoryObjectInformation<T>(MemoryObjectInformation memoryObjectInformation)
         {
             // Retrieves the size of the return value in bytes, this is used to later get the full information
-            UIntPtr returnValueSize;
             Result result = MemoryNativeApi.GetMemoryObjectInformation(Handle, memoryObjectInformation, UIntPtr.Zero,
                 null,
-                out returnValueSize);
+                out UIntPtr returnValueSize);
             if (result != Result.Success)
             {
                 throw new OpenClException("The memory object information could not be retrieved.", result);

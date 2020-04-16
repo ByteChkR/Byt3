@@ -83,7 +83,7 @@ namespace Byt3.ADL
         {
             if (prefixes.Length > sizeof(int) * 8)
             {
-                throw new Exception("Can not add more than " + sizeof(int) * 8 + " prefixes");
+                throw new InvalidOperationException("Can not add more than " + sizeof(int) * 8 + " prefixes");
             }
             Dictionary<int, string> ret = new Dictionary<int, string>();
             int s = 1;

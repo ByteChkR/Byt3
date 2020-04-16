@@ -10,7 +10,7 @@ using Byt3.ExtPP.Base.settings;
 
 namespace Byt3.ExtPP.Tests
 {
-    public class TestHelper
+    public static class TestHelper
     {
         public static string ResF
         {

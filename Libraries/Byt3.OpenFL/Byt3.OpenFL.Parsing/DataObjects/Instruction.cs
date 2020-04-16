@@ -10,7 +10,7 @@ namespace Byt3.OpenFL.Parsing.DataObjects
             Arguments = arguments;
         }
 
-        public List<InstructionArgument> Arguments;
+        public List<InstructionArgument> Arguments { get; }
         public abstract void Process();
 
         public override void SetRoot(FLParseResult root)

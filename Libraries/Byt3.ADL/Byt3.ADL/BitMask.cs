@@ -310,23 +310,6 @@ namespace Byt3.ADL
             return new BitMask<T>(mask);
         }
 
-        ///// <summary>
-        ///// Auto Convert to T
-        ///// </summary>
-        ///// <param name="mask">This Object</param>
-        //public static implicit operator T(BitMask<T> mask)
-        //{
-        //    List<int> masks = BitMask.GetUniqueMasksSet(mask);
-
-        //    T ret = (T)Enum.Parse(typeof(T), Enum.GetName(typeof(T), masks[0]));
-        //    for(int i = 1; i < masks.Count; i++)
-        //    {
-        //        T item = (T)Enum.Parse(typeof(T), Enum.GetName(typeof(T), masks[1]));
-        //        ret = CombineMasks(MaskCombineType.BIT_AND, ret, item);
-        //    }
-        //    return ret;
-        //}
-
         /// <summary>
         ///     Auto Convert from T
         /// </summary>

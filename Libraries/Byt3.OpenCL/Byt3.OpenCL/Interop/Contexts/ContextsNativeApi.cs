@@ -158,17 +158,6 @@ namespace Byt3.OpenCL.Interop.Contexts
             [Out] out UIntPtr parameterValueSizeReturned
         );
 
-        //[IntroducedInOpenCl(1, 0)]
-        //[DllImport("OpenCL", EntryPoint = "clCreateFromGLTexture2D")]
-        //public static extern IntPtr CreateFromGLTexture2D(
-        //    [In] IntPtr context,
-        //    [In] [MarshalAs(UnmanagedType.U8)] MemoryFlag parameterName,
-        //    [In] uint gltexture_target,
-        //    [In] int miplevel,
-        //    [In] uint texture,
-        //    [Out] [MarshalAs(UnmanagedType.I4)] out Result errorCode
-        //);
-
         #endregion
     }
 }

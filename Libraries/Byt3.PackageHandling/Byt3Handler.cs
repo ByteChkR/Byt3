@@ -8,7 +8,8 @@ namespace Byt3.PackageHandling
         private readonly Dictionary<Type, AHandler> handlers = new Dictionary<Type, AHandler>();
         private readonly Dictionary<Type, AHandler> implicitHandlerMap = new Dictionary<Type, AHandler>();
         private readonly AHandler fallbackHandler;
-        public Byt3HandlerLookupType LookupType = Byt3HandlerLookupType.TraverseUp;
+
+        public Byt3HandlerLookupType LookupType { get; set; } = Byt3HandlerLookupType.TraverseUp;
         private bool ExactOnly => LookupType == Byt3HandlerLookupType.None;
         private bool UseFallback => (LookupType & Byt3HandlerLookupType.UseFallback) != 0;
         private bool TraverseUp => (LookupType & Byt3HandlerLookupType.TraverseUp) != 0;

@@ -22,7 +22,7 @@ namespace Byt3.OpenFL.Parsing.Stages
         {
             Logger.Log(LogType.Log, "Parsing Tree: " + input.Filename, 2);
             Logger.Log(LogType.Log, "Creating Defined Script Nodes..", 3);
-            Dictionary<string, FunctionObject> scripts = ParseScriptDefines(input.Instance, input.Filename, input.DefinedScripts);
+            Dictionary<string, FunctionObject> scripts = ParseScriptDefines(input.Instance, input.DefinedScripts);
             Logger.Log(LogType.Log, "Script Nodes: " + scripts.Select(x=>x.Key).Unpack(", "), 4);
             
             Logger.Log(LogType.Log, "Creating Defined Buffer Nodes..", 3);
@@ -36,7 +36,7 @@ namespace Byt3.OpenFL.Parsing.Stages
                 functions);
         }
 
-        private static Dictionary<string, FunctionObject> ParseScriptDefines(CLAPI instance, string path, string[] statements)
+        private static Dictionary<string, FunctionObject> ParseScriptDefines(CLAPI instance, string[] statements)
         {
             Dictionary<string, FunctionObject> ret = new Dictionary<string, FunctionObject>();
             for (int i = 0; i < statements.Length; i++)

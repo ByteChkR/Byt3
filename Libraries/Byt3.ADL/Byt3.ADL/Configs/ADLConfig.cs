@@ -13,32 +13,22 @@ namespace Byt3.ADL.Configs
         /// <summary>
         ///     Is ADL enabled when this config is loaded?
         /// </summary>
-        public bool AdlEnabled;
+        public bool AdlEnabled { get; set; }
 
-        ///// <summary>
-        /////     The prefixes that are used when a log in a specific mask gets sent.
-        ///// </summary>
-        //public SerializableDictionary<int, string> Prefixes;
 
         /// <summary>
         ///     Determines the Options on how much effort is put into finding the right tags
         /// </summary>
-        public PrefixLookupSettings PrefixLookupMode;
-
-        ///// <summary>
-        /////     Should ADL Search for updates when the first log message gets writen to the streams.
-        /////     It will take ~300ms to communicate with the github server.
-        ///// </summary>
-        //public bool CheckForUpdates;
+        public PrefixLookupSettings PrefixLookupMode { get; set; }
 
 
-        [XmlIgnore] public Encoding TextEncoding;
+        [XmlIgnore] public Encoding TextEncoding { get; set; }
 
 
         /// <summary>
         /// The format ADL uses to convert a Time to a string representation
         /// </summary>
-        public string TimeFormatString;
+        public string TimeFormatString { get; set; }
 
 
         /// <summary>
@@ -50,8 +40,8 @@ namespace Byt3.ADL.Configs
             return new ADLConfig
             {
                 AdlEnabled = true,
-                PrefixLookupMode = PrefixLookupSettings.Addprefixifavailable |
-                                   PrefixLookupSettings.Deconstructmasktofind,
+                PrefixLookupMode = PrefixLookupSettings.AddPrefixIfAvailable |
+                                   PrefixLookupSettings.DeconstructMaskToFind,
                 TextEncoding = Encoding.ASCII,
                 TimeFormatString = "MM-dd-yyyy-H-mm-ss"
             };
@@ -60,24 +50,24 @@ namespace Byt3.ADL.Configs
         #region Lookup Presets
 
         public static PrefixLookupSettings LowestPerformance =>
-            PrefixLookupSettings.Addprefixifavailable |
-            PrefixLookupSettings.Deconstructmasktofind;
+            PrefixLookupSettings.AddPrefixIfAvailable |
+            PrefixLookupSettings.DeconstructMaskToFind;
 
         public static PrefixLookupSettings LowPerformance =>
-            PrefixLookupSettings.Addprefixifavailable |
-            PrefixLookupSettings.Deconstructmasktofind |
-            PrefixLookupSettings.Onlyoneprefix;
+            PrefixLookupSettings.AddPrefixIfAvailable |
+            PrefixLookupSettings.DeconstructMaskToFind |
+            PrefixLookupSettings.OnlyOnePrefix;
 
         public static PrefixLookupSettings MediumPerformance =>
-            PrefixLookupSettings.Addprefixifavailable |
-            PrefixLookupSettings.Deconstructmasktofind |
-            PrefixLookupSettings.Bakeprefixes;
+            PrefixLookupSettings.AddPrefixIfAvailable |
+            PrefixLookupSettings.DeconstructMaskToFind |
+            PrefixLookupSettings.BakePrefixes;
 
         public static PrefixLookupSettings HighPerformance =>
-            PrefixLookupSettings.Addprefixifavailable;
+            PrefixLookupSettings.AddPrefixIfAvailable;
 
         public static PrefixLookupSettings HighestPerformance =>
-            PrefixLookupSettings.Noprefix;
+            PrefixLookupSettings.NoPrefix;
 
         #endregion
     }

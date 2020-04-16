@@ -131,7 +131,6 @@ namespace Byt3.ADL.Streams
             //Debug.AddOutputStream is using this to determine if the Stream is already in the system
             // ReSharper disable once BaseObjectEqualsIsObjectEquals
             return base.Equals(obj);
-            //return _baseStream.Equals(obj);
         }
 
         public override int GetHashCode()

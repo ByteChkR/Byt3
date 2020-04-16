@@ -76,8 +76,9 @@ namespace Byt3.OpenFL.Parsing
         /// </summary>
         public virtual MemoryBuffer Buffer { get; }
 
-        public int Width;
-        public int Height;
+        public int Width { get; protected set; }
+
+        public int Height { get; protected set; }
         public long Size => Buffer.Size;
 
         public FLBufferInfo(CLAPI instance, int width, int height) : this(
