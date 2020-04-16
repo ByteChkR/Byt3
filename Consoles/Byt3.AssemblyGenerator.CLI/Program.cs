@@ -7,8 +7,8 @@ namespace Byt3.AssemblyGenerator.CLI
 {
     internal static class Program
     {
-        public static bool BuildConsole;
-        public static string Target;
+        public static bool BuildConsole { get; set; }
+        public static string Target { get; set; }
         public static bool HasTarget => !string.IsNullOrEmpty(Target);
 
         private static void Main(string[] args)

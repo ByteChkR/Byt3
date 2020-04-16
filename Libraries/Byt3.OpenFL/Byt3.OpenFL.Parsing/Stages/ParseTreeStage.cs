@@ -46,7 +46,9 @@ namespace Byt3.OpenFL.Parsing.Stages
                 string p = relPath;
 
                 if(!File.Exists(p))
-                    throw new FLInvalidDefineStatementException("Can not Find Script with path: "+ p);
+                {
+                    throw new FLInvalidDefineStatementException("Can not Find Script with path: " + p);
+                }
 
                 FLParseResult ps = FLParser.Parse(new FLParserInput(p, instance));
                 ret.Add(name, ps.EntryPoint);
@@ -87,7 +89,9 @@ namespace Byt3.OpenFL.Parsing.Stages
                     Instruction inst =
                         ParseInstruction(functionHeaders, definedBuffers, definedScripts, functionBody[i]);
                     if (inst != null)
+                    {
                         instructions.Add(inst);
+                    }
                 }
             }
 
@@ -97,14 +101,20 @@ namespace Byt3.OpenFL.Parsing.Stages
         private static Instruction ParseInstruction(string[] functionHeaders, string[] definedBuffers, string[] definedScripts,
             string instruction)
         {
-            if (instruction == "") return null;
+            if (instruction == "")
+            {
+                return null;
+            }
             string[] parts = instruction.Split(new[] { ' ' }, StringSplitOptions.None);
             string inst = parts[0];
 
             List<InstructionArgument> args = new List<InstructionArgument>();
             for (int i = 1; i < parts.Length; i++)
             {
-                if (FLParser.IsComment(parts[i])) break;
+                if (FLParser.IsComment(parts[i]))
+                {
+                    break;
+                }
                 args.Add(ParseInstructionArgument(functionHeaders, definedBuffers, definedScripts, parts[i]));
             }
 

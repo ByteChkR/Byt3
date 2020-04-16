@@ -62,7 +62,10 @@ namespace Byt3.ExtPP.Plugins
                 string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
 
                 Logger.Log(LogType.Error, $"Warning: {err}", 1);
-                if (ThrowOnWarning) throw new ErrorException(err);
+                if (ThrowOnWarning)
+                {
+                    throw new ErrorException(err);
+                }
                 return "";
             }
 
@@ -71,7 +74,10 @@ namespace Byt3.ExtPP.Plugins
             {
                 string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
                 Logger.Log(LogType.Error, $"Error {err}", 1);
-                if(ThrowOnError)throw new ErrorException(err);
+                if(ThrowOnError)
+                {
+                    throw new ErrorException(err);
+                }
                 return "";
             }
 

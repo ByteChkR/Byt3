@@ -69,8 +69,7 @@ namespace Byt3.AssemblyGenerator
             Logger.Log(LogType.Log, "Cleaning Output Folder", 1);
             while (Directory.Exists(outputFolder))
             {
-                //Console.Write(".");
-                //Wait
+                
             }
 
             Directory.Move(outDir, outputFolder);
@@ -133,7 +132,6 @@ namespace Byt3.AssemblyGenerator
 
 
                 ret.Add(GenerateModuleDefinition(project));
-                //ModuleDefinition.Save(Path.Combine(moduleConfigOutputDir, def.Name) + ".moduleconfig", def);
             }
 
             return ret.ToArray();
@@ -235,7 +233,9 @@ namespace Byt3.AssemblyGenerator
             Logger.Log(LogType.Log, "Generating csproject File...", 1);
 
             if (lib)
+            {
                 DotNetHelper.NewLib(msBuildPath, workingDir, definition.AssemblyName);
+            }
             else
                 DotNetHelper.NewCommandLine(msBuildPath, workingDir, definition.AssemblyName);
 
@@ -263,16 +263,6 @@ namespace Byt3.AssemblyGenerator
                 {
                     p.AddReference(defintionDefinition.Packages[i]);
                 }
-                //for (int i = 0; i < defintionDefinition.Projects.Length; i++)
-                //{
-                //    CSharpReference r = PrepareForTransfer(defintionDefinition.Projects[i],
-                //        defintionDefinition);
-                //    string path = r.Attributes["Include"];
-                //    if (modules.Count(x => path == Path.GetFullPath(Path.Combine(x.RootDirectory, x.Name + ".csproj"))) == 0)
-                //    {
-                //        p.AddReference(r);
-                //    }
-                //}
 
                 for (int i = 0; i < defintionDefinition.EmbeddedFiles.Length; i++)
                 {

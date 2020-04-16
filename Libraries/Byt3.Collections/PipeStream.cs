@@ -32,7 +32,7 @@ namespace Byt3.Collections
     ///	OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR 
     ///	OTHER DEALINGS IN THE SOFTWARE.
     /// </license>
-    public class PipeStream : Stream
+    public class PipeStream : Stream, IDisposable
     {
         #region Private members
 

@@ -30,7 +30,10 @@ namespace Byt3.ADL
 
         public void Log(int mask, string message, int severity)
         {
-            if (ProjectDebugConfig.GetMinSeverity() < severity) return;
+            if (ProjectDebugConfig.GetMinSeverity() < severity)
+            {
+                return;
+            }
 
             string subp = "";
             if (!string.IsNullOrEmpty(SubProjectName))

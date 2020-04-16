@@ -77,7 +77,7 @@ namespace Byt3.ADL
         /// <summary>
         /// The format ADL uses to convert a Time to a string representation
         /// </summary>
-        public static string TimeFormatString;
+        public static string TimeFormatString { get; set; }
 
         /// <summary>
         ///     Public property, used to disable ADl

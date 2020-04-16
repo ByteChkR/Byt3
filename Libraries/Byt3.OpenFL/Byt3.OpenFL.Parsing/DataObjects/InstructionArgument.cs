@@ -26,6 +26,9 @@
                     case UnresolvedDefinedBuffer _:
                         ret = InstructionArgumentType.UnresolvedDefinedBuffer;
                         break;
+                    default:
+                        ret = InstructionArgumentType.Undefined;
+                        break;
                 }
 
                 return ret;

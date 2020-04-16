@@ -4,7 +4,7 @@ namespace Byt3.ExtPP.Base
 {
     public class IOCallbacks
     {
-        public static IOCallbacks Callback;
+        public static IOCallbacks Callback { get; set; }
 
         static IOCallbacks()
         {

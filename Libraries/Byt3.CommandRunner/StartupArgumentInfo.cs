@@ -12,16 +12,16 @@ namespace Byt3.CommandRunner
         /// <summary>
         /// Defines the Prefix for Command Keys that are longer.
         /// </summary>
-        public static string LongCommmandPrefix = "--";
+        public const string LONG_COMMAND_PREFIX = "--";
         /// <summary>
         /// Defines the Prefix for Command Keys that act as shortcuts to longer commands.
         /// </summary>
-        public static string ShortCommandPrefix = "-";
+        public const string SHORT_COMMAND_PREFIX = "-";
 
         /// <summary>
         /// When used as an Argument the Implementation will load the file after the symbols and use each line as parameter for the command.
         /// </summary>
-        public static string FilePathPrefix = "@";
+        public const string FILE_PATH_PREFIX = "@";
 
         public int CommandCount => values.Count;
 
@@ -33,7 +33,7 @@ namespace Byt3.CommandRunner
         /// <returns></returns>
         public static bool HasCommandPrefix(string text)
         {
-            return text.StartsWith(LongCommmandPrefix) || text.StartsWith(ShortCommandPrefix);
+            return text.StartsWith(LONG_COMMAND_PREFIX) || text.StartsWith(SHORT_COMMAND_PREFIX);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Byt3.CommandRunner
             List<string> argss = new List<string>();
             for (int i = 0; i < args.Length; i++)
             {
-                if (args[i].StartsWith(FilePathPrefix))
+                if (args[i].StartsWith(FILE_PATH_PREFIX))
                 {
                     argss.AddRange(ResolveFileReferences(args[i]));
                 }
@@ -122,9 +122,9 @@ namespace Byt3.CommandRunner
         /// <returns>Lines of the File.</returns>
         public static List<string> ResolveFileReferences(string arg)
         {
-            if (arg.StartsWith(FilePathPrefix))
+            if (arg.StartsWith(FILE_PATH_PREFIX))
             {
-                return File.ReadAllLines(arg.Remove(0, FilePathPrefix.Length)).ToList();
+                return File.ReadAllLines(arg.Remove(0, FILE_PATH_PREFIX.Length)).ToList();
             }
 
             return new List<string> {arg};

@@ -117,12 +117,14 @@ namespace Byt3.OpenFL.Parsing.WFC
             {
                 Observed = new int[Fmx * Fmy];
                 for (int i = 0; i < Wave.Length; i++)
-                for (int t = 0; t < T; t++)
                 {
-                    if (Wave[i][t])
+                    for (int t = 0; t < T; t++)
                     {
-                        Observed[i] = t;
-                        break;
+                        if (Wave[i][t])
+                        {
+                            Observed[i] = t;
+                            break;
+                        }
                     }
                 }
 

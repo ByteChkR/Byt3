@@ -117,7 +117,10 @@ namespace Byt3.OpenFL.Parsing
             List<string> ret = new List<string>();
             for (int i = index + 1; i < source.Length; i++)
             {
-                if (IsFunctionHeader(source[i])) break;
+                if (IsFunctionHeader(source[i]))
+                {
+                    break;
+                }
                 ret.Add(source[i].Trim());
             }
 

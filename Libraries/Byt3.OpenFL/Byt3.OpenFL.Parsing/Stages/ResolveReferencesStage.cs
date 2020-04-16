@@ -52,11 +52,16 @@ namespace Byt3.OpenFL.Parsing.Stages
                             Logger.Log(LogType.Log,
                                 $"Resolving {(uf.External ? "External " : "")}Function for Argument: {instructionArgumentName}", 6);
 
-                            if (uf.External) source.Functions[i].Instructions[j].Arguments[k].Value =
-                                 source.DefinedScripts[uf.FunctionName];
+                            if (uf.External)
+                            {
+                                source.Functions[i].Instructions[j].Arguments[k].Value =
+                                    source.DefinedScripts[uf.FunctionName];
+                            }
                             else
+                            {
                                 source.Functions[i].Instructions[j].Arguments[k].Value =
                                     source.Functions.First(x => x.Name == uf.FunctionName);
+                            }
                         }
                         else if (source.Functions[i].Instructions[j].Arguments[k].Type ==
                                  InstructionArgumentType.UnresolvedDefinedBuffer)

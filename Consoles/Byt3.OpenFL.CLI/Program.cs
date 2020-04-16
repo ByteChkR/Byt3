@@ -8,7 +8,7 @@ namespace Byt3.OpenFL.CLI
     internal static class Program
     {
 
-        public static PreProcessorSettings Settings = PreProcessorSettings.GetDefault();
+        internal readonly static PreProcessorSettings Settings = PreProcessorSettings.GetDefault();
 
         private static void Main(string[] args)
         {

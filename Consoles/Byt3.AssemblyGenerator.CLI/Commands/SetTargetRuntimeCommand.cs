@@ -1,4 +1,5 @@
-﻿using Byt3.ADL;
+﻿using System.Globalization;
+using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.Utilities.DotNet;
 
@@ -29,7 +30,7 @@ namespace Byt3.AssemblyGenerator.CLI.Commands
             AssemblyDefinition definition = AssemblyDefinition.Load(Program.Target);
 
             Logger.Log(LogType.Log, "Setting Target Runtime: " + args[0], 1);
-            definition.NoTargetRuntime = args[0].ToLower() == "none";
+            definition.NoTargetRuntime = args[0].ToLower(CultureInfo.InvariantCulture) == "none";
             definition.BuildTargetRuntime = args[0];
 
             AssemblyDefinition.Save(Program.Target, definition);

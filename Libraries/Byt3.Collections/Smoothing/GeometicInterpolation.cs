@@ -20,7 +20,7 @@ namespace Byt3.Collections.Smoothing
         /// <param name="pts"></param>
         /// <param name="smoothness"></param>
         /// <returns></returns>
-        public static List<IVec3> Chaikin(List<IVec3> pts, int smoothness = 1)
+        public static List<IVec3> Chaikin(List<IVec3> pts, int smoothness)
         {
             if (smoothness < 1)
             {

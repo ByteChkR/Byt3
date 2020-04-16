@@ -83,7 +83,7 @@ namespace Byt3.ADL.Streams
 
         #region Methods
 
-        public override void Write(byte[] value, int start, int count)
+        public override void Write(byte[] value, int offset, int count)
         {
             byte[] tmp = new byte[count];
             Array.Copy(value, 0, tmp, 0, count);
