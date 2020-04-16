@@ -7,7 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL.Wrapper\Byt3.OpenCL.Wrapper.csproj" />
     <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL\Byt3.OpenCL.csproj" />
-    <ProjectReference Include="..\Byt3.OpenFL\Byt3.OpenFL.csproj" />
+    <ProjectReference Include="..\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
   </ItemGroup>
 
 </Project>

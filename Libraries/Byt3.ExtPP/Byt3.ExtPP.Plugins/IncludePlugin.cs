@@ -42,7 +42,7 @@ namespace Byt3.ExtPP.Plugins
         public override bool FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
         {
 
-           Logger.Log(LogType.Log,  "Disovering Include Statments...",5);
+           Logger.Log(LogType.Log,  "Disovering Include Statments...", PLUGIN_MIN_SEVERITY);
             List<string> source = script.GetSource().ToList();
             string currentPath = Path.GetDirectoryName(script.GetFileInterface().GetFilePath());
             bool hasIncludedInline;
@@ -53,7 +53,7 @@ namespace Byt3.ExtPP.Plugins
                 {
                     if (Utils.IsStatement(source[i], IncludeInlineKeyword))
                     {
-                       Logger.Log(LogType.Log,  "Found Inline Include Statement...",6);
+                       Logger.Log(LogType.Log,  "Found Inline Include Statement...", PLUGIN_MIN_SEVERITY +1);
                         string[] args = Utils.SplitAndRemoveFirst(source[i], Separator);
                         if (args.Length == 0)
                         {
@@ -64,7 +64,7 @@ namespace Byt3.ExtPP.Plugins
 
                         if (Utils.FileExistsRelativeTo(currentPath, args[0]))
                         {
-                           Logger.Log(LogType.Log,  "Replacing Inline Keyword with file content",6);
+                           Logger.Log(LogType.Log,  "Replacing Inline Keyword with file content", PLUGIN_MIN_SEVERITY +2);
                             source.RemoveAt(i);
 
                             source.InsertRange(i, IOManager.ReadAllLines(Path.Combine(currentPath, args[0])));
@@ -84,13 +84,13 @@ namespace Byt3.ExtPP.Plugins
 
             foreach (string includes in incs)
             {
-               Logger.Log(LogType.Log,  $"Processing Statement: {includes}",5);
+               Logger.Log(LogType.Log,  $"Processing Statement: {includes}", PLUGIN_MIN_SEVERITY +1);
                 bool tmp = GetISourceScript(sourceManager, includes, currentPath, out List<ISourceScript> sources);
                 if (tmp)
                 {
                     foreach (ISourceScript sourceScript in sources)
                     {
-                       Logger.Log(LogType.Log,  $"Processing Include: {Path.GetFileName(sourceScript.GetFileInterface().GetKey())}",6);
+                       Logger.Log(LogType.Log,  $"Processing Include: {Path.GetFileName(sourceScript.GetFileInterface().GetKey())}", PLUGIN_MIN_SEVERITY +2);
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -112,7 +112,7 @@ namespace Byt3.ExtPP.Plugins
 
             }
 
-           Logger.Log(LogType.Log,  "Inclusion of Files Finished",5);
+           Logger.Log(LogType.Log,  "Inclusion of Files Finished", PLUGIN_MIN_SEVERITY);
             return true;
 
         }

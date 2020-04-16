@@ -10,9 +10,8 @@ namespace Byt3.Utilities.Exceptions
     public class Byt3Exception : ApplicationException
     {
         public static readonly ProjectDebugConfig<LogType, Verbosity> Settings =
-            new ProjectDebugConfig<LogType, Verbosity>("Byt3.Utilities.Exceptions", LogType.All, Verbosity.Level8,
-                PrefixLookupSettings.Addprefixifavailable | PrefixLookupSettings.Bakeprefixes |
-                PrefixLookupSettings.Deconstructmasktofind);
+            new ProjectDebugConfig<LogType, Verbosity>("Byt3.Utilities.Exceptions", LogType.All, Verbosity.Level4,
+                PrefixLookupSettings.Addprefixifavailable | PrefixLookupSettings.Onlyoneprefix);
 
         protected readonly ADLLogger<LogType> Logger;
 

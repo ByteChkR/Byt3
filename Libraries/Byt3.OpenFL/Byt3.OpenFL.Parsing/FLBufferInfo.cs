@@ -78,6 +78,7 @@ namespace Byt3.OpenFL.Parsing
 
         public int Width;
         public int Height;
+        public long Size => Buffer.Size;
 
         public FLBufferInfo(CLAPI instance, int width, int height) : this(
             CLAPI.CreateEmpty<byte>(instance, width * height * 4, MemoryFlag.ReadWrite), width, height)

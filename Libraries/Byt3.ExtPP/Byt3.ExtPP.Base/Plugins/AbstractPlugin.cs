@@ -11,6 +11,7 @@ namespace Byt3.ExtPP.Base.Plugins
     /// </summary>
     public abstract class AbstractPlugin : ALoggable<LogType>
     {
+        protected const int PLUGIN_MIN_SEVERITY=5;
 
         protected AbstractPlugin() : base(ExtPPDebugConfig.Settings) { }
 

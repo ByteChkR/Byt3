@@ -203,7 +203,7 @@ namespace Byt3.ExtPP.Plugins
         {
             List<string> lines = file.GetSource().ToList();
             List<int> removeIndices = new List<int>();
-           Logger.Log(LogType.Log,  "Discovering Block Keywords.",5);
+           Logger.Log(LogType.Log,  "Discovering Block Keywords.", PLUGIN_MIN_SEVERITY );
             for (int i = 0; i < lines.Count; i++)
             {
                 string line = lines[i].TrimStart();
@@ -222,7 +222,7 @@ namespace Byt3.ExtPP.Plugins
                     }
 
 
-                   Logger.Log(LogType.Log,  "Found Block Encode Keyword.",6);
+                   Logger.Log(LogType.Log,  "Found Block Encode Keyword.", PLUGIN_MIN_SEVERITY +1);
                     for (; i < lines.Count; i++)
                     {
                         if (lines[i].TrimStart().StartsWith(BlockEncodeEndKeyword))
@@ -232,7 +232,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                       Logger.Log(LogType.Log,  $"Encoding line {i}.",7);
+                       Logger.Log(LogType.Log,  $"Encoding line {i}.", PLUGIN_MIN_SEVERITY +2);
                         lines[i] = encodingOk ? enc.Encode(lines[i], encParameter) : lines[i];
 
                     }
@@ -250,7 +250,7 @@ namespace Byt3.ExtPP.Plugins
                        Logger.Log(LogType.Error,  $"Could not load decoder: {lines[i]}",1);
                     }
 
-                   Logger.Log(LogType.Log,  "Found Block Decode Keyword.",6);
+                   Logger.Log(LogType.Log,  "Found Block Decode Keyword.", PLUGIN_MIN_SEVERITY +1);
                     for (; i < lines.Count; i++)
                     {
                         if (lines[i].TrimStart().StartsWith(BlockDecodeEndKeyword))
@@ -260,7 +260,7 @@ namespace Byt3.ExtPP.Plugins
                             break;
                         }
 
-                       Logger.Log(LogType.Log,  $"Decoding line {i}.",7);
+                       Logger.Log(LogType.Log,  $"Decoding line {i}.", PLUGIN_MIN_SEVERITY +2);
                         lines[i] = decodingOk ? enc.Decode(lines[i], encParameter) : lines[i];
 
                     }

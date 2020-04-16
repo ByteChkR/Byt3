@@ -1,7 +1,6 @@
 ﻿using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
-using Byt3.ExtPP.Base.Plugins;
 
 namespace Byt3.ExtPP
 {

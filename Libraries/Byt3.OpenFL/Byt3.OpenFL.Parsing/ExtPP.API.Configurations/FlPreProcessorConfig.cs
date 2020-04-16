@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Byt3.ADL;
 using Byt3.ExtPP.API.Configuration;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
 
-namespace Byt3.OpenCL.Common.ExtPP.API
+namespace Byt3.OpenFL.Parsing.ExtPP.API.Configurations
 {
     /// <summary>
     /// The PreProcessor Configuration used for OpenFL files

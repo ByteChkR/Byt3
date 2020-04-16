@@ -16,8 +16,8 @@ namespace Byt3.ExtPP.Plugins
     {
         private static readonly StringBuilder Sb = new StringBuilder();
 
-        public override string[] Cleanup => new[] {DefineKeyword, UndefineKeyword};
-        public override string[] Prefix => new[] {"con", "Conditional"};
+        public override string[] Cleanup => new[] { DefineKeyword, UndefineKeyword };
+        public override string[] Prefix => new[] { "con", "Conditional" };
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload"
             ? ProcessStage.OnLoadStage
             : ProcessStage.OnMain;
@@ -88,7 +88,7 @@ namespace Byt3.ExtPP.Plugins
 
         public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
-           Logger.Log(LogType.Log, $"Starting Condition Solver passes on file: {Path.GetFileName(file.GetFileInterface().GetKey())}",4);
+            Logger.Log(LogType.Log, $"Starting Condition Solver passes on file: {Path.GetFileName(file.GetFileInterface().GetKey())}", PLUGIN_MIN_SEVERITY);
             bool ret = true;
             int openIf = 0;
             bool foundConditions = false;
@@ -100,7 +100,7 @@ namespace Byt3.ExtPP.Plugins
             do
             {
                 passCount++;
-               Logger.Log(LogType.Log, $"Starting Condition Solver pass: {passCount}",5);
+                Logger.Log(LogType.Log, $"Starting Condition Solver pass: {passCount}", PLUGIN_MIN_SEVERITY + 1);
 
                 foundConditions = false;
                 elseIsValid = false;
@@ -109,6 +109,7 @@ namespace Byt3.ExtPP.Plugins
                     string line = lastPass[i].TrimStart();
                     if (IsKeyWord(line, StartCondition))
                     {
+                        Logger.Log(LogType.Log, $"Found a {StartCondition} Statement", PLUGIN_MIN_SEVERITY + 2);
                         KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs,
                             lastPass, i,
                             solvedFile);
@@ -122,6 +123,7 @@ namespace Byt3.ExtPP.Plugins
                     }
                     else if (elseIsValid && IsKeyWord(line, ElseIfCondition))
                     {
+                        Logger.Log(LogType.Log, $"Found a {ElseIfCondition} Statement", PLUGIN_MIN_SEVERITY + 2);
                         if (!expectEndOrIf && openIf > 0)
                         {
                             KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs,
@@ -134,13 +136,13 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else if (expectEndOrIf)
                         {
-                           Logger.Log(LogType.Error, $"A {ElseCondition} can not be followed by an {ElseIfCondition}",1);
+                            Logger.Log(LogType.Error, $"A {ElseCondition} can not be followed by an {ElseIfCondition}", 1);
                             ret = false;
                             break;
                         }
                         else
                         {
-                           Logger.Log(LogType.Error, $"A {ElseIfCondition} should be preceeded by a {StartCondition}",1);
+                            Logger.Log(LogType.Error, $"A {ElseIfCondition} should be preceeded by a {StartCondition}", 1);
                             ret = false;
                             break;
                         }
@@ -150,17 +152,17 @@ namespace Byt3.ExtPP.Plugins
                         if (openIf > 0)
                         {
 
-                           Logger.Log(LogType.Log, $"Found a {ElseCondition} Statement",5);
+                            Logger.Log(LogType.Log, $"Found a {ElseCondition} Statement", PLUGIN_MIN_SEVERITY + 2);
                             int size = GetBlockSize(lastPass, i);
                             if (elseIsValid)
                             {
                                 solvedFile.AddRange(lastPass.SubArray(i + 1, size));
-                               Logger.Log(LogType.Log, "Adding Branch To Solved File.",5);
+                                Logger.Log(LogType.Log, "Adding Branch To Solved File.", PLUGIN_MIN_SEVERITY + 3);
                             }
                             else
                             {
-                               Logger.Log(LogType.Log,
-                                    "Ignored since a previous condition was true", 1);
+                                Logger.Log(LogType.Log,
+                                     "Ignored since a previous condition was true", PLUGIN_MIN_SEVERITY + 3);
                             }
                             i += size;
                             foundConditions = true;
@@ -168,7 +170,7 @@ namespace Byt3.ExtPP.Plugins
                         }
                         else
                         {
-                           Logger.Log(LogType.Error, $"A {ElseCondition} should be preceeded by a {StartCondition}",1);
+                            Logger.Log(LogType.Error, $"A {ElseCondition} should be preceeded by a {StartCondition}", 1);
                             ret = false;
                             break;
                         }
@@ -184,7 +186,7 @@ namespace Byt3.ExtPP.Plugins
                         {
                             ret = false;
 
-                           Logger.Log(LogType.Error, $"A {EndCondition} should be preceeded by a {StartCondition}",1);
+                            Logger.Log(LogType.Error, $"A {EndCondition} should be preceeded by a {StartCondition}", 1);
                             break;
                         }
                     }
@@ -192,14 +194,14 @@ namespace Byt3.ExtPP.Plugins
                              line.StartsWith(DefineKeyword))
                     {
 
-                       Logger.Log(LogType.Log, $"Found a {DefineKeyword} Statement",5);
+                        Logger.Log(LogType.Log, $"Found a {DefineKeyword} Statement", PLUGIN_MIN_SEVERITY + 2);
                         defs.Set(Utils.SplitAndRemoveFirst(line, Separator));
                         solvedFile.Add(lastPass[i]);
                     }
                     else if (EnableUndefine &&
                              line.StartsWith(UndefineKeyword))
                     {
-                       Logger.Log(LogType.Log, $"Found a {UndefineKeyword} Statement", 1);
+                        Logger.Log(LogType.Log, $"Found a {UndefineKeyword} Statement", PLUGIN_MIN_SEVERITY + 2);
                         defs.Unset(Utils.SplitAndRemoveFirst(line, Separator));
                         solvedFile.Add(lastPass[i]);
                     }
@@ -225,7 +227,7 @@ namespace Byt3.ExtPP.Plugins
             file.SetSource(lastPass.ToArray());
 
 
-           Logger.Log(LogType.Log, "Conditional Solver Finished",4);
+            Logger.Log(LogType.Log, "Conditional Solver Finished", PLUGIN_MIN_SEVERITY);
 
             return ret;
         }
@@ -234,15 +236,14 @@ namespace Byt3.ExtPP.Plugins
         private KeyValuePair<bool, int> PrepareForConditionalEvaluation(string keyword, string line, IDefinitions defs,
             IReadOnlyList<string> lastPass, int i, List<string> solvedFile)
         {
-           Logger.Log(LogType.Log, $"Found a {keyword} Statement",5);
             bool r = EvaluateConditional(line, defs);
-           Logger.Log(LogType.Log, $"Evaluation: {r}",5);
+            Logger.Log(LogType.Log, $"Evaluation: {r}", PLUGIN_MIN_SEVERITY + 4);
             bool elseIsValid = !r;
             int size = GetBlockSize(lastPass, i);
             if (r)
             {
                 solvedFile.AddRange(lastPass.SubArray(i + 1, size));
-               Logger.Log(LogType.Log, "Adding Branch To Solved File.",5);
+                Logger.Log(LogType.Log, "Adding Branch To Solved File.", PLUGIN_MIN_SEVERITY + 3);
             }
 
             return new KeyValuePair<bool, int>(elseIsValid, size);
@@ -250,14 +251,14 @@ namespace Byt3.ExtPP.Plugins
 
         private int GetBlockSize(IReadOnlyList<string> source, int start)
         {
-           Logger.Log(LogType.Log,  "Finding End of conditional block...",6);
+            Logger.Log(LogType.Log, "Finding End of conditional block...", PLUGIN_MIN_SEVERITY + 5);
             int tolerance = 0;
             for (int i = start + 1; i < source.Count; i++)
             {
                 string line = source[i].Trim();
                 if (line.StartsWith(StartCondition))
                 {
-                   Logger.Log(LogType.Log,  "Found nested opening conditional block...",7);
+                    Logger.Log(LogType.Log, "Found nested opening conditional block...", PLUGIN_MIN_SEVERITY + 6);
                     i += GetBlockSize(source, i); //Skip Indices that are "inside" the if clause
                     tolerance++;
                 }
@@ -269,13 +270,13 @@ namespace Byt3.ExtPP.Plugins
                     if (tolerance == 0)
                     {
 
-                       Logger.Log(LogType.Log,  "Found correct ending conditional block...",6);
+                        Logger.Log(LogType.Log, "Found correct ending conditional block...", PLUGIN_MIN_SEVERITY + 5);
                         return i - start - 1;
                     }
                     if (line.StartsWith(EndCondition))
                     {
 
-                       Logger.Log(LogType.Log,  "Found an ending conditional block...",7);
+                        Logger.Log(LogType.Log, "Found an ending conditional block...", PLUGIN_MIN_SEVERITY + 6);
                         tolerance--;
                     }
                 }
@@ -295,7 +296,7 @@ namespace Byt3.ExtPP.Plugins
         private bool EvaluateConditional(string[] expression, IDefinitions defs)
         {
 
-           Logger.Log(LogType.Log,  $"Evaluating Expression: {expression.Unpack(" ")}",7);
+            Logger.Log(LogType.Log, $"Evaluating Expression: {expression.Unpack(" ")}", PLUGIN_MIN_SEVERITY + 4);
 
             bool ret = true;
             bool isOr = false;
@@ -352,11 +353,11 @@ namespace Byt3.ExtPP.Plugins
 
         private bool EvaluateExpression(string expression, IDefinitions defs)
         {
-           Logger.Log(LogType.Log,  $"Evaluating Expression: {expression}",6);
+            Logger.Log(LogType.Log, $"Evaluating Expression: {expression}", PLUGIN_MIN_SEVERITY + 6);
             bool neg = expression.StartsWith(NotOperator);
             if (expression == NotOperator)
             {
-               Logger.Log(LogType.Error, "Single not Operator found. Will break the compilation.",1);
+                Logger.Log(LogType.Error, "Single not Operator found. Will break the compilation.", 1);
                 return false;
             }
 
@@ -376,7 +377,7 @@ namespace Byt3.ExtPP.Plugins
         private string FixCondition(string line)
         {
 
-           Logger.Log(LogType.Log,  $"Fixing expression: {line}", 6);
+            Logger.Log(LogType.Log, $"Fixing expression: {line}", PLUGIN_MIN_SEVERITY + 7);
 
 
             string r = line;
@@ -386,20 +387,20 @@ namespace Byt3.ExtPP.Plugins
             r = SurroundWithSpaces(r, ")");
             string rr = Utils.RemoveExcessSpaces(r, Separator);
 
-           Logger.Log(LogType.Log,  $"Fixed condition(new): {rr}",6);
+            Logger.Log(LogType.Log, $"Fixed condition(new): {rr}", PLUGIN_MIN_SEVERITY + 7);
             return rr;
 
         }
 
         private int IndexOfClosingBracket(string[] expression, int openBracketIndex)
         {
-           Logger.Log(LogType.Log,  "Finding Closing Bracket...",7);
+            Logger.Log(LogType.Log, "Finding Closing Bracket...", PLUGIN_MIN_SEVERITY + 7);
             int tolerance = 0;
             for (int i = openBracketIndex + 1; i < expression.Length; i++)
             {
                 if (expression[i] == "(")
                 {
-                   Logger.Log(LogType.Log,  "Found Nested opening Bracket, adjusting tolerance.",8);
+                    Logger.Log(LogType.Log, "Found Nested opening Bracket, adjusting tolerance.", PLUGIN_MIN_SEVERITY + 8);
                     tolerance++;
                 }
                 else if (expression[i] == ")")
@@ -407,10 +408,10 @@ namespace Byt3.ExtPP.Plugins
                     if (tolerance == 0)
                     {
 
-                       Logger.Log(LogType.Log,  "Found Correct Closing Bracket",7);
+                        Logger.Log(LogType.Log, "Found Correct Closing Bracket", 7);
                         return i;
                     }
-                   Logger.Log(LogType.Log,  "Found Nested Closing Bracket, adjusting tolerance.",8);
+                    Logger.Log(LogType.Log, "Found Nested Closing Bracket, adjusting tolerance.", PLUGIN_MIN_SEVERITY + 8);
                     tolerance--;
                 }
             }
@@ -423,7 +424,7 @@ namespace Byt3.ExtPP.Plugins
         {
             Sb.Clear();
             Sb.Append(line);
-           Logger.Log(LogType.Log, $"Surrounding {keyword} with spaces...",7);
+            Logger.Log(LogType.Log, $"Surrounding {keyword} with spaces...", PLUGIN_MIN_SEVERITY + 9);
             Sb.Replace(keyword, " " + keyword + " ");
             return Sb.ToString();
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Byt3.ADL;
 using Byt3.OpenFL.Parsing.DataObjects;
 
 namespace Byt3.OpenFL.Parsing.Instructions
@@ -17,7 +18,10 @@ namespace Byt3.OpenFL.Parsing.Instructions
                 {
                     if (Arguments[i].Type == InstructionArgumentType.Buffer)
                     {
-                        Root.ActiveBuffer = (FLBufferInfo)Arguments[i].Value;
+                        FLBufferInfo obj = (FLBufferInfo)Arguments[i].Value;
+                        Logger.Log(LogType.Log, "Setting Active Buffer: " + obj.DefinedBufferName, MIN_INSTRUCTION_SEVERITY);
+
+                        Root.ActiveBuffer = obj;
                         continue;
                     }
 
@@ -28,10 +32,19 @@ namespace Byt3.OpenFL.Parsing.Instructions
                         FLBufferInfo buffer = Root.RegisterUnmanagedBuffer(new FLBufferInfo(Root.Instance, Root.Dimensions.x, Root.Dimensions.y));
                         FunctionObject source = (FunctionObject)Arguments[i].Value;
                         
+
+                        Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
                         Root.PushContext();
+
+                        Logger.Log(LogType.Log, $"Executing Function: {source.Name}", MIN_INSTRUCTION_SEVERITY + 2);
+
                         Root.Run(Root.Instance, Root.KernelDB, buffer, source);
                         FLBufferInfo output = Root.ActiveBuffer;
+
+                        Logger.Log(LogType.Log, $"Returning from Function Context", MIN_INSTRUCTION_SEVERITY + 3);
                         Root.ReturnFromContext();
+
+                        Logger.Log(LogType.Log, "Setting Active Buffer: " + output.DefinedBufferName, MIN_INSTRUCTION_SEVERITY);
                         Root.ActiveBuffer = output;
                         continue;
                     }
@@ -39,7 +52,11 @@ namespace Byt3.OpenFL.Parsing.Instructions
                 }
 
                 if (Arguments[i].Type == InstructionArgumentType.Number)
-                    newFlags[(int)Convert.ChangeType(Arguments[i].Value, typeof(int))] = 1;
+                {
+                    int channel = (int) Convert.ChangeType(Arguments[i].Value, typeof(int));
+                    Logger.Log(LogType.Log, "Setting Active Channel: " + channel, MIN_INSTRUCTION_SEVERITY);
+                    newFlags[channel] = 1;
+                }
                 else
                 {
                     throw new InvalidOperationException("Invalid Channel ID");

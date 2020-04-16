@@ -39,7 +39,7 @@ namespace Byt3.ExtPP.Plugins
         {
             if (source.Trim() == "")
             {
-               Logger.Log(LogType.Log, $"Adding {BlankLineRemovalKeyword} for line removal later",6);
+               Logger.Log(LogType.Log, $"Adding {BlankLineRemovalKeyword} for line removal later", PLUGIN_MIN_SEVERITY);
                 return BlankLineRemovalKeyword;
             }
             return source;

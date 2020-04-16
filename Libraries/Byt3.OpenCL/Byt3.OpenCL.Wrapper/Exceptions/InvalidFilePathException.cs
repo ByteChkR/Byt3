@@ -1,7 +1,7 @@
 ﻿using System;
 using Byt3.Utilities.Exceptions;
 
-namespace Byt3.OpenCL.Common.Exceptions
+namespace Byt3.OpenCL.Wrapper.Exceptions
 {
     /// <summary>
     /// This exception gets thrown when the specified file was not found.

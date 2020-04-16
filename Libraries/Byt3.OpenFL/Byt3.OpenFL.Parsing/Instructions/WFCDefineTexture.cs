@@ -1,8 +1,6 @@
-﻿using System;
-using System.Drawing;
-using Byt3.OpenCL.Common.Exceptions;
-using Byt3.OpenCL.Memory;
+﻿using System.Drawing;
 using Byt3.OpenCL.Wrapper;
+using Byt3.OpenCL.Wrapper.Exceptions;
 using Byt3.OpenFL.Parsing.Exceptions;
 using Byt3.OpenFL.Parsing.WFC;
 
@@ -10,44 +8,6 @@ namespace Byt3.OpenFL.Parsing.Instructions
 {
     public static class WFCDefineTexture
     {
-        private static readonly Random Rnd = new Random();
-        /// <summary>
-        /// A function used as RandomFunc of type byte>
-        /// </summary>
-        /// <returns>a random byte</returns>
-        private static byte Randombytesource()
-        {
-            return (byte)Rnd.Next();
-        }
-
-        public static FLBufferInfo ComputeRnd(string[] args)
-        {
-
-
-            UnloadedDefinedFLBufferInfo info = new UnloadedDefinedFLBufferInfo(root =>
-            {
-                MemoryBuffer buf =
-                    CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite);
-                CLAPI.WriteRandom(root.Instance, buf, Randombytesource, new byte[] { 1, 1, 1, 1 }, false);
-                
-                return new FLBufferInfo(buf, root.Dimensions.x, root.Dimensions.y);
-            });
-            return info;
-        }
-
-        public static FLBufferInfo ComputeUrnd(string[] args)
-        {
-            UnloadedDefinedFLBufferInfo info = new UnloadedDefinedFLBufferInfo(root =>
-            {
-                MemoryBuffer buf =
-                    CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite);
-                CLAPI.WriteRandom(root.Instance, buf, Randombytesource, new byte[] { 1, 1, 1, 1 }, true);
-
-                return new FLBufferInfo(buf, root.Dimensions.x, root.Dimensions.y);
-            });
-
-            return info;
-        }
 
         public static UnloadedDefinedFLBufferInfo ComputeWFC(CLAPI instance, string[] args)
         {

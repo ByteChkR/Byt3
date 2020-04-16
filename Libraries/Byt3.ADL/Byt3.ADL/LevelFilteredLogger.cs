@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Byt3.ADL
+﻿namespace Byt3.ADL
 {
     //public class LevelFilteredLogger<T> : ADLLogger<T>
     //    where T : struct

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using Byt3.ADL;
+using Byt3.ExtPP.Base.Interfaces;
 
 namespace Byt3.OpenCL.Wrapper
 {
     /// <summary>
     /// A class used to store and manage Kernels
     /// </summary>
-    public class KernelDatabase
+    public class KernelDatabase : ALoggable<LogType>
     {
-        private readonly ADLLogger<LogType> logger = new ADLLogger<LogType>(OpenCLDebugConfig.Settings, "CL-KernelDB");
+        //private readonly ADLLogger<LogType> logger = new ADLLogger<LogType>(OpenCLDebugConfig.Settings, "CL-KernelDB");
         /// <summary>
         /// The Folder that will get searched when initializing the database.
         /// </summary>
@@ -27,7 +28,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="folderName">Folder name where the kernels are located</param>
         /// <param name="genDataVectorType">The DataVectorTypes used to compile the FL Database</param>
-        public KernelDatabase(CLAPI instance, string folderName, TypeEnums.DataVectorTypes genDataVectorType)
+        public KernelDatabase(CLAPI instance, string folderName, TypeEnums.DataVectorTypes genDataVectorType) : base(OpenCLDebugConfig.Settings)
         {
             GenDataType = KernelParameter.GetDataString(genDataVectorType);
             if (!CLAPI.DirectoryExists(folderName))
@@ -73,19 +74,19 @@ namespace Byt3.OpenCL.Wrapper
 
             string path = Path.GetFullPath(file);
 
-            logger.Log(LogType.Log, "Creating CLProgram from file: " + file,3);
+            Logger.Log(LogType.Log, "Creating CLProgram from file: " + file,3);
             CLProgram program = new CLProgram(instance, path, GenDataType);
 
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
             {
                 if (!LoadedKernels.ContainsKey(containedKernel.Key))
                 {
-                    logger.Log(LogType.Log, "Adding Kernel: " + containedKernel.Key,4);
+                    Logger.Log(LogType.Log, "Adding Kernel: " + containedKernel.Key,4);
                     LoadedKernels.Add(containedKernel.Key, containedKernel.Value);
                 }
                 else
                 {
-                    logger.Log(LogType.Log,
+                    Logger.Log(LogType.Log,
                         "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...",5);
                 }
             }

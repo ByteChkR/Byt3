@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Byt3.ADL;
+using Byt3.ExtPP.Base;
 using Byt3.ObjectPipeline;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Parsing.DataObjects;
+using Byt3.OpenFL.Parsing.Exceptions;
 using Byt3.OpenFL.Parsing.Instructions;
 
 namespace Byt3.OpenFL.Parsing.Stages
@@ -13,12 +16,22 @@ namespace Byt3.OpenFL.Parsing.Stages
     public class ParseTreeStage : PipelineStage<StaticInspectionResult, ParseTreeStageResult>
     {
 
+        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "ParseTreeStage");
 
         public override ParseTreeStageResult Process(StaticInspectionResult input)
         {
+            Logger.Log(LogType.Log, "Parsing Tree: " + input.Filename, 2);
+            Logger.Log(LogType.Log, "Creating Defined Script Nodes..", 3);
             Dictionary<string, FunctionObject> scripts = ParseScriptDefines(input.Instance, input.Filename, input.DefinedScripts);
+            Logger.Log(LogType.Log, "Script Nodes: " + scripts.Select(x=>x.Key).Unpack(", "), 4);
+            
+            Logger.Log(LogType.Log, "Creating Defined Buffer Nodes..", 3);
             Dictionary<string, FLBufferInfo> definedBuffers = ParseDefinedBuffers(input.Instance, input.Filename, input.DefinedBuffers);
+            Logger.Log(LogType.Log, "Buffer Nodes: " + definedBuffers.Select(x => x.Key).Unpack(", "), 4);
+
+            Logger.Log(LogType.Log, "Creating Defined Function Nodes..", 3);
             FunctionObject[] functions = ParseFunctions(input.Functions, input.DefinedBuffers, input.DefinedScripts, input.Source);
+            Logger.Log(LogType.Log, "Buffer Nodes: " + functions.Select(x => x.Name).Unpack(", "), 4);
             return new ParseTreeStageResult(input.Instance, input.Filename, input.Source, scripts, definedBuffers,
                 functions);
         }
@@ -33,6 +46,8 @@ namespace Byt3.OpenFL.Parsing.Stages
                 string relPath = FLParser.GetScriptPath(statements[i]);
                 string p = relPath;
 
+                if(!File.Exists(p))
+                    throw new FLInvalidDefineStatementException("Can not Find Script with path: "+ p);
 
                 FLParseResult ps = FLParser.Parse(new FLParserInput(p, instance));
                 ret.Add(name, ps.EntryPoint);
@@ -166,21 +181,31 @@ namespace Byt3.OpenFL.Parsing.Stages
                 }
                 else if (paramPart == "rnd")
                 {
-                    FLBufferInfo ii = WFCDefineTexture.ComputeRnd(data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                    FLBufferInfo ii = RandomInstruction.ComputeRnd(data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
                     ii.SetKey(data[0].Trim());
                     definedBuffers.Add(ii.DefinedBufferName, ii);
                 }
                 else if (paramPart == "urnd")
                 {
-                    FLBufferInfo ii = WFCDefineTexture.ComputeUrnd(data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                    FLBufferInfo ii = URandomInstruction.ComputeUrnd(data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
                     ii.SetKey(data[0].Trim());
                     definedBuffers.Add(ii.DefinedBufferName, ii);
                 }
-                else
+                else if (paramPart == "empty")
+                {
+                    FLBufferInfo ii = new UnloadedDefinedFLBufferInfo(root => new FLBufferInfo(root.Instance, root.Dimensions.x, root.Dimensions.y));
+                    ii.SetKey(data[0].Trim());
+                    definedBuffers.Add(ii.DefinedBufferName, ii);
+                }
+                else if(File.Exists(data[1].Trim().Replace("\"", "")))
                 {
                     FLBufferInfo bi = new UnloadedFLBufferInfo(data[1].Trim().Replace("\"", ""));
                     bi.SetKey(data[0].Trim());
                     definedBuffers.Add(data[0].Trim(), bi);
+                }
+                else
+                {
+                    throw new FLInvalidDefineStatementException("Can not Find Key or File: "+ data[1].Trim());
                 }
             }
 

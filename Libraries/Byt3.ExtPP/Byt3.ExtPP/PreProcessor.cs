@@ -76,7 +76,6 @@ namespace Byt3.ExtPP
         /// <returns>Array of Compiled Lines</returns>
         public string[] Run(IFileContent[] files, Settings settings, IDefinitions defs)
         {
-
             //Logger.Log(LogType.Log, "Starting Pre Processor...", 1);
             ISourceScript[] src = Process(files, settings, defs);
             string[] ret = Compile(src, false);
@@ -180,6 +179,7 @@ namespace Byt3.ExtPP
         /// <returns>Returns a list of files that can be compiled in reverse order</returns>
         private ISourceScript[] Process(IFileContent[] files, Settings settings, IDefinitions defs)
         {
+            Logger.Log(LogType.Log, "Preprocessing files: " + files.Unpack(", "), 1);
             Timer.GlobalTimer.Restart();
             //string dir = Directory.GetCurrentDirectory();
             IDefinitions definitions = defs ?? new Definitions();
@@ -209,6 +209,9 @@ namespace Byt3.ExtPP
 
             do
             {
+
+                Logger.Log(LogType.Log, "Selecting Current File: " + ss.GetFileInterface().GetFilePath(), 2);
+
 
                 if (!(ss as SourceScript).IsSourceLoaded)
                 {
@@ -317,10 +320,11 @@ namespace Byt3.ExtPP
         /// <param name="lineStage">The chain for this stage</param>
         /// <param name="stage">The stage of the current processing</param>
         /// <param name="source">The source to operate on</param>
-        private static void RunLineStage(List<AbstractPlugin> lineStage, ProcessStage stage, string[] source)
+        private void RunLineStage(List<AbstractPlugin> lineStage, ProcessStage stage, string[] source)
         {
             foreach (AbstractPlugin abstractPlugin in lineStage)
             {
+                Logger.Log(LogType.Log, $"Running Plugin: {abstractPlugin}", 4);
                 for (int i = 0; i < source.Length; i++)
                 {
                     if (stage == ProcessStage.OnLoadStage)
@@ -355,7 +359,7 @@ namespace Byt3.ExtPP
             foreach (AbstractPlugin abstractPlugin in fullScriptStage)
             {
                 bool ret = true;
-                Logger.Log(LogType.Log, $"Running Plugin: {abstractPlugin}: {stage} on file {Path.GetFileName(script.GetFileInterface().GetKey())}", 4);
+                Logger.Log(LogType.Log, $"Running Plugin: {abstractPlugin}", 4);
                 if (stage == ProcessStage.OnLoadStage)
                 {
                     ret = abstractPlugin.OnLoad_FullScriptStage(script, sourceManager, defTable);

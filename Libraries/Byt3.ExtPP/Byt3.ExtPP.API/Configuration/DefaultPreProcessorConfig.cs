@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using Byt3.ADL;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Plugins;
 

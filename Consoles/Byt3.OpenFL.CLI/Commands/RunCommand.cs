@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -7,6 +6,7 @@ using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.Parsing;
 using Byt3.OpenFL.Threading;
 
 namespace Byt3.OpenFL.CLI.Commands
@@ -42,20 +42,19 @@ namespace Byt3.OpenFL.CLI.Commands
                     {"result", bmp}
                 };
 
-                runner.Enqueue(new FlScriptExecutionContext(inp, bmp, dic, obj => OnFinishCallback(obj, outp)));
+                runner.Enqueue(new FlScriptExecutionContext(inp, bmp, result => OnFinishCallback(result, outp)));
             }
 
             runner.Process();
         }
 
-        private void OnFinishCallback(Dictionary<Bitmap, byte[]> obj, string outputFile)
+        private void OnFinishCallback(FLParseResult obj, string outputFile)
         {
             Logger.Log(LogType.Log, "Saving Output File: " + Path.GetFullPath(outputFile), 1);
-            KeyValuePair<Bitmap, byte[]> result = obj.ElementAt(0);
-            CLAPI.UpdateBitmap(CLAPI.MainThread, result.Key, result.Value);
-
-            result.Key.Save(outputFile);
-
+            FLBufferInfo result = obj.ActiveBuffer;
+            Bitmap bmp = new Bitmap(result.Width, result.Height);
+            CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int)result.Size));
+            bmp.Save(outputFile);
         }
 
     }

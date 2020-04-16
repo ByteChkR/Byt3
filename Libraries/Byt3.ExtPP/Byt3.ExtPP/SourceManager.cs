@@ -158,7 +158,6 @@ namespace Byt3.ExtPP
         {
             if (!IsIncluded(script))
             {
-                Logger.Log(LogType.Log,  $"Adding Script to Todo List: {Path.GetFileName(script.GetFileInterface().GetKey())}",4);
                 AddFile(script, false);
                 doneState.Add(ProcessStage.Queued);
             }
@@ -175,7 +174,7 @@ namespace Byt3.ExtPP
             {
                 doneState[IndexOfFile(script.GetKey())] = stage;
 
-                Logger.Log(LogType.Log,  $"Finished Script: {Path.GetFileName(script.GetFileInterface().GetKey())}",3);
+                //Logger.Log(LogType.Log,  $"Finished Script: {Path.GetFileName(script.GetFileInterface().GetKey())}",3);
             }
         }
 

@@ -23,8 +23,6 @@ namespace Byt3.ExtPP.API.Configuration
         public string[] Preprocess(IFileContent filename, Dictionary<string, bool> defs)
         {
 
-            Logger.Log(LogType.Log, "Preprocessing file: " + filename.GetFilePath(),1);
-
             PreProcessor pp = new PreProcessor();
 
 

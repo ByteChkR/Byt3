@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Byt3.ADL;
+using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Parsing.DataObjects;
 using Byt3.OpenFL.Parsing.Exceptions;
@@ -8,16 +9,7 @@ namespace Byt3.OpenFL.Parsing.Instructions
 {
     public class URandomInstruction : Instruction
     {
-        private static readonly Random Rnd = new Random();
-        /// <summary>
-        /// A function used as RandomFunc of type byte>
-        /// </summary>
-        /// <returns>a random byte</returns>
-        private static byte Randombytesource()
-        {
-            return (byte)Rnd.Next();
-        }
-
+        
         public URandomInstruction(List<InstructionArgument> arguments) : base(arguments) { }
 
 
@@ -25,7 +17,8 @@ namespace Byt3.OpenFL.Parsing.Instructions
         {
             if (Arguments.Count == 0)
             {
-                CLAPI.WriteRandom(Root.Instance, Root.ActiveBuffer.Buffer, Randombytesource, Root.ActiveChannels, true);
+                Logger.Log(LogType.Log, $"Writing Unified Random Data to Active Buffer:" + Root.ActiveBuffer.DefinedBufferName, MIN_INSTRUCTION_SEVERITY);
+                CLAPI.WriteRandom(Root.Instance, Root.ActiveBuffer.Buffer, RandomInstructionHelper.Randombytesource, Root.ActiveChannels, true);
             }
 
             for (int i = 0; i < Arguments.Count; i++)
@@ -37,9 +30,25 @@ namespace Byt3.OpenFL.Parsing.Instructions
                     throw
                         new FLInvalidArgumentType("Argument: " + obj.Value, "MemoyBuffer/Image");
                 }
+                FLBufferInfo func = (FLBufferInfo)obj.Value;
 
-                CLAPI.WriteRandom(Root.Instance, ((FLBufferInfo)obj.Value).Buffer, Randombytesource, Root.ActiveChannels, true);
+                Logger.Log(LogType.Log, $"Writing Unified Random Data to Active Buffer:" + func.DefinedBufferName, MIN_INSTRUCTION_SEVERITY);
+
+                CLAPI.WriteRandom(Root.Instance, func.Buffer, RandomInstructionHelper.Randombytesource, Root.ActiveChannels, true);
             }
+        }
+        public static FLBufferInfo ComputeUrnd(string[] args)
+        {
+            UnloadedDefinedFLBufferInfo info = new UnloadedDefinedFLBufferInfo(root =>
+            {
+                MemoryBuffer buf =
+                    CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite);
+                CLAPI.WriteRandom(root.Instance, buf, RandomInstructionHelper.Randombytesource, new byte[] { 1, 1, 1, 1 }, true);
+
+                return new FLBufferInfo(buf, root.Dimensions.x, root.Dimensions.y);
+            });
+
+            return info;
         }
     }
 }

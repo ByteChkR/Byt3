@@ -4,6 +4,8 @@ using System.Drawing;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.Parsing;
+using Byt3.OpenFL.Parsing.Stages;
 
 namespace Byt3.OpenFL.Threading
 {
@@ -13,8 +15,8 @@ namespace Byt3.OpenFL.Threading
     public class FLScriptRunner
     {
         protected KernelDatabase Db;
-
         protected CLAPI Instance;
+
         protected Queue<FlScriptExecutionContext> ProcessQueue;
         public int ItemsInQueue => ProcessQueue.Count;
 
@@ -31,62 +33,53 @@ namespace Byt3.OpenFL.Threading
             ProcessQueue.Enqueue(context);
         }
 
-        public virtual void Process(Action onFinish = null)
+        public virtual void Process()
         {
             while (ProcessQueue.Count != 0)
             {
                 FlScriptExecutionContext fle = ProcessQueue.Dequeue();
-                Dictionary<string, byte[]> ret = Process(fle);
-                Dictionary<Bitmap, byte[]> texMap = new Dictionary<Bitmap, byte[]>();
-                foreach (KeyValuePair<string, byte[]> bytese in ret)
-                {
-                    if (fle.TextureMap.ContainsKey(bytese.Key))
-                    {
-                        texMap.Add(fle.TextureMap[bytese.Key], bytese.Value);
-                    }
-                }
-
-                foreach (KeyValuePair<Bitmap, byte[]> textureUpdate in texMap)
-                {
-                    CLAPI.UpdateBitmap(CLAPI.MainThread, textureUpdate.Key, textureUpdate.Value);
-                }
-
-                fle.OnFinishCallback?.Invoke(texMap);
+                FLParseResult ret = Process(fle);
+                fle.OnFinishCallback?.Invoke(ret);
             }
-
-            onFinish?.Invoke();
         }
 
-        protected Dictionary<string, byte[]> Process(FlScriptExecutionContext context)
+        protected FLParseResult Process(FlScriptExecutionContext context)
         {
-            MemoryBuffer buf = CLAPI.CreateBuffer(Instance, context.Input, MemoryFlag.ReadWrite);
-            FLInterpreter ret = new FLInterpreter(Instance, context.Filename, buf, context.Width,
-                context.Height, 1, 4, Db, true);
+            FLBufferInfo input = new FLBufferInfo(Instance, context.Input, context.Width, context.Height);
 
-            do
-            {
-                FLInterpreterStepResult step = ret.Step();
-                //Console.WriteLine(step);
-            } while (!ret.Terminated);
+            FLParseResult parseResult = FLParser.Parse(new FLParserInput(context.Filename, Instance));
+            
+            parseResult.Run(Instance, Db, input);
+
+            return parseResult;
+
+            //FLInterpreter ret = new FLInterpreter(Instance, context.Filename, buf, context.Width,
+            //    context.Height, 1, 4, Db, true);
+
+            //do
+            //{
+            //    FLInterpreterStepResult step = ret.Step();
+            //    //Console.WriteLine(step);
+            //} while (!ret.Terminated);
 
 
-            byte[] buffer = ret.GetResult<byte>();
-            Dictionary<string, byte[]> result = new Dictionary<string, byte[]> { { "result", buffer } };
+            //byte[] buffer = ret.GetResult<byte>();
+            //Dictionary<string, byte[]> result = new Dictionary<string, byte[]> { { "result", buffer } };
 
-            foreach (KeyValuePair<string, Bitmap> keyValuePair in context.TextureMap)
-            {
-                CLBufferInfo mbuf = ret.GetBuffer(keyValuePair.Key);
-                if (mbuf == null)
-                {
-                    continue;
-                }
+            //foreach (KeyValuePair<string, Bitmap> keyValuePair in context.TextureMap)
+            //{
+            //    CLBufferInfo mbuf = ret.GetBuffer(keyValuePair.Key);
+            //    if (mbuf == null)
+            //    {
+            //        continue;
+            //    }
 
-                byte[] spec = CLAPI.ReadBuffer<byte>(Instance, mbuf.Buffer, (int)mbuf.Buffer.Size);
-                result.Add(keyValuePair.Key, spec);
-                mbuf.Buffer.Dispose();
-            }
+            //    byte[] spec = CLAPI.ReadBuffer<byte>(Instance, mbuf.Buffer, (int)mbuf.Buffer.Size);
+            //    result.Add(keyValuePair.Key, spec);
+            //    mbuf.Buffer.Dispose();
+            //}
 
-            return result;
+            //return result;
         }
     }
 }

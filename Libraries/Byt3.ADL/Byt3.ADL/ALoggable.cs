@@ -1,7 +1,6 @@
-﻿using Byt3.ADL;
-using Byt3.ADL.Configs;
+﻿using Byt3.ADL.Configs;
 
-namespace Byt3.ExtPP.Base.Interfaces
+namespace Byt3.ADL
 {
     /// <summary>
     /// An empty interface that is used to Log where the log is coming from.

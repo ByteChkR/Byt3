@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Wrapper;
@@ -37,6 +36,20 @@ namespace Byt3.OpenFL.Parsing
             Functions = functions;
             DefinedBuffers = definedBuffers;
             DefinedScripts = definedScripts;
+        }
+
+        public void FreeResources()
+        {
+            foreach (KeyValuePair<string, FLBufferInfo> definedBuffer in DefinedBuffers)
+            {
+                definedBuffer.Value.Dispose();
+            }
+
+            foreach (FLBufferInfo internalBuffer in internalBuffers)
+            {
+                internalBuffer.Dispose();
+            }
+            internalBuffers.Clear();
         }
 
         public void PushContext()

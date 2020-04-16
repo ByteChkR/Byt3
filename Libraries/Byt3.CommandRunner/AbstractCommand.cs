@@ -10,6 +10,9 @@ namespace Byt3.CommandRunner
     /// </summary>
     public abstract class AbstractCommand
     {
+
+        protected const int MIN_COMMAND_SEVERITY = 3;
+
         protected readonly ADLLogger<LogType> Logger;
 
         /// <summary>

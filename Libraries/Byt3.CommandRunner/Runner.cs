@@ -10,7 +10,9 @@ namespace Byt3.CommandRunner
     /// </summary>
     public static class Runner
     {
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Command Runner");
+        private static ADLLogger<LogType> Logger => _logger ?? (_logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Runner"));
+        private static ADLLogger<LogType> _logger = null;
+
         /// <summary>
         /// All Commands currently loaded in the Library
         /// </summary>
@@ -42,7 +44,6 @@ namespace Byt3.CommandRunner
             List<AbstractCommand> cmds = AssemblyHelper.LoadCommandsFromAssembly(asm);
             for (int i = 0; i < cmds.Count; i++)
             {
-                Logger.Log(LogType.Log, "Adding Command: " + cmds[i].GetType().FullName, 1);
                 AddCommand(cmds[i]);
             }
         }
@@ -53,6 +54,7 @@ namespace Byt3.CommandRunner
         /// <param name="cmd"></param>
         public static void AddCommand(AbstractCommand cmd)
         {
+            Logger.Log(LogType.Log, "Adding Command: " + cmd.GetType().FullName, 2);
             if (IsInterfering(cmd))
             {
                 Logger.Log(LogType.Log, "Command:" + cmd.GetType().FullName + " is interfering with other Commands.", 1);
@@ -136,7 +138,7 @@ namespace Byt3.CommandRunner
                 if (cmds.Count != 1)
                 {
                     Logger.Log(LogType.Warning, "Found more than one Default Command.", 1);
-                    Logger.Log(LogType.Log, "Using Command: " + cmds[0].CommandKeys[0], 1);
+                    Logger.Log(LogType.Warning, "Using Command: " + cmds[0].CommandKeys[0], 1);
                 }
 
                 if (argumentInfo.GetCommandEntries("noflag") != 0)

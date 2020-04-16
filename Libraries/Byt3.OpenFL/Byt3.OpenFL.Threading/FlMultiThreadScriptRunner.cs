@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.Parsing;
 
 namespace Byt3.OpenFL.Threading
 {
@@ -19,67 +21,25 @@ namespace Byt3.OpenFL.Threading
         {
         }
 
-        private void FlFinished(Dictionary<Bitmap, byte[]> result)
+        public override void Process()
         {
-            foreach (KeyValuePair<Bitmap, byte[]> keyValuePair in result)
+            ThreadManager.RunTask(_proc, x =>
             {
-                CLAPI.UpdateBitmap(CLAPI.MainThread, keyValuePair.Key, keyValuePair.Value);
-            }
-        }
-
-        public override void Enqueue(FlScriptExecutionContext context)
-        {
-            if (context.OnFinishCallback == null)
-            {
-                context.OnFinishCallback = FlFinished;
-            }
-            else
-            {
-                context.OnFinishCallback += FlFinished;
-            }
-
-            base.Enqueue(context);
-        }
-
-        public override void Process(Action onFinish = null)
-        {
-            ThreadManager.RunTask(() => _proc(onFinish), x =>
-            {
-                foreach (KeyValuePair<FlScriptExecutionContext, Dictionary<Bitmap, byte[]>> textureUpdate in x)
-                {
-                    foreach (KeyValuePair<Bitmap, byte[]> bytese in textureUpdate.Value)
-                    {
-                        CLAPI.UpdateBitmap(CLAPI.MainThread, bytese.Key, bytese.Value);
-                    }
-                }
+                
             });
         }
 
-        private Dictionary<FlScriptExecutionContext, Dictionary<Bitmap, byte[]>> _proc(Action onFinish = null)
+        private object _proc()
         {
-            //window = new GameWindow(100, 100, GraphicsMode.Default, "FLRunner");
-            //window.MakeCurrent();
-            Dictionary<FlScriptExecutionContext, Dictionary<Bitmap, byte[]>> ret =
-                new Dictionary<FlScriptExecutionContext, Dictionary<Bitmap, byte[]>>();
+
             while (ProcessQueue.Count != 0)
             {
                 FlScriptExecutionContext fle = ProcessQueue.Dequeue();
-                Dictionary<string, byte[]> texUpdate = Process(fle);
-                Dictionary<Bitmap, byte[]> texMap = new Dictionary<Bitmap, byte[]>();
-                foreach (KeyValuePair<string, byte[]> bytese in texUpdate)
-                {
-                    if (fle.TextureMap.ContainsKey(bytese.Key))
-                    {
-                        texMap.Add(fle.TextureMap[bytese.Key], bytese.Value);
-                    }
-                }
-
-                ret.Add(fle, texMap);
+                FLParseResult texUpdate = Process(fle);
+                fle.OnFinishCallback?.Invoke(texUpdate);
             }
 
-            //window.Dispose();
-            onFinish?.Invoke();
-            return ret;
+            return new object();
         }
     }
 }
