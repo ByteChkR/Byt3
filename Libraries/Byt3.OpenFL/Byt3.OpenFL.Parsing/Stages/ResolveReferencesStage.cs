@@ -2,21 +2,23 @@
 using System.Linq;
 using Byt3.ADL;
 using Byt3.ObjectPipeline;
-using Byt3.OpenFL.Parsing.DataObjects;
+using Byt3.OpenFL.Common;
+using Byt3.OpenFL.Common.Buffers;
+using Byt3.OpenFL.Common.DataObjects;
 
 namespace Byt3.OpenFL.Parsing.Stages
 {
-    public class ResolveReferencesStage : PipelineStage<ParseTreeStageResult, FLParseResult>
+    public class ResolveReferencesStage : PipelineStage<ParseTreeStageResult, FLProgram>
     {
         private static readonly ADLLogger<LogType> Logger =
             new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "LoadSourceStage");
 
-        public override FLParseResult Process(ParseTreeStageResult input)
+        public override FLProgram Process(ParseTreeStageResult input)
         {
             Logger.Log(LogType.Log, "Resolving References: " + input.Filename, 2);
 
-            FLParseResult parseResult = new FLParseResult(input.Filename, input.Source, input.DefinedScripts,
-                input.DefinedBuffers, input.Functions);
+            FLProgram parseResult = new FLProgram(input.DefinedScripts,
+                input.DefinedBuffers, input.FlFunctions, DebugData.None);
 
             ResolveReferences(parseResult);
 
@@ -24,27 +26,27 @@ namespace Byt3.OpenFL.Parsing.Stages
         }
 
 
-        private static void ResolveReferences(FLParseResult source)
+        private static void ResolveReferences(FLProgram source)
         {
-            for (int i = 0; i < source.Functions.Length; i++)
+            for (int i = 0; i < source.FlFunctions.Length; i++)
             {
-                string name = source.Functions[i].Name;
+                string name = source.FlFunctions[i].Name;
                 Logger.Log(LogType.Log, "Resolving References for Function: " + name, 3);
-                for (int j = 0; j < source.Functions[i].Instructions.Count; j++)
+                for (int j = 0; j < source.FlFunctions[i].Instructions.Count; j++)
                 {
-                    string instructionName = $"{name}.{source.Functions[i].Instructions[j].GetType().Name}";
+                    string instructionName = $"{name}.{source.FlFunctions[i].Instructions[j].GetType().Name}";
                     Logger.Log(LogType.Log, $"Resolving References for Instruction: {instructionName}", 4);
-                    for (int k = 0; k < source.Functions[i].Instructions[j].Arguments.Count; k++)
+                    for (int k = 0; k < source.FlFunctions[i].Instructions[j].Arguments.Count; k++)
                     {
                         string instructionArgumentName =
-                            $"{instructionName}.{source.Functions[i].Instructions[j].Arguments[k].Type}";
+                            $"{instructionName}.{source.FlFunctions[i].Instructions[j].Arguments[k].Type}";
                         Logger.Log(LogType.Log,
                             $"Resolving References for Argument: {instructionArgumentName}", 5);
-                        if (source.Functions[i].Instructions[j].Arguments[k].Type ==
-                            InstructionArgumentType.UnresolvedFunction)
+                        if (source.FlFunctions[i].Instructions[j].Arguments[k].Type ==
+                            FLInstructionArgumentType.UnresolvedFunction)
                         {
-                            UnresolvedFunction uf =
-                                (UnresolvedFunction) source.Functions[i].Instructions[j].Arguments[k].Value;
+                            FLUnresolvedFunction uf =
+                                (FLUnresolvedFunction) source.FlFunctions[i].Instructions[j].Arguments[k].Value;
 
                             Logger.Log(LogType.Log,
                                 $"Resolving {(uf.External ? "External " : "")}Function for Argument: {instructionArgumentName}",
@@ -52,33 +54,33 @@ namespace Byt3.OpenFL.Parsing.Stages
 
                             if (uf.External)
                             {
-                                source.Functions[i].Instructions[j].Arguments[k].Value =
+                                source.FlFunctions[i].Instructions[j].Arguments[k].Value =
                                     source.DefinedScripts[uf.FunctionName];
                             }
                             else
                             {
-                                source.Functions[i].Instructions[j].Arguments[k].Value =
-                                    source.Functions.First(x => x.Name == uf.FunctionName);
+                                source.FlFunctions[i].Instructions[j].Arguments[k].Value =
+                                    source.FlFunctions.First(x => x.Name == uf.FunctionName);
                             }
                         }
-                        else if (source.Functions[i].Instructions[j].Arguments[k].Type ==
-                                 InstructionArgumentType.UnresolvedDefinedBuffer)
+                        else if (source.FlFunctions[i].Instructions[j].Arguments[k].Type ==
+                                 FLInstructionArgumentType.UnresolvedDefinedBuffer)
                         {
-                            UnresolvedDefinedBuffer uf =
-                                (UnresolvedDefinedBuffer) source.Functions[i].Instructions[j].Arguments[k].Value;
+                            FLUnresolvedDefinedBuffer uf =
+                                (FLUnresolvedDefinedBuffer) source.FlFunctions[i].Instructions[j].Arguments[k].Value;
 
 
                             Logger.Log(LogType.Log,
                                 $"Resolving Buffer \"{uf.BufferName}\" for Argument: {instructionArgumentName}", 6);
 
-                            source.Functions[i].Instructions[j].Arguments[k].Value =
+                            source.FlFunctions[i].Instructions[j].Arguments[k].Value =
                                 source.DefinedBuffers[uf.BufferName];
                         }
                     }
                 }
             }
 
-            foreach (KeyValuePair<string, FLBufferInfo> definedBuffer in source.DefinedBuffers)
+            foreach (KeyValuePair<string, FLBuffer> definedBuffer in source.DefinedBuffers)
             {
                 definedBuffer.Value.SetRoot(source);
             }

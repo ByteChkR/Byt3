@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Byt3.OpenCL.Wrapper;
-using Byt3.OpenFL.Parsing.DataObjects;
+using Byt3.OpenFL.Common.Buffers;
+using Byt3.OpenFL.Common.DataObjects;
 
 namespace Byt3.OpenFL.Parsing.Stages
 {
@@ -9,18 +10,18 @@ namespace Byt3.OpenFL.Parsing.Stages
         public CLAPI Instance { get; }
         public string Filename { get; }
         public string[] Source { get; }
-        public Dictionary<string, FLBufferInfo> DefinedBuffers { get; }
-        public FunctionObject[] Functions { get; }
-        public Dictionary<string, FunctionObject> DefinedScripts { get; }
+        public Dictionary<string, FLBuffer> DefinedBuffers { get; }
+        public FLFunction[] FlFunctions { get; }
+        public Dictionary<string, FLFunction> DefinedScripts { get; }
 
         public ParseTreeStageResult(CLAPI instance, string filename, string[] source,
-            Dictionary<string, FunctionObject> definedScripts, Dictionary<string, FLBufferInfo> definedBuffers,
-            FunctionObject[] functions)
+            Dictionary<string, FLFunction> definedScripts, Dictionary<string, FLBuffer> definedBuffers,
+            FLFunction[] flFunctions)
         {
             Instance = instance;
             Filename = filename;
             Source = source;
-            Functions = functions;
+            FlFunctions = flFunctions;
             DefinedBuffers = definedBuffers;
             DefinedScripts = definedScripts;
         }

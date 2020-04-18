@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.Common.Buffers;
+using Byt3.OpenFL.Common.DataObjects;
 using Byt3.OpenFL.Parsing;
 using Byt3.OpenFL.Parsing.Stages;
 
@@ -36,16 +38,16 @@ namespace Byt3.OpenFL.Threading
             while (ProcessQueue.Count != 0)
             {
                 FlScriptExecutionContext fle = ProcessQueue.Dequeue();
-                FLParseResult ret = Process(fle);
+                FLProgram ret = Process(fle);
                 fle.OnFinishCallback?.Invoke(ret);
             }
         }
 
-        protected FLParseResult Process(FlScriptExecutionContext context)
+        protected FLProgram Process(FlScriptExecutionContext context)
         {
-            FLBufferInfo input = new FLBufferInfo(Instance, context.Input, context.Width, context.Height);
+            FLBuffer input = new FLBuffer(Instance, context.Input, context.Width, context.Height);
 
-            FLParseResult parseResult = FLParser.Parse(new FLParserInput(context.Filename, Instance));
+            FLProgram parseResult = FLParser.Parse(new FLParserInput(context.Filename, Instance));
 
             parseResult.Run(Instance, Db, input);
 

@@ -2,6 +2,7 @@
 using System.Drawing;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
+using Byt3.OpenFL.Common.DataObjects;
 using Byt3.OpenFL.Parsing;
 
 namespace Byt3.OpenFL.Threading
@@ -12,12 +13,12 @@ namespace Byt3.OpenFL.Threading
     public struct FlScriptExecutionContext
     {
         public string Filename;
-        public Action<FLParseResult> OnFinishCallback;
+        public Action<FLProgram> OnFinishCallback;
         public byte[] Input;
         public int Width;
         public int Height;
 
-        public FlScriptExecutionContext(string filename, Bitmap tex, Action<FLParseResult> onFinishCallback)
+        public FlScriptExecutionContext(string filename, Bitmap tex, Action<FLProgram> onFinishCallback)
         {
             Width = (int) tex.Width;
             Height = (int) tex.Height;
@@ -29,7 +30,7 @@ namespace Byt3.OpenFL.Threading
         }
 
         public FlScriptExecutionContext(string filename, byte[] input, int width, int height,
-            Action<FLParseResult> onFinishCallback)
+            Action<FLProgram> onFinishCallback)
         {
             Width = width;
             Height = height;

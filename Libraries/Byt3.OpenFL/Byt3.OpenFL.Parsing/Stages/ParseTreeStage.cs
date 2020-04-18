@@ -7,9 +7,11 @@ using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.ObjectPipeline;
 using Byt3.OpenCL.Wrapper;
-using Byt3.OpenFL.Parsing.DataObjects;
-using Byt3.OpenFL.Parsing.Exceptions;
-using Byt3.OpenFL.Parsing.Instructions;
+using Byt3.OpenFL.Common;
+using Byt3.OpenFL.Common.Buffers;
+using Byt3.OpenFL.Common.DataObjects;
+using Byt3.OpenFL.Common.Exceptions;
+using Byt3.OpenFL.Common.Instructions;
 
 namespace Byt3.OpenFL.Parsing.Stages
 {
@@ -22,26 +24,26 @@ namespace Byt3.OpenFL.Parsing.Stages
         {
             Logger.Log(LogType.Log, "Parsing Tree: " + input.Filename, 2);
             Logger.Log(LogType.Log, "Creating Defined Script Nodes..", 3);
-            Dictionary<string, FunctionObject> scripts = ParseScriptDefines(input.Instance, input.DefinedScripts);
+            Dictionary<string, FLFunction> scripts = ParseScriptDefines(input.Instance, input.DefinedScripts);
             Logger.Log(LogType.Log, "Script Nodes: " + scripts.Select(x => x.Key).Unpack(", "), 4);
 
             Logger.Log(LogType.Log, "Creating Defined Buffer Nodes..", 3);
-            Dictionary<string, FLBufferInfo> definedBuffers = ParseDefinedBuffers(input.Instance, input.DefinedBuffers);
+            Dictionary<string, FLBuffer> definedBuffers = ParseDefinedBuffers(input.Instance, input.DefinedBuffers);
             Logger.Log(LogType.Log, "Buffer Nodes: " + definedBuffers.Select(x => x.Key).Unpack(", "), 4);
 
             Logger.Log(LogType.Log, "Creating Defined Function Nodes..", 3);
-            FunctionObject[] functions =
+            FLFunction[] flFunctions =
                 ParseFunctions(input.Functions, input.DefinedBuffers, input.DefinedScripts, input.Source);
-            Logger.Log(LogType.Log, "Buffer Nodes: " + functions.Select(x => x.Name).Unpack(", "), 4);
+            Logger.Log(LogType.Log, "Buffer Nodes: " + flFunctions.Select(x => x.Name).Unpack(", "), 4);
             return new ParseTreeStageResult(input.Instance, input.Filename, input.Source, scripts, definedBuffers,
-                functions);
+                flFunctions);
         }
 
-        public class ExternalFunctionObject : FunctionObject
+        public class ExternalFlFunction : FLFunction
         {
-            private readonly FLParseResult ExternalFunction;
+            private readonly FLProgram ExternalFunction;
 
-            public ExternalFunctionObject(string name, FLParseResult external) : base(name, new List<Instruction>())
+            public ExternalFlFunction(string name, FLProgram external) : base(name, new List<FLInstruction>())
             {
                 ExternalFunction = external;
             }
@@ -56,9 +58,9 @@ namespace Byt3.OpenFL.Parsing.Stages
             }
         }
 
-        private static Dictionary<string, FunctionObject> ParseScriptDefines(CLAPI instance, string[] statements)
+        private static Dictionary<string, FLFunction> ParseScriptDefines(CLAPI instance, string[] statements)
         {
-            Dictionary<string, FunctionObject> ret = new Dictionary<string, FunctionObject>();
+            Dictionary<string, FLFunction> ret = new Dictionary<string, FLFunction>();
             for (int i = 0; i < statements.Length; i++)
             {
                 string name = FLParser.GetScriptName(statements[i]);
@@ -70,47 +72,47 @@ namespace Byt3.OpenFL.Parsing.Stages
                     throw new FLInvalidDefineStatementException("Can not Find Script with path: " + p);
                 }
 
-                FLParseResult ps = FLParser.Parse(new FLParserInput(p, instance));
-                ret.Add(name, new ExternalFunctionObject(name, ps));
+                FLProgram ps = FLParser.Parse(new FLParserInput(p, instance));
+                ret.Add(name, new ExternalFlFunction(name, ps));
             }
 
             return ret;
         }
 
-        private static FunctionObject[] ParseFunctions(string[] functionHeaders, string[] definedBuffers,
+        private static FLFunction[] ParseFunctions(string[] functionHeaders, string[] definedBuffers,
             string[] definedScripts,
             string[] source)
         {
-            FunctionObject[] functions = new FunctionObject[functionHeaders.Length];
+            FLFunction[] flFunctions = new FLFunction[functionHeaders.Length];
             for (int i = 0; i < functionHeaders.Length; i++)
             {
-                functions[i] = ParseFunctionObject(functionHeaders, definedBuffers, definedScripts, functionHeaders[i],
+                flFunctions[i] = ParseFunctionObject(functionHeaders, definedBuffers, definedScripts, functionHeaders[i],
                     FLParser.GetFunctionBody(functionHeaders[i], source));
             }
 
-            return functions;
+            return flFunctions;
         }
 
-        private static FunctionObject ParseFunctionObject(string[] functionHeaders, string[] definedBuffers,
+        private static FLFunction ParseFunctionObject(string[] functionHeaders, string[] definedBuffers,
             string[] definedScripts,
             string name, string[] functionPart)
         {
-            List<Instruction> instructions =
+            List<FLInstruction> instructions =
                 ParseInstructions(functionHeaders, definedBuffers, definedScripts, functionPart);
-            return new FunctionObject(name, instructions);
+            return new FLFunction(name, instructions);
         }
 
-        private static List<Instruction> ParseInstructions(string[] functionHeaders, string[] definedBuffers,
+        private static List<FLInstruction> ParseInstructions(string[] functionHeaders, string[] definedBuffers,
             string[] definedScripts,
             string[] functionBody)
         {
-            List<Instruction> instructions = new List<Instruction>();
+            List<FLInstruction> instructions = new List<FLInstruction>();
             for (int i = 0; i < functionBody.Length; i++)
             {
                 if (!FLParser.IsComment(functionBody[i]) && !FLParser.IsDefineScriptStatement(functionBody[i]) &&
                     !FLParser.IsDefineStatement(functionBody[i]))
                 {
-                    Instruction inst =
+                    FLInstruction inst =
                         ParseInstruction(functionHeaders, definedBuffers, definedScripts, functionBody[i]);
                     if (inst != null)
                     {
@@ -122,7 +124,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             return instructions;
         }
 
-        private static Instruction ParseInstruction(string[] functionHeaders, string[] definedBuffers,
+        private static FLInstruction ParseInstruction(string[] functionHeaders, string[] definedBuffers,
             string[] definedScripts,
             string instruction)
         {
@@ -134,7 +136,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             string[] parts = instruction.Split(new[] {' '}, StringSplitOptions.None);
             string inst = parts[0];
 
-            List<InstructionArgument> args = new List<InstructionArgument>();
+            List<FLInstructionArgument> args = new List<FLInstructionArgument>();
             for (int i = 1; i < parts.Length; i++)
             {
                 if (FLParser.IsComment(parts[i]))
@@ -145,60 +147,60 @@ namespace Byt3.OpenFL.Parsing.Stages
                 args.Add(ParseInstructionArgument(functionHeaders, definedBuffers, definedScripts, parts[i]));
             }
 
-            Instruction ret = null;
+            FLInstruction ret = null;
 
             if (FLParser.FLInstructions.ContainsKey(inst))
             {
-                ret = (Instruction) Activator.CreateInstance(FLParser.FLInstructions[inst], new object[] {args});
+                ret = (FLInstruction) Activator.CreateInstance(FLParser.FLInstructions[inst], new object[] {args});
             }
             else
             {
-                ret = new KernelInstruction(inst, args.ToList());
+                ret = new KernelFLInstruction(inst, args.ToList());
             }
 
             return ret;
         }
 
 
-        private static InstructionArgument ParseInstructionArgument(string[] functionHeaders, string[] definedBuffers,
+        private static FLInstructionArgument ParseInstructionArgument(string[] functionHeaders, string[] definedBuffers,
             string[] definedScripts,
             string argument)
         {
             if (decimal.TryParse(argument, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
                 out decimal value))
             {
-                return new InstructionArgument(value);
+                return new FLInstructionArgument(value);
             }
 
             if (functionHeaders.Contains(argument))
             {
-                return new InstructionArgument(new UnresolvedFunction(argument, false));
+                return new FLInstructionArgument(new FLUnresolvedFunction(argument, false));
             }
 
             if (definedBuffers.Select(FLParser.GetBufferName).Contains(argument))
             {
-                return new InstructionArgument(new UnresolvedDefinedBuffer(argument));
+                return new FLInstructionArgument(new FLUnresolvedDefinedBuffer(argument));
             }
 
             if (definedScripts.Select(FLParser.GetScriptName).Contains(argument))
             {
-                return new InstructionArgument(new UnresolvedFunction(argument, true));
+                return new FLInstructionArgument(new FLUnresolvedFunction(argument, true));
             }
 
             throw new InvalidOperationException("Can not parse argument: " + argument);
         }
 
 
-        private static Dictionary<string, FLBufferInfo> ParseDefinedBuffers(CLAPI instance, string[] defineStatements)
+        private static Dictionary<string, FLBuffer> ParseDefinedBuffers(CLAPI instance, string[] defineStatements)
         {
-            Dictionary<string, FLBufferInfo> definedBuffers = new Dictionary<string, FLBufferInfo>();
+            Dictionary<string, FLBuffer> definedBuffers = new Dictionary<string, FLBuffer>();
             for (int i = 0; i < defineStatements.Length; i++)
             {
                 string[] data = defineStatements[i].Replace("--define texture", "")
                     .Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries);
                 if (data[0].Trim() == "in")
                 {
-                    FLBufferInfo bi = new UnloadedFLBufferInfo("INPUT");
+                    FLBuffer bi = new LazyFromFileFLBuffer("INPUT");
                     bi.SetKey("in");
                     definedBuffers.Add(data[0].Trim(), bi);
                     continue;
@@ -207,36 +209,36 @@ namespace Byt3.OpenFL.Parsing.Stages
                 string paramPart = data[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries)[0];
                 if (paramPart == "wfc" || paramPart == "wfcf")
                 {
-                    FLBufferInfo ii = WFCDefineTexture.ComputeWFC(instance,
+                    FLBuffer ii = WFCDefineTexture.ComputeWFC(instance,
                         data[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
                     ii.SetKey(data[0].Trim());
                     definedBuffers.Add(ii.DefinedBufferName, ii);
                 }
                 else if (paramPart == "rnd")
                 {
-                    FLBufferInfo ii =
-                        RandomInstruction.ComputeRnd(data[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
+                    FLBuffer ii =
+                        RandomFLInstruction.ComputeRnd(data[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
                     ii.SetKey(data[0].Trim());
                     definedBuffers.Add(ii.DefinedBufferName, ii);
                 }
                 else if (paramPart == "urnd")
                 {
-                    FLBufferInfo ii =
-                        URandomInstruction.ComputeUrnd(
+                    FLBuffer ii =
+                        URandomFLInstruction.ComputeUrnd(
                             data[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
                     ii.SetKey(data[0].Trim());
                     definedBuffers.Add(ii.DefinedBufferName, ii);
                 }
                 else if (paramPart == "empty")
                 {
-                    FLBufferInfo ii = new UnloadedDefinedFLBufferInfo(root =>
-                        new FLBufferInfo(root.Instance, root.Dimensions.x, root.Dimensions.y));
+                    FLBuffer ii = new LazyLoadingFLBuffer(root =>
+                        new FLBuffer(root.Instance, root.Dimensions.x, root.Dimensions.y));
                     ii.SetKey(data[0].Trim());
                     definedBuffers.Add(ii.DefinedBufferName, ii);
                 }
                 else if (File.Exists(data[1].Trim().Replace("\"", "")))
                 {
-                    FLBufferInfo bi = new UnloadedFLBufferInfo(data[1].Trim().Replace("\"", ""));
+                    FLBuffer bi = new LazyFromFileFLBuffer(data[1].Trim().Replace("\"", ""));
                     bi.SetKey(data[0].Trim());
                     definedBuffers.Add(data[0].Trim(), bi);
                 }

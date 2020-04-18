@@ -5,6 +5,8 @@ using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.Common.Buffers;
+using Byt3.OpenFL.Common.DataObjects;
 using Byt3.OpenFL.Parsing;
 using Byt3.OpenFL.Threading;
 
@@ -41,10 +43,10 @@ namespace Byt3.OpenFL.CLI.Commands
             runner.Process();
         }
 
-        private void OnFinishCallback(FLParseResult obj, string outputFile)
+        private void OnFinishCallback(FLProgram obj, string outputFile)
         {
             Logger.Log(LogType.Log, "Saving Output File: " + Path.GetFullPath(outputFile), 1);
-            FLBufferInfo result = obj.ActiveBuffer;
+            FLBuffer result = obj.ActiveBuffer;
             Bitmap bmp = new Bitmap(result.Width, result.Height);
             CLAPI.UpdateBitmap(CLAPI.MainThread, bmp,
                 CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int) result.Size));

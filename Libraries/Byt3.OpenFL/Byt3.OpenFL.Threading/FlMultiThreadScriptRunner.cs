@@ -1,6 +1,7 @@
 ﻿using System;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.Common.DataObjects;
 using Byt3.OpenFL.Parsing;
 
 namespace Byt3.OpenFL.Threading
@@ -26,7 +27,7 @@ namespace Byt3.OpenFL.Threading
             while (ProcessQueue.Count != 0)
             {
                 FlScriptExecutionContext fle = ProcessQueue.Dequeue();
-                FLParseResult texUpdate = Process(fle);
+                FLProgram texUpdate = Process(fle);
                 fle.OnFinishCallback?.Invoke(texUpdate);
             }
 

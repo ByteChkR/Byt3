@@ -4,13 +4,15 @@ using System.Linq;
 using Byt3.ADL;
 using Byt3.ExtPP.API;
 using Byt3.ObjectPipeline;
+using Byt3.OpenFL.Common;
+using Byt3.OpenFL.Common.DataObjects;
+using Byt3.OpenFL.Common.Instructions;
 using Byt3.OpenFL.Parsing.ExtPP.API.Configurations;
-using Byt3.OpenFL.Parsing.Instructions;
 using Byt3.OpenFL.Parsing.Stages;
 
 namespace Byt3.OpenFL.Parsing
 {
-    public class FLParser : Pipeline<FLParserInput, FLParseResult>
+    public class FLParser : Pipeline<FLParserInput, FLProgram>
     {
         static FLParser()
         {
@@ -23,13 +25,13 @@ namespace Byt3.OpenFL.Parsing
 
         internal static Dictionary<string, Type> FLInstructions => new Dictionary<string, Type>
         {
-            {"setactive", typeof(SetActiveInstruction)},
-            {"jmp", typeof(JumpInstruction)},
-            {"urnd", typeof(URandomInstruction)},
-            {"rnd", typeof(RandomInstruction)},
+            {"setactive", typeof(SetActiveFLInstruction)},
+            {"jmp", typeof(JumpFLInstruction)},
+            {"urnd", typeof(URandomFLInstruction)},
+            {"rnd", typeof(RandomFLInstruction)},
         };
 
-        public static FLParseResult Parse(FLParserInput input)
+        public static FLProgram Parse(FLParserInput input)
         {
             Logger.Log(LogType.Log, "Parsing File: " + input.Filename, 1);
             FLParser parser = new FLParser();

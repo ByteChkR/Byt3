@@ -79,21 +79,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.Exceptions",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.OpenFL.Parsing", "Libraries\Byt3.OpenFL\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj", "{48B0B6C3-B010-4766-9F43-22B11D7D06F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.ADL.Tests", "UnitTests\Byt3.ADL.Tests\Byt3.ADL.Tests.csproj", "{136C803B-7C4F-4028-922A-E8FCD046D7D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ADL.Tests", "UnitTests\Byt3.ADL.Tests\Byt3.ADL.Tests.csproj", "{136C803B-7C4F-4028-922A-E8FCD046D7D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.ExtPP.Tests", "UnitTests\Byt3.ExtPP.Tests\Byt3.ExtPP.Tests.csproj", "{9E8890A9-6ABB-41A6-BBEC-F95269A74AFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ExtPP.Tests", "UnitTests\Byt3.ExtPP.Tests\Byt3.ExtPP.Tests.csproj", "{9E8890A9-6ABB-41A6-BBEC-F95269A74AFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.ObjectPipeline.AssetLoaderFramework.Tests", "UnitTests\Byt3.ObjectPipeline.AssetLoaderFramework.Tests\Byt3.ObjectPipeline.AssetLoaderFramework.Tests.csproj", "{43C95602-5115-45E7-81F6-61B509C99141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.AssetLoaderFramework.Tests", "UnitTests\Byt3.ObjectPipeline.AssetLoaderFramework.Tests\Byt3.ObjectPipeline.AssetLoaderFramework.Tests.csproj", "{43C95602-5115-45E7-81F6-61B509C99141}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.ObjectPipeline.Tests", "UnitTests\Byt3.ObjectPipeline.Tests\Byt3.ObjectPipeline.Tests.csproj", "{1179566D-5D38-47B2-AE04-515A0FC36E6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.ObjectPipeline.Tests", "UnitTests\Byt3.ObjectPipeline.Tests\Byt3.ObjectPipeline.Tests.csproj", "{1179566D-5D38-47B2-AE04-515A0FC36E6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.OpenCL.Tests", "UnitTests\Byt3.OpenCL.Tests\Byt3.OpenCL.Tests.csproj", "{3F3C1D87-FF09-48C8-8363-42794B0196FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.OpenCL.Tests", "UnitTests\Byt3.OpenCL.Tests\Byt3.OpenCL.Tests.csproj", "{3F3C1D87-FF09-48C8-8363-42794B0196FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.OpenFL.Tests", "UnitTests\Byt3.OpenFL.Tests\Byt3.OpenFL.Tests.csproj", "{8DBEC5F3-5999-4676-8CD3-0682CBFCCE46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.OpenFL.Tests", "UnitTests\Byt3.OpenFL.Tests\Byt3.OpenFL.Tests.csproj", "{8DBEC5F3-5999-4676-8CD3-0682CBFCCE46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.PackageHandling.Tests", "UnitTests\Byt3.PackageHandling.Tests\Byt3.PackageHandling.Tests.csproj", "{28362F22-AE06-4A9D-991C-45916C64DAAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.PackageHandling.Tests", "UnitTests\Byt3.PackageHandling.Tests\Byt3.PackageHandling.Tests.csproj", "{28362F22-AE06-4A9D-991C-45916C64DAAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.Serialization.Tests", "UnitTests\Byt3.Serialization.Tests\Byt3.Serialization.Tests.csproj", "{145D74B1-C4E0-4F5A-B88F-1F27C8EF4A15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Serialization.Tests", "UnitTests\Byt3.Serialization.Tests\Byt3.Serialization.Tests.csproj", "{145D74B1-C4E0-4F5A-B88F-1F27C8EF4A15}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.OpenFL.Common", "Libraries\Byt3.OpenFL\Byt3.OpenFL.Common\Byt3.OpenFL.Common.csproj", "{21F74F6D-1F1C-4D62-A962-8AE6AC2F609B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -249,6 +251,10 @@ Global
 		{145D74B1-C4E0-4F5A-B88F-1F27C8EF4A15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{145D74B1-C4E0-4F5A-B88F-1F27C8EF4A15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{145D74B1-C4E0-4F5A-B88F-1F27C8EF4A15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21F74F6D-1F1C-4D62-A962-8AE6AC2F609B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21F74F6D-1F1C-4D62-A962-8AE6AC2F609B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21F74F6D-1F1C-4D62-A962-8AE6AC2F609B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21F74F6D-1F1C-4D62-A962-8AE6AC2F609B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -296,6 +302,7 @@ Global
 		{8DBEC5F3-5999-4676-8CD3-0682CBFCCE46} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
 		{28362F22-AE06-4A9D-991C-45916C64DAAC} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
 		{145D74B1-C4E0-4F5A-B88F-1F27C8EF4A15} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
+		{21F74F6D-1F1C-4D62-A962-8AE6AC2F609B} = {93DA3EFA-FEF7-4454-AAF3-B17C099F3FBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1ACABA5F-1D45-4A5D-8E38-B83B3DFDF05A}

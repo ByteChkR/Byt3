@@ -3,8 +3,9 @@ using System.IO;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.Common.Buffers;
+using Byt3.OpenFL.Common.DataObjects;
 using Byt3.OpenFL.Parsing;
-using Byt3.OpenFL.Parsing.DataObjects;
 using Byt3.OpenFL.Parsing.Stages;
 using Byt3.Utilities.Exceptions;
 using NUnit.Framework;
@@ -18,8 +19,8 @@ namespace Byt3.OpenFL.Tests
         {
             string file = Path.GetFullPath("resources/filter/comments/test.fl");
 
-            FLParseResult pr = FLParser.Parse(new FLParserInput(file));
-            FunctionObject entryPoint = pr.EntryPoint; //Provoking an exception if main function is not found
+            FLProgram pr = FLParser.Parse(new FLParserInput(file));
+            FLFunction entryPoint = pr.EntryPoint; //Provoking an exception if main function is not found
         }
 
         [Test]
@@ -37,7 +38,7 @@ namespace Byt3.OpenFL.Tests
             string file = Path.GetFullPath("resources/filter/defines/test.fl");
 
 
-            FLParseResult result = FLParser.Parse(new FLParserInput(file));
+            FLProgram result = FLParser.Parse(new FLParserInput(file));
 
 
             Assert.True(result.DefinedBuffers.Count == 5);
@@ -73,8 +74,8 @@ namespace Byt3.OpenFL.Tests
 
             for (int i = 0; i < files.Length; i++)
             {
-                FLParseResult res = FLParser.Parse(new FLParserInput(files[i]));
-                FLBufferInfo buffer = new FLBufferInfo(CLAPI.MainThread, 512, 512);
+                FLProgram res = FLParser.Parse(new FLParserInput(files[i]));
+                FLBuffer buffer = new FLBuffer(CLAPI.MainThread, 512, 512);
                 res.Run(CLAPI.MainThread, db, buffer); //Running it
 
                 Bitmap bmp = new Bitmap(res.Dimensions.x, res.Dimensions.y); //Getting the Output
