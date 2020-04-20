@@ -1,15 +1,18 @@
-﻿using Byt3.Utilities.Versioning;
+﻿using Byt3.Utilities.Console.Internals;
+using Byt3.Utilities.Versioning;
 
 namespace Byt3.ExtPP.Console
 {
-    public class ConsoleEntry
+    public class ConsoleEntry : AConsole
     {
-        public string ConsoleKey => "extpp";
+        public override string ConsoleKey => "extpp";
+        public override string ConsoleTitle => "External Text Pre Processor";
 
-        public void Run(string[] args)
+        public override bool Run(string[] args)
         {
             VersionAccumulatorManager.SearchForAssemblies();
             CLI.StartConsole(args);
+            return true;
         }
     }
 }

@@ -13,11 +13,17 @@
     <ProjectReference Include="..\..\Libraries\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Collections\Byt3.Collections.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.File.Resolver\Byt3.Console.File.Resolver.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Lib.Resolver\Byt3.Console.Lib.Resolver.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Link.Resolver\Byt3.Console.Link.Resolver.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Runner\Byt3.Console.Runner.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Url.Resolver\Byt3.Console.Url.Resolver.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.API\Byt3.ExtPP.API.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Console\Byt3.ExtPP.Console.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Plugins\Byt3.ExtPP.Plugins.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP\Byt3.ExtPP.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.MAssert\Byt3.MAssert.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline.AssetLoaderFramework\Byt3.ObjectPipeline.AssetLoaderFramework.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj" />
@@ -33,7 +39,6 @@
     <ProjectReference Include="..\..\Libraries\Byt3.Threading\Byt3.Threading.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.VersionHelper.Console\Byt3.VersionHelper.Console.csproj" />
     <ProjectReference Include="..\..\UnitTests\Byt3.ObjectPipeline.Tests\Byt3.ObjectPipeline.Tests.csproj" />
-    <ProjectReference Include="..\..\UnitTests\Byt3.OpenCL.Tests\Byt3.OpenCL.Tests.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.DotNet\Byt3.Utilities.DotNet.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />

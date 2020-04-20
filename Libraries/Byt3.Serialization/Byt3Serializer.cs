@@ -13,6 +13,21 @@ namespace Byt3.Serialization
     public class Byt3Serializer
     {
 
+        public static Byt3Serializer GetDefaultSerializer()
+        {
+            return new Byt3Serializer(new Dictionary<Type, ASerializer>(BaseSerializers.SerializableTypes));
+        }
+
+        public Byt3Serializer()
+        {
+
+        }
+
+        private Byt3Serializer(Dictionary<Type, ASerializer> serializers)
+        {
+            Serializers = serializers;
+        }
+
         /// <summary>
         /// Serializer Dictionary of serializers with custom key
         /// </summary>
@@ -44,6 +59,11 @@ namespace Byt3.Serialization
             if (CanSerialize(type))
             {
                 return;
+            }
+
+            if (Serializers.ContainsKey(type))
+            {
+               System. Console.WriteLine("");
             }
 
             object key = BaseSerializer.GetKey(type);

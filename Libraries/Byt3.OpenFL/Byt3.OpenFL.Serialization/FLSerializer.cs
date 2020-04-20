@@ -54,7 +54,7 @@ namespace Byt3.OpenFL.Serialization
             };
 
             SerializableFLProgramSerializer prog = new SerializableFLProgramSerializer(bufferParser);
-            Byt3Serializer main = new Byt3Serializer();
+            Byt3Serializer main = Byt3Serializer.GetDefaultSerializer();
             main.AddSerializer(typeof(SerializableFLProgram), prog);
             main.AddSerializer(typeof(FLFileFormat), new FLFileFormatSerializer());
             return main;

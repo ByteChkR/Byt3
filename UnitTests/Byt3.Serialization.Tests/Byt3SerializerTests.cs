@@ -97,7 +97,7 @@ namespace Byt3.Serialization.Tests
         {
             Packet p = new Packet(true);
 
-            Byt3Serializer s = new Byt3Serializer();
+            Byt3Serializer s = Byt3Serializer.GetDefaultSerializer();
 
             s.AddSerializer<Packet>(new PacketSerializer());
 

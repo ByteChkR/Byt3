@@ -502,7 +502,7 @@ namespace Byt3.ADL
         public static void DefaultInitialization()
         {
             LoadConfig((ADLConfig) new ADLConfig().GetStandard());
-            LogTextStream lts = new LogTextStream(Console.OpenStandardOutput());
+            LogTextStream lts = new LogTextStream(System.Console.OpenStandardOutput());
             AddOutputStream(lts);
         }
 

@@ -8,16 +8,16 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
 {
     public class WFCParameterObject
     {
-        public int N { get; }
-        public int Width { get; }
-        public int Height { get; }
-        public int Symmetry { get; }
-        public int Ground { get; }
-        public int Limit { get; }
-        public bool PeriodicInput { get; }
-        public bool PeriodicOutput { get; }
-        public bool Force { get; }
-        public SerializableFromBitmapFLBuffer SourceImage;
+        public int N { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int Symmetry { get; set; }
+        public int Ground { get; set; }
+        public int Limit { get; set; }
+        public bool PeriodicInput { get; set; }
+        public bool PeriodicOutput { get; set; }
+        public bool Force { get; set; }
+        public SerializableFromBitmapFLBuffer SourceImage { get; set; }
 
 
         public WFCParameterObject(SerializableFromBitmapFLBuffer input, int n, int width, int height, int symmetry, int ground, int limit, bool periodicInput,

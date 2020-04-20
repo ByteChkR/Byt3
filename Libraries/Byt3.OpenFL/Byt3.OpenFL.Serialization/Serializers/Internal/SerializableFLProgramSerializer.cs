@@ -14,7 +14,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
 
         public SerializableFLProgramSerializer(Dictionary<Type, ASerializer> serializers)
         {
-            bufferSerializer = new Byt3Serializer();
+            bufferSerializer = Byt3Serializer.GetDefaultSerializer();
             foreach (KeyValuePair<Type, ASerializer> keyValuePair in serializers)
             {
                 bufferSerializer.AddSerializer(keyValuePair.Key, keyValuePair.Value);

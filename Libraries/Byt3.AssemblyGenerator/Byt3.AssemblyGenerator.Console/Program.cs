@@ -1,21 +1,23 @@
 ﻿using Byt3.ADL;
 using Byt3.AssemblyGenerator.Console.Commands;
 using Byt3.CommandRunner;
+using Byt3.Utilities.Console.Internals;
 using Byt3.Utilities.Versioning;
 
 namespace Byt3.AssemblyGenerator.Console
 {
-    public class ConsoleEntry
+    public class ConsoleEntry:AConsole
     {
-        public string ConsoleKey => "asmgen";
+        public override string ConsoleKey => "asmgen";
+        public override string ConsoleTitle => "Assembly Generator";
 
 
-
+        public static string Output;
         public static bool BuildConsole { get; set; }
         public static string Target { get; set; }
         public static bool HasTarget => !string.IsNullOrEmpty(Target);
 
-        public void Run(string[] args)
+        public override bool Run(string[] args)
         {
             VersionAccumulatorManager.SearchForAssemblies();
 
@@ -27,14 +29,16 @@ namespace Byt3.AssemblyGenerator.Console
             Runner.AddCommand(new SetNameCommand());
             Runner.AddCommand(new SetTargetRuntimeCommand());
             Runner.AddCommand(new BuildConsoleFlagCommand());
+            Runner.AddCommand(new SetOutputFolderCommand());
             Runner.AddCommand(new BuildCommand());
             Runner.AddCommand(new DefaultHelpCommand());
 
-            Runner.RunCommands(args);
+            bool ret=Runner.RunCommands(args);
 #if DEBUG
             System.Console.WriteLine("Press Enter to Exit.");
             System.Console.ReadLine();
 #endif
+            return ret;
         }
     }
 }

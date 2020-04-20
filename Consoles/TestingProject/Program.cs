@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using Byt3.ADL;
 using Byt3.AssemblyGenerator;
 using Byt3.AssemblyGenerator.Console;
@@ -10,6 +12,8 @@ namespace TestingProject
 {
     internal static class Program
     {
+
+
         private static void GenerateAsmGen()
         {
             const string AsmGenProjectPath =
@@ -22,24 +26,31 @@ namespace TestingProject
 
         private static void Main(string[] args)
         {
+            VersionAccumulatorManager.SearchForAssemblies();
+            Debug.DefaultInitialization();
 
             ILTestClass tc = new ILTestClass();
 
+            Version v = Version.Parse("1.0.0.0");
             while (true)
             {
-                Version v = Version.Parse("0.1.0.0");
+                System.Console.WriteLine(v);
                 Console.Write(">");
                 string format = Console.ReadLine();
+                if (format == "r")
+                {
+                    v = Version.Parse("1.0.0.0");
+                    continue;
+                }
 
-                Console.WriteLine(Byt3.VersionHelper.Console.ConsoleEntry.ChangeVersion(v, format));
+                v = Byt3.VersionHelper.Console.ConsoleEntry.ChangeVersion(v, format);
             }
             return;
 
-            VersionAccumulatorManager.SearchForAssemblies();
+
 
             GenerateAsmGen();
 
-            Debug.DefaultInitialization();
 
             AssemblyGeneratorGenerateModules();
 
@@ -53,7 +64,7 @@ namespace TestingProject
 
         private static void AssemblyGeneratorGenerateModules()
         {
-            string[] blacklist = new[] { "Test", "CLI" };
+            string[] blacklist = new[] { "Test" };
             ModuleDefinition[] defs = AssemblyGenerator.GenerateModuleDefinitions(
                 @"D:\Users\Tim\Documents\MasterServer\Byt3", ".\\GeneratedModules\\", false, blacklist);
             AssemblyDefinition.Save(".\\GeneratedModules\\Byt3.assemblyconfig",

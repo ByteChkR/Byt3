@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Byt3.Utilities.Serialization;
 
 namespace Byt3.Serialization
@@ -46,7 +44,7 @@ namespace Byt3.Serialization
 
             byte[] buf = new byte[sizeof(int)];
             stream.Read(buf, 0, buf.Length);
-            return BitConverter.ToInt32(buf, 0);
+            return BaseSerializers.ReadInt(buf);
         }
 
         /// <summary>
@@ -62,7 +60,7 @@ namespace Byt3.Serialization
 
             byte[] buf = new byte[sizeof(uint)];
             stream.Read(buf, 0, buf.Length);
-            return BitConverter.ToUInt32(buf, 0);
+            return BaseSerializers.ReadUInt(buf);
         }
 
         /// <summary>
@@ -78,7 +76,7 @@ namespace Byt3.Serialization
 
             byte[] buf = new byte[sizeof(long)];
             stream.Read(buf, 0, buf.Length);
-            return BitConverter.ToInt64(buf, 0);
+            return BaseSerializers.ReadLong(buf);
         }
 
         /// <summary>
@@ -94,7 +92,7 @@ namespace Byt3.Serialization
 
             byte[] buf = new byte[sizeof(ulong)];
             stream.Read(buf, 0, buf.Length);
-            return BitConverter.ToUInt64(buf, 0);
+            return BaseSerializers.ReadULong(buf);
         }
 
         /// <summary>
@@ -110,7 +108,7 @@ namespace Byt3.Serialization
 
             byte[] buf = new byte[sizeof(short)];
             stream.Read(buf, 0, buf.Length);
-            return BitConverter.ToInt16(buf, 0);
+            return BaseSerializers.ReadShort(buf);
         }
 
         /// <summary>
@@ -126,7 +124,7 @@ namespace Byt3.Serialization
 
             byte[] buf = new byte[sizeof(ushort)];
             stream.Read(buf, 0, buf.Length);
-            return BitConverter.ToUInt16(buf, 0);
+            return BaseSerializers.ReadUShort(buf);
         }
 
         /// <summary>
@@ -142,7 +140,7 @@ namespace Byt3.Serialization
 
             byte[] buf = new byte[sizeof(bool)];
             stream.Read(buf, 0, buf.Length);
-            return BitConverter.ToBoolean(buf, 0);
+            return BaseSerializers.ReadBool(buf);
         }
 
         /// <summary>
@@ -158,7 +156,7 @@ namespace Byt3.Serialization
 
             byte[] buf = new byte[sizeof(float)];
             stream.Read(buf, 0, buf.Length);
-            return BitConverter.ToSingle(buf, 0);
+            return BaseSerializers.ReadFloat(buf);
         }
 
         /// <summary>
@@ -169,7 +167,7 @@ namespace Byt3.Serialization
         {
             byte[] buf = new byte[sizeof(double)];
             stream.Read(buf, 0, buf.Length);
-            return BitConverter.ToDouble(buf, 0);
+            return BaseSerializers.ReadDouble(buf);
         }
 
         /// <summary>
@@ -186,7 +184,7 @@ namespace Byt3.Serialization
             int len = ReadInt();
             byte[] buf = new byte[len];
             stream.Read(buf, 0, buf.Length);
-            return Encoding.ASCII.GetString(buf);
+            return BaseSerializers.ReadString(buf);
         }
 
         public byte ReadByte()
@@ -236,7 +234,7 @@ namespace Byt3.Serialization
             int w = Write(length);
             for (int i = 0; i < length; i++)
             {
-                packetCache.Add(value[start+i]);
+                packetCache.Add(value[start + i]);
             }
             return length + w;
         }
@@ -253,7 +251,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -270,7 +268,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -287,7 +285,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -304,7 +302,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -321,7 +319,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -338,7 +336,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -355,7 +353,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -388,7 +386,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -405,7 +403,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -422,7 +420,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = BitConverter.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             packetCache.AddRange(buf);
             return buf.Length;
         }
@@ -439,7 +437,7 @@ namespace Byt3.Serialization
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            byte[] buf = Encoding.ASCII.GetBytes(value);
+            byte[] buf = BaseSerializers.Write(value);
             int w = Write(buf.Length);
             packetCache.AddRange(buf);
             return buf.Length + w;

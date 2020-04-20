@@ -1,38 +1,47 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Xml;
 using Byt3.ADL;
 using Byt3.CommandRunner;
+using Byt3.Utilities.Console.Internals;
 using Byt3.Utilities.Versioning;
 using Byt3.VersionHelper.Console.Commands;
 
 namespace Byt3.VersionHelper.Console
 {
-    public class ConsoleEntry
+    public class ConsoleEntry : AConsole
     {
 
-        public string ConsoleKey => "vh";
-        public void Run(string[] args)
+        public override string ConsoleKey => "vh";
+        public override string ConsoleTitle => "CSProj Verison Helper";
+        public override bool Run(string[] args)
         {
             Debug.DefaultInitialization();
             VersionAccumulatorManager.SearchForAssemblies();
             Runner.AddCommand(new DefaultHelpCommand());
+            Runner.AddCommand(new NoWrapFlagCommand());
             Runner.AddCommand(new ChangeVersionCommand());
-            Runner.RunCommands(args);
+            return Runner.RunCommands(args);
         }
 
         public static void ChangeVersionInFile(string file, Version newVersion)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(file);
-
             XmlNode[] nodes = FindVersionTags(doc);
-            Version v = Version.Parse(nodes[0].InnerText);
+
             nodes[0].InnerText = newVersion.ToString();
             nodes[1].InnerText = newVersion.ToString();
-
-            File.Delete(file);
-            doc.Save(file);
+            try
+            {
+                doc.Save(file);
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e);
+                throw;
+            }
         }
 
         public static Version GetVersionFromFile(string file)
@@ -46,10 +55,41 @@ namespace Byt3.VersionHelper.Console
         public static Version ChangeVersion(Version version, string changeStr)
         {
             string[] subVersions = changeStr.Split('.');
+            int[] wrapValues = new[] { ushort.MaxValue, 9, 99, ushort.MaxValue };
             int[] versions = new[] { version.Major, version.Minor, version.Build, version.Revision };
-            for (int i = 0; i < 4; i++)
+            for (int i = 4 - 1; i >= 0; i--)
             {
                 string current = subVersions[i];
+                if (current.StartsWith("("))
+                {
+                    if (i == 0) continue; //Can not wrap the last digit
+                    int j = 0;
+                    for (; j < current.Length; j++)
+                    {
+                        if (current[j] == ')') break;
+                    }
+                    if (j == current.Length)
+                    {
+                        System.Console.WriteLine($"Can not parse version ID: {i}({current})");
+                        continue; //Broken. No number left. better ignore
+                    }
+                    string max = current.Substring(1, j - 1);
+                    if (int.TryParse(max, out int newMax))
+                    {
+                        wrapValues[i] = newMax;
+                    }
+                    current = current.Remove(0, j + 1);
+                }
+
+                if (!NoWrapFlagCommand.NoWrap && i != 0) //Check if we wrapped
+                {
+                    if (versions[i] >= wrapValues[i])
+                    {
+                        versions[i] = 0;
+                        versions[i - 1]++;
+                    }
+                }
+
                 if (current == "+")
                 {
                     versions[i]++;
@@ -58,7 +98,7 @@ namespace Byt3.VersionHelper.Console
                 {
                     versions[i]--;
                 }
-                else if (current == "X")
+                else if (current.ToLower(CultureInfo.InvariantCulture) == "x")
                 {
                     continue;
                 }
@@ -78,9 +118,9 @@ namespace Byt3.VersionHelper.Console
                     }
 
                 }
-                else
+                else if (int.TryParse(current, out int v))
                 {
-                    versions[i] = int.Parse(current);
+                    versions[i] = v;
                 }
             }
             return new Version(versions[0], versions[1], versions[2], versions[3]);

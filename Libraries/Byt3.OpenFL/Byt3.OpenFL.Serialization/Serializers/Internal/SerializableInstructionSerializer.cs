@@ -14,7 +14,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
         private readonly Byt3Serializer argSerializer;
         public SerializableInstructionSerializer(Dictionary<Type, ASerializer> serializers)
         {
-            argSerializer = new Byt3Serializer();
+            argSerializer = Byt3Serializer.GetDefaultSerializer();
 
             foreach (KeyValuePair<Type, ASerializer> keyValuePair in serializers)
             {

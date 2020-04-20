@@ -5,19 +5,20 @@ using Byt3.ADL;
 using Byt3.ADL.Configs;
 using Byt3.CommandRunner;
 using Byt3.OpenFL.Console.Commands;
+using Byt3.Utilities.Console.Internals;
 using Byt3.Utilities.Versioning;
 
 namespace Byt3.OpenFL.Console
 {
 
 
-    
 
-    public class ConsoleEntry : ALoggable<LogType>
+
+    public class ConsoleEntry : AConsole
     {
         public static Version ConsoleVersion => Assembly.GetExecutingAssembly().GetName().Version;
         internal static ProjectDebugConfig ConsoleConfig = new ProjectDebugConfig("OpenFL.Console", -1, 4, PrefixLookupSettings.AddPrefixIfAvailable);
-        public ConsoleEntry() : base(ConsoleConfig) { }
+        private ADLLogger<LogType> Logger = new ADLLogger<LogType>(ConsoleConfig);
         internal static readonly PreProcessorSettings Settings = PreProcessorSettings.GetDefault();
 
         public static string KernelPath
@@ -28,12 +29,13 @@ namespace Byt3.OpenFL.Console
                 return path;
             }
         }
-        public string ConsoleKey => "fl";
-        public void Run(string[] args)
+        public override string ConsoleKey => "fl";
+        public override string ConsoleTitle => "OpenFL Console Runner";
+        public override bool Run(string[] args)
         {
             VersionAccumulatorManager.SearchForAssemblies();
             Debug.DefaultInitialization();
-            
+
 
             Runner.AddCommand(new DefaultHelpCommand());
             Runner.AddCommand(new SetOutputFilesCommand());
@@ -41,11 +43,12 @@ namespace Byt3.OpenFL.Console
             Runner.AddCommand(
                 new SetSettingsCommand(SetSettingsCommand.Create(SetSettingsCommand.Create("Settings", Settings))));
             Runner.AddCommand(new RunCommand());
-            Runner.RunCommands(args);
+            bool ret = Runner.RunCommands(args);
 #if DEBUG
             System.Console.WriteLine("Press Enter to Exit.");
             System.Console.ReadLine();
 #endif
+            return ret;
         }
     }
 }
