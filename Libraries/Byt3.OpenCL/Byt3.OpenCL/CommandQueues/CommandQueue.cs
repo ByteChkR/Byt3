@@ -311,6 +311,11 @@ namespace Byt3.OpenCL.CommandQueues
             }
         }
 
+        public void Flush()
+        {
+            CommandQueuesNativeApi.Flush(Handle);
+        }
+
         #endregion
     }
 }

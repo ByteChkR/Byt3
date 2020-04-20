@@ -2,18 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Byt3.Utilities.Exceptions;
 using Byt3.Utilities.Serialization;
 
 namespace Byt3.Serialization
 {
-    public class PrimitiveValueWrapperException : Byt3Exception
-    {
-        public PrimitiveValueWrapperException(string message) : base(message)
-        {
-        }
-    }
-
     /// <summary>
     /// Simple Wrapper that Sequentially Read and Write Primitive Values to a Specified Stream
     /// </summary>
@@ -199,7 +191,7 @@ namespace Byt3.Serialization
 
         public byte ReadByte()
         {
-            return (byte) stream.ReadByte();
+            return (byte)stream.ReadByte();
         }
 
         /// <summary>
@@ -226,14 +218,27 @@ namespace Byt3.Serialization
         /// <returns>Bytes Written</returns>
         public int Write(byte[] value)
         {
+            return Write(value, 0, value.Length);
+        }
+
+        public int Write(byte[] value, int length)
+        {
+            return Write(value, 0, length);
+        }
+
+        public int Write(byte[] value, int start, int length)
+        {
             if (!IsValid)
             {
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
 
-            int w = Write(value.Length);
-            packetCache.AddRange(value);
-            return value.Length + w;
+            int w = Write(length);
+            for (int i = 0; i < length; i++)
+            {
+                packetCache.Add(value[start+i]);
+            }
+            return length + w;
         }
 
         /// <summary>

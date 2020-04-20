@@ -3,7 +3,7 @@ using Byt3.ADL;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common.Buffers;
-using Byt3.OpenFL.Common.DataObjects;
+using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.Exceptions;
 
 namespace Byt3.OpenFL.Common.Instructions
@@ -46,7 +46,7 @@ namespace Byt3.OpenFL.Common.Instructions
         }
 
 
-        public static FLBuffer ComputeRnd(string[] args)
+        public static FLBuffer ComputeRnd()
         {
             LazyLoadingFLBuffer info = new LazyLoadingFLBuffer(root =>
             {

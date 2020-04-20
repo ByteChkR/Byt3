@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.0.6.1339</AssemblyVersion>
+    <FileVersion>1.0.6.1339</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Serialization\Byt3.Utilities.Serialization.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
+    <ProjectReference Include="..\..\Byt3.Serialization\Byt3.Serialization.csproj" />
+    <ProjectReference Include="..\Byt3.OpenFL.Common\Byt3.OpenFL.Common.csproj" />
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
+</Project>

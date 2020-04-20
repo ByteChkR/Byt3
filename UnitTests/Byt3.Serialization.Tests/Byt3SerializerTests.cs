@@ -97,14 +97,16 @@ namespace Byt3.Serialization.Tests
         {
             Packet p = new Packet(true);
 
-            Byt3Serializer.AddSerializer<Packet>(new PacketSerializer());
+            Byt3Serializer s = new Byt3Serializer();
+
+            s.AddSerializer<Packet>(new PacketSerializer());
 
             MemoryStream stream = new MemoryStream();
-            bool ret = Byt3Serializer.TryWritePacket(stream, p);
+            bool ret = s.TryWritePacket(stream, p);
             Assert.True(ret);
             stream.Position = 0;
 
-            bool p2ret = Byt3Serializer.TryReadPacket(stream, out Packet p2);
+            bool p2ret = s.TryReadPacket(stream, out Packet p2);
 
             Assert.True(p2ret);
 

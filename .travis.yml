@@ -25,8 +25,8 @@ install:
 #ADL has to be splitted into its subprojects since 2 of them are .Net Framework based and will not compile with .net Core
 #Also the build order matters since the MinorEngine solution needs references from the other submodules
 script:
-  - dotnet build $SOLUTION -c $BUILDCONFIG
-  - dotnet publish $SOLUTION -c $BUILDCONFIG
+  - dotnet build $SOLUTION -c $BUILDCONFIG /p:PreBuildEvent= /p:PostBuildEvent=
+  - dotnet publish $SOLUTION -c $BUILDCONFIG /p:PreBuildEvent= /p:PostBuildEvent=
 
 #Testing all included projects.
 after_script:

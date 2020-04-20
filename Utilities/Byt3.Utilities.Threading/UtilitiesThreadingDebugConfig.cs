@@ -3,6 +3,7 @@ using Byt3.ADL.Configs;
 
 namespace Byt3.Utilities.Threading
 {
+    
     public static class UtilitiesThreadingDebugConfig
     {
         public static readonly ProjectDebugConfig<LogType, Verbosity> Settings =

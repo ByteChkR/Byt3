@@ -4,11 +4,12 @@ namespace Byt3.OpenFL.Common.Buffers
 {
     public class LazyFromFileFLBuffer : LazyLoadingFLBuffer
     {
-        private readonly string File;
+        public readonly string File;
 
 
         public LazyFromFileFLBuffer(string file) : base(null)
         {
+            File = file;
             Loader = root =>
             {
                 if (File == "INPUT")
@@ -16,10 +17,11 @@ namespace Byt3.OpenFL.Common.Buffers
                     return root.Input;
                 }
 
-                Bitmap bmp = new Bitmap((Bitmap) Image.FromFile(File), root.Dimensions.x, root.Dimensions.y);
-                return new FLBuffer(root.Instance, bmp);
+                Bitmap bmp = new Bitmap(Bitmap.FromFile(File), root.Dimensions.x, root.Dimensions.y);
+                FLBuffer buf= new FLBuffer(root.Instance, bmp);
+                bmp.Dispose();
+                return buf;
             };
-            File = file;
         }
     }
 }

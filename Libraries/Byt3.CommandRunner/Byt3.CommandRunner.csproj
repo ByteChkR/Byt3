@@ -1,11 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.0.5.1339</AssemblyVersion>
+    <FileVersion>1.0.5.1339</FileVersion>
   </PropertyGroup>
-
   <ItemGroup>
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
     <ProjectReference Include="..\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
   </ItemGroup>
-
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
 </Project>

@@ -2,8 +2,7 @@
 using System.Drawing;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
-using Byt3.OpenFL.Common.DataObjects;
-using Byt3.OpenFL.Parsing;
+using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace Byt3.OpenFL.Threading
 {
@@ -12,6 +11,7 @@ namespace Byt3.OpenFL.Threading
     /// </summary>
     public struct FlScriptExecutionContext
     {
+        public bool IsCompiled => Filename.EndsWith(".flc");
         public string Filename;
         public Action<FLProgram> OnFinishCallback;
         public byte[] Input;

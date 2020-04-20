@@ -417,6 +417,11 @@ namespace Byt3.OpenCL.Wrapper
             kernel.Run(instance.commandQueue, 1, groupSize);
         }
 
+        public static void Flush(CLAPI instance)
+        {
+            instance.commandQueue.Flush();
+        }
+
         #region Instance Functions
 
         internal static Program CreateClProgramFromSource(CLAPI instance, string source)
@@ -523,6 +528,22 @@ namespace Byt3.OpenCL.Wrapper
                 ret[i + 2] = g;
                 ret[i + 3] = b;
             }
+        }
+
+        public static void UpdateBitmap(CLAPI instance, Bitmap target, MemoryBuffer buffer)
+        {
+            byte[] bs = ReadBuffer<byte>(instance, buffer, (int) buffer.Size);
+            UpdateBitmap(instance, target, bs);
+        }
+
+        public static byte[] GetBitmapData(Bitmap bmp)
+        {
+            BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
+                PixelFormat.Format32bppArgb);
+            byte[] buffer = new byte[bmp.Width * bmp.Height * 4];
+            Marshal.Copy(data.Scan0, buffer, 0, buffer.Length);
+            bmp.UnlockBits(data);
+            return buffer;
         }
 
         public static void UpdateBitmap(CLAPI instance, Bitmap target, byte[] bytes)

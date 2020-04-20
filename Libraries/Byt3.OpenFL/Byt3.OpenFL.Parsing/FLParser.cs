@@ -5,15 +5,24 @@ using Byt3.ADL;
 using Byt3.ExtPP.API;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common;
-using Byt3.OpenFL.Common.DataObjects;
-using Byt3.OpenFL.Common.Instructions;
+using Byt3.OpenFL.Common.Buffers.BufferCreators;
+using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing.ExtPP.API.Configurations;
 using Byt3.OpenFL.Parsing.Stages;
 
 namespace Byt3.OpenFL.Parsing
 {
-    public class FLParser : Pipeline<FLParserInput, FLProgram>
+
+    
+
+    public class FLParser : Pipeline<FLParserInput, SerializableFLProgram>
     {
+        public BufferCreator BufferCreator { get; }
+        public FLInstructionSet InstructionSet { get; }
+        public FLProgramCheckPipeline CheckPipeline { get; }
+
         static FLParser()
         {
             TextProcessorAPI.Configs[".fl"] = new FLPreProcessorConfig();
@@ -23,30 +32,30 @@ namespace Byt3.OpenFL.Parsing
             new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "FLParser");
 
 
-        internal static Dictionary<string, Type> FLInstructions => new Dictionary<string, Type>
+        public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator,
+            FLProgramCheckPipeline checkPipeline)
         {
-            {"setactive", typeof(SetActiveFLInstruction)},
-            {"jmp", typeof(JumpFLInstruction)},
-            {"urnd", typeof(URandomFLInstruction)},
-            {"rnd", typeof(RandomFLInstruction)},
-        };
-
-        public static FLProgram Parse(FLParserInput input)
-        {
-            Logger.Log(LogType.Log, "Parsing File: " + input.Filename, 1);
-            FLParser parser = new FLParser();
-            return parser.Process(input);
-        }
-
-
-        private FLParser()
-        {
+            CheckPipeline = checkPipeline;
+            InstructionSet = instructionSet;
+            BufferCreator = bufferCreator;
             AddSubStage(new LoadSourceStage());
             AddSubStage(new StaticInspectionStage());
-            AddSubStage(new ParseTreeStage());
-            AddSubStage(new ResolveReferencesStage());
+            AddSubStage(new ParseTreeStage(this));
+            AddSubStage(CheckPipeline);
+
+
             Verify();
         }
+
+        
+
+        public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator):this(instructionSet, bufferCreator, new FLProgramCheckPipeline(instructionSet, bufferCreator))
+        {
+
+
+        }
+
+        public FLParser() : this(new FLInstructionSet(), new BufferCreator()) {}
 
 
         internal static string[] FindDefineStatements(string[] source)
@@ -79,19 +88,19 @@ namespace Byt3.OpenFL.Parsing
 
         internal static string GetScriptName(string definedScriptLine)
         {
-            return RemoveComment(definedScriptLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[0]
+            return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
                 .Replace("--define script", "").Trim();
         }
 
         internal static string GetScriptPath(string definedScriptLine)
         {
-            return RemoveComment(definedScriptLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
+            return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
                 .Replace("\"", "");
         }
 
         internal static string GetBufferName(string definedBufferLine)
         {
-            return RemoveComment(definedBufferLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[0]
+            return RemoveComment(definedBufferLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
                 .Replace("--define texture", "").Trim();
         }
 
@@ -108,7 +117,7 @@ namespace Byt3.OpenFL.Parsing
 
         internal static string RemoveComment(string line)
         {
-            return line.Split(new[] {'#'}, StringSplitOptions.None).First().Trim();
+            return line.Split(new[] { '#' }, StringSplitOptions.None).First().Trim();
         }
 
         internal static bool IsFunctionHeader(string line)

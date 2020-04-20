@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
   </ItemGroup>
 
   <ItemGroup>

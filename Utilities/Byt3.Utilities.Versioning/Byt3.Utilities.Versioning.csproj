@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.0.4.1339</AssemblyVersion>
+    <FileVersion>1.0.4.1339</FileVersion>
+  </PropertyGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
+</Project>

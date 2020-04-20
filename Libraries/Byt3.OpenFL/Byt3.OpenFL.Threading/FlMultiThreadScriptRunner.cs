@@ -1,8 +1,7 @@
 ﻿using System;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
-using Byt3.OpenFL.Common.DataObjects;
-using Byt3.OpenFL.Parsing;
+using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace Byt3.OpenFL.Threading
 {

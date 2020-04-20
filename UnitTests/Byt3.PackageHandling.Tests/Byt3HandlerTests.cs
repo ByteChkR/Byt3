@@ -1,4 +1,3 @@
-using System;
 using NUnit.Framework;
 
 namespace Byt3.PackageHandling.Tests

@@ -4,18 +4,10 @@ using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
 using Byt3.ExtPP.Base.settings;
-using Byt3.Utilities.Exceptions;
 using Utils = Byt3.ExtPP.Base.Utils;
 
 namespace Byt3.ExtPP.Plugins
 {
-    public class ErrorException : Byt3Exception
-    {
-        public ErrorException(string message) : base(message)
-        {
-        }
-    }
-
     public class ExceptionPlugin : AbstractLinePlugin
     {
         public override string[] Prefix => new[] {"ex", "ExceptionPlugin"};

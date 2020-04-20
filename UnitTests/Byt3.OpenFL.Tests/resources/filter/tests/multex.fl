@@ -1,7 +1,6 @@
 --define texture other: "resources/textures/TEST.png"
 
 Main:
-  set other
 	setactive 3
 	setv 1 #Opaque
   setactive 0 1 2

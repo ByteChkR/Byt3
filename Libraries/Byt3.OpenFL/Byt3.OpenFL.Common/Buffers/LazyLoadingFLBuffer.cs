@@ -1,6 +1,6 @@
 ﻿using System;
 using Byt3.OpenCL.Memory;
-using Byt3.OpenFL.Common.DataObjects;
+using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace Byt3.OpenFL.Common.Buffers
 {

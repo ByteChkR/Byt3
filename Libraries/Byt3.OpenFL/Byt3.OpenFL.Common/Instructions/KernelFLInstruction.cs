@@ -5,25 +5,26 @@ using Byt3.ADL;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common.Buffers;
-using Byt3.OpenFL.Common.DataObjects;
+using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace Byt3.OpenFL.Common.Instructions
 {
     public class KernelFLInstruction : FLInstruction
     {
-        private readonly string KernelName;
+        private readonly CLKernel Kernel;
+        private readonly float GenMaxSize;
 
-        public KernelFLInstruction(string kernelName, List<FLInstructionArgument> arguments) : base(arguments)
+        public KernelFLInstruction(float genMaxSize, CLKernel kernel, List<FLInstructionArgument> arguments) : base(arguments)
         {
-            KernelName = kernelName;
+            Kernel = kernel;
+            GenMaxSize = genMaxSize;
         }
 
         /// <summary>
         /// FL header Count(the offset from 0 where the "user" parameter start)
         /// </summary>
         private const int FL_HEADER_ARG_COUNT = 5;
-
-        public CLKernel Kernel => Root.KernelDB.GetClKernel(KernelName);
+        
 
         public override void Process()
         {
@@ -34,6 +35,7 @@ namespace Byt3.OpenFL.Common.Instructions
                     $"[{Kernel.Name}]Setting Kernel Argument {Kernel.Parameter.First(x => x.Value.Id == i)}",
                     MIN_INSTRUCTION_SEVERITY + 1);
                 int kernelArgIndex = i + FL_HEADER_ARG_COUNT;
+
                 if (Arguments[i].Type == FLInstructionArgumentType.Buffer)
                 {
                     FLBuffer bi = (FLBuffer) Arguments[i].Value;
@@ -54,7 +56,7 @@ namespace Byt3.OpenFL.Common.Instructions
 
                     Logger.Log(LogType.Log, $"Executing Function: {flFunction.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 
-                    Root.Run(Root.Instance, Root.KernelDB, buffer, flFunction);
+                    Root.Run(Root.Instance,  buffer, flFunction);
 
                     Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{Root.ActiveBuffer.DefinedBufferName}",
                         MIN_INSTRUCTION_SEVERITY + 2);
@@ -76,8 +78,7 @@ namespace Byt3.OpenFL.Common.Instructions
                 }
             }
 
-            CLAPI.Run(Root.Instance, Kernel, Root.ActiveBuffer.Buffer, Root.Dimensions,
-                KernelParameter.GetDataMaxSize(Root.KernelDB.GenDataType),
+            CLAPI.Run(Root.Instance, Kernel, Root.ActiveBuffer.Buffer, Root.Dimensions, GenMaxSize,
                 CLAPI.CreateBuffer(Root.Instance, Root.ActiveChannels, MemoryFlag.ReadOnly), 4);
         }
     }

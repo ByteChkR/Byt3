@@ -1,5 +1,4 @@
-﻿using System;
-using Byt3.Utilities.Exceptions;
+﻿using Byt3.Utilities.Exceptions;
 
 namespace Byt3.ObjectPipeline
 {

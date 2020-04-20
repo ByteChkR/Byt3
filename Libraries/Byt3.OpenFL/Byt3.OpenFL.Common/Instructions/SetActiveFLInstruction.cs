@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Byt3.ADL;
 using Byt3.OpenFL.Common.Buffers;
-using Byt3.OpenFL.Common.DataObjects;
+using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace Byt3.OpenFL.Common.Instructions
 {

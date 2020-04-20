@@ -1,20 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.0.4.1339</AssemblyVersion>
+    <FileVersion>1.0.4.1339</FileVersion>
   </PropertyGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
+  </ItemGroup>
   <ItemGroup>
     <None Update="DataTypes\VectorTypes.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>VectorTypes.cs</LastGenOutput>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="DataTypes\VectorTypes.cs">
       <DesignTime>True</DesignTime>
@@ -22,5 +23,7 @@
       <DependentUpon>VectorTypes.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
 </Project>
