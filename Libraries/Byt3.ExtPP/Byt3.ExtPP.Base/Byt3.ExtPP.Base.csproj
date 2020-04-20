@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.5.1339</AssemblyVersion>
-    <FileVersion>1.0.5.1339</FileVersion>
+    <AssemblyVersion>1.0.16.1354</AssemblyVersion>
+    <FileVersion>1.0.16.1354</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
@@ -10,7 +10,7 @@
     <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL.Crash\Byt3.ADL.Crash.csproj" />
     <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

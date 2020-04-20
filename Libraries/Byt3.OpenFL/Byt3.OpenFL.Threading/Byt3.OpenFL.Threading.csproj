@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.6.1339</AssemblyVersion>
-    <FileVersion>1.0.6.1339</FileVersion>
+    <AssemblyVersion>1.0.17.1354</AssemblyVersion>
+    <FileVersion>1.0.17.1354</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
@@ -11,7 +11,7 @@
     <ProjectReference Include="..\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
     <ProjectReference Include="..\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

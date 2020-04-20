@@ -198,9 +198,9 @@ namespace Byt3.OpenFL.Tests
             FLParser parser = new FLParser(iset, bc);
             FLRunner runner = new FLRunner(iset);
 
+            Directory.CreateDirectory("./out/serialized");
 #if DEBUG
             Directory.CreateDirectory("./out/image-serialized");
-            Directory.CreateDirectory("./out/serialized");
 #endif
 
             for (int i = 0; i < files.Length; i++)
