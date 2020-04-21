@@ -18,7 +18,6 @@ namespace Byt3.ADL.Tests
             Debug.AddOutputStream(ls);
 
             Debug.RemoveAllOutputStreams();
-            
         }
 
 
@@ -32,7 +31,7 @@ namespace Byt3.ADL.Tests
             ADLLogger logger = new ADLLogger(InternalADLProjectDebugConfig.Settings, "UnitTest");
 
             BitMask bm = new BitMask(2 | 8);
-            
+
             logger.AddPrefixForMask(bm | 4, "Test");
             logger.AddPrefixForMask(bm | 4, "Test");
             logger.RemoveAllPrefixes();
@@ -91,7 +90,7 @@ namespace Byt3.ADL.Tests
             Assert.True(logger.GetAllPrefixes().Count == 3);
 
             logger.RemoveAllPrefixes();
-            
+
             logger.SetAllPrefixes("Hello", "HELLO1", "HOLA2");
 
             Assert.True(logger.GetAllPrefixes().Count == 3);

@@ -8,7 +8,7 @@ namespace Byt3.AssemblyGenerator.Console.Commands
 {
     public class BuildCommand : AbstractCommand
     {
-        public BuildCommand() : base(new[] { "--build", "-b" },
+        public BuildCommand() : base(new[] {"--build", "-b"},
             "Builds the Target Assembly Config and stores the build output in a folder in the current working directory")
         {
             CommandAction = (info, strings) => Build(strings);
@@ -30,7 +30,8 @@ namespace Byt3.AssemblyGenerator.Console.Commands
                 Logger.Log(LogType.Log, "Can not parse the BuildType. Using Default:" + buildType, 1);
             }
 
-            string path = Path.Combine(Path.GetDirectoryName(ConsoleEntry.Target), $"{ConsoleEntry.Output ?? def.AssemblyName}");
+            string path = Path.Combine(Path.GetDirectoryName(ConsoleEntry.Target),
+                $"{ConsoleEntry.Output ?? def.AssemblyName}");
             AssemblyGenerator.GenerateAssembly("dotnet", def, path, buildType, !ConsoleEntry.BuildConsole);
         }
     }

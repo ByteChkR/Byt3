@@ -16,12 +16,13 @@ namespace Byt3.OpenFL.Common
             InstructionSet = instructionSet;
         }
 
-        public FLRunner(): this(new FLInstructionSet()) {}
+        public FLRunner() : this(new FLInstructionSet())
+        {
+        }
 
         public FLProgram Initialize(SerializableFLProgram file)
         {
             return file.Initialize(InstructionSet);
         }
-
     }
 }

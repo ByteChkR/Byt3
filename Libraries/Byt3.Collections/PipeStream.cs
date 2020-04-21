@@ -84,8 +84,8 @@ namespace Byt3.Collections
         /// <value>The length of the max buffer.</value>
         public long MaxBufferLength
         {
-            get { return mMaxBufferLength; }
-            set { mMaxBufferLength = value; }
+            get => mMaxBufferLength;
+            set => mMaxBufferLength = value;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Byt3.Collections
         /// </value>
         public bool BlockLastReadBuffer
         {
-            get { return mBlockLastRead; }
+            get => mBlockLastRead;
             set
             {
                 mBlockLastRead = value;
@@ -315,10 +315,7 @@ namespace Byt3.Collections
         ///true if the stream supports reading; otherwise, false.
         ///</returns>
         ///<filterpriority>1</filterpriority>
-        public override bool CanRead
-        {
-            get { return true; }
-        }
+        public override bool CanRead => true;
 
         ///<summary>
         ///When overridden in a derived class, gets a value indicating whether the current stream supports seeking.
@@ -327,10 +324,7 @@ namespace Byt3.Collections
         ///true if the stream supports seeking; otherwise, false.
         ///</returns>
         ///<filterpriority>1</filterpriority>
-        public override bool CanSeek
-        {
-            get { return false; }
-        }
+        public override bool CanSeek => false;
 
         ///<summary>
         ///When overridden in a derived class, gets a value indicating whether the current stream supports writing.
@@ -339,10 +333,7 @@ namespace Byt3.Collections
         ///true if the stream supports writing; otherwise, false.
         ///</returns>
         ///<filterpriority>1</filterpriority>
-        public override bool CanWrite
-        {
-            get { return true; }
-        }
+        public override bool CanWrite => true;
 
         ///<summary>
         ///When overridden in a derived class, gets the length in bytes of the stream.
@@ -353,10 +344,7 @@ namespace Byt3.Collections
         ///
         ///<exception cref="T:System.NotSupportedException">A class derived from Stream does not support seeking. </exception>
         ///<exception cref="T:System.ObjectDisposedException">Methods were called after the stream was closed. </exception><filterpriority>1</filterpriority>
-        public override long Length
-        {
-            get { return mBuffer.Count; }
-        }
+        public override long Length => mBuffer.Count;
 
         ///<summary>
         ///When overridden in a derived class, gets or sets the position within the current stream.
@@ -369,8 +357,8 @@ namespace Byt3.Collections
         ///<exception cref="T:System.ObjectDisposedException">Methods were called after the stream was closed. </exception><filterpriority>1</filterpriority>
         public override long Position
         {
-            get { return 0; }
-            set { throw new NotSupportedException(); }
+            get => 0;
+            set => throw new NotSupportedException();
         }
 
         #endregion

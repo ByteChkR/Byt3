@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Xml;
 using Byt3.ADL;
 using Byt3.CommandRunner;
@@ -12,9 +11,9 @@ namespace Byt3.VersionHelper.Console
 {
     public class ConsoleEntry : AConsole
     {
-
         public override string ConsoleKey => "vh";
         public override string ConsoleTitle => "CSProj Verison Helper";
+
         public override bool Run(string[] args)
         {
             Debug.DefaultInitialization();
@@ -55,29 +54,39 @@ namespace Byt3.VersionHelper.Console
         public static Version ChangeVersion(Version version, string changeStr)
         {
             string[] subVersions = changeStr.Split('.');
-            int[] wrapValues = new[] { ushort.MaxValue, 9, 99, ushort.MaxValue };
-            int[] versions = new[] { version.Major, version.Minor, version.Build, version.Revision };
+            int[] wrapValues = new[] {ushort.MaxValue, 9, 99, ushort.MaxValue};
+            int[] versions = new[] {version.Major, version.Minor, version.Build, version.Revision};
             for (int i = 4 - 1; i >= 0; i--)
             {
                 string current = subVersions[i];
                 if (current.StartsWith("("))
                 {
-                    if (i == 0) continue; //Can not wrap the last digit
+                    if (i == 0)
+                    {
+                        continue; //Can not wrap the last digit
+                    }
+
                     int j = 0;
                     for (; j < current.Length; j++)
                     {
-                        if (current[j] == ')') break;
+                        if (current[j] == ')')
+                        {
+                            break;
+                        }
                     }
+
                     if (j == current.Length)
                     {
                         System.Console.WriteLine($"Can not parse version ID: {i}({current})");
                         continue; //Broken. No number left. better ignore
                     }
+
                     string max = current.Substring(1, j - 1);
                     if (int.TryParse(max, out int newMax))
                     {
                         wrapValues[i] = newMax;
                     }
+
                     current = current.Remove(0, j + 1);
                 }
 
@@ -110,25 +119,29 @@ namespace Byt3.VersionHelper.Console
 
                     if (long.TryParse(value, out long newValue))
                     {
-                        versions[i] = (int)(newValue % ushort.MaxValue);
+                        versions[i] = (int) (newValue % ushort.MaxValue);
                     }
                     else
                     {
                         System.Console.WriteLine("Can not Parse: " + value + " to INT");
                     }
-
                 }
                 else if (int.TryParse(current, out int v))
                 {
                     versions[i] = v;
                 }
             }
+
             return new Version(versions[0], versions[1], versions[2], versions[3]);
         }
 
         private static Version FindVersion(XmlDocument doc)
         {
-            if (Version.TryParse(FindVersionTags(doc)[0].InnerText, out Version v)) return v;
+            if (Version.TryParse(FindVersionTags(doc)[0].InnerText, out Version v))
+            {
+                return v;
+            }
+
             return new Version(0, 0, 1, 0);
         }
 
@@ -140,7 +153,10 @@ namespace Byt3.VersionHelper.Console
 
             for (int i = 0; i < doc.ChildNodes.Count; i++)
             {
-                if (doc.ChildNodes[i].Name == "Project") s = doc.ChildNodes[i];
+                if (doc.ChildNodes[i].Name == "Project")
+                {
+                    s = doc.ChildNodes[i];
+                }
             }
 
             XmlNode[] ret = new XmlNode[2];
@@ -174,9 +190,11 @@ namespace Byt3.VersionHelper.Console
                     {
                         if (s.ChildNodes[i].HasChildNodes && s.ChildNodes[i].FirstChild.Name == "TargetFramework")
                         {
-                            XmlNode assemblyVersion = s.ChildNodes[i].AppendChild(doc.CreateNode(XmlNodeType.Element, "AssemblyVersion", ""));
+                            XmlNode assemblyVersion = s.ChildNodes[i]
+                                .AppendChild(doc.CreateNode(XmlNodeType.Element, "AssemblyVersion", ""));
                             assemblyVersion.InnerText = "0.0.1.0";
-                            XmlNode fileVersion = s.ChildNodes[i].AppendChild(doc.CreateNode(XmlNodeType.Element, "FileVersion", ""));
+                            XmlNode fileVersion = s.ChildNodes[i]
+                                .AppendChild(doc.CreateNode(XmlNodeType.Element, "FileVersion", ""));
                             fileVersion.InnerText = "0.0.1.0";
                             ret[0] = assemblyVersion;
                             ret[1] = fileVersion;

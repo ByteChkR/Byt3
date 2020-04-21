@@ -8,7 +8,6 @@ namespace Byt3.Serialization
 {
     public class BaseSerializers
     {
-
         public static readonly Dictionary<Type, ASerializer> SerializableTypes =
             new Dictionary<Type, ASerializer>
             {
@@ -170,7 +169,7 @@ namespace Byt3.Serialization
 
         public static sbyte ReadSByte(byte[] input)
         {
-            return (sbyte)input[0];
+            return (sbyte) input[0];
         }
 
 
@@ -241,9 +240,7 @@ namespace Byt3.Serialization
         /// <returns>Bytes Written</returns>
         public static byte[] Write(sbyte value)
         {
-
-            return new[] { (byte)value };
-
+            return new[] {(byte) value};
         }
 
         /// <summary>
@@ -253,7 +250,7 @@ namespace Byt3.Serialization
         /// <returns>Bytes Written</returns>
         public static byte[] Write(byte value)
         {
-            return new[] { value };
+            return new[] {value};
         }
 
         /// <summary>
@@ -283,7 +280,6 @@ namespace Byt3.Serialization
         /// <returns>Bytes Written</returns>
         public static byte[] Write(double value)
         {
-
             return BitConverter.GetBytes(value);
         }
 

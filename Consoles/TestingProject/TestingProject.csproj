@@ -13,7 +13,6 @@
     <ProjectReference Include="..\..\Libraries\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Collections\Byt3.Collections.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.File.Resolver\Byt3.Console.File.Resolver.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Lib.Resolver\Byt3.Console.Lib.Resolver.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Link.Resolver\Byt3.Console.Link.Resolver.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Runner\Byt3.Console.Runner.csproj" />

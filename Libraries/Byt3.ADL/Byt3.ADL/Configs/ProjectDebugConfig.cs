@@ -9,10 +9,25 @@ namespace Byt3.ADL.Configs
         public int MinSeverity { get; set; }
         public PrefixLookupSettings PrefixLookupSettings { get; set; }
 
-        public virtual string GetProjectName() => ProjectName;
-        public virtual int GetMinSeverity() => MinSeverity;
-        public virtual int GetAcceptMask() => AcceptMask;
-        public virtual PrefixLookupSettings GetPrefixLookupSettings() => PrefixLookupSettings;
+        public virtual string GetProjectName()
+        {
+            return ProjectName;
+        }
+
+        public virtual int GetMinSeverity()
+        {
+            return MinSeverity;
+        }
+
+        public virtual int GetAcceptMask()
+        {
+            return AcceptMask;
+        }
+
+        public virtual PrefixLookupSettings GetPrefixLookupSettings()
+        {
+            return PrefixLookupSettings;
+        }
 
         public ProjectDebugConfig(string projectName, int acceptMask, int minSeverity,
             PrefixLookupSettings lookupSettings)
@@ -33,10 +48,25 @@ namespace Byt3.ADL.Configs
         public SeverityType MinSeverity { get; set; }
         public PrefixLookupSettings PrefixLookupSettings { get; set; }
 
-        public virtual string GetProjectName() => ProjectName;
-        public virtual int GetMinSeverity() => Convert.ToInt32(MinSeverity);
-        public virtual int GetAcceptMask() => Convert.ToInt32(AcceptMask);
-        public virtual PrefixLookupSettings GetPrefixLookupSettings() => PrefixLookupSettings;
+        public virtual string GetProjectName()
+        {
+            return ProjectName;
+        }
+
+        public virtual int GetMinSeverity()
+        {
+            return Convert.ToInt32(MinSeverity);
+        }
+
+        public virtual int GetAcceptMask()
+        {
+            return Convert.ToInt32(AcceptMask);
+        }
+
+        public virtual PrefixLookupSettings GetPrefixLookupSettings()
+        {
+            return PrefixLookupSettings;
+        }
 
         public ProjectDebugConfig(string projectName, MaskType acceptMask, SeverityType minSeverity,
             PrefixLookupSettings lookupSettings)

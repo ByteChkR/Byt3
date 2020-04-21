@@ -8,12 +8,12 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.ArgumentSerializer
     {
         public override SerializeDecimalArgument DeserializePacket(PrimitiveValueWrapper s)
         {
-            return new SerializeDecimalArgument((decimal)s.ReadFloat());
+            return new SerializeDecimalArgument((decimal) s.ReadFloat());
         }
 
         public override void SerializePacket(PrimitiveValueWrapper s, SerializeDecimalArgument obj)
         {
-            s.Write((float)obj.Value);
+            s.Write((float) obj.Value);
         }
     }
 }

@@ -48,21 +48,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public char2(sbyte x, sbyte y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 1);
 
         #endregion
 
@@ -123,23 +117,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public char3(sbyte x, sbyte y, sbyte z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 1);
 
         #endregion
 
@@ -208,23 +196,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public char4(sbyte x, sbyte y, sbyte z, sbyte w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 1);
 
         #endregion
 
@@ -309,15 +291,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 1);
 
         #endregion
 
@@ -440,25 +416,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 1);
 
         #endregion
 
@@ -570,21 +540,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public uchar2(byte x, byte y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 1);
 
         #endregion
 
@@ -645,23 +609,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public uchar3(byte x, byte y, byte z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 1);
 
         #endregion
 
@@ -730,23 +688,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public uchar4(byte x, byte y, byte z, byte w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 1);
 
         #endregion
 
@@ -831,15 +783,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 1);
 
         #endregion
 
@@ -962,25 +908,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 1); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 1);
 
         #endregion
 
@@ -1092,21 +1032,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public short2(short x, short y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 2);
 
         #endregion
 
@@ -1167,23 +1101,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public short3(short x, short y, short z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 2);
 
         #endregion
 
@@ -1252,23 +1180,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public short4(short x, short y, short z, short w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 2);
 
         #endregion
 
@@ -1353,15 +1275,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 2);
 
         #endregion
 
@@ -1484,25 +1400,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 2);
 
         #endregion
 
@@ -1614,21 +1524,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public ushort2(ushort x, ushort y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 2);
 
         #endregion
 
@@ -1689,23 +1593,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public ushort3(ushort x, ushort y, ushort z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 2);
 
         #endregion
 
@@ -1774,23 +1672,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public ushort4(ushort x, ushort y, ushort z, ushort w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 2);
 
         #endregion
 
@@ -1875,15 +1767,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 2);
 
         #endregion
 
@@ -2006,25 +1892,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 2); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 2);
 
         #endregion
 
@@ -2136,21 +2016,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public int2(int x, int y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 4);
 
         #endregion
 
@@ -2211,23 +2085,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public int3(int x, int y, int z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 4);
 
         #endregion
 
@@ -2296,23 +2164,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public int4(int x, int y, int z, int w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 4);
 
         #endregion
 
@@ -2397,15 +2259,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 4);
 
         #endregion
 
@@ -2528,25 +2384,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 4);
 
         #endregion
 
@@ -2658,21 +2508,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public uint2(uint x, uint y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 4);
 
         #endregion
 
@@ -2733,23 +2577,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public uint3(uint x, uint y, uint z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 4);
 
         #endregion
 
@@ -2818,23 +2656,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public uint4(uint x, uint y, uint z, uint w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 4);
 
         #endregion
 
@@ -2919,15 +2751,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 4);
 
         #endregion
 
@@ -3050,25 +2876,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 4);
 
         #endregion
 
@@ -3180,21 +3000,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public long2(long x, long y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 8);
 
         #endregion
 
@@ -3255,23 +3069,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public long3(long x, long y, long z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 8);
 
         #endregion
 
@@ -3340,23 +3148,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public long4(long x, long y, long z, long w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 8);
 
         #endregion
 
@@ -3441,15 +3243,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 8);
 
         #endregion
 
@@ -3572,25 +3368,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 8);
 
         #endregion
 
@@ -3702,21 +3492,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public ulong2(ulong x, ulong y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 8);
 
         #endregion
 
@@ -3777,23 +3561,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public ulong3(ulong x, ulong y, ulong z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 8);
 
         #endregion
 
@@ -3862,23 +3640,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public ulong4(ulong x, ulong y, ulong z, ulong w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 8);
 
         #endregion
 
@@ -3963,15 +3735,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 8);
 
         #endregion
 
@@ -4094,25 +3860,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 8);
 
         #endregion
 
@@ -4224,21 +3984,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public float2(float x, float y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 4);
 
         #endregion
 
@@ -4299,23 +4053,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public float3(float x, float y, float z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 4);
 
         #endregion
 
@@ -4384,23 +4132,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public float4(float x, float y, float z, float w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 4);
 
         #endregion
 
@@ -4485,15 +4227,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 4);
 
         #endregion
 
@@ -4616,25 +4352,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 4); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 4);
 
         #endregion
 
@@ -4746,21 +4476,15 @@ namespace Byt3.OpenCL.DataTypes
 
         public double2(double x, double y)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
+            this.x = s0 = x;
+            this.y = s1 = y;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 2; }
-        }
+        int IVectorType.Rank => 2;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (2 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (2 * 8);
 
         #endregion
 
@@ -4821,23 +4545,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public double3(double x, double y, double z)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = 0;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            w = s3 = 0;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 3; }
-        }
+        int IVectorType.Rank => 3;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 8);
 
         #endregion
 
@@ -4906,23 +4624,17 @@ namespace Byt3.OpenCL.DataTypes
 
         public double4(double x, double y, double z, double w)
         {
-            this.x = this.s0 = x;
-            this.y = this.s1 = y;
-            this.z = this.s2 = z;
-            this.w = this.s3 = w;
+            this.x = s0 = x;
+            this.y = s1 = y;
+            this.z = s2 = z;
+            this.w = s3 = w;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 4; }
-        }
+        int IVectorType.Rank => 4;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (4 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (4 * 8);
 
         #endregion
 
@@ -5007,15 +4719,9 @@ namespace Byt3.OpenCL.DataTypes
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 8; }
-        }
+        int IVectorType.Rank => 8;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (8 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (8 * 8);
 
         #endregion
 
@@ -5138,25 +4844,19 @@ namespace Byt3.OpenCL.DataTypes
             this.s7 = s7;
             this.s8 = s8;
             this.s9 = s9;
-            this.sa = this.sA = sa;
-            this.sb = this.sB = sb;
-            this.sc = this.sC = sc;
-            this.sd = this.sD = sd;
-            this.se = this.sE = se;
-            this.sf = this.sF = sf;
+            this.sa = sA = sa;
+            this.sb = sB = sb;
+            this.sc = sC = sc;
+            this.sd = sD = sd;
+            this.se = sE = se;
+            this.sf = sF = sf;
         }
 
         #region IVectorType implementation
 
-        int IVectorType.Rank
-        {
-            get { return 16; }
-        }
+        int IVectorType.Rank => 16;
 
-        public IntPtr Size
-        {
-            get { return (IntPtr) (16 * 8); }
-        }
+        public IntPtr Size => (IntPtr) (16 * 8);
 
         #endregion
 

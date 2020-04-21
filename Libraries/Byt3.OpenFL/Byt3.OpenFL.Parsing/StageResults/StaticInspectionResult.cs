@@ -8,7 +8,7 @@
         public string[] Functions { get; }
         public string[] DefinedScripts { get; }
 
-        public StaticInspectionResult( string filename, string[] source, string[] functions,
+        public StaticInspectionResult(string filename, string[] source, string[] functions,
             string[] definedBuffers, string[] definedScripts)
         {
             Filename = filename;

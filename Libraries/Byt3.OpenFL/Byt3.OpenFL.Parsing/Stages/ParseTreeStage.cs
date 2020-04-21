@@ -33,7 +33,7 @@ namespace Byt3.OpenFL.Parsing.Stages
         {
             Logger.Log(LogType.Log, "Parsing Tree: " + input.Filename, 2);
             Logger.Log(LogType.Log, "Creating Defined Script Nodes..", 3);
-            List<SerializableExternalFLFunction> scripts = ParseScriptDefines( input.DefinedScripts);
+            List<SerializableExternalFLFunction> scripts = ParseScriptDefines(input.DefinedScripts);
             Logger.Log(LogType.Log, "Script Nodes: " + scripts.Select(x => x.Name).Unpack(", "), 4);
 
             Logger.Log(LogType.Log, "Creating Defined Buffer Nodes..", 3);
@@ -41,14 +41,14 @@ namespace Byt3.OpenFL.Parsing.Stages
             Logger.Log(LogType.Log, "Buffer Nodes: " + definedBuffers.Select(x => x.Name).Unpack(", "), 4);
 
             Logger.Log(LogType.Log, "Creating Defined Function Nodes..", 3);
-            List<SerializableFLFunction> flFunctions = ParseFunctions(input.Functions, input.DefinedBuffers, input.DefinedScripts, input.Source);
+            List<SerializableFLFunction> flFunctions = ParseFunctions(input.Functions, input.DefinedBuffers,
+                input.DefinedScripts, input.Source);
             Logger.Log(LogType.Log, "Buffer Nodes: " + flFunctions.Select(x => x.Name).Unpack(", "), 4);
             return new SerializableFLProgram(scripts, flFunctions, definedBuffers);
         }
 
-        
 
-        private List<SerializableExternalFLFunction> ParseScriptDefines( string[] statements)
+        private List<SerializableExternalFLFunction> ParseScriptDefines(string[] statements)
         {
             List<SerializableExternalFLFunction> ret = new List<SerializableExternalFLFunction>();
             for (int i = 0; i < statements.Length; i++)
@@ -77,7 +77,8 @@ namespace Byt3.OpenFL.Parsing.Stages
             SerializableFLFunction[] flFunctions = new SerializableFLFunction[functionHeaders.Length];
             for (int i = 0; i < functionHeaders.Length; i++)
             {
-                flFunctions[i] = ParseFunctionObject(functionHeaders, definedBuffers, definedScripts, functionHeaders[i],
+                flFunctions[i] = ParseFunctionObject(functionHeaders, definedBuffers, definedScripts,
+                    functionHeaders[i],
                     FLParser.GetFunctionBody(functionHeaders[i], source));
             }
 
@@ -124,7 +125,7 @@ namespace Byt3.OpenFL.Parsing.Stages
                 return null;
             }
 
-            string[] parts = instruction.Split(new[] { ' ' }, StringSplitOptions.None);
+            string[] parts = instruction.Split(new[] {' '}, StringSplitOptions.None);
             string inst = parts[0];
 
             //Create Argument List
@@ -138,7 +139,6 @@ namespace Byt3.OpenFL.Parsing.Stages
 
                 args.Add(ParseInstructionArgument(functionHeaders, definedBuffers, definedScripts, parts[i]));
             }
-
 
 
             return new SerializableFLInstruction(inst, args);
@@ -156,9 +156,9 @@ namespace Byt3.OpenFL.Parsing.Stages
             //return ret;
         }
 
-       
 
-        private SerializableFLInstructionArgument ParseInstructionArgument(string[] functionHeaders, string[] definedBuffers,
+        private SerializableFLInstructionArgument ParseInstructionArgument(string[] functionHeaders,
+            string[] definedBuffers,
             string[] definedScripts,
             string argument)
         {
@@ -187,14 +187,13 @@ namespace Byt3.OpenFL.Parsing.Stages
         }
 
 
-       
         private List<SerializableFLBuffer> ParseDefinedBuffers(string[] defineStatements)
         {
             List<SerializableFLBuffer> definedBuffers = new List<SerializableFLBuffer>();
             for (int i = 0; i < defineStatements.Length; i++)
             {
                 string[] data = defineStatements[i].Replace("--define texture", "")
-                    .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                    .Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries);
                 string bufferName = data[0].Trim();
                 if (bufferName == "in")
                 {
@@ -202,26 +201,26 @@ namespace Byt3.OpenFL.Parsing.Stages
                     definedBuffers.Add(bi);
                     continue;
                 }
-                
 
-                string paramPart = data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0];
+
+                string paramPart = data[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries)[0];
 
                 SerializableFLBuffer buf = parser.BufferCreator.Create(paramPart, bufferName,
-                    data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                    data[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
                 if (buf != null)
                 {
                     definedBuffers.Add(buf);
                 }
                 else if (File.Exists(data[1].Trim().Replace("\"", "")))
                 {
-                    SerializableFromFileFLBuffer bi = new SerializableFromFileFLBuffer(bufferName, data[1].Trim().Replace("\"", ""));
+                    SerializableFromFileFLBuffer bi =
+                        new SerializableFromFileFLBuffer(bufferName, data[1].Trim().Replace("\"", ""));
                     definedBuffers.Add(bi);
                 }
                 else
                 {
                     throw new Byt3Exception($"Can not Find BufferLoader for \"{defineStatements[i]}\"");
                 }
-                
             }
 
             return definedBuffers;

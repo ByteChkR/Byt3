@@ -11,7 +11,6 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 {
     public class FLInstructionSet
     {
-
         public static FLInstructionSet CreateWithBuiltInTypes(string clKernelPath)
         {
             KernelDatabase db =
@@ -32,7 +31,10 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
         {
             for (int i = 0; i < creators.Count; i++)
             {
-                if (creators[i].IsInstruction(key)) return true;
+                if (creators[i].IsInstruction(key))
+                {
+                    return true;
+                }
             }
 
             return false;
@@ -49,6 +51,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             {
                 throw new FLInstructionCreatorIsNullException("Trying to add an Instruction container that is null");
             }
+
             creators.Add(creator);
         }
 
@@ -61,9 +64,10 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                     return creators[i].Create(script, instruction);
                 }
             }
-            throw new FLInstructionCreatorNotFoundException("Could not find Instruction creator for Key: "+ instruction.InstructionKey);
-        }
 
+            throw new FLInstructionCreatorNotFoundException("Could not find Instruction creator for Key: " +
+                                                            instruction.InstructionKey);
+        }
 
 
         public void AddInstructionCreatorsFromAssembly(Assembly asm)
@@ -74,7 +78,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             {
                 if (target != ts[i] && target.IsAssignableFrom(ts[i]))
                 {
-                    FLInstructionCreator creator = (FLInstructionCreator)Activator.CreateInstance(ts[i]);
+                    FLInstructionCreator creator = (FLInstructionCreator) Activator.CreateInstance(ts[i]);
                     AddInstruction(creator);
                 }
             }

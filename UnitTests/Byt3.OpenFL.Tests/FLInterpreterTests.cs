@@ -114,9 +114,6 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_Parser_Test()
         {
-
-
-
             ADL.Debug.DefaultInitialization();
             string path = "resources/filter/tests";
             string[] files = Directory.GetFiles(path, "*.fl", SearchOption.TopDirectoryOnly);
@@ -162,7 +159,6 @@ namespace Byt3.OpenFL.Tests
 #if DEBUG
                 CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, buf.Buffer);
 
-                
 
                 string p = Path.Combine("./out/image", Path.GetFileNameWithoutExtension(files[i]) + ".png");
                 bmp.Save(p + ".png");
@@ -176,7 +172,6 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenCL_Serializer_Serialize_Tests()
         {
-
             ADL.Debug.DefaultInitialization();
             string path = "resources/filter/tests";
             string[] files = Directory.GetFiles(path, "*.fl", SearchOption.TopDirectoryOnly);
@@ -213,11 +208,12 @@ namespace Byt3.OpenFL.Tests
 
                 FLBuffer buf = new FLBuffer(CLAPI.MainThread, bmp);
                 SerializableFLProgram pr = parser.Process(new FLParserInput(files[i]));
-                string pCompiledOut = Path.Combine("./out/serialized", Path.GetFileNameWithoutExtension(files[i])+".flc");
+                string pCompiledOut =
+                    Path.Combine("./out/serialized", Path.GetFileNameWithoutExtension(files[i]) + ".flc");
 
 
                 Stream cs = File.OpenWrite(pCompiledOut);
-                FLSerializer.SaveProgram(cs, pr, new string[]{ });
+                FLSerializer.SaveProgram(cs, pr, new string[] { });
                 cs.Close();
 
 
@@ -266,9 +262,9 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_TypeConversion_Test()
         {
             float f = float.MaxValue / 2;
-            byte b = (byte)CLTypeConverter.Convert(typeof(byte), f);
+            byte b = (byte) CLTypeConverter.Convert(typeof(byte), f);
             float4 f4 = new float4(f);
-            uchar4 i4 = (uchar4)CLTypeConverter.Convert(typeof(uchar4), f4);
+            uchar4 i4 = (uchar4) CLTypeConverter.Convert(typeof(uchar4), f4);
             Assert.True(b == 128);
 
             for (int i = 0; i < 4; i++)

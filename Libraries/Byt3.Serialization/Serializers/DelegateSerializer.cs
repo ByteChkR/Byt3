@@ -1,10 +1,9 @@
-﻿using System;
-
-namespace Byt3.Serialization.Serializers
+﻿namespace Byt3.Serialization.Serializers
 {
     public class DelegateSerializer : ASerializer
     {
         public delegate object DelDeserialize(byte[] bytes);
+
         public delegate byte[] DelSerialize(object obj);
 
         private DelSerialize serializer;

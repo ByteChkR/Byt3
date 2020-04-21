@@ -30,7 +30,9 @@ namespace Byt3.OpenFL.Serialization.FileFormat.ExtraStages
             {
                 using (GZipStream tinyStream = new GZipStream(outStream, CompressionMode.Compress))
                 using (MemoryStream mStream = new MemoryStream(bytes))
+                {
                     mStream.CopyTo(tinyStream);
+                }
 
                 ret = outStream.ToArray();
             }

@@ -10,14 +10,13 @@ using Byt3.Utilities.Versioning;
 
 namespace Byt3.OpenFL.Console
 {
-
-
-
-
     public class ConsoleEntry : AConsole
     {
         public static Version ConsoleVersion => Assembly.GetExecutingAssembly().GetName().Version;
-        internal static ProjectDebugConfig ConsoleConfig = new ProjectDebugConfig("OpenFL.Console", -1, 4, PrefixLookupSettings.AddPrefixIfAvailable);
+
+        internal static ProjectDebugConfig ConsoleConfig =
+            new ProjectDebugConfig("OpenFL.Console", -1, 4, PrefixLookupSettings.AddPrefixIfAvailable);
+
         private ADLLogger<LogType> Logger = new ADLLogger<LogType>(ConsoleConfig);
         internal static readonly PreProcessorSettings Settings = PreProcessorSettings.GetDefault();
 
@@ -29,8 +28,10 @@ namespace Byt3.OpenFL.Console
                 return path;
             }
         }
+
         public override string ConsoleKey => "fl";
         public override string ConsoleTitle => "OpenFL Console Runner";
+
         public override bool Run(string[] args)
         {
             VersionAccumulatorManager.SearchForAssemblies();

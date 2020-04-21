@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.1.47.133</AssemblyVersion>
-    <FileVersion>1.1.47.133</FileVersion>
+    <AssemblyVersion>1.1.73.1447</AssemblyVersion>
+    <FileVersion>1.1.73.1447</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Serialization\Byt3.Utilities.Serialization.csproj" />

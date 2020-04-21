@@ -8,12 +8,13 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty
     {
         public SerializableEmptyFLBuffer(string name) : base(name)
         {
-
         }
 
         public override FLBuffer GetBuffer()
         {
-            return new LazyLoadingFLBuffer(root => new FLBuffer(CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite), root.Dimensions.x, root.Dimensions.y));
+            return new LazyLoadingFLBuffer(root =>
+                new FLBuffer(CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite),
+                    root.Dimensions.x, root.Dimensions.y));
         }
     }
 }

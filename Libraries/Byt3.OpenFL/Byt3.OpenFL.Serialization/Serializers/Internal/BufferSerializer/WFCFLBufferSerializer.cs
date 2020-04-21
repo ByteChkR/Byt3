@@ -10,7 +10,6 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 {
     public class WFCFLBufferSerializer : ASerializer<SerializableWaveFunctionCollapseFLBuffer>
     {
-
         public override SerializableWaveFunctionCollapseFLBuffer DeserializePacket(PrimitiveValueWrapper s)
         {
             string name = s.ReadString();
@@ -25,16 +24,15 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
             bool pOut = s.ReadBool();
 
 
-
             MemoryStream ms = new MemoryStream(s.ReadBytes());
 
             Bitmap bmp = (Bitmap) Image.FromStream(ms);
 
-            WFCParameterObject obj = new WFCParameterObject(new SerializableFromBitmapFLBuffer("wfc-bin", bmp), n, width, height, symmetry, ground, limit, pIn, pOut, force);
+            WFCParameterObject obj = new WFCParameterObject(new SerializableFromBitmapFLBuffer("wfc-bin", bmp), n,
+                width, height, symmetry, ground, limit, pIn, pOut, force);
             return new SerializableWaveFunctionCollapseFLBuffer(name, obj);
         }
 
-       
 
         public override void SerializePacket(PrimitiveValueWrapper s, SerializableWaveFunctionCollapseFLBuffer obj)
         {

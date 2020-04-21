@@ -6,8 +6,6 @@ namespace Byt3.Utilities.IL
 {
     public class ILTestClass
     {
-
-
         public ILTestClass()
         {
             AppDomain ad = AppDomain.CurrentDomain;
@@ -18,7 +16,7 @@ namespace Byt3.Utilities.IL
             TypeBuilder tb = mb.DefineType("TestType", TypeAttributes.Public);
 
             MethodBuilder metb = tb.DefineMethod("TestMethod", MethodAttributes.Public |
-                                                       MethodAttributes.Static);
+                                                               MethodAttributes.Static);
             ILGenerator il = metb.GetILGenerator();
 
             il.EmitWriteLine("Hello from IL Assembly");
@@ -30,14 +28,11 @@ namespace Byt3.Utilities.IL
 
             MethodInfo mi = ti.GetDeclaredMethod("TestMethod");
             mi.Invoke(null, null);
-
         }
 
         public static void Answer()
         {
             System.Console.WriteLine("Hi from Assembly Generator");
         }
-
-
     }
 }

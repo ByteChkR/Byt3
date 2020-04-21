@@ -1040,7 +1040,6 @@ namespace Byt3.ExtPP.Console
         /// <param name="args"></param>
         public static void StartConsole(string[] args)
         {
-
             Debug.DefaultInitialization();
             CrashHandler.Initialize();
 

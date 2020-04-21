@@ -1,16 +1,36 @@
-﻿namespace Byt3.Console.Runner
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Byt3.Utilities.Console.Internals;
+
+namespace Byt3.Console.Runner
 {
+
+
     public class ConsoleRunner
     {
-        public static void Run(string[] args)
+        
+
+        internal static Dictionary<string, ResolverWrapper> Resolvers { get; set; }
+
+        public static void Run(string[] args, Dictionary<string, object> resolvers)
         {
+            Resolvers = resolvers.ToDictionary(pair => pair.Key, pair => new ResolverWrapper(pair.Value));
             ConsolePaths.SetUpPaths();
 
             ConsoleLibrary lib = ConsoleLibrary.Load(ConsolePaths.RunnerConfig);
-           if(lib.CheckConsoles())
-           {
-               lib.Save(ConsolePaths.RunnerConfig);
-           }
+            if (lib.CheckConsoles())
+            {
+                try
+                {
+                    lib.Save(ConsolePaths.RunnerConfig);
+                }
+                catch (Exception e)
+                {
+                }
+            }
+
             if (args.Length != 0)
             {
                 string[] consoleArgs = new string[args.Length - 1];
@@ -20,6 +40,7 @@
                     System.Console.Write(args[i] + " ");
                     consoleArgs[i - 1] = args[i];
                 }
+
                 System.Console.WriteLine();
                 ConsoleItem item = lib.GetConsoleItem(args[0]);
                 if (item != null)
@@ -39,8 +60,6 @@
             {
                 System.Console.Write(lib.InstalledConsoles);
             }
-
         }
-
     }
 }

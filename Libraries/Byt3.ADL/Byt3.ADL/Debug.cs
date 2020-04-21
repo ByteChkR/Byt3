@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Byt3.ADL.Configs;
@@ -133,7 +132,7 @@ namespace Byt3.ADL
             {
                 initialized = true;
             }
-            
+
 
             if (stream == null)
             {
@@ -153,7 +152,7 @@ namespace Byt3.ADL
             {
                 contains = Streams.Contains(stream);
             }
-            
+
             Assert.False(contains);
 
             if (contains)
@@ -499,6 +498,7 @@ namespace Byt3.ADL
         #region Config
 
         private static bool initialized = false;
+
         public static void DefaultInitialization()
         {
             LoadConfig((ADLConfig) new ADLConfig().GetStandard());

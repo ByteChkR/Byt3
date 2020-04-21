@@ -31,14 +31,13 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 args.Add(arg);
             }
 
-            return (FLInstruction)Activator.CreateInstance(type, new object[] { args });
+            return (FLInstruction) Activator.CreateInstance(type, new object[] {args});
         }
     }
 
     public class DefaultInstructionCreator<T> : DefaultInstructionCreator
         where T : FLInstruction
     {
-
         public DefaultInstructionCreator(string key) : base(key, typeof(T))
         {
         }

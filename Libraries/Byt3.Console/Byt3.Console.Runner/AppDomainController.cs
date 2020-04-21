@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Security.Cryptography;
-using System.Threading;
 
 namespace Byt3.Console.Runner
 {
@@ -12,7 +10,9 @@ namespace Byt3.Console.Runner
     {
         private class AssemblyLoadException : Exception
         {
-            public AssemblyLoadException(string message) : base(message) { }
+            public AssemblyLoadException(string message) : base(message)
+            {
+            }
         }
 
         public static AppDomainController Create(string domainName, string[] extraAssemblyFolders)
@@ -30,13 +30,12 @@ namespace Byt3.Console.Runner
             ExtraAssemblyFolders = extraAssemblyFolders;
             //Domain = domain;
             AppDomain.CurrentDomain.AssemblyResolve += Domain_AssemblyResolve;
-            //Domain.AssemblyLoad += Domain_AssemblyLoad;
-            //Domain.AssemblyResolve += Domain_AssemblyResolve;
+            //AppDomain.CurrentDomain.AssemblyLoad += Domain_AssemblyLoad;
+            AppDomain.CurrentDomain.AssemblyResolve += Domain_AssemblyResolve;
         }
 
         private void Domain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
         {
-
             throw new NotImplementedException();
         }
 
@@ -44,7 +43,8 @@ namespace Byt3.Console.Runner
         {
             for (int i = 0; i < ExtraAssemblyFolders.Length; i++)
             {
-                string[] files = Directory.GetFiles(ExtraAssemblyFolders[i], $"{args.Name}.dll", SearchOption.TopDirectoryOnly);
+                string[] files = Directory.GetFiles(ExtraAssemblyFolders[i], $"{args.Name}.dll",
+                    SearchOption.TopDirectoryOnly);
                 for (int j = 0; j < files.Length; j++)
                 {
                     try
@@ -53,12 +53,12 @@ namespace Byt3.Console.Runner
                     }
                     catch (Exception e)
                     {
-
                     }
                 }
             }
 
-            throw new AssemblyLoadException("Can not Resolve Assembly with name: " + args.Name + ".\n Requesting Assembly: " + args.RequestingAssembly.GetName().Name);
+            throw new AssemblyLoadException("Can not Resolve Assembly with name: " + args.Name +
+                                            ".\n Requesting Assembly: " + args.RequestingAssembly.GetName().Name);
         }
 
         public Type GetType(string assemblyPath, string fullType)
@@ -74,7 +74,26 @@ namespace Byt3.Console.Runner
             List<Type> types = asm.GetExportedTypes().ToList();
             for (int i = types.Count - 1; i >= 0; i--)
             {
-                if (types[i].Name != name) types.RemoveAt(i);
+                if (types[i].Name != name)
+                {
+                    types.RemoveAt(i);
+                }
+            }
+
+            return types.ToArray();
+        }
+
+        public Type[] GetTypes(string assemblyPath, Type baseType)
+        {
+            Assembly asm = LoadAssembly(assemblyPath);
+            List<Type> types = asm.GetExportedTypes().ToList();
+
+            for (int i = types.Count - 1; i >= 0; i--)
+            {
+                if (!baseType.IsAssignableFrom(types[i]))
+                {
+                    types.RemoveAt(i);
+                }
             }
 
             return types.ToArray();
@@ -91,8 +110,12 @@ namespace Byt3.Console.Runner
 
         public Assembly LoadAssembly(string assemblyPath)
         {
-            if (LoadedAssemblies.ContainsKey(assemblyPath)) return LoadedAssemblies[assemblyPath];
-            Assembly asm = Assembly.LoadFile(assemblyPath);
+            if (LoadedAssemblies.ContainsKey(assemblyPath))
+            {
+                return LoadedAssemblies[assemblyPath];
+            }
+
+            Assembly asm = Assembly.LoadFrom(assemblyPath);
             LoadedAssemblies.Add(assemblyPath, asm);
             return asm;
         }
@@ -110,9 +133,7 @@ namespace Byt3.Console.Runner
 
         public void Dispose()
         {
-           // AppDomain.Unload(Domain);
+            // AppDomain.Unload(Domain);
         }
-
-
     }
 }

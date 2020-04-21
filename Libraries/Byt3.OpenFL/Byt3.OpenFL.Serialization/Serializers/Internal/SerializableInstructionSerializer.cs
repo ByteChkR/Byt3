@@ -10,8 +10,8 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
 {
     public class SerializableInstructionSerializer : ASerializer<SerializableFLInstruction>
     {
-
         private readonly Byt3Serializer argSerializer;
+
         public SerializableInstructionSerializer(Dictionary<Type, ASerializer> serializers)
         {
             argSerializer = Byt3Serializer.GetDefaultSerializer();
@@ -38,6 +38,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                     throw new FLDeserializationException(
                         $"Can not Deserialize Serializable Argument of Instruction: {key} ID: {i}");
                 }
+
                 args.Add(arg);
             }
 
@@ -55,11 +56,12 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                 MemoryStream temp = new MemoryStream();
                 if (!argSerializer.TryWritePacket(temp, obj.Arguments[i]))
                 {
-                    throw new FLSerializationException("Can not serialize Serializable Argument: " + obj.Arguments[i].GetType());
+                    throw new FLSerializationException("Can not serialize Serializable Argument: " +
+                                                       obj.Arguments[i].GetType());
                 }
-                s.Write(temp.GetBuffer(), (int)temp.Position);
-            }
 
+                s.Write(temp.GetBuffer(), (int) temp.Position);
+            }
         }
     }
 }

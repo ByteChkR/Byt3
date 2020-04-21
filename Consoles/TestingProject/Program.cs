@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
 using Byt3.ADL;
 using Byt3.AssemblyGenerator;
 using Byt3.AssemblyGenerator.Console;
@@ -12,8 +10,6 @@ namespace TestingProject
 {
     internal static class Program
     {
-
-
         private static void GenerateAsmGen()
         {
             const string AsmGenProjectPath =
@@ -21,7 +17,6 @@ namespace TestingProject
             ConsoleEntry c = new ConsoleEntry();
             c.Run($"AsmGen.config -c -sname AsmGen.Console -sruntime none -a {AsmGenProjectPath}".Split(' '));
             c.Run($"AsmGen.config -b".Split(' '));
-
         }
 
         private static void Main(string[] args)
@@ -45,8 +40,8 @@ namespace TestingProject
 
                 v = Byt3.VersionHelper.Console.ConsoleEntry.ChangeVersion(v, format);
             }
-            return;
 
+            return;
 
 
             GenerateAsmGen();
@@ -64,7 +59,7 @@ namespace TestingProject
 
         private static void AssemblyGeneratorGenerateModules()
         {
-            string[] blacklist = new[] { "Test" };
+            string[] blacklist = new[] {"Test"};
             ModuleDefinition[] defs = AssemblyGenerator.GenerateModuleDefinitions(
                 @"D:\Users\Tim\Documents\MasterServer\Byt3", ".\\GeneratedModules\\", false, blacklist);
             AssemblyDefinition.Save(".\\GeneratedModules\\Byt3.assemblyconfig",

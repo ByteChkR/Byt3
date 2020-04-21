@@ -7,7 +7,7 @@ namespace Byt3.OpenFL.Console.Commands
         internal static string[] OutputFiles { get; set; } = new string[0];
 
 
-        public SetOutputFilesCommand() : base((info, strings) => SetOutputFiles(strings), new[] { "--output", "-o" },
+        public SetOutputFilesCommand() : base((info, strings) => SetOutputFiles(strings), new[] {"--output", "-o"},
             "Sets the Output for the Files specified as input")
         {
         }
@@ -18,12 +18,13 @@ namespace Byt3.OpenFL.Console.Commands
             OutputFiles = args;
         }
     }
+
     public class SetInputFilesCommand : AbstractCommand
     {
         internal static string[] InputFiles { get; set; } = new string[0];
 
 
-        public SetInputFilesCommand() : base((info, strings) => SetOutputFiles(strings), new[] { "--input", "-i" },
+        public SetInputFilesCommand() : base((info, strings) => SetOutputFiles(strings), new[] {"--input", "-i"},
             "Sets the Input Files")
         {
         }

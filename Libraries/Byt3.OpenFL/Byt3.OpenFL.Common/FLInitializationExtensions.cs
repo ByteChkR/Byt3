@@ -38,9 +38,6 @@ namespace Byt3.OpenFL.Common
                 functions[i] = program.Functions[i].Initialize(p, instructionSet);
             }
 
-            
-
-
 
             p.SetRoot();
             return p;
@@ -48,7 +45,6 @@ namespace Byt3.OpenFL.Common
 
         private static void SetRoot(this FLProgram program)
         {
-
             foreach (KeyValuePair<string, FLBuffer> programDefinedBuffer in program.DefinedBuffers)
             {
                 programDefinedBuffer.Value.SetRoot(program);
@@ -65,13 +61,16 @@ namespace Byt3.OpenFL.Common
             }
         }
 
-        public static FLFunction Initialize(this SerializableFLFunction function, FLProgram script, FLInstructionSet instructionSet)
+        public static FLFunction Initialize(this SerializableFLFunction function, FLProgram script,
+            FLInstructionSet instructionSet)
         {
-            FLFunction func = new FLFunction(function.Name, function.Instructions.Select(x => x.Initialize(script, instructionSet)).ToList());
+            FLFunction func = new FLFunction(function.Name,
+                function.Instructions.Select(x => x.Initialize(script, instructionSet)).ToList());
             return func;
         }
 
-        public static FLInstruction Initialize(this SerializableFLInstruction instruction, FLProgram script, FLInstructionSet instructionSet)
+        public static FLInstruction Initialize(this SerializableFLInstruction instruction, FLProgram script,
+            FLInstructionSet instructionSet)
         {
             FLInstruction i = instructionSet.Create(script, instruction);
             return i;

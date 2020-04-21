@@ -12,6 +12,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
     public class FromImageFLBufferSerializer : ASerializer<SerializableFLBuffer>
     {
         private readonly bool StoreRaw;
+
         public FromImageFLBufferSerializer(bool storeBitmapData)
         {
             StoreRaw = storeBitmapData;
@@ -25,7 +26,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
             {
                 MemoryStream ms = new MemoryStream(s.ReadBytes());
 
-                Bitmap bmp = (Bitmap)Image.FromStream(ms);
+                Bitmap bmp = (Bitmap) Image.FromStream(ms);
 
                 return new SerializableFromBitmapFLBuffer(name, bmp);
             }
@@ -39,7 +40,10 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
         public override void SerializePacket(PrimitiveValueWrapper s, SerializableFLBuffer obj)
         {
             if (!(obj is SerializableFromFileFLBuffer buffer))
+            {
                 throw new InvalidOperationException("Invalid type for Serializer.");
+            }
+
             s.Write(buffer.Name);
             s.Write(StoreRaw);
             if (StoreRaw)
@@ -48,7 +52,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 
                 MemoryStream ms = new MemoryStream();
                 bmp.Save(ms, ImageFormat.Png);
-                s.Write(ms.GetBuffer(), (int)ms.Position);
+                s.Write(ms.GetBuffer(), (int) ms.Position);
                 bmp.Dispose();
             }
             else

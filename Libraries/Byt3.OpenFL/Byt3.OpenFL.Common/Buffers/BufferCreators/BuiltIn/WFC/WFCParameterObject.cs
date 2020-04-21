@@ -20,7 +20,8 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
         public SerializableFromBitmapFLBuffer SourceImage { get; set; }
 
 
-        public WFCParameterObject(SerializableFromBitmapFLBuffer input, int n, int width, int height, int symmetry, int ground, int limit, bool periodicInput,
+        public WFCParameterObject(SerializableFromBitmapFLBuffer input, int n, int width, int height, int symmetry,
+            int ground, int limit, bool periodicInput,
             bool periodicOutput, bool force)
         {
             N = n;
@@ -41,34 +42,42 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
             }
+
             if (!int.TryParse(args[2], out int n))
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
             }
+
             if (!int.TryParse(args[3], out int widh))
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
             }
+
             if (!int.TryParse(args[4], out int heigt))
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
             }
+
             if (!bool.TryParse(args[5], out bool periodicInput))
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
             }
+
             if (!bool.TryParse(args[6], out bool periodicOutput))
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
             }
+
             if (!int.TryParse(args[7], out int symmetry))
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
             }
+
             if (!int.TryParse(args[8], out int ground))
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
             }
+
             if (!int.TryParse(args[9], out int limit))
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");
@@ -78,7 +87,8 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
             if (CLAPI.FileExists(fn))
             {
                 SerializableFromFileFLBuffer input = new SerializableFromFileFLBuffer("WFCInputBuffer", fn);
-                WFCParameterObject wfcPO = new WFCParameterObject(input, n, widh, heigt, symmetry, ground, limit, periodicInput, periodicOutput, force);
+                WFCParameterObject wfcPO = new WFCParameterObject(input, n, widh, heigt, symmetry, ground, limit,
+                    periodicInput, periodicOutput, force);
                 return new SerializableWaveFunctionCollapseFLBuffer(name, wfcPO);
             }
             else

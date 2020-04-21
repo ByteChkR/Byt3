@@ -6,7 +6,7 @@ using Byt3.Utilities.Versioning;
 
 namespace Byt3.AssemblyGenerator.Console
 {
-    public class ConsoleEntry:AConsole
+    public class ConsoleEntry : AConsole
     {
         public override string ConsoleKey => "asmgen";
         public override string ConsoleTitle => "Assembly Generator";
@@ -33,7 +33,7 @@ namespace Byt3.AssemblyGenerator.Console
             Runner.AddCommand(new BuildCommand());
             Runner.AddCommand(new DefaultHelpCommand());
 
-            bool ret=Runner.RunCommands(args);
+            bool ret = Runner.RunCommands(args);
 #if DEBUG
             System.Console.WriteLine("Press Enter to Exit.");
             System.Console.ReadLine();

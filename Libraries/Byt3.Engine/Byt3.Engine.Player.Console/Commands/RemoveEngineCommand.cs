@@ -1,0 +1,27 @@
+﻿using System.IO;
+using Byt3.CommandRunner;
+
+namespace Byt3.Engine.Player.Console.Commands
+{
+    public class RemoveEngineCommand : AbstractCommand
+    {
+
+        private static void RemoveEngine(StartupArgumentInfo info, string[] args)
+        {
+            if (EnginePlayer.IsEngineVersionAvailable(args[0]))
+            {
+                System.Console.WriteLine("Deleting Version " + args[0]);
+                File.Delete(EnginePlayer.EngineDir + "/" + args[0] + ".engine");
+            }
+            else
+            {
+                System.Console.WriteLine("Engine Version not available. Skipping Deletion.");
+            }
+        }
+
+        public RemoveEngineCommand() : base(RemoveEngine, new[] { "--remove-engine", "-r" }, "--remove-engine <Version>\nRemoves an engine Version from the engine cache", false)
+        {
+
+        }
+    }
+}

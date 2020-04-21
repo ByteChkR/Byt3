@@ -189,7 +189,7 @@ namespace Byt3.Serialization
 
         public byte ReadByte()
         {
-            return (byte)stream.ReadByte();
+            return (byte) stream.ReadByte();
         }
 
         /// <summary>
@@ -236,6 +236,7 @@ namespace Byt3.Serialization
             {
                 packetCache.Add(value[start + i]);
             }
+
             return length + w;
         }
 

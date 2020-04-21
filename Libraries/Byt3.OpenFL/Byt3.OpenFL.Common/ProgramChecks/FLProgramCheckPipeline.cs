@@ -16,7 +16,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             BufferCreator = bc;
         }
 
-        
+
         public static FLProgramCheckPipeline CreateDefaultCheckPipeline(FLInstructionSet iset, BufferCreator bc)
         {
             FLProgramCheckPipeline pipeline = new FLProgramCheckPipeline(iset, bc);
@@ -31,6 +31,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             {
                 Stages[i].SetValues(InstructionSet, BufferCreator);
             }
+
             return base.Process(input);
         }
     }

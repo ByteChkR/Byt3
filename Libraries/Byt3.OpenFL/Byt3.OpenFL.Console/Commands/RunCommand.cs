@@ -18,16 +18,13 @@ namespace Byt3.OpenFL.Console.Commands
 {
     public class RunCommand : AbstractCommand
     {
-        public RunCommand() : base(new[] { "--run", "-r" }, "Runs a FL Script", true)
+        public RunCommand() : base(new[] {"--run", "-r"}, "Runs a FL Script", true)
         {
             CommandAction = (info, strings) => Run(strings);
         }
 
         private void Run(string[] args)
         {
-
-
-
             FLScriptRunner runner =
                 new FLScriptRunner(CLAPI.MainThread, DataVectorTypes.Uchar1, ConsoleEntry.Settings.KernelFolder);
 
@@ -42,7 +39,8 @@ namespace Byt3.OpenFL.Console.Commands
                     ? outputFiles[i]
                     : $"./{Path.GetFileNameWithoutExtension(inp)}.out.png";
 
-                Bitmap bmp = new Bitmap(ConsoleEntry.Settings.InternalResolution.X, ConsoleEntry.Settings.InternalResolution.Y);
+                Bitmap bmp = new Bitmap(ConsoleEntry.Settings.InternalResolution.X,
+                    ConsoleEntry.Settings.InternalResolution.Y);
 
                 runner.Enqueue(new FlScriptExecutionContext(inp, bmp, result => OnFinishCallback(result, outp)));
             }
@@ -56,13 +54,14 @@ namespace Byt3.OpenFL.Console.Commands
             FLBuffer result = obj.ActiveBuffer;
             Bitmap bmp = new Bitmap(result.Width, result.Height);
             CLAPI.UpdateBitmap(CLAPI.MainThread, bmp,
-                CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int)result.Size));
+                CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int) result.Size));
             bmp.Save(outputFile);
         }
     }
+
     public class BuildCommand : AbstractCommand
     {
-        public BuildCommand() : base(new[] { "--build", "-b" }, "Builds a FL Script", true)
+        public BuildCommand() : base(new[] {"--build", "-b"}, "Builds a FL Script", true)
         {
             CommandAction = (info, strings) => Build(strings);
         }
@@ -71,7 +70,8 @@ namespace Byt3.OpenFL.Console.Commands
         {
             string[] inputFiles = args;
             string[] outputFiles = SetOutputFilesCommand.OutputFiles;
-            FLParser p = new FLParser(FLInstructionSet.CreateWithBuiltInTypes(ConsoleEntry.KernelPath), BufferCreator.CreateWithBuiltInTypes());
+            FLParser p = new FLParser(FLInstructionSet.CreateWithBuiltInTypes(ConsoleEntry.KernelPath),
+                BufferCreator.CreateWithBuiltInTypes());
 
             Logger.Log(LogType.Log, $"Building {inputFiles.Length} Files", 1);
 
@@ -90,9 +90,8 @@ namespace Byt3.OpenFL.Console.Commands
                 dst.Close();
                 Logger.Log(LogType.Log, $"Output: {outp}", 2);
             }
+
             Logger.Log(LogType.Log, $"Finished Building {inputFiles.Length} Files", 1);
-
-
         }
     }
 }

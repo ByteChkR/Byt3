@@ -14,7 +14,8 @@ namespace Byt3.OpenFL.Common.Instructions
         private readonly CLKernel Kernel;
         private readonly float GenMaxSize;
 
-        public KernelFLInstruction(float genMaxSize, CLKernel kernel, List<FLInstructionArgument> arguments) : base(arguments)
+        public KernelFLInstruction(float genMaxSize, CLKernel kernel, List<FLInstructionArgument> arguments) :
+            base(arguments)
         {
             Kernel = kernel;
             GenMaxSize = genMaxSize;
@@ -24,7 +25,7 @@ namespace Byt3.OpenFL.Common.Instructions
         /// FL header Count(the offset from 0 where the "user" parameter start)
         /// </summary>
         private const int FL_HEADER_ARG_COUNT = 5;
-        
+
 
         public override void Process()
         {
@@ -56,7 +57,7 @@ namespace Byt3.OpenFL.Common.Instructions
 
                     Logger.Log(LogType.Log, $"Executing Function: {flFunction.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 
-                    Root.Run(Root.Instance,  buffer, flFunction);
+                    Root.Run(Root.Instance, buffer, flFunction);
 
                     Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{Root.ActiveBuffer.DefinedBufferName}",
                         MIN_INSTRUCTION_SEVERITY + 2);

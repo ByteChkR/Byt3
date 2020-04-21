@@ -9,7 +9,8 @@ namespace Byt3.OpenFL.Serialization.FileFormat
         public Version CommonVersion { get; }
         public string[] ExtraSerializationSteps { get; }
 
-        public FLHeader(Version headerVersion, Version serializerVersion, Version commonVersion, string[] extraSerializationSteps)
+        public FLHeader(Version headerVersion, Version serializerVersion, Version commonVersion,
+            string[] extraSerializationSteps)
         {
             HeaderVersion = headerVersion;
             SerializerVersion = serializerVersion;

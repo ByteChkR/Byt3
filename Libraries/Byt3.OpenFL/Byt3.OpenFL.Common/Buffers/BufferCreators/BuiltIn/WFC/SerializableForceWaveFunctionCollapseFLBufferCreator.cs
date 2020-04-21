@@ -10,7 +10,6 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
         }
 
 
-
         public override bool IsCorrectBuffer(string bufferKey)
         {
             return bufferKey == "wfcf";

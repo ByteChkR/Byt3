@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Xml.Serialization;
+using Byt3.Utilities.Console.Internals;
 
 namespace Byt3.Console.Runner
 {
@@ -30,9 +30,11 @@ namespace Byt3.Console.Runner
         public bool CheckConsoles()
         {
             bool changed = false;
-            string[] allFiles = Directory.GetFiles(ConsolePaths.AssemblyPath, "*.Console.dll", SearchOption.AllDirectories).Select(x => x.Replace("\\", "/")).ToArray();
+            List<string> allFiles = Directory
+                .GetFiles(ConsolePaths.AssemblyPath, "*.Console.*", SearchOption.AllDirectories)
+                .Select(x => x.Replace("\\", "/")).ToList();
 
-            string[] removedFiles = FindRemovedFiles(allFiles);
+            string[] removedFiles = FindRemovedFiles(allFiles.ToArray());
             for (int i = ConsoleEntries.Count - 1; i >= 0; i--)
             {
                 if (removedFiles.Contains(ConsoleEntries[i].LibPath))
@@ -43,28 +45,38 @@ namespace Byt3.Console.Runner
                 }
             }
 
-            string[] changedFiles = FindChangedFiles(allFiles);
+            string[] changedFiles = FindChangedFiles(allFiles.ToArray());
             if (changedFiles.Length != 0)
             {
                 changed = true;
                 ConsoleEntries.Clear();
             }
 
-            string[] addedFiles = FindAddedFiles(allFiles);
+            string[] addedFiles = FindAddedFiles(allFiles.ToArray());
             for (int i = 0; i < addedFiles.Length; i++)
             {
+                string ext = Path.GetExtension(addedFiles[i]);
+                if (!ConsoleRunner.Resolvers.ContainsKey(ext))
+                {
+                    System.Console.WriteLine("Can not find Resolver for Extension: " + ext);
+                    continue;
+                }
 
+                string libPath = ConsoleRunner.Resolvers[ext]
+                    .ResolveLibrary(addedFiles[i]);
                 changed = true;
-                AppDomainController adc = AppDomainController.Create("LoadingAssembly_" + Path.GetFileNameWithoutExtension(addedFiles[i]), new[] { Path.GetDirectoryName(addedFiles[i]) });
+                AppDomainController adc = AppDomainController.Create("LoadingAssembly_" + libPath,
+                    new[] { Path.GetDirectoryName(libPath) });
                 try
                 {
-                    Type[] consoleTypes = adc.GetTypes(addedFiles[i], "ConsoleEntry");
+                    Type[] consoleTypes = adc.GetTypes(libPath, typeof(AConsole));
                     foreach (Type consoleType in consoleTypes)
                     {
-                        ConsoleItem console = new ConsoleItem(adc, addedFiles[i], consoleType);
+                        ConsoleItem console = new ConsoleItem(adc, libPath, consoleType);
                         System.Console.WriteLine("Adding New Console: " + console.ConsoleTitle);
                         ConsoleEntries.Add(console);
                     }
+
                     adc.Dispose();
                 }
                 catch (Exception e)
@@ -109,17 +121,20 @@ namespace Byt3.Console.Runner
 
         public string[] FindAddedFiles(string[] files)
         {
-            return files.Where(x => ConsoleEntries.All(y => y.LibPath != x)).ToArray();
+            return files.Where(x => ConsoleEntries.All(y => y.LibPath != ConsoleRunner.Resolvers[Path.GetExtension(x)].ResolveLibrary(x))).ToArray();
         }
 
         public string[] FindRemovedFiles(string[] files)
         {
+            if (ConsoleEntries.Count == 0) return new string[0]; //Can not remove files where there aren't any.
             List<string> ret = new List<string>(files);
             for (int i = ret.Count - 1; i >= 0; i--)
             {
                 foreach (ConsoleItem consoleEntry in ConsoleEntries)
                 {
-                    if (ret[i] == consoleEntry.LibPath)
+                    string entryfile = consoleEntry.LibPath;
+                    string other = ConsoleRunner.Resolvers[Path.GetExtension(ret[i])].ResolveLibrary(ret[i]);
+                    if (other == entryfile)
                     {
                         ret.RemoveAt(i);
                         break;
@@ -132,7 +147,7 @@ namespace Byt3.Console.Runner
 
         public string[] FindChangedFiles(string[] files)
         {
-            return files.Where(x => ConsoleEntries.Any(y => y.LibPath == x && y.FileHash != ConsoleItem.GetHash(x))).ToArray();
+            return files.Where(x => ConsoleEntries.Any(y => y.LibPath == x && y.FileHash != ConsoleItem.GetHash(ConsoleRunner.Resolvers[Path.GetExtension(x)].ResolveLibrary(x)))).ToArray();
         }
 
         public void Save(string filePath)
@@ -145,7 +160,11 @@ namespace Byt3.Console.Runner
 
         public static ConsoleLibrary Load(string filePath)
         {
-            if (!File.Exists(filePath)) return new ConsoleLibrary();
+            if (!File.Exists(filePath))
+            {
+                return new ConsoleLibrary();
+            }
+
             XmlSerializer xs = new XmlSerializer(typeof(ConsoleLibrary));
             Stream s = File.OpenRead(filePath);
             ConsoleLibrary lib = (ConsoleLibrary)xs.Deserialize(s);

@@ -12,7 +12,6 @@ namespace Byt3.Serialization
     /// </summary>
     public class Byt3Serializer
     {
-
         public static Byt3Serializer GetDefaultSerializer()
         {
             return new Byt3Serializer(new Dictionary<Type, ASerializer>(BaseSerializers.SerializableTypes));
@@ -20,7 +19,6 @@ namespace Byt3.Serialization
 
         public Byt3Serializer()
         {
-
         }
 
         private Byt3Serializer(Dictionary<Type, ASerializer> serializers)
@@ -63,7 +61,7 @@ namespace Byt3.Serialization
 
             if (Serializers.ContainsKey(type))
             {
-               System. Console.WriteLine("");
+                System.Console.WriteLine("");
             }
 
             object key = BaseSerializer.GetKey(type);
@@ -189,7 +187,7 @@ namespace Byt3.Serialization
         /// <param name="obj">Object to Serialize</param>
         public bool TryWritePacket<T>(Stream stream, T obj)
         {
-            return TryWritePacket(stream, (object)obj);
+            return TryWritePacket(stream, (object) obj);
         }
 
         #endregion
@@ -215,7 +213,7 @@ namespace Byt3.Serialization
 
         private object MainRead(BasePacket basePacket)
         {
-            MemoryStream ms = new MemoryStream(basePacket.Payload) { Position = 0 };
+            MemoryStream ms = new MemoryStream(basePacket.Payload) {Position = 0};
             Type packetType = GetTypeByKey(basePacket.PacketType);
 
             PrimitiveValueWrapper mainStage = new PrimitiveValueWrapper(ms);
@@ -268,7 +266,7 @@ namespace Byt3.Serialization
             deserializedObject = default(T);
             if (ret)
             {
-                deserializedObject = (T)obj;
+                deserializedObject = (T) obj;
             }
 
             return ret;

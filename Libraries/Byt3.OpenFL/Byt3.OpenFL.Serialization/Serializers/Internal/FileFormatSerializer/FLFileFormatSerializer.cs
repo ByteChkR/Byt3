@@ -13,8 +13,10 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer
         {
             {"zip", new ExtraStage(new ZipExtraStage(), new UnZipExtraStage())},
         };
-        FLProgramHeaderSerializer phs = new FLProgramHeaderSerializer();
-        FLHeaderSerializer flHs = new FLHeaderSerializer();
+
+        private FLProgramHeaderSerializer phs = new FLProgramHeaderSerializer();
+        private FLHeaderSerializer flHs = new FLHeaderSerializer();
+
         public override FLFileFormat DeserializePacket(PrimitiveValueWrapper s)
         {
             FLHeader header = flHs.DeserializePacket(s);
@@ -33,6 +35,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer
             {
                 program = extraStages[i].FromFile.Process(program);
             }
+
             return new FLFileFormat(header, programHeader, program);
         }
 
@@ -43,8 +46,10 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer
             {
                 if (!ExtraSteps.ContainsKey(extraStages[i]))
                 {
-                    throw new FLDeserializationException("Can not Deserialize Script because it used an Extra Stage that is not available.");
+                    throw new FLDeserializationException(
+                        "Can not Deserialize Script because it used an Extra Stage that is not available.");
                 }
+
                 ret.Add(ExtraSteps[extraStages[i]]);
             }
 

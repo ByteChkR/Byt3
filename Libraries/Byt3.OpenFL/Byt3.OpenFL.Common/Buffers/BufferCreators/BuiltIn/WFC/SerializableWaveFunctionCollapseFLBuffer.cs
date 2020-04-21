@@ -18,7 +18,9 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
             LazyLoadingFLBuffer info = new LazyLoadingFLBuffer(root =>
             {
                 Bitmap bmp;
-                WFCOverlayMode wfc = new WFCOverlayMode( Parameter.SourceImage.GetBitmap(), Parameter.N, Parameter.Width, Parameter.Height, Parameter.PeriodicInput, Parameter.PeriodicOutput, Parameter.Symmetry, Parameter.Ground);
+                WFCOverlayMode wfc = new WFCOverlayMode(Parameter.SourceImage.GetBitmap(), Parameter.N, Parameter.Width,
+                    Parameter.Height, Parameter.PeriodicInput, Parameter.PeriodicOutput, Parameter.Symmetry,
+                    Parameter.Ground);
                 if (Parameter.Force)
                 {
                     do

@@ -15,7 +15,9 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                 {
                     if (!File.Exists(buf.File))
                     {
-                        throw new FLProgramCheckException($"File: {buf.File} referenced in Defined Buffer: {buf.Name} but the file does not exist.", this);
+                        throw new FLProgramCheckException(
+                            $"File: {buf.File} referenced in Defined Buffer: {buf.Name} but the file does not exist.",
+                            this);
                     }
                 }
             }

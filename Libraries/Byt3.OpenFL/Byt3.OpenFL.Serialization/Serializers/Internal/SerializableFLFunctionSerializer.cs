@@ -14,6 +14,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
         {
             instructionSerializer = new SerializableInstructionSerializer(argumentSerializers);
         }
+
         public override SerializableFLFunction DeserializePacket(PrimitiveValueWrapper s)
         {
             string name = s.ReadString();
@@ -37,7 +38,6 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             {
                 instructionSerializer.SerializePacket(s, obj.Instructions[i]);
             }
-
         }
     }
 }

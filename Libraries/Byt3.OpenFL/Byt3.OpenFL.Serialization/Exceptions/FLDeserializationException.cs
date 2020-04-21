@@ -4,6 +4,8 @@ namespace Byt3.OpenFL.Serialization.Exceptions
 {
     public class FLDeserializationException : Byt3Exception
     {
-        public FLDeserializationException(string errorMessage) : base(errorMessage) { }
+        public FLDeserializationException(string errorMessage) : base(errorMessage)
+        {
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
     {
         private static readonly Type[] PossibleValueTypes =
             new[] {typeof(decimal), typeof(FLBuffer), typeof(FLFunction)};
+
         public FLInstructionArgumentType Type
         {
             get
@@ -15,7 +16,10 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
                 for (int i = 0; i < PossibleValueTypes.Length; i++)
                 {
-                    if (PossibleValueTypes[i].IsInstanceOfType(Value)) return (FLInstructionArgumentType) i+1;
+                    if (PossibleValueTypes[i].IsInstanceOfType(Value))
+                    {
+                        return (FLInstructionArgumentType) i + 1;
+                    }
                 }
 
                 return FLInstructionArgumentType.Undefined;

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace Byt3.Console.Runner
 {
-
     public class ConsoleItem
     {
         public string LibPath { get; set; }
@@ -20,7 +16,6 @@ namespace Byt3.Console.Runner
         //private object consoleInstance;
 
 
-
         //public static Assembly LoadAssembly(string file)
         //{
         //    Assembly ret = Assembly.LoadFrom(file);
@@ -30,15 +25,14 @@ namespace Byt3.Console.Runner
 
         public bool Run(string[] args)
         {
-            string dir = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(LibPath));
-            AppDomainController adc = AppDomainController.Create(ConsoleTitle, new[] { Path.GetDirectoryName(LibPath) });
-            object ret = adc.LoadTypeAndRunFunction(LibPath, TypeSignature, "Run", new object[] { args });
+            //string dir = Directory.GetCurrentDirectory();
+            //Directory.SetCurrentDirectory(Path.GetDirectoryName(LibPath));
+            AppDomainController adc = AppDomainController.Create(ConsoleTitle, new[] {Path.GetDirectoryName(LibPath)});
+            object ret = adc.LoadTypeAndRunFunction(LibPath, TypeSignature, "Run", new object[] {args});
             adc.Dispose();
-            Directory.SetCurrentDirectory(dir);
+            //Directory.SetCurrentDirectory(dir);
             return ret == null || ret is bool b && b;
 
-            
 
             //object console = GetConsole();
             //AssemblyName name = Assembly.GetAssembly(console.GetType()).GetName();
@@ -49,7 +43,9 @@ namespace Byt3.Console.Runner
             //return ret == null || ret is bool b && b;
         }
 
-        public ConsoleItem() { }
+        public ConsoleItem()
+        {
+        }
 
         public ConsoleItem(AppDomainController adc, string libPath, Type type)
         {
@@ -60,21 +56,23 @@ namespace Byt3.Console.Runner
             TypeSignature = type.FullName;
             try
             {
-                ConsoleTitle = (string)adc.GetPropertyValue(libPath, TypeSignature, "ConsoleTitle");
+                ConsoleTitle = (string) adc.GetPropertyValue(libPath, TypeSignature, "ConsoleTitle");
             }
             catch (Exception e)
             {
                 ConsoleTitle = Path.GetFileNameWithoutExtension(libPath);
             }
-            ConsoleKey = (string)adc.GetPropertyValue(libPath, TypeSignature, "ConsoleKey");
 
+            ConsoleKey = (string) adc.GetPropertyValue(libPath, TypeSignature, "ConsoleKey");
         }
 
         public static string GetHash(string File)
         {
             StringBuilder sb = new StringBuilder();
             foreach (byte b in ComputeHash(File))
+            {
                 sb.Append(b.ToString("X2"));
+            }
 
             return sb.ToString();
         }

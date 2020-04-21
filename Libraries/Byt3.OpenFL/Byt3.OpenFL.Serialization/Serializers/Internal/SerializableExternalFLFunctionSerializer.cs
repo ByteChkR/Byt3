@@ -9,15 +9,12 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
     {
         public override SerializableExternalFLFunction DeserializePacket(PrimitiveValueWrapper s)
         {
-
             string name = s.ReadString();
 
             byte[] payload = s.ReadBytes();
 
             MemoryStream ms = new MemoryStream(payload);
             return new SerializableExternalFLFunction(name, FLSerializer.LoadProgram(ms));
-
-
         }
 
         public override void SerializePacket(PrimitiveValueWrapper s, SerializableExternalFLFunction obj)
@@ -27,8 +24,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
 
             FLSerializer.SaveProgram(ms, obj.ExternalProgram, new string[0]);
 
-            s.Write(ms.GetBuffer(), (int)ms.Position);
-
+            s.Write(ms.GetBuffer(), (int) ms.Position);
         }
     }
 }

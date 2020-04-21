@@ -14,9 +14,6 @@ using Byt3.OpenFL.Parsing.Stages;
 
 namespace Byt3.OpenFL.Parsing
 {
-
-    
-
     public class FLParser : Pipeline<FLParserInput, SerializableFLProgram>
     {
         public BufferCreator BufferCreator { get; }
@@ -47,15 +44,15 @@ namespace Byt3.OpenFL.Parsing
             Verify();
         }
 
-        
 
-        public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator):this(instructionSet, bufferCreator, new FLProgramCheckPipeline(instructionSet, bufferCreator))
+        public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator) : this(instructionSet,
+            bufferCreator, new FLProgramCheckPipeline(instructionSet, bufferCreator))
         {
-
-
         }
 
-        public FLParser() : this(new FLInstructionSet(), new BufferCreator()) {}
+        public FLParser() : this(new FLInstructionSet(), new BufferCreator())
+        {
+        }
 
 
         internal static string[] FindDefineStatements(string[] source)
@@ -88,19 +85,19 @@ namespace Byt3.OpenFL.Parsing
 
         internal static string GetScriptName(string definedScriptLine)
         {
-            return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
+            return RemoveComment(definedScriptLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[0]
                 .Replace("--define script", "").Trim();
         }
 
         internal static string GetScriptPath(string definedScriptLine)
         {
-            return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
+            return RemoveComment(definedScriptLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
                 .Replace("\"", "");
         }
 
         internal static string GetBufferName(string definedBufferLine)
         {
-            return RemoveComment(definedBufferLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
+            return RemoveComment(definedBufferLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[0]
                 .Replace("--define texture", "").Trim();
         }
 
@@ -117,7 +114,7 @@ namespace Byt3.OpenFL.Parsing
 
         internal static string RemoveComment(string line)
         {
-            return line.Split(new[] { '#' }, StringSplitOptions.None).First().Trim();
+            return line.Split(new[] {'#'}, StringSplitOptions.None).First().Trim();
         }
 
         internal static bool IsFunctionHeader(string line)

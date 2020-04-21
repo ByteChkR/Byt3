@@ -27,11 +27,15 @@ namespace Byt3.Utilities.Versioning
                 return sb.ToString();
             }
         }
+
         public static void SearchForAssemblies()
         {
-            if (searched) return;
-            searched = true;
+            if (searched)
+            {
+                return;
+            }
 
+            searched = true;
 
 
             List<Assembly> asms = GetAssemblies().ToList();
@@ -39,10 +43,13 @@ namespace Byt3.Utilities.Versioning
             {
                 AssemblyName name = asms[i].GetName();
                 if (!entries.ContainsKey(name.Name) && name.Name.StartsWith("Byt3"))
+                {
                     entries.Add(name.Name, name.Version);
+                }
             }
 
-            string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "Byt3.*.dll", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), "Byt3.*.dll",
+                SearchOption.AllDirectories);
             for (int i = 0; i < files.Length; i++)
             {
                 string name = Path.GetFileNameWithoutExtension(files[i]);
@@ -70,18 +77,14 @@ namespace Byt3.Utilities.Versioning
                 yield return asm;
 
                 foreach (AssemblyName reference in asm.GetReferencedAssemblies())
+                {
                     if (!list.Contains(reference.FullName))
                     {
                         stack.Push(Assembly.Load(reference));
                         list.Add(reference.FullName);
                     }
-
-            }
-            while (stack.Count > 0);
-
+                }
+            } while (stack.Count > 0);
         }
-
     }
-
-
 }

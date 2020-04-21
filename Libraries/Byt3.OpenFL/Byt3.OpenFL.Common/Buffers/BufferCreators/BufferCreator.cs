@@ -33,7 +33,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators
             {
                 if (target != ts[i] && target.IsAssignableFrom(ts[i]))
                 {
-                    ASerializableBufferCreator bc = (ASerializableBufferCreator)Activator.CreateInstance(ts[i]);
+                    ASerializableBufferCreator bc = (ASerializableBufferCreator) Activator.CreateInstance(ts[i]);
                     AddBufferCreator(bc);
                 }
             }
@@ -48,6 +48,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators
                     return bufferCreators[i].CreateBuffer(name, arguments);
                 }
             }
+
             throw new FLBufferCreatorNotFoundException("Can not find buffercreator with key: " + key);
         }
     }

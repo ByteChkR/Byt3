@@ -6,7 +6,6 @@ namespace Byt3.OpenFL.Common.Exceptions
     {
         public FLInstructionCreatorIsNullException(string errorMessage) : base(errorMessage)
         {
-
         }
     }
 }

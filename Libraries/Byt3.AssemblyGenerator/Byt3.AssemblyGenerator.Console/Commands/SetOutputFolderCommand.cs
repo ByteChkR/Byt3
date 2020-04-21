@@ -5,7 +5,7 @@ namespace Byt3.AssemblyGenerator.Console.Commands
     public class SetOutputFolderCommand : AbstractCommand
     {
         public SetOutputFolderCommand() : base((info, strings) => SetOutputFolder(strings),
-            new[] { "--set-output", "-o" },
+            new[] {"--set-output", "-o"},
             "Specifies the Output Folder of the Compiled Assembly.(Default is CurrentDirectory + Assembly Name")
         {
         }

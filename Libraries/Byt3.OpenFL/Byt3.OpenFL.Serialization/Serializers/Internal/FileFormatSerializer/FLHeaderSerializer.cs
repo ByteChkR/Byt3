@@ -8,14 +8,15 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer
 {
     public class FLHeaderSerializer : ASerializer<FLHeader>
     {
+        private VersionSerializer vs = new VersionSerializer();
 
-        VersionSerializer vs = new VersionSerializer();
         public override FLHeader DeserializePacket(PrimitiveValueWrapper s)
         {
             Version headerVersion = vs.DeserializePacket(s);
             if (FLVersions.HeaderVersion != headerVersion)
             {
-                throw new FLDeserializationException($"The Header version can not be parsed. Supported Version: {FLVersions.HeaderVersion} Required Version: {headerVersion}");
+                throw new FLDeserializationException(
+                    $"The Header version can not be parsed. Supported Version: {FLVersions.HeaderVersion} Required Version: {headerVersion}");
             }
 
             Version commonVersion = vs.DeserializePacket(s);
@@ -42,7 +43,6 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer
             {
                 s.Write(obj.ExtraSerializationSteps[i]);
             }
-
         }
     }
 }

@@ -16,7 +16,8 @@ namespace Byt3.OpenFL.Parsing.StageResults
         public FLFunction[] FlFunctions { get; }
         public Dictionary<string, FLFunction> DefinedScripts { get; }
 
-        public ParseTreeStageResult(CLAPI instance, Dictionary<string, FLFunction> definedScripts, Dictionary<string, FLBuffer> definedBuffers, FLFunction[] flFunctions)
+        public ParseTreeStageResult(CLAPI instance, Dictionary<string, FLFunction> definedScripts,
+            Dictionary<string, FLBuffer> definedBuffers, FLFunction[] flFunctions)
         {
             Instance = instance;
             FlFunctions = flFunctions;

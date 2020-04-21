@@ -18,7 +18,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
             return new LazyLoadingFLBuffer(root =>
             {
                 Bitmap bmp = new Bitmap(Bitmap, root.Dimensions.x, root.Dimensions.y);
-                FLBuffer buf=new FLBuffer(root.Instance, bmp);
+                FLBuffer buf = new FLBuffer(root.Instance, bmp);
                 bmp.Dispose();
                 return buf;
             });
@@ -36,6 +36,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
         public byte[] Data { get; }
         public int Width { get; }
         public int Height { get; }
+
         public SerializableFromBinaryFLBuffer(string name, byte[] data, int width, int height) : base(name)
         {
             Data = data;
@@ -47,6 +48,5 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
         {
             return new FLBuffer(CLAPI.MainThread, Data, Width, Height);
         }
-
     }
 }

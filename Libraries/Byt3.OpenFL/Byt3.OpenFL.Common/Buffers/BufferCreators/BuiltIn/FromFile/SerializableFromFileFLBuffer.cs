@@ -6,7 +6,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
     {
         public string File { get; }
 
-        public override Bitmap Bitmap => (Bitmap)Image.FromFile(File);
+        public override Bitmap Bitmap => (Bitmap) Image.FromFile(File);
 
         public SerializableFromFileFLBuffer(string name, string file) : base(name, null)
         {
@@ -17,7 +17,5 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
         {
             return new LazyFromFileFLBuffer(File);
         }
-
-
     }
 }

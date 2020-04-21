@@ -28,10 +28,10 @@ namespace Byt3.OpenFL.Serialization
             SerializableExternalFunctionArgumentSerializer exbuf = new SerializableExternalFunctionArgumentSerializer();
             Dictionary<Type, ASerializer> argumentParser = new Dictionary<Type, ASerializer>
             {
-                {typeof(SerializeBufferArgument), bbuf },
-                {typeof(SerializeDecimalArgument), debuf },
-                {typeof(SerializeFunctionArgument), fabuf },
-                {typeof(SerializeExternalFunctionArgument), exbuf }
+                {typeof(SerializeBufferArgument), bbuf},
+                {typeof(SerializeDecimalArgument), debuf},
+                {typeof(SerializeFunctionArgument), fabuf},
+                {typeof(SerializeExternalFunctionArgument), exbuf}
             };
 
             SerializableFLFunctionSerializer efunc = new SerializableFLFunctionSerializer(argumentParser);
@@ -43,14 +43,13 @@ namespace Byt3.OpenFL.Serialization
             WFCFLBufferSerializer wfcbuf = new WFCFLBufferSerializer();
             Dictionary<Type, ASerializer> bufferParser = new Dictionary<Type, ASerializer>
             {
-                {typeof(SerializableExternalFLFunction),exfunc },
-                {typeof(SerializableFLFunction), efunc },
-                {typeof(SerializableEmptyFLBuffer), ebuf },
-                {typeof(SerializableRandomFLBuffer), rbuf },
-                {typeof(SerializableUnifiedRandomFLBuffer), urbuf },
-                {typeof(SerializableFromFileFLBuffer), fibuf },
-                {typeof(SerializableWaveFunctionCollapseFLBuffer), wfcbuf },
-
+                {typeof(SerializableExternalFLFunction), exfunc},
+                {typeof(SerializableFLFunction), efunc},
+                {typeof(SerializableEmptyFLBuffer), ebuf},
+                {typeof(SerializableRandomFLBuffer), rbuf},
+                {typeof(SerializableUnifiedRandomFLBuffer), urbuf},
+                {typeof(SerializableFromFileFLBuffer), fibuf},
+                {typeof(SerializableWaveFunctionCollapseFLBuffer), wfcbuf},
             };
 
             SerializableFLProgramSerializer prog = new SerializableFLProgramSerializer(bufferParser);
@@ -59,7 +58,7 @@ namespace Byt3.OpenFL.Serialization
             main.AddSerializer(typeof(FLFileFormat), new FLFileFormatSerializer());
             return main;
         }
-        
+
 
         public static SerializableFLProgram LoadProgram(Stream s)
         {
@@ -80,7 +79,8 @@ namespace Byt3.OpenFL.Serialization
             return program;
         }
 
-        public static void SaveProgram(Stream s, SerializableFLProgram program, string[] extraSteps, FLProgramHeader programHeader = null)
+        public static void SaveProgram(Stream s, SerializableFLProgram program, string[] extraSteps,
+            FLProgramHeader programHeader = null)
         {
             Byt3Serializer main = CreateLoader();
 
@@ -95,7 +95,9 @@ namespace Byt3.OpenFL.Serialization
             {
                 programHeader = new FLProgramHeader("Program", "NONE", Version.Parse("0.0.0.1"));
             }
-            FLHeader header = new FLHeader(FLVersions.HeaderVersion, FLVersions.SerializationVersion, FLVersions.CommonVersion, extraSteps);
+
+            FLHeader header = new FLHeader(FLVersions.HeaderVersion, FLVersions.SerializationVersion,
+                FLVersions.CommonVersion, extraSteps);
 
             byte[] p = ms.ToArray();
 

@@ -8,7 +8,8 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
         public List<SerializableFLFunction> Functions { get; }
         public List<SerializableFLBuffer> DefinedBuffers { get; }
 
-        public SerializableFLProgram(List<SerializableExternalFLFunction> externalFunctions, List<SerializableFLFunction> functions, List<SerializableFLBuffer> definedBuffers)
+        public SerializableFLProgram(List<SerializableExternalFLFunction> externalFunctions,
+            List<SerializableFLFunction> functions, List<SerializableFLBuffer> definedBuffers)
         {
             ExternalFunctions = externalFunctions;
             Functions = functions;

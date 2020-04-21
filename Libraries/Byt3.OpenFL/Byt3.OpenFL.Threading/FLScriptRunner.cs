@@ -38,7 +38,7 @@ namespace Byt3.OpenFL.Threading
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
             Runner = new FLRunner(InstructionSet);
             Parser = new FLParser(InstructionSet, BufferCreator);
-            
+
             Instance = instance;
             Db = new KernelDatabase(instance, kernelFolder, dataVectorTypes);
             ProcessQueue = new Queue<FlScriptExecutionContext>();

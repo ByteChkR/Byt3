@@ -2,7 +2,6 @@
 {
     public static class Assert
     {
-
         public static void True(bool value)
         {
             ThrowIfNotEqual(value, true);
@@ -21,14 +20,18 @@
         public static void ThrowIfEqual(object actual, object expected)
         {
             if (InternalEqual(actual, expected))
+            {
                 throw new MAssertException(actual, expected);
+            }
         }
 
         public static void ThrowIfNotEqual(object actual, object expected)
         {
-            if (!InternalEqual(actual, expected)) throw new MAssertException(actual, expected);
+            if (!InternalEqual(actual, expected))
+            {
+                throw new MAssertException(actual, expected);
+            }
         }
-
 
 
         private static bool InternalEqual(object actual, object expected)
@@ -37,10 +40,8 @@
             {
                 return actual == null;
             }
+
             return expected.Equals(actual);
         }
-
-
-
     }
 }

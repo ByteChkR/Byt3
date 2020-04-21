@@ -18,7 +18,6 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public int3 Dimensions => new int3(Input.Width, Input.Height, 4);
         public int InputSize => Dimensions.x * Dimensions.y * Dimensions.z;
 
-        
 
         public Dictionary<string, FLBuffer> DefinedBuffers { get; }
         public FLFunction[] FlFunctions { get; }
@@ -56,7 +55,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public void PushContext()
         {
             ContextStack.Push(new FLExecutionContext(new List<byte>(ActiveChannels).ToArray(), ActiveBuffer));
-            ActiveChannels = new byte[] { 1, 1, 1, 1 };
+            ActiveChannels = new byte[] {1, 1, 1, 1};
         }
 
         public void ReturnFromContext()
@@ -82,13 +81,13 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             Input.SetKey("in");
         }
 
-        public void Run(CLAPI instance,  FLBuffer input, FLFunction entry = null)
+        public void Run(CLAPI instance, FLBuffer input, FLFunction entry = null)
         {
             SetCLVariables(instance, input);
 
             //Start Setup
             ActiveBuffer = input;
-            ActiveChannels = new byte[] { 1, 1, 1, 1 };
+            ActiveChannels = new byte[] {1, 1, 1, 1};
 
             FLFunction entryPoint = entry ?? EntryPoint;
             entryPoint.Process();

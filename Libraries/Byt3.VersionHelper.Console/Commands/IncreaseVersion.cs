@@ -6,7 +6,7 @@ namespace Byt3.VersionHelper.Console.Commands
 {
     public class ChangeVersionCommand : AbstractCommand
     {
-        public ChangeVersionCommand() : base( new[] { "--increase", "-i" },
+        public ChangeVersionCommand() : base(new[] {"--increase", "-i"},
             "Increases the last number in the version string 0.0.0.1 => 0.0.0.2", true)
         {
             CommandAction = ChangeVersion;
@@ -27,7 +27,6 @@ namespace Byt3.VersionHelper.Console.Commands
             Logger.Log(LogType.Log, $"Changing Version {v} => {newV}", 1);
 
             ConsoleEntry.ChangeVersionInFile(file, newV);
-
         }
     }
 }

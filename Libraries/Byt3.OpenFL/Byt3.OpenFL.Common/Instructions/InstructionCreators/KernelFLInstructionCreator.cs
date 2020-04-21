@@ -8,6 +8,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
     public class KernelFLInstructionCreator : FLInstructionCreator
     {
         public KernelDatabase KernelList { get; }
+
         public KernelFLInstructionCreator(KernelDatabase kernelList)
         {
             KernelList = kernelList;
@@ -15,7 +16,9 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 
         public override FLInstruction Create(FLProgram script, SerializableFLInstruction instruction)
         {
-            return new KernelFLInstruction(KernelParameter.GetDataMaxSize(KernelList.GenDataType), KernelList.GetClKernel(instruction.InstructionKey), instruction.Arguments.Select(x => new FLInstructionArgument(x.GetValue(script))).ToList());
+            return new KernelFLInstruction(KernelParameter.GetDataMaxSize(KernelList.GenDataType),
+                KernelList.GetClKernel(instruction.InstructionKey),
+                instruction.Arguments.Select(x => new FLInstructionArgument(x.GetValue(script))).ToList());
         }
 
         public override bool IsInstruction(string key)
