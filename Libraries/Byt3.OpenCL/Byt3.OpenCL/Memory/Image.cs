@@ -17,8 +17,8 @@ namespace Byt3.OpenCL.Memory
         /// Initializes a new <see cref="Image"/> instance.
         /// </summary>
         /// <param name="handle">The handle to the OpenCL image.</param>
-        public Image(IntPtr handle)
-            : base(handle)
+        public Image(IntPtr handle, object handleIdentifier)
+            : base(handle, handleIdentifier)
         {
         }
 

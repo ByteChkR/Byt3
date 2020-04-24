@@ -1,0 +1,110 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+    <AssemblyVersion>1.0.5.1706</AssemblyVersion>
+    <FileVersion>1.0.5.1706</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="assets\configs\adl_network_config.xml" />
+    <None Remove="assets\configs\engine_settings.xml" />
+    <None Remove="assets\fonts\default_font.ttf" />
+    <None Remove="assets\grass.fl" />
+    <None Remove="assets\kernel\add.cl" />
+    <None Remove="assets\kernel\adjustlevel.cl" />
+    <None Remove="assets\kernel\div.cl" />
+    <None Remove="assets\kernel\invert.cl" />
+    <None Remove="assets\kernel\mix.cl" />
+    <None Remove="assets\kernel\mod.cl" />
+    <None Remove="assets\kernel\mul.cl" />
+    <None Remove="assets\kernel\perlin.cl" />
+    <None Remove="assets\kernel\set.cl" />
+    <None Remove="assets\kernel\shapes.cl" />
+    <None Remove="assets\kernel\smooth.cl" />
+    <None Remove="assets\kernel\sub.cl" />
+    <None Remove="assets\kernel\utils.cl" />
+    <None Remove="assets\kernel\worley.cl" />
+    <None Remove="assets\models\cube_flat.obj" />
+    <None Remove="assets\models\default_mesh.obj" />
+    <None Remove="assets\models\sphere_smooth.obj" />
+    <None Remove="assets\shader\internal\merge_stage\merge_shader.vs" />
+    <None Remove="assets\shader\internal\merge_stage\merge_shader_add.fs" />
+    <None Remove="assets\shader\internal\merge_stage\merge_shader_mul.fs" />
+    <None Remove="assets\shader\internal\screen_stage\shader.fs" />
+    <None Remove="assets\shader\internal\screen_stage\shader.vs" />
+    <None Remove="assets\shader\lit\shader.fs" />
+    <None Remove="assets\shader\lit\shader.vs" />
+    <None Remove="assets\shader\ui\graph\shader.fs" />
+    <None Remove="assets\shader\ui\graph\shader.vs" />
+    <None Remove="assets\shader\ui\image\shader.fs" />
+    <None Remove="assets\shader\ui\image\shader.vs" />
+    <None Remove="assets\shader\ui\text\shader.fs" />
+    <None Remove="assets\shader\ui\text\shader.vs" />
+    <None Remove="assets\shader\unlit\shader.fs" />
+    <None Remove="assets\shader\unlit\shader.vs" />
+    <None Remove="assets\textures\default_texture.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\configs\adl_network_config.xml" />
+    <EmbeddedResource Include="assets\configs\engine_settings.xml" />
+    <EmbeddedResource Include="assets\fonts\default_font.ttf" />
+    <EmbeddedResource Include="assets\grass.fl" />
+    <EmbeddedResource Include="assets\kernel\add.cl" />
+    <EmbeddedResource Include="assets\kernel\adjustlevel.cl" />
+    <EmbeddedResource Include="assets\kernel\div.cl" />
+    <EmbeddedResource Include="assets\kernel\invert.cl" />
+    <EmbeddedResource Include="assets\kernel\mix.cl" />
+    <EmbeddedResource Include="assets\kernel\mod.cl" />
+    <EmbeddedResource Include="assets\kernel\mul.cl" />
+    <EmbeddedResource Include="assets\kernel\perlin.cl" />
+    <EmbeddedResource Include="assets\kernel\set.cl" />
+    <EmbeddedResource Include="assets\kernel\shapes.cl" />
+    <EmbeddedResource Include="assets\kernel\smooth.cl" />
+    <EmbeddedResource Include="assets\kernel\sub.cl" />
+    <EmbeddedResource Include="assets\kernel\utils.cl" />
+    <EmbeddedResource Include="assets\kernel\worley.cl" />
+    <EmbeddedResource Include="assets\models\cube_flat.obj" />
+    <EmbeddedResource Include="assets\models\default_mesh.obj" />
+    <EmbeddedResource Include="assets\models\sphere_smooth.obj" />
+    <EmbeddedResource Include="assets\shader\internal\merge_stage\merge_shader.vs" />
+    <EmbeddedResource Include="assets\shader\internal\merge_stage\merge_shader_add.fs" />
+    <EmbeddedResource Include="assets\shader\internal\merge_stage\merge_shader_mul.fs" />
+    <EmbeddedResource Include="assets\shader\internal\screen_stage\shader.fs" />
+    <EmbeddedResource Include="assets\shader\internal\screen_stage\shader.vs" />
+    <EmbeddedResource Include="assets\shader\lit\shader.fs" />
+    <EmbeddedResource Include="assets\shader\lit\shader.vs" />
+    <EmbeddedResource Include="assets\shader\ui\graph\shader.fs" />
+    <EmbeddedResource Include="assets\shader\ui\graph\shader.vs" />
+    <EmbeddedResource Include="assets\shader\ui\image\shader.fs" />
+    <EmbeddedResource Include="assets\shader\ui\image\shader.vs" />
+    <EmbeddedResource Include="assets\shader\ui\text\shader.fs" />
+    <EmbeddedResource Include="assets\shader\ui\text\shader.vs" />
+    <EmbeddedResource Include="assets\shader\unlit\shader.fs" />
+    <EmbeddedResource Include="assets\shader\unlit\shader.vs" />
+    <EmbeddedResource Include="assets\textures\default_texture.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AssimpNet" Version="4.1.0" />
+    <PackageReference Include="OpenTK.NetStandard" Version="1.0.7-prerelease" />
+    <PackageReference Include="SharpFontCore" Version="0.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
+    <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL.Crash\Byt3.ADL.Crash.csproj" />
+    <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL.Wrapper\Byt3.OpenCL.Wrapper.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL\Byt3.OpenCL.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Common\Byt3.OpenFL.Common.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Threading\Byt3.OpenFL.Threading.csproj" />
+    <ProjectReference Include="..\Byt3.Engine.AssetPackaging\Byt3.Engine.AssetPackaging.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="OpenFL\" />
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
+</Project>

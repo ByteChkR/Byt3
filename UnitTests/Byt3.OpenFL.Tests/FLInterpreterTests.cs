@@ -1,7 +1,12 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
@@ -23,10 +28,15 @@ namespace Byt3.OpenFL.Tests
 {
     public class FLInterpreterTests
     {
+        private const int EXECUTION_BENCHMARK_ITERATIONS = 1;
+        private const int IO_BENCHMARK_ITERATIONS = 200;
+
+
         [Test]
         public void OpenFL_Comments_Test()
         {
-            string file = Path.GetFullPath("resources/filter/comments/test.fl");
+            string file =
+                "resources/filter/comments/test.fl";
 
             FLParser parser = new FLParser();
 
@@ -112,65 +122,187 @@ namespace Byt3.OpenFL.Tests
         }
 
         [Test]
+        //[Repeat(5)]
         public void OpenFL_Parser_Test()
         {
             ADL.Debug.DefaultInitialization();
             string path = "resources/filter/tests";
-            string[] files = Directory.GetFiles(path, "*.fl", SearchOption.TopDirectoryOnly);
+            List<string> files = Directory.GetFiles(path, "*.fl", SearchOption.TopDirectoryOnly).ToList();
+            files.Add("resources/filter/game/tennisball.fl");
             KernelDatabase db =
                 new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataVectorTypes.Uchar1);
 
-            FLInstructionSet iset = new FLInstructionSet();
-            iset.AddInstructionWithDefaultCreator<JumpFLInstruction>("jmp");
-            iset.AddInstructionWithDefaultCreator<SetActiveFLInstruction>("setactive");
-            iset.AddInstructionWithDefaultCreator<RandomFLInstruction>("rnd");
-            iset.AddInstructionWithDefaultCreator<URandomFLInstruction>("urnd");
-            iset.AddInstruction(new KernelFLInstructionCreator(db));
+            FLInstructionSet iset = FLInstructionSet.CreateWithBuiltInTypes(db);
 
 
-            BufferCreator bc = new BufferCreator();
-            Assembly asm = Assembly.GetAssembly(typeof(ASerializableBufferCreator));
-            bc.AddBufferCreatorsInAssembly(asm);
+            BufferCreator bc = BufferCreator.CreateWithBuiltInTypes();
 
             FLParser parser = new FLParser(iset, bc);
-            FLRunner runner = new FLRunner(iset);
+
+            string performanceOut = "performance/FL_ParsedExec_Performance.log";
+            StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
+
+
 
 #if DEBUG
             Directory.CreateDirectory("./out/image");
 #endif
 
-            for (int i = 0; i < files.Length; i++)
+            for (int i = 0; i < files.Count; i++)
             {
-                string file = files[i];
 #if DEBUG
                 Bitmap bmp = new Bitmap(128, 128);
 #else
                 Bitmap bmp = new Bitmap(32, 32);
 #endif
-                FLBuffer buf = new FLBuffer(CLAPI.MainThread, bmp);
+                FLBuffer buf = new FLBuffer(CLAPI.MainThread, bmp, files[i]);
 
                 SerializableFLProgram parsedProgram = parser.Process(new FLParserInput(files[i]));
 
-                FLProgram program = runner.Initialize(parsedProgram);
+                FLProgram program = parsedProgram.Initialize(iset);
 
+                Stopwatch sw = Stopwatch.StartNew();
                 program.Run(CLAPI.MainThread, buf);
+                sw.Stop();
+                decimal result = (decimal)Math.Round(sw.Elapsed.TotalMilliseconds, 4);
+
+                string key = "FLParsedExecutionPerformance+" + Path.GetFileNameWithoutExtension(files[i]) + i;
+                bool matched = PerformanceTester.Tester.MatchesTarget(key, result, out decimal deltaFromTarget, out decimal targetActual);
+                logOut.AppendLine($"\t{Path.GetFileNameWithoutExtension(files[i]) }+{i}: {result}ms ({Math.Round(result / targetActual * 100, 4)}%); Target Matched: {matched}; Target: {targetActual}ms; Delta: {deltaFromTarget}ms");
+
 
 
 #if DEBUG
-                CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, buf.Buffer);
+                CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, program.ActiveBuffer.Buffer);
 
 
                 string p = Path.Combine("./out/image", Path.GetFileNameWithoutExtension(files[i]) + ".png");
-                bmp.Save(p + ".png");
+                bmp.Save(p);
 #endif
                 program.FreeResources();
                 buf.Dispose();
                 bmp.Dispose();
             }
+            db.Dispose();
+            logOut.AppendLine();
+            File.AppendAllText(performanceOut, logOut.ToString());
         }
 
         [Test]
-        public void OpenCL_Serializer_Serialize_Tests()
+        public void OpenFL_IO_Performance_Tests()
+        {
+            string[] dirs = new[] { "resources/filter/tests" };
+            List<string> files = new List<string>();
+            files.Add("resources/filter/game/tennisball.fl");
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                files.AddRange(Directory.GetFiles(dirs[i], "*.fl", SearchOption.TopDirectoryOnly));
+            }
+
+            Directory.CreateDirectory("performance");
+
+            string performanceOut = "performance/FL_IO_Performance.log";
+            StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
+            KernelDatabase db =
+                new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataVectorTypes.Uchar1);
+            bool matchedAll = true;
+            for (int j = 0; j < files.Count; j++)
+            {
+                string path = files[j];
+
+                logOut.AppendLine($"\tPerformance Tests: {path}");
+
+
+                int totalIterations = 200;
+                Stopwatch sw = new Stopwatch();
+                FLInstructionSet iset;
+                BufferCreator bc;
+                FLParser parser;
+                FLProgramCheckPipeline checkPipeline;
+
+                //Untimed Initialization
+                iset = FLInstructionSet.CreateWithBuiltInTypes(db);
+                bc = BufferCreator.CreateWithBuiltInTypes();
+                checkPipeline = FLProgramCheckPipeline.CreateDefaultCheckPipeline(iset, bc);
+                parser = new FLParser(iset, bc, checkPipeline);
+
+                sw.Start();
+                //Initialization
+                for (int i = 0; i < totalIterations; i++)
+                {
+                    iset = FLInstructionSet.CreateWithBuiltInTypes(db);
+                    bc = BufferCreator.CreateWithBuiltInTypes();
+                    checkPipeline = FLProgramCheckPipeline.CreateDefaultCheckPipeline(iset, bc);
+                    parser = new FLParser(iset, bc, checkPipeline);
+                }
+                sw.Stop();
+                decimal delta = (decimal)sw.ElapsedTicks / totalIterations;
+                decimal deltaFromTarget;
+                decimal targetActual;
+                bool matched = PerformanceTester.Tester.MatchesTarget("ParserInitPerformance+" + Path.GetFileNameWithoutExtension(path) + j, delta, out deltaFromTarget, out targetActual);
+                matchedAll &= matched;
+                logOut.AppendLine($"\t\tParser Init Performance(N = {totalIterations}): {sw.ElapsedTicks} ticks; Target Matched: {matched}; Result: {delta}({Math.Round(delta / targetActual * 100, 4)}%) ticks; Target: {targetActual} ticks; Delta: {deltaFromTarget}");
+
+                //Untimed
+
+                SerializableFLProgram pr;
+
+                sw.Restart();
+                for (int i = 0; i < totalIterations; i++)
+                {
+                    pr = parser.Process(new FLParserInput(path));
+                }
+                pr = parser.Process(new FLParserInput(path));
+
+                sw.Stop();
+                delta = (decimal)sw.ElapsedTicks / totalIterations;
+                matched = PerformanceTester.Tester.MatchesTarget("ParserPerformance+" + Path.GetFileNameWithoutExtension(path) + j, delta, out deltaFromTarget, out targetActual);
+                matchedAll &= matched;
+                logOut.AppendLine($"\t\tParser Performance(N = {totalIterations}): {sw.ElapsedTicks} ticks; Target Matched: {matched}; Result: {delta}({Math.Round(delta / targetActual * 100, 4)}%) ticks; Target: {targetActual} ticks; Delta: {deltaFromTarget}");
+
+                //Untimed
+                FLProgram program;
+
+                sw.Restart();
+                for (int i = 0; i < totalIterations; i++)
+                {
+                    program = pr.Initialize(iset);
+                    program.FreeResources();
+                }
+                sw.Stop();
+                delta = (decimal)sw.ElapsedTicks / totalIterations;
+                matched = PerformanceTester.Tester.MatchesTarget("ProgramInitPerformance+" + Path.GetFileNameWithoutExtension(path) + j, delta, out deltaFromTarget, out targetActual);
+                matchedAll &= matched;
+                logOut.AppendLine($"\t\tProgram Init Performance(N = {totalIterations}): {sw.ElapsedTicks} ticks; Target Matched: {matched}; Result: {delta}({Math.Round(delta / targetActual * 100, 4)}%) ticks; Target: {targetActual} ticks; Delta: {deltaFromTarget}");
+
+                MemoryStream dst = new MemoryStream();
+
+                sw.Restart();
+                for (int i = 0; i < totalIterations; i++)
+                {
+                    FLSerializer.SaveProgram(dst, pr, new string[] { });
+                    dst.Position = 0;
+                }
+                sw.Stop();
+                delta = (decimal)sw.ElapsedTicks / totalIterations;
+                matched = PerformanceTester.Tester.MatchesTarget("ProgramSerializationPerformance+" + Path.GetFileNameWithoutExtension(path) + j, delta, out deltaFromTarget, out targetActual);
+                matchedAll &= matched;
+                logOut.AppendLine($"\t\tProgram Serialization Performance(N = {totalIterations}): {sw.ElapsedTicks} ticks; Target Matched: {matched}; Result: {delta}({Math.Round(delta / targetActual * 100, 4)}%) ticks; Target: {targetActual} ticks; Delta: {deltaFromTarget}");
+
+                logOut.AppendLine();
+
+            }
+
+            db.Dispose();
+
+            File.AppendAllText(performanceOut, logOut.ToString());
+
+            Assert.True(matchedAll);
+
+        }
+
+        [Test]
+        public void OpenFL_Serializer_Serialize_Tests()
         {
             ADL.Debug.DefaultInitialization();
             string path = "resources/filter/tests";
@@ -178,20 +310,9 @@ namespace Byt3.OpenFL.Tests
             KernelDatabase db =
                 new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataVectorTypes.Uchar1);
 
-            FLInstructionSet iset = new FLInstructionSet();
-            iset.AddInstructionWithDefaultCreator<JumpFLInstruction>("jmp");
-            iset.AddInstructionWithDefaultCreator<SetActiveFLInstruction>("setactive");
-            iset.AddInstructionWithDefaultCreator<RandomFLInstruction>("rnd");
-            iset.AddInstructionWithDefaultCreator<URandomFLInstruction>("urnd");
-            iset.AddInstruction(new KernelFLInstructionCreator(db));
-
-
-            BufferCreator bc = new BufferCreator();
-            Assembly asm = Assembly.GetAssembly(typeof(ASerializableBufferCreator));
-            bc.AddBufferCreatorsInAssembly(asm);
-
-            FLParser parser = new FLParser(iset, bc);
-            FLRunner runner = new FLRunner(iset);
+            FLInstructionSet iset = FLInstructionSet.CreateWithBuiltInTypes(db);
+            BufferCreator bc = BufferCreator.CreateWithBuiltInTypes();
+            FLParser parser = new FLParser(iset, bc, FLProgramCheckPipeline.CreateDefaultCheckPipeline(iset, bc));
 
             Directory.CreateDirectory("./out/serialized");
 #if DEBUG
@@ -206,7 +327,8 @@ namespace Byt3.OpenFL.Tests
                 Bitmap bmp = new Bitmap(32, 32);
 #endif
 
-                FLBuffer buf = new FLBuffer(CLAPI.MainThread, bmp);
+                FLBuffer buf = new FLBuffer(CLAPI.MainThread, bmp, files[i]);
+
                 SerializableFLProgram pr = parser.Process(new FLParserInput(files[i]));
                 string pCompiledOut =
                     Path.Combine("./out/serialized", Path.GetFileNameWithoutExtension(files[i]) + ".flc");
@@ -222,12 +344,12 @@ namespace Byt3.OpenFL.Tests
                 cs.Close();
 
 
-                FLProgram program = runner.Initialize(loaded);
+                FLProgram program = loaded.Initialize(iset);
                 program.Run(CLAPI.MainThread, buf);
 
 
 #if DEBUG
-                CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, buf.Buffer);
+                CLAPI.UpdateBitmap(CLAPI.MainThread, bmp, program.ActiveBuffer.Buffer);
                 string p = Path.Combine("./out/image-serialized", Path.GetFileNameWithoutExtension(files[i]) + ".png");
                 bmp.Save(p);
 #endif
@@ -236,6 +358,7 @@ namespace Byt3.OpenFL.Tests
                 buf.Dispose();
                 bmp.Dispose();
             }
+            db.Dispose();
         }
 
         [Test]
@@ -262,9 +385,9 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_TypeConversion_Test()
         {
             float f = float.MaxValue / 2;
-            byte b = (byte) CLTypeConverter.Convert(typeof(byte), f);
+            byte b = (byte)CLTypeConverter.Convert(typeof(byte), f);
             float4 f4 = new float4(f);
-            uchar4 i4 = (uchar4) CLTypeConverter.Convert(typeof(uchar4), f4);
+            uchar4 i4 = (uchar4)CLTypeConverter.Convert(typeof(uchar4), f4);
             Assert.True(b == 128);
 
             for (int i = 0; i < 4; i++)

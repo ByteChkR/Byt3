@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Byt3.OpenCL.CommandQueues;
 using Byt3.OpenCL.DataTypes;
@@ -11,7 +12,7 @@ namespace Byt3.OpenCL.Wrapper
     /// <summary>
     /// A wrapper class that holds a OpenCL kernel and the parsed informations for the kernel.
     /// </summary>
-    public class CLKernel
+    public class CLKernel : IDisposable
     {
         private readonly CLAPI instance;
 
@@ -71,6 +72,11 @@ namespace Byt3.OpenCL.Wrapper
             SetArg(Parameter[parameterName].Id, Parameter[parameterName].CastToType(instance, value));
         }
 
+        public void Dispose()
+        {
+            Kernel.Dispose();
+        }
+
         /// <summary>
         /// Sets the buffer as argument
         /// </summary>
@@ -111,7 +117,7 @@ namespace Byt3.OpenCL.Wrapper
         internal void Run(CommandQueue cq, MemoryBuffer image, int3 dimensions, float genTypeMaxVal,
             MemoryBuffer enabledChannels, int channelCount)
         {
-            int size = dimensions.x * dimensions.y * dimensions.z * channelCount;
+            int size = dimensions.x * dimensions.y * channelCount;
 
 
             SetArg(0, image);
@@ -133,7 +139,7 @@ namespace Byt3.OpenCL.Wrapper
         public void Run(CommandQueue cq, int workdim, int groupsize)
         {
             cq.EnqueueNDRangeKernel(Kernel, workdim, groupsize);
-            cq.Flush();
+            //cq.Flush();
         }
     }
 }

@@ -96,7 +96,7 @@ namespace Byt3.ExtPP
         /// <returns>Array of Compiled Lines</returns>
         public string[] Run(string[] files, IDefinitions defs)
         {
-            return Run(files.Select(x => new FilePathContent(x)).OfType<IFileContent>().ToArray(), null, defs);
+            return Run(files.Select(x => new FilePathContent(x, x)).OfType<IFileContent>().ToArray(), null, defs);
         }
 
 

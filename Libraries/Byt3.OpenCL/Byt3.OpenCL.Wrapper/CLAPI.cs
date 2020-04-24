@@ -22,101 +22,101 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class CLAPI : ALoggable<LogType>, IDisposable
     {
-        public delegate string[] IOReadLinesCallback(string file);
+        //public delegate string[] IOReadLinesCallback(string file);
 
-        public delegate string IOReadTextCallback(string file);
+        //public delegate string IOReadTextCallback(string file);
 
-        public delegate bool IOFileExistsCallback(string file);
+        //public delegate bool IOFileExistsCallback(string file);
 
-        public delegate bool IODirectoryExistsCallback(string directory);
+        //public delegate bool IODirectoryExistsCallback(string directory);
 
-        public delegate string[] IOGetFilesCallback(string directory, string searchString);
+        //public delegate string[] IOGetFilesCallback(string directory, string searchString);
 
-        public delegate Stream IOGetStreamCallback(string file);
+        //public delegate Stream IOGetStreamCallback(string file);
 
-        private static IOReadLinesCallback ReadLinesCallback = File.ReadAllLines;
+        //private static IOReadLinesCallback ReadLinesCallback = File.ReadAllLines;
 
-        public static IOReadLinesCallback ReadLines
-        {
-            get => ReadLinesCallback;
-            set
-            {
-                if (value != null)
-                {
-                    ReadLinesCallback = value;
-                }
-            }
-        }
+        //public static IOReadLinesCallback ReadLines
+        //{
+        //    get => ReadLinesCallback;
+        //    set
+        //    {
+        //        if (value != null)
+        //        {
+        //            ReadLinesCallback = value;
+        //        }
+        //    }
+        //}
 
-        private static IOReadTextCallback ReadTextCallback = File.ReadAllText;
+        //private static IOReadTextCallback ReadTextCallback = File.ReadAllText;
 
-        public static IOReadTextCallback ReadText
-        {
-            get => ReadTextCallback;
-            set
-            {
-                if (value != null)
-                {
-                    ReadTextCallback = value;
-                }
-            }
-        }
+        //public static IOReadTextCallback ReadText
+        //{
+        //    get => ReadTextCallback;
+        //    set
+        //    {
+        //        if (value != null)
+        //        {
+        //            ReadTextCallback = value;
+        //        }
+        //    }
+        //}
 
-        private static IOFileExistsCallback FileExistsCallback = File.Exists;
+        //private static IOFileExistsCallback FileExistsCallback = File.Exists;
 
-        public static IOFileExistsCallback FileExists
-        {
-            get => FileExistsCallback;
-            set
-            {
-                if (value != null)
-                {
-                    FileExistsCallback = value;
-                }
-            }
-        }
+        //public static IOFileExistsCallback FileExists
+        //{
+        //    get => FileExistsCallback;
+        //    set
+        //    {
+        //        if (value != null)
+        //        {
+        //            FileExistsCallback = value;
+        //        }
+        //    }
+        //}
 
-        private static IODirectoryExistsCallback DirectoryExistsCallback = Directory.Exists;
+        //private static IODirectoryExistsCallback DirectoryExistsCallback = Directory.Exists;
 
-        public static IODirectoryExistsCallback DirectoryExists
-        {
-            get => DirectoryExistsCallback;
-            set
-            {
-                if (value != null)
-                {
-                    DirectoryExistsCallback = value;
-                }
-            }
-        }
+        //public static IODirectoryExistsCallback DirectoryExists
+        //{
+        //    get => DirectoryExistsCallback;
+        //    set
+        //    {
+        //        if (value != null)
+        //        {
+        //            DirectoryExistsCallback = value;
+        //        }
+        //    }
+        //}
 
-        private static IOGetFilesCallback GetFilesCallback = Directory.GetFiles;
+        //private static IOGetFilesCallback GetFilesCallback = Directory.GetFiles;
 
-        public static IOGetFilesCallback GetFiles
-        {
-            get => GetFilesCallback;
-            set
-            {
-                if (value != null)
-                {
-                    GetFilesCallback = value;
-                }
-            }
-        }
+        //public static IOGetFilesCallback GetFiles
+        //{
+        //    get => GetFilesCallback;
+        //    set
+        //    {
+        //        if (value != null)
+        //        {
+        //            GetFilesCallback = value;
+        //        }
+        //    }
+        //}
 
-        private static IOGetStreamCallback GetStreamCallback = File.OpenRead;
+        //private static IOGetStreamCallback GetStreamCallback = File.OpenRead;
 
-        public static IOGetStreamCallback GetStream
-        {
-            get => GetStreamCallback;
-            set
-            {
-                if (value != null)
-                {
-                    GetStreamCallback = value;
-                }
-            }
-        }
+        //public static IOGetStreamCallback GetStream
+        //{
+        //    get => GetStreamCallback;
+        //    set
+        //    {
+        //        if (value != null)
+        //        {
+        //            GetStreamCallback = value;
+        //        }
+        //    }
+        //}
 
 
         /// <summary>
@@ -141,6 +141,8 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private Context context;
 
+        public bool IsDisposed;
+
         /// <summary>
         /// Private constructor
         /// </summary>
@@ -154,21 +156,19 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         public static CLAPI MainThread => Instance ?? (Instance = new CLAPI());
 
-        private static void ApiDisposed(CLAPI obj)
+        public static void DisposeInstance()
         {
-            if (obj == Instance)
-            {
-                Instance = null;
-            }
+            Instance.Dispose();
+            Instance = null;
         }
 
         public void Dispose()
         {
-            ApiDisposed(this);
-
-
+            IsDisposed = true;
             context.Dispose();
+            context = null;
             commandQueue.Dispose();
+            commandQueue = null;
         }
 
         /// <summary>
@@ -194,6 +194,7 @@ namespace Byt3.OpenCL.Wrapper
             Instance = new CLAPI();
         }
 
+
         /// <summary>
         /// Initializes the OpenCL API
         /// </summary>
@@ -204,7 +205,7 @@ namespace Byt3.OpenCL.Wrapper
             for (int i = 0; i < platforms.Count(); i++)
             {
                 IEnumerable<Device> ds = platforms.ElementAt(i).GetDevices(DeviceType.Default);
-
+                int c = ds.Count();
                 for (int j = 0; j < ds.Count(); j++)
                 {
                     Logger.Log(LogType.Log, "Adding Device: " + ds.ElementAt(j).Name + "@" + ds.ElementAt(j).Vendor, 1);
@@ -213,15 +214,15 @@ namespace Byt3.OpenCL.Wrapper
             }
 
             Device chosenDevice = null;
-
+            bool found = false;
             for (int i = 0; i < devs.Count; i++)
             {
-                bool o = devs[i].IsAvailable;
-                if (o)
+                bool available = devs[i].IsAvailable;
+                if (available && !found)
                 {
                     Logger.Log(LogType.Log, "Choosing Device: " + devs[i].Name + "@" + devs[i].Vendor, 1);
                     chosenDevice = devs[i];
-                    break;
+                    found = true;
                 }
             }
 
@@ -346,7 +347,7 @@ namespace Byt3.OpenCL.Wrapper
         {
             MemoryBuffer buffer = buf;
 
-            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int) buffer.Size);
+            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int)buffer.Size);
 
 
             WriteRandom(data, enabledChannels, rnd, uniform);
@@ -449,10 +450,11 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="size">The size of the buffer(Total size in bytes: size*sizeof(T)</param>
         /// <param name="flags">The memory flags for the buffer creation</param>
         /// <returns></returns>
-        public static MemoryBuffer CreateEmpty<T>(CLAPI instance, int size, MemoryFlag flags) where T : struct
+        public static MemoryBuffer CreateEmpty<T>(CLAPI instance, int size, MemoryFlag flags, object handleIdentifier) where T : struct
         {
+            return CreateEmptyOptimized<T>(instance, size, flags, handleIdentifier);
             T[] arr = new T[size];
-            return CreateBuffer(instance, arr, flags);
+            return CreateBuffer(instance, arr, flags, handleIdentifier);
         }
 
         /// <summary>
@@ -463,16 +465,23 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="data">The array of T</param>
         /// <param name="flags">The memory flags for the buffer creation</param>
         /// <returns></returns>
-        public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags) where T : struct
+        public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags, object handleIdentifier) where T : struct
         {
-            object[] arr = Array.ConvertAll(data, x => (object) x);
-            return CreateBuffer(instance, arr, typeof(T), flags);
+            object[] arr = Array.ConvertAll(data, x => (object)x);
+            return CreateBuffer(instance, arr, typeof(T), flags, handleIdentifier);
         }
 
-        public static MemoryBuffer CreateBuffer(CLAPI instance, object[] data, Type t, MemoryFlag flags)
+        //Optimization
+        private static MemoryBuffer CreateEmptyOptimized<T>(CLAPI instance, int size, MemoryFlag flags, object handleIdentifier) where T : struct
+        {
+            int bufByteSize = Marshal.SizeOf<T>() * size;
+            return instance.context.CreateBuffer(flags | MemoryFlag.AllocateHostPointer, bufByteSize, handleIdentifier);
+        }
+
+        public static MemoryBuffer CreateBuffer(CLAPI instance, object[] data, Type t, MemoryFlag flags, object handleIdentifier)
         {
             MemoryBuffer mb =
-                instance.context.CreateBuffer(flags | MemoryFlag.CopyHostPointer, t, data);
+                instance.context.CreateBuffer(flags | MemoryFlag.CopyHostPointer | MemoryFlag.AllocateHostPointer, t, data, handleIdentifier);
 
             return mb;
         }
@@ -484,7 +493,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="bmp">The image that holds the data</param>
         /// <param name="flags">The memory flags for the buffer creation</param>
         /// <returns></returns>
-        public static MemoryBuffer CreateFromImage(CLAPI instance, Bitmap bmp, MemoryFlag flags)
+        public static MemoryBuffer CreateFromImage(CLAPI instance, Bitmap bmp, MemoryFlag flags, object handleIdentifier)
         {
             BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
@@ -494,7 +503,7 @@ namespace Byt3.OpenCL.Wrapper
 
             ARGBtoBGRA(buffer);
 
-            MemoryBuffer mb = CreateBuffer(instance, buffer, flags);
+            MemoryBuffer mb = CreateBuffer(instance, buffer, flags, handleIdentifier);
             return mb;
         }
 
@@ -532,7 +541,7 @@ namespace Byt3.OpenCL.Wrapper
 
         public static void UpdateBitmap(CLAPI instance, Bitmap target, MemoryBuffer buffer)
         {
-            byte[] bs = ReadBuffer<byte>(instance, buffer, (int) buffer.Size);
+            byte[] bs = ReadBuffer<byte>(instance, buffer, (int)buffer.Size);
             UpdateBitmap(instance, target, bs);
         }
 

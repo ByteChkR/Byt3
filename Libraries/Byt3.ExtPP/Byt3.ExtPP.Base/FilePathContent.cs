@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Byt3.Callbacks;
 using Byt3.ExtPP.Base.Interfaces;
 
 namespace Byt3.ExtPP.Base
@@ -7,11 +8,14 @@ namespace Byt3.ExtPP.Base
     {
         private readonly string filePath;
         private string key;
+        private string definedName;
         public bool HasValidFilepath => true;
 
-        public FilePathContent(string filePath)
+        public FilePathContent(string filePath, string definedName)
         {
-            key = this.filePath = Path.GetFullPath(filePath);
+
+            this.definedName = definedName;
+            key = this.filePath = filePath;
         }
 
         public bool TryGetLines(out string[] lines)
@@ -37,9 +41,14 @@ namespace Byt3.ExtPP.Base
             this.key = key;
         }
 
+        public string GetDefinedName()
+        {
+            return definedName;
+        }
+
         public string GetFilePath()
         {
-            return Path.GetFullPath(filePath);
+            return filePath;
         }
 
         public override string ToString()

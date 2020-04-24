@@ -9,19 +9,24 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Byt3.ADL\Byt3.ADL.Crash\Byt3.ADL.Crash.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator.Console\Byt3.AssemblyGenerator.Console.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.AssemblyGenerator\Byt3Console.AssemblyGenerator\Byt3Console.AssemblyGenerator.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Collections\Byt3.Collections.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Lib.Resolver\Byt3.Console.Lib.Resolver.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Link.Resolver\Byt3.Console.Link.Resolver.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Runner\Byt3.Console.Runner.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Console\Byt3.Console.Url.Resolver\Byt3.Console.Url.Resolver.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.AssetPackaging\Byt3.Engine.AssetPackaging.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.BuildTools.Common\Byt3.Engine.BuildTools.Common.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.BuildTools.PackageCreator\Byt3.Engine.BuildTools.PackageCreator.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.BuildTools\Byt3.Engine.BuildTools.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.Demos\Byt3.Engine.Demos.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.Tutorials\Byt3.Engine.Tutorials.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine\Byt3.Engine.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3Console.Engine.BuildTools\Byt3Console.Engine.BuildTools.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3Console.Engine.Player\Byt3Console.Engine.Player.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.API\Byt3.ExtPP.API.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Console\Byt3.ExtPP.Console.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Plugins\Byt3.ExtPP.Plugins.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP\Byt3.ExtPP.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3Console.ExtPP\Byt3Console.ExtPP.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.MAssert\Byt3.MAssert.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline.AssetLoaderFramework\Byt3.ObjectPipeline.AssetLoaderFramework.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj" />
@@ -29,22 +34,234 @@
     <ProjectReference Include="..\..\Libraries\Byt3.OpenCL\Byt3.OpenCL.Wrapper\Byt3.OpenCL.Wrapper.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenCL\Byt3.OpenCL\Byt3.OpenCL.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Common\Byt3.OpenFL.Common.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Console\Byt3.OpenFL.Console.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Threading\Byt3.OpenFL.Threading.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL\Byt3.OpenFL.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3Console.OpenFL\Byt3Console.OpenFL.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.PackageHandling\Byt3.PackageHandling.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Serialization\Byt3.Serialization.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Threading\Byt3.Threading.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.VersionHelper.Console\Byt3.VersionHelper.Console.csproj" />
-    <ProjectReference Include="..\..\UnitTests\Byt3.ObjectPipeline.Tests\Byt3.ObjectPipeline.Tests.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console.VersionHelper\Byt3Console.VersionHelper.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Lib.Resolver\Byt3Console.Lib.Resolver.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Link.Resolver\Byt3Console.Link.Resolver.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Runner\Byt3Console.Runner.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Url.Resolver\Byt3Console.Url.Resolver.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
+    <ProjectReference Include="..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj" />
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.DotNet\Byt3.Utilities.DotNet.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.IL\Byt3.Utilities.IL.csproj" />
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.IO\Byt3.Utilities.IO.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Serialization\Byt3.Utilities.Serialization.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Threading\Byt3.Utilities.Threading.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
+    <ProjectReference Include="..\TestingProjectConsole\TestingProjectConsole.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="assets\filter\blue.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\filter\red.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\test_kernel\red.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\codeanalysistest.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\engine.settings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\comments\test.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_invalid_file.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_file.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_ground.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_height.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_limit.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_n.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_not_enough_args.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_pin.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_pout.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_symmetry.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_define_wfc_width.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_script_.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\defines\test_wrong_script_invalid_file.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\ground.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\perlin.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\tennisball.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\wall0.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\wall1.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\wall2.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\test.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\testface.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\testfaceclean.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\testface_gen.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\addtex.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\addval.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\inttests\script.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\int_tests.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\invert.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\multex.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\mulval.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\perlin.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\pptests\include.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\pptests\includeinl.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\pp_tests.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\settex.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\setval.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\smooth.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\subtex.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\subval.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\tests\wfc.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\io\test_struct_original.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\add.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\adjustlevel.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\div.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\invert.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\mix.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\mod.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\mul.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\perlin.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\set.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\shapes.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\smooth.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\sub.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\utils.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\kernel\worley.cl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\textures\blackDot.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\textures\overlay.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\textures\TEST.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\WFCTiles\testtile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

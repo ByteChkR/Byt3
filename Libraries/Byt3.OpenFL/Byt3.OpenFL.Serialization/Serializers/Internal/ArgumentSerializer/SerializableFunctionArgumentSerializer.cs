@@ -8,7 +8,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.ArgumentSerializer
     {
         public override SerializeFunctionArgument DeserializePacket(PrimitiveValueWrapper s)
         {
-            return new SerializeFunctionArgument(s.ReadInt());
+            return new SerializeFunctionArgument(s.ReadString());
         }
 
         public override void SerializePacket(PrimitiveValueWrapper s, SerializeFunctionArgument obj)

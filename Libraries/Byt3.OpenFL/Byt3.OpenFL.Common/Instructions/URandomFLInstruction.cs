@@ -50,12 +50,18 @@ namespace Byt3.OpenFL.Common.Instructions
         {
             LazyLoadingFLBuffer info = new LazyLoadingFLBuffer(root =>
             {
-                MemoryBuffer buf =
-                    CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite);
-                CLAPI.WriteRandom(root.Instance, buf, RandomInstructionHelper.Randombytesource, new byte[] {1, 1, 1, 1},
-                    true);
+                //MemoryBuffer buf =
+                //    CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite, "URandomSerializableBuffer");
+                //CLAPI.WriteRandom(root.Instance, buf, RandomInstructionHelper.Randombytesource, new byte[] {1, 1, 1, 1},
+                //    true);
 
-                return new FLBuffer(buf, root.Dimensions.x, root.Dimensions.y);
+                FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize, new byte[] { 1, 1, 1, 1 },
+                    RandomInstructionHelper.Randombytesource, true), root.Dimensions.x, root.Dimensions.y, "RandomBuffer");
+                buf.SetRoot(root);
+                byte[] b = CLAPI.ReadBuffer<byte>(root.Instance, buf.Buffer, (int)buf.Buffer.Size);
+                return buf;
+
+               // return new FLBuffer(buf, root.Dimensions.x, root.Dimensions.y);
             });
 
             return info;

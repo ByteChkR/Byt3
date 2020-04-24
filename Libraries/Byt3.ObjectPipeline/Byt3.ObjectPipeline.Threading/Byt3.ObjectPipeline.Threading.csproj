@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.1.51.1447</AssemblyVersion>
-    <FileVersion>1.1.51.1447</FileVersion>
+    <AssemblyVersion>1.1.86.1706</AssemblyVersion>
+    <FileVersion>1.1.86.1706</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Byt3.Threading\Byt3.Threading.csproj" />

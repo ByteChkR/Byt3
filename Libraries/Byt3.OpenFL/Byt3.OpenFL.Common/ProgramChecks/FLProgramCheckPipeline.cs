@@ -20,6 +20,9 @@ namespace Byt3.OpenFL.Common.ProgramChecks
         public static FLProgramCheckPipeline CreateDefaultCheckPipeline(FLInstructionSet iset, BufferCreator bc)
         {
             FLProgramCheckPipeline pipeline = new FLProgramCheckPipeline(iset, bc);
+            pipeline.AddSubStage(new RemoveUnusedFunctionsOptimization());
+            pipeline.AddSubStage(new RemoveUnusedBuffersOptimization());
+            pipeline.AddSubStage(new RemoveUnusedScriptsOptimization());
             pipeline.AddSubStage(new InstructionValidator());
             pipeline.AddSubStage(new FilePathValidator());
             return pipeline;

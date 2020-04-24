@@ -85,6 +85,9 @@
     <None Update="resources\filter\game\perlin.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="resources\filter\game\tennisball.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="resources\filter\game\wall0.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

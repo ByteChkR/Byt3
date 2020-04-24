@@ -16,7 +16,7 @@ namespace Byt3.Engine.BuildTools.Common
         private Thread _errThread;
         private Process _proc;
         private Thread _thread;
-        private object _lockObj = new object();
+        private readonly object _lockObj = new object();
         private bool _quitFlag;
 
 

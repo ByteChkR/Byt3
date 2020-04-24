@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.1.52.1447</AssemblyVersion>
-    <FileVersion>1.1.52.1447</FileVersion>
+    <AssemblyVersion>1.2.7.1706</AssemblyVersion>
+    <FileVersion>1.2.7.1706</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />

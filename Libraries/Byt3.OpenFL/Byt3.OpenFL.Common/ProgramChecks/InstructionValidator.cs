@@ -14,13 +14,18 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                     if (!InstructionSet.HasInstruction(serializableFlInstruction.InstructionKey))
                     {
                         throw new FLProgramCheckException(
-                            "The Script is referencing the instruction with key: " +
+                            $"The Script is referencing the instruction with key: " +
                             serializableFlInstruction.InstructionKey +
                             " but the Instruction is not in the Instruction Set", this);
                     }
                 }
             }
 
+            foreach (SerializableExternalFLFunction serializableFlFunction in input.ExternalFunctions)
+            {
+                Process(serializableFlFunction.ExternalProgram);
+            }
+            
 
             return input;
         }

@@ -7,7 +7,6 @@ using System.Xml.Serialization;
 using Byt3.CommandRunner;
 using Byt3.Engine.AssetPackaging;
 using Byt3.Engine.BuildTools.Common;
-using Byt3.Utilities.Console.Internals;
 
 namespace Byt3.Engine.BuildTools
 {

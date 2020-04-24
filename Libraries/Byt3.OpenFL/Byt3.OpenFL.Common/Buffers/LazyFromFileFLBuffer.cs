@@ -18,7 +18,7 @@ namespace Byt3.OpenFL.Common.Buffers
                 }
 
                 Bitmap bmp = new Bitmap(Image.FromFile(File), root.Dimensions.x, root.Dimensions.y);
-                FLBuffer buf = new FLBuffer(root.Instance, bmp);
+                FLBuffer buf = new FLBuffer(root.Instance, bmp, DefinedBufferName + ":" + File);
                 bmp.Dispose();
                 return buf;
             };

@@ -11,7 +11,7 @@ namespace Byt3.OpenFL.Threading
     public class FlMultiThreadScriptRunner : FLScriptRunner
     {
         public FlMultiThreadScriptRunner(Action onFinishQueueCallback,
-            DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1, string kernelFolder = "assets/kernel/") : base(
+            DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1, string kernelFolder = "kernel/") : base(
             CLAPI.GetInstance(), dataVectorTypes, kernelFolder)
         {
         }
@@ -23,14 +23,20 @@ namespace Byt3.OpenFL.Threading
 
         private object _proc()
         {
+            
             while (ProcessQueue.Count != 0)
             {
                 FlScriptExecutionContext fle = ProcessQueue.Dequeue();
                 FLProgram texUpdate = Process(fle);
                 fle.OnFinishCallback?.Invoke(texUpdate);
             }
-
             return new object();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            Instance.Dispose();
         }
     }
 }

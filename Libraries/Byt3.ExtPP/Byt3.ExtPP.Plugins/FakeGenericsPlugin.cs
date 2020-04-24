@@ -59,13 +59,14 @@ namespace Byt3.ExtPP.Plugins
             string rel = Path.Combine(currentPath, vars[0]);
             string key = Path.GetFullPath(rel);
 
-            filePath = key;
+            filePath = rel;
             key += genParams.Length > 0 ? "." + genParams.Unpack(Separator) : "";
             if (genParams.Length != 0)
             {
                 ret.SetValue("genParams", genParams);
             }
 
+            ret.SetValue("definedname", vars[0]);
             ret.SetValue("filename", filePath);
             ret.SetValue("key", key);
             ret.SetResult(true);

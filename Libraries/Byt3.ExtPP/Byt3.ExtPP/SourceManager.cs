@@ -91,7 +91,7 @@ namespace Byt3.ExtPP
             string rel = Path.Combine(currentPath, vars[0]);
             string key = Path.GetFullPath(rel);
 
-
+            ret.SetValue("definedname", vars[0]);
             ret.SetValue("filename", key);
 
 

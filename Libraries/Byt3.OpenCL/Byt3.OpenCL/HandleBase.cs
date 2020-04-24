@@ -1,6 +1,9 @@
 #region Using Directives
 
 using System;
+using System.Collections.Generic;
+using System.Text;
+using Byt3.DisposableManagement;
 
 #endregion
 
@@ -9,7 +12,7 @@ namespace Byt3.OpenCL
     /// <summary>
     /// Represents the abstract base class for all OpenCL objects, that are represented by a handle.
     /// </summary>
-    public abstract class HandleBase : IDisposable, IEquatable<HandleBase>
+    public abstract class HandleBase : DisposableObjectBase, IEquatable<HandleBase>
     {
         #region Constructors
 
@@ -17,14 +20,19 @@ namespace Byt3.OpenCL
         /// Initializes a new <see cref="HandleBase"/> instance.
         /// </summary>
         /// <param name="handle">The handle that represents the OpenCL object.</param>
-        protected HandleBase(IntPtr handle)
+        protected HandleBase(IntPtr handle, object handleIdentifier, bool needsDisposal) : base(handleIdentifier)
         {
+            NeedsDisposal = needsDisposal;
+            if (needsDisposal)
+                ClObjectCreated(this);
             Handle = handle;
         }
 
         #endregion
 
         #region Internal Properties
+
+        public bool NeedsDisposal { get; private set; }
 
         /// <summary>
         /// Gets the handle to the OpenCL object.
@@ -34,7 +42,7 @@ namespace Byt3.OpenCL
         /// <summary>
         /// Gets a value that determines whether the object has alread been disposed of.
         /// </summary>
-        protected bool IsDisposed { get; private set; }
+        public bool IsDisposed { get; private set; }
 
         #endregion
 
@@ -133,12 +141,44 @@ namespace Byt3.OpenCL
 
         #region IDisposable Implementation
 
+        ///// <summary>
+        ///// Disposes of the resources that have been acquired.
+        ///// </summary>
+        ///// <param name="disposing">Determines whether managed object or managed and unmanaged resources should be disposed of.</param>
+        //protected virtual void Dispose()
+        //{
+        //    if (NeedsDisposal)
+        //        ClObjectDestroyed(this);
+        //    // Checks if the object has alread been disposed of
+        //    if (!IsDisposed)
+        //    {
+        //        // Sets the handle to null
+        //        Handle = IntPtr.Zero;
+
+        //        // Since the context has been disposed of, the is disposed flag is set to true, so that it is not called twice
+        //        IsDisposed = true;
+        //    }
+        //}
+
         /// <summary>
-        /// Disposes of the resources that have been acquired.
+        /// Destructs the <see cref="HandleBase"/> instance.
         /// </summary>
-        /// <param name="disposing">Determines whether managed object or managed and unmanaged resources should be disposed of.</param>
-        protected virtual void Dispose(bool disposing)
+        ~HandleBase()
         {
+            // Makes sure that unmanaged resources get disposed of eventually
+            //Dispose(false);
+        }
+
+        /// <summary>
+        /// Disposes of all acquired resources.
+        /// </summary>
+        public override void Dispose()
+        {
+            base.Dispose();
+            // Disposes of all acquired resources
+
+            if (NeedsDisposal)
+                ClObjectDestroyed(this);
             // Checks if the object has alread been disposed of
             if (!IsDisposed)
             {
@@ -147,28 +187,57 @@ namespace Byt3.OpenCL
 
                 // Since the context has been disposed of, the is disposed flag is set to true, so that it is not called twice
                 IsDisposed = true;
+
+                // Since the resources have already been disposed of, the destructor does not need to be called anymore
+                GC.SuppressFinalize(this);
             }
+
         }
 
-        /// <summary>
-        /// Destructs the <see cref="HandleBase"/> instance.
-        /// </summary>
-        ~HandleBase()
+        private static int TotalCLObjectsCreated = 0;
+        private static List<HandleBase> objects = new List<HandleBase>();
+
+        internal static void ClObjectCreated(HandleBase bytes)
         {
-            // Makes sure that unmanaged resources get disposed of eventually
-            Dispose(false);
+            objects.Add(bytes);
+            TotalCLObjectsCreated++;
         }
 
-        /// <summary>
-        /// Disposes of all acquired resources.
-        /// </summary>
-        public void Dispose()
+        internal static void ClObjectDestroyed(HandleBase bytes)
         {
-            // Disposes of all acquired resources
-            Dispose(true);
+            objects.Remove(bytes);
+        }
 
-            // Since the resources have already been disposed of, the destructor does not need to be called anymore
-            GC.SuppressFinalize(this);
+        //public static void CrashOnLeak()
+        //{
+        //    if (TotalCLObjectsCreated != 0)
+        //    {
+        //        throw new Exception("CL Objects Are not properly disposed.");
+        //    }
+        //}
+
+        public static void DisposeAllHandles()
+        {
+            for (int i = 0; i < objects.Count; i++)
+            {
+                objects[i].Dispose();
+            }
+            objects.Clear();
+        }
+
+        public static string WriteStatistics()
+        {
+            StringBuilder tw = new StringBuilder();
+            tw.AppendLine("OpenCL Stats:");
+            tw.AppendLine("Total Objects Created:" + TotalCLObjectsCreated);
+            tw.AppendLine("\tUndisposed Objects: " + objects.Count);
+
+            for (int i = 0; i < objects.Count; i++)
+            {
+                tw.AppendLine($"\tObject {i}: {objects[i].HandleIdentifier}");
+            }
+
+            return tw.ToString();
         }
 
         #endregion

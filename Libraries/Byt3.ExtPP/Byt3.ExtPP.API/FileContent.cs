@@ -13,7 +13,7 @@ namespace Byt3.ExtPP.API
         public FileContent(string[] lines, string incDir)
         {
             this.lines = lines;
-            this.incDir = System.IO.Path.GetFullPath(System.IO.Path.GetDirectoryName(incDir));
+            this.incDir = incDir;
         }
 
         private string Key => incDir + "/memoryFile";
@@ -39,6 +39,11 @@ namespace Byt3.ExtPP.API
         public string GetFilePath()
         {
             return Path;
+        }
+
+        public string GetDefinedName()
+        {
+            return Key;
         }
 
         public override string ToString()

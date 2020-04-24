@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.44.1447</AssemblyVersion>
-    <FileVersion>1.0.44.1447</FileVersion>
+    <AssemblyVersion>1.1.9.1706</AssemblyVersion>
+    <FileVersion>1.1.9.1706</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj" />
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
   </ItemGroup>
   <ItemGroup>

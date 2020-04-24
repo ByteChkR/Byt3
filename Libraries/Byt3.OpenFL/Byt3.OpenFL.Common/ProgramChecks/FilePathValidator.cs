@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Byt3.Callbacks;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Exceptions;
@@ -13,7 +14,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             {
                 if (input.DefinedBuffers[i] is SerializableFromFileFLBuffer buf)
                 {
-                    if (!File.Exists(buf.File))
+                    if (!IOManager.FileExists(buf.File))
                     {
                         throw new FLProgramCheckException(
                             $"File: {buf.File} referenced in Defined Buffer: {buf.Name} but the file does not exist.",

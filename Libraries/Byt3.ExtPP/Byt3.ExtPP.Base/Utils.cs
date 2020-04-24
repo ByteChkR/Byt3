@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Byt3.ADL;
+using Byt3.Callbacks;
 using Byt3.ExtPP.Base.Interfaces;
 
 namespace Byt3.ExtPP.Base
@@ -96,7 +97,7 @@ namespace Byt3.ExtPP.Base
         {
             if (file.HasValidFilepath)
             {
-                return FileExistsRelativeTo(currentPath, file.GetFilePath());
+                return FileExistsRelativeTo(currentPath, file.GetDefinedName());
             }
 
             return true;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Byt3.Callbacks;
 using Byt3.ExtPP.API;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Programs;
@@ -42,6 +44,15 @@ namespace Byt3.OpenCL.Wrapper
         /// The Compiled OpenCL Program
         /// </summary>
         public Program ClProgramHandle { get; set; }
+
+        public void Dispose()
+        {
+            ClProgramHandle.Dispose();
+            foreach (KeyValuePair<string, CLKernel> containedKernel in ContainedKernels)
+            {
+                containedKernel.Value.Dispose();
+            }
+        }
 
         /// <summary>
         /// Returns the N of the VectorN types
@@ -88,7 +99,7 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private void Initialize(CLAPI instance)
         {
-            string source = TextProcessorAPI.PreprocessSource(filePath, new Dictionary<string, bool>());
+            string source = TextProcessorAPI.PreprocessSource(IOManager.ReadAllLines(filePath), Path.GetDirectoryName(filePath), new Dictionary<string, bool>());
             string[] kernelNames = FindKernelNames(source);
 
             ClProgramHandle = CLAPI.CreateClProgramFromSource(instance, source);

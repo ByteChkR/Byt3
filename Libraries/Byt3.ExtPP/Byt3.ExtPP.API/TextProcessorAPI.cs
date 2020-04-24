@@ -43,7 +43,7 @@ namespace Byt3.ExtPP.API
 
         public static string[] PreprocessLines(string filename, Dictionary<string, bool> defs)
         {
-            return PreprocessLines(new FilePathContent(filename), defs);
+            return PreprocessLines(new FilePathContent(filename, filename), defs);
         }
 
         public static string[] PreprocessLines(string[] lines, string incDir, Dictionary<string, bool> defs)
@@ -95,7 +95,7 @@ namespace Byt3.ExtPP.API
 
         public static string PreprocessSource(string filename, Dictionary<string, bool> defs)
         {
-            return PreprocessSource(new FilePathContent(filename), defs);
+            return PreprocessSource(new FilePathContent(filename, filename), defs);
         }
 
         public static string PreprocessSource(string[] lines, string incDir, Dictionary<string, bool> defs)

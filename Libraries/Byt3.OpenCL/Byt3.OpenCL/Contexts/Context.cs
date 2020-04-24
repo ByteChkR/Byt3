@@ -31,7 +31,7 @@ namespace Byt3.OpenCL.Contexts
         /// <param name="handle">The handle to the OpenCL context.</param>
         /// <param name="devices">The devices for which the context was created.</param>
         internal Context(IntPtr handle, IEnumerable<Device> devices)
-            : base(handle)
+            : base(handle, "Context", true)
         {
             Devices = devices;
         }
@@ -91,7 +91,7 @@ namespace Byt3.OpenCL.Contexts
         /// Disposes of the resources that have been acquired by the context.
         /// </summary>
         /// <param name="disposing">Determines whether managed object or managed and unmanaged resources should be disposed of.</param>
-        protected override void Dispose(bool disposing)
+        public override void Dispose()
         {
             // Checks if the context has already been disposed of, if not, then the context is disposed of
             if (!IsDisposed)
@@ -100,7 +100,7 @@ namespace Byt3.OpenCL.Contexts
             }
 
             // Makes sure that the base class can execute its dispose logic
-            base.Dispose(disposing);
+            base.Dispose();
         }
 
         #endregion
@@ -411,7 +411,7 @@ namespace Byt3.OpenCL.Contexts
         /// <param name="size">The size of memory that should be allocated for the memory buffer.</param>
         /// <exception cref="OpenClException">If the memory buffer could not be created, then an <see cref="OpenClException"/> is thrown.</exception>
         /// <returns>Returns the created memory buffer.</returns>
-        public MemoryBuffer CreateBuffer(Memory.MemoryFlag memoryFlags, int size)
+        public MemoryBuffer CreateBuffer(Memory.MemoryFlag memoryFlags, int size, object handleIdentifier)
         {
             // Creates a new memory buffer of the specified size and with the specified memory flags
             IntPtr memoryBufferPointer = MemoryNativeApi.CreateBuffer(Handle, (Interop.Memory.MemoryFlag) memoryFlags,
@@ -424,7 +424,7 @@ namespace Byt3.OpenCL.Contexts
             }
 
             // Creates the memory buffer from the pointer to the memory buffer and returns it
-            return new MemoryBuffer(memoryBufferPointer);
+            return new MemoryBuffer(memoryBufferPointer, handleIdentifier);
         }
 
 
@@ -435,12 +435,12 @@ namespace Byt3.OpenCL.Contexts
         /// <param name="memoryFlags">The flags, that determines the how the memory buffer is created and how it can be accessed.</param>
         /// <exception cref="OpenClException">If the memory buffer could not be created, then an <see cref="OpenClException"/> is thrown.</exception>
         /// <returns>Returns the created memory buffer.</returns>
-        public MemoryBuffer CreateBuffer<T>(Memory.MemoryFlag memoryFlags, int size) where T : struct
+        public MemoryBuffer CreateBuffer<T>(Memory.MemoryFlag memoryFlags, int size, object handleIdentifier) where T : struct
         {
-            return CreateBuffer(memoryFlags, Marshal.SizeOf<T>() * size);
+            return CreateBuffer(memoryFlags, Marshal.SizeOf<T>() * size, handleIdentifier);
         }
 
-        public MemoryBuffer CreateBuffer(Memory.MemoryFlag memoryFlags, Type t, object[] value)
+        public MemoryBuffer CreateBuffer(Memory.MemoryFlag memoryFlags, Type t, object[] value, object handleIdentifier)
         {
             // Tries to create the memory buffer, if anything goes wrong, then it is crucial to free the allocated memory
             IntPtr hostBufferPointer = IntPtr.Zero;
@@ -466,7 +466,7 @@ namespace Byt3.OpenCL.Contexts
                 }
 
                 // Creates the memory buffer from the pointer to the memory buffer and returns it
-                return new MemoryBuffer(memoryBufferPointer);
+                return new MemoryBuffer(memoryBufferPointer, handleIdentifier);
             }
             finally
             {
@@ -486,9 +486,9 @@ namespace Byt3.OpenCL.Contexts
         /// <param name="value">The value that is to be copied over to the device.</param>
         /// <exception cref="OpenClException">If the memory buffer could not be created, then an <see cref="OpenClException"/> is thrown.</exception>
         /// <returns>Returns the created memory buffer.</returns>
-        public MemoryBuffer CreateBuffer<T>(Memory.MemoryFlag memoryFlags, T[] value) where T : struct
+        public MemoryBuffer CreateBuffer<T>(Memory.MemoryFlag memoryFlags, T[] value, object handleIdentifier) where T : struct
         {
-            return CreateBuffer(memoryFlags, typeof(T), Array.ConvertAll(value, x => (object) x));
+            return CreateBuffer(memoryFlags, typeof(T), Array.ConvertAll(value, x => (object) x), handleIdentifier);
         }
 
         #endregion

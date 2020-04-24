@@ -1,10 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.1.56.1447</AssemblyVersion>
-    <FileVersion>1.1.56.1447</FileVersion>
+    <AssemblyVersion>1.1.92.1706</AssemblyVersion>
+    <FileVersion>1.1.92.1706</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
     <ProjectReference Include="..\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj" />

@@ -175,11 +175,12 @@ namespace Byt3.OpenCL.Wrapper
         {
             if (IsArray)
             {
+                throw new OpenClException("Can not Change types on an array.");
                 object[] data = (object[]) value;
 
                 return CLAPI.CreateBuffer(instance,
                     Array.ConvertAll(data, x => CastToType(Converters[(int) DataType], x)),
-                    Converters[(int) DataType], MemoryFlag.ReadOnly);
+                    Converters[(int) DataType], MemoryFlag.ReadOnly, "AutoCreatedBufferFromArray");
             }
 
 

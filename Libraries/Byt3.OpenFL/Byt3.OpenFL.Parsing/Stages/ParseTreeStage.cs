@@ -36,6 +36,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             List<SerializableExternalFLFunction> scripts = ParseScriptDefines(input.DefinedScripts);
             Logger.Log(LogType.Log, "Script Nodes: " + scripts.Select(x => x.Name).Unpack(", "), 4);
 
+
             Logger.Log(LogType.Log, "Creating Defined Buffer Nodes..", 3);
             List<SerializableFLBuffer> definedBuffers = ParseDefinedBuffers(input.DefinedBuffers);
             Logger.Log(LogType.Log, "Buffer Nodes: " + definedBuffers.Select(x => x.Name).Unpack(", "), 4);
@@ -120,12 +121,13 @@ namespace Byt3.OpenFL.Parsing.Stages
             string[] definedScripts,
             string instruction)
         {
-            if (instruction == "")
+            string instr = FLParser.RemoveComment(instruction);
+            if (instr == "")
             {
                 return null;
             }
 
-            string[] parts = instruction.Split(new[] {' '}, StringSplitOptions.None);
+            string[] parts = instr.Split(new[] {' '}, StringSplitOptions.None);
             string inst = parts[0];
 
             //Create Argument List
@@ -170,7 +172,7 @@ namespace Byt3.OpenFL.Parsing.Stages
 
             if (functionHeaders.Contains(argument))
             {
-                return new SerializeFunctionArgument(functionHeaders.ToList().IndexOf(argument));
+                return new SerializeFunctionArgument(argument);
             }
 
             if (definedBuffers.Select(FLParser.GetBufferName).Contains(argument))

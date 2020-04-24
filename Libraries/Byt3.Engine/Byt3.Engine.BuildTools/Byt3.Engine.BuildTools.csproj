@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.2.1447</AssemblyVersion>
-    <FileVersion>1.0.2.1447</FileVersion>
+    <AssemblyVersion>1.0.29.1701</AssemblyVersion>
+    <FileVersion>1.0.29.1701</FileVersion>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.Console.Internals.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
     <ProjectReference Include="..\..\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
     <ProjectReference Include="..\Byt3.Engine.AssetPackaging\Byt3.Engine.AssetPackaging.csproj" />
     <ProjectReference Include="..\Byt3.Engine.BuildTools.Common\Byt3.Engine.BuildTools.Common.csproj" />

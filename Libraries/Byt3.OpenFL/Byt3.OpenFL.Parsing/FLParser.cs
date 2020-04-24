@@ -111,6 +111,10 @@ namespace Byt3.OpenFL.Parsing
             return line.StartsWith("#");
         }
 
+        internal static bool IsCommentAndOther(string line)
+        {
+            return line.Contains("#");
+        }
 
         internal static string RemoveComment(string line)
         {
@@ -124,7 +128,7 @@ namespace Byt3.OpenFL.Parsing
 
         internal static string[] GetFunctionBody(string functionHeader, string[] source)
         {
-            int index = source.ToList().IndexOf(functionHeader + ":");
+            int index = source.Select(RemoveComment).ToList().IndexOf(functionHeader + ":");
             List<string> ret = new List<string>();
             for (int i = index + 1; i < source.Length; i++)
             {

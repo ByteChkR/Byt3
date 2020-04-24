@@ -2,13 +2,14 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Byt3.ADL</AssemblyName>
-    <AssemblyVersion>1.1.66.1447</AssemblyVersion>
-    <FileVersion>1.1.66.1447</FileVersion>
+    <AssemblyVersion>1.2.5.1704</AssemblyVersion>
+    <FileVersion>1.2.5.1704</FileVersion>
   </PropertyGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
     <ProjectReference Include="..\..\Byt3.MAssert\Byt3.MAssert.csproj" />
   </ItemGroup>

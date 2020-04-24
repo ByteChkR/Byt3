@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Byt3.ADL;
+using Byt3.Callbacks;
 using Byt3.ExtPP.API;
 using Byt3.OpenCL.Wrapper.ExtPP.API;
 
@@ -9,7 +11,7 @@ namespace Byt3.OpenCL.Wrapper
     /// <summary>
     /// A class used to store and manage Kernels
     /// </summary>
-    public class KernelDatabase : ALoggable<LogType>
+    public class KernelDatabase : ALoggable<LogType>, IDisposable
     {
         static KernelDatabase()
         {
@@ -26,6 +28,8 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private readonly Dictionary<string, CLKernel> loadedKernels;
 
+        private readonly List<CLProgram> loadedPrograms;
+
         /// <summary>
         /// Public constructor
         /// </summary>
@@ -36,12 +40,13 @@ namespace Byt3.OpenCL.Wrapper
             OpenCLDebugConfig.Settings)
         {
             GenDataType = KernelParameter.GetDataString(genDataVectorType);
-            if (!CLAPI.DirectoryExists(folderName))
+            if (!IOManager.DirectoryExists(folderName))
             {
                 throw new OpenClException("Can not find directory: " + folderName);
             }
 
             this.folderName = folderName;
+            loadedPrograms = new List<CLProgram>();
             loadedKernels = new Dictionary<string, CLKernel>();
             Initialize(instance);
         }
@@ -50,12 +55,27 @@ namespace Byt3.OpenCL.Wrapper
         public string GenDataType { get; }
 
 
+        public void Dispose()
+        {
+            foreach (KeyValuePair<string, CLKernel> loadedKernel in loadedKernels)
+            {
+                loadedKernel.Value.Dispose();
+            }
+            loadedKernels.Clear();
+
+            foreach (CLProgram loadedProgram in loadedPrograms)
+            {
+                loadedProgram.Dispose();
+            }
+            loadedPrograms.Clear();
+        }
+
         /// <summary>
         /// Initializes the Kernel Database
         /// </summary>
         private void Initialize(CLAPI instance)
         {
-            string[] files = CLAPI.GetFiles(folderName, "*.cl");
+            string[] files = IOManager.GetFiles(folderName, "*.cl");
 
             foreach (string file in files)
             {
@@ -71,17 +91,17 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="file">Path fo the file</param>
         public void AddProgram(CLAPI instance, string file)
         {
-            if (!CLAPI.FileExists(file))
+            if (!IOManager.FileExists(file))
             {
                 throw new FileNotFoundException("File not found: " + file);
             }
 
 
-            string path = Path.GetFullPath(file);
+            string path = file;//Path.GetFullPath(file);
 
             Logger.Log(LogType.Log, "Creating CLProgram from file: " + file, 3);
             CLProgram program = new CLProgram(instance, path);
-
+            loadedPrograms.Add(program);
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
             {
                 if (!loadedKernels.ContainsKey(containedKernel.Key))

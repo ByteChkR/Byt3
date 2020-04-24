@@ -37,6 +37,7 @@ namespace Byt3.OpenFL.Common.Buffers
         {
             _buffer?.Dispose();
             _buffer = null;
+            Loader = null;
         }
     }
 }

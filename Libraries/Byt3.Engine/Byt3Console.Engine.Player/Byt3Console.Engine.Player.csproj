@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.0.25.1704</AssemblyVersion>
+    <FileVersion>1.0.25.1704</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
+    <ProjectReference Include="..\..\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
+    <ProjectReference Include="..\Byt3.Engine.BuildTools.Common\Byt3.Engine.BuildTools.Common.csproj" />
+    <ProjectReference Include="..\Byt3.Engine.BuildTools.PackageCreator\Byt3.Engine.BuildTools.PackageCreator.csproj" />
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
+</Project>

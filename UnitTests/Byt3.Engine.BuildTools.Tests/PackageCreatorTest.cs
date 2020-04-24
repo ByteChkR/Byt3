@@ -1,11 +1,10 @@
 using System;
 using System.IO;
-using Byt3.Engine.BuildTools;
 using Byt3.Engine.BuildTools.PackageCreator;
 using Byt3.Engine.BuildTools.PackageCreator.Versions;
 using NUnit.Framework;
 
-namespace Engine.BuildTools.Tests
+namespace Byt3.Engine.BuildTools.Tests
 {
     public class PackageCreatorTest
     {

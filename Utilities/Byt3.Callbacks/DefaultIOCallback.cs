@@ -8,6 +8,10 @@ namespace Byt3.Callbacks
         {
             return File.Exists(path);
         }
+        public virtual bool DirectoryExists(string path)
+        {
+            return Directory.Exists(path);
+        }
 
         public virtual string ReadText(string path)
         {

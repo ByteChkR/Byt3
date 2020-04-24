@@ -298,8 +298,10 @@ namespace Byt3.AssemblyGenerator
 
             for (int i = 0; i < definition.EmbeddedFiles.Length; i++)
             {
+                if(!definition.EmbeddedFiles[i].Attributes.ContainsKey("Include"))continue;
+
                 string relativePath = definition.EmbeddedFiles[i].Attributes["Include"];
-                string targetPath = Path.Combine(targetDir, relativePath);
+                string targetPath = Path.Combine(Path.GetDirectoryName(targetDir), relativePath); //Get Root for embedded files. otherwise the path wont be correct.
                 string originalPath = Path.Combine(root, relativePath);
                 string containingDir = Path.GetDirectoryName(targetPath);
                 if (containingDir != "" && !Directory.Exists(containingDir))

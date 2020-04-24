@@ -36,7 +36,7 @@ namespace Byt3.ExtPP.Tests
         {
             PreProcessor pp = SetUp(chain);
             return pp.ProcessFiles(
-                fileNames.Select(x => new FilePathContent(Path.GetFullPath(x))).OfType<IFileContent>().ToArray(),
+                fileNames.Select(x => new FilePathContent(Path.GetFullPath(x), x)).OfType<IFileContent>().ToArray(),
                 settings, definitions);
         }
 
@@ -63,7 +63,7 @@ namespace Byt3.ExtPP.Tests
         {
             PreProcessor pp = SetUp(chain);
 
-            return pp.Run(fileNames.Select(x => new FilePathContent(x)).OfType<IFileContent>().ToArray(), settings,
+            return pp.Run(fileNames.Select(x => new FilePathContent(x,x)).OfType<IFileContent>().ToArray(), settings,
                 definitions);
         }
 

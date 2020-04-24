@@ -23,7 +23,7 @@ namespace Byt3.OpenFL.Threading
             Width = (int) tex.Width;
             Height = (int) tex.Height;
             Filename = filename;
-            MemoryBuffer buf = CLAPI.CreateFromImage(CLAPI.MainThread, tex, MemoryFlag.AllocateHostPointer);
+            MemoryBuffer buf = CLAPI.CreateFromImage(CLAPI.MainThread, tex, MemoryFlag.AllocateHostPointer, filename);
             Input = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, buf, (int) buf.Size);
             buf.Dispose();
             OnFinishCallback = onFinishCallback;

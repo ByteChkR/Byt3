@@ -22,7 +22,7 @@ namespace Byt3.OpenCL.Programs
         /// </summary>
         /// <param name="handle">The handle to the OpenCL program.</param>
         internal Program(IntPtr handle)
-            : base(handle)
+            : base(handle, "Program", true)
         {
         }
 
@@ -58,7 +58,7 @@ namespace Byt3.OpenCL.Programs
         /// Disposes of the resources that have been acquired by the program.
         /// </summary>
         /// <param name="disposing">Determines whether managed object or managed and unmanaged resources should be disposed of.</param>
-        protected override void Dispose(bool disposing)
+        public override void Dispose()
         {
             // Checks if the program has already been disposed of, if not, then the program is disposed of
             if (!IsDisposed)
@@ -67,7 +67,7 @@ namespace Byt3.OpenCL.Programs
             }
 
             // Makes sure that the base class can execute its dispose logic
-            base.Dispose(disposing);
+            base.Dispose();
         }
 
         #endregion

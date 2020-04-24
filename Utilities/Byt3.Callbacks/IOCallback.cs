@@ -8,6 +8,7 @@ namespace Byt3.Callbacks
         string[] ReadLines(string path);
         Stream GetStream(string path);
         bool FileExists(string file);
+        bool DirectoryExists(string file);
         string[] GetFiles(string path, string searchPattern = "*.*");
     }
 }

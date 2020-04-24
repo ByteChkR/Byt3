@@ -55,7 +55,7 @@ namespace Byt3.OpenCL.Memory
         /// Disposes of the resources that have been acquired by the memory object.
         /// </summary>
         /// <param name="disposing">Determines whether managed object or managed and unmanaged resources should be disposed of.</param>
-        protected override void Dispose(bool disposing)
+        public override void Dispose()
         {
             // Checks if the memory object has already been disposed of, if not, then the memory object is disposed of
             if (!IsDisposed)
@@ -64,7 +64,7 @@ namespace Byt3.OpenCL.Memory
             }
 
             // Makes sure that the base class can execute its dispose logic
-            base.Dispose(disposing);
+            base.Dispose();
         }
 
         #endregion
@@ -75,8 +75,8 @@ namespace Byt3.OpenCL.Memory
         /// Initializes a new <see cref="MemoryObject"/> instance.
         /// </summary>
         /// <param name="handle">The handle to the OpenCL memory object.</param>
-        protected MemoryObject(IntPtr handle)
-            : base(handle)
+        protected MemoryObject(IntPtr handle, object handleIdentifier)
+            : base(handle, handleIdentifier, true)
         {
         }
 

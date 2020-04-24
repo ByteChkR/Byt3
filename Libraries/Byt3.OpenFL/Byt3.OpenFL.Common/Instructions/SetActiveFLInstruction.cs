@@ -32,10 +32,27 @@ namespace Byt3.OpenFL.Common.Instructions
 
                     if (Arguments[i].Type == FLInstructionArgumentType.Function)
                     {
+
+                        //FLBuffer buffer =
+                        //    Root.RegisterUnmanagedBuffer(new FLBuffer(Root.Instance, Root.Dimensions.x,
+                        //        Root.Dimensions.y, "FunctionInputBuffer_Registered"));
+
+                        //Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
+                        //Root.PushContext(); //Store Dynamic Variables
+
+                        //FLFunction flFunction = (FLFunction)Arguments[i].Value; //Process the Function Object
+
+                        //Logger.Log(LogType.Log, $"Executing Function: {flFunction.Name}", MIN_INSTRUCTION_SEVERITY + 2);
+
+                        //Root.Run(Root.Instance, buffer, flFunction);
+
+                        //Logger.Log(LogType.Log, $"Returning from Function Context", MIN_INSTRUCTION_SEVERITY + 3);
+                        //Root.ReturnFromContext(); //Restore active channels and buffer
+
                         FLBuffer buffer =
                             Root.RegisterUnmanagedBuffer(new FLBuffer(Root.Instance, Root.Dimensions.x,
-                                Root.Dimensions.y));
-                        FLFunction source = (FLFunction) Arguments[i].Value;
+                                Root.Dimensions.y, "FunctionInputBuffer_Registered"));
+                        FLFunction source = (FLFunction)Arguments[i].Value;
 
 
                         Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
@@ -43,8 +60,7 @@ namespace Byt3.OpenFL.Common.Instructions
 
                         Logger.Log(LogType.Log, $"Executing Function: {source.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 
-                        Root.ActiveBuffer = buffer;
-                        source.Process();
+                        Root.Run(Root.Instance, buffer, source);
 
                         FLBuffer output = Root.ActiveBuffer;
 

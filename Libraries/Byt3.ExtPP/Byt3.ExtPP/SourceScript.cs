@@ -1,4 +1,5 @@
-﻿using Byt3.ADL;
+﻿using System.Linq;
+using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 
@@ -145,6 +146,7 @@ namespace Byt3.ExtPP
         private bool LoadSource()
         {
             bool ret = filepath.TryGetLines(out source);
+            if (ret) source = source.Select(x => x.Replace("\r", "")).ToArray();
             return ret;
         }
     }

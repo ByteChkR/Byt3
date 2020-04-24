@@ -12,16 +12,15 @@ namespace Byt3.OpenFL.Common
         public static FLProgram Initialize(this SerializableFLProgram program, FLInstructionSet instructionSet)
         {
             Dictionary<string, FLBuffer> buffers = new Dictionary<string, FLBuffer>();
-            FLFunction[] functions = new FLFunction[program.Functions.Count];
+            Dictionary<string, FLFunction> functions = new Dictionary<string, FLFunction>();
             Dictionary<string, ExternalFlFunction> externalFunctions = new Dictionary<string, ExternalFlFunction>();
 
-            FLProgram p = new FLProgram(externalFunctions, buffers, functions);
 
 
             for (int i = 0; i < program.ExternalFunctions.Count; i++)
             {
                 ExternalFlFunction extFunc = new ExternalFlFunction(program.ExternalFunctions[i].Name,
-                    program.ExternalFunctions[i].ExternalProgram.Initialize(instructionSet));
+                    program.ExternalFunctions[i].ExternalProgram, instructionSet);
                 externalFunctions.Add(program.ExternalFunctions[i].Name, extFunc);
             }
 
@@ -33,9 +32,15 @@ namespace Byt3.OpenFL.Common
             }
 
 
+
             for (int i = 0; i < program.Functions.Count; i++)
             {
-                functions[i] = program.Functions[i].Initialize(p, instructionSet);
+                functions.Add(program.Functions[i].Name, null);
+            }
+            FLProgram p = new FLProgram(externalFunctions, buffers, functions);
+            for (int i = 0; i < program.Functions.Count; i++)
+            {
+                functions[program.Functions[i].Name] = program.Functions[i].Initialize(p, instructionSet);
             }
 
 
@@ -55,9 +60,9 @@ namespace Byt3.OpenFL.Common
                 programDefinedScript.Value.SetRoot(program);
             }
 
-            foreach (FLFunction programFlFunction in program.FlFunctions)
+            foreach (KeyValuePair<string, FLFunction> programFlFunction in program.FlFunctions)
             {
-                programFlFunction.SetRoot(program);
+                programFlFunction.Value.SetRoot(program);
             }
         }
 

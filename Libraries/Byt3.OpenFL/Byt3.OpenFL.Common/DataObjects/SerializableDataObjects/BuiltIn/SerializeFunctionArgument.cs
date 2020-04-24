@@ -4,11 +4,14 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn
 {
     public class SerializeFunctionArgument : SerializableFLInstructionArgument
     {
-        public int Value { get; }
+        public string Value { get; }
 
-        public SerializeFunctionArgument(int index)
+        public override InstructionArgumentCategory ArgumentCategory => InstructionArgumentCategory.Function;
+        public override string Identifier => Value;
+
+        public SerializeFunctionArgument(string name)
         {
-            Value = index;
+            Value = name;
         }
 
 

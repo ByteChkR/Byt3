@@ -54,8 +54,11 @@ namespace Byt3.OpenCL
                         $"No fitting converter could be found for the type {targetType.Name}");
                 }
 
-                ConverterMap.Add(targetType,
-                    dataToConvert => converterMethodInfo.Invoke(null, new object[] {dataToConvert}));
+                lock (ConverterMap)
+                {
+                    ConverterMap.Add(targetType,
+                        dataToConvert => converterMethodInfo.Invoke(null, new object[] { dataToConvert }));
+                }
             }
 
             // Gets the fitting converter, converts the value and returns it

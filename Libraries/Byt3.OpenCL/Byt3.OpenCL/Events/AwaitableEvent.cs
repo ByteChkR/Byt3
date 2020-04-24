@@ -23,7 +23,7 @@ namespace Byt3.OpenCL.Events
         /// </summary>
         /// <param name="handle">The handle to the OpenCL event.</param>
         public AwaitableEvent(IntPtr handle)
-            : base(handle)
+            : base(handle, "AwaitableEvent", true)
         {
             // Subscribes to the event callbacks of the OpenCL event, so that a CLR event can be raised
             EventsNativeApi.SetEventCallback(
@@ -95,7 +95,7 @@ namespace Byt3.OpenCL.Events
         /// Disposes of the resources that have been acquired by the event.
         /// </summary>
         /// <param name="disposing">Determines whether managed object or managed and unmanaged resources should be disposed of.</param>
-        protected override void Dispose(bool disposing)
+        public override void Dispose()
         {
             // Checks if the event has already been disposed of, if not, then it is disposed of
             if (!IsDisposed)
@@ -104,7 +104,7 @@ namespace Byt3.OpenCL.Events
             }
 
             // Makes sure that the base class can execute its dispose logic
-            base.Dispose(disposing);
+            base.Dispose();
         }
 
         #endregion

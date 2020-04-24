@@ -22,7 +22,7 @@ namespace Byt3.OpenCL.Devices
         /// </summary>
         /// <param name="handle">The handle to the OpenCL device.</param>
         internal Device(IntPtr handle)
-            : base(handle)
+            : base(handle, "Device", false)
         {
         }
 
@@ -70,7 +70,7 @@ namespace Byt3.OpenCL.Devices
         /// Disposes of the resources that have been acquired by the command queue.
         /// </summary>
         /// <param name="disposing">Determines whether managed object or managed and unmanaged resources should be disposed of.</param>
-        protected override void Dispose(bool disposing)
+        public override void Dispose()
         {
             // Checks if the device has already been disposed of, if not, then the device is disposed of
             if (!IsDisposed)
@@ -79,7 +79,7 @@ namespace Byt3.OpenCL.Devices
             }
 
             // Makes sure that the base class can execute its dispose logic
-            base.Dispose(disposing);
+            base.Dispose();
         }
 
         #endregion

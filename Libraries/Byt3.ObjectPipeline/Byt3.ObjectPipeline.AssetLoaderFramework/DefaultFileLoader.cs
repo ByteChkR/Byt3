@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Byt3.Callbacks;
 
 namespace Byt3.ObjectPipeline.AssetLoaderFramework
 {
@@ -6,7 +7,7 @@ namespace Byt3.ObjectPipeline.AssetLoaderFramework
     {
         public override Stream Process(string input)
         {
-            return File.Open(input, FileMode.Open);
+            return IOManager.GetStream(input);
         }
     }
 }

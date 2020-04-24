@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using Byt3.Callbacks;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Common;
@@ -16,9 +18,8 @@ namespace Byt3.OpenFL.Threading
     /// <summary>
     /// Single Threaded FL Runner Implementation
     /// </summary>
-    public class FLScriptRunner
+    public class FLScriptRunner : IDisposable
     {
-        protected FLRunner Runner;
         protected FLParser Parser;
         protected FLInstructionSet InstructionSet;
         protected BufferCreator BufferCreator;
@@ -27,21 +28,23 @@ namespace Byt3.OpenFL.Threading
 
         protected Queue<FlScriptExecutionContext> ProcessQueue;
         public int ItemsInQueue => ProcessQueue.Count;
-
-        private string kernelPath;
+        
 
         public FLScriptRunner(CLAPI instance, DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1,
             string kernelFolder = "kernel/")
         {
-            kernelPath = kernelFolder;
-            InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(kernelFolder);
+            Db = new KernelDatabase(instance, kernelFolder, dataVectorTypes);
+            InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(Db);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
-            Runner = new FLRunner(InstructionSet);
             Parser = new FLParser(InstructionSet, BufferCreator);
 
             Instance = instance;
-            Db = new KernelDatabase(instance, kernelFolder, dataVectorTypes);
             ProcessQueue = new Queue<FlScriptExecutionContext>();
+        }
+
+        public virtual void Dispose()
+        {
+            Db.Dispose();
         }
 
         public virtual void Enqueue(FlScriptExecutionContext context)
@@ -61,12 +64,12 @@ namespace Byt3.OpenFL.Threading
 
         protected FLProgram Process(FlScriptExecutionContext context)
         {
-            FLBuffer input = new FLBuffer(Instance, context.Input, context.Width, context.Height);
+            FLBuffer input = new FLBuffer(Instance, context.Input, context.Width, context.Height, context.Filename);
 
             FLProgram program;
             if (context.IsCompiled)
             {
-                Stream s = File.OpenRead(context.Filename);
+                Stream s = IOManager.GetStream(context.Filename);
                 program = FLSerializer.LoadProgram(s).Initialize(InstructionSet);
                 s.Close();
             }

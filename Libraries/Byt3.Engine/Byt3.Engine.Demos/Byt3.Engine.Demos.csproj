@@ -1,0 +1,109 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.0.5.1706</AssemblyVersion>
+    <FileVersion>1.0.5.1706</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="assets\configs\camera.xml" />
+    <None Remove="assets\configs\camera_astardemo.xml" />
+    <None Remove="assets\configs\camera_fldemo.xml" />
+    <None Remove="assets\configs\camera_physics_test.xml" />
+    <None Remove="assets\filter\examples\bricks.fl" />
+    <None Remove="assets\filter\examples\cobble_clean.fl" />
+    <None Remove="assets\filter\examples\cobble_grass.fl" />
+    <None Remove="assets\filter\examples\finegrass.fl" />
+    <None Remove="assets\filter\examples\grass.fl" />
+    <None Remove="assets\filter\examples\tennisball.fl" />
+    <None Remove="assets\filter\examples\test.fl" />
+    <None Remove="assets\filter\examples\testface.fl" />
+    <None Remove="assets\filter\examples\testfaceclean.fl" />
+    <None Remove="assets\filter\examples\testface_gen.fl" />
+    <None Remove="assets\filter\examples\woodstone.fl" />
+    <None Remove="assets\filter\fldemo\grass.fl" />
+    <None Remove="assets\filter\tests\addtex.fl" />
+    <None Remove="assets\filter\tests\addval.fl" />
+    <None Remove="assets\filter\tests\inttests\script.fl" />
+    <None Remove="assets\filter\tests\int_tests.fl" />
+    <None Remove="assets\filter\tests\invert.fl" />
+    <None Remove="assets\filter\tests\multex.fl" />
+    <None Remove="assets\filter\tests\mulval.fl" />
+    <None Remove="assets\filter\tests\perlin.fl" />
+    <None Remove="assets\filter\tests\pptests\include.fl" />
+    <None Remove="assets\filter\tests\pptests\includeinl.fl" />
+    <None Remove="assets\filter\tests\pp_tests.fl" />
+    <None Remove="assets\filter\tests\settex.fl" />
+    <None Remove="assets\filter\tests\setval.fl" />
+    <None Remove="assets\filter\tests\smooth.fl" />
+    <None Remove="assets\filter\tests\subtex.fl" />
+    <None Remove="assets\filter\tests\subval.fl" />
+    <None Remove="assets\filter\tests\wfc.fl" />
+    <None Remove="assets\models\plane.obj" />
+    <None Remove="assets\sounds\test_mono_16.wav" />
+    <None Remove="assets\textures\stone1.jpg" />
+    <None Remove="assets\textures\TEST.png" />
+    <None Remove="assets\textures\wood1.jpg" />
+    <None Remove="assets\WFCTiles\brick.png" />
+    <None Remove="assets\WFCTiles\testtile.png" />
+    <None Remove="assets\WFCTiles\testtile1.png" />
+    <None Remove="assets\WFCTiles\testtile2.png" />
+    <None Remove="assets\WFCTiles\testtile3.png" />
+    <None Remove="assets\WFCTiles\testtile4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\configs\camera.xml" />
+    <EmbeddedResource Include="assets\configs\camera_astardemo.xml" />
+    <EmbeddedResource Include="assets\configs\camera_fldemo.xml" />
+    <EmbeddedResource Include="assets\configs\camera_physics_test.xml" />
+    <EmbeddedResource Include="assets\filter\examples\bricks.fl" />
+    <EmbeddedResource Include="assets\filter\examples\cobble_clean.fl" />
+    <EmbeddedResource Include="assets\filter\examples\cobble_grass.fl" />
+    <EmbeddedResource Include="assets\filter\examples\finegrass.fl" />
+    <EmbeddedResource Include="assets\filter\examples\grass.fl" />
+    <EmbeddedResource Include="assets\filter\examples\tennisball.fl" />
+    <EmbeddedResource Include="assets\filter\examples\test.fl" />
+    <EmbeddedResource Include="assets\filter\examples\testface.fl" />
+    <EmbeddedResource Include="assets\filter\examples\testfaceclean.fl" />
+    <EmbeddedResource Include="assets\filter\examples\testface_gen.fl" />
+    <EmbeddedResource Include="assets\filter\examples\woodstone.fl" />
+    <EmbeddedResource Include="assets\filter\fldemo\grass.fl" />
+    <EmbeddedResource Include="assets\filter\tests\addtex.fl" />
+    <EmbeddedResource Include="assets\filter\tests\addval.fl" />
+    <EmbeddedResource Include="assets\filter\tests\inttests\script.fl" />
+    <EmbeddedResource Include="assets\filter\tests\int_tests.fl" />
+    <EmbeddedResource Include="assets\filter\tests\invert.fl" />
+    <EmbeddedResource Include="assets\filter\tests\multex.fl" />
+    <EmbeddedResource Include="assets\filter\tests\mulval.fl" />
+    <EmbeddedResource Include="assets\filter\tests\perlin.fl" />
+    <EmbeddedResource Include="assets\filter\tests\pptests\include.fl" />
+    <EmbeddedResource Include="assets\filter\tests\pptests\includeinl.fl" />
+    <EmbeddedResource Include="assets\filter\tests\pp_tests.fl" />
+    <EmbeddedResource Include="assets\filter\tests\settex.fl" />
+    <EmbeddedResource Include="assets\filter\tests\setval.fl" />
+    <EmbeddedResource Include="assets\filter\tests\smooth.fl" />
+    <EmbeddedResource Include="assets\filter\tests\subtex.fl" />
+    <EmbeddedResource Include="assets\filter\tests\subval.fl" />
+    <EmbeddedResource Include="assets\filter\tests\wfc.fl" />
+    <EmbeddedResource Include="assets\models\plane.obj" />
+    <EmbeddedResource Include="assets\sounds\test_mono_16.wav" />
+    <EmbeddedResource Include="assets\textures\stone1.jpg" />
+    <EmbeddedResource Include="assets\textures\TEST.png" />
+    <EmbeddedResource Include="assets\textures\wood1.jpg" />
+    <EmbeddedResource Include="assets\WFCTiles\brick.png" />
+    <EmbeddedResource Include="assets\WFCTiles\testtile.png" />
+    <EmbeddedResource Include="assets\WFCTiles\testtile1.png" />
+    <EmbeddedResource Include="assets\WFCTiles\testtile2.png" />
+    <EmbeddedResource Include="assets\WFCTiles\testtile3.png" />
+    <EmbeddedResource Include="assets\WFCTiles\testtile4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
+    <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL\Byt3.OpenCL.csproj" />
+    <ProjectReference Include="..\Byt3.Engine\Byt3.Engine.csproj" />
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
+</Project>

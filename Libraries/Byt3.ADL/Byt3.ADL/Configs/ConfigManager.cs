@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+using Byt3.Callbacks;
 
 namespace Byt3.ADL.Configs
 {
@@ -36,7 +37,7 @@ namespace Byt3.ADL.Configs
 
             try
             {
-                FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read);
+                Stream fs = IOManager.GetStream(path);
                 ret = (T) Serializer.Deserialize(fs);
                 fs.Close();
             }

@@ -6,6 +6,9 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn
     {
         public string Value { get; }
 
+        public override InstructionArgumentCategory ArgumentCategory => InstructionArgumentCategory.Buffer;
+        public override string Identifier => Value;
+
         public SerializeBufferArgument(string index)
         {
             Value = index;

@@ -1,0 +1,10 @@
+
+pp_include: pptests/include.fl
+
+pp_includeinl: pptests/includeinl.fl
+
+Main:
+	#random noisetextemp
+	jmp PlainPerlin
+	setactive 0 1 2
+	mul wfctest

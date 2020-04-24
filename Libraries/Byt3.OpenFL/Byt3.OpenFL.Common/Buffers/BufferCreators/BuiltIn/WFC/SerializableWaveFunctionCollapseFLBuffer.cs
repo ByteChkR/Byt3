@@ -37,7 +37,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
 
                 Bitmap b = new Bitmap(bmp, root.Dimensions.x, root.Dimensions.y);
 
-                return new FLBuffer(root.Instance, b);
+                return new FLBuffer(root.Instance, b, "WFCBuffer."+Name);
             });
             return info;
         }

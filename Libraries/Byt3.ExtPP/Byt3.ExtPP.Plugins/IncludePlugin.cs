@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Byt3.ADL;
+using Byt3.Callbacks;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Interfaces;
 using Byt3.ExtPP.Base.Plugins;
@@ -12,9 +13,9 @@ namespace Byt3.ExtPP.Plugins
 {
     public class IncludePlugin : AbstractFullScriptPlugin
     {
-        public override string[] Cleanup => new[] {IncludeKeyword};
+        public override string[] Cleanup => new[] { IncludeKeyword };
         public override ProcessStage ProcessStages => ProcessStage.OnMain;
-        public override string[] Prefix => new[] {"inc", "Include"};
+        public override string[] Prefix => new[] { "inc", "Include" };
         public string IncludeKeyword { get; set; } = "#include";
         public string IncludeInlineKeyword { get; set; } = "#includeinl";
         public string Separator { get; set; } = " ";
@@ -134,30 +135,17 @@ namespace Byt3.ExtPP.Plugins
                 importInfo.RemoveEntry("filename");
                 string key = importInfo.GetString("key");
                 importInfo.RemoveEntry("key");
+                string originalDefinedName = importInfo.GetString("definedname");
+                importInfo.RemoveEntry("definedname");
 
 
-                if (filepath.EndsWith("\\*") || filepath.EndsWith("/*"))
+                IFileContent cont = new FilePathContent(filepath, originalDefinedName);
+                cont.SetKey(key);
+                if (manager.TryCreateScript(out ISourceScript iss, Separator, cont, importInfo))
                 {
-                    string[] files = IOManager.GetFiles(filepath.Substring(0, filepath.Length - 2));
-                    foreach (string file in files)
-                    {
-                        IFileContent cont = new FilePathContent(file);
-                        cont.SetKey(key);
-                        if (manager.TryCreateScript(out ISourceScript iss, Separator, cont, importInfo))
-                        {
-                            scripts.Add(iss);
-                        }
-                    }
+                    scripts.Add(iss);
                 }
-                else
-                {
-                    IFileContent cont = new FilePathContent(filepath);
-                    cont.SetKey(key);
-                    if (manager.TryCreateScript(out ISourceScript iss, Separator, cont, importInfo))
-                    {
-                        scripts.Add(iss);
-                    }
-                }
+
 
 
                 for (int index = scripts.Count - 1; index >= 0; index--)

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Byt3.Utilities.Console.Internals
+namespace Byt3.Utilities.ConsoleInternals
 {
     public class ResolverWrapper
     {

@@ -6,6 +6,9 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn
     {
         public decimal Value { get; }
 
+        public override InstructionArgumentCategory ArgumentCategory => InstructionArgumentCategory.Value;
+        public override string Identifier => Value.ToString(); //Not used anyway
+
         public SerializeDecimalArgument(decimal value)
         {
             Value = value;

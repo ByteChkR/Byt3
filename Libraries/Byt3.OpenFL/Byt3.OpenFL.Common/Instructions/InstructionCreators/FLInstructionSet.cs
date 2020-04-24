@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
@@ -11,11 +12,8 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 {
     public class FLInstructionSet
     {
-        public static FLInstructionSet CreateWithBuiltInTypes(string clKernelPath)
+        public static FLInstructionSet CreateWithBuiltInTypes(KernelDatabase db)
         {
-            KernelDatabase db =
-                new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataVectorTypes.Uchar1);
-
             FLInstructionSet iset = new FLInstructionSet();
             iset.AddInstructionWithDefaultCreator<JumpFLInstruction>("jmp");
             iset.AddInstructionWithDefaultCreator<SetActiveFLInstruction>("setactive");
@@ -23,6 +21,13 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             iset.AddInstructionWithDefaultCreator<URandomFLInstruction>("urnd");
             iset.AddInstruction(new KernelFLInstructionCreator(db));
             return iset;
+        }
+        public static FLInstructionSet CreateWithBuiltInTypes(CLAPI instance, string clKernelPath)
+        {
+            KernelDatabase db =
+                new KernelDatabase(instance, clKernelPath, DataVectorTypes.Uchar1);
+
+            return CreateWithBuiltInTypes(db);
         }
 
         private readonly List<FLInstructionCreator> creators = new List<FLInstructionCreator>();

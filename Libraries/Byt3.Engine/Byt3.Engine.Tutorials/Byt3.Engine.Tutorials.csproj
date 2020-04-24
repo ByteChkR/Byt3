@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.0.5.1706</AssemblyVersion>
+    <FileVersion>1.0.5.1706</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="assets\filter\blue.fl" />
+    <None Remove="assets\filter\red.fl" />
+    <None Remove="assets\test_kernel\red.cl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\filter\blue.fl" />
+    <EmbeddedResource Include="assets\filter\red.fl" />
+    <EmbeddedResource Include="assets\test_kernel\red.cl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
+    <ProjectReference Include="..\Byt3.Engine\Byt3.Engine.csproj" />
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
+</Project>

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using Byt3.ADL;
+using Byt3.Callbacks;
 using Byt3.OpenCL.Wrapper;
 
 namespace Byt3.OpenFL.Common.WFC
@@ -230,7 +231,7 @@ namespace Byt3.OpenFL.Common.WFC
 
         public WFCOverlayMode(string filename, int n, int width, int height, bool periodicInput, bool periodicOutput,
             int symmetry, int ground)
-            : this(new Bitmap(CLAPI.GetStream(filename)), n, width, height, periodicInput, periodicOutput, symmetry,
+            : this(new Bitmap(IOManager.GetStream(filename)), n, width, height, periodicInput, periodicOutput, symmetry,
                 ground)
         {
         }
