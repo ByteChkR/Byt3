@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Byt3.ADL;
+using Byt3.ExtPP.Base;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
@@ -35,6 +37,9 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_Comments_Test()
         {
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             string file =
                 "resources/filter/comments/test.fl";
 
@@ -51,7 +56,9 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_DefineFile_Wrong_Test()
         {
             string file = "resources/filter/defines/test_wrong_define_invalid_file.fl";
-
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
 
             Assert.Catch<Byt3Exception>(() =>
             {
@@ -72,6 +79,9 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_Defines_Test()
         {
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             string file = Path.GetFullPath("resources/filter/defines/test.fl");
 
             FLParser parser = new FLParser();
@@ -93,6 +103,9 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_DefineScriptFile_Wrong_Test()
         {
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             string file = "resources/filter/defines/test_wrong_script_invalid_file.fl";
             Assert.Catch<Byt3Exception>(() =>
             {
@@ -109,6 +122,9 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_DefineScriptNoFile_Wrong_Test()
         {
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             string file = "resources/filter/defines/test_wrong_script_.fl";
             Assert.Catch<Byt3Exception>(() =>
             {
@@ -125,6 +141,10 @@ namespace Byt3.OpenFL.Tests
         //[Repeat(5)]
         public void OpenFL_Parser_Test()
         {
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+
             ADL.Debug.DefaultInitialization();
             string path = "resources/filter/tests";
             List<string> files = Directory.GetFiles(path, "*.fl", SearchOption.TopDirectoryOnly).ToList();
@@ -191,6 +211,9 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_IO_Performance_Tests()
         {
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             string[] dirs = new[] { "resources/filter/tests" };
             List<string> files = new List<string>();
             files.Add("resources/filter/game/tennisball.fl");
@@ -304,6 +327,9 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_Serializer_Serialize_Tests()
         {
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             ADL.Debug.DefaultInitialization();
             string path = "resources/filter/tests";
             string[] files = Directory.GetFiles(path, "*.fl", SearchOption.TopDirectoryOnly);
@@ -365,7 +391,9 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_WFCDefines_Wrong_Test()
         {
             string[] files = Directory.GetFiles("resources/filter/defines/", "test_wrong_define_wfc_*.fl");
-
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
 
             foreach (string file in files)
             {
