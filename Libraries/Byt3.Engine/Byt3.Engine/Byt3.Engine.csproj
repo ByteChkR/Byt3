@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.1</LangVersion>
-    <AssemblyVersion>1.0.5.1706</AssemblyVersion>
-    <FileVersion>1.0.5.1706</FileVersion>
+    <AssemblyVersion>1.0.7.1711</AssemblyVersion>
+    <FileVersion>1.0.7.1711</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="assets\configs\adl_network_config.xml" />
