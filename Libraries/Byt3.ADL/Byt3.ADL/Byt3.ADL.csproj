@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Byt3.ADL</AssemblyName>
-    <AssemblyVersion>1.2.7.1711</AssemblyVersion>
-    <FileVersion>1.2.7.1711</FileVersion>
+    <AssemblyVersion>1.2.8.1800</AssemblyVersion>
+    <FileVersion>1.2.8.1800</FileVersion>
   </PropertyGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />

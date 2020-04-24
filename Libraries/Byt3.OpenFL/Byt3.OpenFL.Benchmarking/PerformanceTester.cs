@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace Byt3.OpenFL.Tests
+namespace Byt3.OpenFL.Benchmarking
 {
     public class PerformanceTester
     {
