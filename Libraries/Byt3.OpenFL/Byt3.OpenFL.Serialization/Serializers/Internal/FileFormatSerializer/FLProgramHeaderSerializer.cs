@@ -5,7 +5,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer
 {
     public class FLProgramHeaderSerializer : ASerializer<FLProgramHeader>
     {
-        private VersionSerializer vs = new VersionSerializer();
+        private readonly VersionSerializer vs = new VersionSerializer();
 
         public override FLProgramHeader DeserializePacket(PrimitiveValueWrapper s)
         {

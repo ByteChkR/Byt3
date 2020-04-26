@@ -10,7 +10,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries.MobileCollidables
     ///</summary>
     public class CompoundChild : IBoundingBoxOwner
     {
-        private CompoundShape shape;
+        private readonly CompoundShape shape;
         internal int shapeIndex;
 
         internal CompoundChild(CompoundShape shape, EntityCollidable collisionInformation, Material material, int index)

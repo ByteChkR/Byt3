@@ -43,9 +43,9 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionRuleManagement
 
         internal CollisionGroup group;
 
-        private int hashCode;
+        private readonly int hashCode;
 
-        private Action OnChangedDelegate;
+        private readonly Action OnChangedDelegate;
 
 
         internal CollisionRule personal = CollisionRule.Defer;

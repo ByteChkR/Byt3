@@ -7,7 +7,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
     /// </summary>
     public class CharacterSynchronizer : ICharacterTag
     {
-        private Entity body;
+        private readonly Entity body;
 
         /// <summary>
         /// Constructs a new character tag.

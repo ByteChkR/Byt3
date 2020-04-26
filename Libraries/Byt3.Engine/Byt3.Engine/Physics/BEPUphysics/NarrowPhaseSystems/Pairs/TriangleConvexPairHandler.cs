@@ -16,7 +16,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public class TriangleConvexPairHandler : ConvexConstraintPairHandler
     {
-        private TriangleConvexContactManifold contactManifold = new TriangleConvexContactManifold();
+        private readonly TriangleConvexContactManifold contactManifold = new TriangleConvexContactManifold();
         private ConvexCollidable convex;
         private ConvexCollidable<TriangleShape> triangle;
 

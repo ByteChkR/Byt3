@@ -9,9 +9,9 @@ namespace Byt3.Engine.Demos.components
 {
     public class CameraRaycaster : AbstractComponent
     {
-        private int cast;
-        private GameObject looker;
-        private GameObject sphereTargetMarker;
+        private readonly int cast;
+        private readonly GameObject looker;
+        private readonly GameObject sphereTargetMarker;
         private float yoff;
 
 

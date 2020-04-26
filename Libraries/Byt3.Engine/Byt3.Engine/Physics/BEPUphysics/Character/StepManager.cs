@@ -15,19 +15,19 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
     /// </summary>
     public class StepManager
     {
-        private Cylinder characterBody;
-        private ConvexCollidable<CylinderShape> currentQueryObject;
+        private readonly Cylinder characterBody;
+        private readonly ConvexCollidable<CylinderShape> currentQueryObject;
 
         private float maximumStepHeight = 1f;
 
         private float minimumDownStepHeight = .1f;
 
-        private float minimumUpStepHeight;
+        private readonly float minimumUpStepHeight;
 
 
-        private RawList<ContactData> stepContacts = new RawList<ContactData>();
+        private readonly RawList<ContactData> stepContacts = new RawList<ContactData>();
 
-        private float
+        private readonly float
             upStepMargin =
                 .1f; //There's a little extra space above the maximum step height to start the obstruction and downcast test rays.  Helps when a step is very close to the max step height.
 

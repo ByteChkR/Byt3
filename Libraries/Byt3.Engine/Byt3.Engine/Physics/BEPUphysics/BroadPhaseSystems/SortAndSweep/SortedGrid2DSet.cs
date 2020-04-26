@@ -5,7 +5,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.SortAndSweep
 {
     internal class SortedGrid2DSet
     {
-        private UnsafeResourcePool<GridCell2D> cellPool = new UnsafeResourcePool<GridCell2D>();
+        private readonly UnsafeResourcePool<GridCell2D> cellPool = new UnsafeResourcePool<GridCell2D>();
         //TODO: The cell set is the number one reason why Grid2DSortAndSweep fails in corner cases.
         //One option:
         //Instead of trying to maintain a sorted set, stick to a dictionary + RawList combo.

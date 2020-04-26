@@ -22,7 +22,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionShapes
         /// </summary>
         public static float MeshHitUniquenessThreshold = .0001f;
 
-        private RawList<Vector3> hullVertices = new RawList<Vector3>();
+        private readonly RawList<Vector3> hullVertices = new RawList<Vector3>();
         private float meshCollisionMargin = CollisionDetectionSettings.DefaultMargin;
 
         internal MobileMeshSolidity solidity = MobileMeshSolidity.DoubleSided;

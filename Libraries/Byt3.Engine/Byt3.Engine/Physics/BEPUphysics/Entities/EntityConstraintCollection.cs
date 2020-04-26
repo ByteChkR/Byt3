@@ -10,7 +10,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Entities
     ///</summary>
     public class EntityConstraintCollection : IEnumerable<TwoEntityConstraint>
     {
-        private RawList<SimulationIslandConnection> connections;
+        private readonly RawList<SimulationIslandConnection> connections;
 
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Entities
         ///</summary>
         public struct Enumerator : IEnumerator<TwoEntityConstraint>
         {
-            private RawList<SimulationIslandConnection> connections;
+            private readonly RawList<SimulationIslandConnection> connections;
             private int index;
 
             /// <summary>

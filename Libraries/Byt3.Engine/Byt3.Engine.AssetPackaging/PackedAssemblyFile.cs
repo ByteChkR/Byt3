@@ -8,7 +8,7 @@ namespace Byt3.Engine.AssetPackaging
     /// </summary>
     public class PackedAssemblyFile : AssemblyFile
     {
-        private AssetPointer _ptr;
+        private readonly AssetPointer _ptr;
 
         public PackedAssemblyFile(bool compression, string manifestFilepath, Assembly assembly, AssetPointer ptr) :
             base(compression, manifestFilepath,

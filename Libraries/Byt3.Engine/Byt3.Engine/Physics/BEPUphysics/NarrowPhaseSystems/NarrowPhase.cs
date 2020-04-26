@@ -20,10 +20,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems
         ///</summary>
         public RawList<BroadPhaseOverlap> BroadPhaseOverlaps { get; set; }
 
-        private Dictionary<BroadPhaseOverlap, NarrowPhasePair> overlapMapping =
+        private readonly Dictionary<BroadPhaseOverlap, NarrowPhasePair> overlapMapping =
             new Dictionary<BroadPhaseOverlap, NarrowPhasePair>();
 
-        private RawList<NarrowPhasePair> narrowPhasePairs = new RawList<NarrowPhasePair>();
+        private readonly RawList<NarrowPhasePair> narrowPhasePairs = new RawList<NarrowPhasePair>();
 
         ///<summary>
         /// Gets the list of Pairs managed by the narrow phase.
@@ -40,7 +40,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems
         /// </summary>
         public Solver Solver { get; set; }
 
-        private ConcurrentDeque<NarrowPhasePair> newNarrowPhasePairs = new ConcurrentDeque<NarrowPhasePair>();
+        private readonly ConcurrentDeque<NarrowPhasePair> newNarrowPhasePairs = new ConcurrentDeque<NarrowPhasePair>();
 
 
         ///<summary>
@@ -79,7 +79,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems
             AllowMultithreading = true;
         }
 
-        private Action<int> updateBroadPhaseOverlapDelegate;
+        private readonly Action<int> updateBroadPhaseOverlapDelegate;
 
         private void UpdateBroadPhaseOverlap(int i)
         {

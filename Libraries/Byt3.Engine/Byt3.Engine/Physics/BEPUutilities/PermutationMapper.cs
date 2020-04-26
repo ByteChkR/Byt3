@@ -5,7 +5,7 @@
     /// </summary>
     public class PermutationMapper
     {
-        private static long[] primes =
+        private static readonly long[] primes =
         {
             818660357, 878916037, 844828463, 706609493, 478906601, 707908823, 938052293, 630235027, 984165979,
             522311087,

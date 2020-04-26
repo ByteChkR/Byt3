@@ -23,7 +23,7 @@ namespace Byt3.Engine.Tutorials.Tutorials
         private BufferCreator creator;
         private FLProgramCheckBuilder checkPipeline;
         private FLParser parser;
-        private Texture tex = TextureLoader.ParameterToTexture(128, 128, "FLScene+TextureForFLProgram");
+        private readonly Texture tex = TextureLoader.ParameterToTexture(128, 128, "FLScene+TextureForFLProgram");
 
         protected override void InitializeScene()
         {

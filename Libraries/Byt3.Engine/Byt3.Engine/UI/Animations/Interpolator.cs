@@ -14,7 +14,7 @@ namespace Byt3.Engine.UI.Animations
         /// <returns>interpolated result</returns>
         public delegate float Interpolate(float input);
 
-        private List<Interpolator> subInterpolators = new List<Interpolator>();
+        private readonly List<Interpolator> subInterpolators = new List<Interpolator>();
 
         /// <summary>
         /// Default Constructor

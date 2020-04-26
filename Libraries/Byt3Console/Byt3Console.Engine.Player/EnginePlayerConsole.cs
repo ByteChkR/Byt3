@@ -51,7 +51,7 @@ namespace Byt3Console.Engine.Player
         public static string GameTempDir = Path.Combine(PlayerPath, "_game");
         public static string GameDir = Path.Combine(PlayerPath, "game");
 
-        private static Version[] _availableVersionsOnServer = null;
+        private static Version[] _availableVersionsOnServer;
 
         public static Version[] AvailableVersionsOnServer
         {

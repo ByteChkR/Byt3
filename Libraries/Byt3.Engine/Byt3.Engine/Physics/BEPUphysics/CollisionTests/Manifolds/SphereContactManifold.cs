@@ -12,7 +12,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.Manifolds
     ///</summary>
     public class SphereContactManifold : ContactManifold
     {
-        private Contact contact = new Contact();
+        private readonly Contact contact = new Contact();
         private bool previouslyColliding;
         protected ConvexCollidable<SphereShape> sphereA;
         protected ConvexCollidable<SphereShape> sphereB;

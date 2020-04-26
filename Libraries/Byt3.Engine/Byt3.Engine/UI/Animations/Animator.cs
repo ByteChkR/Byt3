@@ -9,7 +9,7 @@ namespace Byt3.Engine.UI.Animations
     /// </summary>
     public class Animator : AbstractComponent
     {
-        private List<Animation> animators = new List<Animation>();
+        private readonly List<Animation> animators = new List<Animation>();
 
         /// <summary>
         /// A list of All Targets for this animation

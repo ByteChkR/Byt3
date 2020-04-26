@@ -7,7 +7,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.SortAndSweep
 {
     public class Grid2DSortAndSweepQueryAccelerator : IQueryAccelerator
     {
-        private Grid2DSortAndSweep owner;
+        private readonly Grid2DSortAndSweep owner;
 
         public Grid2DSortAndSweepQueryAccelerator(Grid2DSortAndSweep owner)
         {

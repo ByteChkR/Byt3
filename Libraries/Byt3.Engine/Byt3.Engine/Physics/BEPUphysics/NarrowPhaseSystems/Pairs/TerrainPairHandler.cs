@@ -16,7 +16,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public abstract class TerrainPairHandler : StandardPairHandler
     {
-        private NonConvexContactManifoldConstraint contactConstraint;
+        private readonly NonConvexContactManifoldConstraint contactConstraint;
         private ConvexCollidable convex;
         private Terrain terrain;
 

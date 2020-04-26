@@ -16,11 +16,11 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
     /// </summary>
     public class QueryManager
     {
-        private Entity characterBody;
-        private CharacterContactCategorizer contactCategorizer;
+        private readonly Entity characterBody;
+        private readonly CharacterContactCategorizer contactCategorizer;
 
 
-        private Func<BroadPhaseEntry, bool> SupportRayFilter;
+        private readonly Func<BroadPhaseEntry, bool> SupportRayFilter;
 
 
         /// <summary>

@@ -19,11 +19,11 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     {
         private int contactCount;
 
-        private HashSet<TriangleEntry> containedPairs = new HashSet<TriangleEntry>();
-        private ContactManifoldConstraintGroup manifoldConstraintGroup;
-        private RawList<TriangleEntry> pairsToRemove = new RawList<TriangleEntry>();
+        private readonly HashSet<TriangleEntry> containedPairs = new HashSet<TriangleEntry>();
+        private readonly ContactManifoldConstraintGroup manifoldConstraintGroup;
+        private readonly RawList<TriangleEntry> pairsToRemove = new RawList<TriangleEntry>();
 
-        private Dictionary<TriangleEntry, MobileMeshPairHandler> subPairs =
+        private readonly Dictionary<TriangleEntry, MobileMeshPairHandler> subPairs =
             new Dictionary<TriangleEntry, MobileMeshPairHandler>();
 
         ///<summary>

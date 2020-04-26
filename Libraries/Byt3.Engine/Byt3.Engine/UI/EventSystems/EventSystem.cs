@@ -15,7 +15,7 @@ namespace Byt3.Engine.UI.EventSystems
         {
         }
 
-        private List<ISelectable> selectables = new List<ISelectable>();
+        private readonly List<ISelectable> selectables = new List<ISelectable>();
 
         /// <summary>
         /// Registers an element

@@ -8,7 +8,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems
     /// </summary>
     public class Factories
     {
-        private RawList<NarrowPhasePairFactory> factories = new RawList<NarrowPhasePairFactory>();
+        private readonly RawList<NarrowPhasePairFactory> factories = new RawList<NarrowPhasePairFactory>();
 
         /// <summary>
         /// Constructs all factories.

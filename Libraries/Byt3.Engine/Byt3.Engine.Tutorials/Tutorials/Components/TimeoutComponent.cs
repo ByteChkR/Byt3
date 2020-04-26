@@ -4,7 +4,7 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
 {
     public class TimeoutComponent : AbstractComponent
     {
-        private float tMax;
+        private readonly float tMax;
         private float t;
 
         public TimeoutComponent(float timeout)

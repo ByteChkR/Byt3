@@ -7,7 +7,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public class InstancedMeshConvexPairHandler : InstancedMeshPairHandler
     {
-        private InstancedMeshConvexContactManifold contactManifold = new InstancedMeshConvexContactManifold();
+        private readonly InstancedMeshConvexContactManifold contactManifold = new InstancedMeshConvexContactManifold();
 
         protected override InstancedMeshContactManifold MeshManifold => contactManifold;
     }

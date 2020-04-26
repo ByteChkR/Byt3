@@ -11,17 +11,17 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints
     ///</summary>
     public class Solver : MultithreadedProcessingStage
     {
-        private SpinLock addRemoveLocker = new SpinLock();
+        private readonly SpinLock addRemoveLocker = new SpinLock();
         internal int iterationLimit = 10;
 
-        private Action<int> multithreadedExclusiveUpdateDelegate;
+        private readonly Action<int> multithreadedExclusiveUpdateDelegate;
 
 
-        private Action<int> multithreadedIterationDelegate;
+        private readonly Action<int> multithreadedIterationDelegate;
 
 
-        private Action<int> multithreadedPrestepDelegate;
-        private RawList<SolverUpdateable> solverUpdateables = new RawList<SolverUpdateable>();
+        private readonly Action<int> multithreadedPrestepDelegate;
+        private readonly RawList<SolverUpdateable> solverUpdateables = new RawList<SolverUpdateable>();
 
         protected internal TimeStepSettings timeStepSettings;
 

@@ -15,7 +15,7 @@ namespace Byt3.Engine.UI
         /// <summary>
         /// Screen space quad
         /// </summary>
-        private static float[] _screenQuadVertexData =
+        private static readonly float[] _screenQuadVertexData =
         {
             // positions   // texCoords
             -1.0f, 1.0f, 0.0f, 1.0f,

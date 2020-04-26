@@ -11,10 +11,10 @@ namespace Byt3.Engine.UI.EventSystems
     /// </summary>
     public class Button : UiImageRendererComponent, ISelectable
     {
-        private Texture btnClick;
-        private Texture btnHover;
+        private readonly Texture btnClick;
+        private readonly Texture btnHover;
 
-        private Texture btnIdle;
+        private readonly Texture btnIdle;
         private Action<Button> onClick;
         private Action<Button> onEnter;
         private Action<Button> onHover;

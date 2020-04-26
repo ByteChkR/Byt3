@@ -16,7 +16,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionShapes.ConvexShapes
 
         private readonly float unexpandedMinimumRadius;
 
-        private Vector3[] vertices;
+        private readonly Vector3[] vertices;
 
         ///<summary>
         /// Constructs a new convex hull shape.

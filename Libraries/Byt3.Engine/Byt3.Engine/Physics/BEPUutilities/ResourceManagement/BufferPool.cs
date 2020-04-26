@@ -15,9 +15,9 @@ namespace Byt3.Engine.Physics.BEPUutilities.ResourceManagement
         /// </summary>
         private const int MaximumPoolIndex = 30;
 
-        private Stack<T[]>[] pools = new Stack<T[]>[MaximumPoolIndex + 1];
+        private readonly Stack<T[]>[] pools = new Stack<T[]>[MaximumPoolIndex + 1];
 #if DEBUG
-        private HashSet<T[]> outstandingResources = new HashSet<T[]>();
+        private readonly HashSet<T[]> outstandingResources = new HashSet<T[]>();
 #endif
 
         /// <summary>

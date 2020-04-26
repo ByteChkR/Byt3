@@ -12,7 +12,7 @@ namespace Byt3.Engine.BuildTools.PackageCreator.Versions.v2
     /// </summary>
     public class Version2 : IPackageVersion
     {
-        private MD5 _md5 = MD5.Create();
+        private readonly MD5 _md5 = MD5.Create();
         public string ManifestPath => "PackageManifest.xml";
         public string PackageVersion => "v2";
 

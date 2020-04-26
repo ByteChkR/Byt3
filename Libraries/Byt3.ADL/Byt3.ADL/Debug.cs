@@ -497,7 +497,7 @@ namespace Byt3.ADL
 
         #region Config
 
-        private static bool initialized = false;
+        private static bool initialized;
 
         public static void DefaultInitialization()
         {

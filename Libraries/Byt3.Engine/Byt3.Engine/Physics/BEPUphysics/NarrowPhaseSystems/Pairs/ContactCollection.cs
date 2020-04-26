@@ -8,7 +8,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public class ContactCollection : IList<ContactInformation>
     {
-        private CollidablePairHandler pair;
+        private readonly CollidablePairHandler pair;
 
         internal ContactCollection(CollidablePairHandler pair)
         {
@@ -147,7 +147,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
         ///</summary>
         public struct Enumerator : IEnumerator<ContactInformation>
         {
-            private ContactCollection contactCollection;
+            private readonly ContactCollection contactCollection;
             private int index;
             private int count;
 

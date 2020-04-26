@@ -59,17 +59,17 @@ namespace Byt3.OpenFL.Benchmarking
         {
             Random rnd = new Random();
             List<string> buffers = GenerateElementNames("Buffer", bufferCount);
-            string ret = "";
-            buffers.ForEach(x => ret += GenerateBufferDefine(x, (GeneratableBufferType) rnd.Next(0, 3)) + "\n");
-            ret += GenerateRandomFLScript("Main", "", FLInstructionInfo.infos, functionCount, buffers);
+            StringBuilder ret = new StringBuilder();
+            buffers.ForEach(x => ret.AppendLine(GenerateBufferDefine(x, (GeneratableBufferType)rnd.Next(0, 3))));
+            ret.Append(GenerateRandomFLScript("Main", "", FLInstructionInfo.infos, functionCount, buffers));
 
             for (int i = 0; i < additionalProgramTrees; i++)
             {
-                ret += GenerateRandomFLScript("_Entry_" + i, $"Add_{i}_", FLInstructionInfo.infos,
-                    functionCountPerAdditionalTree, buffers);
+                ret.Append(GenerateRandomFLScript("_Entry_" + i, $"Add_{i}_", FLInstructionInfo.infos,
+                    functionCountPerAdditionalTree, buffers));
             }
 
-            return ret;
+            return ret.ToString();
         }
 
         public static string GenerateRandomFLScript(string startFunction, string functionPrefix,
@@ -79,7 +79,7 @@ namespace Byt3.OpenFL.Benchmarking
             List<string> tempFunctionNames = new List<string>(functionNames);
 
             Random rnd = new Random();
-            string script = "";
+            StringBuilder script =new StringBuilder();
 
 
             Queue<string> todo = new Queue<string>();
@@ -105,10 +105,10 @@ namespace Byt3.OpenFL.Benchmarking
                 }
 
                 sb.AppendLine();
-                script += sb;
+                script.Append(sb);
             }
 
-            return script;
+            return script.ToString();
         }
 
         private static List<string> GenerateRandomInstructions(out List<string> nextFunctionNames,
@@ -121,12 +121,12 @@ namespace Byt3.OpenFL.Benchmarking
             {
                 int idx = rnd.Next(instructions.Count);
                 string line = instructions[idx].Name;
-                string args = "";
+                StringBuilder args = new StringBuilder();
                 for (int j = 0; j < instructions[idx].IsDecimal.Length; j++)
                 {
                     if (instructions[idx].IsDecimal[j])
                     {
-                        args += " " + Math.Round(rnd.NextDouble(), 4).ToString().Replace(",", ".");
+                        args.Append(Math.Round(rnd.NextDouble(), 4).ToString().Replace(",", "."));
                     }
                     else
                     {
@@ -134,14 +134,14 @@ namespace Byt3.OpenFL.Benchmarking
                         {
                             int rndElement = rnd.Next(functionNames.Count);
 
-                            args += " " + functionNames[rndElement];
+                            args.Append(" " + functionNames[rndElement]);
                             nextFunctionNames.Add(functionNames[rndElement]);
                             functionNames.RemoveAt(rndElement);
                         }
                         else
                         {
                             int rndElement = rnd.Next(bufferNames.Count);
-                            args += " " + bufferNames[rndElement];
+                            args.Append(" " + bufferNames[rndElement]);
                         }
                     }
                 }

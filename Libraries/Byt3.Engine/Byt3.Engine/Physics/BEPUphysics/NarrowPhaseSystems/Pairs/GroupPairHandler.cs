@@ -18,11 +18,11 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     {
         private int contactCount;
 
-        private HashSet<CollidablePair> containedPairs = new HashSet<CollidablePair>();
-        private ContactManifoldConstraintGroup manifoldConstraintGroup;
-        private RawList<CollidablePair> pairsToRemove = new RawList<CollidablePair>();
+        private readonly HashSet<CollidablePair> containedPairs = new HashSet<CollidablePair>();
+        private readonly ContactManifoldConstraintGroup manifoldConstraintGroup;
+        private readonly RawList<CollidablePair> pairsToRemove = new RawList<CollidablePair>();
 
-        private Dictionary<CollidablePair, CollidablePairHandler> subPairs =
+        private readonly Dictionary<CollidablePair, CollidablePairHandler> subPairs =
             new Dictionary<CollidablePair, CollidablePairHandler>();
 
 

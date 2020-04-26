@@ -7,7 +7,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public class MobileMeshTrianglePairHandler : MobileMeshPairHandler
     {
-        private MobileMeshTriangleContactManifold contactManifold = new MobileMeshTriangleContactManifold();
+        private readonly MobileMeshTriangleContactManifold contactManifold = new MobileMeshTriangleContactManifold();
 
         protected internal override MobileMeshContactManifold MeshManifold => contactManifold;
     }

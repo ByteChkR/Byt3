@@ -17,7 +17,7 @@ namespace Byt3.Engine.Physics.BEPUik
     /// </summary>
     public class IKSolver : IDisposable
     {
-        private PermutationMapper permutationMapper = new PermutationMapper();
+        private readonly PermutationMapper permutationMapper = new PermutationMapper();
 
         private float timeStepDuration = 1f;
 

@@ -7,7 +7,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.OtherSpaceStages
     ///</summary>
     public class SpaceObjectBuffer : ProcessingStage
     {
-        private ConcurrentDeque<SpaceObjectChange> objectsToChange = new ConcurrentDeque<SpaceObjectChange>();
+        private readonly ConcurrentDeque<SpaceObjectChange> objectsToChange = new ConcurrentDeque<SpaceObjectChange>();
 
         ///<summary>
         /// Constructs the buffer.

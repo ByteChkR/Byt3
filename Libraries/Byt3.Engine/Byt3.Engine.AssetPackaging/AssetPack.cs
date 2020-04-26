@@ -7,7 +7,7 @@ namespace Byt3.Engine.AssetPackaging
     /// </summary>
     public class AssetPack
     {
-        private Stream Content;
+        private readonly Stream Content;
         public int BytesWritten { get; private set; }
 
         public AssetPack(Stream s)

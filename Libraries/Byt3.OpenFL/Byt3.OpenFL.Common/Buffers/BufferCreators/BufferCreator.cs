@@ -8,7 +8,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators
 {
     public class BufferCreator
     {
-        private List<ASerializableBufferCreator> bufferCreators = new List<ASerializableBufferCreator>();
+        private readonly List<ASerializableBufferCreator> bufferCreators = new List<ASerializableBufferCreator>();
 
 
         public static BufferCreator CreateWithBuiltInTypes()

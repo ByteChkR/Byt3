@@ -17,7 +17,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.UpdateableSystems
 
         #region ISpaceUpdateable Members
 
-        private List<UpdateableManager> managers = new List<UpdateableManager>();
+        private readonly List<UpdateableManager> managers = new List<UpdateableManager>();
 
         List<UpdateableManager> ISpaceUpdateable.Managers => managers;
 

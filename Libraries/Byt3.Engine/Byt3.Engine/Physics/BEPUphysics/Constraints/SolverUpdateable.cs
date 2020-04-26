@@ -12,7 +12,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints
     /// </summary>
     public abstract class SolverUpdateable : ISimulationIslandConnectionOwner, ISpaceObject
     {
-        private static EntityComparer comparer = new EntityComparer();
+        private static readonly EntityComparer comparer = new EntityComparer();
 
 
         /// <summary>

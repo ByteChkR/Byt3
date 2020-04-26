@@ -8,7 +8,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.OtherSpaceStages
     ///</summary>
     public class DeferredEventDispatcher : ProcessingStage
     {
-        private List<IDeferredEventCreator> activeEventCreators = new List<IDeferredEventCreator>();
+        private readonly List<IDeferredEventCreator> activeEventCreators = new List<IDeferredEventCreator>();
 
         ///<summary>
         /// Constructs the dispatcher.

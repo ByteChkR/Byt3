@@ -13,11 +13,11 @@ namespace Byt3.Engine.Demos.components
 {
     public class PhysicsDemoComponent : AbstractComponent
     {
-        private Mesh box = MeshLoader.FileToMesh("assets/models/cube_flat.obj");
+        private readonly Mesh box = MeshLoader.FileToMesh("assets/models/cube_flat.obj");
 
-        private List<GameObject> collider = new List<GameObject>();
-        private int game;
-        private Mesh sphere = MeshLoader.FileToMesh("assets/models/sphere_smooth.obj");
+        private readonly List<GameObject> collider = new List<GameObject>();
+        private readonly int game;
+        private readonly Mesh sphere = MeshLoader.FileToMesh("assets/models/sphere_smooth.obj");
 
         public PhysicsDemoComponent()
         {

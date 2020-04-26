@@ -16,19 +16,19 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.SortAndSweep
     /// </remarks>
     public class SortAndSweep1D : BroadPhase
     {
-        private RawList<BroadPhaseEntry> backbuffer;
+        private readonly RawList<BroadPhaseEntry> backbuffer;
 
 
-        private RawList<BroadPhaseEntry> entries = new RawList<BroadPhaseEntry>();
+        private readonly RawList<BroadPhaseEntry> entries = new RawList<BroadPhaseEntry>();
 
-        private int sortSegmentCount = 4;
+        private readonly int sortSegmentCount = 4;
 
-        private Action<int> sweepSegment;
+        private readonly Action<int> sweepSegment;
 
 
         //TODO: It is possible to distribute things a bit better.  Instead of lumping all of the remainder into the final, put and 
 
-        private int sweepSegmentCount = 32;
+        private readonly int sweepSegmentCount = 32;
 
         /// <summary>
         /// Constructs a new sort and sweep broad phase.

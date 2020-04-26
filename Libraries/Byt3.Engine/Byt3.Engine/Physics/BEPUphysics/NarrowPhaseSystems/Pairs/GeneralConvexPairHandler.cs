@@ -10,7 +10,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public class GeneralConvexPairHandler : ConvexConstraintPairHandler
     {
-        private GeneralConvexContactManifold contactManifold = new GeneralConvexContactManifold();
+        private readonly GeneralConvexContactManifold contactManifold = new GeneralConvexContactManifold();
         private ConvexCollidable convexA;
         private ConvexCollidable convexB;
 

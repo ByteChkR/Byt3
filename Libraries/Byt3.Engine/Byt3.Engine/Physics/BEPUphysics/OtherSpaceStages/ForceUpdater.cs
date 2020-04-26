@@ -10,12 +10,12 @@ namespace Byt3.Engine.Physics.BEPUphysics.OtherSpaceStages
     ///</summary>
     public class ForceUpdater : MultithreadedProcessingStage
     {
-        private RawList<IForceUpdateable> dynamicObjects = new RawList<IForceUpdateable>();
+        private readonly RawList<IForceUpdateable> dynamicObjects = new RawList<IForceUpdateable>();
         protected internal Vector3 gravity;
 
         internal Vector3 gravityDt;
 
-        private Action<int> multithreadedLoopBodyDelegate;
+        private readonly Action<int> multithreadedLoopBodyDelegate;
 
         protected TimeStepSettings timeStepSettings;
 

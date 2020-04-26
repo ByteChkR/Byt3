@@ -15,15 +15,15 @@ namespace Byt3.Engine.Physics.BEPUphysics.PositionUpdating
         ///</summary>
         public static int MultithreadingThreshold = 100;
 
-        private RawList<ICCDPositionUpdateable> continuousUpdateables = new RawList<ICCDPositionUpdateable>();
-        private RawList<IPositionUpdateable> discreteUpdateables = new RawList<IPositionUpdateable>();
-        private RawList<ICCDPositionUpdateable> passiveUpdateables = new RawList<ICCDPositionUpdateable>();
+        private readonly RawList<ICCDPositionUpdateable> continuousUpdateables = new RawList<ICCDPositionUpdateable>();
+        private readonly RawList<IPositionUpdateable> discreteUpdateables = new RawList<IPositionUpdateable>();
+        private readonly RawList<ICCDPositionUpdateable> passiveUpdateables = new RawList<ICCDPositionUpdateable>();
 
-        private Action<int> preUpdate;
+        private readonly Action<int> preUpdate;
 
-        private Action<int> updateContinuous;
+        private readonly Action<int> updateContinuous;
 
-        private Action<int> updateTimeOfImpact;
+        private readonly Action<int> updateTimeOfImpact;
 
         ///<summary>
         /// Constructs the position updater.

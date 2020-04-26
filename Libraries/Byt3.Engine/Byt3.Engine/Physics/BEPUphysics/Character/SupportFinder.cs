@@ -16,7 +16,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
     /// </summary>
     public class SupportFinder
     {
-        private Entity characterBody;
+        private readonly Entity characterBody;
         private RawList<CharacterContact> headContacts = new RawList<CharacterContact>();
 
         private float maximumAssistedDownStepHeight = 1;

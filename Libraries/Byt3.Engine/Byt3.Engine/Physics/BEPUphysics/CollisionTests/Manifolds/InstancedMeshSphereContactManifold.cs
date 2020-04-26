@@ -8,7 +8,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.Manifolds
     ///</summary>
     public class InstancedMeshSphereContactManifold : InstancedMeshContactManifold
     {
-        private static LockingResourcePool<TriangleSpherePairTester> testerPool =
+        private static readonly LockingResourcePool<TriangleSpherePairTester> testerPool =
             new LockingResourcePool<TriangleSpherePairTester>();
 
         protected override void GiveBackTester(TrianglePairTester tester)

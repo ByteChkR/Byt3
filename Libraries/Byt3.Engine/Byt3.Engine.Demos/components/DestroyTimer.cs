@@ -4,7 +4,7 @@ namespace Byt3.Engine.Demos.components
 {
     public class DestroyTimer : AbstractComponent
     {
-        private float destroyTime;
+        private readonly float destroyTime;
         private float time;
 
         public DestroyTimer(float destroyTime)

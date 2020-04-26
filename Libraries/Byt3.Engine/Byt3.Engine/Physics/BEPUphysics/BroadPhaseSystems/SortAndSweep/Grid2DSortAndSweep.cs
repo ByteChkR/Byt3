@@ -28,13 +28,14 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.SortAndSweep
         //Improving the cell set operations directly should improve that problem and the query times noticeably.
 
 
-        private SpinLock cellSetLocker = new SpinLock();
+        private readonly SpinLock cellSetLocker = new SpinLock();
 
 
-        private RawList<Grid2DEntry> entries = new RawList<Grid2DEntry>();
+        private readonly RawList<Grid2DEntry> entries = new RawList<Grid2DEntry>();
 
-        private UnsafeResourcePool<Grid2DEntry> entryPool = new UnsafeResourcePool<Grid2DEntry>();
-        private Action<int> updateEntry, updateCell;
+        private readonly UnsafeResourcePool<Grid2DEntry> entryPool = new UnsafeResourcePool<Grid2DEntry>();
+        private readonly Action<int> updateEntry;
+        private readonly Action<int> updateCell;
 
         /// <summary>
         /// Constructs a grid-based sort and sweep broad phase.

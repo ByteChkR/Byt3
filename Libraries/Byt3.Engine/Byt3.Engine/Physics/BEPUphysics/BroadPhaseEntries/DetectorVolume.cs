@@ -18,7 +18,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
     /// </summary>
     public class DetectorVolume : BroadPhaseEntry, ISpaceObject, IDeferredEventCreator
     {
-        private Queue<ContainmentChange> containmentChanges = new Queue<ContainmentChange>();
+        private readonly Queue<ContainmentChange> containmentChanges = new Queue<ContainmentChange>();
 
         private bool innerFacingIsClockwise;
 
@@ -26,7 +26,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
         /// <summary>
         /// Used to protect against containment changes coming in from multithreaded narrowphase contexts.
         /// </summary>
-        private SpinLock locker = new SpinLock();
+        private readonly SpinLock locker = new SpinLock();
 
         internal Dictionary<Entity, DetectorVolumePairHandler> pairs =
             new Dictionary<Entity, DetectorVolumePairHandler>();

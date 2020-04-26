@@ -12,10 +12,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.OtherSpaceStages
     public class BoundingBoxUpdater : MultithreadedProcessingStage
     {
         //TODO: should the Entries field be publicly accessible since there's not any custom add/remove logic?
-        private RawList<MobileCollidable> entries = new RawList<MobileCollidable>();
+        private readonly RawList<MobileCollidable> entries = new RawList<MobileCollidable>();
 
-        private Action<int> multithreadedLoopBodyDelegate;
-        private TimeStepSettings timeStepSettings;
+        private readonly Action<int> multithreadedLoopBodyDelegate;
+        private readonly TimeStepSettings timeStepSettings;
 
         ///<summary>
         /// Constructs the bounding box updater.

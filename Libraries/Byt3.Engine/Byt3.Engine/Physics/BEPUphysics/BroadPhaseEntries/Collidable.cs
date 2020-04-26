@@ -19,7 +19,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
         protected internal CollisionShape
             shape; //Having this non-private allows for some very special-casey stuff; see TriangleShape initialization.
 
-        private Action<CollisionShape> shapeChangedDelegate;
+        private readonly Action<CollisionShape> shapeChangedDelegate;
 
         private bool shapeChangedHooked = true;
 

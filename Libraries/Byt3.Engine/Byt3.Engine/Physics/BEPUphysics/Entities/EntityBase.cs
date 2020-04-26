@@ -482,7 +482,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Entities
             }
         }
 
-        private Action<Material> materialChangedDelegate;
+        private readonly Action<Material> materialChangedDelegate;
 
         private void OnMaterialChanged(Material newMaterial)
         {
@@ -745,7 +745,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Entities
         /// </summary>
         public bool IgnoreShapeChanges { get; set; }
 
-        private Action<CollisionShape> shapeChangedDelegate;
+        private readonly Action<CollisionShape> shapeChangedDelegate;
 
         protected void OnShapeChanged(CollisionShape shape)
         {

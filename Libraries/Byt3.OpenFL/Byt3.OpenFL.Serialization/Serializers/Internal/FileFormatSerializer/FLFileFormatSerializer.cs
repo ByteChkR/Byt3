@@ -14,8 +14,8 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer
             {"zip", new ExtraStage(new ZipExtraStage(), new UnZipExtraStage())},
         };
 
-        private FLProgramHeaderSerializer phs = new FLProgramHeaderSerializer();
-        private FLHeaderSerializer flHs = new FLHeaderSerializer();
+        private readonly FLProgramHeaderSerializer phs = new FLProgramHeaderSerializer();
+        private readonly FLHeaderSerializer flHs = new FLHeaderSerializer();
 
         public override FLFileFormat DeserializePacket(PrimitiveValueWrapper s)
         {

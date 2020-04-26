@@ -144,34 +144,6 @@ namespace Byt3.OpenCL
 
         #region IDisposable Implementation
 
-        ///// <summary>
-        ///// Disposes of the resources that have been acquired.
-        ///// </summary>
-        ///// <param name="disposing">Determines whether managed object or managed and unmanaged resources should be disposed of.</param>
-        //protected virtual void Dispose()
-        //{
-        //    if (NeedsDisposal)
-        //        ClObjectDestroyed(this);
-        //    // Checks if the object has alread been disposed of
-        //    if (!IsDisposed)
-        //    {
-        //        // Sets the handle to null
-        //        Handle = IntPtr.Zero;
-
-        //        // Since the context has been disposed of, the is disposed flag is set to true, so that it is not called twice
-        //        IsDisposed = true;
-        //    }
-        //}
-
-        /// <summary>
-        /// Destructs the <see cref="HandleBase"/> instance.
-        /// </summary>
-        ~HandleBase()
-        {
-            // Makes sure that unmanaged resources get disposed of eventually
-            //Dispose(false);
-        }
-
         /// <summary>
         /// Disposes of all acquired resources.
         /// </summary>
@@ -199,8 +171,8 @@ namespace Byt3.OpenCL
             }
         }
 
-        private static int TotalCLObjectsCreated = 0;
-        private static List<HandleBase> objects = new List<HandleBase>();
+        private static int TotalCLObjectsCreated;
+        private static readonly List<HandleBase> objects = new List<HandleBase>();
 
         internal static void ClObjectCreated(HandleBase bytes)
         {

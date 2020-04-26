@@ -9,7 +9,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Materials
     {
         internal float bounciness = MaterialManager.DefaultBounciness;
 
-        private int hashCode;
+        private readonly int hashCode;
         internal float kineticFriction = MaterialManager.DefaultKineticFriction;
 
         internal float staticFriction = MaterialManager.DefaultStaticFriction;

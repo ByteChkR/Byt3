@@ -17,21 +17,23 @@ namespace Byt3.Engine.Physics.BEPUphysics.DeactivationManagement
         private static int minimumSplitAttempts = 3;
 
         //Merges must be performed sequentially.
-        private SpinLock addLocker = new SpinLock();
+        private readonly SpinLock addLocker = new SpinLock();
         private int deactivationIslandIndex;
 
-        private UnsafeResourcePool<SimulationIsland> islandPool = new UnsafeResourcePool<SimulationIsland>();
+        private readonly UnsafeResourcePool<SimulationIsland> islandPool = new UnsafeResourcePool<SimulationIsland>();
         internal float lowVelocityTimeMinimum = 1f;
 
 
         //TryToSplit is NOT THREAD SAFE.  Only one TryToSplit should ever be run.
-        private Queue<SimulationIslandMember> member1Friends = new Queue<SimulationIslandMember>(),
-            member2Friends = new Queue<SimulationIslandMember>();
+        private readonly Queue<SimulationIslandMember> member1Friends = new Queue<SimulationIslandMember>();
 
-        private Action<int> multithreadedCandidacyLoopDelegate;
+        private readonly Queue<SimulationIslandMember> member2Friends = new Queue<SimulationIslandMember>();
 
-        private List<SimulationIslandMember> searchedMembers1 = new List<SimulationIslandMember>(),
-            searchedMembers2 = new List<SimulationIslandMember>();
+        private readonly Action<int> multithreadedCandidacyLoopDelegate;
+
+        private readonly List<SimulationIslandMember> searchedMembers1 = new List<SimulationIslandMember>();
+
+        private readonly List<SimulationIslandMember> searchedMembers2 = new List<SimulationIslandMember>();
         //TODO: Deactivation Candidate Detection
         //-Could scan the entities of CURRENTLY ACTIVE simulation islands.
         //-Requires a List-format of active sim islands.
@@ -39,11 +41,11 @@ namespace Byt3.Engine.Physics.BEPUphysics.DeactivationManagement
         //-Simulation islands of different sizes won't load-balance well on the xbox360; it would be fine on the pc though.
         //TODO: Simulation Island Deactivation
 
-        private RawList<SimulationIslandMember> simulationIslandMembers = new RawList<SimulationIslandMember>();
-        private RawList<SimulationIsland> simulationIslands = new RawList<SimulationIsland>();
+        private readonly RawList<SimulationIslandMember> simulationIslandMembers = new RawList<SimulationIslandMember>();
+        private readonly RawList<SimulationIsland> simulationIslands = new RawList<SimulationIsland>();
 
 
-        private ConcurrentDeque<SimulationIslandConnection> splitAttempts =
+        private readonly ConcurrentDeque<SimulationIslandConnection> splitAttempts =
             new ConcurrentDeque<SimulationIslandConnection>();
 
         internal bool useStabilization = true;

@@ -16,12 +16,12 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
     public class KeyTriggerComponent : AbstractComponent
     {
         //Our 2 Textures
-        private Texture _tex;
-        private Texture _tex2;
+        private readonly Texture _tex;
+        private readonly Texture _tex2;
 
         private bool red = true;
 
-        private FLScriptRunner flRunner = new FlMultiThreadScriptRunner(null, DataVectorTypes.Uchar1, "assets/kernel/");
+        private readonly FLScriptRunner flRunner = new FlMultiThreadScriptRunner(null, DataVectorTypes.Uchar1, "assets/kernel/");
 
         public KeyTriggerComponent(Texture tex, Texture tex2)
         {

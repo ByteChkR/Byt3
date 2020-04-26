@@ -20,7 +20,7 @@ namespace Byt3.Engine.Tutorials
 
         private GameEngine ge;
 
-        private Dictionary<string, Type> scenes = new Dictionary<string, Type>
+        private readonly Dictionary<string, Type> scenes = new Dictionary<string, Type>
         {
             {"AI", typeof(AIScene)},
             {"Audio", typeof(AudioScene)},

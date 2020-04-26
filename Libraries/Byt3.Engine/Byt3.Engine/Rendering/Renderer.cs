@@ -42,14 +42,14 @@ namespace Byt3.Engine.Rendering
         /// <summary>
         /// Default Render Target(Game World)
         /// </summary>
-        private RenderTarget rt;
+        private readonly RenderTarget rt;
 
         /// <summary>
         /// Default Render Target(UI)
         /// </summary>
-        private RenderTarget rt1;
+        private readonly RenderTarget rt1;
 
-        private RenderTargetMergeStage mergeStage;
+        private readonly RenderTargetMergeStage mergeStage;
 
         /// <summary>
         /// Internal Constructor

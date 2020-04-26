@@ -27,7 +27,7 @@ namespace Byt3.Engine.Core
         /// <summary>
         /// Internal cache of objects with colliders to loop through them quickly
         /// </summary>
-        private static Dictionary<Collidable, Collider> _objsWithAttachedColliders =
+        private static readonly Dictionary<Collidable, Collider> _objsWithAttachedColliders =
             new Dictionary<Collidable, Collider>();
 
         /// <summary>

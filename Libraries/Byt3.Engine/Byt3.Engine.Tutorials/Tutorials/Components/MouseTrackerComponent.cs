@@ -13,9 +13,9 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
 {
     public class MouseTrackerComponent : AbstractComponent
     {
-        private LitMeshRendererComponent Last = null;
-        private Texture LastTex = null;
-        private Texture HitTex = TextureLoader.ColorToTexture(Color.Green);
+        private LitMeshRendererComponent Last;
+        private Texture LastTex;
+        private readonly Texture HitTex = TextureLoader.ColorToTexture(Color.Green);
 
         protected override void Awake()
         {

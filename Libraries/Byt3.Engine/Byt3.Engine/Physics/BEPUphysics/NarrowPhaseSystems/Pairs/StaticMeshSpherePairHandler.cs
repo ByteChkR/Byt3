@@ -7,7 +7,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public class StaticMeshSpherePairHandler : StaticMeshPairHandler
     {
-        private StaticMeshSphereContactManifold contactManifold = new StaticMeshSphereContactManifold();
+        private readonly StaticMeshSphereContactManifold contactManifold = new StaticMeshSphereContactManifold();
 
         protected override StaticMeshContactManifold MeshManifold => contactManifold;
     }

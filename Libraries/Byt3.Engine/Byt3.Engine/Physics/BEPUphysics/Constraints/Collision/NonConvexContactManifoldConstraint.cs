@@ -12,11 +12,11 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.Collision
     ///</summary>
     public class NonConvexContactManifoldConstraint : ContactManifoldConstraint
     {
-        private Stack<ContactFrictionConstraint> frictionConstraintPool = new Stack<ContactFrictionConstraint>(4);
+        private readonly Stack<ContactFrictionConstraint> frictionConstraintPool = new Stack<ContactFrictionConstraint>(4);
 
         internal RawList<ContactFrictionConstraint> frictionConstraints;
 
-        private Stack<ContactPenetrationConstraint> penetrationConstraintPool =
+        private readonly Stack<ContactPenetrationConstraint> penetrationConstraintPool =
             new Stack<ContactPenetrationConstraint>(4);
         //Unlike the convex manifold constraint, this constraint enforces no requirements
         //on the contact data.  The collisions can form a nonconvex patch.  They can have differing normals.

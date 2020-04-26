@@ -14,7 +14,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
         private ConvexCollidable<BoxShape> boxA;
         private ConvexCollidable<BoxShape> boxB;
 
-        private BoxContactManifold contactManifold = new BoxContactManifold();
+        private readonly BoxContactManifold contactManifold = new BoxContactManifold();
 
         public override Collidable CollidableA => boxA;
 

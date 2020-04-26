@@ -13,7 +13,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
         ///</summary>
         public struct Enumerator : IEnumerator<Collidable>
         {
-            private CollidableCollection collection;
+            private readonly CollidableCollection collection;
             private int index;
 
             ///<summary>

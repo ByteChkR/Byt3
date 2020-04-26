@@ -17,7 +17,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public abstract class InstancedMeshPairHandler : StandardPairHandler
     {
-        private NonConvexContactManifoldConstraint contactConstraint;
+        private readonly NonConvexContactManifoldConstraint contactConstraint;
         private ConvexCollidable convex;
         private InstancedMesh instancedMesh;
 

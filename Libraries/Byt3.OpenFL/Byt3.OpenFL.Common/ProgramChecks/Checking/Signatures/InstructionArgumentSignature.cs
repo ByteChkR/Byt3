@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 
 namespace Byt3.OpenFL.Common.ProgramChecks
@@ -31,13 +32,13 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                 return "NoSignature";
             }
 
-            string ret = "";
+            StringBuilder ret = new StringBuilder();
             for (int i = 0; i < Signature.Count; i++)
             {
-                ret += Signature[i] + "; ";
+                ret.Append(Signature[i] + "; ");
             }
 
-            return ret;
+            return ret.ToString();
         }
     }
 }

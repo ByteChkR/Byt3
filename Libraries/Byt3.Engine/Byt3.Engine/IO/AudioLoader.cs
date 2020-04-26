@@ -20,7 +20,7 @@ namespace Byt3.Engine.IO
         /// <summary>
         /// List of supported audio formats
         /// </summary>
-        private static Dictionary<string, Type> _formats = new Dictionary<string, Type>
+        private static readonly Dictionary<string, Type> _formats = new Dictionary<string, Type>
         {
             {".wav", typeof(WavLoader)}
         };

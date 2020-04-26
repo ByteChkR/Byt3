@@ -16,7 +16,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
 
         internal CollisionRules collisionRules;
 
-        private Action collisionRulesUpdatedDelegate;
+        private readonly Action collisionRulesUpdatedDelegate;
         internal int hashCode;
 
         protected BroadPhaseEntry()

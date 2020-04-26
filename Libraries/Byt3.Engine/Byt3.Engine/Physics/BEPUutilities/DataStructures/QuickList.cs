@@ -18,7 +18,7 @@ namespace Byt3.Engine.Physics.BEPUutilities.DataStructures
     /// <typeparam name="T">Type of the elements in the list.</typeparam>
     public struct QuickList<T> : IDisposable, IList<T>
     {
-        private int poolIndex;
+        private readonly int poolIndex;
 
         /// <summary>
         /// Gets the pool used by the quick list.

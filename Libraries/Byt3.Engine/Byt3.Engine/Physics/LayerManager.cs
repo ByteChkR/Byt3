@@ -18,12 +18,12 @@ namespace Byt3.Engine.Physics
         /// <summary>
         /// The Layer to Name Register
         /// </summary>
-        private static List<Tuple<Layer, string>> _internalLayerStore = new List<Tuple<Layer, string>>();
+        private static readonly List<Tuple<Layer, string>> _internalLayerStore = new List<Tuple<Layer, string>>();
 
         /// <summary>
         /// The Name to Index(of _internalLayerStore) Register that enables fast reverse lookup
         /// </summary>
-        private static Dictionary<string, int> _registeredLayers = new Dictionary<string, int>();
+        private static readonly Dictionary<string, int> _registeredLayers = new Dictionary<string, int>();
 
 
         /// <summary>

@@ -427,7 +427,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
 
         private sealed class LeafNode : Node
         {
-            private int LeafIndex;
+            private readonly int LeafIndex;
 
             internal LeafNode(int leafIndex, MeshBoundingBoxTreeData data)
             {

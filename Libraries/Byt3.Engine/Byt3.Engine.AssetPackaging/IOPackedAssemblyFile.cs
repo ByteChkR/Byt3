@@ -7,7 +7,7 @@ namespace Byt3.Engine.AssetPackaging
     /// </summary>
     public class IoPackedAssemblyFile : AssemblyFile
     {
-        private AssetPointer _ptr;
+        private readonly AssetPointer _ptr;
 
         public IoPackedAssemblyFile(bool compressed, string packFilepath, AssetPointer ptr) : base(compressed,
             packFilepath, null)

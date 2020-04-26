@@ -13,7 +13,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
     {
         internal Material material;
 
-        private Action<Material> materialChangedDelegate;
+        private readonly Action<Material> materialChangedDelegate;
 
         ///<summary>
         /// Performs common initialization.

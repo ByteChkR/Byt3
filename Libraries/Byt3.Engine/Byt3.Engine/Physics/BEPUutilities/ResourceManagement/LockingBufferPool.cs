@@ -7,7 +7,7 @@
     /// <typeparam name="T">Type of resource contained in the buffers.</typeparam>
     public class LockingBufferPool<T> : BufferPool<T>
     {
-        private SpinLock locker = new SpinLock();
+        private readonly SpinLock locker = new SpinLock();
 
         /// <summary>
         /// Takes a buffer from the given pool index.

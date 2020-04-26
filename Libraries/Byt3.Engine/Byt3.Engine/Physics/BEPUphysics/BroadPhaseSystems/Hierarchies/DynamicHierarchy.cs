@@ -46,7 +46,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
         /// By going deeper into the trees, a better distribution of work is achieved.
         /// Going above the tested core count theoretically benefits from a '0 if power of 2, 2 otherwise' rule of thumb.
         /// </summary>
-        private int[] threadSplitOffsets = {2, 2, 2, 1};
+        private readonly int[] threadSplitOffsets = {2, 2, 2, 1};
 #if PROFILE
         /// <summary>
         /// Gets the time used in refitting the acceleration structure and making any necessary incremental improvements.
@@ -159,16 +159,16 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
             internal Node b;
         }
 
-        private RawList<Node> multithreadingSourceNodes = new RawList<Node>(4);
-        private Action<int> multithreadedRefit;
+        private readonly RawList<Node> multithreadingSourceNodes = new RawList<Node>(4);
+        private readonly Action<int> multithreadedRefit;
 
         private void MultithreadedRefit(int i)
         {
             multithreadingSourceNodes.Elements[i].Refit();
         }
 
-        private RawList<NodePair> multithreadingSourceOverlaps = new RawList<NodePair>(10);
-        private Action<int> multithreadedOverlap;
+        private readonly RawList<NodePair> multithreadingSourceOverlaps = new RawList<NodePair>(10);
+        private readonly Action<int> multithreadedOverlap;
 
         private void MultithreadedOverlap(int i)
         {
@@ -215,7 +215,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
             }
         }
 
-        private UnsafeResourcePool<LeafNode> leafNodes = new UnsafeResourcePool<LeafNode>();
+        private readonly UnsafeResourcePool<LeafNode> leafNodes = new UnsafeResourcePool<LeafNode>();
 
         /// <summary>
         /// Adds an entry to the hierarchy.

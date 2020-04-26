@@ -7,7 +7,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public sealed class TerrainConvexPairHandler : TerrainPairHandler
     {
-        private TerrainConvexContactManifold contactManifold = new TerrainConvexContactManifold();
+        private readonly TerrainConvexContactManifold contactManifold = new TerrainConvexContactManifold();
 
         protected override TerrainContactManifold TerrainManifold => contactManifold;
     }

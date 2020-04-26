@@ -51,7 +51,7 @@ namespace Byt3.Engine.Core
     /// </summary>
     public static class ThreadManager
     {
-        private static List<IThreadManager> _managers = new List<IThreadManager>();
+        private static readonly List<IThreadManager> _managers = new List<IThreadManager>();
 
         /// <summary>
         /// Runs a Task on a different thread

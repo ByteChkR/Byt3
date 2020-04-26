@@ -18,9 +18,9 @@ namespace Byt3.Engine.Physics.BEPUutilities.DataStructures
     /// <typeparam name="T">Type of the elements in the queue.</typeparam>
     public struct QuickQueue<T> : IDisposable, IEnumerable<T>
     {
-        private int poolIndex;
+        private readonly int poolIndex;
         private BufferPool<T> pool;
-        private int capacityMask;
+        private readonly int capacityMask;
 
 
         /// <summary>

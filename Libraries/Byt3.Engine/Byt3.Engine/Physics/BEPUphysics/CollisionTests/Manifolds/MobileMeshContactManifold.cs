@@ -16,7 +16,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.Manifolds
     ///</summary>
     public abstract class MobileMeshContactManifold : TriangleMeshConvexContactManifold
     {
-        private static LockingResourcePool<TriangleConvexPairTester> testerPool =
+        private static readonly LockingResourcePool<TriangleConvexPairTester> testerPool =
             new LockingResourcePool<TriangleConvexPairTester>();
 
         private Vector3 lastValidConvexPosition;

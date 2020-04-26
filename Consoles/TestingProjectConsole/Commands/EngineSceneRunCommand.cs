@@ -19,9 +19,9 @@ namespace TestingProjectConsole.Commands
     {
         internal static bool AttachTimeout = false;
         internal static float TimeoutTime = 15f;
-        private GameEngine ge;
+        private readonly GameEngine ge;
 
-        private Dictionary<string, Type> scenes = new Dictionary<string, Type>
+        private readonly Dictionary<string, Type> scenes = new Dictionary<string, Type>
         {
             {"AI", typeof(AIScene)},
             {"Audio", typeof(AudioScene)},

@@ -35,7 +35,7 @@ namespace Byt3.Engine.Rendering
         /// <summary>
         /// Static Float Array that is used to create a screen space quad
         /// </summary>
-        private static float[] _screenQuadVertexData =
+        private static readonly float[] _screenQuadVertexData =
         {
             // positions   // texCoords
             -1.0f, 1.0f, 0.0f, 1.0f,
@@ -70,7 +70,7 @@ namespace Byt3.Engine.Rendering
         /// <summary>
         /// The shaders used for the different merge types
         /// </summary>
-        private Dictionary<RenderTargetMergeType, ShaderProgram> _mergeTypes =
+        private readonly Dictionary<RenderTargetMergeType, ShaderProgram> _mergeTypes =
             new Dictionary<RenderTargetMergeType, ShaderProgram>();
 
         /// <summary>

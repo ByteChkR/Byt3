@@ -17,10 +17,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
             new LockingResourcePool<RawList<LeafNode>>();
 
 
-        private static XComparer xComparer = new XComparer();
-        private static YComparer yComparer = new YComparer();
+        private static readonly XComparer xComparer = new XComparer();
+        private static readonly YComparer yComparer = new YComparer();
 
-        private static ZComparer zComparer = new ZComparer();
+        private static readonly ZComparer zComparer = new ZComparer();
         internal Node childA;
         internal Node childB;
 

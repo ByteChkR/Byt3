@@ -290,7 +290,7 @@ namespace Byt3.Engine.Physics.BEPUutilities.DataStructures
         ///</summary>
         public struct Enumerator : IEnumerator<T>
         {
-            private RawList<T> list;
+            private readonly RawList<T> list;
             private int index;
 
             ///<summary>

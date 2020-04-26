@@ -5,7 +5,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.Manifolds
 {
     public class TerrainSphereContactManifold : TerrainContactManifold
     {
-        private static LockingResourcePool<TriangleSpherePairTester> testerPool =
+        private static readonly LockingResourcePool<TriangleSpherePairTester> testerPool =
             new LockingResourcePool<TriangleSpherePairTester>();
 
         protected override TrianglePairTester GetTester()

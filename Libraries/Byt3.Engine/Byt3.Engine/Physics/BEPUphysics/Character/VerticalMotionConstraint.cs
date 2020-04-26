@@ -16,7 +16,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
     {
         private float accumulatedImpulse;
         private Vector3 angularJacobianB;
-        private Entity characterBody;
+        private readonly Entity characterBody;
         private Vector3 linearJacobianA;
         private Vector3 linearJacobianB;
 
@@ -28,7 +28,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
         private SupportData supportData;
 
         private Entity supportEntity;
-        private SupportFinder supportFinder;
+        private readonly SupportFinder supportFinder;
 
         private float supportForceFactor = 1f;
 

@@ -11,7 +11,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.Collision
     ///</summary>
     public class ConvexContactManifoldConstraint : ContactManifoldConstraint
     {
-        private Stack<ContactPenetrationConstraint> penetrationConstraintPool =
+        private readonly Stack<ContactPenetrationConstraint> penetrationConstraintPool =
             new Stack<ContactPenetrationConstraint>(4);
 
 

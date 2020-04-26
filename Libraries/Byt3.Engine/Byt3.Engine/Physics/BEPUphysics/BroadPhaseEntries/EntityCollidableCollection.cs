@@ -14,7 +14,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
         ///</summary>
         public struct Enumerator : IEnumerator<Entity>
         {
-            private EntityCollidableCollection collection;
+            private readonly EntityCollidableCollection collection;
             private EntityCollidable current;
             private int index;
 

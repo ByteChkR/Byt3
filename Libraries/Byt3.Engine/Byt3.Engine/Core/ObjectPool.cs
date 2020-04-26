@@ -34,7 +34,7 @@ namespace Byt3.Engine.Core
         /// <summary>
         /// The internal list of pooled objects
         /// </summary>
-        private List<PooledObject<T>> internalList = new List<PooledObject<T>>();
+        private readonly List<PooledObject<T>> internalList = new List<PooledObject<T>>();
 
         /// <summary>
         /// The last objects index + 1

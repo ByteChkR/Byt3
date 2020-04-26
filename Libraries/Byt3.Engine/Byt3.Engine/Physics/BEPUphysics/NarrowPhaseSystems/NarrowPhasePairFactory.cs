@@ -75,7 +75,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems
     /// <typeparam name="T">Type of the pair to manufacture.</typeparam>
     public class NarrowPhasePairFactory<T> : NarrowPhasePairFactory where T : NarrowPhasePair, new()
     {
-        private LockingResourcePool<T> pool = new LockingResourcePool<T>();
+        private readonly LockingResourcePool<T> pool = new LockingResourcePool<T>();
 
 
         /// <summary>

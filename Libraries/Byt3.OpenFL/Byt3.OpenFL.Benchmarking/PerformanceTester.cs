@@ -66,7 +66,7 @@ namespace Byt3.OpenFL.Benchmarking
             }
         }
 
-        private List<PerformanceTarget> Targets;
+        private readonly List<PerformanceTarget> Targets;
         private const string TARGET_DIRECTORY = "performance_targets";
 
         public static readonly PerformanceTester Tester = new PerformanceTester();

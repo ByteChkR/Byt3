@@ -18,9 +18,9 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
     public class AStarTestComponent : AbstractComponent
     {
         private AiNode[,] Nodes; //Nodes we use
-        private Texture greenTex = TextureLoader.ColorToTexture(Color.Green); //Walkable Node
-        private Texture redTex = TextureLoader.ColorToTexture(Color.Red); //"Wall" Node
-        private Texture purpleTex = TextureLoader.ColorToTexture(Color.Purple); //Selected Path
+        private readonly Texture greenTex = TextureLoader.ColorToTexture(Color.Green); //Walkable Node
+        private readonly Texture redTex = TextureLoader.ColorToTexture(Color.Red); //"Wall" Node
+        private readonly Texture purpleTex = TextureLoader.ColorToTexture(Color.Purple); //Selected Path
 
         protected override void Awake()
         {

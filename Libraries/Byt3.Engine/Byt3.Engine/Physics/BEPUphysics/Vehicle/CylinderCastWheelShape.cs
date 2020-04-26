@@ -15,7 +15,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Vehicle
     public class CylinderCastWheelShape : WheelShape
     {
         private Quaternion localWheelOrientation;
-        private CylinderShape shape;
+        private readonly CylinderShape shape;
 
         /// <summary>
         /// Creates a new cylinder cast based wheel shape.

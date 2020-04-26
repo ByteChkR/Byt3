@@ -26,7 +26,7 @@ namespace Byt3.Engine.IO
         private static readonly ADLLogger<DebugChannel> Logger =
             new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "TextureLoader");
 
-        private static int BytesToTextureIndex = 0;
+        private static int BytesToTextureIndex;
 
         /// <summary>
         /// Creates a 4 Channel Texture from a pointer and width/height

@@ -17,9 +17,9 @@ namespace Byt3.Engine.Physics.BEPUphysics.EntityStateManagement
 
         private float blendAmount;
 
-        private BufferedStatesManager manager;
+        private readonly BufferedStatesManager manager;
 
-        private Action<int> multithreadedWithReadBuffersDelegate;
+        private readonly Action<int> multithreadedWithReadBuffersDelegate;
         private RigidTransform[] states = new RigidTransform[64];
 
         ///<summary>

@@ -19,9 +19,9 @@ namespace Byt3.Utilities.ManifestIO
             new ADLLogger<LogType>(new ProjectDebugConfig("Manifest Reader", -1, 2,
                 PrefixLookupSettings.AddPrefixIfAvailable));
 
-        private static Dictionary<string, AssemblyFile> _assemblyFiles = new Dictionary<string, AssemblyFile>();
-        private static List<Assembly> _loadedAssemblies = new List<Assembly>();
-        private static List<string> _unpackedFiles = new List<string>();
+        private static readonly Dictionary<string, AssemblyFile> _assemblyFiles = new Dictionary<string, AssemblyFile>();
+        private static readonly List<Assembly> _loadedAssemblies = new List<Assembly>();
+        private static readonly List<string> _unpackedFiles = new List<string>();
 
         /// <summary>
         /// Loads an Assembly List file

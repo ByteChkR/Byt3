@@ -9,7 +9,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DeactivationManagement
     /// </summary>
     public struct SimulationIslandMemberList : IList<SimulationIslandMember>
     {
-        private RawList<SimulationIslandConnection.Entry> entries;
+        private readonly RawList<SimulationIslandConnection.Entry> entries;
 
         internal SimulationIslandMemberList(RawList<SimulationIslandConnection.Entry> entries)
         {
@@ -116,7 +116,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DeactivationManagement
         /// </summary>
         public struct Enumerator : IEnumerator<SimulationIslandMember>
         {
-            private RawList<SimulationIslandConnection.Entry> entries;
+            private readonly RawList<SimulationIslandConnection.Entry> entries;
             private int index;
 
             internal Enumerator(RawList<SimulationIslandConnection.Entry> entries)

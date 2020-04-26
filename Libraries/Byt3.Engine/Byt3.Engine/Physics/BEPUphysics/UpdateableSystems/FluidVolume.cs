@@ -17,9 +17,9 @@ namespace Byt3.Engine.Physics.BEPUphysics.UpdateableSystems
     /// </summary>
     public class FluidVolume : Updateable, IDuringForcesUpdateable, ICollisionRulesOwner
     {
-        private Action<int> analyzeCollisionEntryDelegate;
+        private readonly Action<int> analyzeCollisionEntryDelegate;
 
-        private List<BroadPhaseEntry> broadPhaseEntries = new List<BroadPhaseEntry>();
+        private readonly List<BroadPhaseEntry> broadPhaseEntries = new List<BroadPhaseEntry>();
 
         private float dt;
 

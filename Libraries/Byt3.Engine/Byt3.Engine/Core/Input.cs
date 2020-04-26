@@ -10,7 +10,7 @@ namespace Byt3.Engine.Core
     /// </summary>
     public static class Input
     {
-        private static Dictionary<Key, bool> _keymap = new Dictionary<Key, bool>();
+        private static readonly Dictionary<Key, bool> _keymap = new Dictionary<Key, bool>();
         private static GameWindow _wnd;
 
         /// <summary>

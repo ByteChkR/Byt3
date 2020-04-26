@@ -18,10 +18,10 @@ namespace Byt3.Engine.Physics.BEPUik
         internal List<Bone> bones = new List<Bone>();
 
         //Stores data about an in-process BFS.
-        private Queue<Bone> bonesToVisit = new Queue<Bone>();
+        private readonly Queue<Bone> bonesToVisit = new Queue<Bone>();
         internal List<IKJoint> joints = new List<IKJoint>();
 
-        private List<Bone> uniqueChildren = new List<Bone>();
+        private readonly List<Bone> uniqueChildren = new List<Bone>();
 
         /// <summary>
         /// Gets the most recently computed set of active joints sorted by their traversal distance from control constraints.

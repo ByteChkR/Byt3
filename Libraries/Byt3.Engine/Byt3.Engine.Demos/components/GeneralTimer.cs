@@ -5,8 +5,8 @@ namespace Byt3.Engine.Demos.components
 {
     public class GeneralTimer : AbstractComponent
     {
-        private float destroyTime;
-        private Action onTrigger;
+        private readonly float destroyTime;
+        private readonly Action onTrigger;
         private float time;
 
         public GeneralTimer(float destroyTime, Action onTrigger)

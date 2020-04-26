@@ -724,8 +724,8 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.Manifolds
         /// </summary>
         public struct Edge : IEquatable<Edge>
         {
-            private int A;
-            private int B;
+            private readonly int A;
+            private readonly int B;
 
             public Edge(int a, int b)
             {

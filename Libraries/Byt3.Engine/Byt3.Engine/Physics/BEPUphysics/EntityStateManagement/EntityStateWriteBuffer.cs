@@ -9,7 +9,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.EntityStateManagement
     ///</summary>
     public class EntityStateWriteBuffer : ProcessingStage
     {
-        private ConcurrentDeque<EntityStateChange> stateChanges = new ConcurrentDeque<EntityStateChange>();
+        private readonly ConcurrentDeque<EntityStateChange> stateChanges = new ConcurrentDeque<EntityStateChange>();
 
         ///<summary>
         /// Constructs the write buffer.

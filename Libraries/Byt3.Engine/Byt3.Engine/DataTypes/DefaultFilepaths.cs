@@ -18,20 +18,13 @@ namespace Byt3.Engine.DataTypes
     /// A Class that has all default resources as fields
     /// </summary>
     [Serializable]
-    public class DefaultFilepaths : IDisposable
+    public static class DefaultFilepaths
     {
         private static readonly ADLLogger<DebugChannel> Logger =
             new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "DefaultFilepaths");
-
-        private static DefaultFilepaths _filePaths = new DefaultFilepaths();
+        
 
         public static void DisposeObjects()
-        {
-            _filePaths?.Dispose();
-            _filePaths = new DefaultFilepaths();
-        }
-
-        public void Dispose()
         {
             _defaultFont?.Dispose();
             _defaultFont = null;
@@ -56,6 +49,7 @@ namespace Byt3.Engine.DataTypes
             _defaultScreenShader?.Dispose();
             _defaultScreenShader = null;
         }
+        
 
         #region Private Static Fields
 
@@ -116,28 +110,28 @@ namespace Byt3.Engine.DataTypes
         private static ShaderProgram _defaultScreenShader;
 
         private static Dictionary<ShaderType, string> DefaultLitShaderPath =>
-            GetDictionary(_filePaths.defaultLitShader);
+            GetDictionary(defaultLitShader);
 
         private static Dictionary<ShaderType, string> DefaultUnlitShaderPath =>
-            GetDictionary(_filePaths.defaultUnlitShader);
+            GetDictionary(defaultUnlitShader);
 
         private static Dictionary<ShaderType, string> DefaultUiTextShaderPath =>
-            GetDictionary(_filePaths.defaultUiTextShader);
+            GetDictionary(defaultUiTextShader);
 
         private static Dictionary<ShaderType, string> DefaultUiImageShaderPath =>
-            GetDictionary(_filePaths.defaultUiImageShader);
+            GetDictionary(defaultUiImageShader);
 
         private static Dictionary<ShaderType, string> DefaultUiGraphShaderPath =>
-            GetDictionary(_filePaths.defaultUiGraphShader);
+            GetDictionary(defaultUiGraphShader);
 
         private static Dictionary<ShaderType, string> DefaultMergeAddShaderPath =>
-            GetDictionary(_filePaths.defaultMergeAddShader);
+            GetDictionary(defaultMergeAddShader);
 
         private static Dictionary<ShaderType, string> DefaultMergeMulShaderPath =>
-            GetDictionary(_filePaths.defaultMergeMulShader);
+            GetDictionary(defaultMergeMulShader);
 
         private static Dictionary<ShaderType, string> DefaultScreenShaderPath =>
-            GetDictionary(_filePaths.defaultScreenShader);
+            GetDictionary(defaultScreenShader);
 
         #endregion
 
@@ -146,17 +140,17 @@ namespace Byt3.Engine.DataTypes
         /// <summary>
         /// Path to the Default Mesh
         /// </summary>
-        public static string DefaultMeshPath => _filePaths.defaultMesh;
+        public static string DefaultMeshPath => defaultMesh;
 
         /// <summary>
         /// Path to the Default Texture
         /// </summary>
-        public static string DefaultTexturePath => _filePaths.defaultTexture;
+        public static string DefaultTexturePath => defaultTexture;
 
         /// <summary>
         /// Path to the Default Font
         /// </summary>
-        public static string DefaultFontPath => _filePaths.defaultFont;
+        public static string DefaultFontPath => defaultFont;
 
         /// <summary>
         /// The default font
@@ -226,58 +220,58 @@ namespace Byt3.Engine.DataTypes
 
         #region Private Properties
 
-        private string defaultFont = "assets/fonts/default_font.ttf";
+        private static string defaultFont = "assets/fonts/default_font.ttf";
 
 
-        private List<ShaderPath> defaultLitShader = new List<ShaderPath>
+        private static List<ShaderPath> defaultLitShader = new List<ShaderPath>
         {
             new ShaderPath {Type = ShaderType.FragmentShader, Path = "assets/shader/lit/shader.fs"},
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/lit/shader.vs"}
         };
 
-        private List<ShaderPath> defaultMergeAddShader = new List<ShaderPath>
+        private static List<ShaderPath> defaultMergeAddShader = new List<ShaderPath>
         {
             new ShaderPath
                 {Type = ShaderType.FragmentShader, Path = "assets/shader/internal/merge_stage/merge_shader_add.fs"},
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/internal/merge_stage/merge_shader.vs"}
         };
 
-        private List<ShaderPath> defaultMergeMulShader = new List<ShaderPath>
+        private static List<ShaderPath> defaultMergeMulShader = new List<ShaderPath>
         {
             new ShaderPath
                 {Type = ShaderType.FragmentShader, Path = "assets/shader/internal/merge_stage/merge_shader_mul.fs"},
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/internal/merge_stage/merge_shader.vs"}
         };
 
-        private string defaultMesh = "assets/models/default_mesh.obj";
+        private static string defaultMesh = "assets/models/default_mesh.obj";
 
-        private List<ShaderPath> defaultScreenShader = new List<ShaderPath>
+        private static List<ShaderPath> defaultScreenShader = new List<ShaderPath>
         {
             new ShaderPath {Type = ShaderType.FragmentShader, Path = "assets/shader/internal/screen_stage/shader.fs"},
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/internal/screen_stage/shader.vs"}
         };
 
-        private string defaultTexture = "assets/textures/default_texture.bmp";
+        private static string defaultTexture = "assets/textures/default_texture.bmp";
 
-        private List<ShaderPath> defaultUiGraphShader = new List<ShaderPath>
+        private static List<ShaderPath> defaultUiGraphShader = new List<ShaderPath>
         {
             new ShaderPath {Type = ShaderType.FragmentShader, Path = "assets/shader/ui/graph/shader.fs"},
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/ui/graph/shader.vs"}
         };
 
-        private List<ShaderPath> defaultUiImageShader = new List<ShaderPath>
+        private static List<ShaderPath> defaultUiImageShader = new List<ShaderPath>
         {
             new ShaderPath {Type = ShaderType.FragmentShader, Path = "assets/shader/ui/image/shader.fs"},
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/ui/image/shader.vs"}
         };
 
-        private List<ShaderPath> defaultUiTextShader = new List<ShaderPath>
+        private static List<ShaderPath> defaultUiTextShader = new List<ShaderPath>
         {
             new ShaderPath {Type = ShaderType.FragmentShader, Path = "assets/shader/ui/text/shader.fs"},
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/ui/text/shader.vs"}
         };
 
-        private List<ShaderPath> defaultUnlitShader = new List<ShaderPath>
+        private static List<ShaderPath> defaultUnlitShader = new List<ShaderPath>
         {
             new ShaderPath {Type = ShaderType.FragmentShader, Path = "assets/shader/unlit/shader.fs"},
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/unlit/shader.vs"}
@@ -297,41 +291,41 @@ namespace Byt3.Engine.DataTypes
         }
 
 
-        /// <summary>
-        /// Loads a XML File Containing the Default Filepath Information
-        /// </summary>
-        /// <param name="path"></param>
-        public static void Load(string path)
-        {
-            if (!IOManager.FileExists(path))
-            {
-                Logger.Crash(new EngineException("Could not load DefaultFilePaths: " + path), false);
-                return;
-            }
+        ///// <summary>
+        ///// Loads a XML File Containing the Default Filepath Information
+        ///// </summary>
+        ///// <param name="path"></param>
+        //public static void Load(string path)
+        //{
+        //    if (!IOManager.FileExists(path))
+        //    {
+        //        Logger.Crash(new EngineException("Could not load DefaultFilePaths: " + path), false);
+        //        return;
+        //    }
 
-            XmlSerializer xs = new XmlSerializer(typeof(DefaultFilepaths));
-            Stream s = IOManager.GetStream(path);
-            _filePaths = (DefaultFilepaths) xs.Deserialize(s);
-            s.Close();
-        }
+        //    XmlSerializer xs = new XmlSerializer(typeof(DefaultFilepaths));
+        //    Stream s = IOManager.GetStream(path);
+        //    _filePaths = (DefaultFilepaths) xs.Deserialize(s);
+        //    s.Close();
+        //}
 
-        /// <summary>
-        /// Save the Default Filepath Information to a XML File
-        /// </summary>
-        /// <param name="path"></param>
-        public static void Save(string path)
-        {
-            if (File.Exists(path))
-            {
-                Logger.Log(DebugChannel.Warning, "Warning, overwriting file: " + path, 10);
-                File.Delete(path);
-            }
+        ///// <summary>
+        ///// Save the Default Filepath Information to a XML File
+        ///// </summary>
+        ///// <param name="path"></param>
+        //public static void Save(string path)
+        //{
+        //    if (File.Exists(path))
+        //    {
+        //        Logger.Log(DebugChannel.Warning, "Warning, overwriting file: " + path, 10);
+        //        File.Delete(path);
+        //    }
 
-            XmlSerializer xs = new XmlSerializer(typeof(DefaultFilepaths));
-            Stream s = File.Open(path, FileMode.Create);
-            xs.Serialize(s, _filePaths);
-            s.Close();
-        }
+        //    XmlSerializer xs = new XmlSerializer(typeof(DefaultFilepaths));
+        //    Stream s = File.Open(path, FileMode.Create);
+        //    xs.Serialize(s, _filePaths);
+        //    s.Close();
+        //}
 
         #region Private Static Helper Functions
 

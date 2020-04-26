@@ -9,7 +9,7 @@ namespace Byt3.Engine.Physics.BEPUutilities.DataStructures
     /// <typeparam name="T">Type contained by the list.</typeparam>
     public struct ReadOnlyList<T> : IList<T>
     {
-        private IList<T> wrappedList;
+        private readonly IList<T> wrappedList;
 
         /// <summary>
         /// Constructs a new read-only list.
@@ -122,7 +122,7 @@ namespace Byt3.Engine.Physics.BEPUutilities.DataStructures
         /// </summary>
         public struct Enumerator : IEnumerator<T>
         {
-            private IList<T> wrappedList;
+            private readonly IList<T> wrappedList;
             private int index;
 
             ///<summary>

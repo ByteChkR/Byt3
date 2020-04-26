@@ -6,10 +6,10 @@ namespace Byt3.Engine.DataTypes
 {
     public class MeshBuilder
     {
-        private List<uint> indices = new List<uint>();
-        private List<Vertex> vertices = new List<Vertex>();
+        private readonly List<uint> indices = new List<uint>();
+        private readonly List<Vertex> vertices = new List<Vertex>();
 
-        private static int MeshIndex = 0;
+        private static int MeshIndex;
 
         public void AddVertex(Vertex v)
         {

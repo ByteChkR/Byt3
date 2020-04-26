@@ -12,10 +12,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.EntityStateManagement
         internal MotionState[] backBuffer;
         internal MotionState[] frontBuffer;
 
-        private BufferedStatesManager manager;
+        private readonly BufferedStatesManager manager;
 
 
-        private Action<int> multithreadedStateUpdateDelegate;
+        private readonly Action<int> multithreadedStateUpdateDelegate;
 
         ///<summary>
         /// Constructs a read buffer manager.

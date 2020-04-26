@@ -77,9 +77,9 @@ namespace Byt3.Engine.Physics.BEPUutilities.DataStructures
             }
         }
 
-        private int pairPoolIndex;
-        private int tablePoolIndex;
-        private int tableMask;
+        private readonly int pairPoolIndex;
+        private readonly int tablePoolIndex;
+        private readonly int tableMask;
 
         /// <summary>
         /// Creates a new set.

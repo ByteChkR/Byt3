@@ -10,10 +10,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public abstract class DetectorVolumeGroupPairHandler : DetectorVolumePairHandler, IDetectorVolumePairHandlerParent
     {
-        private HashSet<EntityCollidable> containedPairs = new HashSet<EntityCollidable>();
-        private RawList<EntityCollidable> pairsToRemove = new RawList<EntityCollidable>();
+        private readonly HashSet<EntityCollidable> containedPairs = new HashSet<EntityCollidable>();
+        private readonly RawList<EntityCollidable> pairsToRemove = new RawList<EntityCollidable>();
 
-        private Dictionary<EntityCollidable, DetectorVolumePairHandler> subPairs =
+        private readonly Dictionary<EntityCollidable, DetectorVolumePairHandler> subPairs =
             new Dictionary<EntityCollidable, DetectorVolumePairHandler>();
 
         /// <summary>

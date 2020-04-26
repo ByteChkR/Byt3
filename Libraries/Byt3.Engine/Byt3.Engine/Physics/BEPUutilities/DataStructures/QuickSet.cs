@@ -66,9 +66,9 @@ namespace Byt3.Engine.Physics.BEPUutilities.DataStructures
             }
         }
 
-        private int elementPoolIndex;
-        private int tablePoolIndex;
-        private int tableMask;
+        private readonly int elementPoolIndex;
+        private readonly int tablePoolIndex;
+        private readonly int tableMask;
 
 
         /// <summary>

@@ -12,10 +12,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
     /// </summary>
     public class CharacterPairLocker
     {
-        private static Comparer comparer = new Comparer();
-        private Entity characterBody;
+        private static readonly Comparer comparer = new Comparer();
+        private readonly Entity characterBody;
 
-        private RawList<ICharacterTag> involvedCharacters = new RawList<ICharacterTag>();
+        private readonly RawList<ICharacterTag> involvedCharacters = new RawList<ICharacterTag>();
 
         /// <summary>
         /// Constructs a new character pair locker.

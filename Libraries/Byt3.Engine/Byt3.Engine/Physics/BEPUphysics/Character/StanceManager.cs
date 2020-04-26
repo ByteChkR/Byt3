@@ -18,18 +18,18 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
         /// <summary>
         /// This is a direct reference to the 'true' character collidable. The others are query proxies that share the same shape.
         /// </summary>
-        private Cylinder characterBody;
+        private readonly Cylinder characterBody;
 
         private float crouchingHeight;
-        private ConvexCollidable<CylinderShape> crouchingQueryObject;
-        private ConvexCollidable<CylinderShape> currentQueryObject;
+        private readonly ConvexCollidable<CylinderShape> crouchingQueryObject;
+        private readonly ConvexCollidable<CylinderShape> currentQueryObject;
 
         private float proneHeight;
-        private ConvexCollidable<CylinderShape> proneQueryObject;
+        private readonly ConvexCollidable<CylinderShape> proneQueryObject;
 
         private float standingHeight;
 
-        private ConvexCollidable<CylinderShape> standingQueryObject;
+        private readonly ConvexCollidable<CylinderShape> standingQueryObject;
 
         /// <summary>
         /// Constructs a stance manager for a character.

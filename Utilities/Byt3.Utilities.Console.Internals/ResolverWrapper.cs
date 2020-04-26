@@ -5,7 +5,7 @@ namespace Byt3.Utilities.ConsoleInternals
 {
     public class ResolverWrapper
     {
-        private object instance;
+        private readonly object instance;
 
         public string ActualResolverName => instance.GetType().Name;
 

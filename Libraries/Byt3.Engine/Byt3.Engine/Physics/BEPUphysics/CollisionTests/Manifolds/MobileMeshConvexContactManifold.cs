@@ -8,7 +8,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.Manifolds
     ///</summary>
     public class MobileMeshConvexContactManifold : MobileMeshContactManifold
     {
-        private UnsafeResourcePool<TriangleConvexPairTester> testerPool =
+        private readonly UnsafeResourcePool<TriangleConvexPairTester> testerPool =
             new UnsafeResourcePool<TriangleConvexPairTester>();
 
         protected override void GiveBackTester(TrianglePairTester tester)
