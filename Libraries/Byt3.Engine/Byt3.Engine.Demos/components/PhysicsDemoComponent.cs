@@ -63,7 +63,7 @@ namespace Byt3.Engine.Demos.components
                 return "Wrong Z Component";
             }
 
-            return "Gravity Set to: "; // + Physics.Gravity;
+            return "Gravity Set to: ";
         }
 
         private string cmd_ResetCollider(string[] args)

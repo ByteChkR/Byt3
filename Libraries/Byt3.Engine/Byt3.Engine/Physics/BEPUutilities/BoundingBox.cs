@@ -142,13 +142,6 @@ namespace Byt3.Engine.Physics.BEPUutilities
             intersects = distanceSquared <= boundingSphere.Radius * boundingSphere.Radius;
         }
 
-        //public bool Intersects(BoundingFrustum frustum)
-        //{
-        //    bool intersects;
-        //    frustum.Intersects(ref this, out intersects);
-        //    return intersects;
-        //}
-
         public ContainmentType Contains(ref BoundingBox boundingBox)
         {
             if (Max.X < boundingBox.Min.X || Min.X > boundingBox.Max.X ||

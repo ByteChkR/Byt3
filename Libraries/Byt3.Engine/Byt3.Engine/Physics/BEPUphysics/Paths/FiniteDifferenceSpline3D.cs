@@ -50,8 +50,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Paths
             Vector3.Subtract(ref next, ref current, out tangentA);
             Vector3.Multiply(ref tangentA, (float) (.5 / (ControlPoints[1].Time - ControlPoints[0].Time)),
                 out tangentA);
-            //Vector3.Multiply(ref current, .5f / (controlPoints[0].time), out tangentB);
-            //Vector3.Add(ref tangentA, ref tangentB, out tangentA);
             tangents.Add(tangentA);
 
             for (int i = 1; i < ControlPoints.Count - 1; i++)
@@ -75,10 +73,8 @@ namespace Byt3.Engine.Physics.BEPUphysics.Paths
             Vector3.Subtract(ref current, ref previous, out tangentB);
             int currentIndex = ControlPoints.Count - 1;
             int previousIndex = currentIndex - 1;
-            //Vector3.Multiply(ref tangentA, .5f / (-controlPoints[currentIndex].time), out tangentA);
             Vector3.Multiply(ref tangentB,
                 (float) (.5 / (ControlPoints[currentIndex].Time - ControlPoints[previousIndex].Time)), out tangentB);
-            //Vector3.Add(ref tangentA, ref tangentB, out tangentA);
             tangents.Add(tangentB);
         }
     }

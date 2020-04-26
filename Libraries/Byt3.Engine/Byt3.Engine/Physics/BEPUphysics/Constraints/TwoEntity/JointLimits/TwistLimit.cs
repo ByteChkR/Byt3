@@ -263,8 +263,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.TwoEntity.JointLimits
             float errorReduction;
             springSettings.ComputeErrorReductionAndSoftness(dt, 1 / dt, out errorReduction, out softness);
 
-
-            //biasVelocity = MathHelper.Clamp(-error * myCorrectionStrength / dt, -myMaxCorrectiveVelocity, myMaxCorrectiveVelocity);
+            
             biasVelocity = MathHelper.Min(MathHelper.Max(0, Math.Abs(Error) - margin) * errorReduction,
                 maxCorrectiveVelocity);
             if (bounciness > 0)
@@ -366,8 +365,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.TwoEntity.JointLimits
             }
 
             return angle - minimumAngle;
-            //else //if (currentAngle >= 0)
-            //    return angle - myMinimumAngle;
         }
 
         private bool IsAngleValid(float currentAngle, out float distanceFromCurrent, out float distanceFromMaximum)

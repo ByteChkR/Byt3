@@ -89,30 +89,7 @@ namespace Byt3Console.Runner
 
             return changed;
         }
-
-        //public bool TryGetConsole(string key, out ConsoleItem console)
-        //{
-        //    ConsoleItem item = ConsoleEntries.FirstOrDefault(x => x.ConsoleKey == key);
-        //    console = item;
-        //    return item != null;
-        //}
-
-
-        //private bool TryGetConsoleTypes(string file, out Type[] consoles)
-        //{
-        //    try
-        //    {
-        //        Assembly asm = ConsoleItem.LoadAssembly(file);
-        //        consoles = asm.GetExportedTypes().Where(x => x.Name == "ConsoleEntry").ToArray();
-        //        return true;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        consoles = new Type[0];
-        //        return false;
-        //    }
-        //}
-
+        
 
         public ConsoleItem GetConsoleItem(string key)
         {

@@ -34,7 +34,7 @@ namespace Byt3.OpenFL.Threading
             FLInstructionSet instructionSet, FLProgramCheckBuilder checkBuilder, WorkItemRunnerSettings runnerSettings)
         {
             Db = dataBase;
-            InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(Db);
+            InstructionSet = instructionSet;
             BufferCreator = creator;
 
             Parser = new FLParser(InstructionSet, BufferCreator, runnerSettings);
@@ -96,12 +96,6 @@ namespace Byt3.OpenFL.Threading
             program.Run(Instance, input, true);
 
             return program;
-
-            //FLProgram parseResult = FLParserParse(new FLParserInput(context.Filename, Instance));
-
-            //parseResult.Run(Instance, Db, input);
-
-            //return parseResult;
         }
     }
 }

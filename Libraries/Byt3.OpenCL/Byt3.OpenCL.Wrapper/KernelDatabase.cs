@@ -99,7 +99,7 @@ namespace Byt3.OpenCL.Wrapper
             }
 
 
-            string path = file; //Path.GetFullPath(file);
+            string path = file;
 
             Logger.Log(LogType.Log, "Creating CLProgram from file: " + file, 3);
             CLProgram program = new CLProgram(instance, path);

@@ -289,43 +289,7 @@ namespace Byt3.Engine.DataTypes
 
             return ret;
         }
-
-
-        ///// <summary>
-        ///// Loads a XML File Containing the Default Filepath Information
-        ///// </summary>
-        ///// <param name="path"></param>
-        //public static void Load(string path)
-        //{
-        //    if (!IOManager.FileExists(path))
-        //    {
-        //        Logger.Crash(new EngineException("Could not load DefaultFilePaths: " + path), false);
-        //        return;
-        //    }
-
-        //    XmlSerializer xs = new XmlSerializer(typeof(DefaultFilepaths));
-        //    Stream s = IOManager.GetStream(path);
-        //    _filePaths = (DefaultFilepaths) xs.Deserialize(s);
-        //    s.Close();
-        //}
-
-        ///// <summary>
-        ///// Save the Default Filepath Information to a XML File
-        ///// </summary>
-        ///// <param name="path"></param>
-        //public static void Save(string path)
-        //{
-        //    if (File.Exists(path))
-        //    {
-        //        Logger.Log(DebugChannel.Warning, "Warning, overwriting file: " + path, 10);
-        //        File.Delete(path);
-        //    }
-
-        //    XmlSerializer xs = new XmlSerializer(typeof(DefaultFilepaths));
-        //    Stream s = File.Open(path, FileMode.Create);
-        //    xs.Serialize(s, _filePaths);
-        //    s.Close();
-        //}
+        
 
         #region Private Static Helper Functions
 

@@ -92,31 +92,19 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
                 switch (change.Change)
                 {
                     case ContainmentChangeType.BeganTouching:
-                        if (EntityBeganTouching != null)
-                        {
-                            EntityBeganTouching(this, change.Entity);
-                        }
+                        EntityBeganTouching?.Invoke(this, change.Entity);
 
                         break;
                     case ContainmentChangeType.StoppedTouching:
-                        if (EntityStoppedTouching != null)
-                        {
-                            EntityStoppedTouching(this, change.Entity);
-                        }
+                        EntityStoppedTouching?.Invoke(this, change.Entity);
 
                         break;
                     case ContainmentChangeType.BeganContaining:
-                        if (VolumeBeganContainingEntity != null)
-                        {
-                            VolumeBeganContainingEntity(this, change.Entity);
-                        }
+                        VolumeBeganContainingEntity?.Invoke(this, change.Entity);
 
                         break;
                     case ContainmentChangeType.StoppedContaining:
-                        if (VolumeStoppedContainingEntity != null)
-                        {
-                            VolumeStoppedContainingEntity(this, change.Entity);
-                        }
+                        VolumeStoppedContainingEntity?.Invoke(this, change.Entity);
 
                         break;
                 }

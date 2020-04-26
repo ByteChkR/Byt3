@@ -34,8 +34,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.SingleEntity
 
             Settings = new MotorSettingsOrientation(this) {servo = {goal = this.entity.orientation}};
             //Since no target relative orientation was specified, just use the current relative orientation.  Prevents any nasty start-of-sim 'snapping.'
-
-            //mySettings.myServo.springSettings.stiffnessConstant *= .5f;
         }
 
         /// <summary>

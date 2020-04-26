@@ -21,103 +21,6 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class CLAPI : ALoggable<LogType>, IDisposable
     {
-        //public delegate string[] IOReadLinesCallback(string file);
-
-        //public delegate string IOReadTextCallback(string file);
-
-        //public delegate bool IOFileExistsCallback(string file);
-
-        //public delegate bool IODirectoryExistsCallback(string directory);
-
-        //public delegate string[] IOGetFilesCallback(string directory, string searchString);
-
-        //public delegate Stream IOGetStreamCallback(string file);
-
-        //private static IOReadLinesCallback ReadLinesCallback = File.ReadAllLines;
-
-        //public static IOReadLinesCallback ReadLines
-        //{
-        //    get => ReadLinesCallback;
-        //    set
-        //    {
-        //        if (value != null)
-        //        {
-        //            ReadLinesCallback = value;
-        //        }
-        //    }
-        //}
-
-        //private static IOReadTextCallback ReadTextCallback = File.ReadAllText;
-
-        //public static IOReadTextCallback ReadText
-        //{
-        //    get => ReadTextCallback;
-        //    set
-        //    {
-        //        if (value != null)
-        //        {
-        //            ReadTextCallback = value;
-        //        }
-        //    }
-        //}
-
-        //private static IOFileExistsCallback FileExistsCallback = File.Exists;
-
-        //public static IOFileExistsCallback FileExists
-        //{
-        //    get => FileExistsCallback;
-        //    set
-        //    {
-        //        if (value != null)
-        //        {
-        //            FileExistsCallback = value;
-        //        }
-        //    }
-        //}
-
-        //private static IODirectoryExistsCallback DirectoryExistsCallback = Directory.Exists;
-
-        //public static IODirectoryExistsCallback DirectoryExists
-        //{
-        //    get => DirectoryExistsCallback;
-        //    set
-        //    {
-        //        if (value != null)
-        //        {
-        //            DirectoryExistsCallback = value;
-        //        }
-        //    }
-        //}
-
-        //private static IOGetFilesCallback GetFilesCallback = Directory.GetFiles;
-
-        //public static IOGetFilesCallback GetFiles
-        //{
-        //    get => GetFilesCallback;
-        //    set
-        //    {
-        //        if (value != null)
-        //        {
-        //            GetFilesCallback = value;
-        //        }
-        //    }
-        //}
-
-        //private static IOGetStreamCallback GetStreamCallback = File.OpenRead;
-
-        //public static IOGetStreamCallback GetStream
-        //{
-        //    get => GetStreamCallback;
-        //    set
-        //    {
-        //        if (value != null)
-        //        {
-        //            GetStreamCallback = value;
-        //        }
-        //    }
-        //}
-
-
         /// <summary>
         /// A Delegate to create random numbers for every data type
         /// </summary>
@@ -204,7 +107,6 @@ namespace Byt3.OpenCL.Wrapper
             for (int i = 0; i < platforms.Count(); i++)
             {
                 IEnumerable<Device> ds = platforms.ElementAt(i).GetDevices(DeviceType.Default);
-                int c = ds.Count();
                 for (int j = 0; j < ds.Count(); j++)
                 {
                     Logger.Log(LogType.Log, "Adding Device: " + ds.ElementAt(j).Name + "@" + ds.ElementAt(j).Vendor, 1);

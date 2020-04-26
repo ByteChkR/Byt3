@@ -12,8 +12,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.Collision
     public class ContactFrictionConstraint : SolverUpdateable
     {
         internal float accumulatedImpulse;
-
-        //float linearBX, linearBY, linearBZ;
+        
         private float angularAX, angularAY, angularAZ;
         private float angularBX, angularBY, angularBZ;
         private Entity entityA, entityB;
@@ -217,8 +216,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.Collision
                 //This is 'fast' in that it will early out on essentially resting objects,
                 //but it may introduce instability.
                 //If it doesn't look good, try the next approach.
-                //isActive = false;
-                //return;
 
                 //if the above doesn't work well, try using the previous frame's jacobian.
                 if (linearAX != 0 || linearAY != 0 || linearAZ != 0)

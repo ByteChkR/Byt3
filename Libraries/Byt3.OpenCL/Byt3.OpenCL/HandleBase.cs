@@ -185,14 +185,6 @@ namespace Byt3.OpenCL
             objects.Remove(bytes);
         }
 
-        //public static void CrashOnLeak()
-        //{
-        //    if (TotalCLObjectsCreated != 0)
-        //    {
-        //        throw new Exception("CL Objects Are not properly disposed.");
-        //    }
-        //}
-
         public static void DisposeAllHandles()
         {
             for (int i = 0; i < objects.Count; i++)

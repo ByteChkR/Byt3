@@ -202,9 +202,6 @@ namespace Byt3.Engine.Rendering
             }
 
             return uniformCache[name];
-            //int loc = GL.GetUniformLocation(_prgId, name);
-            //uniformCache.Add(name, loc);
-            //return loc;
         }
 
         /// <summary>

@@ -13,34 +13,15 @@ namespace Byt3Console.Runner
         public string ConsoleKey { get; set; }
         public string ConsoleTitle { get; set; }
 
-        //private object consoleInstance;
-
-
-        //public static Assembly LoadAssembly(string file)
-        //{
-        //    Assembly ret = Assembly.LoadFrom(file);
-        //    return ret;
-        //}
 
 
         public bool Run(string[] args)
         {
-            //string dir = Directory.GetCurrentDirectory();
-            //Directory.SetCurrentDirectory(Path.GetDirectoryName(LibPath));
             AppDomainController adc = AppDomainController.Create(ConsoleTitle, new[] {Path.GetDirectoryName(LibPath)});
             object ret = adc.LoadTypeAndRunFunction(LibPath, TypeSignature, "Run", new object[] {args});
             adc.Dispose();
-            //Directory.SetCurrentDirectory(dir);
             return ret == null || ret is bool b && b;
 
-
-            //object console = GetConsole();
-            //AssemblyName name = Assembly.GetAssembly(console.GetType()).GetName();
-            //System.Console.WriteLine("Starting Console: " + name.Name + " Version: " + name.Version);
-            //object ret = RunMethod.Invoke(console, new object[] { args });
-
-
-            //return ret == null || ret is bool b && b;
         }
 
         public ConsoleItem()

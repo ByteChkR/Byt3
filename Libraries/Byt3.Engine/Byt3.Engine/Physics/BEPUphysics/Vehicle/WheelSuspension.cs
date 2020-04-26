@@ -11,8 +11,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Vehicle
     {
         internal float accumulatedImpulse;
         private float allowedCompression = .01f;
-
-        //float linearBX, linearBY, linearBZ;
+        
         private float angularAX, angularAY, angularAZ;
         private float angularBX, angularBY, angularBZ;
         private float bias;
@@ -329,12 +328,9 @@ namespace Byt3.Engine.Physics.BEPUphysics.Vehicle
             //Vector3.TransformNormal(ref myLocalDirection, ref parentA.myInternalOrientationMatrix, out myWorldDirection);
 
             //Set up the jacobians.
-            linearAX = -Wheel.normal.X; //myWorldDirection.X;
-            linearAY = -Wheel.normal.Y; //myWorldDirection.Y;
-            linearAZ = -Wheel.normal.Z; // myWorldDirection.Z;
-            //linearBX = -linearAX;
-            //linearBY = -linearAY;
-            //linearBZ = -linearAZ;
+            linearAX = -Wheel.normal.X;
+            linearAY = -Wheel.normal.Y;
+            linearAZ = -Wheel.normal.Z;
 
             //angular A = Ra x N
             angularAX = Wheel.ra.Y * linearAZ - Wheel.ra.Z * linearAY;

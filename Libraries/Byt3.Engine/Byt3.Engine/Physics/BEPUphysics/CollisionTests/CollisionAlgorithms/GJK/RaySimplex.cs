@@ -187,11 +187,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
             }
 
             //Check if it's outside AC.            
-            //float AdotAB, AdotAC;
-            //Vector3.Dot(ref ab, ref A, out AdotAB);
-            //Vector3.Dot(ref ac, ref A, out AdotAC);
-            //AdotAB = -AdotAB;
-            //AdotAC = -AdotAC;
             float vb = CdotAB * AdotAC - AdotAB * CdotAC;
             if (vb <= 0f && AdotAC > 0f && CdotAC < 0f
             ) //Note > instead of >= and < instead of <=; prevents bad denominator
@@ -206,11 +201,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
             }
 
             //Check if it's outside BC.
-            //float BdotAB, BdotAC;
-            //Vector3.Dot(ref ab, ref B, out BdotAB);
-            //Vector3.Dot(ref ac, ref B, out BdotAC);
-            //BdotAB = -BdotAB;
-            //BdotAC = -BdotAC;
             float va = BdotAB * CdotAC - CdotAB * BdotAC;
             float d3d4;
             float d6d5;
@@ -414,11 +404,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                 }
 
                 //Check if it's outside AC.            
-                //float AdotAB, AdotAC;
-                //Vector3.Dot(ref ab, ref A, out AdotAB);
-                //Vector3.Dot(ref ac, ref A, out AdotAC);
-                //AdotAB = -AdotAB;
-                //AdotAC = -AdotAC;
+
                 float vb = CdotAB * AdotAC - AdotAB * CdotAC;
                 if (vb <= 0f && AdotAC > 0f && CdotAC < 0f
                 ) //Note > instead of >= and < instead of <=; prevents bad denominator
@@ -433,11 +419,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                 }
 
                 //Check if it's outside BC.
-                //float BdotAB, BdotAC;
-                //Vector3.Dot(ref ab, ref B, out BdotAB);
-                //Vector3.Dot(ref ac, ref B, out BdotAC);
-                //BdotAB = -BdotAB;
-                //BdotAC = -BdotAC;
+
                 float va = BdotAB * CdotAC - CdotAB * BdotAC;
                 float d3d4;
                 float d6d5;

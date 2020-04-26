@@ -48,9 +48,6 @@ namespace Byt3.Engine.Core
             {
                 XmlNode container = node.AppendChild(doc.CreateNode(XmlNodeType.Element, serializedObj.Item1, ""));
 
-
-                TextReader tr = new StringReader(serializedObj.Item2);
-
                 XmlDocument cont = new XmlDocument();
                 cont.LoadXml(serializedObj.Item2);
 
@@ -349,8 +346,7 @@ namespace Byt3.Engine.Core
                 where t.Namespace != null && t.Namespace.Contains(nameSpace)
                 select new Tuple<string, Type>(t.FullName.Replace("+", "."), t);
 
-
-            Type attribType = typeof(T);
+            
             Tuple<string, Type>[] types = namespaceTypes.ToArray();
             foreach (Tuple<string, Type> item in types)
             {

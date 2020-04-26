@@ -23,7 +23,7 @@ namespace TestingProject
 {
     internal static class Program
     {
-        internal static bool Exit = false;
+        internal static bool Exit ;
 
         private static readonly Dictionary<string, AConsole> Consoles = new Dictionary<string, AConsole>
         {

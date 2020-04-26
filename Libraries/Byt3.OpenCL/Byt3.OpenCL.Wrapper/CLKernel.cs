@@ -139,7 +139,6 @@ namespace Byt3.OpenCL.Wrapper
         public void Run(CommandQueue cq, int workdim, int groupsize)
         {
             cq.EnqueueNDRangeKernel(Kernel, workdim, groupsize);
-            //cq.Flush();
         }
     }
 }

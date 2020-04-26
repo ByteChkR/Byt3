@@ -11,11 +11,11 @@ namespace Byt3Console.OpenFL.Commands
         public ListSettingsCommand(SetSettingsCommand cmd) : base(new[] {"--list-settings", "-ls"},
             "Lists all settings that can be changed with the command --set-settings")
         {
-            CommandAction = SetExtraSteps;
+            CommandAction = (info, strings) => ListSettings();
             ss = cmd;
         }
 
-        private void SetExtraSteps(StartupArgumentInfo arg1, string[] arg2)
+        private void ListSettings()
         {
             Logger.Log(LogType.Log, "Available Settings: \n" + ss.AllPaths.Unpack("\n"), 1);
         }

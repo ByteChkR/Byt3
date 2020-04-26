@@ -283,8 +283,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionShapes
 
                 //Test the triangles of this cell.
                 Vector3 v1, v2, v3, v4;
-                // v3 v4
-                // v1 v2
                 GetLocalPosition(xCell, zCell, out v1);
                 GetLocalPosition(xCell + 1, zCell, out v2);
                 GetLocalPosition(xCell, zCell + 1, out v3);
@@ -336,7 +334,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionShapes
                         didHit2 = Toolbox.FindRayTriangleIntersection(ref localRay, maximumLength, sidedness, ref v2,
                             ref v4, ref v3, out hit2);
                     }
-                    else //if (quadTriangleOrganization == CollisionShapes.QuadTriangleOrganization.BottomRightUpperLeft)
+                    else
                     {
                         didHit1 = Toolbox.FindRayTriangleIntersection(ref localRay, maximumLength, sidedness, ref v1,
                             ref v2, ref v4, out hit1);
@@ -521,20 +519,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionShapes
 
             //Since the horizontal offsets are known to be 1 in local space, we can omit quite a few operations compared to a full Vector3 and cross product.
 
-            //The implicit vectors are:
-            //var leftToRight = new Vector3(2, rightHeight - leftHeight, 0);
-            //var bottomToTop = new Vector3(0, topHeight - bottomHeight, 2);
-            //the result is then:
-            //Vector3.Cross(bottomToTop, leftToRight);
-            //Which is:
-            //float resultX = bottomToTop.Y * leftToRight.Z - bottomToTop.Z * leftToRight.Y;
-            //float resultY = bottomToTop.Z * leftToRight.X - bottomToTop.X * leftToRight.Z;
-            //float resultZ = bottomToTop.X * leftToRight.Y - bottomToTop.Y * leftToRight.X;
-            //Which becomes:
-            //float resultX = bottomToTop.Y * 0 - 2 * leftToRight.Y;
-            //float resultY = 2 * 2 - 0 * 0;
-            //float resultZ = 0 * leftToRight.Y - bottomToTop.Y * 2;
-            //Which becomes:
             normal.X = rightHeight - leftHeight;
             normal.Y = 2;
             normal.Z = topHeight - bottomHeight;

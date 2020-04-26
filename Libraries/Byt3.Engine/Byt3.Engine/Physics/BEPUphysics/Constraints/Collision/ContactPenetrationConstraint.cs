@@ -13,8 +13,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.Collision
     public class ContactPenetrationConstraint : SolverUpdateable
     {
         internal float accumulatedImpulse;
-
-        //float linearBX, linearBY, linearBZ;
+        
         internal float angularAX, angularAY, angularAZ;
         internal float angularBX, angularBY, angularBZ;
         private float bias;
@@ -121,10 +120,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.Collision
             linearAX = -contact.Normal.X;
             linearAY = -contact.Normal.Y;
             linearAZ = -contact.Normal.Z;
-            //linearBX = -linearAX;
-            //linearBY = -linearAY;
-            //linearBZ = -linearAZ;
-
 
             //angular A = Ra x N
             if (entityA != null)
@@ -231,16 +226,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.Collision
                 //This implementation is going to ignore bounciness for now.
                 //Since it's not being used for CCD, these negative-depth contacts
                 //only really occur in situations where no bounce should occur.
-
-                //if (contactManifoldConstraint.materialInteraction.Bounciness > 0)
-                //{
-                //    //Target a velocity which includes a portion of the incident velocity.
-                //    //The contact isn't colliding currently, but go ahead and target the post-bounce velocity.
-                //    //The bias is added to the bounce velocity to simulate the object continuing to the surface and then bouncing off.
-                //    float relativeVelocity = -RelativeVelocity;
-                //    if (relativeVelocity > CollisionResponseSettings.BouncinessVelocityThreshold)
-                //        bias = relativeVelocity * contactManifoldConstraint.materialInteraction.Bounciness + bias;
-                //}
             }
         }
 

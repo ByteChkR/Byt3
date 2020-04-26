@@ -43,7 +43,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionRuleManagement
             const ulong prime = 0xd8163841;
             //Note that the order of the pair is irrelevant- this is required
             ulong hash = ((ulong) groupA.GetHashCode() + (ulong) groupB.GetHashCode()) * prime;
-            hashCode = (int) hash; // % (int.MaxValue - 1));
+            hashCode = (int) hash;
         }
 
         #region IEquatable<CollisionGroupPair> Members

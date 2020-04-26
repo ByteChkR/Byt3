@@ -7,10 +7,10 @@ namespace TestingProjectConsole.Commands
         public ExitAfterFlagCommand() : base(new[] {"--exit-after", "-ea"},
             "Directly returns from the command.")
         {
-            CommandAction = (info, strings) => SetFlag(strings);
+            CommandAction = (info, strings) => SetFlag();
         }
 
-        private void SetFlag(string[] args)
+        private void SetFlag()
         {
             TestingConsole.Exit = true;
         }

@@ -9,10 +9,10 @@ namespace Byt3Console.VersionHelper.Commands
         public ChangeVersionCommand() : base(new[] {"--increase", "-i"},
             "Increases the last number in the version string 0.0.0.1 => 0.0.0.2", true)
         {
-            CommandAction = ChangeVersion;
+            CommandAction = (info, strings) => ChangeVersion(strings);
         }
 
-        private void ChangeVersion(StartupArgumentInfo arg1, string[] arg2)
+        private void ChangeVersion( string[] arg2)
         {
             string file = arg2[0];
             string versionChangeStr = "X.X.X.+";

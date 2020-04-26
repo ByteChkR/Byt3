@@ -392,57 +392,12 @@ namespace Byt3.Engine.Physics.BEPUphysics.UpdateableSystems
             //Compute the origin.
             Vector3 minimum;
             RigidTransform.Transform(ref entityBoundingBox.Min, ref surfaceTransform, out minimum);
-            //Matrix3X3.TransformTranspose(ref entityBoundingBox.Min, ref surfaceOrientationTranspose, out minimum);
             Vector3 offset;
             Vector3.Multiply(ref xSpacing, .5f, out offset);
             Vector3.Add(ref minimum, ref offset, out origin);
             Vector3.Multiply(ref zSpacing, .5f, out offset);
             Vector3.Add(ref origin, ref offset, out origin);
 
-
-            //TODO: Could adjust the grid origin such that a ray always hits the deepest point.
-            //The below code is a prototype of the idea, but has bugs.
-            //var convexInfo = collidable as ConvexCollisionInformation;
-            //if (convexInfo != null)
-            //{
-            //    Vector3 dir;
-            //    Vector3.Negate(ref upVector, out dir);
-            //    Vector3 extremePoint;
-            //    convexInfo.Shape.GetExtremePoint(dir, ref convexInfo.worldTransform, out extremePoint);
-            //    //Use extreme point to snap to grid.
-            //    Vector3.Subtract(ref extremePoint, ref origin, out offset);
-            //    float offsetX, offsetZ;
-            //    Vector3.Dot(ref offset, ref right, out offsetX);
-            //    Vector3.Dot(ref offset, ref backward, out offsetZ);
-            //    offsetX %= widthIncrement;
-            //    offsetZ %= lengthIncrement;
-
-            //    if (offsetX > .5f * widthIncrement)
-            //    {
-            //        Vector3.Multiply(ref right, 1 - offsetX, out offset);
-            //    }
-            //    else
-            //    {
-            //        Vector3.Multiply(ref right, -offsetX, out offset);
-            //    }
-
-            //    if (offsetZ > .5f * lengthIncrement)
-            //    {
-            //        Vector3 temp;
-            //        Vector3.Multiply(ref right, 1 - offsetZ, out temp);
-            //        Vector3.Add(ref temp, ref offset, out offset);
-            //    }
-            //    else
-            //    {
-            //        Vector3 temp;
-            //        Vector3.Multiply(ref right, -offsetZ, out temp);
-            //        Vector3.Add(ref temp, ref offset, out offset);
-            //    }
-
-            //    Vector3.Add(ref origin, ref offset, out origin);
-
-
-            //}
         }
 
         private float GetSubmergedHeight(EntityCollidable collidable, float maxLength, float boundingBoxHeight,

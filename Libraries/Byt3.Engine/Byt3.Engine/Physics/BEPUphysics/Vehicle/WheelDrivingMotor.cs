@@ -153,13 +153,13 @@ namespace Byt3.Engine.Physics.BEPUphysics.Vehicle
             {
                 accumulatedImpulse =
                     MathHelper.Clamp(accumulatedImpulse, 0,
-                        maxMotorForceDt); //MathHelper.Min(MathHelper.Max(accumulatedImpulse, 0), myMaxMotorForceDt);
+                        maxMotorForceDt);
             }
             else if (TargetSpeed < 0)
             {
                 accumulatedImpulse =
                     MathHelper.Clamp(accumulatedImpulse, maxMotorForceDt,
-                        0); //MathHelper.Max(MathHelper.Min(accumulatedImpulse, 0), myMaxMotorForceDt);
+                        0);
             }
             else
             {

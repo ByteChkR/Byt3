@@ -282,7 +282,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries.MobileCollidables
                 //Could use this to incorporate angular motion.  Since the bounding box is an approximation to begin with,
                 //this isn't too important.  If an updating system is used where the bounding box MUST fully contain the frame's motion
                 //then the commented area should be used.
-                //Math.Min(entity.angularVelocity.Length() * dt, Shape.maximumRadius) * velocityScaling;
                 //TODO: consider using minimum radius 
             }
 
