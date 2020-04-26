@@ -25,9 +25,7 @@ namespace Byt3.OpenFL.Parsing
         {
             TextProcessorAPI.Configs[".fl"] = new FLPreProcessorConfig();
         }
-
-        private static readonly ADLLogger<LogType> Logger =
-            new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "FLParser");
+        
 
 
         public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator,
@@ -65,8 +63,7 @@ namespace Byt3.OpenFL.Parsing
                     ret.Add(source[i]);
                 }
             }
-
-            //List<string> ret = source.Where(IsDefineStatement).ToList();
+            
             ret.Add("--define texture in:");
             return ret.ToArray();
         }
@@ -83,7 +80,6 @@ namespace Byt3.OpenFL.Parsing
             }
 
             return ret.ToArray();
-            //return source.Where(IsDefineScriptStatement).ToArray();
         }
 
         internal static string[] FindFunctionHeaders(List<string> source)
@@ -98,20 +94,12 @@ namespace Byt3.OpenFL.Parsing
             }
 
             return ret.ToArray();
-            //return source.Where(IsFunctionHeader).Select(x =>
-            //{
-            //    string r = RemoveComment(x);
-            //    r = r.Remove(r.Length - 1, 1);
-            //    return r;
-            //}).ToArray();
         }
 
 
         internal static string GetScriptPath(string definedScriptLine)
         {
             return GetPath(ref definedScriptLine).Replace("\"", string.Empty);
-            //return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
-            //    .Replace("\"", "");
         }
 
         private static string GetPath(ref string line)
@@ -123,17 +111,11 @@ namespace Byt3.OpenFL.Parsing
         internal static string GetScriptName(string definedScriptLine)
         {
             return GetName(ref definedScriptLine, DEFINE_SCRIPT_KEY);
-            //return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
-            //    .Replace("--define script", "").Trim();
         }
 
         internal static string GetBufferName(string definedBufferLine)
         {
             return GetName(ref definedBufferLine, DEFINE_TEXTURE_KEY);
-            //return definedBufferLine.Substring(DEFINE_TEXTURE_KEY.Length,
-            //    FString.FastIndexOf(ref definedBufferLine, ":")- DEFINE_TEXTURE_KEY.Length);
-            //return RemoveComment(definedBufferLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
-            //    .Replace("--define texture", "").Trim();
         }
 
         private static string GetName(ref string line, string key)

@@ -27,7 +27,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                     signature.Add(SerializableFLInstructionArgument.Parse(overload[i]));
                 }
 
-                ret.Add(new InstructionArgumentSignature() {Signature = signature});
+                ret.Add(new InstructionArgumentSignature {Signature = signature});
             }
 
             return true;
@@ -54,7 +54,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                         continue;
                     }
 
-                    InstructionArgumentSignature sig = new InstructionArgumentSignature()
+                    InstructionArgumentSignature sig = new InstructionArgumentSignature
                     {
                         Signature = serializableFlInstruction.Arguments
                             .Select(x => x.ArgumentCategory).ToList()

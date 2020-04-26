@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Threading;
 using Byt3.CommandRunner;
 using Byt3.Engine.BuildTools.Common;
@@ -32,8 +33,6 @@ namespace Byt3.Engine.BuildTools.Commands
                 {
                     BuildSettings bs = Builder.LoadSettings(file);
 
-
-                    string homeDir = AppDomain.CurrentDomain.BaseDirectory;
 
                     Directory.SetCurrentDirectory(Path.GetDirectoryName(Path.GetFullPath(file)));
 
@@ -183,10 +182,13 @@ namespace Byt3.Engine.BuildTools.Commands
                             {
                                 string[] a = info.GetValues("--set-start-args").ToArray();
                                 startArg = a[0];
+                                StringBuilder sb = new StringBuilder(a[0]);
                                 for (int i = 1; i < a.Length; i++)
                                 {
-                                    startArg += " " + a[i];
+                                    sb.Append(" " + a[i]);
                                 }
+
+                                startArg = sb.ToString();
                             }
                         }
 
@@ -202,8 +204,9 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public BuildXMLCommand() : base(BuildXML, new[] {"--xml"}, "--xml <Path/To/File.xml>", true)
+        public BuildXMLCommand() : base( new[] {"--xml"}, "--xml <Path/To/File.xml>", true)
         {
+            CommandAction = BuildXML;
         }
     }
 }

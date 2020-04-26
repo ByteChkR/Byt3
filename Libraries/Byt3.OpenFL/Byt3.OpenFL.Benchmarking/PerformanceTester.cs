@@ -140,36 +140,5 @@ namespace Byt3.OpenFL.Benchmarking
             return new PerformanceResult(target, testCount, result);
         }
 
-        //public bool MatchesTarget(string nameOfTest, decimal value, out decimal deltaFromTarget, out decimal targetActual)
-        //{
-        //    if (!Initialized) InitializeTargets();
-        //    PerformanceTarget target = Targets.FirstOrDefault(x => x.TestName == nameOfTest);
-        //    if (target == null)
-        //    {
-        //        target = new PerformanceTarget { TestName = nameOfTest, Target = value, Variance = value / 2, LowerIsBetter = true };
-        //        Targets.Add(target);
-        //        WriteTarget(target);
-        //        targetActual = value;
-        //        deltaFromTarget = 0;
-        //        return true; //First Run.
-        //    }
-
-        //    targetActual = target.Target;
-
-        //    decimal targetAndVariance;
-        //    if (target.LowerIsBetter)
-        //    {
-        //        targetAndVariance = target.Target + target.Variance;
-        //    }
-        //    else
-        //    {
-        //        targetAndVariance = target.Target - target.Variance;
-        //    }
-        //    deltaFromTarget = target.Target - value;
-
-
-        //    return (!target.LowerIsBetter || targetAndVariance >= value) &&
-        //           (target.LowerIsBetter || targetAndVariance <= value);
-        //}
     }
 }

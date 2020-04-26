@@ -28,7 +28,7 @@ namespace Byt3Console.Engine.Player.Commands
             }
         }
 
-        public static void AddEngine(StartupArgumentInfo info, string[] args)
+        public static void AddEngine(string[] args)
         {
             if (args.Length == 0 || !File.Exists(args[0]) || !args[0].EndsWith(".engine"))
             {
@@ -39,9 +39,10 @@ namespace Byt3Console.Engine.Player.Commands
             AddEngine(args[0]);
         }
 
-        public AddEngineCommand() : base(AddEngine, new[] {"--add-engine", "-a"},
+        public AddEngineCommand() : base( new[] {"--add-engine", "-a"},
             "--add-engine <<Path/To/File.engine>\nAdds an engine file to the engine cache", false)
         {
+            CommandAction = (info, strings) => AddEngine(strings);
         }
     }
 }

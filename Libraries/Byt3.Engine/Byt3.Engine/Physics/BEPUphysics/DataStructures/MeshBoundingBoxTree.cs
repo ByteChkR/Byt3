@@ -181,23 +181,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
             return outputOverlappedElements.Count > 0;
         }
 
-        ///// <summary>
-        ///// Gets the triangles whose bounding boxes are overlapped by the query.
-        ///// </summary>
-        ///// <param name="boundingFrustum">Shape to query against the tree.</param>
-        ///// <param name="outputOverlappedElements">Indices of triangles in the index buffer with bounding boxes which are overlapped by the query.</param>
-        ///// <returns>Whether or not any elements were overlapped.</returns>
-        //public bool GetOverlaps(BoundingFrustum boundingFrustum, IList<int> outputOverlappedElements)
-        //{
-        //    if (root != null)
-        //    {
-        //        bool intersects;
-        //        boundingFrustum.Intersects(ref root.BoundingBox, out intersects);
-        //        if (intersects)
-        //            root.GetOverlaps(ref boundingFrustum, outputOverlappedElements);
-        //    }
-        //    return outputOverlappedElements.Count > 0;
-        //}
+       
         /// <summary>
         /// Gets the triangles whose bounding boxes are overlapped by the query.
         /// </summary>
@@ -247,8 +231,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
             internal abstract void GetOverlaps(ref BoundingBox boundingBox, IList<int> outputOverlappedElements);
 
             internal abstract void GetOverlaps(ref BoundingSphere boundingSphere, IList<int> outputOverlappedElements);
-
-            //internal abstract void GetOverlaps(ref BoundingFrustum boundingFrustum, IList<int> outputOverlappedElements);
+            
             internal abstract void GetOverlaps(ref Ray ray, float maximumLength, IList<int> outputOverlappedElements);
 
 
@@ -303,16 +286,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
                 }
             }
 
-            //internal override void GetOverlaps(ref BoundingFrustum boundingFrustum, IList<int> outputOverlappedElements)
-            //{
-            //    bool intersects;
-            //    boundingFrustum.Intersects(ref ChildA.BoundingBox, out intersects);
-            //    if (intersects)
-            //        ChildA.GetOverlaps(ref boundingFrustum, outputOverlappedElements);
-            //    boundingFrustum.Intersects(ref ChildB.BoundingBox, out intersects);
-            //    if (intersects)
-            //        ChildB.GetOverlaps(ref boundingFrustum, outputOverlappedElements);
-            //}
 
             internal override void GetOverlaps(ref Ray ray, float maximumLength, IList<int> outputOverlappedElements)
             {
@@ -331,27 +304,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
 
             internal override bool TryToInsert(LeafNode node, out Node treeNode)
             {
-                ////The following can make the tree shorter, but it actually hurt query times in testing.
-                //bool aIsLeaf = childA.IsLeaf;
-                //bool bIsLeaf = childB.IsLeaf;
-                //if (aIsLeaf && !bIsLeaf)
-                //{
-                //    //Just put us with the leaf.  Keeps the tree shallower.
-                //    BoundingBox merged;
-                //    BoundingBox.CreateMerged(ref childA.BoundingBox, ref node.BoundingBox, out merged);
-                //    childA = new InternalNode() { BoundingBox = merged, childA = this.childA, childB = node };
-                //    treeNode = null;
-                //    return true;
-                //}
-                //else if (!aIsLeaf && bIsLeaf)
-                //{
-                //    //Just put us with the leaf.  Keeps the tree shallower.
-                //    BoundingBox merged;
-                //    BoundingBox.CreateMerged(ref childB.BoundingBox, ref node.BoundingBox, out merged);
-                //    childB = new InternalNode() { BoundingBox = merged, childA = node, childB = this.childB };
-                //    treeNode = null;
-                //    return true;
-                //}
+                
 
 
                 //Since we are an internal node, we know we have two children.
@@ -454,11 +407,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
             {
                 outputOverlappedElements.Add(LeafIndex);
             }
-
-            //internal override void GetOverlaps(ref BoundingFrustum boundingFrustum, IList<int> outputOverlappedElements)
-            //{
-            //    outputOverlappedElements.Add(LeafIndex);
-            //}
 
             internal override void GetOverlaps(ref Ray ray, float maximumLength, IList<int> outputOverlappedElements)
             {

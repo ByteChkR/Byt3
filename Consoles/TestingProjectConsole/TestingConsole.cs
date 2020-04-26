@@ -9,7 +9,7 @@ namespace TestingProjectConsole
 {
     public class TestingConsole : AConsole
     {
-        internal static bool Exit = false;
+        internal static bool Exit;
 
         private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(
             new ProjectDebugConfig("Test Project", (int) LogType.All, 10, PrefixLookupSettings.AddPrefixIfAvailable));
@@ -54,11 +54,8 @@ namespace TestingProjectConsole
                 }
 
                 Runner.RunCommands(command.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
-                //if (Exit) break;
             }
 
-            //EngineStatisticsManager.CrashOnLeak();
-            // HandleBase.CrashOnLeak();
             return true;
         }
     }

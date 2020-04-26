@@ -403,13 +403,13 @@ namespace Byt3.Engine.Debug
 
         private static string cmd_ListScenes(string[] args)
         {
-            string ret = "";
+            StringBuilder sb = new StringBuilder();
             foreach (KeyValuePair<string, Type> keyValuePair in SceneList)
             {
-                ret += keyValuePair.Key + "\n";
+                sb.AppendLine(keyValuePair.Key);
             }
 
-            return ret;
+            return sb.ToString();
         }
 
         private static string cmd_LoadScene(string[] args)

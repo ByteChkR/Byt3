@@ -94,14 +94,6 @@ namespace Byt3.OpenFL.Parsing.Stages
             return WorkItemRunner.RunInWorkItems(functionHeaders.ToList(),
                 (input, start, count) => ParseFunctionsTask(input, start, count, definedBuffers, definedScripts),
                 parser.WorkItemRunnerSettings);
-            //SerializableFLFunction[] flFunctions = new SerializableFLFunction[functionHeaders.Length];
-            //for (int i = 0; i < functionHeaders.Length; i++)
-            //{
-            //    flFunctions[i] = ParseFunctionObject(functionHeaders, definedBuffers, definedScripts,
-            //        functionHeaders[i].Name, functionHeaders[i].Body);
-            //}
-
-            //return flFunctions.ToList();
         }
 
         private SerializableFLFunction ParseFunctionObject(List<StaticFunction> functionHeaders,
@@ -153,18 +145,6 @@ namespace Byt3.OpenFL.Parsing.Stages
 
 
             return new SerializableFLInstruction(instruction.Key, args);
-
-            //SerializableFLInstruction ret = null;
-            //if (FLParser.FLInstructions.ContainsKey(inst))
-            //{
-            //    ret = (FLInstruction) Activator.CreateInstance(FLParser.FLInstructions[inst], new object[] {args});
-            //}
-            //else
-            //{
-            //    ret = new KernelFLInstruction(inst, args.ToList());
-            //}
-
-            //return ret;
         }
 
 

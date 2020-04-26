@@ -25,11 +25,8 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
         public virtual void Process()
         {
-            //Logger.Log(LogType.Log, "Function: "+ Name, 1);
             for (int i = 0; i < Instructions.Count; i++)
             {
-                //Thread.Sleep(100);
-                //Logger.Log(LogType.Log, "Doing Instruction: " + Instructions[i] + " in function: " + Name, 1);
                 Instructions[i].Process();
             }
         }

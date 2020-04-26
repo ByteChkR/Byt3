@@ -4,15 +4,16 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class NoHaltCommand : AbstractCommand
     {
-        private static void NoHalt(StartupArgumentInfo info, string[] args)
+        private static void NoHalt()
         {
             EnginePlayerConsole.ReadLine = false;
         }
 
 
-        public NoHaltCommand() : base(NoHalt, new[] {"--no-halt", "-nH"}, "Does not wait for user input before exiting",
+        public NoHaltCommand() : base( new[] {"--no-halt", "-nH"}, "Does not wait for user input before exiting",
             false)
         {
+            CommandAction = (info, strings) => NoHalt();
         }
     }
 }

@@ -8,7 +8,6 @@ namespace Byt3.Utilities.IL
     {
         public ILTestClass()
         {
-            AppDomain ad = AppDomain.CurrentDomain;
             AssemblyName am = new AssemblyName();
             am.Name = "TestAssembly";
             AssemblyBuilder ab = AssemblyBuilder.DefineDynamicAssembly(am, AssemblyBuilderAccess.Run);

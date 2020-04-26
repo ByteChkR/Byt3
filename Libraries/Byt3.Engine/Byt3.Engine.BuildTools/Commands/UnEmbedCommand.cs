@@ -7,7 +7,7 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class UnEmbedCommand : AbstractCommand
     {
-        private static void UnembedFiles(StartupArgumentInfo info, string[] args)
+        private static void UnembedFiles(string[] args)
         {
             try
             {
@@ -19,10 +19,12 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public UnEmbedCommand() : base(UnembedFiles, new[] {"--unembed", "-u"},
+        public UnEmbedCommand() : base( new[] {"--unembed", "-u"},
             "--unembed <Path/To/CSProj/File>\nUnembeds that were embedded into the .csproj file of the game project.",
             false)
         {
+
+            CommandAction = (info, strings) => UnembedFiles(strings);
         }
     }
 }

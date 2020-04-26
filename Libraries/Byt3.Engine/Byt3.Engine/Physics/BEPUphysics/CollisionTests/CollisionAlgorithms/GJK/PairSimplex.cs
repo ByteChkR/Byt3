@@ -141,12 +141,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                     C = new Vector3();
                     D = new Vector3();
 
-                    ////Test for degeneracy.
-                    //float edgeLengthAB;
-                    //Vector3.DistanceSquared(ref A, ref B, out edgeLengthAB);
-                    //if (edgeLengthAB < Toolbox.Epsilon)
-                    //    State = SimplexState.Point;
-
                     break;
                 case SimplexState.Triangle:
                     Matrix3x3.CreateFromQuaternion(ref localTransformB.Orientation, out transform);
@@ -161,16 +155,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                     Vector3.Subtract(ref SimplexA.B, ref SimplexB.B, out B);
                     Vector3.Subtract(ref SimplexA.C, ref SimplexB.C, out C);
                     D = new Vector3();
-
-                    ////Test for degeneracy.
-                    //Vector3 AB, AC;
-                    //Vector3.Subtract(ref B, ref A, out AB);
-                    //Vector3.Subtract(ref C, ref A, out AC);
-                    //Vector3 cross;
-                    //Vector3.Cross(ref AB, ref AC, out cross);
-                    ////If the area is small compared to a tolerance (adjusted by the partial perimeter), it's degenerate.
-                    //if (cross.LengthSquared() < Toolbox.BigEpsilon * (AB.LengthSquared() + AC.LengthSquared()))
-                    //    State = SimplexState.Point;
 
 
                     break;
@@ -190,18 +174,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                     Vector3.Subtract(ref SimplexA.C, ref SimplexB.C, out C);
                     Vector3.Subtract(ref SimplexA.D, ref SimplexB.D, out D);
 
-                    ////Test for degeneracy.
-                    //Vector3 AD;
-                    //Vector3.Subtract(ref B, ref A, out AB);
-                    //Vector3.Subtract(ref C, ref A, out AC);
-                    //Vector3.Subtract(ref D, ref A, out AD);
-                    //Vector3.Cross(ref AB, ref AC, out cross);
-                    //float volume;
-                    //Vector3.Dot(ref cross, ref AD, out volume);
-
-                    ////Volume is small compared to partial 'perimeter.'
-                    //if (volume < Toolbox.BigEpsilon * (AB.LengthSquared() + AC.LengthSquared() + AD.LengthSquared()))
-                    //    State = SimplexState.Point;
                     break;
                 default:
                     A = new Vector3();
@@ -436,11 +408,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
             }
 
             //Check if it's outside AC.            
-            //float AdotAB, AdotAC;
-            //Vector3.Dot(ref ab, ref A, out AdotAB);
-            //Vector3.Dot(ref ac, ref A, out AdotAC);
-            //AdotAB = -AdotAB;
-            //AdotAC = -AdotAC;
             float vb = CdotAB * AdotAC - AdotAB * CdotAC;
             if (vb <= 0f && AdotAC > 0f && CdotAC < 0f
             ) //Note > instead of >= and < instead of <=; prevents bad denominator
@@ -458,11 +425,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
             }
 
             //Check if it's outside BC.
-            //float BdotAB, BdotAC;
-            //Vector3.Dot(ref ab, ref B, out BdotAB);
-            //Vector3.Dot(ref ac, ref B, out BdotAC);
-            //BdotAB = -BdotAB;
-            //BdotAC = -BdotAC;
             float va = BdotAB * CdotAC - CdotAB * BdotAC;
             float d3d4;
             float d6d5;
@@ -696,11 +658,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                 }
 
                 //Check if it's outside AC.            
-                //float AdotAB, AdotAC;
-                //Vector3.Dot(ref ab, ref A, out AdotAB);
-                //Vector3.Dot(ref ac, ref A, out AdotAC);
-                //AdotAB = -AdotAB;
-                //AdotAC = -AdotAC;
                 float vb = CdotAB * AdotAC - AdotAB * CdotAC;
                 if (vb <= 0f && AdotAC > 0f && CdotAC < 0f
                 ) //Note > instead of >= and < instead of <=; prevents bad denominator
@@ -720,11 +677,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                 }
 
                 //Check if it's outside BC.
-                //float BdotAB, BdotAC;
-                //Vector3.Dot(ref ab, ref B, out BdotAB);
-                //Vector3.Dot(ref ac, ref B, out BdotAC);
-                //BdotAB = -BdotAB;
-                //BdotAC = -BdotAC;
                 float va = BdotAB * CdotAC - CdotAB * BdotAC;
                 float d3d4;
                 float d6d5;

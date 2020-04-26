@@ -6,7 +6,7 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class PatchCommand : AbstractCommand
     {
-        private static void PatchPackage(StartupArgumentInfo info, string[] args)
+        private static void PatchPackage( string[] args)
         {
             if (args.Length != 2)
             {
@@ -23,9 +23,10 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public PatchCommand() : base(PatchPackage, new[] {"--patch", "-p"},
+        public PatchCommand() : base( new[] {"--patch", "-p"},
             "--patch <targetFile> <patchFile>\nApplies the patch to the file.", false)
         {
+            CommandAction = (info, strings) => PatchPackage(strings);
         }
     }
 }

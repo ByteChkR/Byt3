@@ -36,7 +36,7 @@ namespace Byt3.Engine.AI
                 WriteStatistics(nodesConsidered, iterations, sw.ElapsedMilliseconds, 0, 0);
 
                 foundPath = true;
-                return new List<AiNode>() {startPoint, endPoint};
+                return new List<AiNode> {startPoint, endPoint};
             }
 
             foundPath = false;

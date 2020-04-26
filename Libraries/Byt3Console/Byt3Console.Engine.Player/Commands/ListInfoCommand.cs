@@ -7,7 +7,7 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class ListInfoCommand : AbstractCommand
     {
-        private static void ListInfo(StartupArgumentInfo info, string[] args)
+        private static void ListInfo(string[] args)
         {
             if (args.Length == 0 || !File.Exists(args[0]) || !args[0].EndsWith(".game") && !args[0].EndsWith(".engine"))
             {
@@ -19,9 +19,10 @@ namespace Byt3Console.Engine.Player.Commands
             System.Console.WriteLine(pm);
         }
 
-        public ListInfoCommand() : base(ListInfo, new[] {"--list-info", "-l"},
+        public ListInfoCommand() : base(new[] {"--list-info", "-l"},
             "--list-info <<Path/To/File>\nLists Information about the .engine or .game file.", false)
         {
+            CommandAction = (info, strings) => ListInfo(strings);
         }
     }
 }

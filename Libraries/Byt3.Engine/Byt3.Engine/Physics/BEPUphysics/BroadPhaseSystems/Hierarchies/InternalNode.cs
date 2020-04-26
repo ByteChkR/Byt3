@@ -72,16 +72,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
             }
         }
 
-        //internal override void GetOverlaps(ref BoundingFrustum boundingFrustum, IList<BroadPhaseEntry> outputOverlappedElements)
-        //{
-        //    bool intersects;
-        //    boundingFrustum.Intersects(ref childA.BoundingBox, out intersects);
-        //    if (intersects)
-        //        childA.GetOverlaps(ref boundingFrustum, outputOverlappedElements);
-        //    boundingFrustum.Intersects(ref childB.BoundingBox, out intersects);
-        //    if (intersects)
-        //        childB.GetOverlaps(ref boundingFrustum, outputOverlappedElements);
-        //}
 
         internal override void GetOverlaps(ref Ray ray, float maximumLength,
             IList<BroadPhaseEntry> outputOverlappedElements)
@@ -211,7 +201,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
                     newChildA.childA = childA;
                     newChildA.childB = node;
                     newChildA.currentVolume = mergedAVolume;
-                    //newChildA.maximumVolume = newChildA.currentVolume * MaximumVolumeScale;
                     childA = newChildA;
                     treeNode = null;
                     return true;
@@ -220,7 +209,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
                 childA.BoundingBox = mergedA;
                 InternalNode internalNode = (InternalNode) childA;
                 internalNode.currentVolume = mergedAVolume;
-                //internalNode.maximumVolume = internalNode.currentVolume * MaximumVolumeScale;
                 treeNode = childA;
                 return false;
             }
@@ -234,7 +222,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
                 newChildB.childA = node;
                 newChildB.childB = childB;
                 newChildB.currentVolume = mergedBVolume;
-                //newChildB.maximumVolume = newChildB.currentVolume * MaximumVolumeScale;
                 childB = newChildB;
                 treeNode = null;
                 return true;
@@ -245,7 +232,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
                 treeNode = childB;
                 InternalNode internalNode = (InternalNode) childB;
                 internalNode.currentVolume = mergedBVolume;
-                //internalNode.maximumVolume = internalNode.currentVolume * MaximumVolumeScale;
                 return false;
             }
         }
@@ -273,11 +259,8 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
             childA.Refit();
             childB.Refit();
             BoundingBox.CreateMerged(ref childA.BoundingBox, ref childB.BoundingBox, out BoundingBox);
-            //float DEBUGlastVolume = currentVolume;
             currentVolume = (BoundingBox.Max.X - BoundingBox.Min.X) * (BoundingBox.Max.Y - BoundingBox.Min.Y) *
                             (BoundingBox.Max.Z - BoundingBox.Min.Z);
-            //if (Math.Abs(currentVolume - DEBUGlastVolume) > .000001 * (DEBUGlastVolume + currentVolume))
-            //    Logger.Log(":Break>:)");
         }
 
         internal void Revalidate()

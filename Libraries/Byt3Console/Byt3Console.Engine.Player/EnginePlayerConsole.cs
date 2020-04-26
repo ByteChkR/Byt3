@@ -31,7 +31,7 @@ namespace Byt3Console.Engine.Player
             EngineVersions = Directory.GetFiles(EngineDir, "*.engine", SearchOption.TopDirectoryOnly)
                 .Select(x => Path.GetFileNameWithoutExtension(x)).ToList();
 
-
+            Runner.AddCommand(new DefaultHelpCommand());
             Runner.AddAssembly(Assembly.GetExecutingAssembly());
             bool ret = Runner.RunCommands(args);
             ConsoleReadLine();

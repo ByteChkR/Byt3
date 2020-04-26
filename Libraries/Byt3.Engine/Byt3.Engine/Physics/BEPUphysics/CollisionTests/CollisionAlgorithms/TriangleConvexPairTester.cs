@@ -86,18 +86,9 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms
 
                     break;
                 case TriangleSidedness.Clockwise:
-                    //if (dotA < 0)
-                    //{
-                    //    //The reverse normal is pointing towards the convex.
-                    //    return false;
-                    //}
+
                     break;
                 case TriangleSidedness.Counterclockwise:
-                    //if (dotA > 0)
-                    //{
-                    //    //The reverse normal is pointing away from the convex.
-                    //    return false;
-                    //}
 
                     //The reverse normal is pointing towards the convex.
                     //It needs to point away from the convex so that the direction

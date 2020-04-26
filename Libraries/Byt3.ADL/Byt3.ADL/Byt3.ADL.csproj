@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Byt3.ADL</AssemblyName>
-    <AssemblyVersion>1.4.3.822</AssemblyVersion>
-    <FileVersion>1.4.3.822</FileVersion>
+    <AssemblyVersion>1.4.5.939</AssemblyVersion>
+    <FileVersion>1.4.5.939</FileVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />

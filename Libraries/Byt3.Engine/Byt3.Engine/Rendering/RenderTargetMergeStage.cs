@@ -183,8 +183,7 @@ namespace Byt3.Engine.Rendering
 
                 GL.ClearColor(dst.ClearColor);
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
-                //GL.Uniform1(_mergeShader.GetUniformLocation("divWeight"), 1 / (float)divideCount);
+                
 
                 GL.ActiveTexture(TextureUnit.Texture0);
                 GL.Uniform1(_mergeTypes[renderTarget.MergeType].GetUniformLocation("destinationTexture"), 0);

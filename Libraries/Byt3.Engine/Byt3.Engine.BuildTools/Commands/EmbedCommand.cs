@@ -7,7 +7,7 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class EmbedCommand : AbstractCommand
     {
-        private static void EmbedFiles(StartupArgumentInfo info, string[] args)
+        private static void EmbedFiles(string[] args)
         {
             try
             {
@@ -20,10 +20,11 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public EmbedCommand() : base(EmbedFiles, new[] {"--embed", "-e"},
+        public EmbedCommand() : base( new[] {"--embed", "-e"},
             "--embed <Path/To/CSProj/File> <Folder/To/Embed>\nEmbeds the files in the specified folder into the .csproj file of the game project.",
             false)
         {
+            CommandAction = (info, strings) => EmbedFiles(strings);
         }
     }
 }

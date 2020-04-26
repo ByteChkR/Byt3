@@ -9,18 +9,6 @@ namespace Byt3.OpenFL.Serialization.FileFormat.ExtraStages
         public override byte[] Process(byte[] input)
         {
             return Compress(input);
-            //MemoryStream uncompressed = new MemoryStream(input);
-            //MemoryStream compressed = new MemoryStream();
-            //GZipStream zStream = new GZipStream(compressed, CompressionLevel.Optimal);
-            //zStream.Write(input, 0, input.Length);
-
-
-            //byte[] r = new byte[compressed.Position];
-            //compressed.Position = 0;
-            //compressed.Read(r, 0, r.Length);
-            //uncompressed.Close();
-            //zStream.Close();
-            //return r;
         }
 
         internal static byte[] Compress(byte[] bytes)

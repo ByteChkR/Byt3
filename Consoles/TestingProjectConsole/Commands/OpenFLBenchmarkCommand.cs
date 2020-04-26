@@ -19,7 +19,7 @@ namespace TestingProjectConsole.Commands
         public static string PerformanceFolder = "performance";
         public static string[] ExtraSteps = new string[0];
         public static bool UseProgramChecks = true;
-        public static bool UseMultiThread = false;
+        public static bool UseMultiThread;
         public static int WorkSizeMultiplier = 2;
 
         public OpenFLBenchmarkCommand() : base(new[] {"--fl-benchmark", "-flbench"}, "Runs the OpenFL Benchmark")

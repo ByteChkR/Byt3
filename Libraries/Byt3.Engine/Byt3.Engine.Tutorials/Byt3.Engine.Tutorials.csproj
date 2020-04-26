@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.1.76.822</AssemblyVersion>
-    <FileVersion>1.1.76.822</FileVersion>
+    <AssemblyVersion>1.1.78.940</AssemblyVersion>
+    <FileVersion>1.1.78.940</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="assets\filter\blue.fl" />

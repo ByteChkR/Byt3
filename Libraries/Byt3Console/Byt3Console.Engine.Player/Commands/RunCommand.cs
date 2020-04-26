@@ -146,7 +146,7 @@ namespace Byt3Console.Engine.Player.Commands
             }
         }
 
-        public static void Run(StartupArgumentInfo info, string[] args)
+        public static void Run(string[] args)
         {
             if (args.Length == 0 || !args[0].EndsWith(".game") || !File.Exists(args[0]))
             {
@@ -219,8 +219,9 @@ namespace Byt3Console.Engine.Player.Commands
             Directory.Delete(EnginePlayerConsole.GameDir, true);
         }
 
-        public RunCommand() : base(Run, new[] {"--run"}, "--run <Path/To/File.game>", false)
+        public RunCommand() : base( new[] {"--run"}, "--run <Path/To/File.game>", false)
         {
+            CommandAction = (info, strings) => Run(strings);
         }
     }
 }

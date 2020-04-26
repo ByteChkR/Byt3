@@ -8,12 +8,12 @@ namespace Byt3.Engine.AssetPackaging
     [Serializable]
     public class AssetPointer
     {
-        public int Length;
-        public int Offset;
-        public int PackageId;
-        public int PackageSize;
-        public AssetPackageType PackageType;
-        public string Path;
+        public int Length { get; set; }
+        public int Offset { get; set; }
+        public int PackageId { get; set; }
+        public int PackageSize { get; set; }
+        public AssetPackageType PackageType { get; set; }
+        public string Path { get; set; }
 
         public static int GetPackageCount(int offset, int length, int packageSize)
         {

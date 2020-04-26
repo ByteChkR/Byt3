@@ -46,7 +46,7 @@ namespace Byt3.Engine.Demos.scenes
             sourceCube.AddComponent(new LightComponent());
 
 
-            mainCamera.AddComponent(new CameraRaycaster(sourceCube, 3, hackCube));
+            mainCamera.AddComponent(new CameraRaycaster(sourceCube, hackCube));
 
             GameObject bgObj = new GameObject(new Vector3(0, -3, -32), "BG") {Scale = new Vector3(32, 1, 32)};
 

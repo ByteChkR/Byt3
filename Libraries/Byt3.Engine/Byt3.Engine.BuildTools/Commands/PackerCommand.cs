@@ -6,7 +6,7 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class PackerCommand : AbstractCommand
     {
-        private static void PackAssets(StartupArgumentInfo info, string[] args)
+        private static void PackAssets(string[] args)
         {
             try
             {
@@ -20,10 +20,11 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public PackerCommand() : base(PackAssets, new[] {"--pack-assets", "--packer"},
+        public PackerCommand() : base(new[] { "--pack-assets", "--packer" },
             "--packer <outputFolder> <packSize> <fileExtensions> <unpackFileExtensions> <assetFolder>\nPackage the Asset Files",
             false)
         {
+            CommandAction = (info, strings) => PackAssets(strings);
         }
     }
 }

@@ -8,7 +8,7 @@
         /// <summary>
         /// The value to be returned
         /// </summary>
-        public float Value { get; set; } = 0;
+        public float Value { get; set; }
 
         /// <summary>
         /// Implements the Static Interpolation

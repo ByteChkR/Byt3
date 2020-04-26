@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using Byt3.CommandRunner;
 using Byt3.Engine.BuildTools.PackageCreator;
 
@@ -59,10 +60,13 @@ namespace Byt3.Engine.BuildTools.Commands
                         {
                             string[] a = info.GetValues("--set-start-args").ToArray();
                             startArg = a[0];
+                            StringBuilder sb = new StringBuilder(a[0]);
                             for (int i = 1; i < a.Length; i++)
                             {
-                                startArg += " " + a[i];
+                                sb.Append(" " + a[i]);
                             }
+
+                            startArg = sb.ToString();
                         }
                     }
                 }
@@ -79,10 +83,11 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public CreatePackageCommand() : base(CreateGamePackage, new[] {"--create-package", "-cp"},
+        public CreatePackageCommand() : base( new[] {"--create-package", "-cp"},
             "--create-package <BuildFolderOfGame> <GameName> <OutputFile> <CopyAssetsOnError> <CopyPacksOnError> <optional:FileList>\nCreates a Package from a build output of the --build command\n--packer-override-engine-version <Version> can be used to override the required engine version\n--packager-version <packagerVersion> overrides the packager version that is used.\n--set-start-args <args> can be used to specify the startup command manually.",
             false)
         {
+            CommandAction = CreateGamePackage;
         }
     }
 }

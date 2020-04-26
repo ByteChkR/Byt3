@@ -28,15 +28,7 @@ namespace Byt3Console.Runner
         private AppDomainController(AppDomain domain, string[] extraAssemblyFolders)
         {
             ExtraAssemblyFolders = extraAssemblyFolders;
-            //Domain = domain;
             AppDomain.CurrentDomain.AssemblyResolve += Domain_AssemblyResolve;
-            //AppDomain.CurrentDomain.AssemblyLoad += Domain_AssemblyLoad;
-            AppDomain.CurrentDomain.AssemblyResolve += Domain_AssemblyResolve;
-        }
-
-        private void Domain_AssemblyLoad(object sender, AssemblyLoadEventArgs args)
-        {
-            throw new NotImplementedException();
         }
 
         private Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)

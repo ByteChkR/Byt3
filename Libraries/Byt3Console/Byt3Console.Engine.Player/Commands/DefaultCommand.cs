@@ -10,22 +10,22 @@ namespace Byt3Console.Engine.Player.Commands
             if (args.Length == 0 || !File.Exists(args[0]))
             {
                 System.Console.WriteLine("Drag a file onto the executable, or specify the path in the command line.");
-                HelpCommand.Help(info, args);
             }
             else if (args[0].EndsWith(".engine"))
             {
-                AddEngineCommand.AddEngine(info, args);
+                AddEngineCommand.AddEngine( args);
             }
             else if (args[0].EndsWith(".game"))
             {
-                RunCommand.Run(info, args);
+                RunCommand.Run( args);
             }
         }
 
-        public DefaultCommand() : base(Default, new[] {"--default"},
+        public DefaultCommand() : base( new[] {"--default"},
             "Default command.\nExecutes the --run Command when a game is passed\nExecutes the --add-engine command when an engine is passed",
             true)
         {
+            CommandAction = Default;
         }
     }
 }

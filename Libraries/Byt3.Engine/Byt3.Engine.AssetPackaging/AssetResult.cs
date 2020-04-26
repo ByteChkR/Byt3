@@ -109,25 +109,7 @@ namespace Byt3.Engine.AssetPackaging
             fs.Close();
             for (int i = 0; i < Packs.Count; i++)
             {
-                //string path = outputFolder + "\\packs\\" + i + ".pack";
                 Packs[i].Save();
-
-                //byte[] buf = Packs[i].Content.ToArray();
-                //if (Compression)
-                //{
-                //    MemoryStream ms = new MemoryStream();
-                //    GZipStream gzs = new GZipStream(ms, CompressionLevel.Optimal);
-                //    gzs.Write(buf, 0, buf.Length);
-                //    buf = new byte[ms.Length];
-                //    ms.Position = 0;
-                //    ms.Read(buf, 0, buf.Length);
-                //    gzs.Close();
-                //    ms.Close();
-                //}
-
-                //FileStream packstream = new FileStream(path, FileMode.Create);
-                //packstream.Write(buf, 0, buf.Length);
-                //packstream.Close();
             }
         }
     }

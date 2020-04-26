@@ -128,8 +128,7 @@ namespace Byt3.Engine.AssetPackaging
 
                 str.Close();
             }
-
-            string r = Encoding.UTF8.GetString(ret.ToArray());
+            
             return new MemoryStream(ret.ToArray());
         }
     }

@@ -56,14 +56,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                 stop = !removedOne;
                 pass++;
             }
-
-            //foreach (SerializableExternalFLFunction serializableFlFunction in input.ExternalFunctions
-            //) //Process all Subsequent scripts
-            //{
-            //    Process(serializableFlFunction.ExternalProgram);
-            //}
-
-
+            
             return input;
         }
     }

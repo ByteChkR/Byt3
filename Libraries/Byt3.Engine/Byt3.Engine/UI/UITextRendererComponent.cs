@@ -46,7 +46,7 @@ namespace Byt3.Engine.UI
 
         private bool cached;
 
-        public bool Center = false;
+        public bool Center;
 
         public Vector3 Color = Vector3.UnitX; // RED
 

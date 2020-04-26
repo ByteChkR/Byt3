@@ -6,7 +6,7 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class CreatePatchDeltaCommand : AbstractCommand
     {
-        private static void CreatePatchDelta(StartupArgumentInfo info, string[] args)
+        private static void CreatePatchDelta(string[] args)
         {
             if (args.Length != 3)
             {
@@ -23,9 +23,10 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public CreatePatchDeltaCommand() : base(CreatePatchDelta, new[] {"--create-patch-delta", "-cdpatch"},
+        public CreatePatchDeltaCommand() : base( new[] {"--create-patch-delta", "-cdpatch"},
             "--create-patch-delta <oldFile> <newFile> <destinationFile>", false)
         {
+            CommandAction = (info, strings) => CreatePatchDelta(strings);
         }
     }
 }

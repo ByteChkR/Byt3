@@ -12,15 +12,13 @@ namespace Byt3.Engine.Demos.components
         private readonly int cast;
         private readonly GameObject looker;
         private readonly GameObject sphereTargetMarker;
-        private float yoff;
 
 
-        public CameraRaycaster(GameObject targetmarker, float yOffset, GameObject looker)
+        public CameraRaycaster(GameObject targetmarker,  GameObject looker)
         {
             cast = LayerManager.NameToLayer("raycast");
             sphereTargetMarker = targetmarker;
             this.looker = looker;
-            yoff = yOffset;
         }
 
         protected override void Update(float deltaTime)

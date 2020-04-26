@@ -177,13 +177,13 @@ namespace Byt3.Utilities.ManifestIO
                     Logger.Log(LogType.Log, "Overwriting File: " + assemblyPath + " => " + virtualPath, 10);
                     _assemblyFiles[virtualPath] =
                         factory(assemblyPath, compression, asm,
-                            assetPointer.Item2); //new PackedAssemblyFile(assemblyPath, asm, assetPointer.Item2);
+                            assetPointer.Item2);
                 }
                 else
                 {
                     _assemblyFiles.Add(virtualPath,
                         factory(assemblyPath, compression, asm,
-                            assetPointer.Item2)); //new PackedAssemblyFile(assemblyPath, asm, assetPointer.Item2)
+                            assetPointer.Item2));
                 }
             }
         }

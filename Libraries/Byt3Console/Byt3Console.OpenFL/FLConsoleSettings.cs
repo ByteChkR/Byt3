@@ -71,7 +71,7 @@ namespace Byt3Console.OpenFL
         {
             get
             {
-                FLConsoleSettings settings = new FLConsoleSettings()
+                FLConsoleSettings settings = new FLConsoleSettings
                 {
                     MultiThread = false,
                     WorkSizeMultiplier = 2,

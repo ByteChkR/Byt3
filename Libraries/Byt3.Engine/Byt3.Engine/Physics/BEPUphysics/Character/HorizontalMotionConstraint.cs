@@ -406,7 +406,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
                     Vector3.Multiply(ref supportData.Normal, dot, out toRemove);
                     Vector3.Subtract(ref linearJacobianA1, ref toRemove, out linearJacobianA1);
 
-                    //Vector3.Cross(ref linearJacobianA2, ref supportData.Normal, out linearJacobianA1);
                     float length = linearJacobianA1.LengthSquared();
                     if (length < Toolbox.Epsilon)
                     {

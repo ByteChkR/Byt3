@@ -7,7 +7,7 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class BuildCommand : AbstractCommand
     {
-        private static void Build(StartupArgumentInfo info, string[] args)
+        private static void Build(string[] args)
         {
             try
             {
@@ -47,10 +47,11 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public BuildCommand() : base(Build, new[] {"--build", "-b"},
+        public BuildCommand() : base( new[] {"--build", "-b"},
             "--build <Path/To/CSProj/File> <OutputDirectory>\nBuilds the Specified csproj file and moves all output to the output folder.",
             false)
         {
+            CommandAction = (info, strings) => Build(strings);
         }
     }
 }

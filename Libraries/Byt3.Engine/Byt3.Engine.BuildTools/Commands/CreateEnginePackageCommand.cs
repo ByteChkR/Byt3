@@ -61,10 +61,11 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public CreateEnginePackageCommand() : base(CreateEnginePackage, new[] {"--create-engine-package", "-cep"},
+        public CreateEnginePackageCommand() : base( new[] {"--create-engine-package", "-cep"},
             "--create-engine-package <Engine.csproj file> <OutputFile> <optional:FileList>\nCreates an Engine Package from an Engine.csproj file\n--packager-version <packagerVersion> overrides the packager version that is used.",
             false)
         {
+            CommandAction = CreateEnginePackage;
         }
     }
 }

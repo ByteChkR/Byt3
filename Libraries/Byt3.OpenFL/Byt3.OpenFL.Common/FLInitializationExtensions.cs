@@ -80,14 +80,6 @@ namespace Byt3.OpenFL.Common
                 .ToList());
         }
 
-        //public static FLFunction Initialize(this SerializableFLFunction function, FLProgram script,
-        //    FLInstructionSet instructionSet)
-        //{
-        //    FLFunction func = new FLFunction(function.Name,
-        //        function.Instructions.Select(x => x.Initialize(script, instructionSet)).ToList());
-        //    return func;
-        //}
-
         public static FLInstruction Initialize(this SerializableFLInstruction instruction, FLProgram script,
             FLInstructionSet instructionSet)
         {

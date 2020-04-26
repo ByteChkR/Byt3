@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Byt3.Utilities.IL</AssemblyName>
-    <AssemblyVersion>1.2.94.759</AssemblyVersion>
-    <FileVersion>1.2.94.759</FileVersion>
+    <AssemblyVersion>1.2.95.939</AssemblyVersion>
+    <FileVersion>1.2.95.939</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Reflection.Emit" Version="4.7.0" />

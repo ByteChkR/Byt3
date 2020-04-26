@@ -113,7 +113,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
             MinkowskiToolbox.GetLocalTransform(ref transformA, ref transformB, out localtransformB);
 
             CachedSimplex simplex = new CachedSimplex {State = SimplexState.Point};
-            // new CachedSimplex(shapeA, shapeB, ref localtransformB);
             bool toReturn = GetClosestPoints(shapeA, shapeB, ref localtransformB, ref simplex, out closestPointA,
                 out closestPointB);
 
@@ -184,9 +183,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
 
             //Compute closest points from the contributing simplexes and barycentric coordinates
             simplex.GetClosestPoints(out localClosestPointA, out localClosestPointB);
-            //simplex.VerifyContributions();
-            //if (Vector3.Distance(localClosestPointA - localClosestPointB, closestPoint) > .00001f)
-            //    Logger.Log("break.");
             simplex.UpdateCachedSimplex(ref cachedSimplex);
             return false;
         }

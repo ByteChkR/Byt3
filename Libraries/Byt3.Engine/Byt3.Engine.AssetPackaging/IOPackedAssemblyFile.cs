@@ -38,8 +38,7 @@ namespace Byt3.Engine.AssetPackaging
             Stream s = Compression ? UncompressZip(fs) : fs;
             s.Position = _ptr.Offset;
             byte[] buf = new byte[_ptr.Length];
-            int r = s.Read(buf, 0, buf.Length);
-            MemoryStream ms = new MemoryStream(buf);
+            s.Read(buf, 0, buf.Length);
             s.Close();
             return new MemoryStream(buf);
         }

@@ -20,8 +20,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
 
         internal abstract void GetOverlaps(ref BoundingSphere boundingSphere,
             IList<BroadPhaseEntry> outputOverlappedElements);
-
-        //internal abstract void GetOverlaps(ref BoundingFrustum boundingFrustum, IList<BroadPhaseEntry> outputOverlappedElements);
+        
         internal abstract void GetOverlaps(ref Ray ray, float maximumLength,
             IList<BroadPhaseEntry> outputOverlappedElements);
 

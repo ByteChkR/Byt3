@@ -41,11 +41,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
             outputOverlappedElements.Add(element);
         }
 
-        //internal override void GetOverlaps(ref BoundingFrustum boundingFrustum, IList<BroadPhaseEntry> outputOverlappedElements)
-        //{
-        //    outputOverlappedElements.Add(element);
-        //}
-
         internal override void GetOverlaps(ref Ray ray, float maximumLength,
             IList<BroadPhaseEntry> outputOverlappedElements)
         {
@@ -87,7 +82,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.Hierarchies
             Vector3 offset;
             Vector3.Subtract(ref newTreeNode.BoundingBox.Max, ref newTreeNode.BoundingBox.Min, out offset);
             newTreeNode.currentVolume = offset.X * offset.Y * offset.Z;
-            //newTreeNode.maximumVolume = newTreeNode.currentVolume * InternalNode.MaximumVolumeScale;
             newTreeNode.childA = this;
             newTreeNode.childB = node;
             treeNode = newTreeNode;

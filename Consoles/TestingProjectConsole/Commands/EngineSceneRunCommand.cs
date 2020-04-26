@@ -17,7 +17,7 @@ namespace TestingProjectConsole.Commands
 {
     public class EngineSceneRunCommand : AbstractCommand
     {
-        internal static bool AttachTimeout = false;
+        internal static bool AttachTimeout;
         internal static float TimeoutTime = 15f;
         private readonly GameEngine ge;
 

@@ -68,9 +68,9 @@ namespace Byt3.Engine.Core
             return 1 - t;
         }
 
-        public static float Scale(float t, float scale)
+        public static float Scale(float t, float amount)
         {
-            return t * scale;
+            return t * amount;
         }
 
         public static float Mix(float a, float b, float weightB)

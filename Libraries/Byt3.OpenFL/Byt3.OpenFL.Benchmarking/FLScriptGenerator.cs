@@ -77,8 +77,7 @@ namespace Byt3.OpenFL.Benchmarking
         {
             List<string> functionNames = GenerateElementNames(functionPrefix + "Function", functionCount);
             List<string> tempFunctionNames = new List<string>(functionNames);
-
-            Random rnd = new Random();
+            
             StringBuilder script =new StringBuilder();
 
 

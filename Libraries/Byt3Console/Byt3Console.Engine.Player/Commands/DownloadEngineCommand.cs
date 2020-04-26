@@ -4,7 +4,7 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class DownloadEngineCommand : AbstractCommand
     {
-        private static void DownloadEngine(StartupArgumentInfo info, string[] args)
+        private static void DownloadEngine(string[] args)
         {
             if (!EnginePlayerConsole.IsEngineVersionAvailable(args[0]))
             {
@@ -17,9 +17,10 @@ namespace Byt3Console.Engine.Player.Commands
             }
         }
 
-        public DownloadEngineCommand() : base(DownloadEngine, new[] {"--download-engine", "-d"},
+        public DownloadEngineCommand() : base(new[] {"--download-engine", "-d"},
             "--download-engine <Version>\n Tries to download a specified engine version", false)
         {
+            CommandAction = (info, strings) => DownloadEngine(strings);
         }
     }
 }

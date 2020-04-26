@@ -26,8 +26,7 @@ namespace Byt3.Engine.BuildTools.Tests
             File.WriteAllBytes("content/TestPackage.deps.json", buffer);
             Directory.CreateDirectory("output");
 
-
-            //Creator.CreateGamePackage("TestPackage", "NoExecutable", "");
+            
             Builder.RunCommand(
                 "--create-package ./content TestPackage ./output/TestPackage.game False False --packager-version legacy --packer-override-engine-version 9.9.9.9");
             Builder.RunCommand(

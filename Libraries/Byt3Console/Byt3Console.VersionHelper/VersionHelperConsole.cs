@@ -52,8 +52,8 @@ namespace Byt3Console.VersionHelper
         public static Version ChangeVersion(Version version, string changeStr)
         {
             string[] subVersions = changeStr.Split('.');
-            int[] wrapValues = new[] {ushort.MaxValue, 9, 99, ushort.MaxValue};
-            int[] versions = new[] {version.Major, version.Minor, version.Build, version.Revision};
+            int[] wrapValues = {ushort.MaxValue, 9, 99, ushort.MaxValue};
+            int[] versions = {version.Major, version.Minor, version.Build, version.Revision};
             for (int i = 4 - 1; i >= 0; i--)
             {
                 string current = subVersions[i];
@@ -107,7 +107,6 @@ namespace Byt3Console.VersionHelper
                 }
                 else if (current.ToLower(CultureInfo.InvariantCulture) == "x")
                 {
-                    continue;
                 }
                 else if (current.StartsWith("{") && current.EndsWith("}"))
                 {
@@ -145,8 +144,6 @@ namespace Byt3Console.VersionHelper
 
         private static XmlNode[] FindVersionTags(XmlDocument doc)
         {
-            string s1 = doc.Name;
-
             XmlNode s = null;
 
             for (int i = 0; i < doc.ChildNodes.Count; i++)

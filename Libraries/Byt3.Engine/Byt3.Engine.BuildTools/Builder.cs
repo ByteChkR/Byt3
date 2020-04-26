@@ -35,25 +35,8 @@ namespace Byt3.Engine.BuildTools
         public static bool RunCommand(string[] args)
         {
             Console.WriteLine("Windows: " + IsWindows);
+            Runner.AddCommand(new DefaultHelpCommand());
             Runner.AddAssembly(Assembly.GetExecutingAssembly());
-            //Command def = Command.CreateCommand(BuildWithXML, "--xml <Path/To/File.xml>", "--xml");
-            //CommandRunner.SetDefaultCommand(def);
-
-            //CommandRunner.AddCommand(Command.CreateCommand(_Update, "--update Updates the Build Tools", "--update"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_CreatePatch, "--create-patch <folder> <destinationFile>", "--create-patch", "-cpatch"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_CreatePatchDelta, "--create-patch <oldFile> <newFile> <destinationFile>", "--create-patch-delta", "-cpatchdelta"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_HelpCommand, "Display this help message", "--help", "-h"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_PatchPackage, "--patch <targetFile> <patchFile>\nApplies the patch to the file.", "--patch", "-p"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_PatchPackagePermanent, "--patch-permanent <targetFile> <patchFile>\nApplies the patch to the file permanently.", "--patch-permanent", "-pp"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_PackAssets, "--packer <outputFolder> <packSize> <fileExtensions> <unpackFileExtensions> <assetFolder>\nPackage the Asset Files", "--pack-assets", "--packer"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_EmbedFiles, "--embed <Path/To/CSProj/File> <Folder/To/Embed>\nEmbeds the files in the specified folder into the .csproj file of the game project.", "--embed", "-e"));
-
-            //CommandRunner.AddCommand(Command.CreateCommand(_Build, "--build <Path/To/CSProj/File> <OutputDirectory>\nBuilds the Specified csproj file and moves all output to the output folder.", "--build", "-b"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_UnembedFiles, "--unembed <Path/To/CSProj/File>\nUnembeds that were embedded into the .csproj file of the game project.", "--unembed", "-u"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_CreateGamePackage, "--create-package <BuildFolderOfGame> <GameName> <OutputFile> <CopyAssetsOnError> <CopyPacksOnError> <optional:FileList>\nCreates a Package from a build output of the --build command\n--packer-override-engine-version <Version> can be used to override the required engine version\n--packager-version <packagerVersion> overrides the packager version that is used.\n--set-start-args <args> can be used to specify the startup command manually.", "--create-package", "-cp"));
-            //CommandRunner.AddCommand(Command.CreateCommand(_CreateEnginePackage, "--create-engine-package <Engine.csproj file> <OutputFile> <optional:FileList>\nCreates an Engine Package from an Engine.csproj file\n--packager-version <packagerVersion> overrides the packager version that is used.", "--create-engine-package", "-cep"));
-
-            //CommandRunner.AddCommand(def);
 
 
             return Runner.RunCommands(args);
