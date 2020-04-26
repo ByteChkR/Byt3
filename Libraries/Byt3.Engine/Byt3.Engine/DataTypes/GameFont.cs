@@ -14,6 +14,7 @@ namespace Byt3.Engine.DataTypes
     public class GameFont : IDisposable
     {
         private bool isDisposed;
+
         /// <summary>
         /// The internal font atlas that is used to map Text Characters to the OpenGL Abstraction (TextCharacter)
         /// </summary>
@@ -76,6 +77,7 @@ namespace Byt3.Engine.DataTypes
             {
                 throw new Byt3Exception("Use of Disposed Font");
             }
+
             int scrW = GameEngine.Instance.Width;
             int scrH = GameEngine.Instance.Height;
             Vector2 pos = Vector2.Zero; //Hacked
@@ -128,6 +130,7 @@ namespace Byt3.Engine.DataTypes
             {
                 throw new Byt3Exception("Use of Disposed Font");
             }
+
             return fontAtlas.TryGetValue(character, out charInfo);
         }
     }

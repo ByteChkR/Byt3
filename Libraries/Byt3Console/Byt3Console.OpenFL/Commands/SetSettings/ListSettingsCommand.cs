@@ -8,7 +8,7 @@ namespace Byt3Console.OpenFL.Commands
     {
         private SetSettingsCommand ss;
 
-        public ListSettingsCommand(SetSettingsCommand cmd) : base(new[] { "--list-settings", "-ls" },
+        public ListSettingsCommand(SetSettingsCommand cmd) : base(new[] {"--list-settings", "-ls"},
             "Lists all settings that can be changed with the command --set-settings")
         {
             CommandAction = SetExtraSteps;

@@ -14,7 +14,6 @@ namespace Byt3.Engine.IO
     /// </summary>
     public static class AudioLoader
     {
-
         private static readonly ADLLogger<DebugChannel> Logger =
             new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "AudioLoader");
 

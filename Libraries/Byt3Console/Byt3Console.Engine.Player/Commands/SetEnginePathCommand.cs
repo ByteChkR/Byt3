@@ -17,9 +17,9 @@ namespace Byt3Console.Engine.Player.Commands
             }
         }
 
-        public SetEnginePathCommand() : base(SetEnginePath, new[] { "--engine-path", "-eP" }, "--engine-path <Path/To/File.game>\nSpecify a manual path to a .engine file", false)
+        public SetEnginePathCommand() : base(SetEnginePath, new[] {"--engine-path", "-eP"},
+            "--engine-path <Path/To/File.game>\nSpecify a manual path to a .engine file", false)
         {
-
         }
     }
 }

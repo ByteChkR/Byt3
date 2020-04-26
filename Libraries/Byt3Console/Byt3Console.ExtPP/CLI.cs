@@ -951,7 +951,7 @@ namespace Byt3Console.ExtPP
             {
                 string input = Input[index];
                 string[] src =
-                    pp.Run(input.Split(',').Select(x => new FilePathContent(x,x)).OfType<IFileContent>().ToArray(),
+                    pp.Run(input.Split(',').Select(x => new FilePathContent(x, x)).OfType<IFileContent>().ToArray(),
                         settings, defs);
 
                 if (OutputToConsole)
@@ -1046,7 +1046,7 @@ namespace Byt3Console.ExtPP
 
 
             float start = Timer.MS; // Load assembly
-            System.Console.WriteLine(CliHeader, start);
+            Console.WriteLine(CliHeader, start);
 
 
             if (args.Length != 0)
@@ -1067,7 +1067,7 @@ namespace Byt3Console.ExtPP
                 bool exit = false;
                 do
                 {
-                    arf = System.Console.ReadLine().Pack(" ").ToArray();
+                    arf = Console.ReadLine().Pack(" ").ToArray();
                     if (arf.Contains("exit"))
                     {
                         exit = true;

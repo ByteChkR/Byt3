@@ -17,10 +17,12 @@ namespace Byt3.Engine.AI
         /// Current Cost of the node in the current search query
         /// </summary>
         public float CurrentCost { get; set; }
+
         /// <summary>
         /// Estimated Cost of the node in the current search query
         /// </summary>
         public float EstimatedCost { get; set; }
+
         /// <summary>
         /// State of the node in the current search query
         /// </summary>
@@ -32,11 +34,13 @@ namespace Byt3.Engine.AI
         /// The node "where we came from"
         /// </summary>
         public AiNode ParentNode { get; set; }
+
         //Search Specific
         /// <summary>
         /// The flag that determines if the node is walkable
         /// </summary>
         public bool Walkable { get; set; }
+
         /// <summary>
         /// The multiplier that changes the walkcosts(distance from node to node) to traverse over this node.
         /// </summary>
@@ -51,6 +55,7 @@ namespace Byt3.Engine.AI
             connections = new List<AiNode>();
             Walkable = walkable;
         }
+
         /// <summary>
         /// Total Cost of the node in the current search query
         /// </summary>
@@ -97,23 +102,24 @@ namespace Byt3.Engine.AI
         /// <param name="addReverse">adds the same connection in reverse to allow traveling in reverse</param>
         public void AddConnection(AiNode other, bool addReverse = true)
         {
-            Logger.Log(DebugChannel.EngineAI| DebugChannel.Log, $"Creating Connection {this} => {other}", 5);
+            Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"Creating Connection {this} => {other}", 5);
             bool thisContains = connections.Contains(other);
             bool otherContains = other.connections.Contains(this);
             if (thisContains && (!addReverse || otherContains))
             {
-                Logger.Log( DebugChannel.EngineAI | DebugChannel.Warning, $"Connection already established in {this}", 10);
+                Logger.Log(DebugChannel.EngineAI | DebugChannel.Warning, $"Connection already established in {this}",
+                    10);
             }
             else if (!thisContains)
             {
-                Logger.Log( DebugChannel.EngineAI | DebugChannel.Warning, $"Connection already established in {this}", 10);
+                Logger.Log(DebugChannel.EngineAI | DebugChannel.Warning, $"Connection already established in {this}",
+                    10);
                 connections.Add(other);
             }
 
             if (!otherContains && addReverse)
             {
-
-                Logger.Log( DebugChannel.EngineAI | DebugChannel.Log, $"Adding Node Connection in reverse.", 5);
+                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"Adding Node Connection in reverse.", 5);
                 other.AddConnection(this, false); //Add the other way around
             }
         }
@@ -131,11 +137,11 @@ namespace Byt3.Engine.AI
                 return;
             }
 
-            Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"Removing Connection in {this}",5);
+            Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"Removing Connection in {this}", 5);
             connections.Remove(other);
             if (removeReverse)
             {
-                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"Removing reverse Node Connection.",  5);
+                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"Removing reverse Node Connection.", 5);
                 other.RemoveConnection(this, false);
             }
         }

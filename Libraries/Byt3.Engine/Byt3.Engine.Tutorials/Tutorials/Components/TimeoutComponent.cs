@@ -6,6 +6,7 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
     {
         private float tMax;
         private float t;
+
         public TimeoutComponent(float timeout)
         {
             tMax = timeout;

@@ -13,7 +13,6 @@ namespace Byt3.Engine.UI.EventSystems
     {
         public EventSystem() : base(EngineDebugConfig.Settings)
         {
-
         }
 
         private List<ISelectable> selectables = new List<ISelectable>();

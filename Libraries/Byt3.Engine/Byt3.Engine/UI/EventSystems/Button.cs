@@ -67,6 +67,7 @@ namespace Byt3.Engine.UI.EventSystems
         /// The Current state of the Button
         /// </summary>
         public SelectableState State { get; private set; }
+
         /// <summary>
         /// A reference of the Event System used with this button
         /// </summary>
@@ -98,6 +99,7 @@ namespace Byt3.Engine.UI.EventSystems
         /// The Bounding Box of the Button
         /// </summary>
         public Box2 BoundingBox => new Box2(Position - Scale, Position + Scale);
+
         /// <summary>
         /// Function to set the state of the Button
         /// </summary>
@@ -150,6 +152,7 @@ namespace Byt3.Engine.UI.EventSystems
                 ev += action;
             }
         }
+
         /// <summary>
         /// Wrapper that Removes the action from the ev variable
         /// ev can be null, in this case nothing is done
@@ -175,6 +178,7 @@ namespace Byt3.Engine.UI.EventSystems
         {
             AddToEvent(ref onClick, action);
         }
+
         /// <summary>
         /// Removes an OnClick Event
         /// </summary>
@@ -183,6 +187,7 @@ namespace Byt3.Engine.UI.EventSystems
         {
             RemoveFromEvent(ref onClick, action);
         }
+
         /// <summary>
         /// Adds an OnEnter Event
         /// </summary>
@@ -191,6 +196,7 @@ namespace Byt3.Engine.UI.EventSystems
         {
             AddToEvent(ref onEnter, action);
         }
+
         /// <summary>
         /// Removes an OnEnter Event
         /// </summary>
@@ -199,6 +205,7 @@ namespace Byt3.Engine.UI.EventSystems
         {
             RemoveFromEvent(ref onEnter, action);
         }
+
         /// <summary>
         /// Adds an OnHover Event
         /// </summary>
@@ -207,6 +214,7 @@ namespace Byt3.Engine.UI.EventSystems
         {
             AddToEvent(ref onHover, action);
         }
+
         /// <summary>
         /// Removes an OnHover Event
         /// </summary>
@@ -215,6 +223,7 @@ namespace Byt3.Engine.UI.EventSystems
         {
             RemoveFromEvent(ref onHover, action);
         }
+
         /// <summary>
         /// Adds an OnLeave Event
         /// </summary>
@@ -223,6 +232,7 @@ namespace Byt3.Engine.UI.EventSystems
         {
             AddToEvent(ref onLeave, action);
         }
+
         /// <summary>
         /// Removes an OnLeave Event
         /// </summary>

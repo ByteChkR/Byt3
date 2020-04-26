@@ -29,8 +29,9 @@ namespace Byt3Console.OpenFL.Commands
 
             BufferCreator creator = new BufferCreator();
             FLConsole.Settings.BufferCreatorTypes.ForEach(x =>
-                creator.AddBufferCreator((ASerializableBufferCreator)Activator.CreateInstance(x)));
-            FLInstructionSet iset = FLInstructionSet.CreateWithBuiltInTypes(CLAPI.MainThread, FLConsole.Settings.KernelFolder);
+                creator.AddBufferCreator((ASerializableBufferCreator) Activator.CreateInstance(x)));
+            FLInstructionSet iset =
+                FLInstructionSet.CreateWithBuiltInTypes(CLAPI.MainThread, FLConsole.Settings.KernelFolder);
             FLProgramCheckBuilder programCheckBuilder = new FLProgramCheckBuilder(iset, creator);
 
             FLParser p = new FLParser(iset, creator,

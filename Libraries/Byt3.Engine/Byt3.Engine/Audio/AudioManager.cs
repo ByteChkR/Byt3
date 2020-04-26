@@ -10,7 +10,8 @@ namespace Byt3.Engine.Audio
     /// </summary>
     public static class AudioManager
     {
-        private static readonly  ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "AudioManager");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "AudioManager");
 
         /// <summary>
         /// Private field for the audio context
@@ -27,7 +28,6 @@ namespace Byt3.Engine.Audio
         /// </summary>
         public static void Initialize()
         {
-
             Logger.Log(DebugChannel.EngineAudio | DebugChannel.Log, $"Initializing OpenAL", 10);
             _context = new AudioContext();
         }

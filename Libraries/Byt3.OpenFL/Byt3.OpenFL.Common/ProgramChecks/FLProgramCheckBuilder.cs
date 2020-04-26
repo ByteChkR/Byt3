@@ -17,9 +17,12 @@ namespace Byt3.OpenFL.Common.ProgramChecks
         public static FLProgramCheckBuilder CreateDefaultCheckBuilder(FLInstructionSet iset, BufferCreator bc)
         {
             FLProgramCheckBuilder pipeline = new FLProgramCheckBuilder(iset, bc);
-            pipeline.AddProgramCheck(new RemoveUnusedScriptsOptimization()); //Gets added in reverse because of insert at first valid index
-            pipeline.AddProgramCheck(new RemoveUnusedBuffersOptimization()); //Gets added in reverse because of insert at first valid index
-            pipeline.AddProgramCheck(new RemoveUnusedFunctionsEarlyOptimization()); //Gets added in reverse because of insert at first valid index
+            pipeline.AddProgramCheck(
+                new RemoveUnusedScriptsOptimization()); //Gets added in reverse because of insert at first valid index
+            pipeline.AddProgramCheck(
+                new RemoveUnusedBuffersOptimization()); //Gets added in reverse because of insert at first valid index
+            pipeline.AddProgramCheck(
+                new RemoveUnusedFunctionsEarlyOptimization()); //Gets added in reverse because of insert at first valid index
             pipeline.AddProgramCheck(new InstructionArgumentValidator());
             //pipeline.AddSubStage(new InstructionValidator()); ////The Parser now checks this for himself.
             pipeline.AddProgramCheck(new FilePathValidator());
@@ -35,7 +38,11 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
         public void AddProgramCheck(FLProgramCheck check)
         {
-            if (IsAttached) return;
+            if (IsAttached)
+            {
+                return;
+            }
+
             if (!ProgramChecks.Contains(check))
             {
                 ProgramChecks.Add(check);
@@ -44,17 +51,26 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
         public void RemoveProgramCheck(FLProgramCheck check)
         {
-            if (IsAttached) return;
+            if (IsAttached)
+            {
+                return;
+            }
+
             ProgramChecks.Remove(check);
         }
 
         public bool Attach(Pipeline target, bool verify)
         {
-            if (IsAttached) return false;
+            if (IsAttached)
+            {
+                return false;
+            }
+
             for (int i = 0; i < ProgramChecks.Count; i++)
             {
                 ProgramChecks[i].SetValues(InstructionSet, BufferCreator);
             }
+
             foreach (FLProgramCheck flProgramCheck in ProgramChecks)
             {
                 target.InsertAtFirstValidIndex(flProgramCheck);
@@ -67,7 +83,11 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
         public bool Detach(bool verify)
         {
-            if (AttachedPipeline == null) return false;
+            if (AttachedPipeline == null)
+            {
+                return false;
+            }
+
             foreach (FLProgramCheck flProgramCheck in ProgramChecks)
             {
                 AttachedPipeline.RemoveSubStage(flProgramCheck);

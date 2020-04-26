@@ -13,7 +13,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
             get
             {
                 Stream s = IOManager.GetStream(File);
-                Bitmap ret= (Bitmap)Image.FromStream(s);
+                Bitmap ret = (Bitmap) Image.FromStream(s);
                 s.Close();
                 return ret;
             }

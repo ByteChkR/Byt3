@@ -81,6 +81,5 @@ namespace Byt3.Engine.Debug
         GameUI = Game | UI,
         GameUIAnimations = GameUI | Animations,
         GameWFC = Game | WFC,
-
     }
 }

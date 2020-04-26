@@ -7,7 +7,6 @@ using System.Text;
 
 namespace Byt3.Engine.AssetPackaging
 {
-
     /// <summary>
     /// Container Class used to Group Files by Assembly
     /// </summary>

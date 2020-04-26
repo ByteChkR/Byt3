@@ -8,10 +8,14 @@ namespace Byt3.OpenFL.Common
     public static class WorkItemRunner
     {
         public delegate void RunWorkItemDel<In>(List<In> input, int start, int count);
-        public delegate List<Out> RunWorkItemDel<In, Out>(List<In> input, int start, int count);
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "WorkItemRunner");
 
-        public static List<Out> RunInWorkItems<In, Out>(List<In> input, RunWorkItemDel<In, Out> action, WorkItemRunnerSettings settings)
+        public delegate List<Out> RunWorkItemDel<In, Out>(List<In> input, int start, int count);
+
+        private static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "WorkItemRunner");
+
+        public static List<Out> RunInWorkItems<In, Out>(List<In> input, RunWorkItemDel<In, Out> action,
+            WorkItemRunnerSettings settings)
         {
             List<Task<List<Out>>> taskList = new List<Task<List<Out>>>();
             int workSize = settings.GetOptimalWorkSize(input.Count);
@@ -36,6 +40,7 @@ namespace Byt3.OpenFL.Common
                 {
                     task.RunSynchronously();
                 }
+
                 currentID += len;
                 taskNr++;
             }
@@ -50,10 +55,10 @@ namespace Byt3.OpenFL.Common
             }
 
             return ret;
-
         }
 
-        public static void RunInWorkItems<In>(List<In> input, RunWorkItemDel<In> action, WorkItemRunnerSettings settings)
+        public static void RunInWorkItems<In>(List<In> input, RunWorkItemDel<In> action,
+            WorkItemRunnerSettings settings)
         {
             List<Task> taskList = new List<Task>();
             int workSize = settings.GetOptimalWorkSize(input.Count);
@@ -77,6 +82,7 @@ namespace Byt3.OpenFL.Common
                 {
                     task.RunSynchronously();
                 }
+
                 currentID += len;
                 taskNr++;
             }
@@ -84,6 +90,5 @@ namespace Byt3.OpenFL.Common
             Logger.Log(LogType.Log, $"Waiting for Tasks..", 2);
             Task.WaitAll(taskList.ToArray());
         }
-
     }
 }

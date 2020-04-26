@@ -10,8 +10,8 @@ namespace Byt3.Engine.AI
     /// </summary>
     public class AStarResolver
     {
-
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings , "A* Solver");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "A* Solver");
 
         /// <summary>
         /// Finds the path from the start node to the end node
@@ -25,18 +25,18 @@ namespace Byt3.Engine.AI
         {
             int iterations = 0;
             int nodesConsidered = 2;
-            Logger.Log( DebugChannel.EngineAI | DebugChannel.Log, $"A* Query Start:{startPoint} {endPoint}", 10);
+            Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"A* Query Start:{startPoint} {endPoint}", 10);
             Stopwatch sw = Stopwatch.StartNew();
 
             if (startPoint == endPoint)
             {
                 sw.Stop();
-                Logger.Log( DebugChannel.EngineAI | DebugChannel.Log, $"A* Iteration Found Path: ", 9);
+                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"A* Iteration Found Path: ", 9);
 
                 WriteStatistics(nodesConsidered, iterations, sw.ElapsedMilliseconds, 0, 0);
 
                 foundPath = true;
-                return new List<AiNode>() { startPoint, endPoint };
+                return new List<AiNode>() {startPoint, endPoint};
             }
 
             foundPath = false;
@@ -61,7 +61,7 @@ namespace Byt3.Engine.AI
 
 
                     sw.Stop();
-                    Logger.Log( DebugChannel.EngineAI | DebugChannel.Log, $"A* Iteration Found Path: ", 9);
+                    Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"A* Iteration Found Path: ", 9);
 
                     WriteStatistics(nodesConsidered, iterations, sw.ElapsedMilliseconds, debugCurrentCost, ret.Count);
 
@@ -109,22 +109,23 @@ namespace Byt3.Engine.AI
             ResetNodes(todo, doneList);
             foundPath = false;
             sw.Stop();
-            Logger.Log( DebugChannel.EngineAI | DebugChannel.Warning, $"A* Iteration did NOT find Path: ", 9);
+            Logger.Log(DebugChannel.EngineAI | DebugChannel.Warning, $"A* Iteration did NOT find Path: ", 9);
 
             WriteStatistics(nodesConsidered, iterations, sw.ElapsedMilliseconds, 0, 0);
             return new List<AiNode>();
         }
 
-        private static void WriteStatistics(int nodesConsidered, int iterations, long ellapsedMilliseconds, float pathLength, int pathNodeCount)
+        private static void WriteStatistics(int nodesConsidered, int iterations, long ellapsedMilliseconds,
+            float pathLength, int pathNodeCount)
         {
             Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t Statistics:", 9);
-            Logger.Log( DebugChannel.EngineAI | DebugChannel.Log, $"\t\tNodes Considered: {nodesConsidered}", 9);
-            Logger.Log( DebugChannel.EngineAI | DebugChannel.Log, $"\t\tIterations: {iterations}", 9);
+            Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t\tNodes Considered: {nodesConsidered}", 9);
+            Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t\tIterations: {iterations}", 9);
             Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t\tTime: {ellapsedMilliseconds} ms", 9);
             Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t\tPath Length: {pathLength}", 9);
-            Logger.Log( DebugChannel.EngineAI | DebugChannel.Log, $"\t\tPath Length(Nodes): {pathNodeCount}", 9);
-
+            Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t\tPath Length(Nodes): {pathNodeCount}", 9);
         }
+
         private static List<AiNode> GeneratePath(AiNode endNode)
         {
             List<AiNode> ret = new List<AiNode>();
@@ -134,6 +135,7 @@ namespace Byt3.Engine.AI
                 ret.Add(current);
                 current = current.ParentNode;
             }
+
             ret.Reverse();
             return ret;
         }

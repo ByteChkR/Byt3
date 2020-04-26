@@ -4,8 +4,7 @@ namespace TestingProjectConsole.Commands
 {
     public class EngineTimeoutFlagCommand : AbstractCommand
     {
-
-        public EngineTimeoutFlagCommand() : base(new[] { "--engine-timeout", "-eT" },
+        public EngineTimeoutFlagCommand() : base(new[] {"--engine-timeout", "-eT"},
             "Sets the Engine Timeout in Seconds")
         {
             CommandAction = (info, strings) => SetFlag(strings);
@@ -16,6 +15,5 @@ namespace TestingProjectConsole.Commands
             EngineSceneRunCommand.AttachTimeout = true;
             EngineSceneRunCommand.TimeoutTime = int.Parse(args[0]);
         }
-
     }
 }

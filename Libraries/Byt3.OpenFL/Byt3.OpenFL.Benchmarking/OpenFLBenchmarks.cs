@@ -28,7 +28,8 @@ namespace Byt3.OpenFL.Benchmarking
         private const int BITMAP_RESOLUTION = 32;
 #endif
 
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(new ProjectDebugConfig("FL Benchmark", -1, 10,
+        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(new ProjectDebugConfig(
+            "FL Benchmark", -1, 10,
             PrefixLookupSettings.AddPrefixIfAvailable));
 
         private static void SaveOutput(string subcategory, Bitmap bmp, FLProgram program, FLSetup setup, string file)
@@ -45,13 +46,14 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
 
-
         #region Execution
 
         public static string RunParsedFLExecutionBenchmark(List<string> files, int iterations,
-            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false, int workSizeMultiplier = 2)
+            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false,
+            int workSizeMultiplier = 2)
         {
-            FLSetup setup = new FLSetup("FL_ParsedExecution_Performance", "resources/kernel", performanceFolder, useChecks, useMultiThreading, workSizeMultiplier);
+            FLSetup setup = new FLSetup("FL_ParsedExecution_Performance", "resources/kernel", performanceFolder,
+                useChecks, useMultiThreading, workSizeMultiplier);
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
             for (int i = 0; i < files.Count; i++)
@@ -69,36 +71,31 @@ namespace Byt3.OpenFL.Benchmarking
                 parsedProgram = setup.Parser.Process(new FLParserInput(files[i]));
 
                 PerformanceTester.PerformanceResult result = PerformanceTester.Tester.RunTest(key, iterations,
-                     (int its) => //BeforeTest
-                     {
-                         bmp = new Bitmap(BITMAP_RESOLUTION, BITMAP_RESOLUTION);
-                         buf = new FLBuffer(CLAPI.MainThread, bmp, files[i]);
-                         program = parsedProgram.Initialize(setup.InstructionSet);
-                     },
-                     (int its) =>
-                     {
+                    (int its) => //BeforeTest
+                    {
+                        bmp = new Bitmap(BITMAP_RESOLUTION, BITMAP_RESOLUTION);
+                        buf = new FLBuffer(CLAPI.MainThread, bmp, files[i]);
+                        program = parsedProgram.Initialize(setup.InstructionSet);
+                    },
+                    (int its) => { program.Run(CLAPI.MainThread, buf, true); },
+                    (int its) => //After Test
+                    {
+                        Logger.Log(LogType.Log, "------------------------Run Finished------------------------", 1);
 
-                         program.Run(CLAPI.MainThread, buf, true);
+                        if (its == iterations - 1)
+                        {
+                            SaveOutput("parsed-output", bmp, program, setup, files[i]);
+                        }
 
-                     },
-                     (int its) => //After Test
-                     {
-                         Logger.Log(LogType.Log, "------------------------Run Finished------------------------", 1);
-
-                         if (its == iterations - 1)
-                             SaveOutput("parsed-output", bmp, program, setup, files[i]);
-
-                         program.FreeResources();
-                         buf.Dispose();
-                         bmp.Dispose();
-                     });
+                        program.FreeResources();
+                        buf.Dispose();
+                        bmp.Dispose();
+                    });
                 logOut.AppendLine("\t" + result);
 
                 Logger.Log(LogType.Log, $"------------------------Run {key} Finished------------------------", 1);
 
                 setup.WriteResult(result);
-
-
             }
 
 
@@ -107,21 +104,24 @@ namespace Byt3.OpenFL.Benchmarking
             setup.Dispose();
             return logOut.ToString();
         }
+
         public static string RunDeserializedFLExecutionBenchmark(List<string> files, int iterations,
-            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false, int workSizeMultiplier = 2)
+            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false,
+            int workSizeMultiplier = 2)
         {
-            FLSetup setup = new FLSetup("FL_DeserializedExecution_Performance", "resources/kernel", performanceFolder, useChecks, useMultiThreading, workSizeMultiplier);
+            FLSetup setup = new FLSetup("FL_DeserializedExecution_Performance", "resources/kernel", performanceFolder,
+                useChecks, useMultiThreading, workSizeMultiplier);
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
             for (int i = 0; i < files.Count; i++)
             {
-
                 Bitmap bmp = null;
                 FLBuffer buf = null;
                 SerializableFLProgram parsedProgram = null;
                 MemoryStream ms = new MemoryStream();
                 FLProgram program = null;
-                string key = "FLDeserializedExecutionPerformance+" + Path.GetFileNameWithoutExtension(files[i]) + "." + i;
+                string key = "FLDeserializedExecutionPerformance+" + Path.GetFileNameWithoutExtension(files[i]) + "." +
+                             i;
 
                 Logger.Log(LogType.Log, $"------------------------Run {key} Starting------------------------", 1);
 
@@ -129,21 +129,24 @@ namespace Byt3.OpenFL.Benchmarking
                 FLSerializer.SaveProgram(ms, parsedProgram, new string[0]);
 
                 PerformanceTester.PerformanceResult result = PerformanceTester.Tester.RunTest(key, iterations,
-                     (int its) => //BeforeTest
-                     {
-                         bmp = new Bitmap(BITMAP_RESOLUTION, BITMAP_RESOLUTION);
-                         buf = new FLBuffer(CLAPI.MainThread, bmp, files[i]);
-                         ms.Position = 0;
-                         program = FLSerializer.LoadProgram(ms).Initialize(setup.InstructionSet);
-                     },
-                     (int its) => program.Run(CLAPI.MainThread, buf, true),
-                     (int its) => //After Test
-                     {
-                         if (its == iterations - 1)
-                             SaveOutput("deserialized-output", bmp, program, setup, files[i]);
-                         program.FreeResources();
-                         buf.Dispose();
-                     });
+                    (int its) => //BeforeTest
+                    {
+                        bmp = new Bitmap(BITMAP_RESOLUTION, BITMAP_RESOLUTION);
+                        buf = new FLBuffer(CLAPI.MainThread, bmp, files[i]);
+                        ms.Position = 0;
+                        program = FLSerializer.LoadProgram(ms).Initialize(setup.InstructionSet);
+                    },
+                    (int its) => program.Run(CLAPI.MainThread, buf, true),
+                    (int its) => //After Test
+                    {
+                        if (its == iterations - 1)
+                        {
+                            SaveOutput("deserialized-output", bmp, program, setup, files[i]);
+                        }
+
+                        program.FreeResources();
+                        buf.Dispose();
+                    });
                 bmp.Dispose();
                 ms.Dispose();
                 logOut.AppendLine("\t" + result);
@@ -151,17 +154,22 @@ namespace Byt3.OpenFL.Benchmarking
                 Logger.Log(LogType.Log, $"------------------------Run {key} Finished------------------------", 1);
                 setup.WriteResult(result);
             }
+
             logOut.AppendLine();
             setup.WriteLog(logOut.ToString());
             setup.Dispose();
             return logOut.ToString();
         }
+
         #endregion
 
-        public static string RunProgramSerializationBenchmark(List<string> files, int iterations, string[] extraSteps = null,
-            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false, int workSizeMultiplier = 2)
+        public static string RunProgramSerializationBenchmark(List<string> files, int iterations,
+            string[] extraSteps = null,
+            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false,
+            int workSizeMultiplier = 2)
         {
-            FLSetup setup = new FLSetup("FL_SerializationProcess_Performance", "resources/kernel", performanceFolder, useChecks, useMultiThreading, workSizeMultiplier);
+            FLSetup setup = new FLSetup("FL_SerializationProcess_Performance", "resources/kernel", performanceFolder,
+                useChecks, useMultiThreading, workSizeMultiplier);
 
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
@@ -172,7 +180,6 @@ namespace Byt3.OpenFL.Benchmarking
                 MemoryStream dst = new MemoryStream();
                 SerializableFLProgram pr = setup.Parser.Process(new FLParserInput(files[i]));
                 string key = "ProgramSerializationPerformance+" + Path.GetFileNameWithoutExtension(files[i]) + "." + i;
-
 
 
                 Logger.Log(LogType.Log, $"------------------------Run {key} Starting------------------------", 1);
@@ -191,15 +198,19 @@ namespace Byt3.OpenFL.Benchmarking
                 Logger.Log(LogType.Log, $"------------------------Run {key} Finished------------------------", 1);
                 setup.WriteResult(result);
             }
+
             logOut.AppendLine();
             setup.WriteLog(logOut.ToString());
             setup.Dispose();
             return logOut.ToString();
         }
 
-        public static string RunProgramDeserializationBenchmark(List<string> files, int iterations, string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false, int workSizeMultiplier = 2)
+        public static string RunProgramDeserializationBenchmark(List<string> files, int iterations,
+            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false,
+            int workSizeMultiplier = 2)
         {
-            FLSetup setup = new FLSetup("FL_DeserializationProcess_Performance", "resources/kernel", performanceFolder, useChecks, useMultiThreading, workSizeMultiplier);
+            FLSetup setup = new FLSetup("FL_DeserializationProcess_Performance", "resources/kernel", performanceFolder,
+                useChecks, useMultiThreading, workSizeMultiplier);
 
 
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
@@ -208,7 +219,8 @@ namespace Byt3.OpenFL.Benchmarking
             for (int i = 0; i < files.Count; i++)
             {
                 SerializableFLProgram pr = setup.Parser.Process(new FLParserInput(files[i]));
-                string key = "ProgramDeserializationPerformance+" + Path.GetFileNameWithoutExtension(files[i]) + "." + i;
+                string key = "ProgramDeserializationPerformance+" + Path.GetFileNameWithoutExtension(files[i]) + "." +
+                             i;
                 FLSerializer.SaveProgram(dst, pr, new string[] { });
                 Logger.Log(LogType.Log, $"------------------------Run {key} Starting------------------------", 1);
 
@@ -220,6 +232,7 @@ namespace Byt3.OpenFL.Benchmarking
                 Logger.Log(LogType.Log, $"------------------------Run {key} Finished------------------------", 1);
                 setup.WriteResult(result);
             }
+
             dst.Dispose();
             logOut.AppendLine();
             setup.WriteLog(logOut.ToString());
@@ -228,10 +241,11 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunProgramInitBenchmark(List<string> files, int iterations,
-            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false, int workSizeMultiplier = 2)
+            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false,
+            int workSizeMultiplier = 2)
         {
-
-            FLSetup setup = new FLSetup("FL_ProgramInit_Performance", "resources/kernel", performanceFolder, useChecks, useMultiThreading, workSizeMultiplier);
+            FLSetup setup = new FLSetup("FL_ProgramInit_Performance", "resources/kernel", performanceFolder, useChecks,
+                useMultiThreading, workSizeMultiplier);
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
             for (int i = 0; i < files.Count; i++)
@@ -251,6 +265,7 @@ namespace Byt3.OpenFL.Benchmarking
                 Logger.Log(LogType.Log, $"------------------------Run {key} Finished------------------------", 1);
                 setup.WriteResult(result);
             }
+
             logOut.AppendLine();
             setup.WriteLog(logOut.ToString());
             setup.Dispose();
@@ -258,9 +273,11 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunParserProcessBenchmark(List<string> files, int iterations,
-            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false, int workSizeMultiplier = 2)
+            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false,
+            int workSizeMultiplier = 2)
         {
-            FLSetup setup = new FLSetup("FL_ParserProcess_Performance", "resources/kernel", performanceFolder, useChecks, useMultiThreading, workSizeMultiplier);
+            FLSetup setup = new FLSetup("FL_ParserProcess_Performance", "resources/kernel", performanceFolder,
+                useChecks, useMultiThreading, workSizeMultiplier);
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
             for (int i = 0; i < files.Count; i++)
@@ -277,6 +294,7 @@ namespace Byt3.OpenFL.Benchmarking
                 Logger.Log(LogType.Log, $"------------------------Run {key} Finished------------------------", 1);
                 setup.WriteResult(result);
             }
+
             logOut.AppendLine();
             setup.WriteLog(logOut.ToString());
             setup.Dispose();
@@ -284,12 +302,12 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunParserInitBenchmark(int iterations,
-            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false, int workSizeMultiplier = 2)
+            string performanceFolder = "performance", bool useChecks = true, bool useMultiThreading = false,
+            int workSizeMultiplier = 2)
         {
-
-            FLSetup setup = new FLSetup("FL_ParserProcess_Performance", "resources/kernel", performanceFolder, useChecks, useMultiThreading, workSizeMultiplier);
+            FLSetup setup = new FLSetup("FL_ParserProcess_Performance", "resources/kernel", performanceFolder,
+                useChecks, useMultiThreading, workSizeMultiplier);
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
-
 
 
             FLInstructionSet iset = null;

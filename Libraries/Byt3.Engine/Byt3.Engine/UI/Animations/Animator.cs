@@ -10,10 +10,12 @@ namespace Byt3.Engine.UI.Animations
     public class Animator : AbstractComponent
     {
         private List<Animation> animators = new List<Animation>();
+
         /// <summary>
         /// A list of All Targets for this animation
         /// </summary>
         protected List<UiElement> Targets = new List<UiElement>();
+
         /// <summary>
         /// Public Constructor
         /// </summary>
@@ -36,6 +38,7 @@ namespace Byt3.Engine.UI.Animations
                 AddTarget(elements[i]);
             }
         }
+
         /// <summary>
         /// Adds a Target for the Animator to animate
         /// </summary>
@@ -51,6 +54,7 @@ namespace Byt3.Engine.UI.Animations
                 btn.AddToLeaveEvent(OnLeave);
             }
         }
+
         /// <summary>
         /// Removes a Target from the Animator Target list
         /// </summary>

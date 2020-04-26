@@ -12,8 +12,8 @@ namespace Byt3.Engine.Physics
     /// </summary>
     public static class LayerManager
     {
-
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "LayerManager");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "LayerManager");
 
         /// <summary>
         /// The Layer to Name Register

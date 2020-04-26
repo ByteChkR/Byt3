@@ -15,8 +15,9 @@ namespace Byt3.Utilities.ManifestIO
     /// </summary>
     public static class ManifestReader
     {
-
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(new ProjectDebugConfig("Manifest Reader",-1, 2, PrefixLookupSettings.AddPrefixIfAvailable));
+        private static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(new ProjectDebugConfig("Manifest Reader", -1, 2,
+                PrefixLookupSettings.AddPrefixIfAvailable));
 
         private static Dictionary<string, AssemblyFile> _assemblyFiles = new Dictionary<string, AssemblyFile>();
         private static List<Assembly> _loadedAssemblies = new List<Assembly>();
@@ -55,7 +56,7 @@ namespace Byt3.Utilities.ManifestIO
 
             string list = tr.ReadToEnd();
             tr.Close();
-            string[] files = list.Split(new []{ '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] files = list.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 
             for (int i = 0; i < files.Length; i++)
             {
@@ -87,8 +88,9 @@ namespace Byt3.Utilities.ManifestIO
                 string file = files[i].Remove(0, (asm.GetName().Name + ".").Length);
                 if (_assemblyFiles.ContainsKey(file))
                 {
-                    Logger.Log(LogType.Log, "Overwriting File: " + file + " with version from assembly: " + asm.GetName().Name,
-                       8);
+                    Logger.Log(LogType.Log,
+                        "Overwriting File: " + file + " with version from assembly: " + asm.GetName().Name,
+                        8);
                     _assemblyFiles[file] = new AssemblyFile(false, files[i], asm);
                 }
                 else
@@ -164,7 +166,7 @@ namespace Byt3.Utilities.ManifestIO
                 AssetPacker.GetPointers(idxStream, packs, out bool compression);
             Logger.Log(LogType.Log,
                 "Parsing " + packedFiles.Count + " File from " + files[indexList] + " in " + packs.Length +
-                " Packages.",10);
+                " Packages.", 10);
 
             foreach (Tuple<string, AssetPointer> assetPointer in packedFiles)
             {
@@ -195,6 +197,7 @@ namespace Byt3.Utilities.ManifestIO
                     IOManager.GetFiles(loadedAssembly.GetName().Name + "/packs", "*"), loadedAssembly, FileFactory);
             }
         }
+
         /// <summary>
         /// Prepares the Assembly Files for the loading process
         /// </summary>
@@ -356,6 +359,7 @@ namespace Byt3.Utilities.ManifestIO
 
             return ret;
         }
+
         /// <summary>
         /// Turns a Filepath that refers to an file on the filesystem into a filepath for assembly files
         /// </summary>
@@ -402,6 +406,5 @@ namespace Byt3.Utilities.ManifestIO
 
         private delegate AssemblyFile
             AssemblyFileFactory(string file, bool compression, Assembly asm, AssetPointer ptr);
-
     }
 }

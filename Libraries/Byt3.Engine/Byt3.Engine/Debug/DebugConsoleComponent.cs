@@ -193,7 +193,8 @@ namespace Byt3.Engine.Debug
                     DefaultFilepaths.DefaultUiImageShader);
 
             UiImageRendererComponent bgOutImage =
-                new UiImageRendererComponent(TextureLoader.BitmapToTexture(bmp, "DebugConsoleOutputBackground"), false, 0.4f,
+                new UiImageRendererComponent(TextureLoader.BitmapToTexture(bmp, "DebugConsoleOutputBackground"), false,
+                    0.4f,
                     DefaultFilepaths.DefaultUiImageShader);
 
 
@@ -301,7 +302,7 @@ namespace Byt3.Engine.Debug
         /// <param name="text"></param>
         public void WriteToConsole(string text)
         {
-            string[] arr = text.Split(new []{'\n'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] arr = text.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string s in arr)
             {
                 consoleOutBuffer.Enqueue(s);
@@ -382,7 +383,9 @@ namespace Byt3.Engine.Debug
                         if (typeof(AbstractScene) != type && typeof(AbstractScene).IsAssignableFrom(type))
                         {
                             if (!ret.ContainsKey(type.Name))
+                            {
                                 ret.Add(type.Name, type);
+                            }
                             else if (type != ret[type.Name])
                             {
                                 Type t1 = ret[type.Name];
@@ -392,7 +395,6 @@ namespace Byt3.Engine.Debug
                             }
                         }
                     }
-
                 }
 
                 return ret;

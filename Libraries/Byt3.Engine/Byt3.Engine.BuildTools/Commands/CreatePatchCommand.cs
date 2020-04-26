@@ -22,9 +22,10 @@ namespace Byt3.Engine.BuildTools.Commands
                 throw new ApplicationException("Input Error", e);
             }
         }
-        public CreatePatchCommand() : base(CreatePatch, new[] { "--create-patch" , "-cpatch" }, "--create-patch <folder> <destinationFile>", false)
-        {
 
+        public CreatePatchCommand() : base(CreatePatch, new[] {"--create-patch", "-cpatch"},
+            "--create-patch <folder> <destinationFile>", false)
+        {
         }
     }
 }

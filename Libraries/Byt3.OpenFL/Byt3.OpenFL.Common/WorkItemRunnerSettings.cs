@@ -19,6 +19,5 @@ namespace Byt3.OpenFL.Common
         {
             return 1 + itemCount / (Environment.ProcessorCount * 2);
         }
-
     }
 }

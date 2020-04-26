@@ -12,10 +12,12 @@ namespace Byt3.Engine.Core
     {
         private static Dictionary<Key, bool> _keymap = new Dictionary<Key, bool>();
         private static GameWindow _wnd;
+
         /// <summary>
         /// Flag for the Right Mouse Button
         /// </summary>
         public static bool RightMb { get; private set; }
+
         /// <summary>
         /// Flag for the Left Mouse Button
         /// </summary>
@@ -35,7 +37,7 @@ namespace Byt3.Engine.Core
             string[] keynames = Enum.GetNames(typeof(Key));
             for (int i = 0; i < keynames.Length; i++)
             {
-                Key k = (Key)Enum.Parse((typeof(Key)), keynames[i]);
+                Key k = (Key) Enum.Parse(typeof(Key), keynames[i]);
                 if (!_keymap.ContainsKey(k))
                 {
                     _keymap.Add(k, false);
@@ -45,7 +47,7 @@ namespace Byt3.Engine.Core
 
         internal static void Dispose()
         {
-            if(_wnd != null)
+            if (_wnd != null)
             {
                 _wnd.KeyDown -= Window_KeyDown;
                 _wnd.KeyUp -= Window_KeyUp;
@@ -53,6 +55,7 @@ namespace Byt3.Engine.Core
                 _wnd.MouseUp -= WindowOnMouseInteraction;
                 _wnd = null;
             }
+
             _keymap.Clear();
         }
 

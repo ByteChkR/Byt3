@@ -12,7 +12,9 @@ namespace Byt3.Engine.Core
     /// <typeparam name="T">Type of Object</typeparam>
     public class ObjectPool<T> : IDisposable where T : IDisposable
     {
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, $"ObjectPool<{typeof(T).Name}>");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, $"ObjectPool<{typeof(T).Name}>");
+
         /// <summary>
         /// Delegate that serves as a "Factory" of Objects
         /// </summary>
@@ -174,8 +176,9 @@ namespace Byt3.Engine.Core
             int id = GetFreeId();
             if (id == -1)
             {
-                Logger.Log(DebugChannel.Warning | DebugChannel.EngineCore, "Object Pool is full, returning Unmanaged Instance.",
-                     10);
+                Logger.Log(DebugChannel.Warning | DebugChannel.EngineCore,
+                    "Object Pool is full, returning Unmanaged Instance.",
+                    10);
                 PooledObject<T> item = new PooledObject<T>(factory(), null, -1);
 
                 return item;

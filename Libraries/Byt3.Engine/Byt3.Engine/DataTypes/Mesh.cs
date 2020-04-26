@@ -43,7 +43,8 @@ namespace Byt3.Engine.DataTypes
         /// <summary>
         /// Internal Constructor to create a Mesh Data object.
         /// </summary>
-        internal Mesh(int ebo, int vbo, int vao, int drawCount, long bytes, bool isCopy, object handleIdentifier) : base(isCopy, handleIdentifier)
+        internal Mesh(int ebo, int vbo, int vao, int drawCount, long bytes, bool isCopy, object handleIdentifier) :
+            base(isCopy, handleIdentifier)
         {
             this.bytes = bytes;
             Ebo = ebo;

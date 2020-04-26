@@ -33,7 +33,8 @@ namespace Byt3Console.AssemblyGenerator.Commands
 
             string path = Path.Combine(Path.GetDirectoryName(AssemblyGeneratorConsole.Target),
                 $"{AssemblyGeneratorConsole.Output ?? def.AssemblyName}");
-            Byt3.AssemblyGenerator.AssemblyGenerator.GenerateAssembly("dotnet", def, path, buildType, !AssemblyGeneratorConsole.BuildConsole);
+            Byt3.AssemblyGenerator.AssemblyGenerator.GenerateAssembly("dotnet", def, path, buildType,
+                !AssemblyGeneratorConsole.BuildConsole);
         }
     }
 }

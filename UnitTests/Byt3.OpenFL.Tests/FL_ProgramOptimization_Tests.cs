@@ -17,7 +17,8 @@ namespace Byt3.OpenFL.Tests
             SerializableFLProgram ret = setup.Parser.Process(
                 new FLParserInput("resources/filter/program_checks/optimizations/remove_unused_buffers.fl"));
 
-            Assert.AreEqual(1, ret.DefinedBuffers.Count); //1 and not 0 because the "in" (input) buffer is also in the defined buffers.
+            Assert.AreEqual(1,
+                ret.DefinedBuffers.Count); //1 and not 0 because the "in" (input) buffer is also in the defined buffers.
             setup.Dispose();
         }
 

@@ -15,14 +15,14 @@ namespace Byt3.Engine.BuildTools.Commands
             }
             catch (Exception e)
             {
-
                 throw new ApplicationException("Input Error", e);
             }
         }
 
-        public UnEmbedCommand() : base(UnembedFiles, new[] { "--unembed", "-u" }, "--unembed <Path/To/CSProj/File>\nUnembeds that were embedded into the .csproj file of the game project.", false)
+        public UnEmbedCommand() : base(UnembedFiles, new[] {"--unembed", "-u"},
+            "--unembed <Path/To/CSProj/File>\nUnembeds that were embedded into the .csproj file of the game project.",
+            false)
         {
-
         }
     }
 }

@@ -15,12 +15,14 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
         {
             FLInstructionSet iset = new FLInstructionSet();
             iset.AddInstructionWithDefaultCreator<JumpFLInstruction>("jmp", "X");
-            iset.AddInstructionWithDefaultCreator<SetActiveFLInstruction>("setactive", "E|EV|EVV|EVVV|EVVVV|VVVV|VVV|VV|V");
+            iset.AddInstructionWithDefaultCreator<SetActiveFLInstruction>("setactive",
+                "E|EV|EVV|EVVV|EVVVV|VVVV|VVV|VV|V");
             iset.AddInstructionWithDefaultCreator<RandomFLInstruction>("rnd", "|B");
             iset.AddInstructionWithDefaultCreator<URandomFLInstruction>("urnd", "|B");
             iset.AddInstruction(new KernelFLInstructionCreator(db));
             return iset;
         }
+
         public static FLInstructionSet CreateWithBuiltInTypes(CLAPI instance, string clKernelPath)
         {
             KernelDatabase db =
@@ -63,8 +65,12 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
         {
             for (int i = 0; i < creators.Count; i++)
             {
-                if (creators[i].IsInstruction(instruction.InstructionKey)) return creators[i];
+                if (creators[i].IsInstruction(instruction.InstructionKey))
+                {
+                    return creators[i];
+                }
             }
+
             throw new FLInstructionCreatorNotFoundException("Could not find Instruction creator for Key: " +
                                                             instruction.InstructionKey);
         }
@@ -83,7 +89,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             {
                 if (target != ts[i] && target.IsAssignableFrom(ts[i]))
                 {
-                    FLInstructionCreator creator = (FLInstructionCreator)Activator.CreateInstance(ts[i]);
+                    FLInstructionCreator creator = (FLInstructionCreator) Activator.CreateInstance(ts[i]);
                     AddInstruction(creator);
                 }
             }

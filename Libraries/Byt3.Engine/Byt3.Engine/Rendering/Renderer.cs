@@ -13,7 +13,7 @@ namespace Byt3.Engine.Rendering
     /// <summary>
     /// Renderer that does all the drawing
     /// </summary>
-    public class Renderer :IDisposable
+    public class Renderer : IDisposable
     {
         /// <summary>
         /// Different Render Types
@@ -79,11 +79,11 @@ namespace Byt3.Engine.Rendering
             rt1.Dispose();
 
 
-
             foreach (RenderTarget renderTarget in targets)
             {
                 renderTarget.Dispose();
             }
+
             targets.Clear();
 
             mergeStage.Dispose();
@@ -175,6 +175,7 @@ namespace Byt3.Engine.Rendering
                 {
                     throw new Byt3Exception("Use of Disposed Render Target");
                 }
+
                 MemoryTracer.NextStage("Rendering Render Target: " + i);
                 CurrentTarget = i;
                 RenderTarget target = targets[i];

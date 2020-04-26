@@ -15,6 +15,7 @@ namespace Byt3.Callbacks
         {
             return Callback.FileExists(file);
         }
+
         public static bool DirectoryExists(string file)
         {
             return Callback.DirectoryExists(file);
@@ -24,6 +25,7 @@ namespace Byt3.Callbacks
         {
             return Callback.ReadLines(file);
         }
+
         public static string ReadText(string file)
         {
             return Callback.ReadText(file);

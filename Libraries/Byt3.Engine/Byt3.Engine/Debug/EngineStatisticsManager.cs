@@ -5,7 +5,6 @@ using Byt3.OpenCL;
 
 namespace Byt3.Engine.Debug
 {
-
     /// <summary>
     /// Class that keeps track of all possible statistics during the run of the engine
     /// </summary>
@@ -62,6 +61,7 @@ namespace Byt3.Engine.Debug
         {
             objects.Remove(bytes);
         }
+
         private static readonly List<DisposableObjectBase> objects = new List<DisposableObjectBase>();
 
 
@@ -71,6 +71,7 @@ namespace Byt3.Engine.Debug
             {
                 objects[i].Dispose();
             }
+
             objects.Clear();
         }
 
@@ -92,7 +93,6 @@ namespace Byt3.Engine.Debug
             {
                 tw.WriteLine($"\t\tObject {i} : " + objects[i].HandleIdentifier);
             }
-
 
 
             tw.Write(HandleBase.WriteStatistics());

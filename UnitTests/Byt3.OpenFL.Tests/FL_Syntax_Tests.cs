@@ -18,7 +18,7 @@ using NUnit.Framework;
 
 namespace Byt3.OpenFL.Tests
 {
-   public class FL_Syntax_Tests
+    public class FL_Syntax_Tests
     {
         [Test]
         public void OpenFL_Comments_Test()
@@ -150,9 +150,9 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_TypeConversion_Test()
         {
             float f = float.MaxValue / 2;
-            byte b = (byte)CLTypeConverter.Convert(typeof(byte), f);
+            byte b = (byte) CLTypeConverter.Convert(typeof(byte), f);
             float4 f4 = new float4(f);
-            uchar4 i4 = (uchar4)CLTypeConverter.Convert(typeof(uchar4), f4);
+            uchar4 i4 = (uchar4) CLTypeConverter.Convert(typeof(uchar4), f4);
             Assert.True(b == 128);
 
             for (int i = 0; i < 4; i++)

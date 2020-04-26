@@ -7,14 +7,17 @@
     {
         private int frameCount;
         private bool isLoaded;
+
         /// <summary>
         /// Trigger of the Animation
         /// </summary>
         public AnimationTrigger Trigger { get; set; }
+
         /// <summary>
         /// Delay before the animation starts
         /// </summary>
         public float AnimationDelay { get; set; }
+
         private float TimeSinceAnimationStart { get; set; }
 
         /// <summary>
@@ -43,6 +46,7 @@
                 TimeSinceAnimationStart = 0;
             }
         }
+
         /// <summary>
         /// Updates a UI Element
         /// </summary>

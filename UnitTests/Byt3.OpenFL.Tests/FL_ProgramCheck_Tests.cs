@@ -7,13 +7,11 @@ namespace Byt3.OpenFL.Tests
 {
     public class FL_ProgramCheck_Tests
     {
-
         public void OpenFL_FindScriptCycle_Test()
         {
-
         }
 
-        
+
         [Test]
         public void OpenFL_FilePathValidator_Incorrect_Test()
         {
@@ -21,10 +19,10 @@ namespace Byt3.OpenFL.Tests
             FLSetup setup = new FLSetup(nameof(OpenFL_FilePathValidator_Incorrect_Test), "resources/kernel");
 
             Assert.Catch<FLProgramCheckException>(() =>
-                setup.Parser.Process(
-                    new FLParserInput("resources/filter/program_checks/filepath_validator_incorrect.fl")), "Did not detect Wrong FilePath");
+                    setup.Parser.Process(
+                        new FLParserInput("resources/filter/program_checks/filepath_validator_incorrect.fl")),
+                "Did not detect Wrong FilePath");
             setup.Dispose();
-
         }
 
         [Test]
@@ -47,10 +45,11 @@ namespace Byt3.OpenFL.Tests
             FLSetup setup = new FLSetup(nameof(OpenFL_InstructionArgumentValidator_Incorrect_Test), "resources/kernel");
 
             Assert.Catch<FLProgramCheckException>(() =>
-                setup.Parser.Process(
-                    new FLParserInput("resources/filter/program_checks/instructionargument_validator_incorrect.fl")), "Did not detect Wrong Argument");
+                    setup.Parser.Process(
+                        new FLParserInput(
+                            "resources/filter/program_checks/instructionargument_validator_incorrect.fl")),
+                "Did not detect Wrong Argument");
             setup.Dispose();
-
         }
     }
 }

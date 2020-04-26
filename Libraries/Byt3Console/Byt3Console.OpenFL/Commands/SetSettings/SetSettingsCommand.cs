@@ -85,9 +85,8 @@ namespace Byt3Console.OpenFL.Commands
             if (hasErrors)
             {
                 Logger.Log(LogType.Error, "Command completed with Errors.", 1);
-                Logger.Log(LogType.Log, "Available Options: \n"+ AllPaths, 1);
+                Logger.Log(LogType.Log, "Available Options: \n" + AllPaths, 1);
             }
-
         }
 
         private static void RecursiveAddFields(string parentPath, object parentRef, FieldInfo current,

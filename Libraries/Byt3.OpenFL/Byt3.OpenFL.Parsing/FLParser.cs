@@ -12,11 +12,8 @@ using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenFL.Parsing
 {
-    
-
     public class FLParser : Pipeline
     {
-
         public WorkItemRunnerSettings WorkItemRunnerSettings { get; }
         public BufferCreator BufferCreator { get; }
         public FLInstructionSet InstructionSet { get; }
@@ -33,7 +30,8 @@ namespace Byt3.OpenFL.Parsing
             new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "FLParser");
 
 
-        public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator, WorkItemRunnerSettings settings = null) : base(typeof(FLParserInput), typeof(SerializableFLProgram))
+        public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator,
+            WorkItemRunnerSettings settings = null) : base(typeof(FLParserInput), typeof(SerializableFLProgram))
         {
             InstructionSet = instructionSet;
             BufferCreator = bufferCreator;
@@ -53,7 +51,7 @@ namespace Byt3.OpenFL.Parsing
 
         public SerializableFLProgram Process(FLParserInput input)
         {
-            return (SerializableFLProgram)base.Process(input);
+            return (SerializableFLProgram) base.Process(input);
         }
 
 
@@ -62,8 +60,12 @@ namespace Byt3.OpenFL.Parsing
             List<string> ret = new List<string>();
             for (int i = 0; i < source.Count; i++)
             {
-                if (IsDefineStatement(source[i])) ret.Add(source[i]);
+                if (IsDefineStatement(source[i]))
+                {
+                    ret.Add(source[i]);
+                }
             }
+
             //List<string> ret = source.Where(IsDefineStatement).ToList();
             ret.Add("--define texture in:");
             return ret.ToArray();
@@ -74,7 +76,10 @@ namespace Byt3.OpenFL.Parsing
             List<string> ret = new List<string>();
             for (int i = 0; i < source.Count; i++)
             {
-                if (IsDefineScriptStatement(source[i])) ret.Add(source[i]);
+                if (IsDefineScriptStatement(source[i]))
+                {
+                    ret.Add(source[i]);
+                }
             }
 
             return ret.ToArray();
@@ -87,7 +92,9 @@ namespace Byt3.OpenFL.Parsing
             for (int i = 0; i < source.Count; i++)
             {
                 if (IsFunctionHeader(source[i]))
+                {
                     ret.Add(source[i].Remove(source[i].Length - 1, 1));
+                }
             }
 
             return ret.ToArray();
@@ -100,10 +107,6 @@ namespace Byt3.OpenFL.Parsing
         }
 
 
-
-
-
-
         internal static string GetScriptPath(string definedScriptLine)
         {
             return GetPath(ref definedScriptLine).Replace("\"", string.Empty);
@@ -113,7 +116,7 @@ namespace Byt3.OpenFL.Parsing
 
         private static string GetPath(ref string line)
         {
-            int idx = FString.FastIndexOf(ref line, ":")+1;
+            int idx = FString.FastIndexOf(ref line, ":") + 1;
             return line.Substring(idx, line.Length - idx).Trim();
         }
 
@@ -148,11 +151,15 @@ namespace Byt3.OpenFL.Parsing
         {
             return FString.FastIndexOf(ref line, DEFINE_SCRIPT_KEY) == 0;
         }
-        
+
 
         internal static bool IsFunctionHeader(string line)
         {
-            if (line.Length == 0) return false;
+            if (line.Length == 0)
+            {
+                return false;
+            }
+
             return line[line.Length - 1] == ':';
         }
 

@@ -24,7 +24,6 @@ namespace Byt3.Engine.AssetPackaging
 
         public AssetResult()
         {
-
         }
 
         public AssetResult(string outputFolder)
@@ -58,9 +57,9 @@ namespace Byt3.Engine.AssetPackaging
             AssetPointer ap = new AssetPointer
             {
                 PackageId = firstPack,
-                Offset = (int)Packs[firstPack].BytesWritten,
+                Offset = (int) Packs[firstPack].BytesWritten,
                 PackageSize = AssetPacker.PackSize,
-                Length = (int)s.Length,
+                Length = (int) s.Length,
                 Path = packPath,
                 PackageType = type
             };
@@ -104,8 +103,6 @@ namespace Byt3.Engine.AssetPackaging
 
         public void Save()
         {
-
-
             XmlSerializer xs = new XmlSerializer(typeof(AssetResult));
             FileStream fs = new FileStream(OutputFolder + "/packs/index.xml", FileMode.Create);
             xs.Serialize(fs, this);

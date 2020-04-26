@@ -51,20 +51,20 @@ namespace Byt3.Engine.BuildTools.Commands
                     packagerVersion = info.GetValues("--packager-version")[0];
                 }
 
-                Byt3.Engine.BuildTools.Builder.BuildProject(csF);
-                string[] files = Byt3.Engine.BuildTools.Builder.ParseEngineFileList(fileList, folder);
+                Builder.BuildProject(csF);
+                string[] files = Builder.ParseEngineFileList(fileList, folder);
                 Creator.CreateEnginePackage(Path.GetFullPath(args[1]), folder, files, packagerVersion);
             }
             catch (Exception e)
             {
-
                 throw new ApplicationException("Input Error", e);
             }
         }
 
-        public CreateEnginePackageCommand() : base(CreateEnginePackage, new[] { "--create-engine-package", "-cep" }, "--create-engine-package <Engine.csproj file> <OutputFile> <optional:FileList>\nCreates an Engine Package from an Engine.csproj file\n--packager-version <packagerVersion> overrides the packager version that is used.", false)
+        public CreateEnginePackageCommand() : base(CreateEnginePackage, new[] {"--create-engine-package", "-cep"},
+            "--create-engine-package <Engine.csproj file> <OutputFile> <optional:FileList>\nCreates an Engine Package from an Engine.csproj file\n--packager-version <packagerVersion> overrides the packager version that is used.",
+            false)
         {
-
         }
     }
 }

@@ -50,28 +50,32 @@ namespace Byt3.OpenFL.Benchmarking
             public static FLInstructionInfo A(string name, string isDecimal)
             {
                 bool[] dec = isDecimal.Select(x => x == '0').ToArray();
-                return new FLInstructionInfo { Name = name, IsDecimal = dec };
+                return new FLInstructionInfo {Name = name, IsDecimal = dec};
             }
         }
 
-        public static string GenerateRandomScript(int functionCount, int bufferCount, int additionalProgramTrees, int functionCountPerAdditionalTree)
+        public static string GenerateRandomScript(int functionCount, int bufferCount, int additionalProgramTrees,
+            int functionCountPerAdditionalTree)
         {
             Random rnd = new Random();
             List<string> buffers = GenerateElementNames("Buffer", bufferCount);
             string ret = "";
-            buffers.ForEach(x => ret += GenerateBufferDefine(x, (GeneratableBufferType)rnd.Next(0, 3))+"\n");
-            ret += GenerateRandomFLScript("Main","", FLInstructionInfo.infos, functionCount, buffers);
+            buffers.ForEach(x => ret += GenerateBufferDefine(x, (GeneratableBufferType) rnd.Next(0, 3)) + "\n");
+            ret += GenerateRandomFLScript("Main", "", FLInstructionInfo.infos, functionCount, buffers);
 
             for (int i = 0; i < additionalProgramTrees; i++)
             {
-                ret += GenerateRandomFLScript("_Entry_" + i, $"Add_{i}_", FLInstructionInfo.infos, functionCountPerAdditionalTree, buffers);
+                ret += GenerateRandomFLScript("_Entry_" + i, $"Add_{i}_", FLInstructionInfo.infos,
+                    functionCountPerAdditionalTree, buffers);
             }
+
             return ret;
         }
 
-        public static string GenerateRandomFLScript(string startFunction, string functionPrefix, List<FLInstructionInfo> instructions, int functionCount, List<string> bufferNames)
+        public static string GenerateRandomFLScript(string startFunction, string functionPrefix,
+            List<FLInstructionInfo> instructions, int functionCount, List<string> bufferNames)
         {
-            List<string> functionNames = GenerateElementNames(functionPrefix+"Function", functionCount);
+            List<string> functionNames = GenerateElementNames(functionPrefix + "Function", functionCount);
             List<string> tempFunctionNames = new List<string>(functionNames);
 
             Random rnd = new Random();
@@ -86,12 +90,12 @@ namespace Byt3.OpenFL.Benchmarking
                 string todoFunc = todo.Dequeue();
                 StringBuilder sb = new StringBuilder(todoFunc + ":\n");
                 tempFunctionNames.Remove(todoFunc);
-                List<string> lines = GenerateRandomInstructions(out List<string> newFuncs, instructions, tempFunctionNames, bufferNames, 5);
+                List<string> lines = GenerateRandomInstructions(out List<string> newFuncs, instructions,
+                    tempFunctionNames, bufferNames, 5);
                 foreach (string newFunc in newFuncs)
                 {
                     todo.Enqueue(newFunc);
                 }
-
 
 
                 //Write Script
@@ -99,15 +103,16 @@ namespace Byt3.OpenFL.Benchmarking
                 {
                     sb.AppendLine(line);
                 }
+
                 sb.AppendLine();
                 script += sb;
             }
 
             return script;
-
         }
 
-        private static List<string> GenerateRandomInstructions(out List<string> nextFunctionNames, List<FLInstructionInfo> instructions, List<string> functionNames, List<string> bufferNames, int amount)
+        private static List<string> GenerateRandomInstructions(out List<string> nextFunctionNames,
+            List<FLInstructionInfo> instructions, List<string> functionNames, List<string> bufferNames, int amount)
         {
             nextFunctionNames = new List<string>();
             Random rnd = new Random();
@@ -119,7 +124,6 @@ namespace Byt3.OpenFL.Benchmarking
                 string args = "";
                 for (int j = 0; j < instructions[idx].IsDecimal.Length; j++)
                 {
-
                     if (instructions[idx].IsDecimal[j])
                     {
                         args += " " + Math.Round(rnd.NextDouble(), 4).ToString().Replace(",", ".");
@@ -133,7 +137,6 @@ namespace Byt3.OpenFL.Benchmarking
                             args += " " + functionNames[rndElement];
                             nextFunctionNames.Add(functionNames[rndElement]);
                             functionNames.RemoveAt(rndElement);
-
                         }
                         else
                         {
@@ -142,6 +145,7 @@ namespace Byt3.OpenFL.Benchmarking
                         }
                     }
                 }
+
                 lines.Add(line + args);
             }
 
@@ -158,7 +162,13 @@ namespace Byt3.OpenFL.Benchmarking
 
             return ret;
         }
-        private enum GeneratableBufferType { Empty, URnd, Rnd }
+
+        private enum GeneratableBufferType
+        {
+            Empty,
+            URnd,
+            Rnd
+        }
 
         private static string GenerateBufferDefine(string bufferName, GeneratableBufferType type)
         {

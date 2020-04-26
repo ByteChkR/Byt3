@@ -1,6 +1,5 @@
 ﻿namespace Byt3.Engine.UI.Animations.Interpolators
 {
-
     /// <summary>
     /// Static Interpolator implementation
     /// </summary>

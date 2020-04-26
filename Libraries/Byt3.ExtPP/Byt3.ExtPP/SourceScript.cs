@@ -146,7 +146,11 @@ namespace Byt3.ExtPP
         private bool LoadSource()
         {
             bool ret = filepath.TryGetLines(out source);
-            if (ret) source = source.Select(x => x.Replace("\r", "")).ToArray();
+            if (ret)
+            {
+                source = source.Select(x => x.Replace("\r", "")).ToArray();
+            }
+
             return ret;
         }
     }

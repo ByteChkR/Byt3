@@ -4,8 +4,7 @@ namespace TestingProjectConsole.Commands
 {
     public class ExitAfterFlagCommand : AbstractCommand
     {
-
-        public ExitAfterFlagCommand() : base(new[] { "--exit-after", "-ea" },
+        public ExitAfterFlagCommand() : base(new[] {"--exit-after", "-ea"},
             "Directly returns from the command.")
         {
             CommandAction = (info, strings) => SetFlag(strings);
@@ -15,6 +14,5 @@ namespace TestingProjectConsole.Commands
         {
             TestingConsole.Exit = true;
         }
-
     }
 }

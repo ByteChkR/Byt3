@@ -11,7 +11,9 @@ namespace Byt3.Engine.IO.audioformats
     /// </summary>
     public class WavLoader : IAudioFormatLoader
     {
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "WaveFileLoader");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "WaveFileLoader");
+
         /// <summary>
         /// Tries to load the specified file and pass the loaded data through the out parameters
         /// </summary>

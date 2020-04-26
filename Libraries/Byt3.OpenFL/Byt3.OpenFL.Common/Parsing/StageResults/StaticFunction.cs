@@ -11,7 +11,8 @@ namespace Byt3.OpenFL.Parsing.StageResults
         public StaticFunction(string name, string[] body)
         {
             Name = name;
-            Body = body.Select(x => new StaticInstruction(x.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))).ToArray();
+            Body = body.Select(x => new StaticInstruction(x.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries)))
+                .ToArray();
         }
     }
 }

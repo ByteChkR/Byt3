@@ -59,7 +59,7 @@ namespace Byt3.Engine.Core
         /// Public constructor
         /// </summary>
         /// <param name="settings">Settings to be used</param>
-        public GameEngine(EngineSettings settings): base(EngineDebugConfig.Settings)
+        public GameEngine(EngineSettings settings) : base(EngineDebugConfig.Settings)
         {
             if (settings != null)
             {
@@ -68,6 +68,7 @@ namespace Byt3.Engine.Core
 
             ManifestReader.RegisterAssembly(Assembly.GetExecutingAssembly());
         }
+
         /// <summary>
         /// Is true when the Game Window has the Focus from the OS(e.g is in the foreground)
         /// </summary>
@@ -82,13 +83,7 @@ namespace Byt3.Engine.Core
         /// <summary>
         /// The Window Position
         /// </summary>
-        public Vector2 WindowPosition
-        {
-            get
-            {
-                return new Vector2(window.Location.X, window.Location.Y);
-            }
-        }
+        public Vector2 WindowPosition => new Vector2(window.Location.X, window.Location.Y);
 
         /// <summary>
         /// The Event System used by the Ui Systems
@@ -133,7 +128,7 @@ namespace Byt3.Engine.Core
         /// <summary>
         /// Property that returns the current AspectRatio
         /// </summary>
-        public float AspectRatio => Width / (float)Height;
+        public float AspectRatio => Width / (float) Height;
 
 
         /// <summary>
@@ -182,7 +177,7 @@ namespace Byt3.Engine.Core
         /// </summary>
         private void InitializeWindow()
         {
-            Logger.Log(DebugChannel.Log | DebugChannel.EngineCore, "Initializing Window..",  10);
+            Logger.Log(DebugChannel.Log | DebugChannel.EngineCore, "Initializing Window..", 10);
             Logger.Log(DebugChannel.Log | DebugChannel.EngineCore,
                 $"Width: {Settings.InitWidth} Height: {Settings.InitHeight}, Title: {Settings.Title}, FSAA Samples: {Settings.Mode.Samples}, Physics Threads: {Settings.PhysicsThreadCount}",
                 9);
@@ -206,6 +201,7 @@ namespace Byt3.Engine.Core
             window.KeyUp += GameObject._KeyUp;
             window.KeyPress += GameObject._KeyPress;
             window.Closing += WindowOnClosing;
+
             #endregion
         }
 
@@ -235,9 +231,14 @@ namespace Byt3.Engine.Core
 
 
         private bool staticInitialized;
+
         private void StaticInit()
         {
-            if (staticInitialized) return;
+            if (staticInitialized)
+            {
+                return;
+            }
+
             staticInitialized = true;
             AppDomain.CurrentDomain.ProcessExit += CurrentDomainOnProcessExit;
         }
@@ -359,13 +360,14 @@ namespace Byt3.Engine.Core
         /// </summary>
         public void Run()
         {
-            Logger.Log(DebugChannel.Log | DebugChannel.EngineCore, "Running GameEngine Loop..",  10);
+            Logger.Log(DebugChannel.Log | DebugChannel.EngineCore, "Running GameEngine Loop..", 10);
             window.VSync = VSyncMode.Off;
             exiting = false;
             window.Run(0, 0);
         }
 
-        private AbstractComponent[] debugComponents= new AbstractComponent[0];
+        private AbstractComponent[] debugComponents = new AbstractComponent[0];
+
         public void SetDebugComponents(AbstractComponent[] components)
         {
             debugComponents = components;
@@ -428,7 +430,10 @@ namespace Byt3.Engine.Core
         /// <param name="e"></param>
         protected virtual void Update(object sender, FrameEventArgs e)
         {
-            if (exiting) return;
+            if (exiting)
+            {
+                return;
+            }
 
             frameCounter++;
 
@@ -438,7 +443,7 @@ namespace Byt3.Engine.Core
             UiSystem.Update();
 
             MemoryTracer.AddSubStage("Scene Update");
-            CurrentScene?.Update((float)e.Time);
+            CurrentScene?.Update((float) e.Time);
 
             if (exiting)
             {
@@ -448,10 +453,10 @@ namespace Byt3.Engine.Core
 
 
             MemoryTracer.NextStage("Physics Update");
-            PhysicsEngine.Update((float)e.Time);
+            PhysicsEngine.Update((float) e.Time);
 
 
-            EngineStatisticsManager.Update((float)e.Time);
+            EngineStatisticsManager.Update((float) e.Time);
 
             MemoryTracer.NextStage("ThreadManager Update");
             ThreadManager.CheckManagerStates();
@@ -477,7 +482,7 @@ namespace Byt3.Engine.Core
 
                 MemoryTracer.NextStage("Create New Scene");
 
-                CurrentScene = (AbstractScene)Activator.CreateInstance(nextScene);
+                CurrentScene = (AbstractScene) Activator.CreateInstance(nextScene);
 
                 MemoryTracer.NextStage("Initialize New Scene");
 
@@ -527,7 +532,7 @@ namespace Byt3.Engine.Core
 
             window.SwapBuffers();
 
-            EngineStatisticsManager.Render((float)e.Time);
+            EngineStatisticsManager.Render((float) e.Time);
 
             MemoryTracer.ReturnFromSubStage();
         }

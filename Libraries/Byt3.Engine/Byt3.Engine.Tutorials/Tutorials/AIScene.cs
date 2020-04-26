@@ -18,7 +18,7 @@ namespace Byt3.Engine.Tutorials.Tutorials
             LayerManager.RegisterLayer("raycast", new Layer(1, 1));
 
             Matrix4 proj = Matrix4.CreatePerspectiveFieldOfView(
-                MathHelper.DegreesToRadians(75f),  //Field of View Vertical
+                MathHelper.DegreesToRadians(75f), //Field of View Vertical
                 16f / 9f, //Aspect Ratio
                 0.1f, //Near Plane
                 1000f); //Far Plane
@@ -29,9 +29,5 @@ namespace Byt3.Engine.Tutorials.Tutorials
             SetCamera(bc); //Sets the Camera as the "active" camera that the scene will be rendered from.
             bc.AddComponent(new AStarTestComponent()); //Adding the AStar Test Component to the Camera
         }
-
-
-
-
     }
 }

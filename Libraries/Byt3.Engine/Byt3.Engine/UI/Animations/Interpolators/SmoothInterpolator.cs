@@ -11,6 +11,7 @@ namespace Byt3.Engine.UI.Animations.Interpolators
         /// Interpolator for The Smooth Start
         /// </summary>
         public Interpolator SmoothnessStart { get; set; } = new StaticInterpolator();
+
         /// <summary>
         /// Interpolator for The Smooth Stop
         /// </summary>

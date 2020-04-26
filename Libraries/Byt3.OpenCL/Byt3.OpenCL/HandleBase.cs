@@ -24,7 +24,10 @@ namespace Byt3.OpenCL
         {
             NeedsDisposal = needsDisposal;
             if (needsDisposal)
+            {
                 ClObjectCreated(this);
+            }
+
             Handle = handle;
         }
 
@@ -178,7 +181,10 @@ namespace Byt3.OpenCL
             // Disposes of all acquired resources
 
             if (NeedsDisposal)
+            {
                 ClObjectDestroyed(this);
+            }
+
             // Checks if the object has alread been disposed of
             if (!IsDisposed)
             {
@@ -191,7 +197,6 @@ namespace Byt3.OpenCL
                 // Since the resources have already been disposed of, the destructor does not need to be called anymore
                 GC.SuppressFinalize(this);
             }
-
         }
 
         private static int TotalCLObjectsCreated = 0;
@@ -222,6 +227,7 @@ namespace Byt3.OpenCL
             {
                 objects[i].Dispose();
             }
+
             objects.Clear();
         }
 

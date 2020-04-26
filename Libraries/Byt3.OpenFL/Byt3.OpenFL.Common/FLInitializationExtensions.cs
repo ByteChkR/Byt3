@@ -56,7 +56,6 @@ namespace Byt3.OpenFL.Common
 
         private static void SetRoot(this FLProgram program)
         {
-            
             foreach (KeyValuePair<string, FLBuffer> programDefinedBuffer in program.DefinedBuffers)
             {
                 programDefinedBuffer.Value.SetRoot(program);

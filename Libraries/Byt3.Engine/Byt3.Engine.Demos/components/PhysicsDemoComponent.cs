@@ -26,7 +26,6 @@ namespace Byt3.Engine.Demos.components
 
         protected override void Awake()
         {
-
             base.Awake();
             DebugConsoleComponent comp = Owner.Scene.GetChildWithName("Console")
                 .GetComponent<DebugConsoleComponent>();
@@ -63,7 +62,7 @@ namespace Byt3.Engine.Demos.components
             {
                 return "Wrong Z Component";
             }
-            
+
             return "Gravity Set to: "; // + Physics.Gravity;
         }
 

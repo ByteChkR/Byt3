@@ -18,9 +18,9 @@ namespace Byt3.Engine.Core
         /// <returns>basis ^ exponent</returns>
         public static float FakePow(float basis, float exp)
         {
-            float pow = IntPow(basis, (int)exp);
+            float pow = IntPow(basis, (int) exp);
             float powPlus1 = pow * basis;
-            return Mix(pow, powPlus1, (int)exp - exp); //Mix by the remainder: 99% accurate in range [0, 1]
+            return Mix(pow, powPlus1, (int) exp - exp); //Mix by the remainder: 99% accurate in range [0, 1]
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Byt3.Engine.Core
             return (value - min) / (max - min);
         }
 
-        
+
         public static float Slerp(float t)
         {
             return t * t;
@@ -91,7 +91,7 @@ namespace Byt3.Engine.Core
 
         public static float SmoothStart(float t, float smoothness = 1)
         {
-            int pow = (int)smoothness;
+            int pow = (int) smoothness;
             return Mix(SmoothStart(t, pow), SmoothStart(t, pow + 1), smoothness - pow);
         }
 
@@ -102,7 +102,7 @@ namespace Byt3.Engine.Core
 
         public static float SmoothStop(float t, float smoothness = 1)
         {
-            int pow = (int)smoothness;
+            int pow = (int) smoothness;
             return Mix(SmoothStop(t, pow), SmoothStop(t, pow + 1), smoothness - pow);
         }
 
@@ -207,7 +207,7 @@ namespace Byt3.Engine.Core
             List<Vector3> smoothedPoints;
             List<Vector3> ret;
             int cornerCount = cornerPoints.Count;
-            int curvedLength = (int)Math.Round(cornerCount * smoothness) - 1;
+            int curvedLength = (int) Math.Round(cornerCount * smoothness) - 1;
             ret = new List<Vector3>(curvedLength);
             float t = 0;
             for (int pointOnCurve = 0; pointOnCurve < curvedLength + 1; pointOnCurve++)

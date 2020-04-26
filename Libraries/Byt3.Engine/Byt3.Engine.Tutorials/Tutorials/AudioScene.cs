@@ -14,10 +14,9 @@ namespace Byt3.Engine.Tutorials.Tutorials
     {
         protected override void InitializeScene()
         {
-
             Add(DebugConsoleComponent.CreateConsole());
             Matrix4 proj = Matrix4.CreatePerspectiveFieldOfView(
-                MathHelper.DegreesToRadians(75f),  //Field of View Vertical
+                MathHelper.DegreesToRadians(75f), //Field of View Vertical
                 16f / 9f, //Aspect Ratio
                 0.1f, //Near Plane
                 1000f); //Far Plane

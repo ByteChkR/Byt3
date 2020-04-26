@@ -19,7 +19,7 @@ namespace Byt3Console.Engine.Player.Commands
         {
             if (version == "standalone")
             {
-                System.Console.WriteLine("Engine is Contained in Game Package. Using engine from there.");
+                Console.WriteLine("Engine is Contained in Game Package. Using engine from there.");
                 return;
             }
 
@@ -34,21 +34,25 @@ namespace Byt3Console.Engine.Player.Commands
                 {
                     if (!EnginePlayerConsole.DownloadEngineVersion(version))
                     {
-                        System.Console.WriteLine("Could not locate engine version : " + version);
-                        System.Console.WriteLine("Finding Compatible..");
+                        Console.WriteLine("Could not locate engine version : " + version);
+                        Console.WriteLine("Finding Compatible..");
 
                         if (!Version.TryParse(version, out Version v))
+                        {
                             throw new ArgumentException("Could not parse engine version : " + version);
+                        }
 
                         bool foundVersion = false;
                         Version vx = new Version(v.Major, v.Minor, v.Build, 0);
                         for (int i = 0; i < EnginePlayerConsole.AvailableVersionsOnServer.Length; i++)
                         {
                             Version avx = new Version(EnginePlayerConsole.AvailableVersionsOnServer[i].Major,
-                                EnginePlayerConsole.AvailableVersionsOnServer[i].Minor, EnginePlayerConsole.AvailableVersionsOnServer[i].Build, 0);
+                                EnginePlayerConsole.AvailableVersionsOnServer[i].Minor,
+                                EnginePlayerConsole.AvailableVersionsOnServer[i].Build, 0);
                             if (v != EnginePlayerConsole.AvailableVersionsOnServer[i] && vx == avx)
                             {
-                                EnginePlayerConsole.DownloadEngineVersion(EnginePlayerConsole.AvailableVersionsOnServer[i].ToString());
+                                EnginePlayerConsole.DownloadEngineVersion(EnginePlayerConsole
+                                    .AvailableVersionsOnServer[i].ToString());
                                 version = EnginePlayerConsole.AvailableVersionsOnServer[i].ToString();
                                 foundVersion = true;
                                 break;
@@ -56,7 +60,9 @@ namespace Byt3Console.Engine.Player.Commands
                         }
 
                         if (!foundVersion)
+                        {
                             throw new ArgumentException("Could not locate engine version : " + v);
+                        }
                     }
                 }
 
@@ -64,7 +70,7 @@ namespace Byt3Console.Engine.Player.Commands
             }
 
 
-            System.Console.WriteLine("Loading Engine Version: " + version);
+            Console.WriteLine("Loading Engine Version: " + version);
 
             Creator.UnpackPackage(filePath, EnginePlayerConsole.GameDir);
         }
@@ -74,7 +80,7 @@ namespace Byt3Console.Engine.Player.Commands
         {
             List<string> s = new List<string>();
             string curpath = Path.GetDirectoryName(path);
-            System.Console.WriteLine("Path: " + curpath);
+            Console.WriteLine("Path: " + curpath);
             do
             {
                 s.Add(curpath);
@@ -90,6 +96,7 @@ namespace Byt3Console.Engine.Player.Commands
                 }
             }
         }
+
         private static string GetEnginePath(string version)
         {
             return EnginePlayerConsole.EngineDir + "/" + version + ".engine";
@@ -143,7 +150,8 @@ namespace Byt3Console.Engine.Player.Commands
         {
             if (args.Length == 0 || !args[0].EndsWith(".game") || !File.Exists(args[0]))
             {
-                System.Console.WriteLine("Could not load Game File: " + (args.Length == 0 ? "" : Path.GetFullPath(args[0])));
+                Console.WriteLine("Could not load Game File: " +
+                                  (args.Length == 0 ? "" : Path.GetFullPath(args[0])));
                 return;
             }
 
@@ -154,7 +162,7 @@ namespace Byt3Console.Engine.Player.Commands
             try
             {
                 pm = Creator.ReadManifest(args[0]);
-                System.Console.Title = pm.Title;
+                Console.Title = pm.Title;
                 string path = pm.Version;
                 if (EnginePlayerConsole.EngineVersion != null)
                 {
@@ -169,8 +177,8 @@ namespace Byt3Console.Engine.Player.Commands
             {
                 Directory.Delete(EnginePlayerConsole.GameTempDir, true);
                 Directory.Delete(EnginePlayerConsole.GameDir, true);
-                System.Console.WriteLine("Error Unpacking File.");
-                System.Console.WriteLine(e);
+                Console.WriteLine("Error Unpacking File.");
+                Console.WriteLine(e);
             }
 
             string startCommand = "-c \"" + pm.StartCommand + "\"";
@@ -197,7 +205,7 @@ namespace Byt3Console.Engine.Player.Commands
             _p.Start();
 
             ConsoleRedirector crd =
-                ConsoleRedirector.CreateRedirector(_p.StandardOutput, _p.StandardError, _p, System.Console.WriteLine);
+                ConsoleRedirector.CreateRedirector(_p.StandardOutput, _p.StandardError, _p, Console.WriteLine);
 
             crd.StartThreads();
 
@@ -207,15 +215,12 @@ namespace Byt3Console.Engine.Player.Commands
             }
 
             crd.StopThreads();
-            System.Console.WriteLine(crd.GetRemainingLogs());
+            Console.WriteLine(crd.GetRemainingLogs());
             Directory.Delete(EnginePlayerConsole.GameDir, true);
-
-
         }
 
-        public RunCommand() : base(Run, new[] { "--run" }, "--run <Path/To/File.game>", false)
+        public RunCommand() : base(Run, new[] {"--run"}, "--run <Path/To/File.game>", false)
         {
-
         }
     }
 }

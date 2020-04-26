@@ -14,7 +14,10 @@ namespace Byt3.OpenFL.Benchmarking
     public struct FLSetup : IDisposable
     {
         private readonly string PerformanceFolder;
-        private string RunResultPath => Path.Combine(PerformanceFolder, typeof(OpenFLDebugConfig).Assembly.GetName().Version.ToString());
+
+        private string RunResultPath => Path.Combine(PerformanceFolder,
+            typeof(OpenFLDebugConfig).Assembly.GetName().Version.ToString());
+
         private string PerformanceOutputFile => Path.Combine(PerformanceFolder, $"{testName}.log");
         private string DataOutputDirectory => Path.Combine(RunResultPath, $"data");
 
@@ -27,8 +30,8 @@ namespace Byt3.OpenFL.Benchmarking
         public FLParser Parser;
 
 
-
-        public FLSetup(string testName, string kernelPath, string performance = "performance", bool useChecks = true, bool useMultiThreading = false, int workSizeMultiplier = 2)
+        public FLSetup(string testName, string kernelPath, string performance = "performance", bool useChecks = true,
+            bool useMultiThreading = false, int workSizeMultiplier = 2)
         {
             this.testName = testName;
             PerformanceFolder = performance;
@@ -36,10 +39,11 @@ namespace Byt3.OpenFL.Benchmarking
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(KernelDatabase);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
             CheckBuilder =
-                useChecks ?
-                    FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator) :
-                    new FLProgramCheckBuilder(InstructionSet, BufferCreator);
-            Parser = new FLParser(InstructionSet, BufferCreator, new WorkItemRunnerSettings(useMultiThreading, workSizeMultiplier));
+                useChecks
+                    ? FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator)
+                    : new FLProgramCheckBuilder(InstructionSet, BufferCreator);
+            Parser = new FLParser(InstructionSet, BufferCreator,
+                new WorkItemRunnerSettings(useMultiThreading, workSizeMultiplier));
             CheckBuilder.Attach(Parser, true);
 
             Directory.CreateDirectory(RunResultPath);
@@ -52,6 +56,7 @@ namespace Byt3.OpenFL.Benchmarking
             {
                 CheckBuilder.Detach(false);
             }
+
             CheckBuilder = checkBuilder;
             if (attach)
             {

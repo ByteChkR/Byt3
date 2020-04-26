@@ -23,13 +23,13 @@ namespace Byt3.OpenFL.Threading
 
         private object _proc()
         {
-            
             while (ProcessQueue.Count != 0)
             {
                 FlScriptExecutionContext fle = ProcessQueue.Dequeue();
                 FLProgram texUpdate = Process(fle);
                 fle.OnFinishCallback?.Invoke(texUpdate);
             }
+
             return new object();
         }
 

@@ -21,18 +21,20 @@ namespace Byt3.OpenFL.Common.Buffers
         public int Height { get; protected set; }
         public long Size => Buffer.Size;
 
-        public FLBuffer(CLAPI instance, int width, int height,object handleIdentifier) : this(
-            CLAPI.CreateEmpty<byte>(instance, width * height * 4, MemoryFlag.ReadWrite, handleIdentifier), width, height)
+        public FLBuffer(CLAPI instance, int width, int height, object handleIdentifier) : this(
+            CLAPI.CreateEmpty<byte>(instance, width * height * 4, MemoryFlag.ReadWrite, handleIdentifier), width,
+            height)
         {
         }
 
         public FLBuffer(CLAPI instance, byte[] data, int width, int height, object handleIdentifier) : this(
-            CLAPI.CreateBuffer(instance, data, MemoryFlag.ReadWrite,handleIdentifier), width, height)
+            CLAPI.CreateBuffer(instance, data, MemoryFlag.ReadWrite, handleIdentifier), width, height)
         {
         }
 
         public FLBuffer(CLAPI instance, Bitmap bitmap, object handleIdentifier) : this(
-            CLAPI.CreateFromImage(instance, bitmap, MemoryFlag.ReadWrite, handleIdentifier), bitmap.Width, bitmap.Height)
+            CLAPI.CreateFromImage(instance, bitmap, MemoryFlag.ReadWrite, handleIdentifier), bitmap.Width,
+            bitmap.Height)
         {
         }
 

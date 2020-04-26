@@ -24,7 +24,8 @@ namespace Byt3.Engine.Core
         /// </summary>
         private const string NamespaceMatch = @"xmlns(:\w+)?=""([^""]+)""|xsi(:\w+)?=""([^""]+)""";
 
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings);
+        private static readonly ADLLogger<DebugChannel>
+            Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings);
 
         /// <summary>
         /// Creates a Config file of the specified assembly & namespace(other namespaces get ignored)

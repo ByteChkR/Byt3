@@ -4,7 +4,6 @@ using OpenTK;
 
 namespace Byt3.Engine.Rendering
 {
-
     /// <summary>
     /// Component used to represent a point light in the current scene
     /// </summary>
@@ -16,7 +15,9 @@ namespace Byt3.Engine.Rendering
         /// false: Directional Light(Directional Light Vector = Position)
         /// </summary>
         public bool IsPoint { get; set; } = true;
+
         public Color LightColor { get; set; } = Color.White;
+
         /// <summary>
         /// Attenuation used by the shader
         /// x: Base Value
@@ -24,10 +25,12 @@ namespace Byt3.Engine.Rendering
         /// z: Cubed Attenuation
         /// </summary>
         public Vector3 Attenuation { get; set; } = new Vector3(1, 0, 0);
+
         /// <summary>
         /// Overall Ambient Contribution
         /// </summary>
         public float AmbientContribution { get; set; } = 0.15f;
+
         /// <summary>
         /// The Intensity of the Light Source
         /// </summary>

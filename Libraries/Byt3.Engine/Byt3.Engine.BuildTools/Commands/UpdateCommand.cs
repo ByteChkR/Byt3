@@ -19,9 +19,8 @@ namespace Byt3.Engine.BuildTools.Commands
             Console.WriteLine("Update Downloaded. Update will be applied when application exits.");
         }
 
-        public UpdateCommand() : base(Update, new[] { "--update" }, "--update Updates the Build Tools", false)
+        public UpdateCommand() : base(Update, new[] {"--update"}, "--update Updates the Build Tools", false)
         {
-
         }
     }
 }

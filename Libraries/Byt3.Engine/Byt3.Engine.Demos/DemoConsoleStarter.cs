@@ -13,27 +13,29 @@ namespace Byt3.Engine.Demos
 {
     public class DemoConsoleStarter : AConsole
     {
-
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(new ProjectDebugConfig("Engine Demos", -1, 4, PrefixLookupSettings.AddPrefixIfAvailable));
-
-        
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(new ProjectDebugConfig("Engine Demos", -1, 4,
+                PrefixLookupSettings.AddPrefixIfAvailable));
 
 
         public override string ConsoleKey => "demos";
         public override string ConsoleTitle => "Minor Engine Demos";
+
         public override bool Run(string[] args)
         {
             ADL.Debug.DefaultInitialization();
             EmbeddedFileIOManager.Initialize();
 
-            ManifestReader.RegisterAssembly(Assembly.GetExecutingAssembly()); //Register this assembly(where the files will be embedded in)
+            ManifestReader.RegisterAssembly(Assembly
+                .GetExecutingAssembly()); //Register this assembly(where the files will be embedded in)
             ManifestReader.PrepareManifestFiles(false); //First Read Assembly files
-            ManifestReader.PrepareManifestFiles(true); //Replace Any Loaded assembly files with files on the file system.
+            ManifestReader
+                .PrepareManifestFiles(true); //Replace Any Loaded assembly files with files on the file system.
 
 
             if (IOManager.FileExists("assemblyList.txt")) //Alternative, load assembly list to register from text file.
             {
-                Logger.Log(DebugChannel.Log,"Loading Assembly List", 1);
+                Logger.Log(DebugChannel.Log, "Loading Assembly List", 1);
 
                 ManifestReader.LoadAssemblyListFromFile("assemblyList.txt");
             }
@@ -45,13 +47,11 @@ namespace Byt3.Engine.Demos
             engine.InitializeScene<PhysicsDemoScene>();
             engine.Run();
             engine.Dispose();
-            
+
             HandleBase.DisposeAllHandles();
             EngineStatisticsManager.DisposeAllHandles();
 
             return true;
         }
-
-
     }
 }

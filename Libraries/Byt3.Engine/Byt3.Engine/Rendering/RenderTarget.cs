@@ -11,6 +11,7 @@ namespace Byt3.Engine.Rendering
     public class RenderTarget : IComparable<RenderTarget>, IDisposable
     {
         public bool IsDisposed;
+
         /// <summary>
         /// Public Constructor
         /// </summary>

@@ -16,14 +16,14 @@ namespace Byt3.Engine.Tutorials.Tutorials
     public class RenderTargetsScene : AbstractScene
     {
         private RenderTarget splitCam;
+
         protected override void InitializeScene()
         {
-
             Add(DebugConsoleComponent.CreateConsole());
             BasicCamera inPicCam =
                 new BasicCamera(
                     Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75f),
-                        GameEngine.Instance.Width / (float)GameEngine.Instance.Height, 0.01f, 1000f), Vector3.Zero);
+                        GameEngine.Instance.Width / (float) GameEngine.Instance.Height, 0.01f, 1000f), Vector3.Zero);
 
             inPicCam.Rotate(Vector3.UnitX, MathHelper.DegreesToRadians(-90f));
             inPicCam.Translate(Vector3.UnitY * 25);
@@ -33,53 +33,56 @@ namespace Byt3.Engine.Tutorials.Tutorials
             splitCam = new RenderTarget(inPicCam, 1, Color.FromArgb(0, 0, 0, 0))
             {
                 MergeType = RenderTargetMergeType.Additive,
-                ViewPort = new Rectangle(0, 0, (int)(GameEngine.Instance.Width * 0.3f),
-                    (int)(GameEngine.Instance.Height * 0.3f))
+                ViewPort = new Rectangle(0, 0, (int) (GameEngine.Instance.Width * 0.3f),
+                    (int) (GameEngine.Instance.Height * 0.3f))
             };
 
             GameEngine.Instance.AddRenderTarget(splitCam);
 
             BasicCamera bc =
-                new BasicCamera(Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), 16 / 9f, 0.1f, 1000f),
+                new BasicCamera(
+                    Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), 16 / 9f, 0.1f, 1000f),
                     new Vector3(0, 5, 30)); //Creating a Basic Camera
             SetCamera(bc);
             Add(bc);
 
 
             //Creating a Box that is meant to fall down on the kinetic box
-            GameObject box = new GameObject(OpenTK.Vector3.UnitZ * -3 + Vector3.UnitY * 2, "Box");
+            GameObject box = new GameObject(Vector3.UnitZ * -3 + Vector3.UnitY * 2, "Box");
             LitMeshRendererComponent lmr = new LitMeshRendererComponent(DefaultFilepaths.DefaultLitShader, Prefabs.Cube,
                 TextureLoader.ColorToTexture(Color.Red), 1);
             box.AddComponent(lmr);
             Add(box);
 
             //Creating a Kinetic Box that will rotate slowly
-            GameObject kinetic = new GameObject(OpenTK.Vector3.UnitZ * -3 + Vector3.UnitY * -2, "Box");
-            LitMeshRendererComponent kineticlmr = new LitMeshRendererComponent(DefaultFilepaths.DefaultLitShader, Prefabs.Cube,
+            GameObject kinetic = new GameObject(Vector3.UnitZ * -3 + Vector3.UnitY * -2, "Box");
+            LitMeshRendererComponent kineticlmr = new LitMeshRendererComponent(DefaultFilepaths.DefaultLitShader,
+                Prefabs.Cube,
                 TextureLoader.ColorToTexture(Color.Green), 1);
             kinetic.AddComponent(kineticlmr);
             kinetic.AddComponent(new RotateSelfComponent());
             Add(kinetic);
 
             //A Large sphere that will act as a ground
-            GameObject ground = new GameObject(OpenTK.Vector3.UnitZ * -3 + Vector3.UnitY * -1, "Box");
-            LitMeshRendererComponent groundlmr = new LitMeshRendererComponent(DefaultFilepaths.DefaultLitShader, Prefabs.Sphere,
+            GameObject ground = new GameObject(Vector3.UnitZ * -3 + Vector3.UnitY * -1, "Box");
+            LitMeshRendererComponent groundlmr = new LitMeshRendererComponent(DefaultFilepaths.DefaultLitShader,
+                Prefabs.Sphere,
                 TextureLoader.ColorToTexture(Color.Blue), 1);
             ground.AddComponent(groundlmr);
             Add(ground);
             ground.Scale = new Vector3(20, 20, 20);
-            ground.LocalPosition = Byt3.Engine.Physics.BEPUutilities.Vector3.UnitY * -25;
+            ground.LocalPosition = Physics.BEPUutilities.Vector3.UnitY * -25;
 
             //Creating the Collider Shapes
             Entity boxShape = new Box(
-                Byt3.Engine.Physics.BEPUutilities.Vector3.Zero,
+                Physics.BEPUutilities.Vector3.Zero,
                 2f,
                 2f,
                 2f,
                 1f);
 
             Entity kineticShape = new Box(
-                Byt3.Engine.Physics.BEPUutilities.Vector3.Zero,
+                Physics.BEPUutilities.Vector3.Zero,
                 2f,
                 2f,
                 2f,

@@ -60,7 +60,7 @@ namespace Byt3.Engine.BuildTools.PackageCreator.Versions.v1
         public IPackageManifest ReadManifest(Stream s)
         {
             XmlSerializer xs = new XmlSerializer(typeof(PackageManifest));
-            PackageManifest pm = (PackageManifest)xs.Deserialize(s);
+            PackageManifest pm = (PackageManifest) xs.Deserialize(s);
             s.Close();
             return pm;
         }

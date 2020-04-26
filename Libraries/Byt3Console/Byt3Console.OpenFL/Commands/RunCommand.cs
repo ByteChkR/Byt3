@@ -28,15 +28,16 @@ namespace Byt3Console.OpenFL.Commands
             BufferCreator creator = new BufferCreator();
             FLConsole.Settings.BufferCreatorTypes.ForEach(x =>
                 creator.AddBufferCreator((ASerializableBufferCreator) Activator.CreateInstance(x)));
-            KernelDatabase db  =new KernelDatabase(CLAPI.MainThread, FLConsole.Settings.KernelFolder, DataVectorTypes.Uchar1);
+            KernelDatabase db = new KernelDatabase(CLAPI.MainThread, FLConsole.Settings.KernelFolder,
+                DataVectorTypes.Uchar1);
             FLInstructionSet iset = FLInstructionSet.CreateWithBuiltInTypes(db);
             FLProgramCheckBuilder programCheckBuilder = new FLProgramCheckBuilder(iset, creator);
             FLConsole.Settings.ProgramCheckTypes.ForEach(x =>
-                programCheckBuilder.AddProgramCheck((FLProgramCheck)Activator.CreateInstance(x)));
+                programCheckBuilder.AddProgramCheck((FLProgramCheck) Activator.CreateInstance(x)));
 
 
             FLScriptRunner runner =
-                new FLScriptRunner(CLAPI.MainThread,db, creator, iset, programCheckBuilder,
+                new FLScriptRunner(CLAPI.MainThread, db, creator, iset, programCheckBuilder,
                     new WorkItemRunnerSettings(FLConsole.Settings.MultiThread,
                         FLConsole.Settings.WorkSizeMultiplier));
 

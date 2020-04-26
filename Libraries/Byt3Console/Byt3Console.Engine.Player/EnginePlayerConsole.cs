@@ -22,7 +22,7 @@ namespace Byt3Console.Engine.Player
             Wc.DownloadFileCompleted += WcOnDownloadFileCompleted;
 
 
-            System.Console.CancelKeyPress += ConsoleOnCancelKeyPress;
+            Console.CancelKeyPress += ConsoleOnCancelKeyPress;
             if (!Directory.Exists(EngineDir))
             {
                 Directory.CreateDirectory(EngineDir);
@@ -33,7 +33,7 @@ namespace Byt3Console.Engine.Player
 
 
             Runner.AddAssembly(Assembly.GetExecutingAssembly());
-            bool ret=Runner.RunCommands(args);
+            bool ret = Runner.RunCommands(args);
             ConsoleReadLine();
             return ret;
         }
@@ -46,6 +46,7 @@ namespace Byt3Console.Engine.Player
 
         public static string PlayerPath =
             Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+
         public static string EngineDir = Path.Combine(PlayerPath, "engine");
         public static string GameTempDir = Path.Combine(PlayerPath, "_game");
         public static string GameDir = Path.Combine(PlayerPath, "game");
@@ -70,8 +71,8 @@ namespace Byt3Console.Engine.Player
         {
             if (ReadLine)
             {
-                System.Console.WriteLine("Press Enter to Continue...");
-                System.Console.ReadLine();
+                Console.WriteLine("Press Enter to Continue...");
+                Console.ReadLine();
             }
         }
 
@@ -82,7 +83,7 @@ namespace Byt3Console.Engine.Player
 
         private static Version[] GetEngineServerVersion()
         {
-            System.Console.WriteLine("Downloading Version List..");
+            Console.WriteLine("Downloading Version List..");
             string s = Wc.DownloadString("http://213.109.162.193/apps/EngineArchives/version.list");
 
             string[] versions = s.Split('\n');
@@ -96,7 +97,7 @@ namespace Byt3Console.Engine.Player
             }
 
             versionList.Sort();
-            System.Console.WriteLine("Fetched Version from Server");
+            Console.WriteLine("Fetched Version from Server");
             return versionList.ToArray();
         }
 
@@ -106,7 +107,7 @@ namespace Byt3Console.Engine.Player
             bool ret = IsVersionUrlCorrect(version);
             if (ret)
             {
-                System.Console.WriteLine("Downloading Version: " + version);
+                Console.WriteLine("Downloading Version: " + version);
                 Wc.DownloadFile(new Uri("http://213.109.162.193/apps/EngineArchives/" + version + ".engine"),
                     EngineDir + "/" + version + ".engine");
             }
@@ -116,11 +117,9 @@ namespace Byt3Console.Engine.Player
 
         private static void WcOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            System.Console.WriteLine("");
-            System.Console.WriteLine("Success: " + !e.Cancelled);
+            Console.WriteLine("");
+            Console.WriteLine("Success: " + !e.Cancelled);
         }
-
-
 
 
         public static bool IsEngineVersionAvailable(string version)
@@ -129,19 +128,17 @@ namespace Byt3Console.Engine.Player
         }
 
 
-
-
         private static bool IsVersionUrlCorrect(string version)
         {
             string addr = $"http://213.109.162.193/apps/EngineArchives/{version}.engine";
             HttpWebResponse response = null;
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(addr);
+            HttpWebRequest request = (HttpWebRequest) WebRequest.Create(addr);
             request.Method = "HEAD";
 
             bool ret = false;
             try
             {
-                response = (HttpWebResponse)request.GetResponse();
+                response = (HttpWebResponse) request.GetResponse();
                 ret = true;
             }
             catch (Exception)

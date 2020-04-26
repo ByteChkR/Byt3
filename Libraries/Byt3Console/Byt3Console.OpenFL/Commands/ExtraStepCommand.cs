@@ -6,7 +6,7 @@ namespace Byt3Console.OpenFL.Commands
     {
         internal static string[] extras = new string[0];
 
-        public ExtraStepCommand() : base(SetExtraSteps, new[] { "--set-extra", "-se" },
+        public ExtraStepCommand() : base(SetExtraSteps, new[] {"--set-extra", "-se"},
             "Can be used to perform extra operations when serializing")
         {
         }

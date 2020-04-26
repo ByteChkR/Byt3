@@ -61,12 +61,14 @@ namespace Byt3.OpenCL.Wrapper
             {
                 loadedKernel.Value.Dispose();
             }
+
             loadedKernels.Clear();
 
             foreach (CLProgram loadedProgram in loadedPrograms)
             {
                 loadedProgram.Dispose();
             }
+
             loadedPrograms.Clear();
         }
 
@@ -97,7 +99,7 @@ namespace Byt3.OpenCL.Wrapper
             }
 
 
-            string path = file;//Path.GetFullPath(file);
+            string path = file; //Path.GetFullPath(file);
 
             Logger.Log(LogType.Log, "Creating CLProgram from file: " + file, 3);
             CLProgram program = new CLProgram(instance, path);

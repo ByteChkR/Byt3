@@ -6,10 +6,9 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public class RemoveUnusedScriptsOptimization : FLProgramCheck<SerializableFLProgram>
     {
-
         public override object Process(object o)
         {
-            SerializableFLProgram input = (SerializableFLProgram)o;
+            SerializableFLProgram input = (SerializableFLProgram) o;
             Dictionary<string, bool> scripts = new Dictionary<string, bool>();
             input.ExternalFunctions.ForEach(x => scripts.Add(x.Name, false));
 
@@ -17,7 +16,8 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             {
                 foreach (SerializableFLInstruction serializableFlInstruction in serializableFlFunction.Instructions)
                 {
-                    foreach (SerializableFLInstructionArgument serializableFlInstructionArgument in serializableFlInstruction.Arguments)
+                    foreach (SerializableFLInstructionArgument serializableFlInstructionArgument in
+                        serializableFlInstruction.Arguments)
                     {
                         switch (serializableFlInstructionArgument.ArgumentCategory)
                         {
@@ -32,7 +32,11 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
             foreach (KeyValuePair<string, bool> keyValuePair in scripts)
             {
-                if (keyValuePair.Value) continue;  //Function used. Dont Remove
+                if (keyValuePair.Value)
+                {
+                    continue; //Function used. Dont Remove
+                }
+
                 for (int i = input.ExternalFunctions.Count - 1; i >= 0; i--)
                 {
                     if (input.ExternalFunctions[i].Name == keyValuePair.Key)

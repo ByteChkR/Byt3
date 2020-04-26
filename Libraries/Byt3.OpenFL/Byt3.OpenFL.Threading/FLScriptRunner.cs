@@ -30,7 +30,8 @@ namespace Byt3.OpenFL.Threading
         protected Queue<FlScriptExecutionContext> ProcessQueue;
         public int ItemsInQueue => ProcessQueue.Count;
 
-        public FLScriptRunner(CLAPI instance, KernelDatabase dataBase, BufferCreator creator, FLInstructionSet instructionSet, FLProgramCheckBuilder checkBuilder, WorkItemRunnerSettings runnerSettings)
+        public FLScriptRunner(CLAPI instance, KernelDatabase dataBase, BufferCreator creator,
+            FLInstructionSet instructionSet, FLProgramCheckBuilder checkBuilder, WorkItemRunnerSettings runnerSettings)
         {
             Db = dataBase;
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(Db);
@@ -41,7 +42,6 @@ namespace Byt3.OpenFL.Threading
 
             Instance = instance;
             ProcessQueue = new Queue<FlScriptExecutionContext>();
-
         }
 
         public FLScriptRunner(CLAPI instance, DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1,

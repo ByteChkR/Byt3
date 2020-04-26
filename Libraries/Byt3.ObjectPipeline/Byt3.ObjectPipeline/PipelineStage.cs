@@ -42,7 +42,10 @@ namespace Byt3.ObjectPipeline
 
         public void RemoveSubStageAt(int index)
         {
-            if (index > 0 && index < Stages.Count) Stages.RemoveAt(index);
+            if (index > 0 && index < Stages.Count)
+            {
+                Stages.RemoveAt(index);
+            }
         }
 
         public void InsertAtFirstValidIndex(StageBase stage)
@@ -58,13 +61,14 @@ namespace Byt3.ObjectPipeline
                         AddSubStage(stage); //If Empty or Last item we want to make sure that the 
                         return;
                     }
-                    else if(Stages[i+1].InType.IsAssignableFrom(targetInput))
+                    else if (Stages[i + 1].InType.IsAssignableFrom(targetInput))
                     {
                         Stages.Insert(i + 1, stage);
                         return;
                     }
                 }
             }
+
             throw new PipelineNotValidException(this,
                 $"Can not Add stage In:{stage.InType} Out: {stage.OutType} because there is no valid Index for this Stage in the pipeline.");
         }
@@ -137,7 +141,7 @@ namespace Byt3.ObjectPipeline
 
         public override object Process(object input)
         {
-            return Process((I)input);
+            return Process((I) input);
         }
 
 

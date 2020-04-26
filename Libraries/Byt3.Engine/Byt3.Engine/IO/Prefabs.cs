@@ -8,7 +8,6 @@ namespace Byt3.Engine.IO
     /// </summary>
     public static class Prefabs
     {
-
         internal static void DisposeObjects()
         {
             _white?.Dispose();

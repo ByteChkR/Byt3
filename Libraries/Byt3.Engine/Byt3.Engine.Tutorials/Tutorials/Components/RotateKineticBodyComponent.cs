@@ -6,7 +6,8 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
 {
     public class RotateKineticBodyComponent : AbstractComponent
     {
-       private Collider c;
+        private Collider c;
+
         protected override void Awake()
         {
             c = Owner.GetComponent<Collider>();
@@ -20,7 +21,7 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
             //      As a workaround we move the two systems manually(EngineRendering and EnginePhysics)
             Byt3.Engine.Physics.BEPUutilities.Quaternion v = Quaternion.FromAxisAngle(new Vector3(1, 1, 1), deltaTime);
             c.PhysicsCollider.Orientation *= v;
-            Owner.Rotate(new OpenTK.Vector3(1, 1, 1), deltaTime);
+            Owner.Rotate(new Vector3(1, 1, 1), deltaTime);
         }
     }
 }

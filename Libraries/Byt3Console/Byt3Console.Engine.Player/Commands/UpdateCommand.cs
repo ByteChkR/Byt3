@@ -7,7 +7,6 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class UpdateCommand : AbstractCommand
     {
-
         private static void Update(StartupArgumentInfo info, string[] args)
         {
             WebClient wc = new WebClient();
@@ -19,9 +18,8 @@ namespace Byt3Console.Engine.Player.Commands
             System.Console.WriteLine("Update Downloaded. Update will be applied when application exits.");
         }
 
-        public UpdateCommand() : base(Update, new[] { "--update" }, "--update Updates the Build Tools", false)
+        public UpdateCommand() : base(Update, new[] {"--update"}, "--update Updates the Build Tools", false)
         {
-
         }
     }
 }

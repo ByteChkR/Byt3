@@ -12,8 +12,8 @@ namespace Byt3.OpenFL.Tests
 
         private static List<string> GetFiles()
         {
-            string[] dirs = new[] { "resources/filter/tests" };
-            List<string> files = new List<string> { "resources/filter/game/tennisball.fl" };
+            string[] dirs = new[] {"resources/filter/tests"};
+            List<string> files = new List<string> {"resources/filter/game/tennisball.fl"};
             for (int i = 0; i < dirs.Length; i++)
             {
                 files.AddRange(Directory.GetFiles(dirs[i], "*.fl", SearchOption.TopDirectoryOnly));
@@ -21,8 +21,6 @@ namespace Byt3.OpenFL.Tests
 
             return files;
         }
-
-
 
 
         [Test]
@@ -73,6 +71,5 @@ namespace Byt3.OpenFL.Tests
             TestSetup.SetupLogOutput();
             OpenFLBenchmarks.RunDeserializedFLExecutionBenchmark(GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
         }
-
     }
 }

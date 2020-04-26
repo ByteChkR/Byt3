@@ -22,6 +22,7 @@ namespace Byt3.Engine.UI.Animations.AnimationTypes
         /// The Maximum Animation Time
         /// </summary>
         public float MaxAnimationTime = 1;
+
         /// <summary>
         /// The Start Position of the Animation
         /// </summary>

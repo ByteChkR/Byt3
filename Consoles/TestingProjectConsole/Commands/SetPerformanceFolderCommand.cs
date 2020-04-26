@@ -4,8 +4,7 @@ namespace TestingProjectConsole.Commands
 {
     public class SetPerformanceFolderCommand : AbstractCommand
     {
-
-        public SetPerformanceFolderCommand() : base(new[] { "--set-output", "-out" },
+        public SetPerformanceFolderCommand() : base(new[] {"--set-output", "-out"},
             "Specifies if the FLbenchmark should use any Other directory than the default directory to store the outputs.")
         {
             CommandAction = (info, strings) => SetFlag(strings);
@@ -15,6 +14,5 @@ namespace TestingProjectConsole.Commands
         {
             OpenFLBenchmarkCommand.PerformanceFolder = args[0];
         }
-
     }
 }

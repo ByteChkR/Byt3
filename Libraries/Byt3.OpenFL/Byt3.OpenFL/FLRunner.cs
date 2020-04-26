@@ -30,19 +30,38 @@ namespace Byt3.OpenFL
         }
 
         public FLRunner(FLInstructionSet instructionSet, BufferCreator bufferCreator,
-            FLProgramCheckBuilder checkPipeline) : this(CLAPI.MainThread, instructionSet, bufferCreator, checkPipeline) { }
+            FLProgramCheckBuilder checkPipeline) : this(CLAPI.MainThread, instructionSet, bufferCreator, checkPipeline)
+        {
+        }
 
-        public FLRunner(CLAPI instance, FLInstructionSet instructionSet, BufferCreator bufferCreator) : this(instance, instructionSet, bufferCreator, FLProgramCheckBuilder.CreateDefaultCheckBuilder(instructionSet, bufferCreator)) { }
+        public FLRunner(CLAPI instance, FLInstructionSet instructionSet, BufferCreator bufferCreator) : this(instance,
+            instructionSet, bufferCreator,
+            FLProgramCheckBuilder.CreateDefaultCheckBuilder(instructionSet, bufferCreator))
+        {
+        }
 
-        public FLRunner(FLInstructionSet instructionSet, BufferCreator bufferCreator) : this(CLAPI.MainThread, instructionSet, bufferCreator) { }
+        public FLRunner(FLInstructionSet instructionSet, BufferCreator bufferCreator) : this(CLAPI.MainThread,
+            instructionSet, bufferCreator)
+        {
+        }
 
-        public FLRunner(CLAPI instance, KernelDatabase database) : this(instance, FLInstructionSet.CreateWithBuiltInTypes(database), BufferCreator.CreateWithBuiltInTypes()) { }
+        public FLRunner(CLAPI instance, KernelDatabase database) : this(instance,
+            FLInstructionSet.CreateWithBuiltInTypes(database), BufferCreator.CreateWithBuiltInTypes())
+        {
+        }
 
-        public FLRunner(KernelDatabase database) : this(CLAPI.MainThread, database) { }
+        public FLRunner(KernelDatabase database) : this(CLAPI.MainThread, database)
+        {
+        }
 
-        public FLRunner(CLAPI instance, string kernelPath) : this(FLInstructionSet.CreateWithBuiltInTypes(instance, kernelPath), BufferCreator.CreateWithBuiltInTypes()) { }
+        public FLRunner(CLAPI instance, string kernelPath) : this(
+            FLInstructionSet.CreateWithBuiltInTypes(instance, kernelPath), BufferCreator.CreateWithBuiltInTypes())
+        {
+        }
 
-        public FLRunner(string kernelPath) : this(CLAPI.MainThread, kernelPath) { }
+        public FLRunner(string kernelPath) : this(CLAPI.MainThread, kernelPath)
+        {
+        }
 
 
         public FLProgram Run(string file, int width, int height)
@@ -57,7 +76,10 @@ namespace Byt3.OpenFL
 
         public FLProgram Run(FLProgram file, int width, int height)
         {
-            FLBuffer buffer = new FLBuffer(CLAPI.CreateEmpty<byte>(Instance, height * width * 4, MemoryFlag.ReadWrite, "FLRunnerExecutionCreatedBuffer"), width, height);
+            FLBuffer buffer =
+                new FLBuffer(
+                    CLAPI.CreateEmpty<byte>(Instance, height * width * 4, MemoryFlag.ReadWrite,
+                        "FLRunnerExecutionCreatedBuffer"), width, height);
             return Run(file, buffer, true);
         }
 

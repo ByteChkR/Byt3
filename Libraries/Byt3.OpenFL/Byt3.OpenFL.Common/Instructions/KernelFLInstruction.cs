@@ -35,10 +35,6 @@ namespace Byt3.OpenFL.Common.Instructions
         {
             public object Value;
             public FLInstructionArgumentType Type;
-
-
-
-
         }
 
         private ArgumentResult Compute(FLInstructionArgument arg)
@@ -72,7 +68,7 @@ namespace Byt3.OpenFL.Common.Instructions
             Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
             Root.PushContext(); //Store Dynamic Variables
 
-            FLFunction flFunction = (FLFunction)arg.Value; //Process the Function Object
+            FLFunction flFunction = (FLFunction) arg.Value; //Process the Function Object
 
             Logger.Log(LogType.Log, $"Executing Function: {flFunction.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 
@@ -117,27 +113,24 @@ namespace Byt3.OpenFL.Common.Instructions
                         Kernel.SetArg(kernelArgIndex, arg.Value); //The Value is a Decimal
                         break;
                     case FLInstructionArgumentType.Buffer:
-                        FLBuffer bi = (FLBuffer)arg.Value;
+                        FLBuffer bi = (FLBuffer) arg.Value;
                         Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{bi.DefinedBufferName}",
                             MIN_INSTRUCTION_SEVERITY + 2);
                         Kernel.SetBuffer(kernelArgIndex, bi.Buffer);
                         break;
                     case FLInstructionArgumentType.Function:
-                        FLBuffer funcBuffer = (FLBuffer)arg.Value;
+                        FLBuffer funcBuffer = (FLBuffer) arg.Value;
                         Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{funcBuffer.DefinedBufferName}",
                             MIN_INSTRUCTION_SEVERITY + 2);
                         Kernel.SetBuffer(kernelArgIndex, funcBuffer.Buffer);
                         break;
                     default:
                         throw new InvalidOperationException("Can not parse: " + arg.Value);
-
                 }
-
             }
+
             CLAPI.Run(Root.Instance, Kernel, Root.ActiveBuffer.Buffer, Root.Dimensions, GenMaxSize,
                 Root.ActiveChannelBuffer, 4);
-         
-
         }
     }
 }

@@ -18,10 +18,10 @@ namespace Byt3.Engine.DataTypes
     /// A Class that has all default resources as fields
     /// </summary>
     [Serializable]
-    public class DefaultFilepaths :IDisposable
+    public class DefaultFilepaths : IDisposable
     {
-
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "DefaultFilepaths");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "DefaultFilepaths");
 
         private static DefaultFilepaths _filePaths = new DefaultFilepaths();
 
@@ -139,22 +139,20 @@ namespace Byt3.Engine.DataTypes
         private static Dictionary<ShaderType, string> DefaultScreenShaderPath =>
             GetDictionary(_filePaths.defaultScreenShader);
 
-
-
-
         #endregion
 
         #region Public Static Properties
-
 
         /// <summary>
         /// Path to the Default Mesh
         /// </summary>
         public static string DefaultMeshPath => _filePaths.defaultMesh;
+
         /// <summary>
         /// Path to the Default Texture
         /// </summary>
         public static string DefaultTexturePath => _filePaths.defaultTexture;
+
         /// <summary>
         /// Path to the Default Font
         /// </summary>
@@ -285,7 +283,6 @@ namespace Byt3.Engine.DataTypes
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/unlit/shader.vs"}
         };
 
-
         #endregion
 
         private static Dictionary<ShaderType, string> GetDictionary(List<ShaderPath> list)
@@ -299,8 +296,7 @@ namespace Byt3.Engine.DataTypes
             return ret;
         }
 
-       
-        
+
         /// <summary>
         /// Loads a XML File Containing the Default Filepath Information
         /// </summary>
@@ -318,6 +314,7 @@ namespace Byt3.Engine.DataTypes
             _filePaths = (DefaultFilepaths) xs.Deserialize(s);
             s.Close();
         }
+
         /// <summary>
         /// Save the Default Filepath Information to a XML File
         /// </summary>
@@ -337,6 +334,7 @@ namespace Byt3.Engine.DataTypes
         }
 
         #region Private Static Helper Functions
+
         /// <summary>
         /// Creates the default font from embedded program resources
         /// </summary>
@@ -352,7 +350,8 @@ namespace Byt3.Engine.DataTypes
         /// <returns>The Default mesh</returns>
         private static Mesh GetDefaultMesh()
         {
-            return MeshLoader.LoadModel(IOManager.GetStream(DefaultMeshPath), "DefaultMesh", Path.GetExtension(DefaultMeshPath))[0];
+            return MeshLoader.LoadModel(IOManager.GetStream(DefaultMeshPath), "DefaultMesh",
+                Path.GetExtension(DefaultMeshPath))[0];
         }
 
         /// <summary>
@@ -442,7 +441,8 @@ namespace Byt3.Engine.DataTypes
         {
             ShaderProgram.TryCreate(DefaultScreenShaderPath, out ShaderProgram shader);
             return shader;
-        } 
+        }
+
         #endregion
     }
 }

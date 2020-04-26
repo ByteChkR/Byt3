@@ -32,7 +32,7 @@ namespace Byt3.Utilities.IL
 
         public static void Answer()
         {
-            System.Console.WriteLine("Hi from Assembly Generator");
+            Console.WriteLine("Hi from Assembly Generator");
         }
     }
 }

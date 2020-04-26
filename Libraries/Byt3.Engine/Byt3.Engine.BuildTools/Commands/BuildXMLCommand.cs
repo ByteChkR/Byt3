@@ -9,12 +9,11 @@ using Byt3.Engine.BuildTools.PackageCreator;
 
 namespace Byt3.Engine.BuildTools.Commands
 {
-    public class BuildXMLCommand :AbstractCommand
+    public class BuildXMLCommand : AbstractCommand
     {
-
         private static string[] CreateFileList(string path, string searchPatterns, char separator = '+')
         {
-            string[] patterns = searchPatterns.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+            string[] patterns = searchPatterns.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries);
             List<string> ret = new List<string>();
             for (int i = 0; i < patterns.Length; i++)
             {
@@ -31,7 +30,7 @@ namespace Byt3.Engine.BuildTools.Commands
                 string file = args[0];
                 if (File.Exists(file))
                 {
-                    BuildSettings bs = Byt3.Engine.BuildTools.Builder.LoadSettings(file);
+                    BuildSettings bs = Builder.LoadSettings(file);
 
 
                     string homeDir = AppDomain.CurrentDomain.BaseDirectory;
@@ -79,9 +78,11 @@ namespace Byt3.Engine.BuildTools.Commands
 
 
                     bool packsCreated = false;
-                    if ((bs.BuildFlags == BuildType.PackEmbed || bs.BuildFlags == BuildType.PackOnly) && Directory.Exists(assetFolder))
+                    if ((bs.BuildFlags == BuildType.PackEmbed || bs.BuildFlags == BuildType.PackOnly) &&
+                        Directory.Exists(assetFolder))
                     {
-                        Byt3.Engine.BuildTools.Builder.PackAssets(packFolder, bs.PackSize, bs.MemoryFiles, bs.UnpackFiles,
+                        Builder.PackAssets(packFolder, bs.PackSize, bs.MemoryFiles,
+                            bs.UnpackFiles,
                             assetFolder, false);
 
 
@@ -106,7 +107,7 @@ namespace Byt3.Engine.BuildTools.Commands
                         AssemblyEmbedder.EmbedFilesIntoProject(projectFile, files);
                     }
 
-                    Byt3.Engine.BuildTools.Builder.BuildProject(projectFolder);
+                    Builder.BuildProject(projectFolder);
 
                     if (Directory.Exists(buildOutput))
                     {
@@ -147,18 +148,24 @@ namespace Byt3.Engine.BuildTools.Commands
 
                         foreach (string dirPath in Directory.GetDirectories(assetFolder, "*",
                             SearchOption.AllDirectories))
+                        {
                             Directory.CreateDirectory(dirPath.Replace(projectFolder, buildOutput));
+                        }
 
                         //Copy all the files & Replaces any files with the same name
                         foreach (string newPath in Directory.GetFiles(assetFolder, "*.*",
                             SearchOption.AllDirectories))
+                        {
                             File.Copy(newPath, newPath.Replace(projectFolder, buildOutput), true);
+                        }
                     }
 
 
                     if (bs.CreateGamePackage)
                     {
-                        string packagerVersion = string.IsNullOrEmpty(bs.PackagerVersion) ? Creator.DefaultVersion : bs.PackagerVersion;
+                        string packagerVersion = string.IsNullOrEmpty(bs.PackagerVersion)
+                            ? Creator.DefaultVersion
+                            : bs.PackagerVersion;
                         if (info.GetCommandEntries("--packager-version") != 0)
                         {
                             packagerVersion = info.GetValues("--packager-version")[0];
@@ -184,7 +191,8 @@ namespace Byt3.Engine.BuildTools.Commands
                         }
 
                         FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(buildOutput + "/Engine.dll");
-                        string[] files = Byt3.Engine.BuildTools.Builder.ParseFileList(bs.GamePackageFileList, buildOutput, projectName,
+                        string[] files = Builder.ParseFileList(bs.GamePackageFileList,
+                            buildOutput, projectName,
                             bs.BuildFlags == BuildType.Copy, bs.BuildFlags == BuildType.PackOnly, false);
                         Creator.CreateGamePackage(projectName, startArg, outputFolder + "/" + projectName + ".game",
                             buildOutput, files,
@@ -194,9 +202,8 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public BuildXMLCommand() : base(BuildXML,  new []{ "--xml" }, "--xml <Path/To/File.xml>", true)
+        public BuildXMLCommand() : base(BuildXML, new[] {"--xml"}, "--xml <Path/To/File.xml>", true)
         {
-
         }
     }
 }

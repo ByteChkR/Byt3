@@ -20,6 +20,5 @@ namespace Byt3.Engine.BuildTools.Common
         public string Project { get; set; } = "";
         public string UnpackFiles { get; set; } = "";
         public string PackagerVersion { get; set; } = "v2";
-
     }
 }

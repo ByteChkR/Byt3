@@ -6,10 +6,9 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public class RemoveUnusedBuffersOptimization : FLProgramCheck<SerializableFLProgram>
     {
-
         public override object Process(object o)
         {
-            SerializableFLProgram input = (SerializableFLProgram)o;
+            SerializableFLProgram input = (SerializableFLProgram) o;
             Dictionary<string, bool> buffers = new Dictionary<string, bool>();
             input.DefinedBuffers.ForEach(x => buffers.Add(x.Name, x.Name == "in"));
 
@@ -17,7 +16,8 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             {
                 foreach (SerializableFLInstruction serializableFlInstruction in serializableFlFunction.Instructions)
                 {
-                    foreach (SerializableFLInstructionArgument serializableFlInstructionArgument in serializableFlInstruction.Arguments)
+                    foreach (SerializableFLInstructionArgument serializableFlInstructionArgument in
+                        serializableFlInstruction.Arguments)
                     {
                         switch (serializableFlInstructionArgument.ArgumentCategory)
                         {
@@ -30,12 +30,14 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             }
 
 
-
-
             Logger.Log(LogType.Log, "Removing Buffers", 1);
             foreach (KeyValuePair<string, bool> keyValuePair in buffers)
             {
-                if (keyValuePair.Value) continue;  //Function used. Dont Remove
+                if (keyValuePair.Value)
+                {
+                    continue; //Function used. Dont Remove
+                }
+
                 for (int i = input.DefinedBuffers.Count - 1; i >= 0; i--)
                 {
                     if (input.DefinedBuffers[i].Name == keyValuePair.Key)
@@ -45,7 +47,8 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                 }
             }
 
-            foreach (SerializableExternalFLFunction serializableFlFunction in input.ExternalFunctions) //Process all Subsequent scripts
+            foreach (SerializableExternalFLFunction serializableFlFunction in input.ExternalFunctions
+            ) //Process all Subsequent scripts
             {
                 Process(serializableFlFunction.ExternalProgram);
             }

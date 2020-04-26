@@ -435,7 +435,8 @@ namespace Byt3.OpenCL.Contexts
         /// <param name="memoryFlags">The flags, that determines the how the memory buffer is created and how it can be accessed.</param>
         /// <exception cref="OpenClException">If the memory buffer could not be created, then an <see cref="OpenClException"/> is thrown.</exception>
         /// <returns>Returns the created memory buffer.</returns>
-        public MemoryBuffer CreateBuffer<T>(Memory.MemoryFlag memoryFlags, int size, object handleIdentifier) where T : struct
+        public MemoryBuffer CreateBuffer<T>(Memory.MemoryFlag memoryFlags, int size, object handleIdentifier)
+            where T : struct
         {
             return CreateBuffer(memoryFlags, Marshal.SizeOf<T>() * size, handleIdentifier);
         }
@@ -486,7 +487,8 @@ namespace Byt3.OpenCL.Contexts
         /// <param name="value">The value that is to be copied over to the device.</param>
         /// <exception cref="OpenClException">If the memory buffer could not be created, then an <see cref="OpenClException"/> is thrown.</exception>
         /// <returns>Returns the created memory buffer.</returns>
-        public MemoryBuffer CreateBuffer<T>(Memory.MemoryFlag memoryFlags, T[] value, object handleIdentifier) where T : struct
+        public MemoryBuffer CreateBuffer<T>(Memory.MemoryFlag memoryFlags, T[] value, object handleIdentifier)
+            where T : struct
         {
             return CreateBuffer(memoryFlags, typeof(T), Array.ConvertAll(value, x => (object) x), handleIdentifier);
         }

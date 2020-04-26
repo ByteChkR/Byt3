@@ -6,7 +6,6 @@ using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 
 namespace Byt3.OpenFL.Common.ProgramChecks
 {
-
     public abstract class FLProgramCheck : PipelineStage
     {
         protected readonly ADLLogger<LogType> Logger;
@@ -26,8 +25,10 @@ namespace Byt3.OpenFL.Common.ProgramChecks
     }
 
     public abstract class FLProgramCheck<T> : FLProgramCheck
-    where T : FLPipelineResult
+        where T : FLPipelineResult
     {
-        protected FLProgramCheck() : base(typeof(T), typeof(T)){ }
+        protected FLProgramCheck() : base(typeof(T), typeof(T))
+        {
+        }
     }
 }

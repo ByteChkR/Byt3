@@ -16,7 +16,10 @@ namespace Byt3.OpenFL.Benchmarking
             public decimal Variance;
             public bool LowerIsBetter;
 
-            public PerformanceTarget() { }
+            public PerformanceTarget()
+            {
+            }
+
             public PerformanceTarget(string nameOfTest, decimal target, int n)
             {
                 TestName = nameOfTest;
@@ -29,7 +32,8 @@ namespace Byt3.OpenFL.Benchmarking
         public class PerformanceResult
         {
             public bool Matched => (!LowerIsBetter || TargetAndVariance >= Result) &&
-                                  (LowerIsBetter || TargetAndVariance <= Result);
+                                   (LowerIsBetter || TargetAndVariance <= Result);
+
             public decimal TargetAndVariance => LowerIsBetter ? Target + Variance : Target - Variance;
             public decimal DeltaFromTarget => Target - Result;
             public decimal Percentage => Math.Round(Result / Target * 100, 4);
@@ -41,7 +45,9 @@ namespace Byt3.OpenFL.Benchmarking
             public decimal Target;
             public decimal Variance;
 
-            public PerformanceResult() { }
+            public PerformanceResult()
+            {
+            }
 
             public PerformanceResult(PerformanceTarget target, int n, decimal result)
             {
@@ -66,7 +72,6 @@ namespace Byt3.OpenFL.Benchmarking
         public static readonly PerformanceTester Tester = new PerformanceTester();
 
 
-
         private PerformanceTester()
         {
             Targets = new List<PerformanceTarget>();
@@ -79,7 +84,7 @@ namespace Byt3.OpenFL.Benchmarking
                 try
                 {
                     s = File.OpenRead(files[i]);
-                    Targets.Add((PerformanceTarget)xs.Deserialize(s));
+                    Targets.Add((PerformanceTarget) xs.Deserialize(s));
                     s.Close();
                 }
                 catch (Exception)
@@ -110,7 +115,8 @@ namespace Byt3.OpenFL.Benchmarking
             return Targets.FirstOrDefault(x => x.TestName == name);
         }
 
-        public PerformanceResult RunTest(string testName, int testCount, Action<int> beforeTest, Action<int> test, Action<int> afterTest)
+        public PerformanceResult RunTest(string testName, int testCount, Action<int> beforeTest, Action<int> test,
+            Action<int> afterTest)
         {
             PerformanceTarget target = GetTarget(testName);
             Stopwatch sw = new Stopwatch();
@@ -122,13 +128,15 @@ namespace Byt3.OpenFL.Benchmarking
                 sw.Stop();
                 afterTest?.Invoke(i);
             }
-            decimal result = (decimal)sw.Elapsed.TotalMilliseconds;
+
+            decimal result = (decimal) sw.Elapsed.TotalMilliseconds;
             if (target == null)
             {
                 target = new PerformanceTarget(testName, result, testCount);
                 Targets.Add(target);
                 WriteTarget(target);
             }
+
             return new PerformanceResult(target, testCount, result);
         }
 
@@ -163,6 +171,5 @@ namespace Byt3.OpenFL.Benchmarking
         //    return (!target.LowerIsBetter || targetAndVariance >= value) &&
         //           (target.LowerIsBetter || targetAndVariance <= value);
         //}
-
     }
 }

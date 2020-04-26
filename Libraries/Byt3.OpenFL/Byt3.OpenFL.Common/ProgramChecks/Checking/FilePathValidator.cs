@@ -7,10 +7,9 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public class FilePathValidator : FLProgramCheck<SerializableFLProgram>
     {
-
         public override object Process(object o)
         {
-            SerializableFLProgram input = (SerializableFLProgram)o;
+            SerializableFLProgram input = (SerializableFLProgram) o;
             for (int i = 0; i < input.DefinedBuffers.Count; i++)
             {
                 if (input.DefinedBuffers[i] is SerializableFromFileFLBuffer buf)

@@ -3,7 +3,7 @@ using Byt3.CommandRunner;
 
 namespace Byt3Console.Engine.Player.Commands
 {
-    public class DefaultCommand :AbstractCommand
+    public class DefaultCommand : AbstractCommand
     {
         private static void Default(StartupArgumentInfo info, string[] args)
         {
@@ -26,7 +26,6 @@ namespace Byt3Console.Engine.Player.Commands
             "Default command.\nExecutes the --run Command when a game is passed\nExecutes the --add-engine command when an engine is passed",
             true)
         {
-
         }
     }
 }

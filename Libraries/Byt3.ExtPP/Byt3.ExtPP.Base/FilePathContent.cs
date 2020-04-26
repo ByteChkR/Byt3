@@ -12,7 +12,6 @@ namespace Byt3.ExtPP.Base
 
         public FilePathContent(string filePath, string definedName)
         {
-
             this.definedName = definedName;
             key = this.filePath = filePath;
         }

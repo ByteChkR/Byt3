@@ -55,10 +55,10 @@ namespace Byt3.Engine.Demos.scenes
             bgTex.TexType = TextureType.Diffuse;
             bgObj.AddComponent(groundCol);
 
-            tex = TextureLoader.ColorToTexture(System.Drawing.Color.Green);
-            beginTex = TextureLoader.ColorToTexture(System.Drawing.Color.Blue);
-            endTex = TextureLoader.ColorToTexture(System.Drawing.Color.Red);
-            blockTex = TextureLoader.ColorToTexture(System.Drawing.Color.DarkMagenta);
+            tex = TextureLoader.ColorToTexture(Color.Green);
+            beginTex = TextureLoader.ColorToTexture(Color.Blue);
+            endTex = TextureLoader.ColorToTexture(Color.Red);
+            blockTex = TextureLoader.ColorToTexture(Color.DarkMagenta);
             tex.TexType = beginTex.TexType = endTex.TexType = blockTex.TexType = TextureType.Diffuse;
 
             DebugConsoleComponent c = DebugConsoleComponent.CreateConsole().GetComponent<DebugConsoleComponent>();

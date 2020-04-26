@@ -18,33 +18,36 @@ namespace Byt3.Engine.Tutorials.Tutorials
         {
             Add(DebugConsoleComponent.CreateConsole());
             BasicCamera bc =
-                new BasicCamera(Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), 16 / 9f, 0.1f, 1000f),
+                new BasicCamera(
+                    Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), 16 / 9f, 0.1f, 1000f),
                     new Vector3(0, 5, 7)); //Creating a Basic Camera
             SetCamera(bc);
             Add(bc);
             bc.AddComponent(new MouseTrackerComponent());
 
-            GameObject box = new GameObject(OpenTK.Vector3.UnitX * 3, "Box");
-            LitMeshRendererComponent boxlmr = new LitMeshRendererComponent(DefaultFilepaths.DefaultLitShader, Prefabs.Cube,
+            GameObject box = new GameObject(Vector3.UnitX * 3, "Box");
+            LitMeshRendererComponent boxlmr = new LitMeshRendererComponent(DefaultFilepaths.DefaultLitShader,
+                Prefabs.Cube,
                 TextureLoader.ColorToTexture(Color.Red), 1);
             box.AddComponent(boxlmr);
             Add(box);
 
-            GameObject box2 = new GameObject(OpenTK.Vector3.UnitX * -3, "Box");
-            LitMeshRendererComponent box2lmr = new LitMeshRendererComponent(DefaultFilepaths.DefaultLitShader, Prefabs.Cube,
+            GameObject box2 = new GameObject(Vector3.UnitX * -3, "Box");
+            LitMeshRendererComponent box2lmr = new LitMeshRendererComponent(DefaultFilepaths.DefaultLitShader,
+                Prefabs.Cube,
                 TextureLoader.ColorToTexture(Color.Red), 1);
             box2.AddComponent(box2lmr);
             Add(box2);
 
             //Creating the Collider Shapes
             Entity boxShape = new Box(
-                Byt3.Engine.Physics.BEPUutilities.Vector3.Zero,
+                Physics.BEPUutilities.Vector3.Zero,
                 2f,
                 2f,
                 2f);
 
             Entity box2Shape = new Box(
-                Byt3.Engine.Physics.BEPUutilities.Vector3.Zero,
+                Physics.BEPUutilities.Vector3.Zero,
                 2f,
                 2f,
                 2f);
@@ -57,7 +60,6 @@ namespace Byt3.Engine.Tutorials.Tutorials
             //Note: There are different ways to get the LayerID than storing it.
             Collider boxCollider = new Collider(boxShape, raycastLayerID);
             Collider box2Collider = new Collider(box2Shape, LayerManager.LayerToName(raycastLayerID));
-
 
 
             //Adding the Components

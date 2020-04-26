@@ -6,7 +6,6 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class PatchPermanentCommand : AbstractCommand
     {
-
         private static void PatchPackagePermanent(StartupArgumentInfo info, string[] args)
         {
             if (args.Length != 2)
@@ -24,9 +23,9 @@ namespace Byt3.Engine.BuildTools.Commands
             }
         }
 
-        public PatchPermanentCommand() : base(PatchPackagePermanent, new[] { "--patch-permanent", "-pp" }, "--patch-permanent <targetFile> <patchFile>\nApplies the patch to the file permanently.", false)
+        public PatchPermanentCommand() : base(PatchPackagePermanent, new[] {"--patch-permanent", "-pp"},
+            "--patch-permanent <targetFile> <patchFile>\nApplies the patch to the file permanently.", false)
         {
-
         }
     }
 }

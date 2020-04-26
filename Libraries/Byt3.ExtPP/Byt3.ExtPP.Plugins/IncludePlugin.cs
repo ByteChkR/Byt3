@@ -13,9 +13,9 @@ namespace Byt3.ExtPP.Plugins
 {
     public class IncludePlugin : AbstractFullScriptPlugin
     {
-        public override string[] Cleanup => new[] { IncludeKeyword };
+        public override string[] Cleanup => new[] {IncludeKeyword};
         public override ProcessStage ProcessStages => ProcessStage.OnMain;
-        public override string[] Prefix => new[] { "inc", "Include" };
+        public override string[] Prefix => new[] {"inc", "Include"};
         public string IncludeKeyword { get; set; } = "#include";
         public string IncludeInlineKeyword { get; set; } = "#includeinl";
         public string Separator { get; set; } = " ";
@@ -145,7 +145,6 @@ namespace Byt3.ExtPP.Plugins
                 {
                     scripts.Add(iss);
                 }
-
 
 
                 for (int index = scripts.Count - 1; index >= 0; index--)

@@ -6,7 +6,7 @@ using Byt3.Engine.BuildTools.PackageCreator;
 
 namespace Byt3.Engine.BuildTools.Commands
 {
-    public class CreatePackageCommand :AbstractCommand
+    public class CreatePackageCommand : AbstractCommand
     {
         private static void CreateGamePackage(StartupArgumentInfo info, string[] args)
         {
@@ -67,20 +67,22 @@ namespace Byt3.Engine.BuildTools.Commands
                     }
                 }
 
-                string[] files =Byt3.Engine.BuildTools.Builder. ParseFileList(fileList, Path.GetFullPath(args[0]), args[1], bool.Parse(args[3]),
+                string[] files = Builder.ParseFileList(fileList, Path.GetFullPath(args[0]),
+                    args[1], bool.Parse(args[3]),
                     bool.Parse(args[4]), standalone);
                 Creator.CreateGamePackage(args[1], startArg, Path.GetFullPath(args[2]),
                     Path.GetFullPath(args[0]), files, version, packagerVersion);
             }
             catch (Exception e)
             {
-
                 throw new ApplicationException("Input Error", e);
             }
         }
-        public CreatePackageCommand() : base(CreateGamePackage, new[] { "--create-package" , "-cp" }, "--create-package <BuildFolderOfGame> <GameName> <OutputFile> <CopyAssetsOnError> <CopyPacksOnError> <optional:FileList>\nCreates a Package from a build output of the --build command\n--packer-override-engine-version <Version> can be used to override the required engine version\n--packager-version <packagerVersion> overrides the packager version that is used.\n--set-start-args <args> can be used to specify the startup command manually.", false)
-        {
 
+        public CreatePackageCommand() : base(CreateGamePackage, new[] {"--create-package", "-cp"},
+            "--create-package <BuildFolderOfGame> <GameName> <OutputFile> <CopyAssetsOnError> <CopyPacksOnError> <optional:FileList>\nCreates a Package from a build output of the --build command\n--packer-override-engine-version <Version> can be used to override the required engine version\n--packager-version <packagerVersion> overrides the packager version that is used.\n--set-start-args <args> can be used to specify the startup command manually.",
+            false)
+        {
         }
     }
 }

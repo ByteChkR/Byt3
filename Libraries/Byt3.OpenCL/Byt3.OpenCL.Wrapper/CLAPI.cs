@@ -346,7 +346,7 @@ namespace Byt3.OpenCL.Wrapper
         {
             MemoryBuffer buffer = buf;
 
-            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int)buffer.Size);
+            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int) buffer.Size);
 
 
             WriteRandom(data, enabledChannels, rnd, uniform);
@@ -449,7 +449,8 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="size">The size of the buffer(Total size in bytes: size*sizeof(T)</param>
         /// <param name="flags">The memory flags for the buffer creation</param>
         /// <returns></returns>
-        public static MemoryBuffer CreateEmpty<T>(CLAPI instance, int size, MemoryFlag flags, object handleIdentifier) where T : struct
+        public static MemoryBuffer CreateEmpty<T>(CLAPI instance, int size, MemoryFlag flags, object handleIdentifier)
+            where T : struct
         {
             return CreateEmptyOptimized<T>(instance, size, flags, handleIdentifier);
         }
@@ -462,23 +463,27 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="data">The array of T</param>
         /// <param name="flags">The memory flags for the buffer creation</param>
         /// <returns></returns>
-        public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags, object handleIdentifier) where T : struct
+        public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags, object handleIdentifier)
+            where T : struct
         {
-            object[] arr = Array.ConvertAll(data, x => (object)x);
+            object[] arr = Array.ConvertAll(data, x => (object) x);
             return CreateBuffer(instance, arr, typeof(T), flags, handleIdentifier);
         }
 
         //Optimization
-        private static MemoryBuffer CreateEmptyOptimized<T>(CLAPI instance, int size, MemoryFlag flags, object handleIdentifier) where T : struct
+        private static MemoryBuffer CreateEmptyOptimized<T>(CLAPI instance, int size, MemoryFlag flags,
+            object handleIdentifier) where T : struct
         {
             int bufByteSize = Marshal.SizeOf<T>() * size;
             return instance.context.CreateBuffer(flags | MemoryFlag.AllocateHostPointer, bufByteSize, handleIdentifier);
         }
 
-        public static MemoryBuffer CreateBuffer(CLAPI instance, object[] data, Type t, MemoryFlag flags, object handleIdentifier)
+        public static MemoryBuffer CreateBuffer(CLAPI instance, object[] data, Type t, MemoryFlag flags,
+            object handleIdentifier)
         {
             MemoryBuffer mb =
-                instance.context.CreateBuffer(flags | MemoryFlag.CopyHostPointer | MemoryFlag.AllocateHostPointer, t, data, handleIdentifier);
+                instance.context.CreateBuffer(flags | MemoryFlag.CopyHostPointer | MemoryFlag.AllocateHostPointer, t,
+                    data, handleIdentifier);
 
             return mb;
         }
@@ -490,7 +495,8 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="bmp">The image that holds the data</param>
         /// <param name="flags">The memory flags for the buffer creation</param>
         /// <returns></returns>
-        public static MemoryBuffer CreateFromImage(CLAPI instance, Bitmap bmp, MemoryFlag flags, object handleIdentifier)
+        public static MemoryBuffer CreateFromImage(CLAPI instance, Bitmap bmp, MemoryFlag flags,
+            object handleIdentifier)
         {
             BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly,
                 PixelFormat.Format32bppArgb);
@@ -538,7 +544,7 @@ namespace Byt3.OpenCL.Wrapper
 
         public static void UpdateBitmap(CLAPI instance, Bitmap target, MemoryBuffer buffer)
         {
-            byte[] bs = ReadBuffer<byte>(instance, buffer, (int)buffer.Size);
+            byte[] bs = ReadBuffer<byte>(instance, buffer, (int) buffer.Size);
             UpdateBitmap(instance, target, bs);
         }
 

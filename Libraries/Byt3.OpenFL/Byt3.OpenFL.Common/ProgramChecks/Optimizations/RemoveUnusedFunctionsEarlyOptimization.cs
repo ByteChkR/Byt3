@@ -4,12 +4,10 @@ using Byt3.OpenFL.Parsing.StageResults;
 
 namespace Byt3.OpenFL.Common.ProgramChecks
 {
-
     public class RemoveUnusedFunctionsEarlyOptimization : FLProgramCheck<StaticInspectionResult>
     {
         private Dictionary<string, bool> ParseFunctions(StaticInspectionResult input)
         {
-
             Dictionary<string, bool> funcs = new Dictionary<string, bool>();
             input.Functions.ForEach(x => funcs.Add(x.Name, x.Name == "Main"));
             Logger.Log(LogType.Log, $"Finding Unused Functions.", 2);
@@ -33,7 +31,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
         public override object Process(object o)
         {
-            StaticInspectionResult input = (StaticInspectionResult)o;
+            StaticInspectionResult input = (StaticInspectionResult) o;
             bool stop = false;
             int pass = 1;
 
@@ -68,6 +66,5 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
             return input;
         }
-
     }
 }

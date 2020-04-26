@@ -28,8 +28,7 @@ namespace Byt3.Engine.Audio
         /// </summary>
         protected AbstractAudioSource()
         {
-
-            Logger.Log(DebugChannel.EngineAudio| DebugChannel.Log, "Creating Audio Source", 9);
+            Logger.Log(DebugChannel.EngineAudio | DebugChannel.Log, "Creating Audio Source", 9);
 
             source = AL.GenSource(); //Generating Audio Source
 
@@ -48,10 +47,10 @@ namespace Byt3.Engine.Audio
             get => clip;
             set
             {
-                Logger.Log( DebugChannel.EngineAudio| DebugChannel.Log, $"Changing Clip: {clip} => {value}", 8);
+                Logger.Log(DebugChannel.EngineAudio | DebugChannel.Log, $"Changing Clip: {clip} => {value}", 8);
                 if (clip != null && clip.Buffer == value.Buffer)
                 {
-                    Logger.Log( DebugChannel.EngineAudio|DebugChannel.Warning, "New clip is the same, skipping.", 6);
+                    Logger.Log(DebugChannel.EngineAudio | DebugChannel.Warning, "New clip is the same, skipping.", 6);
                     return;
                 }
 
@@ -109,7 +108,7 @@ namespace Byt3.Engine.Audio
         /// </summary>
         public void Pause()
         {
-            Logger.Log( DebugChannel.EngineAudio | DebugChannel.Log, $"Pausing {clip} from {source}", 7);
+            Logger.Log(DebugChannel.EngineAudio | DebugChannel.Log, $"Pausing {clip} from {source}", 7);
             AL.SourcePause(source);
         }
 
@@ -118,7 +117,7 @@ namespace Byt3.Engine.Audio
         /// </summary>
         public void Stop()
         {
-            Logger.Log( DebugChannel.EngineAudio | DebugChannel.Log, $"Stopping {clip} from {source}", 7);
+            Logger.Log(DebugChannel.EngineAudio | DebugChannel.Log, $"Stopping {clip} from {source}", 7);
             AL.SourceStop(source);
             TrackPosition = 0;
         }

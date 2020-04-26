@@ -24,13 +24,14 @@ namespace Byt3Console.OpenFL
         /// Folder relative to the Assembly Code Base
         /// </summary>
         public string KernelFolder;
+
         public Resolution Resolution;
 
         public List<Type> BufferCreatorTypes
         {
             get
             {
-                string[] creators = BufferCreators.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] creators = BufferCreators.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
                 List<Type> ret = new List<Type>();
                 for (int i = 0; i < creators.Length; i++)
                 {
@@ -45,7 +46,7 @@ namespace Byt3Console.OpenFL
         {
             get
             {
-                string[] creators = ProgramChecks.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] creators = ProgramChecks.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
                 List<Type> ret = new List<Type>();
                 for (int i = 0; i < creators.Length; i++)
                 {
@@ -60,7 +61,8 @@ namespace Byt3Console.OpenFL
         {
             get
             {
-                string path = Path.Combine(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath, KernelFolder);
+                string path = Path.Combine(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath,
+                    KernelFolder);
                 return path;
             }
         }
@@ -73,8 +75,10 @@ namespace Byt3Console.OpenFL
                 {
                     MultiThread = false,
                     WorkSizeMultiplier = 2,
-                    ProgramChecks = GetBuiltInTypesAssignableFrom(typeof(FLProgramCheck)).Select(x => x.AssemblyQualifiedName).Unpack(";"),
-                    BufferCreators = GetBuiltInTypesAssignableFrom(typeof(ASerializableBufferCreator)).Select(x => x.AssemblyQualifiedName).Unpack(";"),
+                    ProgramChecks = GetBuiltInTypesAssignableFrom(typeof(FLProgramCheck))
+                        .Select(x => x.AssemblyQualifiedName).Unpack(";"),
+                    BufferCreators = GetBuiltInTypesAssignableFrom(typeof(ASerializableBufferCreator))
+                        .Select(x => x.AssemblyQualifiedName).Unpack(";"),
                     KernelFolder = "kernel",
                     Resolution = new Resolution(128, 128),
                     Verbosity = 1,
@@ -85,9 +89,9 @@ namespace Byt3Console.OpenFL
 
         public void SetVerbosity()
         {
-            ExtPPDebugConfig.Settings.MinSeverity = (Verbosity)Verbosity;
-            OpenFLDebugConfig.Settings.MinSeverity = (Verbosity)Verbosity;
-            OpenCLDebugConfig.Settings.MinSeverity = (Verbosity)Verbosity;
+            ExtPPDebugConfig.Settings.MinSeverity = (Verbosity) Verbosity;
+            OpenFLDebugConfig.Settings.MinSeverity = (Verbosity) Verbosity;
+            OpenCLDebugConfig.Settings.MinSeverity = (Verbosity) Verbosity;
         }
 
         private static Type[] GetBuiltInTypesAssignableFrom(Type t)

@@ -238,6 +238,7 @@ namespace Byt3.Engine.Rendering
                     {
                         continue;
                     }
+
                     if (Textures[i].IsDisposed)
                     {
                         throw new Byt3Exception("Use of Disposed Texture");

@@ -10,7 +10,8 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         private readonly SerializableFLProgram ExternalFunctionBlueprint;
         private readonly FLInstructionSet InstructionSet;
 
-        public ExternalFlFunction(string name, SerializableFLProgram external, FLInstructionSet iset) : base(name, new List<FLInstruction>())
+        public ExternalFlFunction(string name, SerializableFLProgram external, FLInstructionSet iset) : base(name,
+            new List<FLInstruction>())
         {
             ExternalFunctionBlueprint = external;
             InstructionSet = iset;
@@ -24,11 +25,11 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             input.SetRoot(externalFunction);
 
             externalFunction.ActiveChannels = Root.ActiveChannels;
-            externalFunction.SetCLVariables(Root.Instance, input, false); 
+            externalFunction.SetCLVariables(Root.Instance, input, false);
             //Not making it internal to the subscript because that would dispose the buffer later in the method
 
             externalFunction.EntryPoint.Process();
-            
+
             FLBuffer buf = externalFunction.ActiveBuffer;
 
             buf.SetRoot(Root);

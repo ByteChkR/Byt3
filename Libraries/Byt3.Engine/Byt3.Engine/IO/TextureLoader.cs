@@ -23,7 +23,9 @@ namespace Byt3.Engine.IO
     /// </summary>
     public static class TextureLoader
     {
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "TextureLoader");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "TextureLoader");
+
         private static int BytesToTextureIndex = 0;
 
         /// <summary>
@@ -45,7 +47,11 @@ namespace Byt3.Engine.IO
             DefaultTexParameter();
             GL.BindTexture(TextureTarget.Texture2D, 0);
             long bytes = width * height * 4;
-            if (handleIdentifier == null) handleIdentifier = "TextureFromRawBytes" + BytesToTextureIndex++;
+            if (handleIdentifier == null)
+            {
+                handleIdentifier = "TextureFromRawBytes" + BytesToTextureIndex++;
+            }
+
             return new Texture(texID, bytes, false, handleIdentifier);
             ;
         }
@@ -87,11 +93,11 @@ namespace Byt3.Engine.IO
         /// <returns></returns>
         public static byte[] TextureToByteArray(Texture tex)
         {
-            byte[] buffer = new byte[(int)(tex.Width * tex.Height * 4)];
+            byte[] buffer = new byte[(int) (tex.Width * tex.Height * 4)];
             GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
             GL.BindTexture(TextureTarget.Texture2D, tex.TextureId);
 
-            GL.GetTextureSubImage(tex.TextureId, 0, 0, 0, 0, (int)tex.Width, (int)tex.Height, 1, PixelFormat.Bgra,
+            GL.GetTextureSubImage(tex.TextureId, 0, 0, 0, 0, (int) tex.Width, (int) tex.Height, 1, PixelFormat.Bgra,
                 PixelType.UnsignedByte, buffer.Length, handle.AddrOfPinnedObject());
 
             handle.Free();
@@ -105,15 +111,17 @@ namespace Byt3.Engine.IO
         /// <param name="instance">Clapi Instance for the current thread</param>
         /// <param name="tex">Input Texture</param>
         /// <returns>CL Buffer Object containing the image data</returns>
-        public static MemoryBuffer TextureToMemoryBuffer(CLAPI instance, Texture tex,object handleIdentifier)
+        public static MemoryBuffer TextureToMemoryBuffer(CLAPI instance, Texture tex, object handleIdentifier)
         {
             byte[] buffer = TextureToByteArray(tex);
-            return CLAPI.CreateBuffer(instance, buffer, MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite, handleIdentifier);
+            return CLAPI.CreateBuffer(instance, buffer, MemoryFlag.CopyHostPointer | MemoryFlag.ReadWrite,
+                handleIdentifier);
         }
 
-        public static Texture MemoryBufferToTexture(CLAPI instance, MemoryBuffer buf, int width, int height, object handleIdentifier)
+        public static Texture MemoryBufferToTexture(CLAPI instance, MemoryBuffer buf, int width, int height,
+            object handleIdentifier)
         {
-            byte[] buffer = CLAPI.ReadBuffer<byte>(instance, buf, (int)buf.Size);
+            byte[] buffer = CLAPI.ReadBuffer<byte>(instance, buf, (int) buf.Size);
             return BytesToTexture(buffer, width, height, handleIdentifier);
         }
 
@@ -141,8 +149,8 @@ namespace Byt3.Engine.IO
         /// <param name="height">height of the array</param>
         public static void Update(CLAPI instance, Texture tex, MemoryBuffer data)
         {
-            byte[] buf = CLAPI.ReadBuffer<byte>(instance, data, (int)data.Size);
-            Update(tex, buf, (int)tex.Width, (int)tex.Height);
+            byte[] buf = CLAPI.ReadBuffer<byte>(instance, data, (int) data.Size);
+            Update(tex, buf, (int) tex.Width, (int) tex.Height);
         }
 
         /// <summary>
@@ -276,13 +284,13 @@ namespace Byt3.Engine.IO
         private static void DefaultTexParameter()
         {
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                (int)TextureMinFilter.Linear);
+                (int) TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                (int)TextureMagFilter.Linear);
+                (int) TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS,
-                (int)TextureWrapMode.Repeat);
+                (int) TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
-                (int)TextureWrapMode.Repeat);
+                (int) TextureWrapMode.Repeat);
         }
 
         /// <summary>
@@ -292,7 +300,8 @@ namespace Byt3.Engine.IO
         /// <returns>A copy of Other</returns>
         private static Texture Copy(Texture other)
         {
-            return BytesToTexture(TextureToByteArray(other), (int)other.Width, (int)other.Height, other.HandleIdentifier+"_Copy");
+            return BytesToTexture(TextureToByteArray(other), (int) other.Width, (int) other.Height,
+                other.HandleIdentifier + "_Copy");
         }
 
         /// <summary>
@@ -306,11 +315,12 @@ namespace Byt3.Engine.IO
         {
             List<Texture> ret = new List<Texture>();
 
-            Logger.Log(DebugChannel.Log | DebugChannel.EngineIO, "Loading Baked Material Textures of type: " + Enum.GetName(typeof(TextureType), texType),
-                 1);
-            for (int i = 0; i < m.GetMaterialTextureCount((Assimp.TextureType)texType); i++)
+            Logger.Log(DebugChannel.Log | DebugChannel.EngineIO,
+                "Loading Baked Material Textures of type: " + Enum.GetName(typeof(TextureType), texType),
+                1);
+            for (int i = 0; i < m.GetMaterialTextureCount((Assimp.TextureType) texType); i++)
             {
-                m.GetMaterialTexture((Assimp.TextureType)texType, i, out TextureSlot s);
+                m.GetMaterialTexture((Assimp.TextureType) texType, i, out TextureSlot s);
                 Texture tx = FileToTexture(dir + s.FilePath);
                 tx.TexType = texType;
                 ret.Add(tx);

@@ -54,13 +54,14 @@ namespace Byt3.OpenFL.Common.Instructions
                 //CLAPI.WriteRandom(root.Instance, buf, RandomInstructionHelper.Randombytesource, new byte[] {1, 1, 1, 1},
                 //    true);
 
-                FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize, new byte[] { 1, 1, 1, 1 },
-                    RandomInstructionHelper.Randombytesource, true), root.Dimensions.x, root.Dimensions.y, "RandomBuffer");
+                FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize, new byte[] {1, 1, 1, 1},
+                        RandomInstructionHelper.Randombytesource, true), root.Dimensions.x, root.Dimensions.y,
+                    "RandomBuffer");
                 buf.SetRoot(root);
-                byte[] b = CLAPI.ReadBuffer<byte>(root.Instance, buf.Buffer, (int)buf.Buffer.Size);
+                byte[] b = CLAPI.ReadBuffer<byte>(root.Instance, buf.Buffer, (int) buf.Buffer.Size);
                 return buf;
 
-               // return new FLBuffer(buf, root.Dimensions.x, root.Dimensions.y);
+                // return new FLBuffer(buf, root.Dimensions.x, root.Dimensions.y);
             });
 
             return info;

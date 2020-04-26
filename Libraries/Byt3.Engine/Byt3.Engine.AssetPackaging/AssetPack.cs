@@ -9,6 +9,7 @@ namespace Byt3.Engine.AssetPackaging
     {
         private Stream Content;
         public int BytesWritten { get; private set; }
+
         public AssetPack(Stream s)
         {
             Content = s;

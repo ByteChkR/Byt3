@@ -7,6 +7,7 @@ namespace Byt3Console.Engine.BuildTools
     {
         public override string ConsoleKey => "ebuild";
         public override string ConsoleTitle => "Engine Builder";
+
         public override bool Run(string[] args)
         {
             return Builder.RunCommand(args);

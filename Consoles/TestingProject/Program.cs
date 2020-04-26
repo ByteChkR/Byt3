@@ -27,15 +27,15 @@ namespace TestingProject
 
         private static readonly Dictionary<string, AConsole> Consoles = new Dictionary<string, AConsole>
         {
-            {"testing", new TestingConsole() },
-            {"asmgen", new AssemblyGeneratorConsole() },
-            {"ebuild", new EngineBuilderConsole() },
-            {"eplay", new EnginePlayerConsole() },
-            {"tutorials", new TutorialConsoleStarter() },
-            {"demos", new DemoConsoleStarter() },
-            {"extpp", new ExtPPConsole() },
-            {"vh", new VersionHelperConsole() },
-            {"fl", new FLConsole() },
+            {"testing", new TestingConsole()},
+            {"asmgen", new AssemblyGeneratorConsole()},
+            {"ebuild", new EngineBuilderConsole()},
+            {"eplay", new EnginePlayerConsole()},
+            {"tutorials", new TutorialConsoleStarter()},
+            {"demos", new DemoConsoleStarter()},
+            {"extpp", new ExtPPConsole()},
+            {"vh", new VersionHelperConsole()},
+            {"fl", new FLConsole()},
         };
 
         private static void Main(string[] args)
@@ -48,7 +48,8 @@ namespace TestingProject
             AssemblyGeneratorDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             EngineDebugConfig.Settings.MinSeverity = Verbosity.Level1;
 
-            ADLLogger<LogType> logger = new ADLLogger<LogType>(new ProjectDebugConfig("Testing Project", -1, 10, PrefixLookupSettings.AddPrefixIfAvailable));
+            ADLLogger<LogType> logger = new ADLLogger<LogType>(new ProjectDebugConfig("Testing Project", -1, 10,
+                PrefixLookupSettings.AddPrefixIfAvailable));
 
 
             logger.Log(LogType.Log, "Available Consoles: " + Consoles.Keys.Unpack(", "), 1);
@@ -64,12 +65,15 @@ namespace TestingProject
                     {
                         arg[i - 1] = args[i];
                     }
+
                     Consoles[args[0]].Run(arg);
 
                     Runner.RemoveAllCommands();
 
-                    if (Exit) return;
-
+                    if (Exit)
+                    {
+                        return;
+                    }
                 }
             }
 
@@ -78,20 +82,29 @@ namespace TestingProject
                 Console.Write("root>");
                 string line = Console.ReadLine();
                 string[] command = line.Split(new[] {' '});
-                if (command[0] == "exit") break;
+                if (command[0] == "exit")
+                {
+                    break;
+                }
+
                 if (Consoles.ContainsKey(command[0]))
                 {
-                    string[] arg = new string[command.Length-1];
+                    string[] arg = new string[command.Length - 1];
 
                     for (int i = 1; i < command.Length; i++)
                     {
-                        arg[i-1] = command[i];
+                        arg[i - 1] = command[i];
                     }
+
                     Consoles[command[0]].Run(arg);
 
                     Runner.RemoveAllCommands();
                 }
-                if (Exit) break;
+
+                if (Exit)
+                {
+                    break;
+                }
             }
         }
     }

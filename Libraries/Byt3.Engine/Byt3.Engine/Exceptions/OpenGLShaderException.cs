@@ -2,8 +2,6 @@
 
 namespace Byt3.Engine.Exceptions
 {
-
-
     /// <summary>
     /// Occurs when a Shader Fails to compile or some openGL calls went wrong
     /// </summary>

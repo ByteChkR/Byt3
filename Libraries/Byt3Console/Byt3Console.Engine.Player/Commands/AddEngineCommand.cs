@@ -15,32 +15,33 @@ namespace Byt3Console.Engine.Player.Commands
                 IPackageManifest pm = Creator.ReadManifest(path);
                 if (!EnginePlayerConsole.EngineVersions.Contains(pm.Version))
                 {
-                    System.Console.WriteLine("Adding Engine: " + pm);
+                    Console.WriteLine("Adding Engine: " + pm);
                     EnginePlayerConsole.EngineVersions.Add(pm.Version);
                     File.Copy(path, EnginePlayerConsole.EngineDir + "/" + pm.Version + ".engine");
                 }
             }
             catch (Exception e)
             {
-                System.Console.WriteLine("Could not add Engine to Player.");
-                System.Console.WriteLine(e);
+                Console.WriteLine("Could not add Engine to Player.");
+                Console.WriteLine(e);
                 throw;
             }
         }
+
         public static void AddEngine(StartupArgumentInfo info, string[] args)
         {
             if (args.Length == 0 || !File.Exists(args[0]) || !args[0].EndsWith(".engine"))
             {
-                System.Console.WriteLine("Could not load Engine Path");
+                Console.WriteLine("Could not load Engine Path");
                 return;
             }
 
             AddEngine(args[0]);
         }
 
-        public AddEngineCommand() : base(AddEngine, new[] { "--add-engine", "-a" }, "--add-engine <<Path/To/File.engine>\nAdds an engine file to the engine cache", false)
+        public AddEngineCommand() : base(AddEngine, new[] {"--add-engine", "-a"},
+            "--add-engine <<Path/To/File.engine>\nAdds an engine file to the engine cache", false)
         {
-
         }
     }
 }

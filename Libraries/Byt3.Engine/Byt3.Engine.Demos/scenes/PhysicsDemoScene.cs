@@ -13,15 +13,13 @@ namespace Byt3.Engine.Demos.scenes
 {
     public class PhysicsDemoScene : AbstractScene
     {
-        
-
         protected override void InitializeScene()
         {
             int rayLayer = LayerManager.RegisterLayer("raycast", new Layer(1, 2));
             int hybLayer = LayerManager.RegisterLayer("hybrid", new Layer(1, 1 | 2));
             int physicsLayer = LayerManager.RegisterLayer("physics", new Layer(1, 1));
             LayerManager.DisableCollisions(rayLayer, physicsLayer);
-            
+
             PhysicsDemoComponent phys = new PhysicsDemoComponent();
 
             AddComponent(phys); //Adding Physics Component to world.

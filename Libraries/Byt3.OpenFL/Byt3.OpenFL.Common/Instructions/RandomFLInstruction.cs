@@ -34,7 +34,7 @@ namespace Byt3.OpenFL.Common.Instructions
                         new FLInvalidArgumentType("Argument: " + obj.Value, "MemoyBuffer/Image");
                 }
 
-                FLBuffer func = (FLBuffer)obj.Value;
+                FLBuffer func = (FLBuffer) obj.Value;
 
                 Logger.Log(LogType.Log, $"Writing Random Data to Active Buffer:" + func.DefinedBufferName,
                     MIN_INSTRUCTION_SEVERITY);
@@ -55,8 +55,9 @@ namespace Byt3.OpenFL.Common.Instructions
                 ////    CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite, "LazyRandomBuffer");
                 ////CLAPI.WriteRandom(root.Instance, buf, RandomInstructionHelper.Randombytesource, new byte[] {1, 1, 1, 1},
                 ////    false);
-                FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize, new byte[] { 1, 1, 1, 1 },
-                    RandomInstructionHelper.Randombytesource, false), root.Dimensions.x, root.Dimensions.y, "RandomBuffer");
+                FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize, new byte[] {1, 1, 1, 1},
+                        RandomInstructionHelper.Randombytesource, false), root.Dimensions.x, root.Dimensions.y,
+                    "RandomBuffer");
                 buf.SetRoot(root);
                 byte[] b = CLAPI.ReadBuffer<byte>(root.Instance, buf.Buffer, (int) buf.Buffer.Size);
                 return buf;

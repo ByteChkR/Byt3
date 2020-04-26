@@ -24,7 +24,7 @@ namespace Byt3.OpenCL.Platforms
         /// </summary>
         /// <param name="handle">The handle to the OpenCL platform.</param>
         internal Platform(IntPtr handle)
-            : base(handle,"Platform", false)
+            : base(handle, "Platform", false)
         {
         }
 

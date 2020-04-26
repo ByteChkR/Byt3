@@ -9,10 +9,8 @@ using Byt3.OpenFL.Parsing.StageResults;
 
 namespace Byt3.OpenFL.Parsing.Stages
 {
-
     public class StaticInspectionStage : PipelineStage<LoadSourceStageResult, StaticInspectionResult>
     {
-        
         private static readonly ADLLogger<LogType> Logger =
             new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "StaticInspectionStage");
 
@@ -49,18 +47,18 @@ namespace Byt3.OpenFL.Parsing.Stages
             string[] functionsHeaders = FLParser.FindFunctionHeaders(input.Source);
 
             functions = WorkItemRunner.RunInWorkItems(functionsHeaders.ToList(),
-                 (list, start, count) => ParseFunctionTask(list, start, count, input.Source),
-                 parser.WorkItemRunnerSettings);
+                (list, start, count) => ParseFunctionTask(list, start, count, input.Source),
+                parser.WorkItemRunnerSettings);
 
 
             Task.WaitAll(scriptTask, bufferTask);
             Logger.Log(LogType.Log, "Buffer And Script Task Finished.", 2);
             definedScripts = scriptTask.Result;
             definedBuffers = bufferTask.Result;
-            
+
 
             Logger.Log(LogType.Log, "Tasks Completed.", 2);
-            
+
 
             Logger.Log(LogType.Log, "Parsed Scripts: " + functions.Unpack(", "), 4);
             return new StaticInspectionResult(input.Filename, input.Source, functions, definedBuffers,

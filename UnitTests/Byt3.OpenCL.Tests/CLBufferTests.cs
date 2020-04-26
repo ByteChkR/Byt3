@@ -29,10 +29,11 @@ namespace Byt3.OpenCL.Tests
             {
                 b[i] = (byte) i;
             }
-            
+
             MemoryBuffer buffer =
-                CLAPI.CreateBuffer(CLAPI.MainThread, b, MemoryFlag.WriteOnly | MemoryFlag.AllocateHostPointer,"TestBuffer");
-            
+                CLAPI.CreateBuffer(CLAPI.MainThread, b, MemoryFlag.WriteOnly | MemoryFlag.AllocateHostPointer,
+                    "TestBuffer");
+
             Assert.True(buffer != null);
             Assert.True(buffer.Size == 255);
         }

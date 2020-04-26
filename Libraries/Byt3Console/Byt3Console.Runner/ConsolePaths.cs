@@ -8,6 +8,7 @@ namespace Byt3Console.Runner
     {
         public static readonly string ConsoleFolder =
             Path.GetDirectoryName(new Uri(Assembly.GetEntryAssembly().CodeBase).AbsolutePath);
+
         public static readonly string RunnerFolder =
             Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
 

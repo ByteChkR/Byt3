@@ -6,9 +6,7 @@ namespace TestingProjectConsole.Commands
 {
     public class VersionHelperTestCommand : AbstractCommand
     {
-
-
-        public VersionHelperTestCommand() : base(new[] { "--version-helper-tests", "-vht" },
+        public VersionHelperTestCommand() : base(new[] {"--version-helper-tests", "-vht"},
             "Start Version Helper Test Shell.")
         {
             CommandAction = (info, strings) => VersionHelperTest();
@@ -21,10 +19,14 @@ namespace TestingProjectConsole.Commands
             Logger.Log(LogType.Log, "exit = Exit Version Helper Test Shell", 1);
             while (true)
             {
-                System.Console.WriteLine(v);
-                System.Console.Write(">");
-                string format = System.Console.ReadLine();
-                if (format == "exit") return;
+                Console.WriteLine(v);
+                Console.Write(">");
+                string format = Console.ReadLine();
+                if (format == "exit")
+                {
+                    return;
+                }
+
                 if (format == "r")
                 {
                     v = Version.Parse("1.0.0.0");
@@ -34,6 +36,5 @@ namespace TestingProjectConsole.Commands
                 v = Byt3Console.VersionHelper.VersionHelperConsole.ChangeVersion(v, format);
             }
         }
-
     }
 }

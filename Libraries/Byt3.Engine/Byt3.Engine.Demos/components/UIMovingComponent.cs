@@ -24,8 +24,7 @@ namespace Byt3.Engine.Demos.components
         {
             time += deltaTime;
 
-            
-            
+
             Position = new Vector2(MathF.Sin(time * 2), MathF.Cos(time * 2));
             float x = MathF.Abs(MathF.Sin(time * 2)) * 0.3f + 0.1f;
             float y = MathF.Abs(MathF.Cos(time * 2)) * 0.3f + 0.1f;

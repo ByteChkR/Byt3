@@ -107,7 +107,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
         public FLBuffer GetBufferWithName(string name, bool makeUnmanaged)
         {
-            FLBuffer ret= DefinedBuffers[name];
+            FLBuffer ret = DefinedBuffers[name];
             if (makeUnmanaged)
             {
                 InternalState[name] = false;
@@ -120,7 +120,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
         public FLBuffer GetActiveBuffer(bool makeUnmanaged)
         {
-            FLBuffer ret =ActiveBuffer;
+            FLBuffer ret = ActiveBuffer;
             if (makeUnmanaged)
             {
                 InternalState[ret.DefinedBufferName] = false;

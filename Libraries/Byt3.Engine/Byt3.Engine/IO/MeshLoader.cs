@@ -23,8 +23,8 @@ namespace Byt3.Engine.IO
     /// </summary>
     public class MeshLoader
     {
-
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "MeshLoader");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "MeshLoader");
 
         /// <summary>
         /// Loads a Mesh From File
@@ -115,9 +115,9 @@ namespace Byt3.Engine.IO
             }
 
 
-            Logger.Log( DebugChannel.Log | DebugChannel.EngineIO, "Loading Assimp Scene Finished.", 5);
+            Logger.Log(DebugChannel.Log | DebugChannel.EngineIO, "Loading Assimp Scene Finished.", 5);
 
-            Logger.Log( DebugChannel.Log | DebugChannel.EngineIO, "Processing Nodes...", 6);
+            Logger.Log(DebugChannel.Log | DebugChannel.EngineIO, "Processing Nodes...", 6);
 
             List<Mesh> ret = new List<Mesh>();
 
@@ -135,7 +135,7 @@ namespace Byt3.Engine.IO
         /// <param name="dir">The Relative directory of the Mesh File</param>
         private static void processNode(Node node, Scene s, List<Mesh> meshes, string dir, object handleIdentifier)
         {
-            Logger.Log( DebugChannel.Log | DebugChannel.EngineIO, "Processing Node: " + node.Name, 4);
+            Logger.Log(DebugChannel.Log | DebugChannel.EngineIO, "Processing Node: " + node.Name, 4);
             if (node.HasMeshes)
             {
                 Logger.Log(DebugChannel.Log | DebugChannel.EngineIO, "Adding " + node.MeshCount + " Meshes...", 4);
@@ -169,10 +169,11 @@ namespace Byt3.Engine.IO
             List<Texture> textures = new List<Texture>();
 
 
-            Logger.Log(DebugChannel.Log | DebugChannel.EngineIO, "Converting Imported Mesh File Structure to GameEngine Engine Structure", 3);
+            Logger.Log(DebugChannel.Log | DebugChannel.EngineIO,
+                "Converting Imported Mesh File Structure to GameEngine Engine Structure", 3);
 
 
-            Logger.Log( DebugChannel.Log | DebugChannel.EngineIO, "Copying Vertex Data...", 2);
+            Logger.Log(DebugChannel.Log | DebugChannel.EngineIO, "Copying Vertex Data...", 2);
             for (int i = 0; i < mesh.VertexCount; i++)
             {
                 Vector3D vert = mesh.Vertices[i];
@@ -215,7 +216,7 @@ namespace Byt3.Engine.IO
             setupMesh(indices.ToArray(), vertices.ToArray(), out int vao, out int vbo, out int ebo);
 
             long bytes = indices.Count * sizeof(uint) + vertices.Count * Vertex.VERTEX_BYTE_SIZE;
-            
+
             return new Mesh(ebo, vbo, vao, indices.Count, bytes, false, handleIdentifier);
         }
 

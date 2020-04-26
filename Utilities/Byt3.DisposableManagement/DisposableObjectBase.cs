@@ -9,15 +9,11 @@ namespace Byt3.DisposableManagement
         protected DisposableObjectBase(object handleIdentifier)
         {
             HandleIdentifier = handleIdentifier;
-
         }
 
 
         public virtual void Dispose()
         {
         }
-
-
-
     }
 }

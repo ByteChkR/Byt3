@@ -115,7 +115,7 @@ namespace Byt3.Engine.Rendering
                 {
                     return 1;
                 }
-                
+
 
                 int ret = RenderQueue.CompareTo(other.RenderQueue);
                 return ret;
@@ -130,10 +130,10 @@ namespace Byt3.Engine.Rendering
             {
                 return -1;
             }
+
             return 0;
         }
 
-        
 
         /// <summary>
         /// Precalculates the ModelView Matrix

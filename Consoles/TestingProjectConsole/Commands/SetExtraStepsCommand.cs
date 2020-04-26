@@ -4,8 +4,7 @@ namespace TestingProjectConsole.Commands
 {
     public class SetExtraStepsCommand : AbstractCommand
     {
-
-        public SetExtraStepsCommand() : base(new[] { "--extra" },
+        public SetExtraStepsCommand() : base(new[] {"--extra"},
             "Specifies if the FLbenchmark should use any Extra Stages when serializing a FL Script.")
         {
             CommandAction = (info, strings) => SetFlag(strings);
@@ -15,6 +14,5 @@ namespace TestingProjectConsole.Commands
         {
             OpenFLBenchmarkCommand.ExtraSteps = args;
         }
-
     }
 }

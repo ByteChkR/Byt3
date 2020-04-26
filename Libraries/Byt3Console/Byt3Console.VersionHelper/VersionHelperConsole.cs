@@ -36,7 +36,7 @@ namespace Byt3Console.VersionHelper
             }
             catch (Exception e)
             {
-                System.Console.WriteLine(e);
+                Console.WriteLine(e);
                 throw;
             }
         }
@@ -75,7 +75,7 @@ namespace Byt3Console.VersionHelper
 
                     if (j == current.Length)
                     {
-                        System.Console.WriteLine($"Can not parse version ID: {i}({current})");
+                        Console.WriteLine($"Can not parse version ID: {i}({current})");
                         continue; //Broken. No number left. better ignore
                     }
 
@@ -121,7 +121,7 @@ namespace Byt3Console.VersionHelper
                     }
                     else
                     {
-                        System.Console.WriteLine("Can not Parse: " + value + " to INT");
+                        Console.WriteLine("Can not Parse: " + value + " to INT");
                     }
                 }
                 else if (int.TryParse(current, out int v))

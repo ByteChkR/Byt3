@@ -11,6 +11,7 @@ namespace Byt3.Engine.UI.EventSystems
         /// Bounding Box of the Selectable
         /// </summary>
         Box2 BoundingBox { get; }
+
         /// <summary>
         /// A Function to set the state of the object
         /// </summary>

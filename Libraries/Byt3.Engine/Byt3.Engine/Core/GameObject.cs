@@ -213,7 +213,7 @@ namespace Byt3.Engine.Core
         [XmlElement(Order = 3)]
         public Engine.Physics.BEPUutilities.Vector4 AxisAngle
         {
-            get => ((Quaternion)Rotation).ToAxisAngle();
+            get => ((Quaternion) Rotation).ToAxisAngle();
             set => Rotation =
                 Physics.BEPUutilities.Quaternion.CreateFromAxisAngle(
                     new Physics.BEPUutilities.Vector3(value.X, value.Y, value.Z), value.W);
@@ -273,7 +273,8 @@ namespace Byt3.Engine.Core
         {
             if (!Destroyed)
             {
-                Logger.Log(DebugChannel.Warning | DebugChannel.EngineCore, "Object " + Name + " was garbage collected. This can cause nullpointers.",
+                Logger.Log(DebugChannel.Warning | DebugChannel.EngineCore,
+                    "Object " + Name + " was garbage collected. This can cause nullpointers.",
                     10);
             }
         }
@@ -336,7 +337,7 @@ namespace Byt3.Engine.Core
                 {
                     ApplyRenderHierarchy(true);
                     ObjsWithAttachedRenderers.Add(this);
-                    RenderingComponent = (RenderingComponent)component;
+                    RenderingComponent = (RenderingComponent) component;
                 }
                 else if (component is Collider collider)
                 {
@@ -391,7 +392,8 @@ namespace Byt3.Engine.Core
         /// </summary>
         private void RemoveFromRenderLoop()
         {
-            Logger.Log(DebugChannel.Log | DebugChannel.EngineRendering, "Removing Object: " + Name + " from Rendering Loop",
+            Logger.Log(DebugChannel.Log | DebugChannel.EngineRendering,
+                "Removing Object: " + Name + " from Rendering Loop",
                 7);
             RemoveComponent(typeof(RenderingComponent));
             ObjsWithAttachedRenderers.Remove(this);
@@ -448,7 +450,7 @@ namespace Byt3.Engine.Core
             {
                 if (typeof(T).IsAssignableFrom(abstractComponent.Key))
                 {
-                    return (T)abstractComponent.Value;
+                    return (T) abstractComponent.Value;
                 }
             }
 
@@ -464,7 +466,7 @@ namespace Byt3.Engine.Core
         {
             if (components.ContainsKey(typeof(T)))
             {
-                return (T)components[typeof(T)];
+                return (T) components[typeof(T)];
             }
 
             return null;
@@ -533,7 +535,8 @@ namespace Byt3.Engine.Core
             {
                 ApplyRenderHierarchy(hasRenderer);
             }
-            else if (!hasRenderer && hasRendererInHierarchy) //A child removed a renderer and now we need to check if we can set the flag to false(if all the childs dont have renderers)
+            else if (!hasRenderer && hasRendererInHierarchy
+            ) //A child removed a renderer and now we need to check if we can set the flag to false(if all the childs dont have renderers)
             {
                 bool childhaveRenderers = false;
                 foreach (GameObject gameObject in children)

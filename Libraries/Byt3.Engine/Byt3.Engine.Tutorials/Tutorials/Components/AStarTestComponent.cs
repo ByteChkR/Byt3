@@ -17,22 +17,24 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
 {
     public class AStarTestComponent : AbstractComponent
     {
-        AiNode[,] Nodes; //Nodes we use
+        private AiNode[,] Nodes; //Nodes we use
         private Texture greenTex = TextureLoader.ColorToTexture(Color.Green); //Walkable Node
         private Texture redTex = TextureLoader.ColorToTexture(Color.Red); //"Wall" Node
         private Texture purpleTex = TextureLoader.ColorToTexture(Color.Purple); //Selected Path
+
         protected override void Awake()
         {
             Nodes = GenerateNodeGraph(16, 16); //Creating the Node Graph
 
 
-            Vector3 offset = new Vector3(-16, 0, -16); //Camera is looking down on Vector3.Zero. So we move the map under there
+            Vector3
+                offset = new Vector3(-16, 0,
+                    -16); //Camera is looking down on Vector3.Zero. So we move the map under there
             Random rnd = new Random();
             for (int i = 0; i < Nodes.GetLength(0); i++)
             {
                 for (int j = 0; j < Nodes.GetLength(1); j++)
                 {
-
                     GameObject box;
                     bool isBlocked = false;
 
@@ -45,11 +47,11 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                     {
                         box = CreateBox(new Vector3(i, 0, j) * 2 + offset, greenTex);
                     }
+
                     Nodes[i, j].Walkable = !isBlocked;
                     box.AddComponent(Nodes[i, j]); //Adding the AI Node to a Gameobject(so it can get the position)
                 }
             }
-
         }
 
         private GameObject CreateBox(Vector3 position, Texture tex)
@@ -77,11 +79,11 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
             {
                 for (int j = 0; j < length; j++)
                 {
-
-                    AiNode node = new AiNode(true);  //Just Filling the map
+                    AiNode node = new AiNode(true); //Just Filling the map
                     nodes[i, j] = node;
                 }
             }
+
             //Connecting Every node with its surrounding nodes including diagonals
             // N N N
             // N 0 N
@@ -111,6 +113,7 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
 
 
         //Taken from Raycasting Example
+
         #region Raycast
 
         private void ApplyTexture(LitMeshRendererComponent lmr, Texture tex)
@@ -129,7 +132,8 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
         private static bool ObjectUnderMouse(Vector3 cameraPosition, out KeyValuePair<Collider, RayHit> hit)
         {
             Ray r = ConstructRayFromMousePosition(cameraPosition);
-            bool ret = PhysicsEngine.RayCastFirst(r, 1000, LayerManager.NameToLayer("raycast"), out hit); //Here we are doing the raycast.
+            bool ret = PhysicsEngine.RayCastFirst(r, 1000, LayerManager.NameToLayer("raycast"),
+                out hit); //Here we are doing the raycast.
 
             return ret;
         }
@@ -137,7 +141,7 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
         private static Ray ConstructRayFromMousePosition(Vector3 localPosition)
         {
             Vector2 mpos = GameEngine.Instance.MousePosition;
-            Vector3 mousepos = GameEngine.Instance.ConvertScreenToWorldCoords((int)mpos.X, (int)mpos.Y);
+            Vector3 mousepos = GameEngine.Instance.ConvertScreenToWorldCoords((int) mpos.X, (int) mpos.Y);
             return new Ray(localPosition, (mousepos - localPosition).Normalized());
         }
 
@@ -147,9 +151,11 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
         private List<AiNode> path;
         private AiNode startNode;
         private AiNode endNode;
+
         protected override void Update(float deltaTime)
         {
-            if (ObjectUnderMouse(Owner.LocalPosition, out var hit)) //We Check where we clicked on
+            if (ObjectUnderMouse(Owner.LocalPosition, out KeyValuePair<Collider, RayHit> hit)
+            ) //We Check where we clicked on
             {
                 AiNode node = hit.Key.Owner.GetComponent<AiNode>();
                 if (node != null)
@@ -161,10 +167,11 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                         ApplyTexture(lmr, purpleTex);
                         if (startNode != null && startNode != node)
                         {
-                            ApplyTexture(startNode.Owner.GetComponent<LitMeshRendererComponent>(), startNode.Walkable ? greenTex : redTex);
+                            ApplyTexture(startNode.Owner.GetComponent<LitMeshRendererComponent>(),
+                                startNode.Walkable ? greenTex : redTex);
                         }
-                        startNode = node;
 
+                        startNode = node;
                     }
                     else if (Input.GetKey(Key.E)) //Setting the End Point
                     {
@@ -173,8 +180,10 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                         ApplyTexture(lmr, purpleTex);
                         if (endNode != null && endNode != node)
                         {
-                            ApplyTexture(endNode.Owner.GetComponent<LitMeshRendererComponent>(), endNode.Walkable ? greenTex : redTex);
+                            ApplyTexture(endNode.Owner.GetComponent<LitMeshRendererComponent>(),
+                                endNode.Walkable ? greenTex : redTex);
                         }
+
                         endNode = node;
                     }
                 }
@@ -213,11 +222,14 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
             {
                 if (startNode != null)
                 {
-                    ApplyTexture(startNode.Owner.GetComponent<LitMeshRendererComponent>(), startNode.Walkable ? greenTex : redTex);
+                    ApplyTexture(startNode.Owner.GetComponent<LitMeshRendererComponent>(),
+                        startNode.Walkable ? greenTex : redTex);
                 }
+
                 if (endNode != null)
                 {
-                    ApplyTexture(endNode.Owner.GetComponent<LitMeshRendererComponent>(), endNode.Walkable ? greenTex : redTex);
+                    ApplyTexture(endNode.Owner.GetComponent<LitMeshRendererComponent>(),
+                        endNode.Walkable ? greenTex : redTex);
                 }
 
                 startNode = endNode = null;
@@ -230,10 +242,9 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                         ApplyTexture(lmr, path[i].Walkable ? greenTex : redTex);
                     }
                 }
+
                 path = null;
             }
         }
-
-
     }
 }

@@ -134,6 +134,7 @@ namespace Byt3.Engine.Rendering
                 {
                     throw new Byt3Exception("Use of Disposed Font");
                 }
+
                 uint diff, spec, norm, hegt, unknown;
                 diff = spec = norm = hegt = unknown = 1;
                 bool hasSpec = false;
@@ -143,6 +144,7 @@ namespace Byt3.Engine.Rendering
                     {
                         continue;
                     }
+
                     if (Textures[i].IsDisposed)
                     {
                         throw new Byt3Exception("Use of Disposed Font");

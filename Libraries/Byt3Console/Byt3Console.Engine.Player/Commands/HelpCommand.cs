@@ -4,7 +4,6 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class HelpCommand : AbstractCommand
     {
-
         public static void Help(StartupArgumentInfo info, string[] args)
         {
             System.Console.WriteLine("Commands:");
@@ -14,9 +13,8 @@ namespace Byt3Console.Engine.Player.Commands
             }
         }
 
-        public HelpCommand() : base(Help, new[] { "--help", "-h", "-?" }, "Display this help message", false)
+        public HelpCommand() : base(Help, new[] {"--help", "-h", "-?"}, "Display this help message", false)
         {
-
         }
     }
 }

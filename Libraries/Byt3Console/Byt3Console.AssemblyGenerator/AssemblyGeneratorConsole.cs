@@ -18,7 +18,6 @@ namespace Byt3Console.AssemblyGenerator
 
         public override bool Run(string[] args)
         {
-
             Debug.DefaultInitialization();
             Runner.AddCommand(new DefaultCommand());
             Runner.AddCommand(new CreateCommand());

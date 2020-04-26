@@ -19,12 +19,13 @@ namespace Byt3.Engine.BuildTools.PackageCreator
     {
         public const string DefaultVersion = "v1";
 
-        private static readonly Dictionary<string, IPackageVersion> _packageVersions = new Dictionary<string, IPackageVersion>
-        {
-            {"legacy", new LegacyVersion()},
-            {"v1", new Version1()},
-            {"v2", new Version2()}
-        };
+        private static readonly Dictionary<string, IPackageVersion> _packageVersions =
+            new Dictionary<string, IPackageVersion>
+            {
+                {"legacy", new LegacyVersion()},
+                {"v1", new Version1()},
+                {"v2", new Version2()}
+            };
 
         public static bool HasManifest(string path)
         {
@@ -42,7 +43,6 @@ namespace Byt3.Engine.BuildTools.PackageCreator
         }
 
 
-
         public static IPackageManifest ReadManifest(string path)
         {
             ZipArchive archive = ZipFile.OpenRead(path);
@@ -55,7 +55,11 @@ namespace Byt3.Engine.BuildTools.PackageCreator
                 }
             }
 
-            if (path.EndsWith(".patch")) return null; //Patches CAN but DONT need a Manifest
+            if (path.EndsWith(".patch"))
+            {
+                return null; //Patches CAN but DONT need a Manifest
+            }
+
             throw new IOException("The file is not a supported format.");
         }
 
@@ -106,8 +110,6 @@ namespace Byt3.Engine.BuildTools.PackageCreator
 
         private static string UnpackForPatching(string mainFile)
         {
-
-
             string path = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
             Console.WriteLine("Creating Temp Folder: " + path);
             if (Directory.Exists(path))
@@ -121,7 +123,6 @@ namespace Byt3.Engine.BuildTools.PackageCreator
             ZipFile.ExtractToDirectory(mainFile, path);
 
             return path;
-
         }
 
         public static void ApplyPatches(string folder, string packageVersion)
@@ -140,6 +141,7 @@ namespace Byt3.Engine.BuildTools.PackageCreator
             MD5 _md5 = MD5.Create();
             return BitConverter.ToString(_md5.ComputeHash(content)).Replace("-", "");
         }
+
         private static bool IsFileDifferent(string file, string other)
         {
             Stream s1 = new FileStream(file, FileMode.Open);
@@ -152,8 +154,6 @@ namespace Byt3.Engine.BuildTools.PackageCreator
 
         public static List<string> CreateChangedFiles(string oldFile, string newFile, out string newFilePath)
         {
-
-
             Console.WriteLine($"Detecting File Changes between {oldFile} <=> {newFile}");
 
             string dirOld = UnpackForPatching(oldFile);
@@ -182,9 +182,6 @@ namespace Byt3.Engine.BuildTools.PackageCreator
             }
 
             return fileList;
-
-
-
         }
 
         public static void CreatePatchFromFolder(string folder, string output)
@@ -200,7 +197,11 @@ namespace Byt3.Engine.BuildTools.PackageCreator
             {
                 fileList[i] = fileList[i].Replace(workingDir + "\\", "");
             }
-            if (File.Exists(output)) File.Delete(output);
+
+            if (File.Exists(output))
+            {
+                File.Delete(output);
+            }
 
             Console.WriteLine("Creating Patch File");
             ZipFile.CreateFromDirectory(workingDir, output);
@@ -221,7 +222,6 @@ namespace Byt3.Engine.BuildTools.PackageCreator
 
             za.Dispose();
             packStream.Close();
-
         }
 
         public static void CreatePatchFromDelta(string oldFile, string newFile, string output)
@@ -232,7 +232,6 @@ namespace Byt3.Engine.BuildTools.PackageCreator
 
         public static void PatchPackagePermanent(string mainFile, string patchFile)
         {
-
             Console.WriteLine($"Permanently Applying {patchFile} to {mainFile}");
             string dirPath = UnpackForPatching(mainFile);
             IPackageManifest pm = ReadManifest(mainFile);
@@ -256,6 +255,7 @@ namespace Byt3.Engine.BuildTools.PackageCreator
             {
                 File.Delete(dirPath + "/patches/" + Path.GetFileName(patchFile));
             }
+
             File.Copy(patchFile, dirPath + "/patches/" + Path.GetFileName(patchFile));
 
             string p = Path.GetFullPath(mainFile);
@@ -268,18 +268,15 @@ namespace Byt3.Engine.BuildTools.PackageCreator
 
         public static void PatchFolder(string folder, string patchFile, string folderManifestVersion)
         {
-            
             Console.WriteLine($"Patching Folder {patchFile} => {folder}");
             using (ZipArchive zip1 = ZipFile.OpenRead(patchFile))
             {
                 for (int i = 0; i < zip1.Entries.Count; i++)
                 {
-
                     Console.WriteLine($"Patching File {zip1.Entries[i].FullName}");
                     zip1.Entries[i].ExtractToFile(folder + "/" + zip1.Entries[i].FullName, true);
                     // here, we extract every entry, but we could extract conditionally
                     // based on entry name, size, date, checkbox status, etc.  
-
                 }
             }
 

@@ -22,7 +22,8 @@ namespace Byt3.Engine.DataTypes
         /// </summary>
         /// <param name="textureId"></param>
         /// <param name="bytes">Size of the Texture(for statistics)</param>
-        internal Texture(int textureId, long bytes, bool isCopy, object handleIdentifier):base(isCopy, handleIdentifier)
+        internal Texture(int textureId, long bytes, bool isCopy, object handleIdentifier) : base(isCopy,
+            handleIdentifier)
         {
             this.bytes = bytes;
             TextureId = textureId;
@@ -50,6 +51,7 @@ namespace Byt3.Engine.DataTypes
                 {
                     throw new Byt3Exception("Use of Disposed Texture");
                 }
+
                 GL.BindTexture(TextureTarget.Texture2D, TextureId);
                 GL.GetTexLevelParameter(TextureTarget.Texture2D, 0, GetTextureParameter.TextureWidth, out float width);
                 GL.BindTexture(TextureTarget.Texture2D, 0);
@@ -68,6 +70,7 @@ namespace Byt3.Engine.DataTypes
                 {
                     throw new Byt3Exception("Use of Disposed Texture");
                 }
+
                 GL.BindTexture(TextureTarget.Texture2D, TextureId);
                 GL.GetTexLevelParameter(TextureTarget.Texture2D, 0, GetTextureParameter.TextureHeight,
                     out float height);
@@ -90,7 +93,6 @@ namespace Byt3.Engine.DataTypes
             }
 
             IsDisposed = true;
-
         }
 
         /// <summary>

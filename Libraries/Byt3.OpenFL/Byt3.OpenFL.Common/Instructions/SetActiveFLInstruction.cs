@@ -32,7 +32,6 @@ namespace Byt3.OpenFL.Common.Instructions
 
                     if (Arguments[i].Type == FLInstructionArgumentType.Function)
                     {
-
                         //FLBuffer buffer =
                         //    Root.RegisterUnmanagedBuffer(new FLBuffer(Root.Instance, Root.Dimensions.x,
                         //        Root.Dimensions.y, "FunctionInputBuffer_Registered"));
@@ -52,7 +51,7 @@ namespace Byt3.OpenFL.Common.Instructions
                         FLBuffer buffer =
                             Root.RegisterUnmanagedBuffer(new FLBuffer(Root.Instance, Root.Dimensions.x,
                                 Root.Dimensions.y, "FunctionInputBuffer_Registered"));
-                        FLFunction source = (FLFunction)Arguments[i].Value;
+                        FLFunction source = (FLFunction) Arguments[i].Value;
 
 
                         Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);

@@ -18,7 +18,10 @@ namespace Byt3.Utilities.ManifestIO
             IOManager.SetIOCallback(new EmbeddedFileIOManager());
         }
 
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(new ProjectDebugConfig("File IOManager", -1, 2, PrefixLookupSettings.AddPrefixIfAvailable));
+        private static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(new ProjectDebugConfig("File IOManager", -1, 2,
+                PrefixLookupSettings.AddPrefixIfAvailable));
+
         /// <summary>
         /// Returns true if the file exists on either the disk or in the assembly
         /// </summary>

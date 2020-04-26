@@ -10,33 +10,30 @@ using Byt3.Engine.BuildTools.Common;
 
 namespace Byt3.Engine.BuildTools
 {
-
-    
-
     /// <summary>
     /// Class Containing the Building Logic that is used in the CLI and GUI Wrappers
     /// </summary>
     public static class Builder
     {
         private static bool IsWindows => Type.GetType("Mono.Runtime") == null;
+
         public static BuildSettings LoadSettings(string path)
         {
             XmlSerializer xs = new XmlSerializer(typeof(BuildSettings));
             FileStream fs = new FileStream(path, FileMode.Open);
-            BuildSettings bs = (BuildSettings)xs.Deserialize(fs);
+            BuildSettings bs = (BuildSettings) xs.Deserialize(fs);
             fs.Close();
             return bs;
         }
 
         public static bool RunCommand(string args)
         {
-           return  RunCommand(args.Split(' '));
+            return RunCommand(args.Split(' '));
         }
 
 
         public static bool RunCommand(string[] args)
         {
-
             Console.WriteLine("Windows: " + IsWindows);
             Runner.AddAssembly(Assembly.GetExecutingAssembly());
             //Command def = Command.CreateCommand(BuildWithXML, "--xml <Path/To/File.xml>", "--xml");
@@ -60,9 +57,8 @@ namespace Byt3.Engine.BuildTools
 
 
             return Runner.RunCommands(args);
-
         }
-        
+
 
         public static void BuildProject(string filepath)
         {
@@ -103,18 +99,18 @@ namespace Byt3.Engine.BuildTools
             char separator = '+')
         {
             AssetPackageInfo info = new AssetPackageInfo();
-            List<string> unpackExts = unpackedFileExts.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries)
+            List<string> unpackExts = unpackedFileExts.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries)
                 .ToList();
             for (int i = 0; i < unpackExts.Count; i++)
             {
-                info.FileInfos.Add(unpackExts[i], new AssetFileInfo { PackageType = AssetPackageType.Unpack });
+                info.FileInfos.Add(unpackExts[i], new AssetFileInfo {PackageType = AssetPackageType.Unpack});
             }
 
             List<string> packExts = memoryFileExts.Split("+".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                 .ToList();
             for (int i = 0; i < packExts.Count; i++)
             {
-                info.FileInfos.Add(packExts[i], new AssetFileInfo { PackageType = AssetPackageType.Memory });
+                info.FileInfos.Add(packExts[i], new AssetFileInfo {PackageType = AssetPackageType.Memory});
             }
 
             return info;

@@ -14,6 +14,7 @@ namespace Byt3.Engine.Rendering
     public class RenderTargetMergeStage : IDisposable
     {
         private bool isDisposed;
+
         public void Dispose()
         {
             isDisposed = true;
@@ -25,6 +26,7 @@ namespace Byt3.Engine.Rendering
             {
                 shaderProgram.Value.Dispose();
             }
+
             _mergeTypes.Clear();
             _init = false;
             _isOne = false;
@@ -94,7 +96,7 @@ namespace Byt3.Engine.Rendering
             GL.BindVertexArray(_screenVao);
             GL.BindBuffer(BufferTarget.ArrayBuffer, screenVbo);
 
-            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(_screenQuadVertexData.Length * sizeof(float)),
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr) (_screenQuadVertexData.Length * sizeof(float)),
                 _screenQuadVertexData, BufferUsageHint.StaticDraw);
             GL.EnableVertexAttribArray(0);
             GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), IntPtr.Zero);
@@ -151,11 +153,11 @@ namespace Byt3.Engine.Rendering
             {
                 throw new Byt3Exception("Use of Disposed RenderMergeStage");
             }
+
             if (!_init)
             {
                 Init();
             }
-
 
 
             MemoryTracer.AddSubStage("Merge Framebuffers");
@@ -197,8 +199,6 @@ namespace Byt3.Engine.Rendering
 
 
                 Ping();
-
-
             }
 
             MemoryTracer.ReturnFromSubStage();

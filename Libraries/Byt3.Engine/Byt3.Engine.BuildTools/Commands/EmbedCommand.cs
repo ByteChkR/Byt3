@@ -16,14 +16,14 @@ namespace Byt3.Engine.BuildTools.Commands
             }
             catch (Exception e)
             {
-
                 throw new ApplicationException("Input Error", e);
             }
         }
 
-        public EmbedCommand() : base(EmbedFiles, new[] { "--embed", "-e" }, "--embed <Path/To/CSProj/File> <Folder/To/Embed>\nEmbeds the files in the specified folder into the .csproj file of the game project.", false)
+        public EmbedCommand() : base(EmbedFiles, new[] {"--embed", "-e"},
+            "--embed <Path/To/CSProj/File> <Folder/To/Embed>\nEmbeds the files in the specified folder into the .csproj file of the game project.",
+            false)
         {
-
         }
     }
 }

@@ -12,7 +12,10 @@ namespace Byt3.OpenFL.Common.ProgramChecks
         private bool ParseCreatorSig(string sig, out List<InstructionArgumentSignature> ret)
         {
             ret = new List<InstructionArgumentSignature>();
-            if (sig == null) return false;
+            if (sig == null)
+            {
+                return false;
+            }
 
             string[] overloads = sig.Split('|');
 
@@ -23,27 +26,31 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                 {
                     signature.Add(SerializableFLInstructionArgument.Parse(overload[i]));
                 }
-                ret.Add(new InstructionArgumentSignature() { Signature = signature });
+
+                ret.Add(new InstructionArgumentSignature() {Signature = signature});
             }
+
             return true;
         }
 
 
         public override object Process(object o)
         {
-            SerializableFLProgram input = (SerializableFLProgram)o;
+            SerializableFLProgram input = (SerializableFLProgram) o;
             foreach (SerializableFLFunction serializableFlFunction in input.Functions)
             {
                 foreach (SerializableFLInstruction serializableFlInstruction in serializableFlFunction.Instructions)
                 {
-
                     FLInstructionCreator creator = InstructionSet.GetCreator(serializableFlInstruction);
 
-                    bool hasDefinedSig = ParseCreatorSig(creator.GetArgumentSignatureForInstruction(serializableFlInstruction),
+                    bool hasDefinedSig = ParseCreatorSig(
+                        creator.GetArgumentSignatureForInstruction(serializableFlInstruction),
                         out List<InstructionArgumentSignature> creatorSigs);
                     if (!hasDefinedSig)
                     {
-                        Logger.Log(LogType.Warning, "FL Creator: " + creator.GetType().Name + " has no Argument Signatures defined. Skipping.", 1);
+                        Logger.Log(LogType.Warning,
+                            "FL Creator: " + creator.GetType().Name + " has no Argument Signatures defined. Skipping.",
+                            1);
                         continue;
                     }
 

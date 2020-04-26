@@ -61,7 +61,7 @@ namespace Byt3.Serialization
 
             if (Serializers.ContainsKey(type))
             {
-                System.Console.WriteLine("");
+                Console.WriteLine("");
             }
 
             object key = BaseSerializer.GetKey(type);

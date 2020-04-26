@@ -9,7 +9,11 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
         public bool Compare(List<InstructionArgumentCategory> sig)
         {
-            if (sig.Count != Signature.Count) return false;
+            if (sig.Count != Signature.Count)
+            {
+                return false;
+            }
+
             bool matches = true;
 
             for (int i = 0; i < sig.Count; i++)
@@ -22,12 +26,17 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
         public override string ToString()
         {
-            if (Signature.Count == 0) return "NoSignature";
+            if (Signature.Count == 0)
+            {
+                return "NoSignature";
+            }
+
             string ret = "";
             for (int i = 0; i < Signature.Count; i++)
             {
                 ret += Signature[i] + "; ";
             }
+
             return ret;
         }
     }

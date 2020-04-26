@@ -17,11 +17,19 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 
         public override string GetArgumentSignatureForInstruction(SerializableFLInstruction instruction)
         {
-            if (!KernelList.TryGetClKernel(instruction.InstructionKey, out CLKernel kernel)) return null;
+            if (!KernelList.TryGetClKernel(instruction.InstructionKey, out CLKernel kernel))
+            {
+                return null;
+            }
+
             char[] arg = new char[kernel.Parameter.Count - KernelFLInstruction.FL_HEADER_ARG_COUNT];
             foreach (KeyValuePair<string, KernelParameter> kernelParameter in kernel.Parameter)
             {
-                if (kernelParameter.Value.Id < KernelFLInstruction.FL_HEADER_ARG_COUNT) continue;
+                if (kernelParameter.Value.Id < KernelFLInstruction.FL_HEADER_ARG_COUNT)
+                {
+                    continue;
+                }
+
                 if (kernelParameter.Value.IsArray)
                 {
                     arg[kernelParameter.Value.Id - KernelFLInstruction.FL_HEADER_ARG_COUNT] = 'E';

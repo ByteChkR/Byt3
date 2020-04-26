@@ -4,7 +4,8 @@ namespace Byt3.CommandRunner
 {
     public class DefaultHelpCommand : AbstractCommand
     {
-        public DefaultHelpCommand(bool defaultCommand = false) : base(new[] {"--help", "-h", "-?"}, "Prints this help text", defaultCommand)
+        public DefaultHelpCommand(bool defaultCommand = false) : base(new[] {"--help", "-h", "-?"},
+            "Prints this help text", defaultCommand)
         {
             CommandAction = (info, strings) => DefaultHelp();
         }

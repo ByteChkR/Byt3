@@ -22,7 +22,8 @@ namespace Byt3.Engine.UI
     /// </summary>
     public class FontLibrary : IDisposable
     {
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "FontLibrary");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "FontLibrary");
 
         /// <summary>
         /// Table of game fonts
@@ -146,20 +147,20 @@ namespace Byt3.Engine.UI
                     data = bmp.LockBits(new Rectangle(0, 0, g.RenderWidth, g.RenderHeight),
                         ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                    Texture tex = TextureLoader.ParameterToTexture(bmp.Width, bmp.Height, fontName + "+" + (char)i);
+                    Texture tex = TextureLoader.ParameterToTexture(bmp.Width, bmp.Height, fontName + "+" + (char) i);
                     glTex = tex;
                     GL.BindTexture(TextureTarget.Texture2D, tex.TextureId);
 
                     GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.R8, g.RenderWidth, g.RenderHeight,
                         0, PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
                     GL.TextureParameter(tex.TextureId, TextureParameterName.TextureWrapS,
-                        (int)TextureWrapMode.ClampToEdge);
+                        (int) TextureWrapMode.ClampToEdge);
                     GL.TextureParameter(tex.TextureId, TextureParameterName.TextureWrapT,
-                        (int)TextureWrapMode.ClampToEdge);
+                        (int) TextureWrapMode.ClampToEdge);
                     GL.TextureParameter(tex.TextureId, TextureParameterName.TextureMinFilter,
-                        (int)TextureMinFilter.Linear);
+                        (int) TextureMinFilter.Linear);
                     GL.TextureParameter(tex.TextureId, TextureParameterName.TextureMagFilter,
-                        (int)TextureMagFilter.Linear);
+                        (int) TextureMagFilter.Linear);
 
                     bmp.UnlockBits(data);
                 }
@@ -177,7 +178,7 @@ namespace Byt3.Engine.UI
                     BearingX = g.HorizontalMetrics.Bearing.X,
                     BearingY = g.HorizontalMetrics.Bearing.Y
                 };
-                fontAtlas.Add((char)i, c);
+                fontAtlas.Add((char) i, c);
             }
 
             GameFont font = new GameFont(ff, pixelSize, fontAtlas);
@@ -247,6 +248,7 @@ namespace Byt3.Engine.UI
             {
                 keyValuePair.Value.Item2.Dispose();
             }
+
             fonts.Clear();
         }
     }

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
 using Byt3.CommandRunner;
 using Byt3.Engine.BuildTools.Common;
@@ -27,7 +26,7 @@ namespace Byt3.Engine.BuildTools.Commands
                     Directory.Delete(projectFolder + "/obj", true);
                 }
 
-                Byt3.Engine.BuildTools.Builder.BuildProject(args[0]);
+                Builder.BuildProject(args[0]);
 
 
                 //Making sure that the root path Path is existing
@@ -44,14 +43,14 @@ namespace Byt3.Engine.BuildTools.Commands
             }
             catch (Exception e)
             {
-
                 throw new ApplicationException("Input Error", e);
             }
         }
 
-        public BuildCommand() : base(Build, new[] { "--build", "-b" }, "--build <Path/To/CSProj/File> <OutputDirectory>\nBuilds the Specified csproj file and moves all output to the output folder.", false)
+        public BuildCommand() : base(Build, new[] {"--build", "-b"},
+            "--build <Path/To/CSProj/File> <OutputDirectory>\nBuilds the Specified csproj file and moves all output to the output folder.",
+            false)
         {
-
         }
     }
 }

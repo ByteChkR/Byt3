@@ -9,6 +9,7 @@
         /// File will be only kept in memory
         /// </summary>
         Memory,
+
         /// <summary>
         /// File will be written to disk in the initialization
         /// </summary>

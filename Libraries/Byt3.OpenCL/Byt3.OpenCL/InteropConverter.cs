@@ -57,7 +57,7 @@ namespace Byt3.OpenCL
                 lock (ConverterMap)
                 {
                     ConverterMap.Add(targetType,
-                        dataToConvert => converterMethodInfo.Invoke(null, new object[] { dataToConvert }));
+                        dataToConvert => converterMethodInfo.Invoke(null, new object[] {dataToConvert}));
                 }
             }
 

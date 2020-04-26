@@ -24,7 +24,7 @@ namespace Byt3.OpenFL.Tests
 
         private void InitializeTargets()
         {
-            Targets=new List<PerformanceTarget>();
+            Targets = new List<PerformanceTarget>();
             Directory.CreateDirectory(TARGET_DIRECTORY);
             string[] files = Directory.GetFiles(TARGET_DIRECTORY, "*.xml", SearchOption.AllDirectories);
             XmlSerializer xs = new XmlSerializer(typeof(PerformanceTarget));
@@ -34,7 +34,7 @@ namespace Byt3.OpenFL.Tests
                 try
                 {
                     s = File.OpenRead(files[i]);
-                    Targets.Add((PerformanceTarget)xs.Deserialize(s));
+                    Targets.Add((PerformanceTarget) xs.Deserialize(s));
                     s.Close();
                 }
                 catch (Exception)
@@ -49,7 +49,7 @@ namespace Byt3.OpenFL.Tests
             Stream s = null;
             try
             {
-                s = File.Create(Path.Combine(TARGET_DIRECTORY, target.TestName+".xml"));
+                s = File.Create(Path.Combine(TARGET_DIRECTORY, target.TestName + ".xml"));
                 XmlSerializer xs = new XmlSerializer(typeof(PerformanceTarget));
                 xs.Serialize(s, target);
                 s.Close();
@@ -60,13 +60,19 @@ namespace Byt3.OpenFL.Tests
             }
         }
 
-        public bool MatchesTarget(string nameOfTest, decimal value, out decimal deltaFromTarget, out decimal targetActual)
+        public bool MatchesTarget(string nameOfTest, decimal value, out decimal deltaFromTarget,
+            out decimal targetActual)
         {
-            if (!Initialized) InitializeTargets();
+            if (!Initialized)
+            {
+                InitializeTargets();
+            }
+
             PerformanceTarget target = Targets.FirstOrDefault(x => x.TestName == nameOfTest);
             if (target == null)
             {
-                target = new PerformanceTarget { TestName = nameOfTest , Target = value, Variance = value/2, LowerIsBetter = true};
+                target = new PerformanceTarget
+                    {TestName = nameOfTest, Target = value, Variance = value / 2, LowerIsBetter = true};
                 Targets.Add(target);
                 WriteTarget(target);
                 targetActual = value;
@@ -85,12 +91,12 @@ namespace Byt3.OpenFL.Tests
             {
                 targetAndVariance = target.Target - target.Variance;
             }
+
             deltaFromTarget = target.Target - value;
-            
+
 
             return (!target.LowerIsBetter || targetAndVariance >= value) &&
                    (target.LowerIsBetter || targetAndVariance <= value);
         }
-
     }
 }

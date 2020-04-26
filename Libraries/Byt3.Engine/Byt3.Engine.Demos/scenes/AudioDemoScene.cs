@@ -17,11 +17,8 @@ namespace Byt3.Engine.Demos.scenes
         private GameObject sourceCube;
 
 
-
         protected override void InitializeScene()
         {
-
-
             Add(DebugConsoleComponent.CreateConsole());
 
             GameObject bgObj = new GameObject(Vector3.UnitY * -3, "BG");
@@ -39,7 +36,7 @@ namespace Byt3.Engine.Demos.scenes
             c.AddComponent(camLookCommandComponent);
 
             sourceCube = new GameObject(Vector3.UnitZ * -5, "Audio Source");
-            
+
             AudioSourceComponent source = new AudioSourceComponent();
             sourceCube.AddComponent(source);
             sourceCube.AddComponent(new RotateAroundComponent());

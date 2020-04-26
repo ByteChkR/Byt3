@@ -6,13 +6,11 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class PatchCommand : AbstractCommand
     {
-
         private static void PatchPackage(StartupArgumentInfo info, string[] args)
         {
             if (args.Length != 2)
             {
                 throw new ApplicationException("Invalid Input");
-
             }
 
             try
@@ -24,9 +22,10 @@ namespace Byt3.Engine.BuildTools.Commands
                 throw new ApplicationException("Input Error", e);
             }
         }
-        public PatchCommand() : base(PatchPackage, new[] { "--patch", "-p" }, "--patch <targetFile> <patchFile>\nApplies the patch to the file.", false)
-        {
 
+        public PatchCommand() : base(PatchPackage, new[] {"--patch", "-p"},
+            "--patch <targetFile> <patchFile>\nApplies the patch to the file.", false)
+        {
         }
     }
 }

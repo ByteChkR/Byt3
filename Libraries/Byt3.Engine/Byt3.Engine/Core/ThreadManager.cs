@@ -10,6 +10,7 @@ namespace Byt3.Engine.Core
         /// A List of all Running Tasks
         /// </summary>
         public List<TaskReference<T>> RunningTasks = new List<TaskReference<T>>();
+
         /// <summary>
         /// The Type of the TheadManager
         /// to comply with the IThreadManager Interface
@@ -63,6 +64,7 @@ namespace Byt3.Engine.Core
             ThreadManager<T> manager = GetManager<T>();
             manager.RunTask(CreateTask(task, onFinish));
         }
+
         /// <summary>
         /// Runs a Task on a different thread
         /// </summary>

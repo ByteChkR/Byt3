@@ -2,7 +2,6 @@
 
 namespace Byt3.Engine.Exceptions
 {
-
     /// <summary>
     /// This Exception occurs when the FLInterpreter is not able to find the argument type through deduction
     /// </summary>

@@ -4,7 +4,7 @@ using Byt3.Engine.BuildTools.PackageCreator;
 
 namespace Byt3.Engine.BuildTools.Commands
 {
-    public class CreatePatchDeltaCommand :AbstractCommand
+    public class CreatePatchDeltaCommand : AbstractCommand
     {
         private static void CreatePatchDelta(StartupArgumentInfo info, string[] args)
         {
@@ -22,9 +22,10 @@ namespace Byt3.Engine.BuildTools.Commands
                 throw new ApplicationException("Input Error", e);
             }
         }
-        public CreatePatchDeltaCommand() : base(CreatePatchDelta, new[] { "--create-patch-delta", "-cdpatch" }, "--create-patch-delta <oldFile> <newFile> <destinationFile>", false)
-        {
 
+        public CreatePatchDeltaCommand() : base(CreatePatchDelta, new[] {"--create-patch-delta", "-cdpatch"},
+            "--create-patch-delta <oldFile> <newFile> <destinationFile>", false)
+        {
         }
     }
 }

@@ -10,7 +10,9 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
     ///</summary>
     public struct PairSimplex
     {
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "Physics");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "Physics");
+
         ///<summary>
         /// The baseline amount that a GJK iteration must progress through to avoid exiting.
         /// Defaults to 1e-8f.
@@ -931,19 +933,19 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
 
                     if (Vector3.Distance(SimplexA.B - SimplexB.B, B) > .0001f)
                     {
-                        Logger.Log( DebugChannel.Log | DebugChannel.Physics, "break.", 3);
+                        Logger.Log(DebugChannel.Log | DebugChannel.Physics, "break.", 3);
                     }
 
                     break;
                 case SimplexState.Triangle:
                     if (Vector3.Distance(SimplexA.A - SimplexB.A, A) > .0001f)
                     {
-                        Logger.Log( DebugChannel.Log | DebugChannel.Physics, "break.", 3);
+                        Logger.Log(DebugChannel.Log | DebugChannel.Physics, "break.", 3);
                     }
 
                     if (Vector3.Distance(SimplexA.B - SimplexB.B, B) > .0001f)
                     {
-                        Logger.Log( DebugChannel.Log | DebugChannel.Physics, "break.", 3);
+                        Logger.Log(DebugChannel.Log | DebugChannel.Physics, "break.", 3);
                     }
 
                     if (Vector3.Distance(SimplexA.C - SimplexB.C, C) > .0001f)
@@ -956,12 +958,12 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
                 case SimplexState.Tetrahedron:
                     if (Vector3.Distance(SimplexA.A - SimplexB.A, A) > .0001f)
                     {
-                        Logger.Log( DebugChannel.Log | DebugChannel.Physics, "break.", 3);
+                        Logger.Log(DebugChannel.Log | DebugChannel.Physics, "break.", 3);
                     }
 
                     if (Vector3.Distance(SimplexA.B - SimplexB.B, B) > .0001f)
                     {
-                        Logger.Log( DebugChannel.Log | DebugChannel.Physics, "break.", 3);
+                        Logger.Log(DebugChannel.Log | DebugChannel.Physics, "break.", 3);
                     }
 
                     if (Vector3.Distance(SimplexA.C - SimplexB.C, C) > .0001f)
@@ -971,7 +973,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms.GJK
 
                     if (Vector3.Distance(SimplexA.D - SimplexB.D, D) > .0001f)
                     {
-                        Logger.Log( DebugChannel.Log | DebugChannel.Physics, "break.", 3);
+                        Logger.Log(DebugChannel.Log | DebugChannel.Physics, "break.", 3);
                     }
 
                     break;

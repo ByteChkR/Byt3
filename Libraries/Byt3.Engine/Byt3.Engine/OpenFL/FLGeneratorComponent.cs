@@ -110,7 +110,7 @@ namespace Byt3.Engine.OpenFL
         /// </summary>
         protected override void Awake()
         {
-            Tex = TextureLoader.ParameterToTexture(width, height ,"FLGeneratorMainTexture");
+            Tex = TextureLoader.ParameterToTexture(width, height, "FLGeneratorMainTexture");
             SpecularTex = TextureLoader.ParameterToTexture(width, height, "FLGeneratorSpecularTexture");
             SpecularTex.TexType = TextureType.Specular;
             for (int i = 0; i < previews.Count; i++)
@@ -160,8 +160,9 @@ namespace Byt3.Engine.OpenFL
             };
             MemoryBuffer b = TextureLoader.TextureToMemoryBuffer(CLAPI.MainThread, Tex, "BufferFromFLResult");
 
-            byte[] buf = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, b, (int)b.Size);
-            FlScriptExecutionContext exec = new FlScriptExecutionContext(filename, buf, (int)Tex.Width, (int)Tex.Height, program => OnFinishCallback(program, otherTex));
+            byte[] buf = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, b, (int) b.Size);
+            FlScriptExecutionContext exec = new FlScriptExecutionContext(filename, buf, (int) Tex.Width,
+                (int) Tex.Height, program => OnFinishCallback(program, otherTex));
 
             flRunner.Enqueue(exec);
             flRunner.Process();
@@ -173,14 +174,16 @@ namespace Byt3.Engine.OpenFL
             {
                 if (!obj.HasBufferWithName(keyValuePair.Key))
                 {
-                    Logger.Log(DebugChannel.OpenFL | DebugChannel.Warning, "Can not Find Buffer with Name: " + keyValuePair.Key, 1);
+                    Logger.Log(DebugChannel.OpenFL | DebugChannel.Warning,
+                        "Can not Find Buffer with Name: " + keyValuePair.Key, 1);
                     continue;
                 }
 
-                FLBuffer buf = obj.GetBufferWithName(keyValuePair.Key, false); //The buffer will get cleaned up when the program gets disposed.
+                FLBuffer
+                    buf = obj.GetBufferWithName(keyValuePair.Key,
+                        false); //The buffer will get cleaned up when the program gets disposed.
                 keyValuePair.Value.UpdateTexture(obj.Instance, buf.Buffer, buf.Width, buf.Height);
             }
         }
-
     }
 }

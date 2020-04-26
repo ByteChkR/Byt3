@@ -19,12 +19,12 @@ namespace Byt3.Engine.Tutorials.Tutorials
 {
     public class FLScene : AbstractScene
     {
-
         private FLInstructionSet iset;
         private BufferCreator creator;
         private FLProgramCheckBuilder checkPipeline;
         private FLParser parser;
-        private Texture tex = TextureLoader.ParameterToTexture(128,128, "FLScene+TextureForFLProgram");
+        private Texture tex = TextureLoader.ParameterToTexture(128, 128, "FLScene+TextureForFLProgram");
+
         protected override void InitializeScene()
         {
             creator = BufferCreator.CreateWithBuiltInTypes();
@@ -35,7 +35,7 @@ namespace Byt3.Engine.Tutorials.Tutorials
 
             Add(DebugConsoleComponent.CreateConsole());
             Matrix4 proj = Matrix4.CreatePerspectiveFieldOfView(
-                MathHelper.DegreesToRadians(75f),  //Field of View Vertical
+                MathHelper.DegreesToRadians(75f), //Field of View Vertical
                 16f / 9f, //Aspect Ratio
                 0.1f, //Near Plane
                 1000f); //Far Plane
@@ -43,10 +43,6 @@ namespace Byt3.Engine.Tutorials.Tutorials
             BasicCamera bc = new BasicCamera(proj, Vector3.Zero);
             Add(bc); //Adding the BasicCamera(That is a gameobject under the hood) to the scene to receive events
             SetCamera(bc); //Sets the Camera as the "active" camera that the scene will be rendered from.
-
-
-            
-
 
 
             GameObject box = new GameObject(-Vector3.UnitZ * 4, "Box"); //Creating a new Empty GameObject
@@ -60,8 +56,9 @@ namespace Byt3.Engine.Tutorials.Tutorials
             Add(box); //Adding the Object to the Scene.
 
 
-
-            FLBuffer buffer = new FLBuffer(TextureLoader.TextureToMemoryBuffer(CLAPI.MainThread, tex, "BufferForFLProgram"), 128, 128);
+            FLBuffer buffer =
+                new FLBuffer(TextureLoader.TextureToMemoryBuffer(CLAPI.MainThread, tex, "BufferForFLProgram"), 128,
+                    128);
 
 
             FLProgram program = parser.Process(new FLParserInput("assets/filter/red.fl")).Initialize(iset);
@@ -70,15 +67,10 @@ namespace Byt3.Engine.Tutorials.Tutorials
             program.Run(CLAPI.MainThread, buffer, true);
 
             FLBuffer result = program.GetActiveBuffer(false);
-            byte[] dat = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int)result.Buffer.Size);
+            byte[] dat = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int) result.Buffer.Size);
             //Create a texture from the output.
             TextureLoader.Update(tex, dat, 128, 128);
             result.Dispose();
-
-
-
-
-
         }
     }
 }

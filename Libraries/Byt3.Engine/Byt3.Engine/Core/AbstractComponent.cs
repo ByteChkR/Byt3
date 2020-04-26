@@ -14,15 +14,12 @@ namespace Byt3.Engine.Core
     /// </summary>
     public abstract class AbstractComponent : ALoggable<DebugChannel>, IDestroyable
     {
-
         protected AbstractComponent() : base(EngineDebugConfig.Settings)
         {
-
         }
 
         protected AbstractComponent(ProjectDebugConfig config) : base(config)
         {
-
         }
 
         /// <summary>
@@ -54,7 +51,8 @@ namespace Byt3.Engine.Core
             {
                 return;
             }
-            Logger.Log(DebugChannel.EngineCore | DebugChannel.Log, $"Adding {this} to Remove List",  7);
+
+            Logger.Log(DebugChannel.EngineCore | DebugChannel.Log, $"Adding {this} to Remove List", 7);
             DestructionPending = true;
         }
 

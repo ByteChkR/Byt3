@@ -21,7 +21,8 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
 
         private bool red = true;
 
-        FLScriptRunner flRunner = new FlMultiThreadScriptRunner(null, DataVectorTypes.Uchar1, "assets/kernel/");
+        private FLScriptRunner flRunner = new FlMultiThreadScriptRunner(null, DataVectorTypes.Uchar1, "assets/kernel/");
+
         public KeyTriggerComponent(Texture tex, Texture tex2)
         {
             _tex = tex;
@@ -47,11 +48,11 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                     //In This example we could also use "in" as a key,
                     //but this can be wrong at times when the fl execution context starts with a different input texture
                     //than output texture
-                    {"in", _tex }
+                    {"in", _tex}
                 };
                 Dictionary<string, Texture> texMap2 = new Dictionary<string, Texture>
                 {
-                    {"in", _tex2 }
+                    {"in", _tex2}
                 };
 
                 //We change the color every enqueue, to be able to see the change
@@ -62,22 +63,26 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                 byte[] texBuf = TextureLoader.TextureToByteArray(_tex);
                 byte[] tex2Buf = TextureLoader.TextureToByteArray(_tex2);
                 //Creating the Execution Context
-                
-                FlScriptExecutionContext fle = new FlScriptExecutionContext(path, texBuf, (int)_tex.Width, (int)_tex.Height, program => OnFinishCallback(program, texMap));
-                FlScriptExecutionContext fle2 = new FlScriptExecutionContext(path, tex2Buf, (int)_tex2.Width, (int)_tex2.Height, program => OnFinishCallback(program, texMap2));
-                
+
+                FlScriptExecutionContext fle = new FlScriptExecutionContext(path, texBuf, (int) _tex.Width,
+                    (int) _tex.Height, program => OnFinishCallback(program, texMap));
+                FlScriptExecutionContext fle2 = new FlScriptExecutionContext(path, tex2Buf, (int) _tex2.Width,
+                    (int) _tex2.Height, program => OnFinishCallback(program, texMap2));
+
                 //Enqueuing the Contexts
                 flRunner.Enqueue(fle);
                 flRunner.Enqueue(fle2);
 
 
-                Logger.Log(DebugChannel.Log | DebugChannel.GameOpenFL, "Enqueued 2 Items. Items In Queue: " + flRunner.ItemsInQueue, 1);
+                Logger.Log(DebugChannel.Log | DebugChannel.GameOpenFL,
+                    "Enqueued 2 Items. Items In Queue: " + flRunner.ItemsInQueue, 1);
             }
 
             if (e.Key == Key.Enter && flRunner.ItemsInQueue != 0) //When we press enter we will process our queue.
             {
                 flRunner.Process();
             }
+
             base.OnKeyDown(sender, e);
         }
 
@@ -90,7 +95,8 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
             {
                 if (!obj.HasBufferWithName(keyValuePair.Key))
                 {
-                    Logger.Log(DebugChannel.OpenFL | DebugChannel.Warning, "Can not Find Buffer with Name: " + keyValuePair.Key, 1);
+                    Logger.Log(DebugChannel.OpenFL | DebugChannel.Warning,
+                        "Can not Find Buffer with Name: " + keyValuePair.Key, 1);
                     continue;
                 }
 

@@ -18,7 +18,9 @@ namespace Byt3.Engine.Rendering
     /// </summary>
     public class ShaderProgram : IDisposable
     {
-        private static readonly ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "ShaderProgram");
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "ShaderProgram");
+
         private static int _lastUsedPrgId = -1;
         private bool isDisposed;
 
@@ -118,7 +120,8 @@ namespace Byt3.Engine.Rendering
                 TextReader tr = new StreamReader(s);
                 string dirName = Path.GetDirectoryName(subshader.Value);
                 StringBuilder src = new StringBuilder();
-                string[] lines = TextProcessorAPI.PreprocessLines(tr.ReadToEnd().Replace("\r", "").Split('\n'), dirName, null);
+                string[] lines =
+                    TextProcessorAPI.PreprocessLines(tr.ReadToEnd().Replace("\r", "").Split('\n'), dirName, null);
                 tr.Close();
                 for (int i = 0; i < lines.Length; i++)
                 {
@@ -161,6 +164,7 @@ namespace Byt3.Engine.Rendering
             {
                 throw new Byt3Exception("Use of Disposed Shader");
             }
+
             int loc = GL.GetAttribLocation(prgId, name);
             return loc;
         }
@@ -175,10 +179,12 @@ namespace Byt3.Engine.Rendering
             {
                 return;
             }
+
             if (isDisposed)
             {
                 throw new Byt3Exception("Use of Disposed Shader");
             }
+
             int loc = GL.GetUniformLocation(prgId, name);
             uniformCache.Add(name, loc);
         }
@@ -194,6 +200,7 @@ namespace Byt3.Engine.Rendering
             {
                 throw new Byt3Exception("Use of Disposed Shader");
             }
+
             return uniformCache[name];
             //int loc = GL.GetUniformLocation(_prgId, name);
             //uniformCache.Add(name, loc);
@@ -211,6 +218,7 @@ namespace Byt3.Engine.Rendering
             {
                 throw new Byt3Exception("Use of Disposed Shader");
             }
+
             return GL.GetUniformLocation(prgId, name);
         }
 
@@ -236,6 +244,5 @@ namespace Byt3.Engine.Rendering
 
             return true;
         }
-
     }
 }

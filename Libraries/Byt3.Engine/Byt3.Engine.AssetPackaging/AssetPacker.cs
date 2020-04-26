@@ -15,7 +15,8 @@ namespace Byt3.Engine.AssetPackaging
         public static int PackSize => Kilobyte * MaxsizeKilobytes;
 
         public static AssetResult
-            PackAssets(string assetFolder, string outputFolder, AssetPackageInfo info, bool compression = false) // [...]/assets
+            PackAssets(string assetFolder, string outputFolder, AssetPackageInfo info,
+                bool compression = false) // [...]/assets
         {
             AssetResult ret = new AssetResult(outputFolder);
             ret.Compression = compression;

@@ -18,7 +18,9 @@ namespace Byt3.OpenFL.Parsing.Stages
         {
             parser = parserInstance;
         }
+
         private static readonly string COMMENT_PREFIX = "#";
+
         public override LoadSourceStageResult Process(LoadSourceStageResult input)
         {
             Logger.Log(LogType.Log, "Removing Comments.. ", 2);
@@ -30,7 +32,6 @@ namespace Byt3.OpenFL.Parsing.Stages
             Logger.Log(LogType.Log, $"Optimizing Script Length..", 2);
             for (int i = input.Source.Count - 1; i >= 0; i--)
             {
-
                 if (string.IsNullOrWhiteSpace(input.Source[i]))
                 {
                     input.Source.RemoveAt(i);
@@ -42,7 +43,6 @@ namespace Byt3.OpenFL.Parsing.Stages
 
             return input;
         }
-
 
 
         private void RemoveCommentTask(List<string> input, int start, int count)
