@@ -1,17 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.3.19.1905</AssemblyVersion>
-    <FileVersion>1.3.19.1905</FileVersion>
+    <AssemblyVersion>1.4.79.745</AssemblyVersion>
+    <FileVersion>1.4.79.745</FileVersion>
   </PropertyGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
-    <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL.Wrapper\Byt3.OpenCL.Wrapper.csproj" />
-    <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL\Byt3.OpenCL.csproj" />
     <ProjectReference Include="..\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
     <ProjectReference Include="..\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
-    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
-  </Target>
 </Project>

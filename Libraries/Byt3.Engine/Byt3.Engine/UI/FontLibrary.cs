@@ -10,6 +10,7 @@ using Byt3.Engine.DataTypes;
 using Byt3.Engine.Debug;
 using Byt3.Engine.Exceptions;
 using Byt3.Engine.IO;
+using Byt3.Utilities.ManifestIO;
 using OpenTK.Graphics.OpenGL;
 using SharpFont;
 using PixelFormat = OpenTK.Graphics.OpenGL.PixelFormat;

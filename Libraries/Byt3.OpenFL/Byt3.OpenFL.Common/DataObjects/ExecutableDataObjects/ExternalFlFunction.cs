@@ -24,7 +24,8 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             input.SetRoot(externalFunction);
 
             externalFunction.ActiveChannels = Root.ActiveChannels;
-            externalFunction.SetCLVariables(Root.Instance, input);
+            externalFunction.SetCLVariables(Root.Instance, input, false); 
+            //Not making it internal to the subscript because that would dispose the buffer later in the method
 
             externalFunction.EntryPoint.Process();
             

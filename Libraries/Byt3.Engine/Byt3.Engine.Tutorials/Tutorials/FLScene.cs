@@ -22,15 +22,16 @@ namespace Byt3.Engine.Tutorials.Tutorials
 
         private FLInstructionSet iset;
         private BufferCreator creator;
-        private FLProgramCheckPipeline checkPipeline;
+        private FLProgramCheckBuilder checkPipeline;
         private FLParser parser;
         private Texture tex = TextureLoader.ParameterToTexture(128,128, "FLScene+TextureForFLProgram");
         protected override void InitializeScene()
         {
             creator = BufferCreator.CreateWithBuiltInTypes();
             iset = FLInstructionSet.CreateWithBuiltInTypes(CLAPI.MainThread, "assets/kernel/");
-            checkPipeline = FLProgramCheckPipeline.CreateDefaultCheckPipeline(iset, creator);
-            parser = new FLParser(iset, creator, checkPipeline);
+            checkPipeline = FLProgramCheckBuilder.CreateDefaultCheckBuilder(iset, creator);
+            parser = new FLParser(iset, creator);
+            checkPipeline.Attach(parser, true);
 
             Add(DebugConsoleComponent.CreateConsole());
             Matrix4 proj = Matrix4.CreatePerspectiveFieldOfView(
@@ -66,12 +67,13 @@ namespace Byt3.Engine.Tutorials.Tutorials
             FLProgram program = parser.Process(new FLParserInput("assets/filter/red.fl")).Initialize(iset);
 
 
-            program.Run(CLAPI.MainThread, buffer);
+            program.Run(CLAPI.MainThread, buffer, true);
 
-            FLBuffer result = program.ActiveBuffer;
+            FLBuffer result = program.GetActiveBuffer(false);
             byte[] dat = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int)result.Buffer.Size);
             //Create a texture from the output.
             TextureLoader.Update(tex, dat, 128, 128);
+            result.Dispose();
 
 
 

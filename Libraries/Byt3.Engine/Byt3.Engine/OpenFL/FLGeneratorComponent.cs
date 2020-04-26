@@ -171,13 +171,13 @@ namespace Byt3.Engine.OpenFL
         {
             foreach (KeyValuePair<string, Texture> keyValuePair in map)
             {
-                if (!obj.DefinedBuffers.ContainsKey(keyValuePair.Key))
+                if (!obj.HasBufferWithName(keyValuePair.Key))
                 {
                     Logger.Log(DebugChannel.OpenFL | DebugChannel.Warning, "Can not Find Buffer with Name: " + keyValuePair.Key, 1);
                     continue;
                 }
 
-                FLBuffer buf = obj.DefinedBuffers[keyValuePair.Key];
+                FLBuffer buf = obj.GetBufferWithName(keyValuePair.Key, false); //The buffer will get cleaned up when the program gets disposed.
                 keyValuePair.Value.UpdateTexture(obj.Instance, buf.Buffer, buf.Width, buf.Height);
             }
         }

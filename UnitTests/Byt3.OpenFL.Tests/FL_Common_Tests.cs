@@ -1,30 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Byt3.ADL;
-using Byt3.ExtPP.Base;
-using Byt3.OpenCL.DataTypes;
-using Byt3.OpenCL.Wrapper;
-using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Benchmarking;
-using Byt3.OpenFL.Common;
-using Byt3.OpenFL.Common.Buffers;
-using Byt3.OpenFL.Common.Buffers.BufferCreators;
-using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
-using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
-using Byt3.OpenFL.Common.Instructions;
-using Byt3.OpenFL.Common.Instructions.InstructionCreators;
-using Byt3.OpenFL.Common.ProgramChecks;
-using Byt3.OpenFL.Parsing;
-using Byt3.OpenFL.Parsing.Stages;
-using Byt3.OpenFL.Serialization;
-using Byt3.Utilities.Exceptions;
 using NUnit.Framework;
 
 namespace Byt3.OpenFL.Tests
@@ -47,59 +23,54 @@ namespace Byt3.OpenFL.Tests
         }
 
 
-        private void SetupLogOutput()
-        {
-            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-        }
+
 
         [Test]
         public void OpenFL_Program_Serialization_Test()
         {
-            SetupLogOutput();
+            TestSetup.SetupLogOutput();
             OpenFLBenchmarks.RunProgramSerializationBenchmark(GetFiles(), IO_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_Program_Deserialization_Test()
         {
-            SetupLogOutput();
+            TestSetup.SetupLogOutput();
             OpenFLBenchmarks.RunProgramDeserializationBenchmark(GetFiles(), IO_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_Parser_Initialization_Test()
         {
-            SetupLogOutput();
+            TestSetup.SetupLogOutput();
             OpenFLBenchmarks.RunParserInitBenchmark(IO_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_Parser_Parsing_Test()
         {
-            SetupLogOutput();
+            TestSetup.SetupLogOutput();
             OpenFLBenchmarks.RunParserProcessBenchmark(GetFiles(), IO_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_Program_Initialization_Test()
         {
-            SetupLogOutput();
+            TestSetup.SetupLogOutput();
             OpenFLBenchmarks.RunProgramInitBenchmark(GetFiles(), IO_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_ParsedProgram_Execution_Test()
         {
-            SetupLogOutput();
+            TestSetup.SetupLogOutput();
             OpenFLBenchmarks.RunParsedFLExecutionBenchmark(GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_DeserializedProgram_Execution_Test()
         {
-            SetupLogOutput();
+            TestSetup.SetupLogOutput();
             OpenFLBenchmarks.RunDeserializedFLExecutionBenchmark(GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
         }
 

@@ -4,13 +4,11 @@ using System.Reflection;
 using Byt3.ADL;
 using Byt3.ADL.Configs;
 using Byt3.Engine.Core;
-using Byt3.Engine.DataTypes;
 using Byt3.Engine.Debug;
-using Byt3.Engine.IO;
 using Byt3.Engine.Tutorials.Tutorials;
 using Byt3.OpenCL;
 using Byt3.Utilities.ConsoleInternals;
-using Byt3.Utilities.Exceptions;
+using Byt3.Utilities.ManifestIO;
 
 namespace Byt3.Engine.Tutorials
 {

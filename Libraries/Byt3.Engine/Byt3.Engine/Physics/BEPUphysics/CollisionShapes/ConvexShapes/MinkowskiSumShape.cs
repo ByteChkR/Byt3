@@ -8,43 +8,6 @@ using Byt3.Engine.Physics.BEPUutilities.ResourceManagement;
 namespace Byt3.Engine.Physics.BEPUphysics.CollisionShapes.ConvexShapes
 {
     ///<summary>
-    /// A shape associated with an orientation.
-    ///</summary>
-    public struct OrientedConvexShapeEntry
-    {
-        ///<summary>
-        /// The entry's shape.
-        ///</summary>
-        public ConvexShape CollisionShape;
-
-        ///<summary>
-        /// The entry's orientation.
-        ///</summary>
-        public Quaternion Orientation;
-
-        ///<summary>
-        /// Constructs a new entry.
-        ///</summary>
-        ///<param name="orientation">Orientation of the entry.</param>
-        ///<param name="shape">Shape of the entry.</param>
-        public OrientedConvexShapeEntry(Quaternion orientation, ConvexShape shape)
-        {
-            Orientation = orientation;
-            CollisionShape = shape;
-        }
-
-        ///<summary>
-        /// Constructs a new entry with identity orientation.
-        ///</summary>
-        ///<param name="shape">Shape of the entry.</param>
-        public OrientedConvexShapeEntry(ConvexShape shape)
-        {
-            Orientation = Quaternion.Identity;
-            CollisionShape = shape;
-        }
-    }
-
-    ///<summary>
     /// A shape composed of the pointwise summation of all points in child shapes.
     /// For example, the minkowski sum of two spheres would be a sphere with the radius of both spheres combined.
     /// The minkowski sum of a box and a sphere would be a rounded box.

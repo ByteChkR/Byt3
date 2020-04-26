@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
-using Byt3.ADL;
 
 namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 {
     public class FLFunction : FLParsedObject
     {
         public string Name { get; }
-        public List<FLInstruction> Instructions { get; }
+        public List<FLInstruction> Instructions { get; private set; }
 
         public FLFunction(string name, List<FLInstruction> instructions)
         {
@@ -15,8 +13,19 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             Instructions = instructions;
         }
 
+        internal FLFunction(string name)
+        {
+            Name = name;
+        }
+
+        internal void SetInstructions(List<FLInstruction> instructions)
+        {
+            Instructions = instructions;
+        }
+
         public virtual void Process()
         {
+            //Logger.Log(LogType.Log, "Function: "+ Name, 1);
             for (int i = 0; i < Instructions.Count; i++)
             {
                 //Thread.Sleep(100);
@@ -27,6 +36,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
         public override void SetRoot(FLProgram root)
         {
+            if (root == Root) return;
             base.SetRoot(root);
             for (int i = 0; i < Instructions.Count; i++)
             {

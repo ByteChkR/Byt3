@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Byt3.ADL;
 using Byt3.ExtPP.API;
 using Byt3.ObjectPipeline;
@@ -8,17 +6,23 @@ using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
-using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing.ExtPP.API.Configurations;
 using Byt3.OpenFL.Parsing.Stages;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenFL.Parsing
 {
-    public class FLParser : Pipeline<FLParserInput, SerializableFLProgram>
+    
+
+    public class FLParser : Pipeline
     {
+
+        public WorkItemRunnerSettings WorkItemRunnerSettings { get; }
         public BufferCreator BufferCreator { get; }
         public FLInstructionSet InstructionSet { get; }
-        public FLProgramCheckPipeline CheckPipeline { get; }
+
+        private const string DEFINE_SCRIPT_KEY = "--define script";
+        private const string DEFINE_TEXTURE_KEY = "--define texture";
 
         static FLParser()
         {
@@ -29,110 +33,138 @@ namespace Byt3.OpenFL.Parsing
             new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "FLParser");
 
 
-        public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator,
-            FLProgramCheckPipeline checkPipeline)
+        public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator, WorkItemRunnerSettings settings = null) : base(typeof(FLParserInput), typeof(SerializableFLProgram))
         {
-            CheckPipeline = checkPipeline;
             InstructionSet = instructionSet;
             BufferCreator = bufferCreator;
+            WorkItemRunnerSettings = settings ?? WorkItemRunnerSettings.Default;
             AddSubStage(new LoadSourceStage());
-            AddSubStage(new StaticInspectionStage());
+            AddSubStage(new RemoveCommentStage(this));
+            AddSubStage(new StaticInspectionStage(this));
             AddSubStage(new ParseTreeStage(this));
-            AddSubStage(CheckPipeline);
 
 
             Verify();
-        }
-
-
-        public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator) : this(instructionSet,
-            bufferCreator, new FLProgramCheckPipeline(instructionSet, bufferCreator))
-        {
         }
 
         public FLParser() : this(new FLInstructionSet(), new BufferCreator())
         {
         }
 
-
-        internal static string[] FindDefineStatements(string[] source)
+        public SerializableFLProgram Process(FLParserInput input)
         {
-            List<string> ret = source.Where(IsDefineStatement).ToList();
+            return (SerializableFLProgram)base.Process(input);
+        }
+
+
+        internal static string[] FindDefineStatements(List<string> source)
+        {
+            List<string> ret = new List<string>();
+            for (int i = 0; i < source.Count; i++)
+            {
+                if (IsDefineStatement(source[i])) ret.Add(source[i]);
+            }
+            //List<string> ret = source.Where(IsDefineStatement).ToList();
             ret.Add("--define texture in:");
             return ret.ToArray();
         }
 
-        internal static string[] FindDefineScriptsStatements(string[] source)
+        internal static string[] FindDefineScriptsStatements(List<string> source)
         {
-            return source.Where(IsDefineScriptStatement).ToArray();
-        }
-
-        internal static string[] FindFunctionHeaders(string[] source)
-        {
-            return source.Where(IsFunctionHeader).Select(x =>
+            List<string> ret = new List<string>();
+            for (int i = 0; i < source.Count; i++)
             {
-                string r = RemoveComment(x);
-                r = r.Remove(r.Length - 1, 1);
-                return r;
-            }).ToArray();
+                if (IsDefineScriptStatement(source[i])) ret.Add(source[i]);
+            }
+
+            return ret.ToArray();
+            //return source.Where(IsDefineScriptStatement).ToArray();
         }
 
-        internal static bool IsDefineStatement(string line)
+        internal static string[] FindFunctionHeaders(List<string> source)
         {
-            return !IsComment(line) && line.StartsWith("--define texture");
+            List<string> ret = new List<string>();
+            for (int i = 0; i < source.Count; i++)
+            {
+                if (IsFunctionHeader(source[i]))
+                    ret.Add(source[i].Remove(source[i].Length - 1, 1));
+            }
+
+            return ret.ToArray();
+            //return source.Where(IsFunctionHeader).Select(x =>
+            //{
+            //    string r = RemoveComment(x);
+            //    r = r.Remove(r.Length - 1, 1);
+            //    return r;
+            //}).ToArray();
         }
 
 
-        internal static string GetScriptName(string definedScriptLine)
-        {
-            return RemoveComment(definedScriptLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[0]
-                .Replace("--define script", "").Trim();
-        }
+
+
+
 
         internal static string GetScriptPath(string definedScriptLine)
         {
-            return RemoveComment(definedScriptLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
-                .Replace("\"", "");
+            return GetPath(ref definedScriptLine).Replace("\"", string.Empty);
+            //return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[1].Trim()
+            //    .Replace("\"", "");
+        }
+
+        private static string GetPath(ref string line)
+        {
+            int idx = FString.FastIndexOf(ref line, ":")+1;
+            return line.Substring(idx, line.Length - idx).Trim();
+        }
+
+        internal static string GetScriptName(string definedScriptLine)
+        {
+            return GetName(ref definedScriptLine, DEFINE_SCRIPT_KEY);
+            //return RemoveComment(definedScriptLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
+            //    .Replace("--define script", "").Trim();
         }
 
         internal static string GetBufferName(string definedBufferLine)
         {
-            return RemoveComment(definedBufferLine).Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)[0]
-                .Replace("--define texture", "").Trim();
+            return GetName(ref definedBufferLine, DEFINE_TEXTURE_KEY);
+            //return definedBufferLine.Substring(DEFINE_TEXTURE_KEY.Length,
+            //    FString.FastIndexOf(ref definedBufferLine, ":")- DEFINE_TEXTURE_KEY.Length);
+            //return RemoveComment(definedBufferLine).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0]
+            //    .Replace("--define texture", "").Trim();
+        }
+
+        private static string GetName(ref string line, string key)
+        {
+            int len = FString.FastIndexOf(ref line, ":") - key.Length;
+            return line.Substring(key.Length, len).TrimStart();
+        }
+
+        internal static bool IsDefineStatement(string line)
+        {
+            return FString.FastIndexOf(ref line, DEFINE_TEXTURE_KEY) == 0;
         }
 
         internal static bool IsDefineScriptStatement(string line)
         {
-            return !IsComment(line) && line.StartsWith("--define script");
+            return FString.FastIndexOf(ref line, DEFINE_SCRIPT_KEY) == 0;
         }
-
-        internal static bool IsComment(string line)
-        {
-            return line.StartsWith("#");
-        }
-
-        internal static bool IsCommentAndOther(string line)
-        {
-            return line.Contains("#");
-        }
-
-        internal static string RemoveComment(string line)
-        {
-            return line.Split(new[] {'#'}, StringSplitOptions.None).First().Trim();
-        }
+        
 
         internal static bool IsFunctionHeader(string line)
         {
-            return !IsComment(line) && RemoveComment(line).EndsWith(":");
+            if (line.Length == 0) return false;
+            return line[line.Length - 1] == ':';
         }
 
-        internal static string[] GetFunctionBody(string functionHeader, string[] source)
+        internal static string[] GetFunctionBody(string functionHeader, List<string> source)
         {
-            int index = source.Select(RemoveComment).ToList().IndexOf(functionHeader + ":");
+            int index = source.IndexOf(functionHeader + ":");
             List<string> ret = new List<string>();
-            for (int i = index + 1; i < source.Length; i++)
+            for (int i = index + 1; i < source.Count; i++)
             {
-                if (IsFunctionHeader(source[i]))
+                if (IsFunctionHeader(source[i]) ||
+                    IsDefineScriptStatement(source[i]) ||
+                    IsDefineStatement(source[i]))
                 {
                     break;
                 }

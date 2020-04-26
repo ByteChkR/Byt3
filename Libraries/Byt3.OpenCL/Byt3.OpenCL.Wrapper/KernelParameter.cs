@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Byt3.OpenCL.DataTypes;
-using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper.TypeEnums;
 
 
@@ -176,11 +175,6 @@ namespace Byt3.OpenCL.Wrapper
             if (IsArray)
             {
                 throw new OpenClException("Can not Change types on an array.");
-                object[] data = (object[]) value;
-
-                return CLAPI.CreateBuffer(instance,
-                    Array.ConvertAll(data, x => CastToType(Converters[(int) DataType], x)),
-                    Converters[(int) DataType], MemoryFlag.ReadOnly, "AutoCreatedBufferFromArray");
             }
 
 

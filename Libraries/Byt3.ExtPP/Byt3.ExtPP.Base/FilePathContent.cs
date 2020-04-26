@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Byt3.Callbacks;
+﻿using Byt3.Callbacks;
 using Byt3.ExtPP.Base.Interfaces;
 
 namespace Byt3.ExtPP.Base
@@ -8,7 +7,7 @@ namespace Byt3.ExtPP.Base
     {
         private readonly string filePath;
         private string key;
-        private string definedName;
+        private readonly string definedName;
         public bool HasValidFilepath => true;
 
         public FilePathContent(string filePath, string definedName)

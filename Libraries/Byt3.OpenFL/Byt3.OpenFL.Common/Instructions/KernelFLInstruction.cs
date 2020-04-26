@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Byt3.ADL;
-using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
@@ -24,7 +23,7 @@ namespace Byt3.OpenFL.Common.Instructions
         /// <summary>
         /// FL header Count(the offset from 0 where the "user" parameter start)
         /// </summary>
-        private const int FL_HEADER_ARG_COUNT = 5;
+        public const int FL_HEADER_ARG_COUNT = 5;
 
 
         public override string ToString()
@@ -77,7 +76,7 @@ namespace Byt3.OpenFL.Common.Instructions
 
             Logger.Log(LogType.Log, $"Executing Function: {flFunction.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 
-            Root.Run(Root.Instance, buffer, flFunction);
+            Root.Run(Root.Instance, buffer, true, flFunction);
 
             Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{Root.ActiveBuffer.DefinedBufferName}",
                 MIN_INSTRUCTION_SEVERITY + 2);

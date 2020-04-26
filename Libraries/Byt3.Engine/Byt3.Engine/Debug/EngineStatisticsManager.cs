@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Byt3.DisposableManagement;
-using Byt3.Engine.DataTypes;
-using Byt3.Engine.Exceptions;
 using Byt3.OpenCL;
 
 namespace Byt3.Engine.Debug

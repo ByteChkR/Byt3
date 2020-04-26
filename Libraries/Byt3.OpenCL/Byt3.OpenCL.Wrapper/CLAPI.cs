@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Byt3.ADL;
@@ -453,8 +452,6 @@ namespace Byt3.OpenCL.Wrapper
         public static MemoryBuffer CreateEmpty<T>(CLAPI instance, int size, MemoryFlag flags, object handleIdentifier) where T : struct
         {
             return CreateEmptyOptimized<T>(instance, size, flags, handleIdentifier);
-            T[] arr = new T[size];
-            return CreateBuffer(instance, arr, flags, handleIdentifier);
         }
 
         /// <summary>

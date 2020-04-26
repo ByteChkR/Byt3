@@ -1,6 +1,4 @@
-﻿using System;
-using Byt3.Engine.Debug;
-using Byt3.Utilities.Exceptions;
+﻿using Byt3.Utilities.Exceptions;
 using OpenTK.Graphics.OpenGL;
 
 namespace Byt3.Engine.DataTypes

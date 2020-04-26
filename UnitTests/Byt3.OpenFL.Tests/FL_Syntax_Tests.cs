@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.OpenCL.DataTypes;
@@ -52,10 +50,11 @@ namespace Byt3.OpenFL.Tests
             {
                 BufferCreator bc = new BufferCreator();
                 FLInstructionSet iset = new FLInstructionSet();
-                FLProgramCheckPipeline checkPipeline = new FLProgramCheckPipeline(iset, bc);
-                checkPipeline.AddSubStage(new FilePathValidator());
+                FLProgramCheckBuilder checkBuilder = new FLProgramCheckBuilder(iset, bc);
+                checkBuilder.AddProgramCheck(new FilePathValidator());
 
-                FLParser parser = new FLParser(iset, bc, checkPipeline);
+                FLParser parser = new FLParser(iset, bc);
+                checkBuilder.Attach(parser, true);
 
                 Assembly asm = Assembly.GetAssembly(typeof(ASerializableBufferCreator));
                 parser.BufferCreator.AddBufferCreatorsInAssembly(asm);
@@ -135,7 +134,7 @@ namespace Byt3.OpenFL.Tests
 
             foreach (string file in files)
             {
-                Assert.Catch<Byt3Exception>(() =>
+                Assert.Catch<AggregateException>(() =>
                 {
                     FLParser parser = new FLParser();
 

@@ -1,6 +1,5 @@
 ﻿using Byt3.ADL;
 using Byt3.ADL.Configs;
-using Byt3.ADL.Crash;
 using Byt3.Utilities.Exceptions;
 
 namespace Byt3.Engine.Debug

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Byt3.ADL;
 using Byt3.ExtPP.API;
 using Byt3.ObjectPipeline;
@@ -16,7 +17,7 @@ namespace Byt3.OpenFL.Parsing.Stages
         {
             Logger.Log(LogType.Log, "Loading Source: " + input.Filename, 2);
             return new LoadSourceStageResult(input.Filename,
-                TextProcessorAPI.PreprocessLines(input.Filename, new Dictionary<string, bool>()));
+                TextProcessorAPI.PreprocessLines(input.Filename, new Dictionary<string, bool>()).ToList());
         }
     }
 }

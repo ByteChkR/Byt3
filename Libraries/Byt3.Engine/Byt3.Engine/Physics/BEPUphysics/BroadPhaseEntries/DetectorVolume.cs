@@ -14,52 +14,6 @@ using Byt3.Engine.Physics.BEPUutilities.ResourceManagement;
 namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
 {
     /// <summary>
-    /// Stores flags regarding an object's degree of inclusion in a volume.
-    /// </summary>
-    public struct ContainmentState
-    {
-        /// <summary>
-        /// Whether or not the object is fully contained.
-        /// </summary>
-        public bool IsContained;
-
-        /// <summary>
-        /// Whether or not the object is partially or fully contained.
-        /// </summary>
-        public bool IsTouching;
-
-        /// <summary>
-        /// Whether or not the entity associated with this state has been refreshed during the last update.
-        /// </summary>
-        internal bool StaleState;
-
-        /// <summary>
-        /// Constructs a new ContainmentState.
-        /// </summary>
-        /// <param name="touching">Whether or not the object is partially or fully contained.</param>
-        /// <param name="contained">Whether or not the object is fully contained.</param>
-        public ContainmentState(bool touching, bool contained)
-        {
-            IsTouching = touching;
-            IsContained = contained;
-            StaleState = false;
-        }
-
-        /// <summary>
-        /// Constructs a new ContainmentState.
-        /// </summary>
-        /// <param name="touching">Whether or not the object is partially or fully contained.</param>
-        /// <param name="contained">Whether or not the object is fully contained.</param>
-        /// <param name="stale">Whether or not the entity associated with this state has been refreshed in the previous update.</param>
-        internal ContainmentState(bool touching, bool contained, bool stale)
-        {
-            IsTouching = touching;
-            IsContained = contained;
-            StaleState = stale;
-        }
-    }
-
-    /// <summary>
     /// Manages the detection of entities within an arbitrary closed triangle mesh.
     /// </summary>
     public class DetectorVolume : BroadPhaseEntry, ISpaceObject, IDeferredEventCreator
@@ -447,37 +401,4 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
             StoppedContaining
         }
     }
-
-
-    /// <summary>
-    /// Handles any special logic to perform when an entry begins touching a detector volume.
-    /// Runs within an update loop for updateables; modifying the updateable listing during the event is disallowed.
-    /// </summary>
-    /// <param name="volume">DetectorVolume being touched.</param>
-    /// <param name="toucher">Entry touching the volume.</param>
-    public delegate void EntityBeginsTouchingVolumeEventHandler(DetectorVolume volume, Entity toucher);
-
-    /// <summary>
-    /// Handles any special logic to perform when an entry stops touching a detector volume.
-    /// Runs within an update loop for updateables; modifying the updateable listing during the event is disallowed.
-    /// </summary>
-    /// <param name="volume">DetectorVolume no longer being touched.</param>
-    /// <param name="toucher">Entry no longer touching the volume.</param>
-    public delegate void EntityStopsTouchingVolumeEventHandler(DetectorVolume volume, Entity toucher);
-
-    /// <summary>
-    /// Handles any special logic to perform when an entity begins being contained by a detector volume.
-    /// Runs within an update loop for updateables; modifying the updateable listing during the event is disallowed.
-    /// </summary>
-    /// <param name="volume">DetectorVolume containing the entry.</param>
-    /// <param name="entity">Entity contained by the volume.</param>
-    public delegate void VolumeBeginsContainingEntityEventHandler(DetectorVolume volume, Entity entity);
-
-    /// <summary>
-    /// Handles any special logic to perform when an entry stops being contained by a detector volume.
-    /// Runs within an update loop for updateables; modifying the updateable listing during the event is disallowed.
-    /// </summary>
-    /// <param name="volume">DetectorVolume no longer containing the entry.</param>
-    /// <param name="entity">Entity no longer contained by the volume.</param>
-    public delegate void VolumeStopsContainingEntityEventHandler(DetectorVolume volume, Entity entity);
 }

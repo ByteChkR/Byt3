@@ -9,6 +9,7 @@ using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
 using Byt3.OpenFL.Parsing.Stages;
 using Byt3.OpenFL.Serialization;
@@ -28,7 +29,20 @@ namespace Byt3.OpenFL.Threading
 
         protected Queue<FlScriptExecutionContext> ProcessQueue;
         public int ItemsInQueue => ProcessQueue.Count;
-        
+
+        public FLScriptRunner(CLAPI instance, KernelDatabase dataBase, BufferCreator creator, FLInstructionSet instructionSet, FLProgramCheckBuilder checkBuilder, WorkItemRunnerSettings runnerSettings)
+        {
+            Db = dataBase;
+            InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(Db);
+            BufferCreator = creator;
+
+            Parser = new FLParser(InstructionSet, BufferCreator, runnerSettings);
+            checkBuilder.Attach(Parser, true);
+
+            Instance = instance;
+            ProcessQueue = new Queue<FlScriptExecutionContext>();
+
+        }
 
         public FLScriptRunner(CLAPI instance, DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1,
             string kernelFolder = "kernel/")
@@ -36,6 +50,7 @@ namespace Byt3.OpenFL.Threading
             Db = new KernelDatabase(instance, kernelFolder, dataVectorTypes);
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(Db);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
+
             Parser = new FLParser(InstructionSet, BufferCreator);
 
             Instance = instance;
@@ -44,7 +59,7 @@ namespace Byt3.OpenFL.Threading
 
         public virtual void Dispose()
         {
-            Db.Dispose();
+            Db?.Dispose();
         }
 
         public virtual void Enqueue(FlScriptExecutionContext context)
@@ -78,7 +93,7 @@ namespace Byt3.OpenFL.Threading
                 program = Parser.Process(new FLParserInput(context.Filename)).Initialize(InstructionSet);
             }
 
-            program.Run(Instance, input);
+            program.Run(Instance, input, true);
 
             return program;
 

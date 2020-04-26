@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using Byt3.OpenCL.Memory;
+﻿using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers;
@@ -11,7 +9,6 @@ using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
 using Byt3.OpenFL.Parsing.Stages;
-using Byt3.OpenFL.Serialization;
 
 namespace Byt3.OpenFL
 {
@@ -23,18 +20,19 @@ namespace Byt3.OpenFL
         public CLAPI Instance { get; }
 
         public FLRunner(CLAPI instance, FLInstructionSet instructionSet, BufferCreator bufferCreator,
-            FLProgramCheckPipeline checkPipeline)
+            FLProgramCheckBuilder checkPipeline)
         {
             InstructionSet = instructionSet;
             BufferCreator = bufferCreator;
-            Parser = new FLParser(InstructionSet, BufferCreator, checkPipeline);
+            Parser = new FLParser(InstructionSet, BufferCreator);
+            checkPipeline.Attach(Parser, true);
             Instance = instance;
         }
 
         public FLRunner(FLInstructionSet instructionSet, BufferCreator bufferCreator,
-            FLProgramCheckPipeline checkPipeline) : this(CLAPI.MainThread, instructionSet, bufferCreator, checkPipeline) { }
+            FLProgramCheckBuilder checkPipeline) : this(CLAPI.MainThread, instructionSet, bufferCreator, checkPipeline) { }
 
-        public FLRunner(CLAPI instance, FLInstructionSet instructionSet, BufferCreator bufferCreator) : this(instance, instructionSet, bufferCreator, FLProgramCheckPipeline.CreateDefaultCheckPipeline(instructionSet, bufferCreator)) { }
+        public FLRunner(CLAPI instance, FLInstructionSet instructionSet, BufferCreator bufferCreator) : this(instance, instructionSet, bufferCreator, FLProgramCheckBuilder.CreateDefaultCheckBuilder(instructionSet, bufferCreator)) { }
 
         public FLRunner(FLInstructionSet instructionSet, BufferCreator bufferCreator) : this(CLAPI.MainThread, instructionSet, bufferCreator) { }
 
@@ -59,23 +57,13 @@ namespace Byt3.OpenFL
 
         public FLProgram Run(FLProgram file, int width, int height)
         {
-            return Run(file, width, height, file.EntryPoint);
-        }
-
-        public FLProgram Run(FLProgram file, int width, int height, FLFunction entry)
-        {
             FLBuffer buffer = new FLBuffer(CLAPI.CreateEmpty<byte>(Instance, height * width * 4, MemoryFlag.ReadWrite, "FLRunnerExecutionCreatedBuffer"), width, height);
-            return Run(file, buffer, entry);
+            return Run(file, buffer, true);
         }
 
-        public FLProgram Run(FLProgram file, FLBuffer input)
+        public FLProgram Run(FLProgram file, FLBuffer input, bool makeInternal)
         {
-            return Run(file, input, file.EntryPoint);
-        }
-
-        public FLProgram Run(FLProgram file, FLBuffer input, FLFunction entry)
-        {
-            file.Run(Instance, input, entry);
+            file.Run(Instance, input, makeInternal);
             return file;
         }
 

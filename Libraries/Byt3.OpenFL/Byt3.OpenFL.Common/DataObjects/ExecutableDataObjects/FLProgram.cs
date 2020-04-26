@@ -9,13 +9,31 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 {
     public class FLProgram
     {
+        private readonly Stack<FLExecutionContext> ContextStack = new Stack<FLExecutionContext>();
         private readonly List<FLBuffer> internalBuffers = new List<FLBuffer>();
+        private MemoryBuffer activeChannelBuffer;
+        private byte[] activeChannels;
+        private bool channelDirty = true;
+
+
+        public FLProgram(Dictionary<string, ExternalFlFunction> definedScripts,
+            Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, FLFunction> flFunctions)
+        {
+            FlFunctions = flFunctions;
+            DefinedBuffers = definedBuffers;
+            DefinedScripts = definedScripts;
+            InternalState = new Dictionary<string, bool>();
+            foreach (KeyValuePair<string, FLBuffer> definedBuffer in DefinedBuffers)
+            {
+                InternalState.Add(definedBuffer.Key, true);
+            }
+        }
 
         //Get set when calling Run/SetCLVariables
         public CLAPI Instance { get; private set; }
-        public FLBuffer ActiveBuffer { get; set; }
+        internal FLBuffer ActiveBuffer { get; set; }
 
-        public byte[] ActiveChannels
+        internal byte[] ActiveChannels
         {
             get => activeChannels;
             set
@@ -35,16 +53,17 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
                         }
                     }
 
-                    if (!channelDirty) return;
+                    if (!channelDirty)
+                    {
+                        return;
+                    }
                 }
 
                 activeChannels = value;
             }
         }
-        private byte[] activeChannels;
-        private bool channelDirty = true;
-        private MemoryBuffer activeChannelBuffer;
-        public MemoryBuffer ActiveChannelBuffer
+
+        internal MemoryBuffer ActiveChannelBuffer
         {
             get
             {
@@ -52,16 +71,19 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
                 {
                     if (activeChannelBuffer == null)
                     {
-                        activeChannelBuffer = CLAPI.CreateBuffer(Instance, activeChannels, MemoryFlag.WriteOnly, "ActiveChannelBuffer");
+                        activeChannelBuffer = CLAPI.CreateBuffer(Instance, activeChannels, MemoryFlag.WriteOnly,
+                            "ActiveChannelBuffer");
                     }
-                    else if(activeChannelBuffer.IsDisposed)
+                    else if (activeChannelBuffer.IsDisposed)
                     {
-                        activeChannelBuffer = CLAPI.CreateBuffer(Instance, activeChannels, MemoryFlag.WriteOnly, "ActiveChannelBuffer");
+                        activeChannelBuffer = CLAPI.CreateBuffer(Instance, activeChannels, MemoryFlag.WriteOnly,
+                            "ActiveChannelBuffer");
                     }
                     else
                     {
                         CLAPI.WriteToBuffer(Instance, activeChannelBuffer, activeChannels);
                     }
+
                     channelDirty = false;
                 }
 
@@ -69,34 +91,55 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             }
         }
 
-        public FLBuffer Input { get; private set; }
+        internal FLBuffer Input { get; set; }
         public int3 Dimensions => new int3(Input.Width, Input.Height, 4);
         public int InputSize => Dimensions.x * Dimensions.y * Dimensions.z;
 
+        private Dictionary<string, bool> InternalState { get; }
+        internal Dictionary<string, FLBuffer> DefinedBuffers { get; }
+        internal Dictionary<string, FLFunction> FlFunctions { get; }
+        internal Dictionary<string, ExternalFlFunction> DefinedScripts { get; }
 
-        public Dictionary<string, FLBuffer> DefinedBuffers { get; }
-        public Dictionary<string, FLFunction> FlFunctions { get; }
-        public Dictionary<string, ExternalFlFunction> DefinedScripts { get; }
-
-
-        private readonly Stack<FLExecutionContext> ContextStack = new Stack<FLExecutionContext>();
-
-        public FLFunction EntryPoint => FlFunctions.First(x => x.Key == "Main").Value;
-
-
-        public FLProgram(Dictionary<string, ExternalFlFunction> definedScripts,
-            Dictionary<string, FLBuffer> definedBuffers,Dictionary<string, FLFunction> flFunctions)
+        public bool HasBufferWithName(string name)
         {
-
-            FlFunctions = flFunctions;
-            DefinedBuffers = definedBuffers;
-            DefinedScripts = definedScripts;
+            return DefinedBuffers.ContainsKey(name);
         }
 
-        public void RemoveFromSystem(FLBuffer buffer)
+        public FLBuffer GetBufferWithName(string name, bool makeUnmanaged)
         {
-            if (ActiveBuffer == buffer) ActiveBuffer = null;
-            if (Input == buffer) Input = null;
+            FLBuffer ret= DefinedBuffers[name];
+            if (makeUnmanaged)
+            {
+                InternalState[name] = false;
+            }
+
+            return ret;
+        }
+
+        internal FLFunction EntryPoint => FlFunctions.First(x => x.Key == "Main").Value;
+
+        public FLBuffer GetActiveBuffer(bool makeUnmanaged)
+        {
+            FLBuffer ret =ActiveBuffer;
+            if (makeUnmanaged)
+            {
+                InternalState[ret.DefinedBufferName] = false;
+            }
+
+            return ret;
+        }
+
+        internal void RemoveFromSystem(FLBuffer buffer)
+        {
+            if (ActiveBuffer == buffer)
+            {
+                ActiveBuffer = null;
+            }
+
+            if (Input == buffer)
+            {
+                Input = null;
+            }
 
             internalBuffers.Remove(buffer);
 
@@ -104,6 +147,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             for (int i = 0; i < keys.Length; i++)
             {
                 DefinedBuffers.Remove(keys[i]);
+                InternalState.Remove(keys[i]);
             }
         }
 
@@ -118,6 +162,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             {
                 internalBuffer.Dispose();
             }
+
             activeChannelBuffer?.Dispose();
             internalBuffers.Clear();
         }
@@ -125,13 +170,13 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public void PushContext()
         {
             ContextStack.Push(new FLExecutionContext(new List<byte>(ActiveChannels).ToArray(), ActiveBuffer, Input));
-            ActiveChannels = new byte[] { 1, 1, 1, 1 };
+            ActiveChannels = new byte[] {1, 1, 1, 1};
         }
 
         public void ReturnFromContext()
         {
             FLExecutionContext context = ContextStack.Pop();
-           // Input = context.InputBuffer;
+            Input = DefinedBuffers["in"] = context.InputBuffer;
             ActiveChannels = context.ActiveChannels;
             ActiveBuffer = context.ActiveBuffer;
         }
@@ -139,34 +184,31 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public FLBuffer RegisterUnmanagedBuffer(FLBuffer buffer)
         {
             internalBuffers.Add(buffer);
-
             return buffer;
         }
 
 
-        public void SetCLVariables(CLAPI instance, FLBuffer input)
+        public void SetCLVariables(CLAPI instance, FLBuffer input, bool makeInputInternal)
         {
             //Setting Run Dependent Variables.
             Instance = instance;
 
             Input = ActiveBuffer = DefinedBuffers["in"] = input;
-            
-            Input.SetKey("in");
 
+            InternalState["in"] = makeInputInternal;
+
+            Input.SetKey("in");
         }
 
-        public void Run(CLAPI instance, FLBuffer input, FLFunction entry = null)
+        public void Run(CLAPI instance, FLBuffer input, bool makeInputInternal, FLFunction entry = null)
         {
-
-            SetCLVariables(instance, input);
+            SetCLVariables(instance, input, makeInputInternal);
 
             //Start Setup
-            ActiveChannels = new byte[] { 1, 1, 1, 1 };
+            ActiveChannels = new byte[] {1, 1, 1, 1};
 
             FLFunction entryPoint = entry ?? EntryPoint;
             entryPoint.Process();
-
-
         }
     }
 }

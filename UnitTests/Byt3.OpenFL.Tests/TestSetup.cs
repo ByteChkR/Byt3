@@ -1,24 +1,17 @@
-﻿using Byt3.OpenCL.Wrapper;
-using Byt3.OpenCL.Wrapper.TypeEnums;
+﻿using Byt3.ADL;
+using Byt3.ExtPP.Base;
+using Byt3.OpenCL.Wrapper;
+using Byt3.OpenFL.Common;
 
 namespace Byt3.OpenFL.Tests
 {
-    public static class TestSetup
+    internal static class TestSetup
     {
-        private static KernelDatabase kernelDb;
-
-        public static KernelDatabase KernelDb
+        internal static void SetupLogOutput()
         {
-            get
-            {
-                if (kernelDb == null)
-                {
-                    kernelDb = new KernelDatabase(CLAPI.MainThread, "resources/kernel",
-                        DataVectorTypes.Uchar1);
-                }
-
-                return kernelDb;
-            }
+            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
         }
     }
 }

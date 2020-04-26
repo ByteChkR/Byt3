@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>1.4.4.745</AssemblyVersion>
+    <FileVersion>1.4.4.745</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="kernel\add.cl" />
+    <None Remove="kernel\adjustlevel.cl" />
+    <None Remove="kernel\div.cl" />
+    <None Remove="kernel\invert.cl" />
+    <None Remove="kernel\mix.cl" />
+    <None Remove="kernel\mod.cl" />
+    <None Remove="kernel\mul.cl" />
+    <None Remove="kernel\perlin.cl" />
+    <None Remove="kernel\set.cl" />
+    <None Remove="kernel\shapes.cl" />
+    <None Remove="kernel\smooth.cl" />
+    <None Remove="kernel\sub.cl" />
+    <None Remove="kernel\utils.cl" />
+    <None Remove="kernel\worley.cl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="kernel\add.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\adjustlevel.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\div.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\invert.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\mix.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\mod.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\mul.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\perlin.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\set.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\shapes.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\smooth.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\sub.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\utils.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="kernel\worley.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.ManifestIO\Byt3.Utilities.ManifestIO.csproj" />
+    <ProjectReference Include="..\..\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Threading\Byt3.OpenFL.Threading.csproj" />
+  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
+</Project>

@@ -1,87 +1,10 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using Byt3.Engine.Physics.BEPUphysics.CollisionShapes.ConvexShapes;
 using Byt3.Engine.Physics.BEPUutilities;
 using Byt3.Engine.Physics.BEPUutilities.DataStructures;
 
 namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms
 {
-    /// <summary>
-    /// Stores basic data used by some collision systems.
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct BoxContactData : IEquatable<BoxContactData>
-    {
-        /// <summary>
-        /// Position of the candidate contact.
-        /// </summary>
-        public Vector3 Position;
-
-        /// <summary>
-        /// Depth of the candidate contact.
-        /// </summary>
-        public float Depth;
-
-        /// <summary>
-        /// Id of the candidate contact.
-        /// </summary>
-        public int Id;
-
-        #region IEquatable<BoxContactData> Members
-
-        /// <summary>
-        /// Returns true if the other data has the same id.
-        /// </summary>
-        /// <param name="other">Data to compare.</param>
-        /// <returns>True if the other data has the same id, false otherwise.</returns>
-        public bool Equals(BoxContactData other)
-        {
-            return Id == other.Id;
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Basic storage structure for contact data.
-    /// Designed for performance critical code and pointer access.
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential)]
-    public struct BoxContactDataCache
-    {
-        public BoxContactData D1;
-        public BoxContactData D2;
-        public BoxContactData D3;
-        public BoxContactData D4;
-
-        public BoxContactData D5;
-        public BoxContactData D6;
-        public BoxContactData D7;
-        public BoxContactData D8;
-
-
-        /// <summary>
-        /// Number of elements in the cache.
-        /// </summary>
-        public byte Count;
-
-#if ALLOWUNSAFE
-        /// <summary>
-        /// Removes an item at the given index.
-        /// </summary>
-        /// <param name="index">Index to remove.</param>
-        public unsafe void RemoveAt(int index)
-        {
-            BoxContactDataCache copy = this;
-            BoxContactData* pointer = &copy.D1;
-            pointer[index] = pointer[Count - 1];
-            this = copy;
-            Count--;
-        }
-#endif
-    }
-
-
     /// <summary>
     /// Contains helper methods for testing collisions between boxes.
     /// </summary>

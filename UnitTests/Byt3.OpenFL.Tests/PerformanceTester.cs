@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Xml.Serialization;
 
 namespace Byt3.OpenFL.Tests
@@ -39,7 +37,7 @@ namespace Byt3.OpenFL.Tests
                     Targets.Add((PerformanceTarget)xs.Deserialize(s));
                     s.Close();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     s?.Close();
                 }
@@ -56,7 +54,7 @@ namespace Byt3.OpenFL.Tests
                 xs.Serialize(s, target);
                 s.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 s?.Close();
             }

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Byt3.OpenFL.Common.ProgramChecks;
 
 namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
 {
-    public class SerializableFLProgram
+    public class SerializableFLProgram : FLPipelineResult
     {
         public List<SerializableExternalFLFunction> ExternalFunctions { get; }
         public List<SerializableFLFunction> Functions { get; }

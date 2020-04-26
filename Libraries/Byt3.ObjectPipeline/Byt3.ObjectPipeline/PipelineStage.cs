@@ -29,6 +29,46 @@ namespace Byt3.ObjectPipeline
         protected bool Verified { get; private set; }
         protected List<StageBase> Stages = new List<StageBase>();
 
+        public void RemoveSubStage(StageBase stage)
+        {
+            if (stage == null)
+            {
+                throw new ArgumentNullException("stage", "Argument is not allowed to be null.");
+            }
+
+            Stages.Remove(stage);
+            Verified = false;
+        }
+
+        public void RemoveSubStageAt(int index)
+        {
+            if (index > 0 && index < Stages.Count) Stages.RemoveAt(index);
+        }
+
+        public void InsertAtFirstValidIndex(StageBase stage)
+        {
+            Type targetOutput = stage.InType;
+            Type targetInput = stage.OutType;
+            for (int i = 0; i < Stages.Count; i++)
+            {
+                if (targetOutput.IsAssignableFrom(Stages[i].OutType))
+                {
+                    if (i == Stages.Count - 1)
+                    {
+                        AddSubStage(stage); //If Empty or Last item we want to make sure that the 
+                        return;
+                    }
+                    else if(Stages[i+1].InType.IsAssignableFrom(targetInput))
+                    {
+                        Stages.Insert(i + 1, stage);
+                        return;
+                    }
+                }
+            }
+            throw new PipelineNotValidException(this,
+                $"Can not Add stage In:{stage.InType} Out: {stage.OutType} because there is no valid Index for this Stage in the pipeline.");
+        }
+
         public void AddSubStage(StageBase stage)
         {
             if (stage == null)
@@ -39,7 +79,7 @@ namespace Byt3.ObjectPipeline
             Verified = false;
             if (Stages.Count == 0)
             {
-                if (stage.InType != InType)
+                if (!stage.InType.IsAssignableFrom(InType))
                 {
                     throw new PipelineNotValidException(this,
                         $"Can not Add stage with in type {stage.InType} as first element in the Pipeline. it has to be the same type as the pipeline in type({InType})");
@@ -52,7 +92,7 @@ namespace Byt3.ObjectPipeline
             else
             {
                 PipelineStage last = Stages.Last();
-                if (last.OutType != stage.InType)
+                if (!stage.InType.IsAssignableFrom(last.OutType))
                 {
                     throw new PipelineNotValidException(this,
                         $"Can not Add stage with in type {stage.InType} in the pipeline. it has to be the same type as the previous pipeline out type({last.OutType})");
@@ -97,7 +137,7 @@ namespace Byt3.ObjectPipeline
 
         public override object Process(object input)
         {
-            return Process((I) input);
+            return Process((I)input);
         }
 
 

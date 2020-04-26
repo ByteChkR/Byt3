@@ -1,0 +1,4 @@
+--define texture fileTest: "resources/WFCTiles/testtile.png"
+
+Main:
+  setactive fileTest 0 1 2 3 #Have to use the texture otherwise it will be "optimized away"

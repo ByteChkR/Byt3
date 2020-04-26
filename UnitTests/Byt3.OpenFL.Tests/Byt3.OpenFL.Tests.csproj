@@ -99,6 +99,30 @@
     <None Update="resources\filter\game\wall2.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="resources\filter\program_checks\filepath_validator_correct.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\program_checks\filepath_validator_incorrect.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\program_checks\instructionargument_validator_correct.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\program_checks\instructionargument_validator_incorrect.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\program_checks\optimizations\remove_unused_buffers.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\program_checks\optimizations\remove_unused_functions.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\program_checks\optimizations\remove_unused_scripts.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\program_checks\optimizations\unused_script.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="resources\filter\test.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

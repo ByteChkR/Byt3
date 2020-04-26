@@ -25,7 +25,7 @@ namespace Byt3Console.Runner
                 {
                     lib.Save(ConsolePaths.RunnerConfig);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                 }
             }

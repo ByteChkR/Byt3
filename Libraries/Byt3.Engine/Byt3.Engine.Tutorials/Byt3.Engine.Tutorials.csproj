@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.9.1905</AssemblyVersion>
-    <FileVersion>1.0.9.1905</FileVersion>
+    <AssemblyVersion>1.1.71.745</AssemblyVersion>
+    <FileVersion>1.1.71.745</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="assets\filter\blue.fl" />
@@ -18,7 +18,7 @@
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
     <ProjectReference Include="..\Byt3.Engine\Byt3.Engine.csproj" />
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

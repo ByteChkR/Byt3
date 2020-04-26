@@ -7,67 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\Byt3.ADL\Byt3.ADL.Crash\Byt3.ADL.Crash.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator\Byt3.AssemblyGenerator.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.AssemblyGenerator\Byt3Console.AssemblyGenerator\Byt3Console.AssemblyGenerator.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Collections\Byt3.Collections.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.AssetPackaging\Byt3.Engine.AssetPackaging.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.BuildTools.Common\Byt3.Engine.BuildTools.Common.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.BuildTools.PackageCreator\Byt3.Engine.BuildTools.PackageCreator.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.BuildTools\Byt3.Engine.BuildTools.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.Demos\Byt3.Engine.Demos.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.Tutorials\Byt3.Engine.Tutorials.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine\Byt3.Engine.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3Console.Engine.BuildTools\Byt3Console.Engine.BuildTools.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3Console.Engine.Player\Byt3Console.Engine.Player.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.API\Byt3.ExtPP.API.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Plugins\Byt3.ExtPP.Plugins.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP\Byt3.ExtPP.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3Console.ExtPP\Byt3Console.ExtPP.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.MAssert\Byt3.MAssert.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline.AssetLoaderFramework\Byt3.ObjectPipeline.AssetLoaderFramework.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline.Threading\Byt3.ObjectPipeline.Threading.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenCL\Byt3.OpenCL.Wrapper\Byt3.OpenCL.Wrapper.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenCL\Byt3.OpenCL\Byt3.OpenCL.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Common\Byt3.OpenFL.Common.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Threading\Byt3.OpenFL.Threading.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL\Byt3.OpenFL.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3Console.OpenFL\Byt3Console.OpenFL.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.PackageHandling\Byt3.PackageHandling.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Serialization\Byt3.Serialization.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Threading\Byt3.Threading.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3Console.VersionHelper\Byt3Console.VersionHelper.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Lib.Resolver\Byt3Console.Lib.Resolver.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Link.Resolver\Byt3Console.Link.Resolver.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Runner\Byt3Console.Runner.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Url.Resolver\Byt3Console.Url.Resolver.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.DotNet\Byt3.Utilities.DotNet.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.IL\Byt3.Utilities.IL.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.IO\Byt3.Utilities.IO.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Serialization\Byt3.Utilities.Serialization.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Threading\Byt3.Utilities.Threading.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.AssemblyGenerator\Byt3Console.AssemblyGenerator.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Engine.BuildTools\Byt3Console.Engine.BuildTools.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Engine.Player\Byt3Console.Engine.Player.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.ExtPP\Byt3Console.ExtPP.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL\Byt3Console.OpenFL.csproj" />
     <ProjectReference Include="..\TestingProjectConsole\TestingProjectConsole.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="assets\filter\blue.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\filter\red.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="assets\test_kernel\red.cl">
+    <None Update="resources\argument_type_check_test.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="resources\codeanalysistest.cl">

@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.1.13.1905</AssemblyVersion>
-    <FileVersion>1.1.13.1905</FileVersion>
+    <AssemblyVersion>1.3.5.745</AssemblyVersion>
+    <FileVersion>1.3.5.745</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj" />
-    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="DataTypes\VectorTypes.tt">
@@ -24,7 +23,7 @@
       <DependentUpon>VectorTypes.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

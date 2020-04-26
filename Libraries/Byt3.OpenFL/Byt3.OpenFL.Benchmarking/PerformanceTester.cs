@@ -56,7 +56,7 @@ namespace Byt3.OpenFL.Benchmarking
             public override string ToString()
             {
                 return
-                    $"{TestName}: {Result}ms ({Percentage}%); Matched: {Matched}; Target: {Target}ms; Delta: {DeltaFromTarget}ms";
+                    $"[{(Matched ? "Pass" : "Fail")}] {TestName}: {Result}ms ({Percentage}%); Target: {Target}ms; Delta: {DeltaFromTarget}ms";
             }
         }
 
@@ -82,7 +82,7 @@ namespace Byt3.OpenFL.Benchmarking
                     Targets.Add((PerformanceTarget)xs.Deserialize(s));
                     s.Close();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     s?.Close();
                 }
@@ -99,7 +99,7 @@ namespace Byt3.OpenFL.Benchmarking
                 xs.Serialize(s, target);
                 s.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 s?.Close();
             }
@@ -110,17 +110,17 @@ namespace Byt3.OpenFL.Benchmarking
             return Targets.FirstOrDefault(x => x.TestName == name);
         }
 
-        public PerformanceResult RunTest(string testName, int testCount, Action beforeTest, Action test, Action afterTest)
+        public PerformanceResult RunTest(string testName, int testCount, Action<int> beforeTest, Action<int> test, Action<int> afterTest)
         {
             PerformanceTarget target = GetTarget(testName);
             Stopwatch sw = new Stopwatch();
             for (int i = 0; i < testCount; i++)
             {
-                beforeTest?.Invoke();
+                beforeTest?.Invoke(i);
                 sw.Start();
-                test();
+                test(i);
                 sw.Stop();
-                afterTest?.Invoke();
+                afterTest?.Invoke(i);
             }
             decimal result = (decimal)sw.Elapsed.TotalMilliseconds;
             if (target == null)

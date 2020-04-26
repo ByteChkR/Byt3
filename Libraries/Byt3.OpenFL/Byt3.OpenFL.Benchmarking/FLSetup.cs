@@ -13,8 +13,9 @@ namespace Byt3.OpenFL.Benchmarking
 {
     public struct FLSetup : IDisposable
     {
-        private string RunResultPath => Path.Combine($"performance", typeof(OpenFLDebugConfig).Assembly.GetName().Version.ToString());
-        private string PerformanceOutputFile => $"performance/{testName}.log";
+        private readonly string PerformanceFolder;
+        private string RunResultPath => Path.Combine(PerformanceFolder, typeof(OpenFLDebugConfig).Assembly.GetName().Version.ToString());
+        private string PerformanceOutputFile => Path.Combine(PerformanceFolder, $"{testName}.log");
         private string DataOutputDirectory => Path.Combine(RunResultPath, $"data");
 
         private readonly string testName;
@@ -22,20 +23,40 @@ namespace Byt3.OpenFL.Benchmarking
         public readonly KernelDatabase KernelDatabase;
         public readonly FLInstructionSet InstructionSet;
         public readonly BufferCreator BufferCreator;
-        public readonly FLProgramCheckPipeline CheckPipeline;
-        public readonly FLParser Parser;
+        public FLProgramCheckBuilder CheckBuilder;
+        public FLParser Parser;
 
-        public FLSetup(string testName, string kernelPath)
+
+
+        public FLSetup(string testName, string kernelPath, string performance = "performance", bool useChecks = true, bool useMultiThreading = false, int workSizeMultiplier = 2)
         {
             this.testName = testName;
+            PerformanceFolder = performance;
             KernelDatabase = new KernelDatabase(CLAPI.MainThread, kernelPath, DataVectorTypes.Uchar1);
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(KernelDatabase);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
-            CheckPipeline = FLProgramCheckPipeline.CreateDefaultCheckPipeline(InstructionSet, BufferCreator);
-            Parser = new FLParser(InstructionSet, BufferCreator, CheckPipeline);
+            CheckBuilder =
+                useChecks ?
+                    FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator) :
+                    new FLProgramCheckBuilder(InstructionSet, BufferCreator);
+            Parser = new FLParser(InstructionSet, BufferCreator, new WorkItemRunnerSettings(useMultiThreading, workSizeMultiplier));
+            CheckBuilder.Attach(Parser, true);
 
             Directory.CreateDirectory(RunResultPath);
             Directory.CreateDirectory(DataOutputDirectory);
+        }
+
+        public void SetCheckBuilder(FLProgramCheckBuilder checkBuilder, bool attach)
+        {
+            if (CheckBuilder != null && CheckBuilder.IsAttached)
+            {
+                CheckBuilder.Detach(false);
+            }
+            CheckBuilder = checkBuilder;
+            if (attach)
+            {
+                CheckBuilder.Attach(Parser, true);
+            }
         }
 
         public void Dispose()
@@ -46,13 +67,14 @@ namespace Byt3.OpenFL.Benchmarking
         public void WriteLog(string log)
         {
 #if DEBUG
-            File.WriteAllText(PerformanceOutputFile, log);
+            File.AppendAllText(PerformanceOutputFile, log);
 #endif
         }
 
         public Stream GetDataFileStream(string filename)
         {
 #if DEBUG
+            Directory.CreateDirectory(Path.Combine(DataOutputDirectory, Path.GetDirectoryName(filename)));
             return File.Create(Path.Combine(DataOutputDirectory, filename));
 #else
             return new MemoryStream();

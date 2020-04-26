@@ -1,4 +1,6 @@
 ﻿using System.Drawing;
+using System.IO;
+using Byt3.Callbacks;
 
 namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
 {
@@ -6,7 +8,16 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
     {
         public string File { get; }
 
-        public override Bitmap Bitmap => (Bitmap) Image.FromFile(File);
+        public override Bitmap Bitmap
+        {
+            get
+            {
+                Stream s = IOManager.GetStream(File);
+                Bitmap ret= (Bitmap)Image.FromStream(s);
+                s.Close();
+                return ret;
+            }
+        }
 
         public SerializableFromFileFLBuffer(string name, string file) : base(name, null)
         {

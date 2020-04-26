@@ -58,7 +58,7 @@ namespace Byt3Console.Runner
             {
                 ConsoleTitle = (string) adc.GetPropertyValue(libPath, TypeSignature, "ConsoleTitle");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 ConsoleTitle = Path.GetFileNameWithoutExtension(libPath);
             }

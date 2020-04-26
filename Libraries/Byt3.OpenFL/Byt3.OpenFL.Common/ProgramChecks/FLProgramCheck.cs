@@ -1,18 +1,14 @@
-﻿using Byt3.ADL;
+﻿using System;
+using Byt3.ADL;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
-using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 
 namespace Byt3.OpenFL.Common.ProgramChecks
 {
-    public abstract class FLProgramCheck : PipelineStage<SerializableFLProgram, SerializableFLProgram>
-    {
-        protected FLProgramCheck()
-        {
-           Logger= new ADLLogger<LogType>(OpenFLDebugConfig.Settings, GetType().Name);
-        }
 
+    public abstract class FLProgramCheck : PipelineStage
+    {
         protected readonly ADLLogger<LogType> Logger;
         protected FLInstructionSet InstructionSet { get; private set; }
         protected BufferCreator BufferCreator { get; private set; }
@@ -22,5 +18,16 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             InstructionSet = iset;
             BufferCreator = bc;
         }
+
+        protected FLProgramCheck(Type inType, Type outType) : base(inType, outType)
+        {
+            Logger = new ADLLogger<LogType>(OpenFLDebugConfig.Settings, GetType().Name);
+        }
+    }
+
+    public abstract class FLProgramCheck<T> : FLProgramCheck
+    where T : FLPipelineResult
+    {
+        protected FLProgramCheck() : base(typeof(T), typeof(T)){ }
     }
 }

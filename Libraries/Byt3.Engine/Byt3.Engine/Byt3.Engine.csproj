@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.1</LangVersion>
-    <AssemblyVersion>1.0.9.1905</AssemblyVersion>
-    <FileVersion>1.0.9.1905</FileVersion>
+    <AssemblyVersion>1.1.71.745</AssemblyVersion>
+    <FileVersion>1.1.71.745</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="assets\configs\adl_network_config.xml" />
@@ -89,22 +89,15 @@
     <PackageReference Include="SharpFontCore" Version="0.1.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj" />
-    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
-    <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL.Crash\Byt3.ADL.Crash.csproj" />
-    <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
-    <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL.Wrapper\Byt3.OpenCL.Wrapper.csproj" />
-    <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL\Byt3.OpenCL.csproj" />
-    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Common\Byt3.OpenFL.Common.csproj" />
-    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
-    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
-    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Threading\Byt3.OpenFL.Threading.csproj" />
-    <ProjectReference Include="..\Byt3.Engine.AssetPackaging\Byt3.Engine.AssetPackaging.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="OpenFL\" />
   </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.ManifestIO\Byt3.Utilities.ManifestIO.csproj" />
+    <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Threading\Byt3.OpenFL.Threading.csproj" />
+  </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

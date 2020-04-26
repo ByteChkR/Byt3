@@ -7,7 +7,6 @@ using Byt3.ADL;
 using Byt3.Callbacks;
 using Byt3.Engine.Debug;
 using Byt3.Engine.Exceptions;
-using Byt3.Engine.IO;
 using Byt3.ExtPP.API;
 using Byt3.Utilities.Exceptions;
 using OpenTK.Graphics.OpenGL;

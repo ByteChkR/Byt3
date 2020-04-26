@@ -31,7 +31,7 @@ namespace TestingProjectConsole.Commands
                     continue;
                 }
 
-                v = Byt3Console.VersionHelper.ConsoleEntry.ChangeVersion(v, format);
+                v = Byt3Console.VersionHelper.VersionHelperConsole.ChangeVersion(v, format);
             }
         }
 

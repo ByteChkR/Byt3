@@ -521,24 +521,4 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
     //The StanceManager, as is, is semi-extensible.  Technically additional states can be added.
     //However, there are parts that are hard coded for the sake of initial implementation simplicity,
     //so it won't be a cakewalk.
-    /// <summary>
-    /// Stance of a cylindrical character.
-    /// </summary>
-    public enum Stance
-    {
-        /// <summary>
-        /// Tallest stance.
-        /// </summary>
-        Standing,
-
-        /// <summary>
-        /// Middle-height stance; must be taller than prone and shorter than standing.
-        /// </summary>
-        Crouching,
-
-        /// <summary>
-        /// The shortest stance; the character is essentially on the ground. Note that the width and length of the character do not change while prone.
-        /// </summary>
-        Prone
-    }
 }

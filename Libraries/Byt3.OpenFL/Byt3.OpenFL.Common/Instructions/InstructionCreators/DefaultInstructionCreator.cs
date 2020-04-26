@@ -9,9 +9,13 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
     {
         private readonly string instructionKey;
         private readonly Type type;
+        private readonly string argumentSignature;
 
-        public DefaultInstructionCreator(string key, Type instructionType)
+        public override string GetArgumentSignatureForInstruction(SerializableFLInstruction instruction) => argumentSignature;
+
+        public DefaultInstructionCreator(string key, Type instructionType, string signature = null)
         {
+            argumentSignature = signature;
             instructionKey = key;
             type = instructionType;
         }
@@ -31,14 +35,14 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 args.Add(arg);
             }
 
-            return (FLInstruction) Activator.CreateInstance(type, new object[] {args});
+            return (FLInstruction)Activator.CreateInstance(type, new object[] { args });
         }
     }
 
     public class DefaultInstructionCreator<T> : DefaultInstructionCreator
         where T : FLInstruction
     {
-        public DefaultInstructionCreator(string key) : base(key, typeof(T))
+        public DefaultInstructionCreator(string key, string signature = null) : base(key, typeof(T), signature)
         {
         }
     }

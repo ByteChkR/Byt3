@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.2.11.1905</AssemblyVersion>
-    <FileVersion>1.2.11.1905</FileVersion>
+    <AssemblyVersion>1.4.5.745</AssemblyVersion>
+    <FileVersion>1.4.5.745</FileVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
-    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
-    <ProjectReference Include="..\..\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
-    <ProjectReference Include="..\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
-  </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
+    <ProjectReference Include="..\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
+  </ItemGroup>
 </Project>

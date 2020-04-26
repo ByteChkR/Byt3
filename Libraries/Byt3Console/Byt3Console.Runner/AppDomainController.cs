@@ -51,7 +51,7 @@ namespace Byt3Console.Runner
                     {
                         return Assembly.LoadFile(files[i]);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                     }
                 }

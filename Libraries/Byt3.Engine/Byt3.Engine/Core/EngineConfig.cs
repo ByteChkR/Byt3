@@ -9,19 +9,10 @@ using System.Xml.Serialization;
 using Byt3.ADL;
 using Byt3.Callbacks;
 using Byt3.Engine.Debug;
-using Byt3.Engine.Exceptions;
-using Byt3.Engine.IO;
+using Byt3.Utilities.ManifestIO;
 
 namespace Byt3.Engine.Core
 {
-    /// <summary>
-    /// A Custom Attribute that is used to save and load the variable dynamically with reflection
-    /// </summary>
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-    public class ConfigVariable : Attribute
-    {
-    }
-
     /// <summary>
     /// Static Class that Loads and Saves Properties and Fields marked by the ConfigVariable attribute
     /// </summary>

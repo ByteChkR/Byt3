@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
@@ -12,6 +13,26 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
         public KernelFLInstructionCreator(KernelDatabase kernelList)
         {
             KernelList = kernelList;
+        }
+
+        public override string GetArgumentSignatureForInstruction(SerializableFLInstruction instruction)
+        {
+            if (!KernelList.TryGetClKernel(instruction.InstructionKey, out CLKernel kernel)) return null;
+            char[] arg = new char[kernel.Parameter.Count - KernelFLInstruction.FL_HEADER_ARG_COUNT];
+            foreach (KeyValuePair<string, KernelParameter> kernelParameter in kernel.Parameter)
+            {
+                if (kernelParameter.Value.Id < KernelFLInstruction.FL_HEADER_ARG_COUNT) continue;
+                if (kernelParameter.Value.IsArray)
+                {
+                    arg[kernelParameter.Value.Id - KernelFLInstruction.FL_HEADER_ARG_COUNT] = 'E';
+                }
+                else
+                {
+                    arg[kernelParameter.Value.Id - KernelFLInstruction.FL_HEADER_ARG_COUNT] = 'V';
+                }
+            }
+
+            return new string(arg);
         }
 
         public override FLInstruction Create(FLProgram script, SerializableFLInstruction instruction)

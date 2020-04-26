@@ -11,6 +11,7 @@ namespace Byt3.ObjectPipeline
                 AddSubStage(stages[i]);
             }
         }
+        
 
         public override object Process(object input)
         {

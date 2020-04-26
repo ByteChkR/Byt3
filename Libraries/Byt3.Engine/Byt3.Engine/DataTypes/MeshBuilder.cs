@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Byt3.Engine.Debug;
 using Byt3.Engine.IO;
 using OpenTK;
 

@@ -1,0 +1,10 @@
+--define script fileTest: "resources/filter/program_checks/optimizations/unused_script.fl"
+
+Main:
+  set Function1 #Using Function 1
+Function1:
+  rnd
+Function2: #Not Using Function 2
+  jmp Function3
+Function3: #Function 3 not used by program but is used in another unused function
+  set fileTest

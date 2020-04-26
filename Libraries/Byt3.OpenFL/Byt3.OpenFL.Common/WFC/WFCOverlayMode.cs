@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Byt3.ADL;
 using Byt3.Callbacks;
-using Byt3.OpenCL.Wrapper;
 
 namespace Byt3.OpenFL.Common.WFC
 {

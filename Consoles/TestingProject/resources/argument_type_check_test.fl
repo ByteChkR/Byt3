@@ -1,0 +1,19 @@
+--define texture test: empty
+Main:
+  setactive 0 1 2 3 #Valid
+  setactive in 0 1 2 3 #Valid
+
+  setactive 0 1 2 #Valid
+  setactive in 0 1 2 #Valid
+
+  setactive 0 1 #Valid
+  setactive in 0 1 #Valid
+
+  setactive 0 #Valid
+  setactive in 0 #Valid
+
+  setactive in #Valid
+
+  setv 1 #valid
+
+  setv test #invalid

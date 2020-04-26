@@ -19,7 +19,7 @@ namespace Byt3.Engine.BuildTools.PackageCreator
     {
         public const string DefaultVersion = "v1";
 
-        private static Dictionary<string, IPackageVersion> _packageVersions = new Dictionary<string, IPackageVersion>
+        private static readonly Dictionary<string, IPackageVersion> _packageVersions = new Dictionary<string, IPackageVersion>
         {
             {"legacy", new LegacyVersion()},
             {"v1", new Version1()},

@@ -1,16 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.1.86.1905</AssemblyVersion>
-    <FileVersion>1.1.86.1905</FileVersion>
+    <AssemblyVersion>1.3.4.745</AssemblyVersion>
+    <FileVersion>1.3.4.745</FileVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
-    <ProjectReference Include="..\Byt3.Utilities.Serialization\Byt3.Utilities.Serialization.csproj" />
-    <ProjectReference Include="..\Byt3.Utilities.Threading\Byt3.Utilities.Threading.csproj" />
-    <ProjectReference Include="..\Byt3.Utilities.Versioning\Byt3.Utilities.Versioning.csproj" />
-  </ItemGroup>
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
+  <ItemGroup>
+    <ProjectReference Include="..\Byt3.Utilities.Serialization\Byt3.Utilities.Serialization.csproj" />
+    <ProjectReference Include="..\Byt3.Utilities.Threading\Byt3.Utilities.Threading.csproj" />
+  </ItemGroup>
 </Project>

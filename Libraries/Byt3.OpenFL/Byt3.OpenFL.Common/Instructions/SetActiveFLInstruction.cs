@@ -60,7 +60,7 @@ namespace Byt3.OpenFL.Common.Instructions
 
                         Logger.Log(LogType.Log, $"Executing Function: {source.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 
-                        Root.Run(Root.Instance, buffer, source);
+                        Root.Run(Root.Instance, buffer, true, source);
 
                         FLBuffer output = Root.ActiveBuffer;
 

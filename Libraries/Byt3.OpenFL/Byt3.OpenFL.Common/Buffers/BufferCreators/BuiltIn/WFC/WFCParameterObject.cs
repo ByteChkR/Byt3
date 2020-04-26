@@ -1,5 +1,4 @@
 ﻿using Byt3.Callbacks;
-using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.Exceptions;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
