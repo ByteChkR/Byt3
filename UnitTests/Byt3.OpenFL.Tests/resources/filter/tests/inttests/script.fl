@@ -1,8 +1,0 @@
-Main:
-  setactive 3
-  setv 1
-	setactive 0 1 2
-	#Initializes the active buffer with random data
- 	urnd
-	#Parameters are separated with spaces.
-	perlin 0.7 6

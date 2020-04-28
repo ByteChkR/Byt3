@@ -21,5 +21,5 @@ __kernel void subv(__global uchar* image, int3 dimensions, int channelCount, flo
 		return;
 	}
 
-	image[idx] -= value;
+	image[idx] -= value*maxValue;
 }

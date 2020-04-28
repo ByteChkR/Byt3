@@ -1,12 +1,44 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.8.2.1455</AssemblyVersion>
-    <FileVersion>1.8.2.1455</FileVersion>
+    <AssemblyVersion>1.8.16.1612</AssemblyVersion>
+    <FileVersion>1.8.16.1612</FileVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
+  <ItemGroup>
+    <None Remove="resources\kernel\add.cl" />
+    <None Remove="resources\kernel\adjustlevel.cl" />
+    <None Remove="resources\kernel\div.cl" />
+    <None Remove="resources\kernel\invert.cl" />
+    <None Remove="resources\kernel\mix.cl" />
+    <None Remove="resources\kernel\mod.cl" />
+    <None Remove="resources\kernel\mul.cl" />
+    <None Remove="resources\kernel\perlin.cl" />
+    <None Remove="resources\kernel\set.cl" />
+    <None Remove="resources\kernel\shapes.cl" />
+    <None Remove="resources\kernel\smooth.cl" />
+    <None Remove="resources\kernel\sub.cl" />
+    <None Remove="resources\kernel\utils.cl" />
+    <None Remove="resources\kernel\worley.cl" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\kernel\add.cl" />
+    <EmbeddedResource Include="resources\kernel\adjustlevel.cl" />
+    <EmbeddedResource Include="resources\kernel\div.cl" />
+    <EmbeddedResource Include="resources\kernel\invert.cl" />
+    <EmbeddedResource Include="resources\kernel\mix.cl" />
+    <EmbeddedResource Include="resources\kernel\mod.cl" />
+    <EmbeddedResource Include="resources\kernel\mul.cl" />
+    <EmbeddedResource Include="resources\kernel\perlin.cl" />
+    <EmbeddedResource Include="resources\kernel\set.cl" />
+    <EmbeddedResource Include="resources\kernel\shapes.cl" />
+    <EmbeddedResource Include="resources\kernel\smooth.cl" />
+    <EmbeddedResource Include="resources\kernel\sub.cl" />
+    <EmbeddedResource Include="resources\kernel\utils.cl" />
+    <EmbeddedResource Include="resources\kernel\worley.cl" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Byt3.ObjectPipeline\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj" />
     <ProjectReference Include="..\..\Byt3.OpenCL\Byt3.OpenCL.Wrapper\Byt3.OpenCL.Wrapper.csproj" />

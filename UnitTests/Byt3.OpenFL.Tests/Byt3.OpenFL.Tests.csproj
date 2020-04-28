@@ -7,6 +7,132 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="resources\codeanalysistest.cl" />
+    <None Remove="resources\engine.settings.xml" />
+    <None Remove="resources\filter\comments\test.fl" />
+    <None Remove="resources\filter\defines\test.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_invalid_file.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_file.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_ground.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_height.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_limit.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_n.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_not_enough_args.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_pin.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_pout.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_symmetry.fl" />
+    <None Remove="resources\filter\defines\test_wrong_define_wfc_width.fl" />
+    <None Remove="resources\filter\defines\test_wrong_script_.fl" />
+    <None Remove="resources\filter\defines\test_wrong_script_invalid_file.fl" />
+    <None Remove="resources\filter\program_checks\filepath_validator_correct.fl" />
+    <None Remove="resources\filter\program_checks\filepath_validator_incorrect.fl" />
+    <None Remove="resources\filter\program_checks\instructionargument_validator_correct.fl" />
+    <None Remove="resources\filter\program_checks\instructionargument_validator_incorrect.fl" />
+    <None Remove="resources\filter\program_checks\optimizations\remove_unused_buffers.fl" />
+    <None Remove="resources\filter\program_checks\optimizations\remove_unused_functions.fl" />
+    <None Remove="resources\filter\program_checks\optimizations\remove_unused_scripts.fl" />
+    <None Remove="resources\filter\program_checks\optimizations\unused_script.fl" />
+    <None Remove="resources\io\test_struct_original.xml" />
+    <None Remove="resources\textures\blackDot.png" />
+    <None Remove="resources\textures\overlay.png" />
+    <None Remove="resources\textures\TEST.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="resources\codeanalysistest.cl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\engine.settings.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\comments\test.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_invalid_file.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_file.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_ground.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_height.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_limit.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_n.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_not_enough_args.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_pin.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_pout.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_symmetry.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_define_wfc_width.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_script_.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\defines\test_wrong_script_invalid_file.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\program_checks\filepath_validator_correct.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\program_checks\filepath_validator_incorrect.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\program_checks\instructionargument_validator_correct.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\program_checks\instructionargument_validator_incorrect.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\program_checks\optimizations\remove_unused_buffers.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\program_checks\optimizations\remove_unused_functions.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\program_checks\optimizations\remove_unused_scripts.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\program_checks\optimizations\unused_script.fl">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\io\test_struct_original.xml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\textures\blackDot.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\textures\overlay.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\textures\TEST.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="1.2.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -24,225 +150,6 @@
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Common\Byt3.OpenFL.Common.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="resources\codeanalysistest.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\engine.settings.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\comments\test.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_invalid_file.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_file.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_ground.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_height.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_limit.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_n.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_not_enough_args.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_pin.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_pout.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_symmetry.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_define_wfc_width.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_script_.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\defines\test_wrong_script_invalid_file.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\game\ground.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\game\perlin.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\game\tennisball.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\game\wall0.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\game\wall1.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\game\wall2.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\program_checks\filepath_validator_correct.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\program_checks\filepath_validator_incorrect.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\program_checks\instructionargument_validator_correct.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\program_checks\instructionargument_validator_incorrect.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\program_checks\optimizations\remove_unused_buffers.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\program_checks\optimizations\remove_unused_functions.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\program_checks\optimizations\remove_unused_scripts.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\program_checks\optimizations\unused_script.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\test.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\testface.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\testfaceclean.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\testface_gen.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\addtex.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\addval.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\inttests\script.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\int_tests.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\invert.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\multex.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\mulval.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\perlin.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\pptests\include.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\pptests\includeinl.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\pp_tests.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\settex.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\setval.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\smooth.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\subtex.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\subval.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\wfc.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\io\test_struct_original.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\add.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\adjustlevel.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\div.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\invert.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\mix.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\mod.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\mul.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\perlin.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\set.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\shapes.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\smooth.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\sub.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\utils.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\kernel\worley.cl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\textures\blackDot.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\textures\overlay.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\textures\TEST.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\WFCTiles\testtile.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

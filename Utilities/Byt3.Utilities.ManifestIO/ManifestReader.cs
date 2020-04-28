@@ -57,7 +57,7 @@ namespace Byt3.Utilities.ManifestIO
 
             string list = tr.ReadToEnd();
             tr.Close();
-            string[] files = list.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] files = list.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
             for (int i = 0; i < files.Length; i++)
             {
@@ -334,11 +334,25 @@ namespace Byt3.Utilities.ManifestIO
             string[] files = _assemblyFiles.Keys.ToArray();
             string p = SanitizeFilename(path);
             List<string> ret = new List<string>();
+            string[] searchParts = searchPattern.Split(new[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < files.Length; i++)
             {
-                if (files[i].StartsWith(p) && (files[i].EndsWith(searchPattern) || searchPattern == "*"))
+                if (files[i].StartsWith(p)/* && (files[i].EndsWith(searchPattern) || searchPattern == "*")*/)
                 {
-                    ret.Add(UnSanitizeFilename(files[i]));
+                    string filePart = files[i].Replace(p, "");
+                    int lastIdx = 0;
+                    bool valid = true;
+                    for (int j = 0; j < searchParts.Length; j++)
+                    {
+                        int idx = FString.FastIndexOf(ref filePart, searchParts[j], lastIdx);
+                        if (lastIdx > idx)
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if (valid)
+                        ret.Add(UnSanitizeFilename(files[i]));
                 }
             }
 

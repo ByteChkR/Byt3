@@ -2,28 +2,19 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.1</LangVersion>
-    <AssemblyVersion>1.2.96.1455</AssemblyVersion>
-    <FileVersion>1.2.96.1455</FileVersion>
+    <AssemblyVersion>1.3.7.1612</AssemblyVersion>
+    <FileVersion>1.3.7.1612</FileVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="assets\kernel\**" />
+    <EmbeddedResource Remove="assets\kernel\**" />
+    <None Remove="assets\kernel\**" />
+  </ItemGroup>
   <ItemGroup>
     <None Remove="assets\configs\adl_network_config.xml" />
     <None Remove="assets\configs\engine_settings.xml" />
     <None Remove="assets\fonts\default_font.ttf" />
     <None Remove="assets\grass.fl" />
-    <None Remove="assets\kernel\add.cl" />
-    <None Remove="assets\kernel\adjustlevel.cl" />
-    <None Remove="assets\kernel\div.cl" />
-    <None Remove="assets\kernel\invert.cl" />
-    <None Remove="assets\kernel\mix.cl" />
-    <None Remove="assets\kernel\mod.cl" />
-    <None Remove="assets\kernel\mul.cl" />
-    <None Remove="assets\kernel\perlin.cl" />
-    <None Remove="assets\kernel\set.cl" />
-    <None Remove="assets\kernel\shapes.cl" />
-    <None Remove="assets\kernel\smooth.cl" />
-    <None Remove="assets\kernel\sub.cl" />
-    <None Remove="assets\kernel\utils.cl" />
-    <None Remove="assets\kernel\worley.cl" />
     <None Remove="assets\models\cube_flat.obj" />
     <None Remove="assets\models\default_mesh.obj" />
     <None Remove="assets\models\sphere_smooth.obj" />
@@ -49,20 +40,6 @@
     <EmbeddedResource Include="assets\configs\engine_settings.xml" />
     <EmbeddedResource Include="assets\fonts\default_font.ttf" />
     <EmbeddedResource Include="assets\grass.fl" />
-    <EmbeddedResource Include="assets\kernel\add.cl" />
-    <EmbeddedResource Include="assets\kernel\adjustlevel.cl" />
-    <EmbeddedResource Include="assets\kernel\div.cl" />
-    <EmbeddedResource Include="assets\kernel\invert.cl" />
-    <EmbeddedResource Include="assets\kernel\mix.cl" />
-    <EmbeddedResource Include="assets\kernel\mod.cl" />
-    <EmbeddedResource Include="assets\kernel\mul.cl" />
-    <EmbeddedResource Include="assets\kernel\perlin.cl" />
-    <EmbeddedResource Include="assets\kernel\set.cl" />
-    <EmbeddedResource Include="assets\kernel\shapes.cl" />
-    <EmbeddedResource Include="assets\kernel\smooth.cl" />
-    <EmbeddedResource Include="assets\kernel\sub.cl" />
-    <EmbeddedResource Include="assets\kernel\utils.cl" />
-    <EmbeddedResource Include="assets\kernel\worley.cl" />
     <EmbeddedResource Include="assets\models\cube_flat.obj" />
     <EmbeddedResource Include="assets\models\default_mesh.obj" />
     <EmbeddedResource Include="assets\models\sphere_smooth.obj" />

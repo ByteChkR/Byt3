@@ -7,15 +7,14 @@ namespace Byt3.OpenFL.Tests
 {
     public class FL_ProgramCheck_Tests
     {
-        public void OpenFL_FindScriptCycle_Test()
-        {
-        }
+
 
 
         [Test]
         public void OpenFL_FilePathValidator_Incorrect_Test()
         {
-            TestSetup.SetupLogOutput();
+
+            TestSetup.SetupTestingSession();
             FLSetup setup = new FLSetup(nameof(OpenFL_FilePathValidator_Incorrect_Test), "resources/kernel");
 
             Assert.Catch<FLProgramCheckException>(() =>
@@ -28,7 +27,7 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_InstructionArgumentValidator_Correct_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             FLSetup setup = new FLSetup(nameof(OpenFL_InstructionArgumentValidator_Correct_Test), "resources/kernel");
 
 
@@ -41,7 +40,7 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_InstructionArgumentValidator_Incorrect_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             FLSetup setup = new FLSetup(nameof(OpenFL_InstructionArgumentValidator_Incorrect_Test), "resources/kernel");
 
             Assert.Catch<FLProgramCheckException>(() =>

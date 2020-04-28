@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using Byt3.ADL;
 using Byt3.ADL.Configs;
@@ -13,11 +14,13 @@ using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+using Byt3.OpenFL.Common.Instructions;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
 using Byt3.OpenFL.Parsing.Stages;
 using Byt3.OpenFL.Serialization;
+using Byt3.Utilities.ManifestIO;
 
 namespace Byt3.OpenFL.Benchmarking
 {
@@ -32,6 +35,12 @@ namespace Byt3.OpenFL.Benchmarking
 
         public static void InitializeTestRun(string performanceFolder)
         {
+
+            ManifestReader.RegisterAssembly(Assembly.GetExecutingAssembly());
+            ManifestReader.RegisterAssembly(Assembly.GetAssembly(typeof(KernelFLInstruction))); //Load the Embedded files from OpenFL.Common(the built in kernels)
+            EmbeddedFileIOManager.Initialize();
+            ManifestReader.PrepareManifestFiles(false);
+
             string p =Path.Combine(performanceFolder, "runs.txt");
             if (!File.Exists(p))
             {

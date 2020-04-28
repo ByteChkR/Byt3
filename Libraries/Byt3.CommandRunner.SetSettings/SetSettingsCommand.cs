@@ -22,7 +22,7 @@ namespace Byt3.CommandRunner.SetSettings
 
 
         public SetSettingsCommand(Dictionary<string, FieldInformations> rootNodes) :
-            base(new[] {"--set-settings", "-ss"}, "Sets the Settings")
+            base(new[] { "--set-settings", "-ss" }, "Sets the Settings")
         {
             CommandAction = (info, strings) => ReflectData(strings);
             RootNodes = rootNodes;
@@ -95,7 +95,7 @@ namespace Byt3.CommandRunner.SetSettings
             if (current.FieldType == typeof(float) || current.FieldType == typeof(string) ||
                 current.FieldType == typeof(int) || current.FieldType == typeof(bool))
             {
-                infos.Add(thisPath, new FieldInformation {reference = parentRef, info = current, path = thisPath});
+                infos.Add(thisPath, new FieldInformation { reference = parentRef, info = current, path = thisPath });
             }
             else
             {
@@ -150,12 +150,14 @@ namespace Byt3.CommandRunner.SetSettings
             }
         }
 
-        public static SetSettingsCommand CreateSettingsCommand(string rootName, params object[] o)
+        public static SetSettingsCommand CreateSettingsCommand<T>(string rootName, params T[] o)
+            where T : class
         {
             return new SetSettingsCommand(Create(Create(rootName, o)));
         }
 
-        public static ObjectFieldContainer Create(string rootName, params object[] o)
+        public static ObjectFieldContainer Create<T>(string rootName, params T[] o)
+            where T : class
         {
             Dictionary<string, FieldInformation> ret = new Dictionary<string, FieldInformation>();
             for (int i = 0; i < o.Length; i++)

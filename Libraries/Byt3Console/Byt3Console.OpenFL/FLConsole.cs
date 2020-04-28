@@ -3,6 +3,7 @@ using System.Reflection;
 using Byt3.ADL;
 using Byt3.CommandRunner;
 using Byt3.CommandRunner.SetSettings;
+using Byt3.OpenFL.Common.Instructions;
 using Byt3.Utilities.ConsoleInternals;
 using Byt3.Utilities.ManifestIO;
 using Byt3Console.OpenFL.Commands;
@@ -23,11 +24,12 @@ namespace Byt3Console.OpenFL
         {
             Debug.DefaultInitialization();
 
+
+
             EmbeddedFileIOManager.Initialize();
-            ManifestReader.RegisterAssembly(Assembly.GetExecutingAssembly());
+            ManifestReader.RegisterAssembly(typeof(KernelFLInstruction).Assembly); //Register Built In Kernels
             ManifestReader.PrepareManifestFiles(false); //First Read Assembly files
-            ManifestReader
-                .PrepareManifestFiles(true); //Replace Any Loaded assembly files with files on the file system.
+            ManifestReader.PrepareManifestFiles(true); //Replace Any Loaded assembly files with files on the file system.
 
             Runner.AddCommand(new DefaultHelpCommand());
             Runner.AddCommand(new SetOutputFilesCommand());

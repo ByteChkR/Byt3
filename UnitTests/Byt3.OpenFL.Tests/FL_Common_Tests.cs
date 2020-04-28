@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Byt3.Callbacks;
 using Byt3.OpenFL.Benchmarking;
 using Byt3.Utilities.FastString;
 using NUnit.Framework;
@@ -14,10 +15,10 @@ namespace Byt3.OpenFL.Tests
         private static List<string> GetFiles()
         {
             string[] dirs = new[] { "resources/filter/tests" };
-            List<string> files = new List<string> { "resources/filter/game/tennisball.fl" };
+            List<string> files = new List<string>();
             for (int i = 0; i < dirs.Length; i++)
             {
-                files.AddRange(Directory.GetFiles(dirs[i], "*.fl", SearchOption.TopDirectoryOnly));
+                files.AddRange(IOManager.GetFiles(dirs[i], "*.fl"));
             }
 
             return files;
@@ -26,50 +27,50 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_Program_Serialization_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             OpenFLBenchmarks.RunProgramSerializationBenchmark("_test", GetFiles(), IO_BENCHMARK_ITERATIONS);
         }
-         
+
         [Test]
         public void OpenFL_Program_Deserialization_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             OpenFLBenchmarks.RunProgramDeserializationBenchmark("_test", GetFiles(), IO_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_Parser_Initialization_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             OpenFLBenchmarks.RunParserInitBenchmark("_test", IO_BENCHMARK_ITERATIONS, "performance", true, false);
         }
 
         [Test]
         public void OpenFL_Parser_Parsing_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             OpenFLBenchmarks.RunParserProcessBenchmark("_test", GetFiles(), IO_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_Program_Initialization_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             OpenFLBenchmarks.RunProgramInitBenchmark("_test", GetFiles(), IO_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_ParsedProgram_Execution_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             OpenFLBenchmarks.RunParsedFLExecutionBenchmark("_test", GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
         }
 
         [Test]
         public void OpenFL_DeserializedProgram_Execution_Test()
         {
-            TestSetup.SetupLogOutput();
-            OpenFLBenchmarks.RunDeserializedFLExecutionBenchmark("_test",GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
+            TestSetup.SetupTestingSession();
+            OpenFLBenchmarks.RunDeserializedFLExecutionBenchmark("_test", GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
         }
     }
 }

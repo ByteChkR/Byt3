@@ -1,4 +1,0 @@
---define script textureA: yxz
-
-Main:
- setactive in

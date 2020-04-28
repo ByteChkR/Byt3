@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using Byt3.Callbacks;
 using Byt3.OpenCL.Wrapper;
+using Byt3.Utilities.ManifestIO;
 
 
 namespace Byt3.OpenCL.Tests
@@ -16,11 +18,12 @@ namespace Byt3.OpenCL.Tests
             {
                 if (kernelDb == null)
                 {
-                    Uri codeBaseUrl = new Uri(Assembly.GetExecutingAssembly().CodeBase);
-                    string codeBasePath = Uri.UnescapeDataString(codeBaseUrl.AbsolutePath);
-                    string dirPath = Path.GetDirectoryName(codeBasePath);
-                    string ResourceFolder = Path.Combine(dirPath, "resources", "kernel");
-                    kernelDb = new KernelDatabase(CLAPI.MainThread, ResourceFolder,
+                    string resourceFolder = Path.Combine("resources", "kernel");
+
+                    EmbeddedFileIOManager.Initialize();
+                    ManifestReader.RegisterAssembly(Assembly.GetExecutingAssembly());
+
+                    kernelDb = new KernelDatabase(CLAPI.MainThread, resourceFolder,
                         Wrapper.TypeEnums.DataVectorTypes.Uchar1);
                 }
 

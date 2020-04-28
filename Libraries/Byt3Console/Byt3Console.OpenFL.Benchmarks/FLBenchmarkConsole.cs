@@ -51,10 +51,6 @@ namespace Byt3Console.OpenFL.Benchmarks
 
         public override bool Run(string[] args)
         {
-
-            EmbeddedFileIOManager.Initialize();
-            ManifestReader.RegisterAssembly(typeof(OpenFLBenchmarks).Assembly);
-            ManifestReader.PrepareManifestFiles(false);
             Debug.DefaultInitialization();
             Runner.AddCommand(new HelpCommand(new DefaultHelpCommand(true)));
             SetSettingsCommand cmd = SetSettingsCommand.CreateSettingsCommand("Settings", Settings);

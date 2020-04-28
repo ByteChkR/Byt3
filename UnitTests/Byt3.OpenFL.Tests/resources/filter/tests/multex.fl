@@ -1,8 +1,0 @@
---define texture other: "resources/textures/TEST.png"
-
-Main:
-	setactive 3
-	setv 1 #Opaque
-  setactive 0 1 2
-  setv 0.5 #Make Grey
-	mul other #Multiply the image on the gray texture

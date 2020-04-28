@@ -15,7 +15,8 @@ namespace Byt3.Utilities.ManifestIO
     {
         public static void Initialize()
         {
-            IOManager.SetIOCallback(new EmbeddedFileIOManager());
+            if (!(IOManager.Callback is EmbeddedFileIOManager))
+                IOManager.SetIOCallback(new EmbeddedFileIOManager());
         }
 
         private static readonly ADLLogger<LogType> Logger =
@@ -94,7 +95,7 @@ namespace Byt3.Utilities.ManifestIO
             if (ManifestReader.DirectoryExists(foldername))
             {
                 Logger.Log(LogType.Log, foldername + " Found in Assembly Manifest.", 5);
-                files.AddRange(ManifestReader.GetFiles(foldername, searchPattern.Replace("*", "")));
+                files.AddRange(ManifestReader.GetFiles(foldername, searchPattern/*.Replace("*", "")*/));
             }
 
             return files.ToArray();

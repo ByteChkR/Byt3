@@ -1,6 +1,6 @@
 ﻿namespace Byt3Console.OpenFL.ScriptGenerator.Commands
 {
-    public struct FLScriptGeneratorSettings
+    public class FLScriptGeneratorSettings
     {
         public int Amount;
         public string OutputFolder;

@@ -10,7 +10,7 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_RemoveUnusedBuffers_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             FLSetup setup = new FLSetup(nameof(OpenFL_RemoveUnusedBuffers_Test), "resources/kernel");
 
 
@@ -25,7 +25,7 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_RemoveUnusedScripts_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             FLSetup setup = new FLSetup(nameof(OpenFL_RemoveUnusedScripts_Test), "resources/kernel");
 
 
@@ -40,7 +40,7 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_RemoveUnusedFunctions_Test()
         {
-            TestSetup.SetupLogOutput();
+            TestSetup.SetupTestingSession();
             FLSetup setup = new FLSetup(nameof(OpenFL_RemoveUnusedFunctions_Test), "resources/kernel");
 
 

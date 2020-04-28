@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Byt3.ADL;
+using Byt3.Callbacks;
 using Byt3.ExtPP.Base;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Wrapper;
@@ -23,9 +24,7 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_Comments_Test()
         {
-            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            TestSetup.SetupTestingSession();
             string file =
                 "resources/filter/comments/test.fl";
 
@@ -41,10 +40,8 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_DefineFile_Wrong_Test()
         {
+            TestSetup.SetupTestingSession();
             string file = "resources/filter/defines/test_wrong_define_invalid_file.fl";
-            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
 
             Assert.Catch<Byt3Exception>(() =>
             {
@@ -66,10 +63,8 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_Defines_Test()
         {
-            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            string file = Path.GetFullPath("resources/filter/defines/test.fl");
+            TestSetup.SetupTestingSession();
+            string file = "resources/filter/defines/test.fl";
 
             FLParser parser = new FLParser();
 
@@ -90,9 +85,7 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_DefineScriptFile_Wrong_Test()
         {
-            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            TestSetup.SetupTestingSession();
             string file = "resources/filter/defines/test_wrong_script_invalid_file.fl";
             Assert.Catch<Byt3Exception>(() =>
             {
@@ -109,9 +102,7 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_DefineScriptNoFile_Wrong_Test()
         {
-            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            TestSetup.SetupTestingSession();
             string file = "resources/filter/defines/test_wrong_script_.fl";
             Assert.Catch<Byt3Exception>(() =>
             {
@@ -127,10 +118,11 @@ namespace Byt3.OpenFL.Tests
         [Test]
         public void OpenFL_WFCDefines_Wrong_Test()
         {
-            string[] files = Directory.GetFiles("resources/filter/defines/", "test_wrong_define_wfc_*.fl");
-            ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
-            OpenCLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
+            TestSetup.SetupTestingSession();
+
+            string[] files = IOManager.GetFiles("resources/filter/defines/", "test_wrong_define_wfc_*.fl");
+
+            Assert.IsNotEmpty(files, "No Test FL Scripts found for "+ nameof(OpenFL_WFCDefines_Wrong_Test));
 
             foreach (string file in files)
             {

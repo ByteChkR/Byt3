@@ -1,4 +1,0 @@
---define script textureA: "no/file/here"
-
-Main:
- setactive in
