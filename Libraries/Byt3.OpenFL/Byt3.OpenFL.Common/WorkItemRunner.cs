@@ -48,7 +48,8 @@ namespace Byt3.OpenFL.Common
             Logger.Log(LogType.Log, $"Waiting for Tasks..", 2);
             Task.WaitAll(taskList.ToArray());
 
-            List<Out> ret = new List<Out>();
+            List<Out> ret = new List<Out>(input.Count);
+            int nextIndex = 0;
             for (int i = 0; i < taskList.Count; i++)
             {
                 ret.AddRange(taskList[i].Result);

@@ -7,6 +7,7 @@ using Byt3.ADL;
 using Byt3.ADL.Configs;
 using Byt3.Callbacks;
 using Byt3.Engine.AssetPackaging;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.Utilities.ManifestIO
 {
@@ -377,8 +378,9 @@ namespace Byt3.Utilities.ManifestIO
                 filepath = filepath.Remove(filepath.Length - 1, 1);
             }
 
+            string clean = PathTools.CleanPath(filepath);
 
-            return filepath.Replace("/", ".").Replace("\\", ".");
+            return clean.Replace("/", ".").Replace("\\", ".");
         }
 
         /// <summary>
@@ -388,7 +390,8 @@ namespace Byt3.Utilities.ManifestIO
         /// <returns></returns>
         public static bool Exists(string filepath)
         {
-            string p = SanitizeFilename(filepath);
+            string clean = PathTools.CleanPath(filepath);
+            string p = SanitizeFilename(clean);
             return _assemblyFiles.ContainsKey(p);
         }
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Serialization.Exceptions;
 using Byt3.Serialization;
@@ -8,14 +10,37 @@ using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal
 {
+
+    public abstract class FLSerializer : ASerializer
+    {
+        private List<string> idMap;
+
+        public void SetIdMap(string[] map)
+        {
+            idMap = map.ToList();
+        }
+
+        protected string ResolveId(int id)
+        {
+            return idMap[id];
+        }
+
+        protected int ResolveName(string name)
+        {
+            return idMap.IndexOf(name);
+        }
+
+    }
+
     public class SerializableFLProgramSerializer : ASerializer<SerializableFLProgram>
     {
         private readonly Byt3Serializer bufferSerializer;
 
-        public SerializableFLProgramSerializer(Dictionary<Type, ASerializer> serializers)
+        public SerializableFLProgramSerializer(Dictionary<Type, FLSerializer> serializers)
         {
             bufferSerializer = Byt3Serializer.GetDefaultSerializer();
-            foreach (KeyValuePair<Type, ASerializer> keyValuePair in serializers)
+            int i = 0;
+            foreach (KeyValuePair<Type, FLSerializer> keyValuePair in serializers)
             {
                 bufferSerializer.AddSerializer(keyValuePair.Key, keyValuePair.Value);
             }
@@ -30,6 +55,9 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             List<SerializableFLBuffer> defs = new List<SerializableFLBuffer>();
             List<SerializableFLFunction> funcs = new List<SerializableFLFunction>();
             List<SerializableExternalFLFunction> exts = new List<SerializableExternalFLFunction>();
+
+            string[] idMap = ReadStringArray(s);
+            SetIdMap(idMap);
 
             for (int i = 0; i < defCount; i++)
             {
@@ -70,6 +98,37 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             return new SerializableFLProgram(exts, funcs, defs);
         }
 
+        private void WriteStringArray(PrimitiveValueWrapper s, string[] arr)
+        {
+            s.Write(arr.Length);
+            for (int i = 0; i < arr.Length; i++)
+            {
+                s.Write(arr[i]);
+            }
+        }
+
+        private string[] ReadStringArray(PrimitiveValueWrapper s)
+        {
+            string[] ret = new string[s.ReadInt()];
+            for (int i = 0; i < ret.Length; i++)
+            {
+                ret[i] = s.ReadString();
+            }
+
+            return ret;
+        }
+
+        private void SetIdMap(string[] idMap)
+        {
+            for (int i = 0; i < bufferSerializer.ContainedSerializers; i++)
+            {
+                if (bufferSerializer.GetSerializerAt(i) is FLSerializer flBufferSerializer)
+                {
+                    flBufferSerializer.SetIdMap(idMap.ToArray());
+                }
+            }
+        }
+
         public override void SerializePacket(PrimitiveValueWrapper s, SerializableFLProgram obj)
         {
             int funcCount = obj.Functions.Count;
@@ -80,6 +139,19 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             s.Write(defCount);
             s.Write(extCount);
 
+            string[] funcMap = obj.Functions.Select(x => x.Name).ToArray();
+            string[] exMap = obj.ExternalFunctions.Select(x => x.Name).ToArray();
+            string[] bufMap = obj.DefinedBuffers.Select(x => x.Name).ToArray();
+            List<string> idMap = new List<string>();
+            idMap.AddRange(funcMap);
+            idMap.AddRange(exMap);
+            idMap.AddRange(bufMap);
+
+            WriteStringArray(s, idMap.ToArray());
+
+            SetIdMap(idMap.ToArray());
+
+
             for (int i = 0; i < obj.DefinedBuffers.Count; i++)
             {
                 MemoryStream temp = new MemoryStream();
@@ -89,7 +161,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                         $"Can not Deserialize Serializable Defined buffer: {obj.DefinedBuffers[i].Name} ID: {i}");
                 }
 
-                s.Write(temp.GetBuffer(), (int) temp.Position);
+                s.Write(temp.GetBuffer(), (int)temp.Position);
             }
 
             for (int i = 0; i < obj.Functions.Count; i++)
@@ -101,7 +173,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                         $"Can not Deserialize Serializable Function: {obj.Functions[i].Name} ID: {i}");
                 }
 
-                s.Write(temp.GetBuffer(), (int) temp.Position);
+                s.Write(temp.GetBuffer(), (int)temp.Position);
             }
 
             for (int i = 0; i < obj.ExternalFunctions.Count; i++)
@@ -113,7 +185,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                         $"Can not Deserialize Serializable External Function: {obj.ExternalFunctions[i].Name} ID: {i}");
                 }
 
-                s.Write(temp.GetBuffer(), (int) temp.Position);
+                s.Write(temp.GetBuffer(), (int)temp.Position);
             }
         }
     }

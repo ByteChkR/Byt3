@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using Byt3.Serialization.Serializers;
 using Byt3.Serialization.Serializers.Base;
@@ -30,6 +31,13 @@ namespace Byt3.Serialization
         /// Serializer Dictionary of serializers with custom key
         /// </summary>
         private readonly Dictionary<Type, ASerializer> Serializers = new Dictionary<Type, ASerializer>();
+
+        public int ContainedSerializers => Serializers.Count;
+
+        public ASerializer GetSerializerAt(int index)
+        {
+            return Serializers.ElementAt(index).Value;
+        }
 
         /// <summary>
         /// Cache that gets used to store the map from object => Type
@@ -140,7 +148,7 @@ namespace Byt3.Serialization
                 BaseSerializer.Serialize(baseStage, packet);
                 baseStage.CompleteWrite();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 ret = false;
             }

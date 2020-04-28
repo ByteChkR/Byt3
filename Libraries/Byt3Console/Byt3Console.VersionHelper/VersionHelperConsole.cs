@@ -52,8 +52,8 @@ namespace Byt3Console.VersionHelper
         public static Version ChangeVersion(Version version, string changeStr)
         {
             string[] subVersions = changeStr.Split('.');
-            int[] wrapValues = {ushort.MaxValue, 9, 99, ushort.MaxValue};
-            int[] versions = {version.Major, version.Minor, version.Build, version.Revision};
+            int[] wrapValues = { ushort.MaxValue, 9, 99, ushort.MaxValue };
+            int[] versions = { version.Major, version.Minor, version.Build, version.Revision };
             for (int i = 4 - 1; i >= 0; i--)
             {
                 string current = subVersions[i];
@@ -116,7 +116,7 @@ namespace Byt3Console.VersionHelper
 
                     if (long.TryParse(value, out long newValue))
                     {
-                        versions[i] = (int) (newValue % ushort.MaxValue);
+                        versions[i] = (int)(newValue % ushort.MaxValue);
                     }
                     else
                     {
@@ -155,22 +155,26 @@ namespace Byt3Console.VersionHelper
             }
 
             XmlNode[] ret = new XmlNode[2];
-            for (int i = 0; i < s.ChildNodes.Count; i++)
+            if (s != null)
             {
-                if (s.ChildNodes[i].Name == "PropertyGroup")
+
+                for (int i = 0; i < s.ChildNodes.Count; i++)
                 {
-                    if (s.ChildNodes[i].HasChildNodes && s.ChildNodes[i].FirstChild.Name == "TargetFramework")
+                    if (s.ChildNodes[i].Name == "PropertyGroup")
                     {
-                        for (int j = 0; j < s.ChildNodes[i].ChildNodes.Count; j++)
+                        if (s.ChildNodes[i].HasChildNodes && s.ChildNodes[i].FirstChild.Name == "TargetFramework")
                         {
-                            XmlNode projTag = s.ChildNodes[i].ChildNodes[j];
-                            if (projTag.Name == "AssemblyVersion")
+                            for (int j = 0; j < s.ChildNodes[i].ChildNodes.Count; j++)
                             {
-                                ret[0] = projTag;
-                            }
-                            else if (projTag.Name == "FileVersion")
-                            {
-                                ret[1] = projTag;
+                                XmlNode projTag = s.ChildNodes[i].ChildNodes[j];
+                                if (projTag.Name == "AssemblyVersion")
+                                {
+                                    ret[0] = projTag;
+                                }
+                                else if (projTag.Name == "FileVersion")
+                                {
+                                    ret[1] = projTag;
+                                }
                             }
                         }
                     }

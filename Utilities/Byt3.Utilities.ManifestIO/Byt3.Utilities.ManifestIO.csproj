@@ -1,14 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.13.1011</AssemblyVersion>
-    <FileVersion>1.0.13.1011</FileVersion>
+    <AssemblyVersion>1.1.32.1455</AssemblyVersion>
+    <FileVersion>1.1.32.1455</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.AssetPackaging\Byt3.Engine.AssetPackaging.csproj" />
     <ProjectReference Include="..\Byt3.Callbacks\Byt3.Callbacks.csproj" />
     <ProjectReference Include="..\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
+    <ProjectReference Include="..\Byt3.Utilities.FastString\Byt3.Utilities.FastString.csproj" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />

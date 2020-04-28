@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Byt3.Callbacks;
 
 namespace Byt3.OpenFL.Common.Buffers
 {
@@ -17,7 +18,7 @@ namespace Byt3.OpenFL.Common.Buffers
                     return root.Input;
                 }
 
-                Bitmap bmp = new Bitmap(Image.FromFile(File), root.Dimensions.x, root.Dimensions.y);
+                Bitmap bmp = new Bitmap(Image.FromStream(IOManager.GetStream(File)), root.Dimensions.x, root.Dimensions.y);
                 FLBuffer buf = new FLBuffer(root.Instance, bmp, DefinedBufferName + ":" + File);
                 bmp.Dispose();
                 return buf;

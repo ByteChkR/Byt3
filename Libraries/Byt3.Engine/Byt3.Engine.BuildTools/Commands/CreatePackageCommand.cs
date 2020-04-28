@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using Byt3.CommandRunner;
 using Byt3.Engine.BuildTools.PackageCreator;
+using Byt3.Utilities.Exceptions;
 
 namespace Byt3.Engine.BuildTools.Commands
 {
@@ -79,7 +80,7 @@ namespace Byt3.Engine.BuildTools.Commands
             }
             catch (Exception e)
             {
-                throw new ApplicationException("Input Error", e);
+                throw new BuilderInputException("Input Error", e);
             }
         }
 
@@ -89,5 +90,11 @@ namespace Byt3.Engine.BuildTools.Commands
         {
             CommandAction = CreateGamePackage;
         }
+    }
+
+    public class BuilderInputException : Byt3Exception
+    {
+        public BuilderInputException(string message) : base(message) { }
+        public BuilderInputException(string message, Exception inner) : base(message, inner) { }
     }
 }

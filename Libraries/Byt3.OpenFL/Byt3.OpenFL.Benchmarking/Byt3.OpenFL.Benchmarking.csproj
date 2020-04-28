@@ -1,12 +1,90 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.2.68.1011</AssemblyVersion>
-    <FileVersion>1.2.68.1011</FileVersion>
+    <AssemblyVersion>1.3.99.1455</AssemblyVersion>
+    <FileVersion>1.3.99.1455</FileVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
+  <ItemGroup>
+    <Compile Remove="resources\filter\tests\inttests\**" />
+    <Compile Remove="resources\filter\tests\pptests\**" />
+    <EmbeddedResource Remove="resources\filter\tests\inttests\**" />
+    <EmbeddedResource Remove="resources\filter\tests\pptests\**" />
+    <None Remove="resources\filter\tests\inttests\**" />
+    <None Remove="resources\filter\tests\pptests\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="resources\filter\helper\inttests\script.fl" />
+    <None Remove="resources\filter\helper\pptests\include.fl" />
+    <None Remove="resources\filter\helper\pptests\includeinl.fl" />
+    <None Remove="resources\filter\tests\addtex.fl" />
+    <None Remove="resources\filter\tests\addval.fl" />
+    <None Remove="resources\filter\tests\int_tests.fl" />
+    <None Remove="resources\filter\tests\invert.fl" />
+    <None Remove="resources\filter\tests\multex.fl" />
+    <None Remove="resources\filter\tests\mulval.fl" />
+    <None Remove="resources\filter\tests\perlin.fl" />
+    <None Remove="resources\filter\tests\pp_tests.fl" />
+    <None Remove="resources\filter\tests\settex.fl" />
+    <None Remove="resources\filter\tests\setval.fl" />
+    <None Remove="resources\filter\tests\smooth.fl" />
+    <None Remove="resources\filter\tests\subtex.fl" />
+    <None Remove="resources\filter\tests\subval.fl" />
+    <None Remove="resources\filter\tests\wfc.fl" />
+    <None Remove="resources\kernel\add.cl" />
+    <None Remove="resources\kernel\adjustlevel.cl" />
+    <None Remove="resources\kernel\div.cl" />
+    <None Remove="resources\kernel\invert.cl" />
+    <None Remove="resources\kernel\mix.cl" />
+    <None Remove="resources\kernel\mod.cl" />
+    <None Remove="resources\kernel\mul.cl" />
+    <None Remove="resources\kernel\perlin.cl" />
+    <None Remove="resources\kernel\set.cl" />
+    <None Remove="resources\kernel\shapes.cl" />
+    <None Remove="resources\kernel\smooth.cl" />
+    <None Remove="resources\kernel\sub.cl" />
+    <None Remove="resources\kernel\utils.cl" />
+    <None Remove="resources\kernel\worley.cl" />
+    <None Remove="resources\textures\TEST.png" />
+    <None Remove="resources\WFCTiles\testtile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\filter\helper\inttests\script.fl" />
+    <EmbeddedResource Include="resources\filter\helper\pptests\include.fl" />
+    <EmbeddedResource Include="resources\filter\helper\pptests\includeinl.fl" />
+    <EmbeddedResource Include="resources\filter\tests\addtex.fl" />
+    <EmbeddedResource Include="resources\filter\tests\addval.fl" />
+    <EmbeddedResource Include="resources\filter\tests\int_tests.fl" />
+    <EmbeddedResource Include="resources\filter\tests\invert.fl" />
+    <EmbeddedResource Include="resources\filter\tests\multex.fl" />
+    <EmbeddedResource Include="resources\filter\tests\mulval.fl" />
+    <EmbeddedResource Include="resources\filter\tests\perlin.fl" />
+    <EmbeddedResource Include="resources\filter\tests\pp_tests.fl" />
+    <EmbeddedResource Include="resources\filter\tests\settex.fl" />
+    <EmbeddedResource Include="resources\filter\tests\setval.fl" />
+    <EmbeddedResource Include="resources\filter\tests\smooth.fl" />
+    <EmbeddedResource Include="resources\filter\tests\subtex.fl" />
+    <EmbeddedResource Include="resources\filter\tests\subval.fl" />
+    <EmbeddedResource Include="resources\filter\tests\wfc.fl" />
+    <EmbeddedResource Include="resources\kernel\add.cl" />
+    <EmbeddedResource Include="resources\kernel\adjustlevel.cl" />
+    <EmbeddedResource Include="resources\kernel\div.cl" />
+    <EmbeddedResource Include="resources\kernel\invert.cl" />
+    <EmbeddedResource Include="resources\kernel\mix.cl" />
+    <EmbeddedResource Include="resources\kernel\mod.cl" />
+    <EmbeddedResource Include="resources\kernel\mul.cl" />
+    <EmbeddedResource Include="resources\kernel\perlin.cl" />
+    <EmbeddedResource Include="resources\kernel\set.cl" />
+    <EmbeddedResource Include="resources\kernel\shapes.cl" />
+    <EmbeddedResource Include="resources\kernel\smooth.cl" />
+    <EmbeddedResource Include="resources\kernel\sub.cl" />
+    <EmbeddedResource Include="resources\kernel\utils.cl" />
+    <EmbeddedResource Include="resources\kernel\worley.cl" />
+    <EmbeddedResource Include="resources\textures\TEST.png" />
+    <EmbeddedResource Include="resources\WFCTiles\testtile.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
     <ProjectReference Include="..\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />

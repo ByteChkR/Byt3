@@ -41,7 +41,7 @@ namespace Byt3.OpenFL.Serialization
             UnifiedRandomFLBufferSerializer urbuf = new UnifiedRandomFLBufferSerializer();
             FromImageFLBufferSerializer fibuf = new FromImageFLBufferSerializer(true);
             WFCFLBufferSerializer wfcbuf = new WFCFLBufferSerializer();
-            Dictionary<Type, ASerializer> bufferParser = new Dictionary<Type, ASerializer>
+            Dictionary<Type, Serializers.Internal.FLSerializer> bufferParser = new Dictionary<Type, Serializers.Internal.FLSerializer>
             {
                 {typeof(SerializableExternalFLFunction), exfunc},
                 {typeof(SerializableFLFunction), efunc},

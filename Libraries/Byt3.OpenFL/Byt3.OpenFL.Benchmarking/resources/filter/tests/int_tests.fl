@@ -1,7 +1,7 @@
 
 --define texture wfctest: wfc "resources/WFCTiles/testtile.png" 3 128 128 false true 8 0 0 
 
---define script PlainPerlin: "resources/filter/tests/inttests/script.fl"
+--define script PlainPerlin: "resources/filter/helper/inttests/script.fl"
 
 Main:
 	setactive PlainPerlin

@@ -15,8 +15,14 @@ namespace Byt3.ADL
         public virtual string[] ProjectMaskPrefixes { get; } = new string[0];
 
 
-        internal Dictionary<int, string> Prefixes =>
-            hasProcessedPrefixes ? prefixes : prefixes = ProcessPrefixes(ProjectMaskPrefixes);
+        internal Dictionary<int, string> Prefixes
+        {
+            get
+            {
+                if (!hasProcessedPrefixes) prefixes = ProcessPrefixes(ProjectMaskPrefixes);
+                return prefixes;
+            }
+        }
 
         /// <summary>
         ///     Dictionary of Prefixes for the corresponding Masks
@@ -113,7 +119,7 @@ namespace Byt3.ADL
                 List<string> names = Enum.GetNames(typeof(T)).ToList();
                 for (int i = names.Count - 1; i >= 0; i--)
                 {
-                    if (!IsPowerOfTwo((int) Enum.Parse(typeof(T), names[i])))
+                    if (!IsPowerOfTwo((int)Enum.Parse(typeof(T), names[i])))
                     {
                         names.RemoveAt(i);
                     }

@@ -11,6 +11,8 @@
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Engine.BuildTools\Byt3Console.Engine.BuildTools.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Engine.Player\Byt3Console.Engine.Player.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.ExtPP\Byt3Console.ExtPP.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL.Benchmarks\Byt3Console.OpenFL.Benchmarks.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL.ScriptGenerator\Byt3Console.OpenFL.ScriptGenerator.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL\Byt3Console.OpenFL.csproj" />
     <ProjectReference Include="..\TestingProjectConsole\TestingProjectConsole.csproj" />
   </ItemGroup>
@@ -101,57 +103,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="resources\filter\testface_gen.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\addtex.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\addval.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\inttests\script.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\int_tests.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\invert.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\multex.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\mulval.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\perlin.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\pptests\include.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\pptests\includeinl.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\pp_tests.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\settex.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\setval.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\smooth.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\subtex.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\subval.fl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="resources\filter\tests\wfc.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="resources\io\test_struct_original.xml">

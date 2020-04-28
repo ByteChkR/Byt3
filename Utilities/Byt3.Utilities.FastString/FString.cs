@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Byt3.Utilities.FastString
 {
@@ -87,5 +88,6 @@ namespace Byt3.Utilities.FastString
 
             return -1;
         }
+
     }
 }

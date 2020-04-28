@@ -4,17 +4,18 @@ using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 {
-    public class EmptyFLBufferSerializer : ASerializer<SerializableEmptyFLBuffer>
+    public class EmptyFLBufferSerializer :FLSerializer
     {
-        public override SerializableEmptyFLBuffer DeserializePacket(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
-            string name = s.ReadString();
-            return new SerializableEmptyFLBuffer(name);
+            int name = s.ReadInt();
+            return new SerializableEmptyFLBuffer(ResolveId(name));
         }
 
-        public override void SerializePacket(PrimitiveValueWrapper s, SerializableEmptyFLBuffer obj)
+        public override void Serialize(PrimitiveValueWrapper s, object obj)
         {
-            s.Write(obj.Name);
+
+            s.Write(ResolveName(((SerializableEmptyFLBuffer)obj).Name));
         }
     }
 }

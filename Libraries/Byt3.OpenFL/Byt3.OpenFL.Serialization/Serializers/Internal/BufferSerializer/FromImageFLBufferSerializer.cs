@@ -9,7 +9,7 @@ using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 {
-    public class FromImageFLBufferSerializer : ASerializer<SerializableFLBuffer>
+    public class FromImageFLBufferSerializer : FLSerializer
     {
         private readonly bool StoreRaw;
 
@@ -18,9 +18,9 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
             StoreRaw = storeBitmapData;
         }
 
-        public override SerializableFLBuffer DeserializePacket(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
-            string name = s.ReadString();
+            string name = ResolveId(s.ReadInt());
             bool raw = s.ReadBool();
             if (raw)
             {
@@ -37,14 +37,14 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
             }
         }
 
-        public override void SerializePacket(PrimitiveValueWrapper s, SerializableFLBuffer obj)
+        public override void Serialize(PrimitiveValueWrapper s, object obj)
         {
             if (!(obj is SerializableFromFileFLBuffer buffer))
             {
                 throw new InvalidOperationException("Invalid type for Serializer.");
             }
 
-            s.Write(buffer.Name);
+            s.Write(ResolveName(buffer.Name));
             s.Write(StoreRaw);
             if (StoreRaw)
             {

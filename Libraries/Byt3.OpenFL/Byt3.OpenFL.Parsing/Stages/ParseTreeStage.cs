@@ -15,6 +15,7 @@ using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn;
 using Byt3.OpenFL.Common.Exceptions;
 using Byt3.OpenFL.Parsing.StageResults;
 using Byt3.Utilities.Exceptions;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenFL.Parsing.Stages
 {
@@ -66,7 +67,7 @@ namespace Byt3.OpenFL.Parsing.Stages
                 }
 
 
-                SerializableFLProgram ps = (SerializableFLProgram) parser.Process(new FLParserInput(p));
+                SerializableFLProgram ps = parser.Process(new FLParserInput(p));
                 ret.Add(new SerializableExternalFLFunction(name, ps));
             }
 

@@ -47,6 +47,15 @@ namespace Byt3.Serialization
             return BaseSerializers.ReadInt(buf);
         }
 
+        public T[] ReadArray<T>()
+        {
+            if (!IsValid)
+            {
+                throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
+            }
+            return BaseSerializers.ReadArray<T>(ReadBytes());
+        }
+
         /// <summary>
         /// Reads an uint from the Underlaying Stream
         /// </summary>
@@ -189,7 +198,7 @@ namespace Byt3.Serialization
 
         public byte ReadByte()
         {
-            return (byte) stream.ReadByte();
+            return (byte)stream.ReadByte();
         }
 
         /// <summary>
@@ -458,6 +467,11 @@ namespace Byt3.Serialization
             T ret = default(T);
             StructConverter.BytesToStruct(bytes, ref ret);
             return ret;
+        }
+
+        public void WriteArray<T>(T[] input)
+        {
+            Write(BaseSerializers.WriteArray(input));
         }
 
         internal void SetInvalid()

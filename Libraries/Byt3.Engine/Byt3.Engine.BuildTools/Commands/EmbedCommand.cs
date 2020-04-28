@@ -16,7 +16,7 @@ namespace Byt3.Engine.BuildTools.Commands
             }
             catch (Exception e)
             {
-                throw new ApplicationException("Input Error", e);
+                throw new BuilderInputException("Input Error", e);
             }
         }
 

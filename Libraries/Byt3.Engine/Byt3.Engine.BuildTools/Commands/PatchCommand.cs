@@ -10,7 +10,7 @@ namespace Byt3.Engine.BuildTools.Commands
         {
             if (args.Length != 2)
             {
-                throw new ApplicationException("Invalid Input");
+                throw new BuilderInputException("Invalid Input");
             }
 
             try
@@ -19,7 +19,7 @@ namespace Byt3.Engine.BuildTools.Commands
             }
             catch (Exception e)
             {
-                throw new ApplicationException("Input Error", e);
+                throw new BuilderInputException("Input Error", e);
             }
         }
 

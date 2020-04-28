@@ -9,15 +9,17 @@ namespace Byt3.ExtPP.API
     {
         private readonly string incDir;
         private readonly string[] lines;
+        private readonly string extension;
 
-        public FileContent(string[] lines, string incDir)
+        public FileContent(string[] lines, string incDir, string ext)
         {
             this.lines = lines;
             this.incDir = incDir;
+            extension = ext;
         }
 
-        private string Key => incDir + "/memoryFile";
-        private string Path => incDir + "/memoryFile";
+        private string Key => incDir + "/memoryFile" + extension;
+        private string Path => incDir + "/memoryFile" + extension;
         public bool HasValidFilepath => false;
 
         public bool TryGetLines(out string[] lines)

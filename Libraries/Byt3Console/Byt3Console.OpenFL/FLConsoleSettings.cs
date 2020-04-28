@@ -9,6 +9,7 @@ using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.ProgramChecks;
+using Byt3.Utilities.FastString;
 
 namespace Byt3Console.OpenFL
 {

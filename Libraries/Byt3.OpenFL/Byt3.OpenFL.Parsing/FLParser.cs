@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Byt3.ADL;
+using Byt3.ADL.Configs;
 using Byt3.ExtPP.API;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common;
@@ -18,6 +21,10 @@ namespace Byt3.OpenFL.Parsing
         public BufferCreator BufferCreator { get; }
         public FLInstructionSet InstructionSet { get; }
 
+        private static readonly ADLLogger<LogType> Logger =
+            new ADLLogger<LogType>(new ProjectDebugConfig("FLParserPipeline", -1, 10,
+                PrefixLookupSettings.AddPrefixIfAvailable));
+
         private const string DEFINE_SCRIPT_KEY = "--define script";
         private const string DEFINE_TEXTURE_KEY = "--define texture";
 
@@ -25,7 +32,7 @@ namespace Byt3.OpenFL.Parsing
         {
             TextProcessorAPI.Configs[".fl"] = new FLPreProcessorConfig();
         }
-        
+
 
 
         public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator,
@@ -49,7 +56,7 @@ namespace Byt3.OpenFL.Parsing
 
         public SerializableFLProgram Process(FLParserInput input)
         {
-            return (SerializableFLProgram) base.Process(input);
+            return (SerializableFLProgram)Process((object)input);
         }
 
 
@@ -63,7 +70,7 @@ namespace Byt3.OpenFL.Parsing
                     ret.Add(source[i]);
                 }
             }
-            
+
             ret.Add("--define texture in:");
             return ret.ToArray();
         }
@@ -162,6 +169,38 @@ namespace Byt3.OpenFL.Parsing
             }
 
             return ret.ToArray();
+        }
+
+        public override object Process(object input)
+        {
+            if (input == null)
+            {
+                throw new ArgumentNullException("input", "Argument is not allowed to be null.");
+            }
+
+            if (!Verified && !Verify())
+            {
+                throw new PipelineNotValidException(this, "Can not use a Pipline that is incomplete.");
+            }
+
+            object currentIn = input;
+            Stopwatch sw = new Stopwatch();
+            Tuple<string, long>[] timing = new Tuple<string, long>[Stages.Count];
+            long totalTime = 0;
+            for (int i = 0; i < Stages.Count; i++)
+            {
+                PipelineStage internalPipelineStage = Stages[i];
+                sw.Start();
+                currentIn = internalPipelineStage.Process(currentIn);
+                timing[i] = new Tuple<string, long>(internalPipelineStage.GetType().Name, sw.ElapsedMilliseconds);
+                totalTime += sw.ElapsedMilliseconds;
+                sw.Reset();
+                //Logger.Log(LogType.Log, $"Stage {timing[i].Item1} finished in {timing[i].Item2.ToString()} ms", 2);
+            }
+
+            //Logger.Log(LogType.Log, $"_______________________________________________", 1);
+            //Logger.Log(LogType.Log, $"Total: {totalTime} ms", 1);
+            return currentIn;
         }
     }
 }

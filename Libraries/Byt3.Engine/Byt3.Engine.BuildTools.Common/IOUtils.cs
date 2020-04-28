@@ -15,11 +15,6 @@ namespace Byt3.Engine.BuildTools.Common
             string curFolder = dirPath;
             while (!string.IsNullOrEmpty(curFolder) && curFolder.Trim() != "\\" && curFolder.Trim() != "/")
             {
-                if (string.IsNullOrEmpty(curFolder))
-                {
-                    break;
-                }
-
                 Console.WriteLine("Adding Folder to Create List:" + curFolder);
                 folders.Add(curFolder);
                 curFolder = Path.GetDirectoryName(curFolder);

@@ -1,10 +1,10 @@
 ﻿using Byt3.CommandRunner;
 
-namespace TestingProjectConsole.Commands
+namespace Byt3Console.OpenFL.Benchmarks.Commands
 {
-    public class NoMultiThreadFlagCommand : AbstractCommand
+    public class MultiThreadFlagCommand : AbstractCommand
     {
-        public NoMultiThreadFlagCommand() : base(new[] {"--no-multi-thread", "-no-thread"},
+        public MultiThreadFlagCommand() : base(new[] {"--multi-thread", "-m"},
             "Specifies if the FLbenchmark should use Multithreading to accelerate the parsing process(Default: False).")
         {
             CommandAction = (info, strings) => SetFlag(strings);
@@ -12,7 +12,7 @@ namespace TestingProjectConsole.Commands
 
         private void SetFlag(string[] args)
         {
-            OpenFLBenchmarkCommand.UseMultiThread = true;
+            FLBenchmarkConsole.UseMultiThread = true;
         }
     }
 }

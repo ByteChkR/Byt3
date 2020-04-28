@@ -8,11 +8,11 @@ using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 {
-    public class WFCFLBufferSerializer : ASerializer<SerializableWaveFunctionCollapseFLBuffer>
+    public class WFCFLBufferSerializer : FLSerializer
     {
-        public override SerializableWaveFunctionCollapseFLBuffer DeserializePacket(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
-            string name = s.ReadString();
+            string name = ResolveId(s.ReadInt());
             bool force = s.ReadBool();
             int n = s.ReadInt();
             int width = s.ReadInt();
@@ -34,9 +34,10 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
         }
 
 
-        public override void SerializePacket(PrimitiveValueWrapper s, SerializableWaveFunctionCollapseFLBuffer obj)
+        public override void Serialize(PrimitiveValueWrapper s, object input)
         {
-            s.Write(obj.Name);
+            SerializableWaveFunctionCollapseFLBuffer obj = (SerializableWaveFunctionCollapseFLBuffer) input;
+            s.Write(ResolveName(obj.Name));
             s.Write(obj.Parameter.Force);
             s.Write(obj.Parameter.N);
             s.Write(obj.Parameter.Width);

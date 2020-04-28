@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Byt3.ExtPP.Base;
 using Byt3.ExtPP.Base.Plugins;
+using Byt3.Utilities.FastString;
 
 namespace Byt3Console.ExtPP.PluginManager
 {

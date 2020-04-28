@@ -22,9 +22,10 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
                     return InstructionArgumentCategory.DefinedFunction;
                 case 'I': //Internal Defined Element(E but without Scripts)
                     return InstructionArgumentCategory.InternalDefinedElement;
+                default:
+                    return InstructionArgumentCategory.Invalid;
             }
-
-            return InstructionArgumentCategory.Invalid;
+            
         }
 
 

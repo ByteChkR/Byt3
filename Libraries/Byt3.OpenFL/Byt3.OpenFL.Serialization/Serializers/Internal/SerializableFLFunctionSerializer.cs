@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.Serialization;
 using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal
 {
-    public class SerializableFLFunctionSerializer : ASerializer<SerializableFLFunction>
+    public class SerializableFLFunctionSerializer : FLSerializer
     {
         private readonly SerializableInstructionSerializer instructionSerializer;
 
@@ -15,7 +16,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             instructionSerializer = new SerializableInstructionSerializer(argumentSerializers);
         }
 
-        public override SerializableFLFunction DeserializePacket(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
             string name = s.ReadString();
             int instC = s.ReadInt();
@@ -29,14 +30,15 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             return new SerializableFLFunction(name, inst);
         }
 
-        public override void SerializePacket(PrimitiveValueWrapper s, SerializableFLFunction obj)
+        public override void Serialize(PrimitiveValueWrapper s, object obj)
         {
-            s.Write(obj.Name);
-            s.Write(obj.Instructions.Count);
+            SerializableFLFunction input = (SerializableFLFunction) obj;
+            s.Write(input.Name);
+            s.Write(input.Instructions.Count);
 
-            for (int i = 0; i < obj.Instructions.Count; i++)
+            for (int i = 0; i < input.Instructions.Count; i++)
             {
-                instructionSerializer.SerializePacket(s, obj.Instructions[i]);
+                instructionSerializer.SerializePacket(s, input.Instructions[i]);
             }
         }
     }

@@ -11,11 +11,14 @@ using Byt3.ExtPP.Base;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common;
 using Byt3.Utilities.ConsoleInternals;
+using Byt3.Utilities.FastString;
 using Byt3Console.AssemblyGenerator;
 using Byt3Console.Engine.BuildTools;
 using Byt3Console.Engine.Player;
 using Byt3Console.ExtPP;
 using Byt3Console.OpenFL;
+using Byt3Console.OpenFL.Benchmarks;
+using Byt3Console.OpenFL.ScriptGenerator;
 using Byt3Console.VersionHelper;
 using TestingProjectConsole;
 
@@ -28,6 +31,8 @@ namespace TestingProject
         private static readonly Dictionary<string, AConsole> Consoles = new Dictionary<string, AConsole>
         {
             {"testing", new TestingConsole()},
+            {"flbench", new FLBenchmarkConsole()},
+            {"flgen", new GenerateFLScriptsConsole()},
             {"asmgen", new AssemblyGeneratorConsole()},
             {"ebuild", new EngineBuilderConsole()},
             {"eplay", new EnginePlayerConsole()},
@@ -70,10 +75,7 @@ namespace TestingProject
 
                     Runner.RemoveAllCommands();
 
-                    if (Exit)
-                    {
-                        return;
-                    }
+                    return;
                 }
             }
 

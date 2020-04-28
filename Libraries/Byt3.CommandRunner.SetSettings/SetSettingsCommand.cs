@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Byt3.ADL;
-using Byt3.CommandRunner;
 
-namespace Byt3Console.OpenFL.Commands
+namespace Byt3.CommandRunner.SetSettings
 {
     public class SetSettingsCommand : AbstractCommand
     {
@@ -149,6 +148,11 @@ namespace Byt3Console.OpenFL.Commands
                 Fields = fields;
                 RootName = rootName;
             }
+        }
+
+        public static SetSettingsCommand CreateSettingsCommand(string rootName, params object[] o)
+        {
+            return new SetSettingsCommand(Create(Create(rootName, o)));
         }
 
         public static ObjectFieldContainer Create(string rootName, params object[] o)

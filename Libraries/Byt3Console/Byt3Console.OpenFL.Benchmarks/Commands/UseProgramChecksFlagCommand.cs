@@ -1,6 +1,6 @@
 ﻿using Byt3.CommandRunner;
 
-namespace TestingProjectConsole.Commands
+namespace Byt3Console.OpenFL.Benchmarks.Commands
 {
     public class UseProgramChecksFlagCommand : AbstractCommand
     {
@@ -12,7 +12,7 @@ namespace TestingProjectConsole.Commands
 
         private void SetFlag()
         {
-            OpenFLBenchmarkCommand.UseProgramChecks = false;
+            FLBenchmarkConsole.UseProgramChecks = false;
         }
     }
 }

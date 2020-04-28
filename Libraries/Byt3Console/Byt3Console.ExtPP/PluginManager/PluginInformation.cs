@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Xml.Serialization;
 using Byt3.ExtPP.Base;
+using Byt3.Utilities.FastString;
 
 namespace Byt3Console.ExtPP.PluginManager
 {

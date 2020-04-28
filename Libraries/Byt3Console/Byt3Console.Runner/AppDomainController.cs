@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Byt3.Utilities.IL;
 
 namespace Byt3Console.Runner
 {
@@ -28,23 +29,26 @@ namespace Byt3Console.Runner
         private AppDomainController(AppDomain domain, string[] extraAssemblyFolders)
         {
             ExtraAssemblyFolders = extraAssemblyFolders;
-            AppDomain.CurrentDomain.AssemblyResolve += Domain_AssemblyResolve;
+            //AppDomain.CurrentDomain.AssemblyResolve += Domain_AssemblyResolve;
         }
 
         private Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             for (int i = 0; i < ExtraAssemblyFolders.Length; i++)
             {
-                string[] files = Directory.GetFiles(ExtraAssemblyFolders[i], $"{args.Name}.dll",
+                string[] files = Directory.GetFiles(ExtraAssemblyFolders[i], $"*.dll",
                     SearchOption.TopDirectoryOnly);
                 for (int j = 0; j < files.Length; j++)
                 {
-                    try
+                    if(files[j].Contains(args.Name))
                     {
-                        return Assembly.LoadFile(files[i]);
-                    }
-                    catch (Exception)
-                    {
+                        try
+                        {
+                            return Assembly.LoadFile(files[i]);
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
             }

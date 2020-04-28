@@ -24,11 +24,6 @@ namespace TestingProjectConsole
 
             Runner.AddCommand(new DefaultHelpCommand(true));
             Runner.AddCommand(new ExitAfterFlagCommand());
-            Runner.AddCommand(new SetExtraStepsCommand());
-            Runner.AddCommand(new SetPerformanceFolderCommand());
-            Runner.AddCommand(new UseProgramChecksFlagCommand());
-            Runner.AddCommand(new GenerateFLScriptsCommand());
-            Runner.AddCommand(new OpenFLBenchmarkCommand());
             Runner.AddCommand(new EngineTimeoutFlagCommand());
             Runner.AddCommand(new EngineSceneRunCommand());
 

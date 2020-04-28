@@ -1,8 +1,7 @@
 ﻿using Byt3.ADL;
-using Byt3.CommandRunner;
-using Byt3.ExtPP.Base;
+using Byt3.Utilities.FastString;
 
-namespace Byt3Console.OpenFL.Commands
+namespace Byt3.CommandRunner.SetSettings
 {
     public class ListSettingsCommand : AbstractCommand
     {

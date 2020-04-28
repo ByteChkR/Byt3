@@ -2,6 +2,7 @@
 using System.Reflection;
 using Byt3.ADL;
 using Byt3.CommandRunner;
+using Byt3.CommandRunner.SetSettings;
 using Byt3.Utilities.ConsoleInternals;
 using Byt3.Utilities.ManifestIO;
 using Byt3Console.OpenFL.Commands;
@@ -32,8 +33,7 @@ namespace Byt3Console.OpenFL
             Runner.AddCommand(new SetOutputFilesCommand());
             Runner.AddCommand(new SetInputFilesCommand());
             Runner.AddCommand(new ExtraStepCommand());
-            SetSettingsCommand cmd =
-                new SetSettingsCommand(SetSettingsCommand.Create(SetSettingsCommand.Create("Parser", Settings)));
+            SetSettingsCommand cmd = SetSettingsCommand.CreateSettingsCommand("Settings", Settings);
             Runner.AddCommand(new ListSettingsCommand(cmd));
             Runner.AddCommand(cmd);
             Runner.AddCommand(new BuildCommand());

@@ -99,8 +99,8 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private void Initialize(CLAPI instance)
         {
-            string source = TextProcessorAPI.PreprocessSource(IOManager.ReadAllLines(filePath),
-                Path.GetDirectoryName(filePath), new Dictionary<string, bool>());
+            string source = TextProcessorAPI.PreprocessSource(IOManager.ReadAllLines(filePath), 
+                Path.GetDirectoryName(filePath), Path.GetExtension(filePath), new Dictionary<string, bool>());
             string[] kernelNames = FindKernelNames(source);
 
             ClProgramHandle = CLAPI.CreateClProgramFromSource(instance, source);

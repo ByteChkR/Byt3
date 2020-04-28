@@ -138,8 +138,8 @@ namespace Byt3.Engine.BuildTools.PackageCreator
 
         private static string ComputeHash(Stream content)
         {
-            MD5 _md5 = MD5.Create();
-            return BitConverter.ToString(_md5.ComputeHash(content)).Replace("-", "");
+            HashAlgorithm hashAlgorithm = HashAlgorithm.Create("SHA256Managed");
+            return BitConverter.ToString(hashAlgorithm.ComputeHash(content)).Replace("-", "");
         }
 
         private static bool IsFileDifferent(string file, string other)

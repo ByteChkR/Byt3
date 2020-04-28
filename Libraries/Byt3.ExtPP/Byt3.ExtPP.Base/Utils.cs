@@ -5,6 +5,8 @@ using System.Linq;
 using Byt3.ADL;
 using Byt3.Callbacks;
 using Byt3.ExtPP.Base.Interfaces;
+using Byt3.Utilities.Exceptions;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.ExtPP.Base
 {
@@ -51,7 +53,7 @@ namespace Byt3.ExtPP.Base
         /// <returns>the fixed line without any excess spaces</returns>
         public static string RemoveExcessSpaces(string line, string separator)
         {
-            string ret = line.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
+            string ret = line.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
             Logger.Log(LogType.Log, $"Removing Excess Spaces: {line} => {ret}", 7);
             return ret;
         }
@@ -74,6 +76,7 @@ namespace Byt3.ExtPP.Base
             }
         }
 
+        
         /// <summary>
         /// Returns true if the path is valid relative to the current path(the current script that is processed
         /// </summary>
@@ -82,7 +85,9 @@ namespace Byt3.ExtPP.Base
         /// <returns>true if the relative path is pointing towards a valid file.</returns>
         public static bool FileExistsRelativeTo(string currentPath, string file)
         {
-            bool ret1 = IOManager.FileExists(Path.Combine(currentPath, file));
+            string s = PathTools. CleanPath(Path.Combine(currentPath, file));
+
+            bool ret1 = IOManager.FileExists(s/*Path.Combine(currentPath, file)*/);
 
             return ret1;
         }
@@ -140,7 +145,7 @@ namespace Byt3.ExtPP.Base
                 return new string[0];
             }
 
-            string[] ret = statement.Split(new[] {separator}, StringSplitOptions.None);
+            string[] ret = statement.Split(new[] { separator }, StringSplitOptions.None);
 
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }
@@ -299,7 +304,7 @@ namespace Byt3.ExtPP.Base
         /// <returns>The obj array cast to T</returns>
         public static T Parse<T>(string obj, object defaul)
         {
-            return (T) Parse(typeof(T), obj, defaul);
+            return (T)Parse(typeof(T), obj, defaul);
         }
 
         /// <summary>
@@ -324,21 +329,21 @@ namespace Byt3.ExtPP.Base
 
             int ret = -1;
 
-            string[] ands = input.Split(new[] {'&'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] ands = input.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string and in ands)
             {
-                string[] ors = and.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
+                string[] ors = and.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                 int r = -1;
                 foreach (string or in ors)
                 {
                     string enumStr = or.Trim();
                     if (r == -1)
                     {
-                        r = (int) Enum.Parse(enu, enumStr);
+                        r = (int)Enum.Parse(enu, enumStr);
                     }
                     else
                     {
-                        r |= (int) Enum.Parse(enu, enumStr);
+                        r |= (int)Enum.Parse(enu, enumStr);
                     }
                 }
 

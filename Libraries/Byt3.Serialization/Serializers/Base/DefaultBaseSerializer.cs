@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Byt3.Serialization.Serializers.Base
 {
@@ -15,7 +16,7 @@ namespace Byt3.Serialization.Serializers.Base
         /// <returns>Deserialized BasePacket</returns>
         public override BasePacket DeserializePacket(PrimitiveValueWrapper pvw)
         {
-            object packetType = pvw.ReadString();
+            object packetType = pvw.ReadByte();
             byte[] payload = pvw.ReadBytes();
             return new BasePacket(packetType, payload);
         }
@@ -27,9 +28,12 @@ namespace Byt3.Serialization.Serializers.Base
         /// <param name="obj">BasePacket to Serialize</param>
         public override void SerializePacket(PrimitiveValueWrapper pvw, BasePacket obj)
         {
-            pvw.Write((string) obj.PacketType);
+            pvw.Write((byte) obj.PacketType);
             pvw.Write(obj.Payload);
         }
+
+        private readonly Dictionary<string, byte> toIdMap =new Dictionary<string, byte>();
+        private byte nextID = 0;
 
         /// <summary>
         /// Returns the Unique Key for each Type
@@ -39,7 +43,13 @@ namespace Byt3.Serialization.Serializers.Base
         /// <returns>The Unique Key per type</returns>
         public override object GetKey(Type t)
         {
-            return t.AssemblyQualifiedName;
+            if (!toIdMap.ContainsKey(t.AssemblyQualifiedName))
+            {
+                toIdMap.Add(t.AssemblyQualifiedName, nextID);
+                nextID++;
+            }
+            
+            return toIdMap[t.AssemblyQualifiedName];
         }
     }
 }

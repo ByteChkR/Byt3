@@ -5,24 +5,25 @@ using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal
 {
-    public class SerializableExternalFLFunctionSerializer : ASerializer<SerializableExternalFLFunction>
+    public class SerializableExternalFLFunctionSerializer : FLSerializer
     {
-        public override SerializableExternalFLFunction DeserializePacket(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
             string name = s.ReadString();
 
             byte[] payload = s.ReadBytes();
 
             MemoryStream ms = new MemoryStream(payload);
-            return new SerializableExternalFLFunction(name, FLSerializer.LoadProgram(ms));
+            return new SerializableExternalFLFunction(name, Serialization.FLSerializer.LoadProgram(ms));
         }
 
-        public override void SerializePacket(PrimitiveValueWrapper s, SerializableExternalFLFunction obj)
+        public override void Serialize(PrimitiveValueWrapper s, object obj)
         {
-            s.Write(obj.Name);
+            SerializableExternalFLFunction input = (SerializableExternalFLFunction) obj;
+            s.Write(input.Name);
             MemoryStream ms = new MemoryStream();
 
-            FLSerializer.SaveProgram(ms, obj.ExternalProgram, new string[0]);
+            Serialization.FLSerializer.SaveProgram(ms, input.ExternalProgram, new string[0]);
 
             s.Write(ms.GetBuffer(), (int) ms.Position);
         }

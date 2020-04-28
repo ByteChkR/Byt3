@@ -83,4 +83,9 @@ namespace Byt3.OpenCL
 
         #endregion
     }
+
+    public class OpenClArgumentIndexOutOfRangeException : OpenClException
+    {
+        public OpenClArgumentIndexOutOfRangeException(string message) : base(message) { }
+    }
 }

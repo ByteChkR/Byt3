@@ -7,6 +7,7 @@ using System.Xml.Serialization;
 using Byt3.CommandRunner;
 using Byt3.Engine.AssetPackaging;
 using Byt3.Engine.BuildTools.Common;
+using Byt3.Utilities.Exceptions;
 
 namespace Byt3.Engine.BuildTools
 {
@@ -48,14 +49,19 @@ namespace Byt3.Engine.BuildTools
             int ret = BuildCommand(filepath);
             if (ret != 0)
             {
-                throw new ApplicationException("Compilation Command Failed.");
+                throw new BuildFailedException("Compilation Command Failed.");
             }
 
             ret = PublishCommand(filepath);
             if (ret != 0)
             {
-                throw new ApplicationException("Publish Command Failed.");
+                throw new BuildFailedException("Publish Command Failed.");
             }
+        }
+
+        public class BuildFailedException : Byt3Exception
+        {
+            public BuildFailedException(string message) : base(message) { }
         }
 
         private static int BuildCommand(string filepath)

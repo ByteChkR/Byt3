@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
 using Byt3.Serialization.Serializers;
 using Byt3.Utilities.Serialization;
@@ -79,6 +81,23 @@ namespace Byt3.Serialization
         public static int ReadInt(byte[] input)
         {
             return BitConverter.ToInt32(input, 0);
+        }
+
+
+        public static T[] ReadArray<T>(byte[] input)
+        {
+            int len = ReadInt(input);
+            ASerializer s = SerializableTypes[typeof(T)];
+            T[] ret = new T[len];
+            MemoryStream ms = new MemoryStream(input);
+            ms.Position = sizeof(int); //Move the Position to the begin of the array
+            PrimitiveValueWrapper pvw = new PrimitiveValueWrapper(ms);
+            for (int i = 0; i < ret.Length; i++)
+            {
+                ret[i] = (T)s.Deserialize(pvw);
+            }
+
+            return ret;
         }
 
         /// <summary>
@@ -169,7 +188,7 @@ namespace Byt3.Serialization
 
         public static sbyte ReadSByte(byte[] input)
         {
-            return (sbyte) input[0];
+            return (sbyte)input[0];
         }
 
 
@@ -181,6 +200,23 @@ namespace Byt3.Serialization
         public static byte[] Write(int value)
         {
             return BitConverter.GetBytes(value);
+        }
+
+        public static byte[] WriteArray<T>(T[] input)
+        {
+            int len = input.Length;
+            ASerializer s = SerializableTypes[typeof(T)];
+            MemoryStream ms = new MemoryStream();
+            PrimitiveValueWrapper pvw = new PrimitiveValueWrapper(ms);
+            pvw.Write(len);
+            for (int i = 0; i < input.Length; i++)
+            {
+                s.Serialize(pvw, input[i]);
+            }
+            pvw.CompleteWrite();
+            byte[] ret = ms.ToArray();
+            ms.Close();
+            return ret;
         }
 
         /// <summary>
@@ -240,7 +276,7 @@ namespace Byt3.Serialization
         /// <returns>Bytes Written</returns>
         public static byte[] Write(sbyte value)
         {
-            return new[] {(byte) value};
+            return new[] { (byte)value };
         }
 
         /// <summary>
@@ -250,7 +286,7 @@ namespace Byt3.Serialization
         /// <returns>Bytes Written</returns>
         public static byte[] Write(byte value)
         {
-            return new[] {value};
+            return new[] { value };
         }
 
         /// <summary>

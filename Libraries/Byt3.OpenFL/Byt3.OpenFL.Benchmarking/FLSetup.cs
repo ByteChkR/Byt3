@@ -13,10 +13,11 @@ namespace Byt3.OpenFL.Benchmarking
 {
     public struct FLSetup : IDisposable
     {
+        internal static int RunNumber = 0;
+
         private readonly string PerformanceFolder;
 
-        private string RunResultPath => Path.Combine(PerformanceFolder,
-            typeof(OpenFLDebugConfig).Assembly.GetName().Version.ToString());
+        private string RunResultPath => Path.Combine(PerformanceFolder, RunNumber.ToString());
 
         private string PerformanceOutputFile => Path.Combine(PerformanceFolder, $"{testName}.log");
         private string DataOutputDirectory => Path.Combine(RunResultPath, $"data");
@@ -28,6 +29,8 @@ namespace Byt3.OpenFL.Benchmarking
         public readonly BufferCreator BufferCreator;
         public FLProgramCheckBuilder CheckBuilder;
         public FLParser Parser;
+
+        
 
 
         public FLSetup(string testName, string kernelPath, string performance = "performance", bool useChecks = true,
@@ -71,29 +74,21 @@ namespace Byt3.OpenFL.Benchmarking
 
         public void WriteLog(string log)
         {
-#if DEBUG
             File.AppendAllText(PerformanceOutputFile, log);
-#endif
         }
 
         public Stream GetDataFileStream(string filename)
         {
-#if DEBUG
             Directory.CreateDirectory(Path.Combine(DataOutputDirectory, Path.GetDirectoryName(filename)));
             return File.Create(Path.Combine(DataOutputDirectory, filename));
-#else
-            return new MemoryStream();
-#endif
         }
 
         public void WriteResult(PerformanceTester.PerformanceResult result)
         {
-#if DEBUG
             XmlSerializer xs = new XmlSerializer(typeof(PerformanceTester.PerformanceResult));
             Stream s = File.Create(Path.Combine(RunResultPath, $"{result.TestName}.xml"));
             xs.Serialize(s, result);
             s.Close();
-#endif
         }
     }
 }

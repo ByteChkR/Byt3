@@ -121,7 +121,7 @@ namespace Byt3.Engine.Rendering
                 string dirName = Path.GetDirectoryName(subshader.Value);
                 StringBuilder src = new StringBuilder();
                 string[] lines =
-                    TextProcessorAPI.PreprocessLines(tr.ReadToEnd().Replace("\r", "").Split('\n'), dirName, null);
+                    TextProcessorAPI.PreprocessLines(tr.ReadToEnd().Replace("\r", "").Split('\n'), dirName, Path.GetExtension(subshader.Value), null);
                 tr.Close();
                 for (int i = 0; i < lines.Length; i++)
                 {

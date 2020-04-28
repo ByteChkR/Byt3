@@ -141,7 +141,7 @@ namespace Byt3.OpenCL.Kernels
             // Checks if the index is positive, if not, then an exception is thrown
             if (index < 0)
             {
-                throw new IndexOutOfRangeException(
+                throw new OpenClArgumentIndexOutOfRangeException(
                     $"The specified index {index} is invalid. The index of the argument must always be greater or equal to 0.");
             }
 
@@ -169,7 +169,7 @@ namespace Byt3.OpenCL.Kernels
             // Checks if the index is positive, if not, then an exception is thrown
             if (index < 0)
             {
-                throw new IndexOutOfRangeException(
+                throw new OpenClArgumentIndexOutOfRangeException(
                     $"The specified index {index} is invalid. The index of the argument must always be greater or equal to 0.");
             }
 

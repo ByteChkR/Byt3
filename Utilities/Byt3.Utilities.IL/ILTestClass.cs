@@ -4,7 +4,7 @@ using System.Reflection.Emit;
 
 namespace Byt3.Utilities.IL
 {
-    public class ILTestClass
+    internal class ILTestClass
     {
         public ILTestClass()
         {
@@ -29,9 +29,35 @@ namespace Byt3.Utilities.IL
             mi.Invoke(null, null);
         }
 
+
+        
+
         public static void Answer()
         {
             Console.WriteLine("Hi from Assembly Generator");
         }
+    }
+
+    public static class ILTools
+    {
+        public delegate object TypeConstructor();
+
+        public static TypeConstructor GetConstructor(Type type)
+        {
+            ConstructorInfo cinfo = type.GetConstructor(new Type[0]);
+            DynamicMethod dm = new DynamicMethod(type.Name + "Ctor", type, new Type[0]);
+            ILGenerator gen = dm.GetILGenerator();
+            gen.Emit(OpCodes.Newobj, cinfo);
+            gen.Emit(OpCodes.Ret);
+
+            return (TypeConstructor)dm.CreateDelegate(typeof(TypeConstructor));
+        }
+
+        public static TypeConstructor GetConstructor(string type)
+        {
+            return GetConstructor(Type.GetType(type));
+        }
+
+
     }
 }

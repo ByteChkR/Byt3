@@ -12,7 +12,7 @@ namespace Byt3.Engine.BuildTools.PackageCreator.Versions.v2
     /// </summary>
     public class Version2 : IPackageVersion
     {
-        private readonly MD5 _md5 = MD5.Create();
+        private readonly HashAlgorithm hashAlgorithm = new SHA256Managed();
         public string ManifestPath => "PackageManifest.xml";
         public string PackageVersion => "v2";
 
@@ -175,12 +175,12 @@ namespace Byt3.Engine.BuildTools.PackageCreator.Versions.v2
 
         private string ComputeHash(Stream content)
         {
-            return BitConverter.ToString(_md5.ComputeHash(content)).Replace("-", "");
+            return BitConverter.ToString(hashAlgorithm.ComputeHash(content)).Replace("-", "");
         }
 
         private string ComputeHash(byte[] content)
         {
-            return BitConverter.ToString(_md5.ComputeHash(content)).Replace("-", "");
+            return BitConverter.ToString(hashAlgorithm.ComputeHash(content)).Replace("-", "");
         }
 
         private bool CompareHash(string should, byte[] content)

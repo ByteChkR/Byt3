@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Byt3Console.OpenFL.Commands
+namespace Byt3.CommandRunner.SetSettings
 {
     public struct FieldInformation
     {

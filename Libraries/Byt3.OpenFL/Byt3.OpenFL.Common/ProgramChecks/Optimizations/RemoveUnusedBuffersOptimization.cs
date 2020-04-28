@@ -24,13 +24,15 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                             case InstructionArgumentCategory.Buffer:
                                 buffers[serializableFlInstructionArgument.Identifier] = true;
                                 break;
+                            default:
+                                break;
                         }
                     }
                 }
             }
 
 
-            Logger.Log(LogType.Log, "Removing Buffers", 1);
+            Logger.Log(LogType.Log, "Removing Buffers", 2);
             foreach (KeyValuePair<string, bool> keyValuePair in buffers)
             {
                 if (keyValuePair.Value)

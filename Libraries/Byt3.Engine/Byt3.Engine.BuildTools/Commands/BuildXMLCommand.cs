@@ -90,7 +90,7 @@ namespace Byt3.Engine.BuildTools.Commands
 
                     if (bs.BuildFlags == BuildType.PackEmbed || bs.BuildFlags == BuildType.Embed)
                     {
-                        string[] files = new string[0];
+                        string[] files;
                         if (packsCreated)
                         {
                             Console.WriteLine("Embedding Packs.");

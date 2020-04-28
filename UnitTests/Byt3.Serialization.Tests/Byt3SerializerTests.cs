@@ -28,6 +28,9 @@ namespace Byt3.Serialization.Tests
             public byte valbyte;
             public byte[] valbytes;
 
+            public string[] arrStrings;
+            public float[] arrFloats;
+
             public Packet(bool setValues = false)
             {
                 if (setValues)
@@ -40,9 +43,11 @@ namespace Byt3.Serialization.Tests
                     valushort = 6;
                     vallong = 7;
                     valulong = 8;
-                    valbytes = new byte[] {1, 1, 1, 1, 0, 0, 0, 1, 1, 1};
+                    valbytes = new byte[] { 1, 1, 1, 1, 0, 0, 0, 1, 1, 1 };
                     valbyte = 9;
                     valstring = "TESTTEST";
+                    arrStrings = new[] { "A", "B", "Farts" };
+                    arrFloats = new[] { 420f, 69f };
                 }
             }
         }
@@ -63,7 +68,9 @@ namespace Byt3.Serialization.Tests
                     valulong = wrapper.ReadULong(),
                     valbytes = wrapper.ReadBytes(),
                     valbyte = wrapper.ReadByte(),
-                    valstring = wrapper.ReadString()
+                    valstring = wrapper.ReadString(),
+                    arrStrings = wrapper.ReadArray<string>(),
+                    arrFloats = wrapper.ReadArray<float>()
                 };
 
                 return p;
@@ -87,6 +94,8 @@ namespace Byt3.Serialization.Tests
                 wrapper.Write(obj.valbyte);
 
                 wrapper.Write(obj.valstring);
+                wrapper.WriteArray(obj.arrStrings);
+                wrapper.WriteArray(obj.arrFloats);
             }
         }
 
@@ -106,7 +115,15 @@ namespace Byt3.Serialization.Tests
             Assert.True(ret);
             stream.Position = 0;
 
+            s = Byt3Serializer.GetDefaultSerializer();
+
+            s.AddSerializer<Packet>(new PacketSerializer());
+
+
             bool p2ret = s.TryReadPacket(stream, out Packet p2);
+
+
+
 
             Assert.True(p2ret);
 
@@ -127,6 +144,15 @@ namespace Byt3.Serialization.Tests
             for (int i = 0; i < p.valbytes.Length; i++)
             {
                 Assert.True(p.valbytes[i] == p2.valbytes[i]);
+            }
+
+            for (int i = 0; i < p.arrFloats.Length; i++)
+            {
+                Assert.AreEqual(p.arrFloats[i], p2.arrFloats[i], 0.01f);
+            }
+            for (int i = 0; i < p.arrStrings.Length; i++)
+            {
+                Assert.AreEqual(p.arrStrings[i], p2.arrStrings[i]);
             }
         }
     }

@@ -4,17 +4,17 @@ using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 {
-    public class RandomFLBufferSerializer : ASerializer<SerializableRandomFLBuffer>
+    public class RandomFLBufferSerializer :FLSerializer
     {
-        public override SerializableRandomFLBuffer DeserializePacket(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
-            string name = s.ReadString();
-            return new SerializableRandomFLBuffer(name);
+            int name = s.ReadInt();
+            return new SerializableRandomFLBuffer(ResolveId(name));
         }
 
-        public override void SerializePacket(PrimitiveValueWrapper s, SerializableRandomFLBuffer obj)
+        public override void Serialize(PrimitiveValueWrapper s, object obj)
         {
-            s.Write(obj.Name);
+            s.Write(ResolveName(((SerializableRandomFLBuffer)obj).Name));
         }
     }
 }

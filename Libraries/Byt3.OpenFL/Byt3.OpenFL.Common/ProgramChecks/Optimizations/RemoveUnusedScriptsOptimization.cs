@@ -24,6 +24,8 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                             case InstructionArgumentCategory.Script:
                                 scripts[serializableFlInstructionArgument.Identifier] = true;
                                 break;
+                            default:
+                                break;
                         }
                     }
                 }
