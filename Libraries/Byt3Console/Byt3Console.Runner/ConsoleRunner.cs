@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Byt3.Utilities.ConsoleInternals;
 
@@ -11,6 +12,14 @@ namespace Byt3Console.Runner
 
         public static void Run(string[] args, Dictionary<string, object> resolvers)
         {
+            if (args.Length == 1 && args[0] == "reload")
+            {
+                if (File.Exists(ConsolePaths.RunnerConfig))
+                    File.Delete(ConsolePaths.RunnerConfig);
+                Console.WriteLine("Index File Cleared");
+                return;
+            }
+
             Resolvers = resolvers.ToDictionary(pair => pair.Key, pair => new ResolverWrapper(pair.Value));
             ConsolePaths.SetUpPaths();
 

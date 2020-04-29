@@ -63,7 +63,7 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_ParsedProgram_Execution_Test()
         {
             TestSetup.SetupTestingSession();
-            OpenFLBenchmarks.RunParsedFLExecutionBenchmark("_test", GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
+            OpenFLBenchmarks.RunParsedFLExecutionBenchmark(true,"_test", GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
         }
 
         [Test]

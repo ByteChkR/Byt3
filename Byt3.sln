@@ -139,8 +139,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Engine", "Libraries\By
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestingProjectConsole", "Consoles\TestingProjectConsole\TestingProjectConsole.csproj", "{FA4842E6-F76C-4517-8CF3-94DEEFC0947D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.IO", "Utilities\Byt3.Utilities.IO\Byt3.Utilities.IO.csproj", "{7DD24B68-218F-4CF8-B17F-10B6CEFA397E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.DisposableManagement", "Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj", "{FF1C8442-5210-4458-AB9C-469F0CDBAA68}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Emulation", "Emulation", "{7DA1D1AE-FFA2-49FE-905C-E4641516E3CA}"
@@ -159,11 +157,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.FastString",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.ManifestIO", "Utilities\Byt3.Utilities.ManifestIO\Byt3.Utilities.ManifestIO.csproj", "{FA81EC2C-ECF3-4126-A396-7505413FD34D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3Console.OpenFL.Benchmarks", "Libraries\Byt3Console\Byt3Console.OpenFL.Benchmarks\Byt3Console.OpenFL.Benchmarks.csproj", "{EF6C5FCC-660D-483A-BD47-A6732A468978}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3Console.OpenFL.Benchmarks", "Libraries\Byt3Console\Byt3Console.OpenFL.Benchmarks\Byt3Console.OpenFL.Benchmarks.csproj", "{EF6C5FCC-660D-483A-BD47-A6732A468978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3Console.OpenFL.ScriptGenerator", "Libraries\Byt3Console\Byt3Console.OpenFL.ScriptGenerator\Byt3Console.OpenFL.ScriptGenerator.csproj", "{032AFEDB-EF6C-4B0C-984C-D7266505EABE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3Console.OpenFL.ScriptGenerator", "Libraries\Byt3Console\Byt3Console.OpenFL.ScriptGenerator\Byt3Console.OpenFL.ScriptGenerator.csproj", "{032AFEDB-EF6C-4B0C-984C-D7266505EABE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.CommandRunner.SetSettings", "Libraries\Byt3.CommandRunner.SetSettings\Byt3.CommandRunner.SetSettings.csproj", "{4D333722-4862-4828-8E72-7F73B6198B6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.CommandRunner.SetSettings", "Libraries\Byt3.CommandRunner.SetSettings\Byt3.CommandRunner.SetSettings.csproj", "{4D333722-4862-4828-8E72-7F73B6198B6E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Byt3.Utilities.IL.Tests", "UnitTests\Byt3.Utilities.IL.Tests\Byt3.Utilities.IL.Tests.csproj", "{EC609725-1AFF-41D2-9FCB-02647434F7B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Byt3.Utilities.Benchmarking", "Utilities\Byt3.Utilities.Benchmarking\Byt3.Utilities.Benchmarking.csproj", "{583F3531-9A2B-40A5-A890-32CA8B199D6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -391,10 +393,6 @@ Global
 		{FA4842E6-F76C-4517-8CF3-94DEEFC0947D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA4842E6-F76C-4517-8CF3-94DEEFC0947D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA4842E6-F76C-4517-8CF3-94DEEFC0947D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7DD24B68-218F-4CF8-B17F-10B6CEFA397E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7DD24B68-218F-4CF8-B17F-10B6CEFA397E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7DD24B68-218F-4CF8-B17F-10B6CEFA397E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7DD24B68-218F-4CF8-B17F-10B6CEFA397E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF1C8442-5210-4458-AB9C-469F0CDBAA68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF1C8442-5210-4458-AB9C-469F0CDBAA68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF1C8442-5210-4458-AB9C-469F0CDBAA68}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -435,6 +433,14 @@ Global
 		{4D333722-4862-4828-8E72-7F73B6198B6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D333722-4862-4828-8E72-7F73B6198B6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D333722-4862-4828-8E72-7F73B6198B6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC609725-1AFF-41D2-9FCB-02647434F7B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC609725-1AFF-41D2-9FCB-02647434F7B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC609725-1AFF-41D2-9FCB-02647434F7B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC609725-1AFF-41D2-9FCB-02647434F7B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{583F3531-9A2B-40A5-A890-32CA8B199D6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{583F3531-9A2B-40A5-A890-32CA8B199D6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{583F3531-9A2B-40A5-A890-32CA8B199D6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{583F3531-9A2B-40A5-A890-32CA8B199D6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -504,7 +510,6 @@ Global
 		{AFBC4305-398F-440E-A6E4-4D8E51161B4C} = {3C362FA5-8CF7-4029-94D1-866D8EDC3C3A}
 		{649B362C-2D04-412E-98D9-A1892973B248} = {9F11F7BC-E041-4C67-89F0-F12BF6F45849}
 		{FA4842E6-F76C-4517-8CF3-94DEEFC0947D} = {A26AFFA5-E059-46E3-8F9D-3B2A7F01367E}
-		{7DD24B68-218F-4CF8-B17F-10B6CEFA397E} = {D86E5395-8C96-4F3D-A419-B5DC6BA581DA}
 		{FF1C8442-5210-4458-AB9C-469F0CDBAA68} = {D86E5395-8C96-4F3D-A419-B5DC6BA581DA}
 		{7DA1D1AE-FFA2-49FE-905C-E4641516E3CA} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
 		{04B79094-AAD5-45D1-A098-FDC785335DFD} = {9F11F7BC-E041-4C67-89F0-F12BF6F45849}
@@ -517,6 +522,8 @@ Global
 		{EF6C5FCC-660D-483A-BD47-A6732A468978} = {3C362FA5-8CF7-4029-94D1-866D8EDC3C3A}
 		{032AFEDB-EF6C-4B0C-984C-D7266505EABE} = {3C362FA5-8CF7-4029-94D1-866D8EDC3C3A}
 		{4D333722-4862-4828-8E72-7F73B6198B6E} = {9FFEA284-A8F7-4608-8A05-71452E9A04BE}
+		{EC609725-1AFF-41D2-9FCB-02647434F7B5} = {68DFEF09-1EA9-4127-9FD8-05EED1F974C7}
+		{583F3531-9A2B-40A5-A890-32CA8B199D6F} = {D86E5395-8C96-4F3D-A419-B5DC6BA581DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1ACABA5F-1D45-4A5D-8E38-B83B3DFDF05A}

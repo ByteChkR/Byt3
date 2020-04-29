@@ -4,7 +4,12 @@ using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace Byt3.OpenFL.Common.Buffers
 {
-    public class LazyLoadingFLBuffer : FLBuffer, IDisposable
+    public interface IWarmable
+    {
+        void Warm();
+    }
+
+    public class LazyLoadingFLBuffer : FLBuffer, IDisposable, IWarmable
     {
         public delegate FLBuffer BufferLoader(FLProgram root);
 
@@ -15,18 +20,29 @@ namespace Byt3.OpenFL.Common.Buffers
         {
             get
             {
-                if (_buffer == null)
-                {
-                    FLBuffer i = Loader(Root);
+                InitializeBuffer();
 
-                    _buffer = i.Buffer;
-                    Width = i.Width;
-                    Height = i.Height;
-                }
 
                 return _buffer;
             }
         }
+
+        private void InitializeBuffer()
+        {
+            if (_buffer == null)
+            {
+                FLBuffer i = Loader(Root);
+                _buffer = i.Buffer;
+                Width = i.Width;
+                Height = i.Height;
+            }
+        }
+
+        public void Warm()
+        {
+            InitializeBuffer();
+        }
+
 
         public LazyLoadingFLBuffer(BufferLoader loader) : base(default(MemoryBuffer), -1, -1)
         {

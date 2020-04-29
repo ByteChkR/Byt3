@@ -3,30 +3,34 @@
 
 # Byt3 Library Collection
 
-## Consoles
-
-### Byt3.AssemblyGenerator.CLI
-Commandline App that can "precompile weave" c# solutions.
-
-### Byt3.ExtPP.CLI
-External PreProcessor Commandline Implementation
-
-### Testing Project
-Testing Project Used for Debugging and Working on the Libary Collection.
-
 ## Libraries
 
 ### Byt3.ADL
-A Debugging framework
+A Debugging framework that is used througout the solution
 
 ### Byt3.AssemblyGenerator
 Library that acts as a poor mans precompiler "weaver".
 
-### Byt3.Collections
-Collection of Algorithms and other Smoothing functions.
+### Byt3Console
+Console Runner implementation that is mostly modular and allows for "drop-in" additions of consoles.
 
-### Byt3.CommandRunner
-Library that parses command line input and uses custom commands to run application logic.
+#### Included Consoles
+- Assembly Generator Console
+- Engine Build Tools Console
+- Engine Player Console
+- External Text Preprocessor Console
+- OpenFL Console
+- OpenFL Benchmarking Console
+- OpenFL Script Generator Console
+- Engine Demo Console -> Located in `Libraries/Byt3.Engine`
+- Engine Tutorial Console -> Located in `Libraries/Byt3.Engine`
+
+### Byt3.Engine
+Multipurpose OpenGL game engine written in pure C#.
+Also includes demos and tutorials.
+
+### Byt3.Engine.BuildTools
+Build tools for the engine, including asset packaging and creating an executable package for the engine player.
 
 ### Byt3.ExtPP
 External Text Processor
@@ -39,6 +43,18 @@ OpenCL .NET Implementation and a Wrapper that implements more easy to use interf
 
 ### Byt3.OpenFL
 OpenFL is an Interpreted OpenCL pseudo language that can be used for generating Images from Noise
+
+### Byt3.Collections
+Collection of Algorithms and other Smoothing functions.
+
+### Byt3.CommandRunner
+Library that parses command line input and uses custom commands to run application logic.
+
+### Byt3.CommandRunner.SetSettings
+Command Runner Command that uses reflection to populate a settings classes.
+
+### Byt3.MAssert
+Small lightweight WIP Assert library.
 
 ### Byt3.PackageHandling
 Handling System that takes a System.Object as input and passes it to the right handler.
@@ -55,8 +71,26 @@ Implementation of Thread Worker
 ### Byt3.Callbacks
 Small Helper Library that exposes a IOCallback class that can be used to "reroute" IO Calls.
 
+### Byt3.DisposableManagement
+Helper Library that associates any deriving class with a handle identifier to help with finding memory leaks.
+
+### Byt3.ConsoleInternals
+Library that implements the base classes used to load different Console and File Resolver modules.
+
 ### Byt3.Utilities.DotNet
 Library containing Implementation for Loading Assemblies and Recursively Resolving .csproj references.
+
+### Byt3.Utilities.Exceptions
+Base Exceptions for the Solution
+
+### Byt3.Utilities.FastString
+Collection of algorithms that are performance optimized.
+
+### Byt3.Utilities.IL
+WIP Library containing different functions that could alleviate the use of reflection in some usecases.
+
+### Byt3.Utilities.ManifestIO
+Implements a Filesystem built on top of Byt3.Callbacks that enables treating embedded resources like files and directories.
 
 ### Byt3.Utilities.Serialization
 Small Library that is containing Serialization Utilities.
@@ -66,10 +100,11 @@ Implements ProcessRunner class that can run Cmd or Bash Scripts and commands.
 
 ## Unit Tests
 *  Byt3.ADL.Tests -> 19 Tests
+*  Engine.BuildTools.Tests -> 1
 *  Byt3.ExtPP.Tests -> 13 Tests
 *  Byt3.ObjectPipeline.AssetLoaderFramework.Tests -> 1 Test
 *  Byt3.ObjectPipeline.Tests -> 3 Tests
 *  Byt3.OpenCL.Tests -> 4 Tests
-*  Byt3.OpenFL.Tests -> 8 Tests
+*  Byt3.OpenFL.Tests -> 20 Tests
 *  Byt3.PackageHandling.Tests -> 3 Tests
 *  Byt3.Serialization.Tests -> 1 Test

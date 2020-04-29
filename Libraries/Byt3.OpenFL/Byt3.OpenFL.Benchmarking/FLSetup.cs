@@ -8,36 +8,22 @@ using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
+using Byt3.Utilities.Benchmarking;
 
 namespace Byt3.OpenFL.Benchmarking
 {
-    public struct FLSetup : IDisposable
+
+    public class FLSetup : BenchmarkHelper, IDisposable
     {
-        internal static int RunNumber = 0;
-
-        private readonly string PerformanceFolder;
-
-        private string RunResultPath => Path.Combine(PerformanceFolder, RunNumber.ToString());
-
-        private string PerformanceOutputFile => Path.Combine(PerformanceFolder, $"{testName}.log");
-        private string DataOutputDirectory => Path.Combine(RunResultPath, $"data");
-
-        private readonly string testName;
-
         public readonly KernelDatabase KernelDatabase;
         public readonly FLInstructionSet InstructionSet;
         public readonly BufferCreator BufferCreator;
         public FLProgramCheckBuilder CheckBuilder;
         public FLParser Parser;
 
-        
-
-
         public FLSetup(string testName, string kernelPath, string performance = "performance", bool useChecks = true,
-            bool useMultiThreading = false, int workSizeMultiplier = 2)
+            bool useMultiThreading = false, int workSizeMultiplier = 2): base(testName, performance)
         {
-            this.testName = testName;
-            PerformanceFolder = performance;
             KernelDatabase = new KernelDatabase(CLAPI.MainThread, kernelPath, DataVectorTypes.Uchar1);
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(KernelDatabase);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
@@ -72,23 +58,6 @@ namespace Byt3.OpenFL.Benchmarking
             KernelDatabase.Dispose();
         }
 
-        public void WriteLog(string log)
-        {
-            File.AppendAllText(PerformanceOutputFile, log);
-        }
-
-        public Stream GetDataFileStream(string filename)
-        {
-            Directory.CreateDirectory(Path.Combine(DataOutputDirectory, Path.GetDirectoryName(filename)));
-            return File.Create(Path.Combine(DataOutputDirectory, filename));
-        }
-
-        public void WriteResult(PerformanceTester.PerformanceResult result)
-        {
-            XmlSerializer xs = new XmlSerializer(typeof(PerformanceTester.PerformanceResult));
-            Stream s = File.Create(Path.Combine(RunResultPath, $"{result.TestName}.xml"));
-            xs.Serialize(s, result);
-            s.Close();
-        }
+        
     }
 }

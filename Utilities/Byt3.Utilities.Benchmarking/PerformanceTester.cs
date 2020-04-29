@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
-namespace Byt3.OpenFL.Benchmarking
+namespace Byt3.Utilities.Benchmarking
 {
     public class PerformanceTester
     {

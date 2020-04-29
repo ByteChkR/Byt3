@@ -14,6 +14,7 @@
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL.Benchmarks\Byt3Console.OpenFL.Benchmarks.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL.ScriptGenerator\Byt3Console.OpenFL.ScriptGenerator.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL\Byt3Console.OpenFL.csproj" />
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.IL\Byt3.Utilities.IL.csproj" />
     <ProjectReference Include="..\TestingProjectConsole\TestingProjectConsole.csproj" />
   </ItemGroup>
 

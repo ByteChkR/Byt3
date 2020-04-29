@@ -150,6 +150,7 @@
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Common\Byt3.OpenFL.Common.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.IL\Byt3.Utilities.IL.csproj" />
   </ItemGroup>
 
 </Project>

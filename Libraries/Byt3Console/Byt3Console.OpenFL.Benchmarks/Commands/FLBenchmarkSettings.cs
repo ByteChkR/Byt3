@@ -11,6 +11,7 @@
         public string ScriptDirectories;
         public int WorkSizeMultiplier;
         public int TotalRepetitions;
+        public bool WarmProgram;
 
         public static FLBenchmarkSettings Default =>
             new FLBenchmarkSettings

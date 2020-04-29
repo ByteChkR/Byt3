@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Byt3.ADL;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
@@ -7,7 +8,7 @@ using Byt3.OpenFL.Common.Buffers;
 
 namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 {
-    public class FLProgram
+    public class FLProgram: ALoggable<LogType>
     {
         private readonly Stack<FLExecutionContext> ContextStack = new Stack<FLExecutionContext>();
         private readonly List<FLBuffer> internalBuffers = new List<FLBuffer>();
@@ -17,7 +18,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
 
         public FLProgram(Dictionary<string, ExternalFlFunction> definedScripts,
-            Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, FLFunction> flFunctions)
+            Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, FLFunction> flFunctions):base(OpenFLDebugConfig.Settings)
         {
             FlFunctions = flFunctions;
             DefinedBuffers = definedBuffers;
@@ -170,7 +171,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public void PushContext()
         {
             ContextStack.Push(new FLExecutionContext(new List<byte>(ActiveChannels).ToArray(), ActiveBuffer, Input));
-            ActiveChannels = new byte[] {1, 1, 1, 1};
+            ActiveChannels = new byte[] { 1, 1, 1, 1 };
         }
 
         public void ReturnFromContext()
@@ -198,17 +199,39 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             InternalState["in"] = makeInputInternal;
 
             Input.SetKey("in");
+            warmed = true;
         }
 
-        public void Run(CLAPI instance, FLBuffer input, bool makeInputInternal, FLFunction entry = null)
+        private bool warmed = false;
+        public void SetCLVariablesAndWarm(CLAPI instance, FLBuffer input, bool makeInputInternal, bool warmBuffers)
         {
             SetCLVariables(instance, input, makeInputInternal);
+            warmed = true;
+            if (!warmBuffers) return;
+            Logger.Log(LogType.Log, "Warming Buffers...",1);
+            foreach (KeyValuePair<string, FLBuffer> definedBuffer in DefinedBuffers)
+            {
+                if (definedBuffer.Value is IWarmable warmable)
+                {
+                    warmable.Warm();
+                }
+            }
+            Logger.Log(LogType.Log, "Warming Buffers finished", 1);
+        }
 
+        public void Run(CLAPI instance, FLBuffer input, bool makeInputInternal, FLFunction entry = null, bool warmBuffers=false)
+        {
+            if (!warmed)
+            {
+                SetCLVariablesAndWarm(instance, input, makeInputInternal, warmBuffers);
+            }
             //Start Setup
-            ActiveChannels = new byte[] {1, 1, 1, 1};
+            ActiveChannels = new byte[] { 1, 1, 1, 1 };
 
             FLFunction entryPoint = entry ?? EntryPoint;
             entryPoint.Process();
+
+            warmed = false;
         }
     }
 }

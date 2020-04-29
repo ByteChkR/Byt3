@@ -14,6 +14,7 @@ using Byt3.Utilities.ConsoleInternals;
 using Byt3.Utilities.ManifestIO;
 using Byt3Console.OpenFL.Benchmarks.Commands;
 using Byt3.CommandRunner.SetSettings;
+using Byt3.OpenFL.Common.Instructions;
 
 namespace Byt3Console.OpenFL.Benchmarks
 {
@@ -100,7 +101,7 @@ namespace Byt3Console.OpenFL.Benchmarks
                     OpenFLBenchmarks.RunProgramDeserializationBenchmark("_run" + i, files, Settings.IOIterations,
                         Settings.PerformanceFolder, UseProgramChecks, true), 1);
                 Logger.Log(LogType.Log,
-                    OpenFLBenchmarks.RunParsedFLExecutionBenchmark("_run" + i, files, Settings.ExecutionIterations,
+                    OpenFLBenchmarks.RunParsedFLExecutionBenchmark(Settings.WarmProgram, "_run" + i, files, Settings.ExecutionIterations,
                         Settings.PerformanceFolder, UseProgramChecks, true), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunDeserializedFLExecutionBenchmark("_run" + i, files,
@@ -115,8 +116,18 @@ namespace Byt3Console.OpenFL.Benchmarks
             return true;
         }
 
+        private static void InitializeAssemblyFS()
+        {
+            ManifestReader.RegisterAssembly(Assembly.GetExecutingAssembly());
+            ManifestReader.RegisterAssembly(typeof(OpenFLBenchmarks).Assembly);
+            ManifestReader.RegisterAssembly(typeof(KernelFLInstruction).Assembly);
+            ManifestReader.PrepareManifestFiles(false);
+            EmbeddedFileIOManager.Initialize();
+        }
+
         private List<string> GetFileList()
         {
+            InitializeAssemblyFS();
             List<string> files = new List<string>();
             string[] dirs = Settings.ScriptDirectories.Split(new[] { ';' });
             for (int i = 0; i < dirs.Length; i++)
