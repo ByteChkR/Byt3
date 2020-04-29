@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.1</LangVersion>
-    <AssemblyVersion>1.3.68.2133</AssemblyVersion>
-    <FileVersion>1.3.68.2133</FileVersion>
+    <AssemblyVersion>1.3.71.2152</AssemblyVersion>
+    <FileVersion>1.3.71.2152</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="assets\kernel\**" />
