@@ -54,7 +54,7 @@ namespace Byt3.Utilities.IL.Tests
         {
 
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
-            int[] iterations = new int[100];
+            int[] iterations = new int[10];
 
             int step = 10000;
             int current = step;
