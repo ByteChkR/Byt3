@@ -33,6 +33,8 @@ namespace Byt3.Engine.Rendering
         ///  A list of render targets
         /// </summary>
         private readonly List<RenderTarget> targets = new List<RenderTarget>();
+        private readonly Dictionary<int, bool> renderListDirtyFlag = new Dictionary<int, bool>();
+        private readonly Dictionary<int, List<RenderingComponent>> renderLists = new Dictionary<int, List<RenderingComponent>>();
 
         /// <summary>
         /// The Clear color of the two standard Render targets(World/UI)
@@ -51,12 +53,24 @@ namespace Byt3.Engine.Rendering
 
         private readonly RenderTargetMergeStage mergeStage;
 
+        private void OnRenderListChanged(RenderListChangeType type, RenderingComponent component)
+        {
+            for (int i = 0; i < targets.Count; i++)
+            {
+                if ((targets[i].PassMask & component.RenderQueue) != 0)
+                {
+                    renderListDirtyFlag[targets[i].PassMask] = true;
+                }
+            }
+        }
+
         /// <summary>
         /// Internal Constructor
         /// </summary>
         internal Renderer()
         {
             mergeStage = new RenderTargetMergeStage();
+            GameObject.AttachedRenderersChanged += OnRenderListChanged;
 
             GL.FrontFace(FrontFaceDirection.Ccw);
             GL.Enable(EnableCap.CullFace);
@@ -64,7 +78,7 @@ namespace Byt3.Engine.Rendering
             GL.Enable(EnableCap.DepthTest);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            rt = new RenderTarget(null, 1, clearColor) {MergeType = RenderTargetMergeType.Additive};
+            rt = new RenderTarget(null, 1, clearColor) { MergeType = RenderTargetMergeType.Additive };
             AddRenderTarget(rt);
             rt1 = new RenderTarget(new ScreenCamera(), 1 << 30, clearColor)
             {
@@ -85,6 +99,8 @@ namespace Byt3.Engine.Rendering
             }
 
             targets.Clear();
+            renderListDirtyFlag.Clear();
+            renderLists.Clear();
 
             mergeStage.Dispose();
         }
@@ -114,6 +130,8 @@ namespace Byt3.Engine.Rendering
         public void AddRenderTarget(RenderTarget target)
         {
             targets.Add(target);
+            renderListDirtyFlag[target.PassMask] = true;
+            renderLists[target.PassMask] = new List<RenderingComponent>();
             targets.Sort();
         }
 
@@ -128,6 +146,8 @@ namespace Byt3.Engine.Rendering
                 RenderTarget renderTarget = targets[i];
                 if (renderTarget.FrameBuffer == target.FrameBuffer)
                 {
+                    renderLists.Remove(renderTarget.PassMask);
+                    renderListDirtyFlag.Remove(renderTarget.PassMask);
                     targets.RemoveAt(i);
                 }
             }
@@ -141,22 +161,27 @@ namespace Byt3.Engine.Rendering
         /// <param name="view">The View Matrix of the Camera Associated with the Render Target</param>
         /// <param name="type">The Render Type</param>
         /// <returns>A sorted list of renderer contexts</returns>
-        private static List<RenderingComponent> CreateRenderQueue(int renderTarget, Matrix4 view, RenderType type)
+        private List<RenderingComponent> CreateRenderQueue(int renderTarget, Matrix4 view)
         {
-            List<RenderingComponent> contexts = new List<RenderingComponent>();
+
+            if (!renderListDirtyFlag[renderTarget]) return renderLists[renderTarget];
+            renderListDirtyFlag[renderTarget] = false;
+            if (!renderLists.ContainsKey(renderTarget)) renderLists[renderTarget] = new List<RenderingComponent>();
+
             foreach (GameObject renderer in GameObject.ObjsWithAttachedRenderers)
             {
                 RenderingComponent context = renderer.RenderingComponent;
-                if (MaskHelper.IsContainedInMask(renderer.RenderingComponent.RenderQueue, renderTarget, false) &&
-                    context.RenderType == type)
+                if ((renderer.RenderingComponent.RenderQueue & renderTarget) != 0)
+                //if (MaskHelper.IsContainedInMask(renderer.RenderingComponent.RenderQueue, renderTarget, false) &&
+                //    context.RenderType == type)
                 {
                     context.PrecalculateMv(view);
-                    contexts.Add(context);
+                    renderLists[renderTarget].Add(context);
                 }
             }
 
-            contexts.Sort();
-            return contexts;
+            renderLists[renderTarget].Sort();
+            return renderLists[renderTarget];
         }
 
         /// <summary>
@@ -193,11 +218,11 @@ namespace Byt3.Engine.Rendering
 
                     Matrix4 vmat = c.ViewMatrix;
 
-                    List<RenderingComponent> opaque = CreateRenderQueue(target.PassMask, vmat, RenderType.Opaque);
+                    List<RenderingComponent> opaque = CreateRenderQueue(target.PassMask, vmat);
                     Render(opaque, vmat, c);
-                    List<RenderingComponent> transparent =
-                        CreateRenderQueue(target.PassMask, vmat, RenderType.Transparent);
-                    Render(transparent, vmat, c);
+                    //List<RenderingComponent> transparent =
+                    //    CreateRenderQueue(target.PassMask, vmat, RenderType.Transparent);
+                    //Render(transparent, vmat, c);
 
 
                     GL.Viewport(0, 0, GameEngine.Instance.Width, GameEngine.Instance.Height);
@@ -220,7 +245,8 @@ namespace Byt3.Engine.Rendering
         {
             for (int i = 0; i < contexts.Count; i++)
             {
-                contexts[i].Render(viewM, cam.Projection);
+                if (contexts[i].Owner != null)
+                    contexts[i].Render(viewM, cam.Projection);
             }
         }
     }

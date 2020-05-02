@@ -6,7 +6,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Random
     {
         public override SerializableFLBuffer CreateBuffer(string name, string[] args)
         {
-            return new SerializableRandomFLBuffer(name);
+            return new SerializableUnifiedRandomFLBuffer(name);
         }
 
         public override bool IsCorrectBuffer(string bufferKey)

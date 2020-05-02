@@ -5,6 +5,8 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public class InstructionValidator : FLProgramCheck<SerializableFLProgram>
     {
+        public override bool ChangesOutput => false;
+
         public override object Process(object o)
         {
             SerializableFLProgram input = (SerializableFLProgram) o;

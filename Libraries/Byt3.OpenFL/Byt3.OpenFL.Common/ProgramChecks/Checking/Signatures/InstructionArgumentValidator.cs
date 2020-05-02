@@ -9,6 +9,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public class InstructionArgumentValidator : FLProgramCheck<SerializableFLProgram>
     {
+        public override bool ChangesOutput => false;
         private bool ParseCreatorSig(string sig, out List<InstructionArgumentSignature> ret)
         {
             ret = new List<InstructionArgumentSignature>();

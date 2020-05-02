@@ -43,5 +43,11 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
             externalFunction.FreeResources();
         }
+
+
+        public override string ToString()
+        {
+            return "--define script " + Name + ": [UNKNOWN]";
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Xml.Serialization;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Common;
@@ -21,18 +20,30 @@ namespace Byt3.OpenFL.Benchmarking
         public FLProgramCheckBuilder CheckBuilder;
         public FLParser Parser;
 
-        public FLSetup(string testName, string kernelPath, string performance = "performance", bool useChecks = true,
-            bool useMultiThreading = false, int workSizeMultiplier = 2): base(testName, performance)
+        public FLSetup(string testName, string kernelPath, string performance = "performance", Type[] checkPipeline = null,
+            bool useMultiThreading = false, int workSizeMultiplier = 2) : base(testName, performance)
         {
             KernelDatabase = new KernelDatabase(CLAPI.MainThread, kernelPath, DataVectorTypes.Uchar1);
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(KernelDatabase);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
-            CheckBuilder =
-                useChecks
-                    ? FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator)
-                    : new FLProgramCheckBuilder(InstructionSet, BufferCreator);
+            CheckBuilder = null;
+            if (checkPipeline == null)
+            {
+                CheckBuilder = FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator);
+            }
+            else
+            {
+               CheckBuilder= new FLProgramCheckBuilder(InstructionSet, BufferCreator);
+               foreach (Type useCheck in checkPipeline)
+               {
+                   CheckBuilder.AddProgramCheck((FLProgramCheck)Activator.CreateInstance(useCheck));
+               }
+            }
+
+
             Parser = new FLParser(InstructionSet, BufferCreator,
                 new WorkItemRunnerSettings(useMultiThreading, workSizeMultiplier));
+
             CheckBuilder.Attach(Parser, true);
 
             Directory.CreateDirectory(RunResultPath);
@@ -58,6 +69,6 @@ namespace Byt3.OpenFL.Benchmarking
             KernelDatabase.Dispose();
         }
 
-        
+
     }
 }

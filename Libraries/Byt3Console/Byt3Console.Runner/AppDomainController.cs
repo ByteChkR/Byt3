@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Byt3.Utilities.IL;
 
 namespace Byt3Console.Runner
 {

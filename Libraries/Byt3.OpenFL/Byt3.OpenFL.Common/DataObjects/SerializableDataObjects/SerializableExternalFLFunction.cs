@@ -8,5 +8,11 @@
         {
             ExternalProgram = externalProgram;
         }
+
+
+        public override string ToString()
+        {
+            return "--define script " + Name + ": " + ExternalProgram.FileName;
+        }
     }
 }

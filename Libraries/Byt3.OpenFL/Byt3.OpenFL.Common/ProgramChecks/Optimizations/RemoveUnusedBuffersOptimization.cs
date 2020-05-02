@@ -2,15 +2,17 @@
 using Byt3.ADL;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 
-namespace Byt3.OpenFL.Common.ProgramChecks
+namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {
     public class RemoveUnusedBuffersOptimization : FLProgramCheck<SerializableFLProgram>
     {
+        public override bool ChangesOutput => true;
         public override object Process(object o)
         {
-            SerializableFLProgram input = (SerializableFLProgram) o;
+            SerializableFLProgram input = (SerializableFLProgram)o;
             Dictionary<string, bool> buffers = new Dictionary<string, bool>();
             input.DefinedBuffers.ForEach(x => buffers.Add(x.Name, x.Name == "in"));
+
 
             foreach (SerializableFLFunction serializableFlFunction in input.Functions)
             {
@@ -30,7 +32,6 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                     }
                 }
             }
-
 
             Logger.Log(LogType.Log, "Removing Buffers", 2);
             foreach (KeyValuePair<string, bool> keyValuePair in buffers)

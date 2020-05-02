@@ -10,6 +10,8 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
     {
         public KernelDatabase KernelList { get; }
 
+        public override string[] InstructionKeys => KernelList.KernelNames.ToArray();
+
         public KernelFLInstructionCreator(KernelDatabase kernelList)
         {
             KernelList = kernelList;

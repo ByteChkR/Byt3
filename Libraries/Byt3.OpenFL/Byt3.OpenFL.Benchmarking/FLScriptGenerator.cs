@@ -50,7 +50,7 @@ namespace Byt3.OpenFL.Benchmarking
             public static FLInstructionInfo A(string name, string isDecimal)
             {
                 bool[] dec = isDecimal.Select(x => x == '0').ToArray();
-                return new FLInstructionInfo {Name = name, IsDecimal = dec};
+                return new FLInstructionInfo { Name = name, IsDecimal = dec };
             }
         }
 
@@ -77,8 +77,8 @@ namespace Byt3.OpenFL.Benchmarking
         {
             List<string> functionNames = GenerateElementNames(functionPrefix + "Function", functionCount);
             List<string> tempFunctionNames = new List<string>(functionNames);
-            
-            StringBuilder script =new StringBuilder();
+
+            StringBuilder script = new StringBuilder();
 
 
             Queue<string> todo = new Queue<string>();
@@ -125,7 +125,7 @@ namespace Byt3.OpenFL.Benchmarking
                 {
                     if (instructions[idx].IsDecimal[j])
                     {
-                        args.Append(Math.Round(rnd.NextDouble(), 4).ToString().Replace(",", "."));
+                        args.Append(" " + Math.Round(rnd.NextDouble(), 4).ToString().Replace(",", "."));
                     }
                     else
                     {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using Byt3.ADL;
 using Byt3.ExtPP.Base;
 using Byt3.OpenCL.Wrapper;
@@ -10,6 +8,7 @@ using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.Utilities.FastString;
+using Byt3.Utilities.TypeFinding;
 
 namespace Byt3Console.OpenFL
 {
@@ -51,22 +50,14 @@ namespace Byt3Console.OpenFL
                 List<Type> ret = new List<Type>();
                 for (int i = 0; i < creators.Length; i++)
                 {
-                    ret.Add(Type.GetType(creators[i], true, true));
+                    ret.AddRange(TypeAccumulator<FLProgramCheck>.GetTypesByName(creators[i]));
+                    //ret.Add(Type.GetType(creators[i], true, true));
                 }
 
                 return ret;
             }
         }
-
-        public string FullKernelPath
-        {
-            get
-            {
-                string path = Path.Combine(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath,
-                    KernelFolder);
-                return path;
-            }
-        }
+        
 
         public static FLConsoleSettings Default
         {
@@ -76,11 +67,10 @@ namespace Byt3Console.OpenFL
                 {
                     MultiThread = false,
                     WorkSizeMultiplier = 2,
-                    ProgramChecks = GetBuiltInTypesAssignableFrom(typeof(FLProgramCheck))
-                        .Select(x => x.AssemblyQualifiedName).Unpack(";"),
+                    ProgramChecks = FLProgramCheckBuilder.Default.Select(x=>x.GetType().Name).Unpack(";"),
                     BufferCreators = GetBuiltInTypesAssignableFrom(typeof(ASerializableBufferCreator))
                         .Select(x => x.AssemblyQualifiedName).Unpack(";"),
-                    KernelFolder = "kernel",
+                    KernelFolder = "resources/kernel",
                     Resolution = new Resolution(128, 128),
                     Verbosity = 1,
                 };

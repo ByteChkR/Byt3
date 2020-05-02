@@ -11,6 +11,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
         protected readonly ADLLogger<LogType> Logger;
         protected FLInstructionSet InstructionSet { get; private set; }
         protected BufferCreator BufferCreator { get; private set; }
+        public abstract bool ChangesOutput { get; }
 
         internal void SetValues(FLInstructionSet iset, BufferCreator bc)
         {

@@ -24,9 +24,9 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
         }
 
 
-        public virtual Bitmap GetBitmap()
+        public virtual Bitmap GetBitmap(int width, int height)
         {
-            return Bitmap;
+            return new Bitmap(Bitmap, width, height);
         }
     }
 }

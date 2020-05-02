@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.4.90.2152</AssemblyVersion>
-    <FileVersion>1.4.90.2152</FileVersion>
+    <AssemblyVersion>1.5.69.1128</AssemblyVersion>
+    <FileVersion>1.5.69.1128</FileVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
@@ -19,11 +19,13 @@
     <None Remove="resources\filter\tests\mulval.fl" />
     <None Remove="resources\filter\tests\perlin.fl" />
     <None Remove="resources\filter\tests\pp_tests.fl" />
+    <None Remove="resources\filter\tests\random_tests.fl" />
     <None Remove="resources\filter\tests\settex.fl" />
     <None Remove="resources\filter\tests\setval.fl" />
     <None Remove="resources\filter\tests\smooth.fl" />
     <None Remove="resources\filter\tests\subtex.fl" />
     <None Remove="resources\filter\tests\subval.fl" />
+    <None Remove="resources\filter\tests\urandom_tests.fl" />
     <None Remove="resources\filter\tests\wfc.fl" />
     <None Remove="resources\textures\TEST.png" />
     <None Remove="resources\WFCTiles\testtile.png" />
@@ -40,11 +42,13 @@
     <EmbeddedResource Include="resources\filter\tests\mulval.fl" />
     <EmbeddedResource Include="resources\filter\tests\perlin.fl" />
     <EmbeddedResource Include="resources\filter\tests\pp_tests.fl" />
+    <EmbeddedResource Include="resources\filter\tests\random_tests.fl" />
     <EmbeddedResource Include="resources\filter\tests\settex.fl" />
     <EmbeddedResource Include="resources\filter\tests\setval.fl" />
     <EmbeddedResource Include="resources\filter\tests\smooth.fl" />
     <EmbeddedResource Include="resources\filter\tests\subtex.fl" />
     <EmbeddedResource Include="resources\filter\tests\subval.fl" />
+    <EmbeddedResource Include="resources\filter\tests\urandom_tests.fl" />
     <EmbeddedResource Include="resources\filter\tests\wfc.fl" />
     <EmbeddedResource Include="resources\textures\TEST.png" />
     <EmbeddedResource Include="resources\WFCTiles\testtile.png" />

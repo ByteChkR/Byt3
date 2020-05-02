@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using Byt3.ADL;
 using Byt3.ADL.Configs;
@@ -253,15 +255,15 @@ namespace TestingProject
         private static void Main(string[] args)
         {
 
-            int[] iterations = new[] { 100, 100_000, 1_000_000, 10_000_000, 100_000_000 };
+            //int[] iterations = new[] { 100, 100_000, 1_000_000, 10_000_000, 100_000_000 };
 
-            for (int i = 0; i < iterations.Length; i++)
-            {
-                Console.WriteLine("ITERATIONS: " + iterations[i]);
-                ILTests(iterations[i]);
-            }
-            return;
-            Console.ReadLine();
+            //for (int i = 0; i < iterations.Length; i++)
+            //{
+            //    Console.WriteLine("ITERATIONS: " + iterations[i]);
+            //    ILTests(iterations[i]);
+            //}
+            //return;
+            //Console.ReadLine();
 
             Debug.DefaultInitialization();
 
@@ -305,6 +307,12 @@ namespace TestingProject
                 if (command[0] == "exit")
                 {
                     break;
+                }
+
+                if (command[0] == "file")
+                {
+                    command = File.ReadAllText(command[1])
+                        .Split(new[] {' ', '\n'}, StringSplitOptions.RemoveEmptyEntries).Select(x=>x.Trim()).ToArray();
                 }
 
                 if (Consoles.ContainsKey(command[0]))

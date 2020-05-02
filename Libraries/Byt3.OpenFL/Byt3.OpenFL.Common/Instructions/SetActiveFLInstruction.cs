@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Byt3.ADL;
 using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenFL.Common.Instructions
 {
@@ -44,7 +45,9 @@ namespace Byt3.OpenFL.Common.Instructions
 
                         Logger.Log(LogType.Log, $"Executing Function: {source.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 
-                        Root.Run(Root.Instance, buffer, true, source);
+                        Root.ActiveBuffer = buffer;
+                        source.Process();
+                        //Root.Run(Root.Instance, buffer, true, source);
 
                         FLBuffer output = Root.ActiveBuffer;
 
@@ -70,6 +73,10 @@ namespace Byt3.OpenFL.Common.Instructions
             }
 
             Root.ActiveChannels = newFlags;
+        }
+        public override string ToString()
+        {
+            return "setactive " + Arguments.Unpack(" ");
         }
     }
 }

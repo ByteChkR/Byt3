@@ -52,7 +52,7 @@ namespace Byt3Console.OpenFL.Commands
                 SerializableFLProgram prog = p.Process(new FLParserInput(inp));
 
                 Stream dst = File.Create(outp);
-                FLSerializer.SaveProgram(dst, prog, ExtraStepCommand.extras);
+                FLSerializer.SaveProgram(dst, prog, iset, ExtraStepCommand.extras);
                 dst.Close();
                 Logger.Log(LogType.Log, $"Output: {outp}", 2);
             }

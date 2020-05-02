@@ -1,12 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.0.79.2152</AssemblyVersion>
-    <FileVersion>1.0.79.2152</FileVersion>
+    <AssemblyVersion>1.1.42.1128</AssemblyVersion>
+    <FileVersion>1.1.42.1128</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.ManifestIO\Byt3.Utilities.ManifestIO.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.TypeFinding\Byt3.Utilities.TypeFinding.csproj" />
     <ProjectReference Include="..\..\Byt3.CommandRunner.SetSettings\Byt3.CommandRunner.SetSettings.csproj" />
     <ProjectReference Include="..\..\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
     <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Benchmarking\Byt3.OpenFL.Benchmarking.csproj" />

@@ -4,27 +4,28 @@ using System.IO;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Serialization.Exceptions;
 using Byt3.Serialization;
-using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal
 {
-    public class SerializableInstructionSerializer : ASerializer<SerializableFLInstruction>
+    public class SerializableInstructionSerializer : FLBaseSerializer
     {
         private readonly Byt3Serializer argSerializer;
+        private readonly Dictionary<Type, FLBaseSerializer> serializer;
 
-        public SerializableInstructionSerializer(Dictionary<Type, ASerializer> serializers)
+        public SerializableInstructionSerializer(Dictionary<Type, FLBaseSerializer> serializers)
         {
             argSerializer = Byt3Serializer.GetDefaultSerializer();
+            serializer = serializers;
 
-            foreach (KeyValuePair<Type, ASerializer> keyValuePair in serializers)
+            foreach (KeyValuePair<Type, FLBaseSerializer> keyValuePair in serializers)
             {
                 argSerializer.AddSerializer(keyValuePair.Key, keyValuePair.Value);
             }
         }
 
-        public override SerializableFLInstruction DeserializePacket(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
-            string key = s.ReadString();
+            string key =ResolveId(s.ReadInt());
 
             int argCount = s.ReadInt();
 
@@ -45,12 +46,12 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             return new SerializableFLInstruction(key, args);
         }
 
-        public override void SerializePacket(PrimitiveValueWrapper s, SerializableFLInstruction obj)
+        public override void Serialize(PrimitiveValueWrapper s, object input)
         {
-            s.Write(obj.InstructionKey);
+            SerializableFLInstruction obj = (SerializableFLInstruction) input;
+            s.Write(ResolveName(obj.InstructionKey));
             s.Write(obj.Arguments.Count);
-
-
+            
             for (int i = 0; i < obj.Arguments.Count; i++)
             {
                 MemoryStream temp = new MemoryStream();
@@ -63,5 +64,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                 s.Write(temp.GetBuffer(), (int) temp.Position);
             }
         }
+
+        
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace Byt3Console.OpenFL.Benchmarks.Commands
+﻿using System.Linq;
+using Byt3.OpenFL.Common.ProgramChecks;
+using Byt3.Utilities.FastString;
+
+namespace Byt3Console.OpenFL.Benchmarks.Commands
 {
     public class FLBenchmarkSettings
     {
@@ -12,6 +16,7 @@
         public int WorkSizeMultiplier;
         public int TotalRepetitions;
         public bool WarmProgram;
+        public string CheckPipeline;
 
         public static FLBenchmarkSettings Default =>
             new FLBenchmarkSettings
@@ -24,7 +29,8 @@
                 WorkSizeMultiplier = 2,
                 ExtraSteps = "",
                 ScriptDirectories = "resources/filter/tests",
-                TotalRepetitions = 5
+                TotalRepetitions = 5,
+                CheckPipeline = FLProgramCheckBuilder.Default.Select(x=>x.GetType().Name).Unpack(";") 
             };
     }
 }

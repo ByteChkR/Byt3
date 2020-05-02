@@ -1,10 +1,9 @@
 ﻿using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Random;
 using Byt3.Serialization;
-using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 {
-    public class RandomFLBufferSerializer :FLSerializer
+    public class RandomFLBufferSerializer :FLBaseSerializer
     {
         public override object Deserialize(PrimitiveValueWrapper s)
         {

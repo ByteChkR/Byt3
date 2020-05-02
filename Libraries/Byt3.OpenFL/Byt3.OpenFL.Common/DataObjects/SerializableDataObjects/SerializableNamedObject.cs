@@ -8,5 +8,10 @@
         {
             Name = name;
         }
+
+        public override string ToString()
+        {
+            return "Not Implemented for type: " + GetType().Name;
+        }
     }
 }

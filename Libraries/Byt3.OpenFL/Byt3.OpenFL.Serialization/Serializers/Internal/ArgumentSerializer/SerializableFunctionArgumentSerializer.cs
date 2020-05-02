@@ -1,19 +1,18 @@
 ﻿using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn;
 using Byt3.Serialization;
-using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.ArgumentSerializer
 {
-    public class SerializableFunctionArgumentSerializer : ASerializer<SerializeFunctionArgument>
+    public class SerializableFunctionArgumentSerializer : FLBaseSerializer
     {
-        public override SerializeFunctionArgument DeserializePacket(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
-            return new SerializeFunctionArgument(s.ReadString());
+            return new SerializeFunctionArgument(ResolveId(s.ReadInt()));
         }
 
-        public override void SerializePacket(PrimitiveValueWrapper s, SerializeFunctionArgument obj)
+        public override void Serialize(PrimitiveValueWrapper s, object obj)
         {
-            s.Write(obj.Value);
+            s.Write(ResolveName((obj as SerializeFunctionArgument).Value));
         }
     }
 }

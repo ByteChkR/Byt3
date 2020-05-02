@@ -28,6 +28,8 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         private readonly Dictionary<string, CLKernel> loadedKernels;
 
+        public List<string> KernelNames => new List<string>(loadedKernels.Keys);
+
         private readonly List<CLProgram> loadedPrograms;
 
         /// <summary>

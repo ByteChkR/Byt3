@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using Byt3.Callbacks;
 using Byt3.OpenFL.Benchmarking;
-using Byt3.Utilities.FastString;
 using NUnit.Framework;
 
 namespace Byt3.OpenFL.Tests

@@ -2,10 +2,11 @@
 using Byt3.ADL;
 using Byt3.OpenFL.Parsing.StageResults;
 
-namespace Byt3.OpenFL.Common.ProgramChecks
+namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {
     public class RemoveUnusedFunctionsEarlyOptimization : FLProgramCheck<StaticInspectionResult>
     {
+        public override bool ChangesOutput => true;
         private Dictionary<string, bool> ParseFunctions(StaticInspectionResult input)
         {
             Dictionary<string, bool> funcs = new Dictionary<string, bool>();

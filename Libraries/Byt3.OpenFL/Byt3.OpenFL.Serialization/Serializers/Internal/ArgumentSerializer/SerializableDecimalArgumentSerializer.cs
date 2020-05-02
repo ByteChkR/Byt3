@@ -1,19 +1,18 @@
 ﻿using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn;
 using Byt3.Serialization;
-using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.ArgumentSerializer
 {
-    public class SerializableDecimalArgumentSerializer : ASerializer<SerializeDecimalArgument>
+    public class SerializableDecimalArgumentSerializer : FLBaseSerializer
     {
-        public override SerializeDecimalArgument DeserializePacket(PrimitiveValueWrapper s)
+        public override object Deserialize(PrimitiveValueWrapper s)
         {
             return new SerializeDecimalArgument((decimal) s.ReadFloat());
         }
 
-        public override void SerializePacket(PrimitiveValueWrapper s, SerializeDecimalArgument obj)
+        public override void Serialize(PrimitiveValueWrapper s, object obj)
         {
-            s.Write((float) obj.Value);
+            s.Write((float) (obj as SerializeDecimalArgument).Value);
         }
     }
 }

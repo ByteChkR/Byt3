@@ -10,6 +10,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
         private readonly string instructionKey;
         private readonly Type type;
         private readonly string argumentSignature;
+        public override string[] InstructionKeys => new[] {instructionKey};
 
         public override string GetArgumentSignatureForInstruction(SerializableFLInstruction instruction)
         {

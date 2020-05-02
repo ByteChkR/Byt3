@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using Byt3.ADL;
 using Byt3.ADL.Configs;
@@ -15,6 +14,8 @@ using Byt3.Utilities.ManifestIO;
 using Byt3Console.OpenFL.Benchmarks.Commands;
 using Byt3.CommandRunner.SetSettings;
 using Byt3.OpenFL.Common.Instructions;
+using Byt3.OpenFL.Common.ProgramChecks;
+using Byt3.Utilities.TypeFinding;
 
 namespace Byt3Console.OpenFL.Benchmarks
 {
@@ -52,13 +53,16 @@ namespace Byt3Console.OpenFL.Benchmarks
 
         public override bool Run(string[] args)
         {
+
+            TypeAccumulator.RegisterAssembly(typeof(OpenFLDebugConfig).Assembly);
+
             Debug.DefaultInitialization();
             Runner.AddCommand(new HelpCommand(new DefaultHelpCommand(true)));
             SetSettingsCommand cmd = SetSettingsCommand.CreateSettingsCommand("Settings", Settings);
             Runner.AddCommand(new ListSettingsCommand(cmd));
             Runner.AddCommand(cmd);
             Runner.AddCommand(new MultiThreadFlagCommand());
-            Runner.AddCommand(new UseProgramChecksFlagCommand());
+            Runner.AddCommand(new AddToCheckPipelineCommand());
 
             Runner.RunCommands(args);
 
@@ -67,6 +71,19 @@ namespace Byt3Console.OpenFL.Benchmarks
                 Console.ReadLine();
                 return true;
             }
+
+            string[] checkTypesStr = Settings.CheckPipeline.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
+            List<Type> checkTypes = new List<Type>();
+            foreach (string s in checkTypesStr)
+            {
+                List<Type> r = TypeAccumulator<FLProgramCheck>.GetTypesByName(s);
+                if (r.Count != 1)
+                {
+                    Console.Write("");
+                }
+                checkTypes.AddRange(r);
+            }
+            
 
 
             ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Silent;
@@ -88,25 +105,25 @@ namespace Byt3Console.OpenFL.Benchmarks
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunParserProcessBenchmark("_run" + i, files, Settings.ParsingIterations,
                         Settings.PerformanceFolder,
-                        UseProgramChecks, UseMultiThread), 1);
+                        checkTypes.ToArray(), UseMultiThread), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunProgramInitBenchmark("_run" + i, files, Settings.InitIterations,
                         Settings.PerformanceFolder,
-                        UseProgramChecks, true), 1);
+                        checkTypes.ToArray(), true), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunProgramSerializationBenchmark("_run" + i, files, Settings.IOIterations,
                         Settings.ExtraSteps.Split(new[] { ';' }),
-                        Settings.PerformanceFolder, UseProgramChecks, true), 1);
+                        Settings.PerformanceFolder, checkTypes.ToArray(), true), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunProgramDeserializationBenchmark("_run" + i, files, Settings.IOIterations,
-                        Settings.PerformanceFolder, UseProgramChecks, true), 1);
+                        Settings.PerformanceFolder, checkTypes.ToArray(), true), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunParsedFLExecutionBenchmark(Settings.WarmProgram, "_run" + i, files, Settings.ExecutionIterations,
-                        Settings.PerformanceFolder, UseProgramChecks, true), 1);
+                        Settings.PerformanceFolder, checkTypes.ToArray(), true, 2), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunDeserializedFLExecutionBenchmark("_run" + i, files,
                         Settings.ExecutionIterations,
-                        Settings.PerformanceFolder, UseProgramChecks, true), 1);
+                        Settings.PerformanceFolder, checkTypes.ToArray(), true, 2), 1);
                 OpenFLBenchmarks.FinalizeTestRun(Settings.PerformanceFolder);
                 Logger.Log(LogType.Log, $"------------------------Run {i} Finished------------------------", 1);
             }

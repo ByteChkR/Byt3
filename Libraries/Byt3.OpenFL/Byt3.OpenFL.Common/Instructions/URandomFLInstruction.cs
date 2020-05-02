@@ -4,6 +4,7 @@ using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.Exceptions;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenFL.Common.Instructions
 {
@@ -59,6 +60,10 @@ namespace Byt3.OpenFL.Common.Instructions
             });
 
             return info;
+        }
+        public override string ToString()
+        {
+            return "urnd " + Arguments.Unpack(" ");
         }
     }
 }

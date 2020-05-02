@@ -7,6 +7,8 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
     {
         public abstract FLInstruction Create(FLProgram script, SerializableFLInstruction instruction);
 
+        public abstract string[] InstructionKeys {get;}
+
         public virtual string GetArgumentSignatureForInstruction(SerializableFLInstruction instruction)
         {
             return null;

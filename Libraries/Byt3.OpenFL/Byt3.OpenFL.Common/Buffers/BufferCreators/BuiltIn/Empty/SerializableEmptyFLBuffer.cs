@@ -18,5 +18,10 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty
                         "EmptySerializableBuffer." + Name),
                     root.Dimensions.x, root.Dimensions.y));
         }
+
+        public override string ToString()
+        {
+            return "--define texture " + Name + ": empty";
+        }
     }
 }

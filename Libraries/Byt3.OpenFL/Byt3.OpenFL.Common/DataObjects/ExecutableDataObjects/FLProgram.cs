@@ -8,8 +8,10 @@ using Byt3.OpenFL.Common.Buffers;
 
 namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 {
-    public class FLProgram: ALoggable<LogType>
+    public class FLProgram : ALoggable<LogType>
     {
+        public static IDebugger Debugger = null;
+
         private readonly Stack<FLExecutionContext> ContextStack = new Stack<FLExecutionContext>();
         private readonly List<FLBuffer> internalBuffers = new List<FLBuffer>();
         private MemoryBuffer activeChannelBuffer;
@@ -18,7 +20,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
 
         public FLProgram(Dictionary<string, ExternalFlFunction> definedScripts,
-            Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, FLFunction> flFunctions):base(OpenFLDebugConfig.Settings)
+            Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, FLFunction> flFunctions) : base(OpenFLDebugConfig.Settings)
         {
             FlFunctions = flFunctions;
             DefinedBuffers = definedBuffers;
@@ -34,10 +36,10 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public CLAPI Instance { get; private set; }
         internal FLBuffer ActiveBuffer { get; set; }
 
-        internal byte[] ActiveChannels
+        public byte[] ActiveChannels
         {
             get => activeChannels;
-            set
+            internal set
             {
                 if (activeChannels == null || channelDirty)
                 {
@@ -97,9 +99,10 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public int InputSize => Dimensions.x * Dimensions.y * Dimensions.z;
 
         private Dictionary<string, bool> InternalState { get; }
-        internal Dictionary<string, FLBuffer> DefinedBuffers { get; }
-        internal Dictionary<string, FLFunction> FlFunctions { get; }
-        internal Dictionary<string, ExternalFlFunction> DefinedScripts { get; }
+        public Dictionary<string, FLBuffer> DefinedBuffers { get; }
+        public string[] BufferNames => DefinedBuffers.Keys.ToArray();
+        public Dictionary<string, FLFunction> FlFunctions { get; }
+        public Dictionary<string, ExternalFlFunction> DefinedScripts { get; }
 
         public bool HasBufferWithName(string name)
         {
@@ -198,7 +201,6 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
             InternalState["in"] = makeInputInternal;
 
-            Input.SetKey("in");
             warmed = true;
         }
 
@@ -208,23 +210,26 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             SetCLVariables(instance, input, makeInputInternal);
             warmed = true;
             if (!warmBuffers) return;
-            Logger.Log(LogType.Log, "Warming Buffers...",1);
+            Logger.Log(LogType.Log, "Warming Buffers...", 1);
             foreach (KeyValuePair<string, FLBuffer> definedBuffer in DefinedBuffers)
             {
                 if (definedBuffer.Value is IWarmable warmable)
                 {
+                    Debugger?.ProcessEvent(definedBuffer.Value);
                     warmable.Warm();
                 }
             }
             Logger.Log(LogType.Log, "Warming Buffers finished", 1);
         }
 
-        public void Run(CLAPI instance, FLBuffer input, bool makeInputInternal, FLFunction entry = null, bool warmBuffers=false)
+        public void Run(CLAPI instance, FLBuffer input, bool makeInputInternal, FLFunction entry = null, bool warmBuffers = false)
         {
+            Debugger?.Register(this);
             if (!warmed)
             {
                 SetCLVariablesAndWarm(instance, input, makeInputInternal, warmBuffers);
             }
+            Input.SetKey("in");
             //Start Setup
             ActiveChannels = new byte[] { 1, 1, 1, 1 };
 
@@ -232,6 +237,10 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             entryPoint.Process();
 
             warmed = false;
+
+            if (entryPoint.Name == "Main")
+                Debugger?.ProgramExit(this);
         }
+
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using Byt3.Serialization.Serializers;
 using Byt3.Utilities.Serialization;

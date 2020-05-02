@@ -20,5 +20,10 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
         {
             return new FLBuffer(CLAPI.MainThread, Data, Width, Height, "BinaryBuffer." + Name);
         }
+
+        public override string ToString()
+        {
+            return $"--define texture {Name}: binary({Width}/{Height})";
+        }
     }
 }

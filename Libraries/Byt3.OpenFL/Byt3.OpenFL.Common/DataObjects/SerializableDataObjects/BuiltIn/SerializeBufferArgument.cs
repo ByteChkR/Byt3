@@ -19,5 +19,10 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn
         {
             return script.DefinedBuffers[Value];
         }
+
+        public override string ToString()
+        {
+            return Value;
+        }
     }
 }

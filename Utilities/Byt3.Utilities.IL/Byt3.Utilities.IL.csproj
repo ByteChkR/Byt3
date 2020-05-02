@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Byt3.Utilities.IL</AssemblyName>
-    <AssemblyVersion>1.4.13.2152</AssemblyVersion>
-    <FileVersion>1.4.13.2152</FileVersion>
+    <AssemblyVersion>1.4.93.1128</AssemblyVersion>
+    <FileVersion>1.4.93.1128</FileVersion>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">

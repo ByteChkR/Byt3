@@ -14,6 +14,8 @@ using OpenTK.Input;
 
 namespace Byt3.Engine.Core
 {
+    internal enum RenderListChangeType { Add, Remove}
+
     /// <summary>
     /// The Object is implementing the transform logic and contains the components
     /// </summary>
@@ -23,6 +25,10 @@ namespace Byt3.Engine.Core
         /// Internal cache of objects with renderers to loop through them quickly
         /// </summary>
         internal static List<GameObject> ObjsWithAttachedRenderers = new List<GameObject>();
+        
+
+
+        internal static Action<RenderListChangeType, RenderingComponent> AttachedRenderersChanged = (type, component) => {};
 
         /// <summary>
         /// Internal cache of objects with colliders to loop through them quickly
@@ -337,6 +343,7 @@ namespace Byt3.Engine.Core
                 {
                     ApplyRenderHierarchy(true);
                     ObjsWithAttachedRenderers.Add(this);
+                    AttachedRenderersChanged(RenderListChangeType.Add, component as RenderingComponent);
                     RenderingComponent = (RenderingComponent) component;
                 }
                 else if (component is Collider collider)
@@ -397,6 +404,7 @@ namespace Byt3.Engine.Core
                 7);
             RemoveComponent(typeof(RenderingComponent));
             ObjsWithAttachedRenderers.Remove(this);
+            AttachedRenderersChanged(RenderListChangeType.Remove, RenderingComponent);
         }
 
         /// <summary>

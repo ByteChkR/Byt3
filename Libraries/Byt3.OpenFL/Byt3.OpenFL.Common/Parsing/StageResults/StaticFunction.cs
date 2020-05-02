@@ -14,5 +14,10 @@ namespace Byt3.OpenFL.Parsing.StageResults
             Body = body.Select(x => new StaticInstruction(x.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries)))
                 .ToArray();
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.ProgramChecks.Optimizations;
 
 namespace Byt3.OpenFL.Common.ProgramChecks
 {
@@ -14,18 +15,24 @@ namespace Byt3.OpenFL.Common.ProgramChecks
         public bool IsAttached { get; private set; }
         public Pipeline AttachedPipeline { get; private set; }
 
+        public static FLProgramCheck[] Default => new FLProgramCheck[]
+        {
+            new RemoveUnusedScriptsOptimization(),
+            new RemoveUnusedBuffersOptimization(),
+            new RemoveUnusedFunctionsEarlyOptimization(),
+            new InstructionArgumentValidator(),
+            new FilePathValidator(),
+        };
+
         public static FLProgramCheckBuilder CreateDefaultCheckBuilder(FLInstructionSet iset, BufferCreator bc)
         {
             FLProgramCheckBuilder pipeline = new FLProgramCheckBuilder(iset, bc);
-            pipeline.AddProgramCheck(
-                new RemoveUnusedScriptsOptimization()); //Gets added in reverse because of insert at first valid index
-            pipeline.AddProgramCheck(
-                new RemoveUnusedBuffersOptimization()); //Gets added in reverse because of insert at first valid index
-            pipeline.AddProgramCheck(
-                new RemoveUnusedFunctionsEarlyOptimization()); //Gets added in reverse because of insert at first valid index
-            pipeline.AddProgramCheck(new InstructionArgumentValidator());
-            //pipeline.AddSubStage(new InstructionValidator()); ////The Parser now checks this for himself.
-            pipeline.AddProgramCheck(new FilePathValidator());
+            FLProgramCheck[] checks = Default;
+            for (int i = 0; i < checks.Length; i++)
+            {
+                pipeline.AddProgramCheck(checks[i]);
+            }
+            
             return pipeline;
         }
 

@@ -33,6 +33,18 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 
         private readonly List<FLInstructionCreator> creators = new List<FLInstructionCreator>();
 
+
+        public string[] GetInstructionNames()
+        {
+            List<string> keys = new List<string>();
+            for (int i = 0; i < creators.Count; i++)
+            {
+                keys.AddRange(creators[i].InstructionKeys);
+            }
+
+            return keys.ToArray();
+        }
+
         public bool HasInstruction(string key)
         {
             for (int i = 0; i < creators.Count; i++)

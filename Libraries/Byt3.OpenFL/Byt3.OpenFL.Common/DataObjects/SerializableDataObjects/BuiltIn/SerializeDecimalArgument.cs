@@ -1,4 +1,5 @@
-﻿using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
+﻿using System.Globalization;
+using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn
 {
@@ -18,6 +19,11 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn
         public override object GetValue(FLProgram script)
         {
             return Value;
+        }
+
+        public override string ToString()
+        {
+            return Value.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

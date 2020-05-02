@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Byt3.ADL;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenFL.Common.Instructions
 {
@@ -24,6 +25,11 @@ namespace Byt3.OpenFL.Common.Instructions
             Logger.Log(LogType.Log, "Jumping to " + obj.Name, MIN_INSTRUCTION_SEVERITY);
 
             obj.Process();
+        }
+
+        public override string ToString()
+        {
+            return "jmp " + Arguments.Unpack(" ");
         }
     }
 }

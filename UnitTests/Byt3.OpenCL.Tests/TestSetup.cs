@@ -1,7 +1,5 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using Byt3.Callbacks;
 using Byt3.OpenCL.Wrapper;
 using Byt3.Utilities.ManifestIO;
 

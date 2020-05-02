@@ -85,7 +85,7 @@ namespace Byt3.OpenFL.Threading
             if (context.IsCompiled)
             {
                 Stream s = IOManager.GetStream(context.Filename);
-                program = FLSerializer.LoadProgram(s).Initialize(InstructionSet);
+                program = FLSerializer.LoadProgram(s, InstructionSet).Initialize(InstructionSet);
                 s.Close();
             }
             else

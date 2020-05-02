@@ -43,5 +43,13 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
                 ((FLParsedObject) Value).SetRoot(root);
             }
         }
+
+        public override string ToString()
+        {
+            if (Type == FLInstructionArgumentType.Number) return Value.ToString();
+            if (Type == FLInstructionArgumentType.Function) return (Value as FLFunction).Name;
+            if (Type == FLInstructionArgumentType.Buffer) return (Value as FLBuffer).DefinedBufferName;
+            return "[ERR]";
+        }
     }
 }

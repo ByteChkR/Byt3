@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.OpenFL.Serialization.Exceptions;
 using Byt3.Serialization;
 using Byt3.Serialization.Serializers;
@@ -11,11 +11,11 @@ using Byt3.Serialization.Serializers;
 namespace Byt3.OpenFL.Serialization.Serializers.Internal
 {
 
-    public abstract class FLSerializer : ASerializer
+    public abstract class FLBaseSerializer : ASerializer
     {
         private List<string> idMap;
 
-        public void SetIdMap(string[] map)
+        public virtual void SetIdMap(string[] map)
         {
             idMap = map.ToList();
         }
@@ -35,12 +35,13 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
     public class SerializableFLProgramSerializer : ASerializer<SerializableFLProgram>
     {
         private readonly Byt3Serializer bufferSerializer;
-
-        public SerializableFLProgramSerializer(Dictionary<Type, FLSerializer> serializers)
+        private readonly FLInstructionSet instructionSet;
+        public SerializableFLProgramSerializer(Dictionary<Type, FLBaseSerializer> serializers, FLInstructionSet iset)
         {
+            instructionSet = iset;
             bufferSerializer = Byt3Serializer.GetDefaultSerializer();
             int i = 0;
-            foreach (KeyValuePair<Type, FLSerializer> keyValuePair in serializers)
+            foreach (KeyValuePair<Type, FLBaseSerializer> keyValuePair in serializers)
             {
                 bufferSerializer.AddSerializer(keyValuePair.Key, keyValuePair.Value);
             }
@@ -95,7 +96,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                 exts.Add(def);
             }
 
-            return new SerializableFLProgram(exts, funcs, defs);
+            return new SerializableFLProgram("DeserializedScript", exts, funcs, defs);
         }
 
         private void WriteStringArray(PrimitiveValueWrapper s, string[] arr)
@@ -122,7 +123,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
         {
             for (int i = 0; i < bufferSerializer.ContainedSerializers; i++)
             {
-                if (bufferSerializer.GetSerializerAt(i) is FLSerializer flBufferSerializer)
+                if (bufferSerializer.GetSerializerAt(i) is FLBaseSerializer flBufferSerializer)
                 {
                     flBufferSerializer.SetIdMap(idMap.ToArray());
                 }
@@ -142,10 +143,12 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             string[] funcMap = obj.Functions.Select(x => x.Name).ToArray();
             string[] exMap = obj.ExternalFunctions.Select(x => x.Name).ToArray();
             string[] bufMap = obj.DefinedBuffers.Select(x => x.Name).ToArray();
+            
             List<string> idMap = new List<string>();
             idMap.AddRange(funcMap);
             idMap.AddRange(exMap);
             idMap.AddRange(bufMap);
+            idMap.AddRange(instructionSet.GetInstructionNames());
 
             WriteStringArray(s, idMap.ToArray());
 

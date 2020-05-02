@@ -27,6 +27,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         {
             for (int i = 0; i < Instructions.Count; i++)
             {
+                FLProgram.Debugger?.ProcessEvent(Instructions[i]);
                 Instructions[i].Process();
             }
         }

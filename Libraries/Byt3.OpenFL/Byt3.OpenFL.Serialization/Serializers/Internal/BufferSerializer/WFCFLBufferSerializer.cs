@@ -4,11 +4,10 @@ using System.IO;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC;
 using Byt3.Serialization;
-using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 {
-    public class WFCFLBufferSerializer : FLSerializer
+    public class WFCFLBufferSerializer : FLBaseSerializer
     {
         public override object Deserialize(PrimitiveValueWrapper s)
         {
@@ -50,7 +49,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 
             MemoryStream ms = new MemoryStream();
 
-            Bitmap bmp = obj.Parameter.SourceImage.GetBitmap();
+            Bitmap bmp = obj.Parameter.SourceImage.Bitmap;
 
             bmp.Save(ms, ImageFormat.Png);
 

@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.8.93.2152</AssemblyVersion>
-    <FileVersion>1.8.93.2152</FileVersion>
+    <AssemblyVersion>2.3.4.1335</AssemblyVersion>
+    <FileVersion>2.3.4.1335</FileVersion>
   </PropertyGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
@@ -16,10 +16,13 @@
     <None Remove="resources\kernel\mod.cl" />
     <None Remove="resources\kernel\mul.cl" />
     <None Remove="resources\kernel\perlin.cl" />
+    <None Remove="resources\kernel\random.cl" />
+    <None Remove="resources\kernel\rnd.cl" />
     <None Remove="resources\kernel\set.cl" />
     <None Remove="resources\kernel\shapes.cl" />
     <None Remove="resources\kernel\smooth.cl" />
     <None Remove="resources\kernel\sub.cl" />
+    <None Remove="resources\kernel\urnd.cl" />
     <None Remove="resources\kernel\utils.cl" />
     <None Remove="resources\kernel\worley.cl" />
   </ItemGroup>
@@ -32,10 +35,13 @@
     <EmbeddedResource Include="resources\kernel\mod.cl" />
     <EmbeddedResource Include="resources\kernel\mul.cl" />
     <EmbeddedResource Include="resources\kernel\perlin.cl" />
+    <EmbeddedResource Include="resources\kernel\random.cl" />
+    <EmbeddedResource Include="resources\kernel\rnd.cl" />
     <EmbeddedResource Include="resources\kernel\set.cl" />
     <EmbeddedResource Include="resources\kernel\shapes.cl" />
     <EmbeddedResource Include="resources\kernel\smooth.cl" />
     <EmbeddedResource Include="resources\kernel\sub.cl" />
+    <EmbeddedResource Include="resources\kernel\urnd.cl" />
     <EmbeddedResource Include="resources\kernel\utils.cl" />
     <EmbeddedResource Include="resources\kernel\worley.cl" />
   </ItemGroup>

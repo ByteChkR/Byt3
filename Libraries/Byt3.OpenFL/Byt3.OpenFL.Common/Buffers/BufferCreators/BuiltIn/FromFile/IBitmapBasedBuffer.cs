@@ -4,6 +4,6 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
 {
     public interface IBitmapBasedBuffer
     {
-        Bitmap GetBitmap();
+        Bitmap GetBitmap(int width, int height);
     }
 }

@@ -36,6 +36,13 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
             SourceImage = input;
         }
 
+
+        public override string ToString()
+        {
+            return $"{SourceImage} {N} {Width} {Height} {PeriodicInput} {PeriodicOutput} {Symmetry} {Ground} {Limit}";
+        }
+
+
         public static SerializableFLBuffer CreateBuffer(string name, string[] args, bool force)
         {
             if (args.Length < 10)

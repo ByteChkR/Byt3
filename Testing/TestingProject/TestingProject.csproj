@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <StartupObject>TestingProject.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.AssemblyGenerator\Byt3Console.AssemblyGenerator.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Engine.BuildTools\Byt3Console.Engine.BuildTools.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Engine.Player\Byt3Console.Engine.Player.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.ExtPP\Byt3Console.ExtPP.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL.Benchmarks\Byt3Console.OpenFL.Benchmarks.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL.ScriptGenerator\Byt3Console.OpenFL.ScriptGenerator.csproj" />
+    <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.OpenFL\Byt3Console.OpenFL.csproj" />
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.IL\Byt3.Utilities.IL.csproj" />
+    <ProjectReference Include="..\TestingProjectConsole\TestingProjectConsole.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="resources\filter\game\cobble_grass.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\concrete.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\grass.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\ground.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\menubg.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\perlin.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\tennisball.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\wall0.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\filter\game\wall1.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\textures\stone1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\textures\stone1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\textures\wood1.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\textures\wood1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\WFCTiles\brick.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\WFCTiles\bureau.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\WFCTiles\cobble.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="resources\WFCTiles\menubg.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

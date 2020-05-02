@@ -12,7 +12,7 @@ namespace Byt3.OpenFL.Common.Instructions
         /// <returns>a random byte</returns>
         public static byte Randombytesource()
         {
-            return (byte) Rnd.Next();
+            return (byte) Rnd.Next(0, 256);
         }
     }
 }

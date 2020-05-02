@@ -28,5 +28,10 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
         {
             return new LazyFromFileFLBuffer(File);
         }
+
+        public override string ToString()
+        {
+            return $"--define texture {Name}: {File}";
+        }
     }
 }

@@ -2,10 +2,11 @@
 using Byt3.ADL;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 
-namespace Byt3.OpenFL.Common.ProgramChecks
+namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {
     public class RemoveUnusedScriptsOptimization : FLProgramCheck<SerializableFLProgram>
     {
+        public override bool ChangesOutput => true;
         public override object Process(object o)
         {
             SerializableFLProgram input = (SerializableFLProgram) o;

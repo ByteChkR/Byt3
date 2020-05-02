@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Byt3.ADL;
 using Byt3.Callbacks;
-using Byt3.ExtPP.Base;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty;
@@ -47,7 +45,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             List<SerializableFLFunction> flFunctions =
                 ParseFunctions(input.Functions, input.DefinedBuffers, input.DefinedScripts);
             Logger.Log(LogType.Log, "Buffer Nodes: " + flFunctions.Select(x => x.Name).Unpack(", "), 4);
-            return new SerializableFLProgram(scripts, flFunctions, definedBuffers);
+            return new SerializableFLProgram(input.Filename,scripts, flFunctions, definedBuffers);
         }
 
 
@@ -204,7 +202,7 @@ namespace Byt3.OpenFL.Parsing.Stages
                 {
                     definedBuffers.Add(buf);
                 }
-                else if (File.Exists(data[1].Trim().Replace("\"", "")))
+                else if (IOManager.FileExists(data[1].Trim().Replace("\"", "")))
                 {
                     SerializableFromFileFLBuffer bi =
                         new SerializableFromFileFLBuffer(bufferName, data[1].Trim().Replace("\"", ""));

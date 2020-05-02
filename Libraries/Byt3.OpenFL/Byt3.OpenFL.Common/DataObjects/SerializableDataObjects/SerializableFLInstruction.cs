@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
 {
@@ -11,6 +12,11 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
         {
             InstructionKey = instructionKey;
             Arguments = arguments;
+        }
+
+        public override string ToString()
+        {
+            return InstructionKey + " " + Arguments.Unpack(" ");
         }
     }
 }

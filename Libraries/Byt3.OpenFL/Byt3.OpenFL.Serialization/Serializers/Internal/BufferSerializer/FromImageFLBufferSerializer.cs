@@ -3,13 +3,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile;
-using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.Serialization;
-using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 {
-    public class FromImageFLBufferSerializer : FLSerializer
+    public class FromImageFLBufferSerializer : FLBaseSerializer
     {
         private readonly bool StoreRaw;
 
@@ -26,7 +24,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
             {
                 MemoryStream ms = new MemoryStream(s.ReadBytes());
 
-                Bitmap bmp = (Bitmap) Image.FromStream(ms);
+                Bitmap bmp = (Bitmap)Image.FromStream(ms);
 
                 return new SerializableFromBitmapFLBuffer(name, bmp);
             }
@@ -48,11 +46,11 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
             s.Write(StoreRaw);
             if (StoreRaw)
             {
-                Bitmap bmp = buffer.GetBitmap();
+                Bitmap bmp = buffer.Bitmap;
 
                 MemoryStream ms = new MemoryStream();
                 bmp.Save(ms, ImageFormat.Png);
-                s.Write(ms.GetBuffer(), (int) ms.Position);
+                s.Write(ms.GetBuffer(), (int)ms.Position);
                 bmp.Dispose();
             }
             else
