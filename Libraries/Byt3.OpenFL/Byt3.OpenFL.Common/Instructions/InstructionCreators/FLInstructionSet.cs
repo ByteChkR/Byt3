@@ -6,6 +6,7 @@ using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Exceptions;
+using Byt3.OpenFL.Common.Instructions.Variables;
 
 namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 {
@@ -19,6 +20,15 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 "E|EV|EVV|EVVV|EVVVV|VVVV|VVV|VV|V");
             iset.AddInstructionWithDefaultCreator<RandomFLInstruction>("rnd", "|B");
             iset.AddInstructionWithDefaultCreator<URandomFLInstruction>("urnd", "|B");
+            iset.AddInstructionWithDefaultCreator<DefineVarFLInstruction>("def", "DV");
+            iset.AddInstructionWithDefaultCreator<DefineGlobalVarFLInstruction>("gdef", "DV");
+            iset.AddInstructionWithDefaultCreator<DecrementVarFLInstruction>("dec", "D|DV|DV");
+            iset.AddInstructionWithDefaultCreator<IncrementVarFLInstruction>("inc", "D|DV|DV");
+            iset.AddInstructionWithDefaultCreator<BranchLessOrEqualFLInstruction>("ble", "DVX|VVX|DDX");
+            iset.AddInstructionWithDefaultCreator<BranchGreaterOrEqualFLInstruction>("bge", "DVX|VVX|DDX");
+            iset.AddInstructionWithDefaultCreator<BranchLessThanFLInstruction>("blt", "DVX|VVX|DDX");
+            iset.AddInstructionWithDefaultCreator<BranchGreaterThanFLInstruction>("bgt", "DVX|VVX|DDX");
+            iset.AddInstructionWithDefaultCreator<PrintLineFLInstruction>("print", "A|AA|AAA|AAAA|AAAAA|AAAAAA|AAAAAAA|AAAAAAAA|AAAAAAAAA|AAAAAAAAAA|AAAAAAAAAAA|AAAAAAAAAAAA");
             iset.AddInstruction(new KernelFLInstructionCreator(db));
             return iset;
         }

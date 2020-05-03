@@ -6,11 +6,9 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
     {
         public byte[] ActiveChannels { get; }
         public FLBuffer ActiveBuffer { get; }
-        public FLBuffer InputBuffer { get; }
 
-        public FLExecutionContext(byte[] activeChannels, FLBuffer activeBuffer, FLBuffer inputBuffer)
+        public FLExecutionContext(byte[] activeChannels, FLBuffer activeBuffer)
         {
-            InputBuffer = inputBuffer;
             ActiveChannels = activeChannels;
             ActiveBuffer = activeBuffer;
         }

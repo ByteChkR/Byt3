@@ -1,66 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
+using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace FLDebugger
 {
-    public static class FLDebugHelper
-    {
-        public static Dictionary<FLParsedObject, int> ToString(this FLProgram prog, out string s)
-        {
-            Dictionary<FLParsedObject, int> ret =
-                new Dictionary<FLParsedObject, int>();
-            StringBuilder sb = new StringBuilder();
-
-            int lineCount = 0;
-
-            foreach (KeyValuePair<string, FLBuffer> definedBuffer in prog.DefinedBuffers)
-            {
-                string f = definedBuffer.Value.ToString();
-                ret.Add(definedBuffer.Value, lineCount);
-                sb.AppendLine(f);
-                lineCount++;
-            }
-
-
-            foreach (KeyValuePair<string, ExternalFlFunction> externalFlFunction in prog.DefinedScripts)
-            {
-                string f = externalFlFunction.Value.ToString();
-                ret.Add(externalFlFunction.Value, lineCount);
-                sb.AppendLine(f);
-                lineCount++;
-            }
-
-
-            foreach (KeyValuePair<string, FLFunction> keyValuePair in prog.FlFunctions)
-            {
-                sb.AppendLine(keyValuePair.Key + ":");
-                lineCount++;
-                foreach (FLInstruction valueInstruction in keyValuePair.Value.Instructions)
-                {
-                    string f = "\t" + valueInstruction;
-                    ret.Add(valueInstruction, lineCount);
-                    sb.AppendLine(f);
-                    lineCount++;
-                }
-                sb.AppendLine();
-                lineCount++;
-            }
-
-            s = sb.ToString();
-            return ret;
-        }
-
-    }
-
-    public partial class CodeView : Form, IDebugger
+    public partial class CodeView : Form
     {
 
         private FLProgram Program;
@@ -68,36 +20,19 @@ namespace FLDebugger
         private int selectedLine;
         private bool nohalt = false;
         private bool exitDirect;
+        private string Source;
 
         private CustomCheckedListBox clbCode;
 
-        public CodeView()
+        public CodeView(FLProgram program)
         {
-            FLProgram.Debugger = this;
+            Program = program;
+            marks = Program.ToString(out string source);
+            Source = source;
             InitializeComponent();
         }
 
-        public void Register(FLProgram program)
-        {
-            if (Program != null) return;
-            Program = program;
-            marks = Program.ToString(out string source);
-            clbCode.Items.AddRange(source.Split(new[] { '\n' }));
-
-            UpdateSidePanel();
-            btnContinue.Text = "Start";
-            btnContinue.Enabled = true;
-
-            continueEx = false;
-            Text = "WAITING FOR START";
-            while (!continueEx && !nohalt)
-            {
-                Application.DoEvents();
-            }
-            btnContinue.Text = "Continue";
-            btnContinue.Enabled = false;
-
-        }
+        
 
         private void CodeView_Load(object sender, EventArgs e)
         {
@@ -108,14 +43,30 @@ namespace FLDebugger
             clbCode.CheckOnClick = true;
             clbCode.Dock = DockStyle.Fill;
             Closing += CodeView_Closing;
+
+            lbInternalBuffers.MouseDoubleClick+= LbInternalBuffersOnMouseDoubleClick;
             lbBuffers.MouseDoubleClick += LbBuffers_MouseDoubleClick;
             DoubleBuffered = true;
             ignoreChanged = true;
+
+
+            
+            clbCode.Items.AddRange(Source.Split(new[] { '\n' }));
+
+            UpdateSidePanel();
+            btnContinue.Text = "Start";
+            btnContinue.Enabled = true;
+        }
+
+        private void LbInternalBuffersOnMouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            FLBuffer buf = lbInternalBuffers.SelectedItem as FLBuffer;
+            BufferView bvv = new BufferView(buf, Program.Dimensions.x, Program.Dimensions.y);
+            bvv.Show();
         }
 
         private Color GetCodeItemForeColor(CustomCheckedListBox listbox, DrawItemEventArgs e)
         {
-
             return listbox.ForeColor;
 
         }
@@ -175,28 +126,7 @@ namespace FLDebugger
             //rtbCode.Select(idx, len);
         }
 
-        public void ProgramExit(FLProgram program)
-        {
-            if (Program == program)
-            {
-                UpdateSidePanel();
-                btnContinue.Text = "Close";
-                btnContinue.Enabled = true;
-                clbCode.Enabled = false;
-
-                continueEx = false;
-                Text = "DEBUGGING FINISHED";
-                while (!continueEx && !exitDirect)
-                {
-                    Application.DoEvents();
-                }
-                btnContinue.Enabled = false;
-
-                Program = null;
-                FLProgram.Debugger = null;
-                Close();
-            }
-        }
+        
 
 
         private void UpdateSidePanel()
@@ -217,35 +147,9 @@ namespace FLDebugger
 
             lbBuffers.Items.Clear();
             lbBuffers.Items.AddRange(Program.BufferNames.Cast<object>().ToArray());
+            
         }
-
-        public void ProcessEvent(FLParsedObject obj)
-        {
-            if (nohalt) return;
-
-            int line = GetLineOfObject(obj);
-            if (!clbCode.GetItemChecked(line)) return;
-
-
-            UpdateSidePanel();
-            btnContinue.Enabled = true;
-            btnRunToEnd.Enabled = true;
-            MarkInstruction(line);
-            clbCode.Invalidate();
-
-
-            continueEx = false;
-            Text = "IN HALT MODE";
-            while (!continueEx && !nohalt)
-            {
-                Application.DoEvents();
-            }
-            btnContinue.Enabled = false;
-            btnRunToEnd.Enabled = true;
-
-            Text = "Debugging";
-        }
-
+        
         public void MarkInstruction(int instr)
         {
             ignoreChanged = true;
@@ -275,6 +179,11 @@ namespace FLDebugger
         private void btnRunToEnd_Click(object sender, EventArgs e)
         {
             nohalt = true;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            FollowScripts = cbFollowScripts.Checked;
         }
     }
 }

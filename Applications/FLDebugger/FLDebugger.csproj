@@ -38,6 +38,7 @@
     <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,7 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeView.cs" />
+    <Compile Include="CodeView.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="CodeView.Designer.cs">
       <DependentUpon>CodeView.cs</DependentUpon>
     </Compile>
@@ -60,18 +63,26 @@
     <Compile Include="BufferView.Designer.cs">
       <DependentUpon>BufferView.cs</DependentUpon>
     </Compile>
+    <Compile Include="CodeView_IDebugger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateDebugger.cs" />
     <Compile Include="CustomCheckedListBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DebugConsole.cs" />
+    <Compile Include="FLDebugger.cs" />
+    <Compile Include="FLDebugHelper.cs" />
     <Compile Include="frmOptimizationView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmOptimizationView.Designer.cs">
       <DependentUpon>frmOptimizationView.cs</DependentUpon>
     </Compile>
+    <Compile Include="IProgramDebugger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResizablePanel.cs" />
@@ -138,6 +149,10 @@
     <ProjectReference Include="..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj">
       <Project>{ff1c8442-5210-4458-ab9c-469f0cdbaa68}</Project>
       <Name>Byt3.DisposableManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj">
+      <Project>{9fce3d44-741f-4122-8a7d-c9cb1cf15381}</Project>
+      <Name>Byt3.Utilities.ConsoleInternals</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.FastString\Byt3.Utilities.FastString.csproj">
       <Project>{c254dc4d-cd80-4190-aa8c-0c0b24ce7984}</Project>

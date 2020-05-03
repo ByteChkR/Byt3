@@ -210,6 +210,12 @@ namespace Byt3.OpenCL
             return tw.ToString();
         }
 
+
+        public override string ToString()
+        {
+            return GetType().Name + ":" + Handle;
+        }
+
         #endregion
     }
 }

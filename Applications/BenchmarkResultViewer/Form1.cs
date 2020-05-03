@@ -50,7 +50,13 @@ namespace BenchmarkResultViewer
             }
             else
             {
-                folder = null;
+                if (fbdSelectDir.ShowDialog() == DialogResult.OK)
+                    folder = fbdSelectDir.SelectedPath;
+                else
+                {
+                    Application.Exit();
+                    return;
+                }
             }
 
 
@@ -147,17 +153,6 @@ namespace BenchmarkResultViewer
         {
             tabControl1.SelectedIndexChanged += TabControl1OnSelectedIndexChanged;
 
-
-            if (folder == null)
-            {
-                if (fbdSelectDir.ShowDialog() == DialogResult.OK)
-                    folder = fbdSelectDir.SelectedPath;
-                else
-                {
-                    Application.Exit();
-                    return;
-                }
-            }
 
             Text = "Viewing: " + folder;
             charts = new List<Chart> { chart1 };

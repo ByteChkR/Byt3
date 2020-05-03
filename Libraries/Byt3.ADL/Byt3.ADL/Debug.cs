@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Byt3.ADL.Configs;
 using Byt3.ADL.Streams;
+using Byt3.Collections;
 using Byt3.MAssert;
 
 /// <summary>
@@ -332,7 +333,7 @@ namespace Byt3.ADL
 
             for (int i = 0; i < prefixNames.Length; i++)
             {
-                AddPrefixForMask(prefixes, Utils.IntPow(2, i), prefixNames[i]);
+                AddPrefixForMask(prefixes, MathF.IntPow(2, i), prefixNames[i]);
             }
         }
 
@@ -378,7 +379,7 @@ namespace Byt3.ADL
                 FirstLog = false;
             }
 
-            string messg = message + Utils.NewLine;
+            string messg = message + '\n';
             string mesg = $"[{logger.GetMaskPrefix(mask)}]{messg}";
 
             lock (Streams)

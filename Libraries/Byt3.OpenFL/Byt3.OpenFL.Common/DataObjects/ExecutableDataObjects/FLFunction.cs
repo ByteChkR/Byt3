@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Byt3.OpenFL.Common.Instructions.Variables;
 
 namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 {
@@ -6,6 +7,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
     {
         public string Name { get; }
         public List<FLInstruction> Instructions { get; private set; }
+        public VariableManager<decimal> Variables { get; private set; }
 
         public FLFunction(string name, List<FLInstruction> instructions)
         {
@@ -22,9 +24,10 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         {
             Instructions = instructions;
         }
-
+        
         public virtual void Process()
         {
+            FLProgram.Debugger?.ProcessEvent(this);
             for (int i = 0; i < Instructions.Count; i++)
             {
                 FLProgram.Debugger?.ProcessEvent(Instructions[i]);
@@ -40,9 +43,13 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             }
 
             base.SetRoot(root);
+
+            Variables = root.Variables.AddScope();
+
             for (int i = 0; i < Instructions.Count; i++)
             {
                 Instructions[i].SetRoot(root);
+                Instructions[i].SetParent(this);
             }
         }
     }

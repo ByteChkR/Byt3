@@ -6,5 +6,6 @@
         Number,
         Buffer,
         Function,
+        Name
     }
 }

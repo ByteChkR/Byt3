@@ -21,9 +21,12 @@ namespace Byt3.OpenFL.Common.Buffers
             get
             {
                 InitializeBuffer();
-
-
                 return _buffer;
+            }
+            protected set
+            {
+                _buffer?.Dispose();
+                _buffer = value;
             }
         }
 
@@ -47,6 +50,13 @@ namespace Byt3.OpenFL.Common.Buffers
         public LazyLoadingFLBuffer(BufferLoader loader) : base(default(MemoryBuffer), -1, -1)
         {
             Loader = loader;
+        }
+
+        internal override void ReplaceUnderlyingBuffer(MemoryBuffer buf, int width, int height)
+        {
+            Width = width;
+            Height = height;
+            Buffer = buf;
         }
 
         public override void Dispose()

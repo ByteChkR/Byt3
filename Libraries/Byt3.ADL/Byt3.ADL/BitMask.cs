@@ -104,7 +104,7 @@ namespace Byt3.ADL
             }
 
             List<int> ret = new List<int>();
-            for (int i = 0; i < sizeof(int) * Utils.ByteSize; i++)
+            for (int i = 0; i < sizeof(int) * Utils.BitsPerByte; i++)
             {
                 int f = 1 << i;
                 if (IsContainedInMask(mask, f, true))

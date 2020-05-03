@@ -10,25 +10,27 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
         public override object Process(object o)
         {
             SerializableFLProgram input = (SerializableFLProgram)o;
-
-
-            foreach (SerializableFLFunction f in input.Functions)
+            bool removedOne = true;
+            while (removedOne)
             {
-                for (int i = f.Instructions.Count - 1; i >= 0; i--)
+                removedOne = false;
+                foreach (SerializableFLFunction f in input.Functions)
                 {
-                    SerializableFLInstruction t = f.Instructions[i];
-                    if (t.InstructionKey == "jmp" &&
-                        t.Arguments[0].ArgumentCategory == InstructionArgumentCategory.Function)
+                    for (int i = f.Instructions.Count - 1; i >= 0; i--)
                     {
-                        string fname = t.Arguments[0].Identifier;
-                        SerializableFLFunction func = input.Functions.First(x => x.Name == fname);
-                        f.Instructions.RemoveAt(i);
-                        f.Instructions.AddRange(func.Instructions);
+                        SerializableFLInstruction t = f.Instructions[i];
+                        if (t.InstructionKey == "jmp" &&
+                            t.Arguments[0].ArgumentCategory == InstructionArgumentCategory.Function)
+                        {
+                            string fname = t.Arguments[0].Identifier;
+                            SerializableFLFunction func = input.Functions.First(x => x.Name == fname);
+                            f.Instructions.RemoveAt(i);
+                            f.Instructions.AddRange(func.Instructions);
+                            removedOne = true;
+                        }
                     }
                 }
             }
-
-
             return input;
         }
     }

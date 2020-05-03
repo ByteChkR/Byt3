@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Byt3.Engine.Core
+namespace Byt3.Collections
 {
     public static class MathF
     {
@@ -140,6 +140,37 @@ namespace Byt3.Engine.Core
         public static float Log(float a, float newBase)
         {
             return (float) Math.Log((double) a, (double) newBase);
+        }
+
+        public static int IntPow(int basis, int exp)
+        {
+            if (exp == 0)
+            {
+                return 1;
+            }
+
+            int ret = basis;
+            for (int i = 1; i < exp; i++)
+            {
+                ret *= basis;
+            }
+
+            return ret;
+        }
+        public static float IntPow(float basis, int exp)
+        {
+            if (exp == 0)
+            {
+                return 1;
+            }
+
+            float ret = basis;
+            for (int i = 1; i < exp; i++)
+            {
+                ret *= basis;
+            }
+
+            return ret;
         }
     }
 }

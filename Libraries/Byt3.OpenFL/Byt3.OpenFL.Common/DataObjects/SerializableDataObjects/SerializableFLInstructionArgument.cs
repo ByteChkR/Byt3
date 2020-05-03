@@ -8,7 +8,7 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
         {
             switch (input)
             {
-                case 'V': //Value
+                case 'N': //Value
                     return InstructionArgumentCategory.Value;
                 case 'F': //Function
                     return InstructionArgumentCategory.Function;
@@ -22,6 +22,12 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
                     return InstructionArgumentCategory.DefinedFunction;
                 case 'I': //Internal Defined Element(E but without Scripts)
                     return InstructionArgumentCategory.InternalDefinedElement;
+                case 'D':
+                    return InstructionArgumentCategory.Name;
+                case 'A':
+                    return InstructionArgumentCategory.AllElements;
+                case 'V':
+                    return InstructionArgumentCategory.NumberResolvable;
                 default:
                     return InstructionArgumentCategory.Invalid;
             }

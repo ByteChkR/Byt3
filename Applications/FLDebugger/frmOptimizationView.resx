@@ -129,4 +129,7 @@
   <metadata name="fbdSelectHomeDir.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>506, 16</value>
   </metadata>
+  <metadata name="sfdScript.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>657, 16</value>
+  </metadata>
 </root>

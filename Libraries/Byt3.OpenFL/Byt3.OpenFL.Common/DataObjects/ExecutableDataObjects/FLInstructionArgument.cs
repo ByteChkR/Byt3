@@ -6,7 +6,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
     public class FLInstructionArgument : FLParsedObject
     {
         private static readonly Type[] PossibleValueTypes =
-            new[] {typeof(decimal), typeof(FLBuffer), typeof(FLFunction)};
+            new[] { typeof(decimal), typeof(FLBuffer), typeof(FLFunction), typeof(string) };
 
         public FLInstructionArgumentType Type
         {
@@ -18,7 +18,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
                 {
                     if (PossibleValueTypes[i].IsInstanceOfType(Value))
                     {
-                        return (FLInstructionArgumentType) i + 1;
+                        return (FLInstructionArgumentType)i + 1;
                     }
                 }
 
@@ -40,7 +40,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             //HERE
             if (Type == FLInstructionArgumentType.Buffer || Type == FLInstructionArgumentType.Function)
             {
-                ((FLParsedObject) Value).SetRoot(root);
+                ((FLParsedObject)Value).SetRoot(root);
             }
         }
 
@@ -49,6 +49,10 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             if (Type == FLInstructionArgumentType.Number) return Value.ToString();
             if (Type == FLInstructionArgumentType.Function) return (Value as FLFunction).Name;
             if (Type == FLInstructionArgumentType.Buffer) return (Value as FLBuffer).DefinedBufferName;
+            if (Type == FLInstructionArgumentType.Name && Root != null && Root.Variables.IsDefined(Value.ToString()))
+                return Root.Variables.GetVariable(Value.ToString()).ToString();
+            if (Type == FLInstructionArgumentType.Name && (Root == null || !Root.Variables.IsDefined(Value.ToString())))
+                return Value.ToString();
             return "[ERR]";
         }
     }

@@ -38,14 +38,22 @@ namespace FLDebugger
         private string Path;
         private bool optimizationsDirty;
 
-        
+        private const string DEFAULT_SCRIPT = "Main:\n\tsetactive 3\n\tsetv 1\n\tsetactive 0 1 2\n\tsetv 1";
+
+
         private bool ControlMod;
 
         public frmOptimizationView()
         {
-
             InitializeComponent();
+            rtbIn.WriteSource(DEFAULT_SCRIPT);
+        }
 
+        public frmOptimizationView(string path):this()
+        {
+
+            Path = path;
+            rtbIn.WriteSource(File.ReadAllText(Path));
 
         }
 
@@ -134,6 +142,11 @@ namespace FLDebugger
 
         private void frmOptimizationView_Load(object sender, EventArgs e)
         {
+            lblFLVersion.Text = "OpenFL Versions:";
+            lblFLVersion.Text += "\n   Parser: " + typeof(FLParser).Assembly.GetName().Version;
+            lblFLVersion.Text += "\n   Common: " + OpenFLDebugConfig.CommonVersion;
+
+            FLDebugger.Initialize();
             DoubleBuffered = true;
             Closing += FrmOptimizationView_Closing;
 
@@ -268,13 +281,7 @@ namespace FLDebugger
                 InitProgram();
             }
 
-            CodeView cv = new CodeView();
-
-            cv.Show();
-
-            FLProgram pr = prog.Initialize(instructionSet);
-            pr.Run(CLAPI.MainThread, new FLBuffer(CLAPI.MainThread, 512, 512, "DebugInput"), true);
-            pr.FreeResources();
+            FLDebugger.Start(prog.Initialize(instructionSet));
         }
 
 
@@ -323,6 +330,15 @@ namespace FLDebugger
             }
 
             previousClickedOptimization = lbOptimizations.SelectedIndex;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (sfdScript.ShowDialog() == DialogResult.OK)
+            {
+                Path = sfdScript.FileName;
+                File.WriteAllText(Path,rtbIn.Text);
+            }
         }
     }
 

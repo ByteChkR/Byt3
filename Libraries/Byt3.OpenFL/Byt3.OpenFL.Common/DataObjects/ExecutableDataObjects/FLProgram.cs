@@ -5,10 +5,11 @@ using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common.Buffers;
+using Byt3.OpenFL.Common.Instructions.Variables;
 
 namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 {
-    public class FLProgram : ALoggable<LogType>
+    public class FLProgram : FLParsedObject
     {
         public static IDebugger Debugger = null;
 
@@ -20,7 +21,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
 
         public FLProgram(Dictionary<string, ExternalFlFunction> definedScripts,
-            Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, FLFunction> flFunctions) : base(OpenFLDebugConfig.Settings)
+            Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, FLFunction> flFunctions) : base()
         {
             FlFunctions = flFunctions;
             DefinedBuffers = definedBuffers;
@@ -99,7 +100,9 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public int InputSize => Dimensions.x * Dimensions.y * Dimensions.z;
 
         private Dictionary<string, bool> InternalState { get; }
+        
         public Dictionary<string, FLBuffer> DefinedBuffers { get; }
+        public VariableManager<decimal> Variables = new VariableManager<decimal>();
         public string[] BufferNames => DefinedBuffers.Keys.ToArray();
         public Dictionary<string, FLFunction> FlFunctions { get; }
         public Dictionary<string, ExternalFlFunction> DefinedScripts { get; }
@@ -173,14 +176,14 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
         public void PushContext()
         {
-            ContextStack.Push(new FLExecutionContext(new List<byte>(ActiveChannels).ToArray(), ActiveBuffer, Input));
+            ContextStack.Push(new FLExecutionContext(new List<byte>(ActiveChannels).ToArray(), ActiveBuffer));
             ActiveChannels = new byte[] { 1, 1, 1, 1 };
+            ActiveBuffer = null;
         }
 
         public void ReturnFromContext()
         {
             FLExecutionContext context = ContextStack.Pop();
-            Input = DefinedBuffers["in"] = context.InputBuffer;
             ActiveChannels = context.ActiveChannels;
             ActiveBuffer = context.ActiveBuffer;
         }
@@ -188,6 +191,8 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public FLBuffer RegisterUnmanagedBuffer(FLBuffer buffer)
         {
             internalBuffers.Add(buffer);
+            buffer.SetKey(buffer.Buffer.HandleIdentifier.ToString());
+            Debugger?.OnAddInternalBuffer(this,buffer);
             return buffer;
         }
 
@@ -197,12 +202,15 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             //Setting Run Dependent Variables.
             Instance = instance;
 
-            Input = ActiveBuffer = DefinedBuffers["in"] = input;
+            DefinedBuffers["in"].ReplaceUnderlyingBuffer(input.Buffer, input.Width, input.Height); //Making effectively a zombie object that has no own buffer(but this is needed in order to keep the script intact
+                                                                        //The Arguments that are referencing the IN buffer will otherwise have a different buffer as the input.
+            Input = ActiveBuffer = DefinedBuffers["in"];
 
             InternalState["in"] = makeInputInternal;
 
             warmed = true;
         }
+
 
         private bool warmed = false;
         public void SetCLVariablesAndWarm(CLAPI instance, FLBuffer input, bool makeInputInternal, bool warmBuffers)
@@ -224,7 +232,9 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
         public void Run(CLAPI instance, FLBuffer input, bool makeInputInternal, FLFunction entry = null, bool warmBuffers = false)
         {
-            Debugger?.Register(this);
+            FLFunction entryPoint = entry ?? EntryPoint;
+            if (entryPoint.Name == "Main")
+                Debugger?.ProgramStart(this);
             if (!warmed)
             {
                 SetCLVariablesAndWarm(instance, input, makeInputInternal, warmBuffers);
@@ -233,7 +243,6 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             //Start Setup
             ActiveChannels = new byte[] { 1, 1, 1, 1 };
 
-            FLFunction entryPoint = entry ?? EntryPoint;
             entryPoint.Process();
 
             warmed = false;

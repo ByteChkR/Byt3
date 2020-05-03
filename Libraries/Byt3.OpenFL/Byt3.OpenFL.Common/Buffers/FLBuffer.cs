@@ -14,7 +14,7 @@ namespace Byt3.OpenFL.Common.Buffers
         /// <summary>
         /// The buffer
         /// </summary>
-        public virtual MemoryBuffer Buffer { get; }
+        public virtual MemoryBuffer Buffer { get; protected set; }
 
         public int Width { get; protected set; }
 
@@ -79,12 +79,20 @@ namespace Byt3.OpenFL.Common.Buffers
         }
 
         /// <summary>
-        /// To string ovverride
+        /// To string override
         /// </summary>
         /// <returns>Console friendly string</returns>
         public override string ToString()
         {
-            return DefinedBufferName + "_" + (IsInternal ? "internal" : "unmanaged");
+            return DefinedBufferName;
+        }
+
+        internal virtual void ReplaceUnderlyingBuffer(MemoryBuffer buf, int width, int height)
+        {
+            Width = width;
+            Height = height;
+            Buffer?.Dispose();
+            Buffer = buf;
         }
 
 

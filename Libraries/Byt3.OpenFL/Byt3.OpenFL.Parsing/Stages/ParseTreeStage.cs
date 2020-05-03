@@ -173,7 +173,10 @@ namespace Byt3.OpenFL.Parsing.Stages
                 return new SerializeExternalFunctionArgument(argument);
             }
 
-            throw new InvalidOperationException("Can not parse argument: " + argument);
+            return new SerializeNameArgument(argument);
+            
+
+            //throw new InvalidOperationException("Can not parse argument: " + argument);
         }
 
 

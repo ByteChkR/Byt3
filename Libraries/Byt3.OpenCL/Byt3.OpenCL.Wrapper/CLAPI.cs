@@ -248,7 +248,7 @@ namespace Byt3.OpenCL.Wrapper
         {
             MemoryBuffer buffer = buf;
 
-            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int) buffer.Size);
+            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int)buffer.Size);
 
 
             WriteRandom(data, enabledChannels, rnd, uniform);
@@ -368,7 +368,7 @@ namespace Byt3.OpenCL.Wrapper
         public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags, object handleIdentifier)
             where T : struct
         {
-            object[] arr = Array.ConvertAll(data, x => (object) x);
+            object[] arr = Array.ConvertAll(data, x => (object)x);
             return CreateBuffer(instance, arr, typeof(T), flags, handleIdentifier);
         }
 
@@ -376,6 +376,8 @@ namespace Byt3.OpenCL.Wrapper
         private static MemoryBuffer CreateEmptyOptimized<T>(CLAPI instance, int size, MemoryFlag flags,
             object handleIdentifier) where T : struct
         {
+
+            //return CreateBuffer(instance, new byte[size], flags, handleIdentifier);
             int bufByteSize = Marshal.SizeOf<T>() * size;
             return instance.context.CreateBuffer(flags | MemoryFlag.AllocateHostPointer, bufByteSize, handleIdentifier);
         }
@@ -384,7 +386,7 @@ namespace Byt3.OpenCL.Wrapper
             object handleIdentifier)
         {
             MemoryBuffer mb =
-                instance.context.CreateBuffer(flags | MemoryFlag.CopyHostPointer | MemoryFlag.AllocateHostPointer, t,
+                instance.context.CreateBuffer(flags | MemoryFlag.CopyHostPointer, t,
                     data, handleIdentifier);
 
             return mb;
@@ -446,7 +448,7 @@ namespace Byt3.OpenCL.Wrapper
 
         public static void UpdateBitmap(CLAPI instance, Bitmap target, MemoryBuffer buffer)
         {
-            byte[] bs = ReadBuffer<byte>(instance, buffer, (int) buffer.Size);
+            byte[] bs = ReadBuffer<byte>(instance, buffer, (int)buffer.Size);
             UpdateBitmap(instance, target, bs);
         }
 

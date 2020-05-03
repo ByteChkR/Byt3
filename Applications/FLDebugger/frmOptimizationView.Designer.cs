@@ -49,6 +49,9 @@
             this.tmrConsoleRefresh = new System.Windows.Forms.Timer(this.components);
             this.tmrConsoleColors = new System.Windows.Forms.Timer(this.components);
             this.fbdSelectHomeDir = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.sfdScript = new System.Windows.Forms.SaveFileDialog();
+            this.lblFLVersion = new System.Windows.Forms.Label();
             this.panelInput.SuspendLayout();
             this.panelToolbar.SuspendLayout();
             this.panelConsoleOut.SuspendLayout();
@@ -68,6 +71,7 @@
             // 
             // rtbIn
             // 
+            this.rtbIn.AcceptsTab = true;
             this.rtbIn.BackColor = System.Drawing.Color.DimGray;
             this.rtbIn.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.rtbIn.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -82,6 +86,8 @@
             // panelToolbar
             // 
             this.panelToolbar.BackColor = System.Drawing.Color.DimGray;
+            this.panelToolbar.Controls.Add(this.lblFLVersion);
+            this.panelToolbar.Controls.Add(this.btnSave);
             this.panelToolbar.Controls.Add(this.label1);
             this.panelToolbar.Controls.Add(this.btnSwitchDockSide);
             this.panelToolbar.Controls.Add(this.btnMinimize);
@@ -99,7 +105,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 211);
+            this.label1.Location = new System.Drawing.Point(3, 240);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(212, 13);
             this.label1.TabIndex = 8;
@@ -109,7 +115,7 @@
             // 
             this.btnSwitchDockSide.BackColor = System.Drawing.Color.DimGray;
             this.btnSwitchDockSide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSwitchDockSide.Location = new System.Drawing.Point(0, 316);
+            this.btnSwitchDockSide.Location = new System.Drawing.Point(0, 345);
             this.btnSwitchDockSide.Name = "btnSwitchDockSide";
             this.btnSwitchDockSide.Size = new System.Drawing.Size(236, 23);
             this.btnSwitchDockSide.TabIndex = 7;
@@ -121,7 +127,7 @@
             // 
             this.btnMinimize.BackColor = System.Drawing.Color.DimGray;
             this.btnMinimize.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMinimize.Location = new System.Drawing.Point(0, 345);
+            this.btnMinimize.Location = new System.Drawing.Point(0, 374);
             this.btnMinimize.Name = "btnMinimize";
             this.btnMinimize.Size = new System.Drawing.Size(236, 23);
             this.btnMinimize.TabIndex = 6;
@@ -133,7 +139,7 @@
             // 
             this.btnSetHomeDir.BackColor = System.Drawing.Color.DimGray;
             this.btnSetHomeDir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSetHomeDir.Location = new System.Drawing.Point(0, 287);
+            this.btnSetHomeDir.Location = new System.Drawing.Point(0, 316);
             this.btnSetHomeDir.Name = "btnSetHomeDir";
             this.btnSetHomeDir.Size = new System.Drawing.Size(236, 23);
             this.btnSetHomeDir.TabIndex = 4;
@@ -145,7 +151,7 @@
             // 
             this.btnDebug.BackColor = System.Drawing.Color.DimGray;
             this.btnDebug.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDebug.Location = new System.Drawing.Point(0, 258);
+            this.btnDebug.Location = new System.Drawing.Point(0, 287);
             this.btnDebug.Name = "btnDebug";
             this.btnDebug.Size = new System.Drawing.Size(236, 23);
             this.btnDebug.TabIndex = 3;
@@ -157,7 +163,7 @@
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.DimGray;
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdate.Location = new System.Drawing.Point(0, 229);
+            this.btnUpdate.Location = new System.Drawing.Point(0, 258);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(236, 23);
             this.btnUpdate.TabIndex = 2;
@@ -171,7 +177,7 @@
             this.lbOptimizations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbOptimizations.CheckOnClick = true;
             this.lbOptimizations.FormattingEnabled = true;
-            this.lbOptimizations.Location = new System.Drawing.Point(0, 41);
+            this.lbOptimizations.Location = new System.Drawing.Point(0, 70);
             this.lbOptimizations.Name = "lbOptimizations";
             this.lbOptimizations.Size = new System.Drawing.Size(236, 167);
             this.lbOptimizations.TabIndex = 1;
@@ -263,6 +269,35 @@
             this.fbdSelectHomeDir.Description = "Select the Root directory from where the FL scripts will be called(this will fix " +
     "filenames)";
             // 
+            // btnSave
+            // 
+            this.btnSave.BackColor = System.Drawing.Color.DimGray;
+            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSave.Location = new System.Drawing.Point(0, 41);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(236, 23);
+            this.btnSave.TabIndex = 9;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = false;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // sfdScript
+            // 
+            this.sfdScript.DefaultExt = "fl";
+            this.sfdScript.FileName = "script";
+            this.sfdScript.Filter = "FLScript|*.fl";
+            this.sfdScript.Title = "Save FL Script";
+            // 
+            // lblFLVersion
+            // 
+            this.lblFLVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblFLVersion.AutoSize = true;
+            this.lblFLVersion.Location = new System.Drawing.Point(12, 468);
+            this.lblFLVersion.Name = "lblFLVersion";
+            this.lblFLVersion.Size = new System.Drawing.Size(91, 39);
+            this.lblFLVersion.TabIndex = 10;
+            this.lblFLVersion.Text = "OpenFL Versions:\r\nParser:\r\nCommon:";
+            // 
             // frmOptimizationView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -271,7 +306,7 @@
             this.Controls.Add(this.panelCodeArea);
             this.Controls.Add(this.panelConsoleOut);
             this.Controls.Add(this.panelToolbar);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MinimumSize = new System.Drawing.Size(252, 490);
             this.Name = "frmOptimizationView";
             this.Text = "FL Parse Output Viewer";
             this.Load += new System.EventHandler(this.frmOptimizationView_Load);
@@ -307,6 +342,9 @@
         private System.Windows.Forms.Button btnMinimize;
         private System.Windows.Forms.Button btnSwitchDockSide;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.SaveFileDialog sfdScript;
+        private System.Windows.Forms.Label lblFLVersion;
     }
 }
 

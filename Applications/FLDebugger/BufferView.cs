@@ -22,7 +22,7 @@ namespace FLDebugger
             Buffer = buffer;
             this.width = width;
             this.height = height;
-            Text = buffer.DefinedBufferName;
+            Text = buffer.DefinedBufferName + $"[{buffer.Buffer}]";
             
             comboBox1.Items.AddRange(Enum.GetNames(typeof(InterpolationMode)));
             comboBox1.SelectedIndex = 0;

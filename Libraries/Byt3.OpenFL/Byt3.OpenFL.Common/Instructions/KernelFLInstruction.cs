@@ -47,6 +47,10 @@ namespace Byt3.OpenFL.Common.Instructions
                 case FLInstructionArgumentType.Number:
                     ret.Value = arg.Value;
                     break;
+                case FLInstructionArgumentType.Name:
+                    ret.Value = Parent.Variables.GetVariable(arg.Value.ToString());
+                    ret.Type = FLInstructionArgumentType.Number; //Translate the Variable to a Number
+                    break;
                 case FLInstructionArgumentType.Buffer:
                     ret.Value = arg.Value;
                     break;
@@ -62,14 +66,14 @@ namespace Byt3.OpenFL.Common.Instructions
 
         private FLBuffer ComputeFunction(FLInstructionArgument arg)
         {
+            FLFunction flFunction = (FLFunction)arg.Value; //Process the Function Object
+
             FLBuffer buffer =
                 Root.RegisterUnmanagedBuffer(new FLBuffer(Root.Instance, Root.Dimensions.x,
-                    Root.Dimensions.y, "FunctionInputBuffer_Registered"));
+                    Root.Dimensions.y, $"{flFunction.Name}_InputBuffer"));
 
             Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
             Root.PushContext(); //Store Dynamic Variables
-
-            FLFunction flFunction = (FLFunction)arg.Value; //Process the Function Object
 
             Logger.Log(LogType.Log, $"Executing Function: {flFunction.Name}", MIN_INSTRUCTION_SEVERITY + 2);
 

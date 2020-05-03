@@ -34,8 +34,6 @@ namespace Byt3.Console
             ret.Add(".dll", new ResolverWrapper(new DefaultLibResolver())); //Default Resolver
 
 
-
-
             Queue<ResolverWrapper> queue = new Queue<ResolverWrapper>();
             queue.Enqueue(ret[".dll"]);
 

@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Remove="resources\codeanalysistest.cl" />
     <None Remove="resources\engine.settings.xml" />
+    <None Remove="resources\filter\bug_checks\set_temp_to_in_bug.fl" />
     <None Remove="resources\filter\comments\test.fl" />
     <None Remove="resources\filter\defines\test.fl" />
     <None Remove="resources\filter\defines\test_wrong_define_invalid_file.fl" />
@@ -46,6 +47,7 @@
     <EmbeddedResource Include="resources\engine.settings.xml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\bug_checks\set_temp_to_in_bug.fl" />
     <EmbeddedResource Include="resources\filter\comments\test.fl">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
