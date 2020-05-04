@@ -13,18 +13,23 @@ namespace Byt3.Serialization
     /// </summary>
     public class Byt3Serializer
     {
-        public static Byt3Serializer GetDefaultSerializer()
+        public static Byt3Serializer GetDefaultSerializer(ABaseSerializer baseSerializer=null)
         {
-            return new Byt3Serializer(new Dictionary<Type, ASerializer>(BaseSerializers.SerializableTypes));
+            Byt3Serializer r = new Byt3Serializer(new Dictionary<Type, ASerializer>(BaseSerializers.SerializableTypes), baseSerializer ?? new DefaultBaseSerializer());
+            return r;
         }
 
         public Byt3Serializer()
         {
         }
 
-        private Byt3Serializer(Dictionary<Type, ASerializer> serializers)
+        private Byt3Serializer(Dictionary<Type, ASerializer> serializers, ABaseSerializer baseSerializer = null)
         {
-            Serializers = serializers;
+            SetBaseSerializer(baseSerializer ?? new DefaultBaseSerializer());
+            foreach (KeyValuePair<Type, ASerializer> keyValuePair in serializers)
+            {
+                AddSerializer(keyValuePair.Key, keyValuePair.Value);
+            }
         }
 
         /// <summary>
