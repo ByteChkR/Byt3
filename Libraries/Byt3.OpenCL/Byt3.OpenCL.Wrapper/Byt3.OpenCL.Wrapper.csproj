@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>2.1.71.1254</AssemblyVersion>
-    <FileVersion>2.1.71.1254</FileVersion>
+    <AssemblyVersion>2.2.26.2229</AssemblyVersion>
+    <FileVersion>2.2.26.2229</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />

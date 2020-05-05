@@ -25,6 +25,7 @@ using Byt3Console.OpenFL;
 using Byt3Console.OpenFL.Benchmarks;
 using Byt3Console.OpenFL.ScriptGenerator;
 using Byt3Console.VersionHelper;
+using HorrorOfBindings;
 using TestingProjectConsole;
 using Debug = Byt3.ADL.Debug;
 
@@ -47,6 +48,7 @@ namespace TestingProject
             {"extpp", new ExtPPConsole()},
             {"vh", new VersionHelperConsole()},
             {"fl", new FLConsole()},
+            {"hob", new HOBConsoleStarter()},
         };
 
         public class ILTest

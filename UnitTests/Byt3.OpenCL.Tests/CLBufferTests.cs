@@ -4,7 +4,7 @@ using Byt3.OpenCL.Wrapper;
 using NUnit.Framework;
 
 namespace Byt3.OpenCL.Tests
-{
+{//TODO: cl kernel execution test
     public class CLBufferTests
     {
         private static bool CheckValues(float[] values, float[] reference)

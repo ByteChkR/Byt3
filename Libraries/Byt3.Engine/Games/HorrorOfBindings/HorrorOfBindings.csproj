@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="assets\audio\JumpSound.wav" />
+    <None Remove="assets\audio\ShootSound.wav" />
+    <None Remove="assets\audio\ShootSound2.wav" />
+    <None Remove="assets\audio\SpawnSound.wav" />
+    <None Remove="assets\configs\camera_menu.xml" />
+    <None Remove="assets\configs\engine_settings.xml" />
+    <None Remove="assets\filter\game\cobble_grass.fl" />
+    <None Remove="assets\filter\game\concrete.fl" />
+    <None Remove="assets\filter\game\grass.fl" />
+    <None Remove="assets\filter\game\ground.fl" />
+    <None Remove="assets\filter\game\menubg.fl" />
+    <None Remove="assets\filter\game\perlin.fl" />
+    <None Remove="assets\filter\game\tennisball.fl" />
+    <None Remove="assets\filter\game\wall0.fl" />
+    <None Remove="assets\filter\game\wall1.fl" />
+    <None Remove="assets\textures\btn\btn.png" />
+    <None Remove="assets\textures\btn\btnC.png" />
+    <None Remove="assets\textures\btn\btnH.png" />
+    <None Remove="assets\textures\enemyHead.jpg" />
+    <None Remove="assets\textures\LoadingSymbol.jpg" />
+    <None Remove="assets\textures\playerHead.png" />
+    <None Remove="assets\WFCTiles\brick.png" />
+    <None Remove="assets\WFCTiles\bureau.png" />
+    <None Remove="assets\WFCTiles\cobble.png" />
+    <None Remove="assets\WFCTiles\menubg.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="assets\audio\JumpSound.wav" />
+    <EmbeddedResource Include="assets\audio\ShootSound.wav" />
+    <EmbeddedResource Include="assets\audio\ShootSound2.wav" />
+    <EmbeddedResource Include="assets\audio\SpawnSound.wav" />
+    <EmbeddedResource Include="assets\configs\camera_menu.xml" />
+    <EmbeddedResource Include="assets\configs\engine_settings.xml" />
+    <EmbeddedResource Include="assets\filter\game\cobble_grass.fl" />
+    <EmbeddedResource Include="assets\filter\game\concrete.fl" />
+    <EmbeddedResource Include="assets\filter\game\grass.fl" />
+    <EmbeddedResource Include="assets\filter\game\ground.fl" />
+    <EmbeddedResource Include="assets\filter\game\menubg.fl" />
+    <EmbeddedResource Include="assets\filter\game\perlin.fl" />
+    <EmbeddedResource Include="assets\filter\game\tennisball.fl" />
+    <EmbeddedResource Include="assets\filter\game\wall0.fl" />
+    <EmbeddedResource Include="assets\filter\game\wall1.fl" />
+    <EmbeddedResource Include="assets\textures\btn\btn.png" />
+    <EmbeddedResource Include="assets\textures\btn\btnC.png" />
+    <EmbeddedResource Include="assets\textures\btn\btnH.png" />
+    <EmbeddedResource Include="assets\textures\enemyHead.jpg" />
+    <EmbeddedResource Include="assets\textures\LoadingSymbol.jpg" />
+    <EmbeddedResource Include="assets\textures\playerHead.png" />
+    <EmbeddedResource Include="assets\WFCTiles\brick.png" />
+    <EmbeddedResource Include="assets\WFCTiles\bureau.png" />
+    <EmbeddedResource Include="assets\WFCTiles\cobble.png" />
+    <EmbeddedResource Include="assets\WFCTiles\menubg.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
+    <ProjectReference Include="..\..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
+    <ProjectReference Include="..\..\..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
+    <ProjectReference Include="..\..\..\..\Utilities\Byt3.Utilities.ManifestIO\Byt3.Utilities.ManifestIO.csproj" />
+    <ProjectReference Include="..\..\..\Byt3.OpenFL\Byt3.OpenFL.Threading\Byt3.OpenFL.Threading.csproj" />
+    <ProjectReference Include="..\..\..\Byt3.OpenFL\Byt3.OpenFL\Byt3.OpenFL.csproj" />
+    <ProjectReference Include="..\..\Byt3.Engine\Byt3.Engine.csproj" />
+  </ItemGroup>
+
+</Project>

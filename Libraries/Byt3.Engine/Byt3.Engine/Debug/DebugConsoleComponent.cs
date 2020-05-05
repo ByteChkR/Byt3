@@ -302,7 +302,7 @@ namespace Byt3.Engine.Debug
         /// <param name="text"></param>
         public void WriteToConsole(string text)
         {
-            string[] arr = text.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] arr = text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string s in arr)
             {
                 consoleOutBuffer.Enqueue(s);
@@ -693,6 +693,7 @@ namespace Byt3.Engine.Debug
         /// <param name="deltaTime">Delta Time in Seconds</param>
         protected override void Update(float deltaTime)
         {
+            AddGraphValue(deltaTime * 1000);
             time += deltaTime;
             fps++;
             if (time >= 1)

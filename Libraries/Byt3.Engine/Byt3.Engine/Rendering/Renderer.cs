@@ -166,8 +166,9 @@ namespace Byt3.Engine.Rendering
 
             if (!renderListDirtyFlag[renderTarget]) return renderLists[renderTarget];
             renderListDirtyFlag[renderTarget] = false;
-            if (!renderLists.ContainsKey(renderTarget)) renderLists[renderTarget] = new List<RenderingComponent>();
-
+            if (!renderLists.ContainsKey(renderTarget))
+                renderLists[renderTarget] = new List<RenderingComponent>();
+            else renderLists[renderTarget].Clear();
             foreach (GameObject renderer in GameObject.ObjsWithAttachedRenderers)
             {
                 RenderingComponent context = renderer.RenderingComponent;

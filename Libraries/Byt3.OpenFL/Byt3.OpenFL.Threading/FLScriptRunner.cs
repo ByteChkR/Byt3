@@ -29,6 +29,7 @@ namespace Byt3.OpenFL.Threading
 
         protected Queue<FlScriptExecutionContext> ProcessQueue;
         public int ItemsInQueue => ProcessQueue.Count;
+        private FLProgramCheckBuilder ProgramChecks { get; }
 
         public FLScriptRunner(CLAPI instance, KernelDatabase dataBase, BufferCreator creator,
             FLInstructionSet instructionSet, FLProgramCheckBuilder checkBuilder, WorkItemRunnerSettings runnerSettings)
@@ -38,6 +39,7 @@ namespace Byt3.OpenFL.Threading
             BufferCreator = creator;
 
             Parser = new FLParser(InstructionSet, BufferCreator, runnerSettings);
+            ProgramChecks = checkBuilder;
             checkBuilder.Attach(Parser, true);
 
             Instance = instance;
@@ -45,16 +47,26 @@ namespace Byt3.OpenFL.Threading
         }
 
         public FLScriptRunner(CLAPI instance, DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1,
-            string kernelFolder = "kernel/")
+            string kernelFolder = "resources/kernel")
         {
             Db = new KernelDatabase(instance, kernelFolder, dataVectorTypes);
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(Db);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
-
+            ProgramChecks = FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator);
             Parser = new FLParser(InstructionSet, BufferCreator);
-
+            ProgramChecks.Attach(Parser, true);
             Instance = instance;
             ProcessQueue = new Queue<FlScriptExecutionContext>();
+        }
+
+        public void AddProgramCheck(FLProgramCheck check)
+        {
+            if (ProgramChecks.IsAttached)
+            {
+                ProgramChecks.Detach(false);
+            }
+            ProgramChecks.AddProgramCheck(check);
+            ProgramChecks.Attach(Parser, true);
         }
 
         public virtual void Dispose()

@@ -60,6 +60,7 @@ namespace FLDebugger
 
         private void LbInternalBuffersOnMouseDoubleClick(object sender, MouseEventArgs e)
         {
+            if (lbInternalBuffers.SelectedItem == null) return;
             FLBuffer buf = lbInternalBuffers.SelectedItem as FLBuffer;
             BufferView bvv = new BufferView(buf, Program.Dimensions.x, Program.Dimensions.y);
             bvv.Show();
@@ -96,6 +97,7 @@ namespace FLDebugger
 
         private void LbBuffers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            if (lbBuffers.SelectedItem == null) return;
             BufferView bvv = new BufferView(Program.GetBufferWithName(lbBuffers.SelectedItem.ToString(), false), Program.Dimensions.x, Program.Dimensions.y);
             bvv.Show();
         }
