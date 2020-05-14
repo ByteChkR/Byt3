@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Xml;
 using Byt3.ADL;
 using Byt3.CommandRunner;
@@ -18,14 +19,81 @@ namespace Byt3Console.VersionHelper
             Debug.DefaultInitialization();
             Runner.AddCommand(new DefaultHelpCommand());
             Runner.AddCommand(new NoWrapFlagCommand());
+            Runner.AddCommand(new ToFileCommand());
+            Runner.AddCommand(new GetVersionCommand());
             Runner.AddCommand(new ChangeVersionCommand());
             return Runner.RunCommands(args);
+        }
+
+        private static bool IsNetFramework(XmlDocument doc)
+        {
+            XmlNode s = null;
+
+            for (int i = 0; i < doc.ChildNodes.Count; i++)
+            {
+                if (doc.ChildNodes[i].Name == "Project")
+                {
+                    s = doc.ChildNodes[i];
+                }
+            }
+
+            if (s != null)
+            {
+
+                for (int i = 0; i < s.ChildNodes.Count; i++)
+                {
+                    if (s.ChildNodes[i].Name == "PropertyGroup")
+                    {
+                        if (s.ChildNodes[i].HasChildNodes)
+                        {
+                            for (int j = 0; j < s.ChildNodes[i].ChildNodes.Count; j++)
+                            {
+                                XmlNode projTag = s.ChildNodes[i].ChildNodes[j];
+                                if (projTag.Name == "TargetFrameworkVersion")
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
         public static void ChangeVersionInFile(string file, Version newVersion)
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(file);
+
+            
+            if (IsNetFramework(doc))
+            {
+
+                string dir = Path.GetDirectoryName(Path.GetFullPath(file));
+                string asmFile = Path.Combine(dir, "Properties", "AssemblyInfo.cs");
+
+                string[] src = File.ReadAllLines(asmFile);
+
+                for (int i = 0; i < src.Length; i++)
+                {
+                    if (src[i].Trim().StartsWith("[assembly: AssemblyVersion(\""))
+                    {
+                        src[i] = $"[assembly: AssemblyVersion(\"{newVersion}\")]";
+                    }
+                    else if (src[i].Trim().StartsWith("[assembly: AssemblyFileVersion(\""))
+                    {
+                        src[i] = $"[assembly: AssemblyFileVersion(\"{newVersion}\")]";
+                    }
+                }
+
+                File.Delete(asmFile);
+                File.WriteAllLines(asmFile, src);
+
+                return;
+            }
+
             XmlNode[] nodes = FindVersionTags(doc);
 
             nodes[0].InnerText = newVersion.ToString();
@@ -45,6 +113,23 @@ namespace Byt3Console.VersionHelper
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(file);
+            if (IsNetFramework(doc))
+            {
+                string dir = Path.GetDirectoryName(Path.GetFullPath(file));
+                string asmFile = Path.Combine(dir, "Properties", "AssemblyInfo.cs");
+
+                string[] src = File.ReadAllLines(asmFile);
+
+                for (int i = 0; i < src.Length; i++)
+                {
+                    if (src[i].Trim().StartsWith("[assembly: AssemblyVersion(\""))
+                    {
+                        string[] v = src[i].Trim().Split(new[] { '\"' });
+                        return Version.Parse(v[1]);
+                    }
+                }
+                return new Version(0, 0, 1, 0);
+            }
 
             return FindVersion(doc);
         }

@@ -32,6 +32,7 @@ namespace Byt3Console.OpenFL
             ManifestReader.PrepareManifestFiles(true); //Replace Any Loaded assembly files with files on the file system.
 
             Runner.AddCommand(new DefaultHelpCommand());
+            Runner.AddCommand(new SetWorkingDirCommand());
             Runner.AddCommand(new SetOutputFilesCommand());
             Runner.AddCommand(new SetInputFilesCommand());
             Runner.AddCommand(new ExtraStepCommand());
@@ -41,10 +42,10 @@ namespace Byt3Console.OpenFL
             Runner.AddCommand(new BuildCommand());
             Runner.AddCommand(new RunCommand());
             bool ret = Runner.RunCommands(args);
-#if DEBUG
-            Console.WriteLine("Press Enter to Exit.");
-            Console.ReadLine();
-#endif
+//#if DEBUG
+//            Console.WriteLine("Press Enter to Exit.");
+//            Console.ReadLine();
+//#endif
             return ret;
         }
     }

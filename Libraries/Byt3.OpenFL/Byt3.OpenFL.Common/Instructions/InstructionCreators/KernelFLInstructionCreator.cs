@@ -17,9 +17,9 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             KernelList = kernelList;
         }
 
-        public override string GetArgumentSignatureForInstruction(SerializableFLInstruction instruction)
+        public override string GetArgumentSignatureForInstruction(string instruction)
         {
-            if (!KernelList.TryGetClKernel(instruction.InstructionKey, out CLKernel kernel))
+            if (!KernelList.TryGetClKernel(instruction, out CLKernel kernel))
             {
                 return null;
             }
@@ -34,7 +34,14 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 
                 if (kernelParameter.Value.IsArray)
                 {
-                    arg[kernelParameter.Value.Id - KernelFLInstruction.FL_HEADER_ARG_COUNT] = 'E';
+                    if (kernelParameter.Key.StartsWith("array"))
+                    {
+                        arg[kernelParameter.Value.Id - KernelFLInstruction.FL_HEADER_ARG_COUNT] = 'C';
+                    }
+                    else
+                    {
+                        arg[kernelParameter.Value.Id - KernelFLInstruction.FL_HEADER_ARG_COUNT] = 'E';
+                    }
                 }
                 else
                 {

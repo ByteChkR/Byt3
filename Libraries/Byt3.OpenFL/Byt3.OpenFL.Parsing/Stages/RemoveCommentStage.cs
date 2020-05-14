@@ -23,13 +23,13 @@ namespace Byt3.OpenFL.Parsing.Stages
 
         public override LoadSourceStageResult Process(LoadSourceStageResult input)
         {
-            Logger.Log(LogType.Log, "Removing Comments.. ", 2);
+            Logger.Log(LogType.Log, "Removing Comments.. ", 1);
 
 
             WorkItemRunner.RunInWorkItems(input.Source, RemoveCommentTask, parser.WorkItemRunnerSettings);
 
 
-            Logger.Log(LogType.Log, $"Optimizing Script Length..", 2);
+            Logger.Log(LogType.Log, $"Optimizing Script Length..", 1);
             for (int i = input.Source.Count - 1; i >= 0; i--)
             {
                 if (string.IsNullOrWhiteSpace(input.Source[i]))

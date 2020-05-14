@@ -5,9 +5,25 @@ using Byt3.ADL;
 using Byt3.Callbacks;
 using Byt3.ExtPP.API;
 using Byt3.OpenCL.Wrapper.ExtPP.API;
+using Byt3.Utilities.Exceptions;
 
 namespace Byt3.OpenCL.Wrapper
 {
+
+    public class CLBuildException : Byt3Exception
+    {
+        public readonly List<CLProgramBuildResult> BuildResults;
+        public CLBuildException(CLProgramBuildResult result) : this(new List<CLProgramBuildResult> { result })
+        {
+        }
+
+        public CLBuildException(List<CLProgramBuildResult> results):base("")
+        {
+            BuildResults = results;
+        }
+    }
+
+
     /// <summary>
     /// A class used to store and manage Kernels
     /// </summary>
@@ -17,11 +33,6 @@ namespace Byt3.OpenCL.Wrapper
         {
             TextProcessorAPI.Configs[".cl"] = new CLPreProcessorConfig();
         }
-
-        /// <summary>
-        /// The Folder that will get searched when initializing the database.
-        /// </summary>
-        private readonly string folderName;
 
         /// <summary>
         /// The currently loaded kernels
@@ -46,11 +57,23 @@ namespace Byt3.OpenCL.Wrapper
             {
                 throw new OpenClException("Can not find directory: " + folderName);
             }
-
-            this.folderName = folderName;
             loadedPrograms = new List<CLProgram>();
             loadedKernels = new Dictionary<string, CLKernel>();
-            Initialize(instance);
+            LoadFolder(instance, folderName);
+        }
+
+        /// <summary>
+        /// Public constructor
+        /// </summary>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
+        /// <param name="folderName">Folder name where the kernels are located</param>
+        /// <param name="genDataVectorType">The DataVectorTypes used to compile the FL Database</param>
+        public KernelDatabase(CLAPI instance, TypeEnums.DataVectorTypes genDataVectorType) : base(
+            OpenCLDebugConfig.Settings)
+        {
+            GenDataType = KernelParameter.GetDataString(genDataVectorType);
+            loadedPrograms = new List<CLProgram>();
+            loadedKernels = new Dictionary<string, CLKernel>();
         }
 
 
@@ -61,14 +84,14 @@ namespace Byt3.OpenCL.Wrapper
         {
             foreach (KeyValuePair<string, CLKernel> loadedKernel in loadedKernels)
             {
-                loadedKernel.Value.Dispose();
+                loadedKernel.Value?.Dispose();
             }
 
             loadedKernels.Clear();
 
             foreach (CLProgram loadedProgram in loadedPrograms)
             {
-                loadedProgram.Dispose();
+                loadedProgram?.Dispose();
             }
 
             loadedPrograms.Clear();
@@ -77,34 +100,56 @@ namespace Byt3.OpenCL.Wrapper
         /// <summary>
         /// Initializes the Kernel Database
         /// </summary>
-        private void Initialize(CLAPI instance)
+        public void LoadFolder(CLAPI instance, string folderName)
         {
             string[] files = IOManager.GetFiles(folderName, "*.cl");
 
+            List<CLProgramBuildResult> results = new List<CLProgramBuildResult>();
+            bool throwEx = false;
             foreach (string file in files)
             {
-                AddProgram(instance, file);
+                AddProgram(instance, file, false, out CLProgramBuildResult res);
+                throwEx |= !res;
+                results.Add(res);
             }
+            if(throwEx)throw new CLBuildException(results);
         }
 
 
-        /// <summary>
-        /// Manually adds a Program to the database
-        /// </summary>
-        /// <param name="instance">CLAPI Instance for the current thread</param>
-        /// <param name="file">Path fo the file</param>
-        public void AddProgram(CLAPI instance, string file)
+        private void AddProgram(CLAPI instance, string file, bool throwEx, out CLProgramBuildResult ex)
         {
+            ex = new CLProgramBuildResult(file, new List<CLProgramBuildError>());
             if (!IOManager.FileExists(file))
             {
-                throw new FileNotFoundException("File not found: " + file);
+                Exception e = new FileNotFoundException("File not found: " + file);
+                if (throwEx)
+                {
+                    throw e;
+                }
+                else
+                {
+                    ex.BuildErrors.Add(new CLProgramBuildError(ErrorType.ProgramBuild, e));
+                }
             }
 
 
             string path = file;
 
             Logger.Log(LogType.Log, "Creating CLProgram from file: " + file, 3);
-            CLProgram program = new CLProgram(instance, path);
+            CLProgramBuildResult br = CLProgram.TryBuildProgram(instance, path, out CLProgram program);
+            if (!br)
+            {
+                if (throwEx)
+                {
+                    throw br.GetAggregateException();
+                }
+                else
+                {
+                    ex.BuildErrors.AddRange(br.BuildErrors);
+                    return;
+                }
+            }
+            //CLProgram program = new CLProgram(instance, path);
             loadedPrograms.Add(program);
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
             {
@@ -119,6 +164,16 @@ namespace Byt3.OpenCL.Wrapper
                         "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...", 5);
                 }
             }
+        }
+
+        /// <summary>
+        /// Manually adds a Program to the database
+        /// </summary>
+        /// <param name="instance">CLAPI Instance for the current thread</param>
+        /// <param name="file">Path fo the file</param>
+        public void AddProgram(CLAPI instance, string file)
+        {
+            AddProgram(instance, file, true, out CLProgramBuildResult _);
         }
 
         public CLKernel GetClKernel(string name)

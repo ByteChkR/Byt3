@@ -19,8 +19,7 @@ namespace Byt3Console.OpenFL.ScriptGenerator
     public class GenerateFLScriptsConsole : AConsole
     {
         private static readonly ADLLogger<LogType> Logger =
-            new ADLLogger<LogType>(new ProjectDebugConfig("FLScriptGen", -1, 3,
-                PrefixLookupSettings.AddPrefixIfAvailable));
+            new ADLLogger<LogType>(OpenFLBenchmarkingDebugConfig.Settings, "FLScriptGen-Console");
 
         public static FLScriptGeneratorSettings Settings = FLScriptGeneratorSettings.Default;
         public override string ConsoleKey => "flgen";

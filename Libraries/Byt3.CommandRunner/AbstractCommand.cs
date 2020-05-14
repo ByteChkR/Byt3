@@ -8,12 +8,10 @@ namespace Byt3.CommandRunner
     /// <summary>
     /// Abstract Command Class that contains all the info for a Command.
     /// </summary>
-    public abstract class AbstractCommand
+    public abstract class AbstractCommand : ALoggable<LogType>
     {
         protected const int MIN_COMMAND_SEVERITY = 3;
-
-        protected readonly ADLLogger<LogType> Logger;
-
+        
         /// <summary>
         /// The Command Implementation that is getting called
         /// </summary>
@@ -42,10 +40,8 @@ namespace Byt3.CommandRunner
         /// <param name="helpText">Optional Help Text</param>
         /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
         protected AbstractCommand(Action<StartupArgumentInfo, string[]> action, string[] keys,
-            string helpText = "No Help Text Available", bool defaultCommand = false)
+            string helpText = "No Help Text Available", bool defaultCommand = false): base(CommandRunnerDebugConfig.Settings)
         {
-            Logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings,
-                "Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandAction = action;
             CommandKeys = keys;
             HelpText = helpText;
@@ -59,10 +55,8 @@ namespace Byt3.CommandRunner
         /// <param name="helpText">Optional Help Text</param>
         /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
         protected AbstractCommand(string[] keys, string helpText = "No Help Text Available",
-            bool defaultCommand = false)
+            bool defaultCommand = false):base(CommandRunnerDebugConfig.Settings)
         {
-            Logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings,
-                "Cmd: " + (keys == null || keys.Length == 0 ? "Unmapped" : keys[0]));
             CommandKeys = keys;
             HelpText = helpText;
             DefaultCommand = defaultCommand;

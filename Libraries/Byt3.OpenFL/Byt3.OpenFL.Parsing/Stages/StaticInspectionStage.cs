@@ -28,7 +28,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             List<StaticFunction> functions = null;
 
 
-            Logger.Log(LogType.Log, "Statically Inspecting: " + input.Filename, 2);
+            Logger.Log(LogType.Log, "Statically Inspecting: " + input.Filename, 1);
 
             Task<string[]> scriptTask = new Task<string[]>(() => FLParser.FindDefineScriptsStatements(input.Source));
             Task<string[]> bufferTask = new Task<string[]>(() => FLParser.FindDefineStatements(input.Source));
@@ -52,12 +52,12 @@ namespace Byt3.OpenFL.Parsing.Stages
 
 
             Task.WaitAll(scriptTask, bufferTask);
-            Logger.Log(LogType.Log, "Buffer And Script Task Finished.", 2);
+            Logger.Log(LogType.Log, "Buffer And Script Tasks Finished.", 1);
             definedScripts = scriptTask.Result;
             definedBuffers = bufferTask.Result;
 
 
-            Logger.Log(LogType.Log, "Tasks Completed.", 2);
+            Logger.Log(LogType.Log, "Tasks Completed.", 1);
 
 
             Logger.Log(LogType.Log, "Parsed Scripts: " + functions.Unpack(", "), 4);

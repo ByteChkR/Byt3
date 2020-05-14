@@ -20,8 +20,7 @@ namespace Byt3.Utilities.ManifestIO
         }
 
         private static readonly ADLLogger<LogType> Logger =
-            new ADLLogger<LogType>(new ProjectDebugConfig("File IOManager", -1, 2,
-                PrefixLookupSettings.AddPrefixIfAvailable));
+            new ADLLogger<LogType>(ManifestIODebugConfig.Settings, "File IOManager");
 
         /// <summary>
         /// Returns true if the file exists on either the disk or in the assembly

@@ -2,13 +2,10 @@
 
 namespace Byt3.PackageHandling
 {
-    public abstract class AHandler
+    public abstract class AHandler : ALoggable<LogType>
     {
-        protected readonly ADLLogger<LogType> Logger;
-
-        protected AHandler()
+        protected AHandler() : base(PackageHandlerDebugConfig.Settings)
         {
-            Logger = new ADLLogger<LogType>(PackageHandlerDebugConfig.Settings, "Handler: " + GetType().Name);
         }
 
         internal abstract void Handle(object objectToHandle, object context);
@@ -18,7 +15,7 @@ namespace Byt3.PackageHandling
     {
         internal override void Handle(object objectToHandle, object context)
         {
-            Handle((T) objectToHandle, context);
+            Handle((T)objectToHandle, context);
         }
 
         public abstract void Handle(T objectToHandle, object context);

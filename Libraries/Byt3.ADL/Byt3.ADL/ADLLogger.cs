@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Byt3.ADL.Configs;
 
@@ -7,6 +8,26 @@ namespace Byt3.ADL
 {
     public class ADLLogger
     {
+        private static readonly Dictionary<IProjectDebugConfig, List<ADLLogger>> LoggerMap = new Dictionary<IProjectDebugConfig, List<ADLLogger>>();
+
+        public static ReadOnlyDictionary<IProjectDebugConfig, List<ADLLogger>> GetReadOnlyLoggerMap() => new ReadOnlyDictionary<IProjectDebugConfig, List<ADLLogger>>(LoggerMap);
+
+
+        private static void Register(ADLLogger logger)
+        {
+            if (LoggerMap.ContainsKey(logger.ProjectDebugConfig)) LoggerMap[logger.ProjectDebugConfig].Add(logger);
+            else LoggerMap[logger.ProjectDebugConfig] = new List<ADLLogger> { logger };
+        }
+
+        //For completeness sake
+        private static void UnRegister(ADLLogger logger)
+        {
+            if (LoggerMap.ContainsKey(logger.ProjectDebugConfig))
+            {
+                LoggerMap[logger.ProjectDebugConfig].Remove(logger);
+            }
+        }
+
         private readonly IProjectDebugConfig ProjectDebugConfig;
         private readonly string SubProjectName;
 
@@ -31,6 +52,8 @@ namespace Byt3.ADL
         {
             ProjectDebugConfig = projectDebugConfig;
             SubProjectName = subProjectName;
+
+            Register(this);
         }
 
         public void Log(int mask, string message, int severity)
@@ -101,6 +124,11 @@ namespace Byt3.ADL
 
             hasProcessedPrefixes = true;
             return ret;
+        }
+
+        public override string ToString()
+        {
+            return string.IsNullOrEmpty(SubProjectName) ? ProjectDebugConfig.GetProjectName() : SubProjectName;
         }
     }
 

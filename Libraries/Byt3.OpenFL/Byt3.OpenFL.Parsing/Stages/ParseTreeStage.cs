@@ -31,23 +31,22 @@ namespace Byt3.OpenFL.Parsing.Stages
 
         public override SerializableFLProgram Process(StaticInspectionResult input)
         {
-            Logger.Log(LogType.Log, "Parsing Tree: " + input.Filename, 2);
-            Logger.Log(LogType.Log, "Creating Defined Script Nodes..", 3);
+            Logger.Log(LogType.Log, "Parsing Tree: " + input.Filename, 1);
+            Logger.Log(LogType.Log, "Creating Defined Script Nodes..", 2);
             List<SerializableExternalFLFunction> scripts = ParseScriptDefines(input.DefinedScripts);
             Logger.Log(LogType.Log, "Script Nodes: " + scripts.Select(x => x.Name).Unpack(", "), 4);
 
 
-            Logger.Log(LogType.Log, "Creating Defined Buffer Nodes..", 3);
+            Logger.Log(LogType.Log, "Creating Defined Buffer Nodes..", 2);
             List<SerializableFLBuffer> definedBuffers = ParseDefinedBuffers(input.DefinedBuffers);
             Logger.Log(LogType.Log, "Buffer Nodes: " + definedBuffers.Select(x => x.Name).Unpack(", "), 4);
 
-            Logger.Log(LogType.Log, "Creating Defined Function Nodes..", 3);
+            Logger.Log(LogType.Log, "Creating Defined Function Nodes..", 2);
             List<SerializableFLFunction> flFunctions =
                 ParseFunctions(input.Functions, input.DefinedBuffers, input.DefinedScripts);
             Logger.Log(LogType.Log, "Buffer Nodes: " + flFunctions.Select(x => x.Name).Unpack(", "), 4);
-            return new SerializableFLProgram(input.Filename,scripts, flFunctions, definedBuffers);
+            return new SerializableFLProgram(input.Filename, scripts, flFunctions, definedBuffers);
         }
-
 
         private List<SerializableExternalFLFunction> ParseScriptDefines(string[] statements)
         {
@@ -168,13 +167,18 @@ namespace Byt3.OpenFL.Parsing.Stages
                 return new SerializeBufferArgument(argument);
             }
 
+            if (definedBuffers.Select(FLParser.GetBufferArrayName).Contains(argument))
+            {
+                return new SerializeArrayBufferArgument(argument);
+            }
+
             if (definedScripts.Select(FLParser.GetScriptName).Contains(argument))
             {
                 return new SerializeExternalFunctionArgument(argument);
             }
 
             return new SerializeNameArgument(argument);
-            
+
 
             //throw new InvalidOperationException("Can not parse argument: " + argument);
         }
@@ -186,8 +190,21 @@ namespace Byt3.OpenFL.Parsing.Stages
 
             for (int i = start; i < start + count; i++)
             {
-                string[] data = defineStatements[i].Replace("--define texture", "")
-                    .Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries);
+                bool isArray = defineStatements[i].StartsWith(FLParser.DEFINE_ARRAY_KEY);
+                string[] data = null;
+                if (isArray)
+                {
+                    data = defineStatements[i].Replace(FLParser.DEFINE_ARRAY_KEY, "")
+                        .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                }
+                else
+                {
+                    data = defineStatements[i].Replace(FLParser.DEFINE_TEXTURE_KEY, "")
+                        .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                }
+
+                
+
                 string bufferName = data[0].Trim();
                 if (bufferName == "in")
                 {
@@ -197,23 +214,35 @@ namespace Byt3.OpenFL.Parsing.Stages
                 }
 
 
-                string paramPart = data[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries)[0];
+                string paramPart = data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0];
 
-                SerializableFLBuffer buf = parser.BufferCreator.Create(paramPart, bufferName,
-                    data[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
-                if (buf != null)
+                string[] parameter = data[1].Replace(paramPart + " ", "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                int size = 0;
+                if (isArray && (parameter.Length == 0 || !int.TryParse(parameter[0], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out size)))
                 {
-                    definedBuffers.Add(buf);
+                    throw new Byt3Exception($"No array size specified \"{defineStatements[i]}\"");
                 }
-                else if (IOManager.FileExists(data[1].Trim().Replace("\"", "")))
+
+
+                if (data[1].StartsWith("\"") && data[1].EndsWith("\"") && IOManager.FileExists(data[1].Trim().Replace("\"", "")))
                 {
                     SerializableFromFileFLBuffer bi =
-                        new SerializableFromFileFLBuffer(bufferName, data[1].Trim().Replace("\"", ""));
+                        new SerializableFromFileFLBuffer(bufferName, data[1].Trim().Replace("\"", ""), isArray, size);
                     definedBuffers.Add(bi);
                 }
                 else
                 {
-                    throw new Byt3Exception($"Can not Find BufferLoader for \"{defineStatements[i]}\"");
+
+                    SerializableFLBuffer buf = parser.BufferCreator.Create(paramPart, bufferName,
+                        data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries), isArray, size);
+                    if (buf != null)
+                    {
+                        definedBuffers.Add(buf);
+                    }
+                    else
+                    {
+                        throw new Byt3Exception($"Can not Find BufferLoader for \"{defineStatements[i]}\"");
+                    }
                 }
             }
 

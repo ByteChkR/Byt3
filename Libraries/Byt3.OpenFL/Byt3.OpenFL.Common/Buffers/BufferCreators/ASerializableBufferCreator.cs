@@ -9,6 +9,6 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators
     public abstract class ASerializableBufferCreator
     {
         public abstract bool IsCorrectBuffer(string bufferKey);
-        public abstract SerializableFLBuffer CreateBuffer(string name, string[] args);
+        public abstract SerializableFLBuffer CreateBuffer(string name, string[] args, bool isArray, int arraySize);
     }
 }

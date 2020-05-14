@@ -46,18 +46,40 @@ namespace Byt3.OpenFL.Common.Instructions
             }
         }
 
-        public static FLBuffer ComputeUrnd()
+        public static FLBuffer ComputeUrnd(bool isArray, int size)
         {
-            LazyLoadingFLBuffer info = new LazyLoadingFLBuffer(root =>
+            LazyLoadingFLBuffer info=null;
+            if (!isArray)
             {
+                info = new LazyLoadingFLBuffer(root =>
+                {
 
-                FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize, new byte[] {1, 1, 1, 1},
-                        RandomInstructionHelper.Randombytesource, true), root.Dimensions.x, root.Dimensions.y,
-                    "RandomBuffer");
-                buf.SetRoot(root);
-                return buf;
-                
-            });
+                    FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize,
+                            new byte[] {1, 1, 1, 1},
+                            RandomInstructionHelper.Randombytesource, true), root.Dimensions.x, root.Dimensions.y,
+                        "RandomBuffer");
+                    buf.SetRoot(root);
+                    return buf;
+
+                });
+
+            }
+            else
+            {
+                info = new LazyLoadingFLBuffer(root =>
+                {
+
+                    FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(size,
+                            new byte[] { 1, 1, 1, 1 },
+                            RandomInstructionHelper.Randombytesource, true), size, 1,
+                        "RandomBuffer");
+                    buf.SetRoot(root);
+                    return buf;
+
+                });
+
+            }
+
 
             return info;
         }

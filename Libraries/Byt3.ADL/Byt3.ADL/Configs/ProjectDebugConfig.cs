@@ -27,6 +27,28 @@ namespace Byt3.ADL.Configs
         public virtual PrefixLookupSettings GetPrefixLookupSettings()
         {
             return PrefixLookupSettings;
+
+        }
+
+
+        public virtual void SetProjectName(string projectName)
+        {
+            ProjectName = projectName;
+        }
+
+        public virtual void SetMinSeverity(int severity)
+        {
+            MinSeverity = severity;
+        }
+
+        public virtual void SetAcceptMask(int mask)
+        {
+            AcceptMask = mask;
+        }
+
+        public virtual void SetPrefixLookupSettings(PrefixLookupSettings settings)
+        {
+            PrefixLookupSettings = settings;
         }
 
         public ProjectDebugConfig(string projectName, int acceptMask, int minSeverity,
@@ -37,11 +59,16 @@ namespace Byt3.ADL.Configs
             MinSeverity = minSeverity;
             PrefixLookupSettings = lookupSettings;
         }
+
+        public override string ToString()
+        {
+            return ProjectName;
+        }
     }
 
     public class ProjectDebugConfig<MaskType, SeverityType> : IProjectDebugConfig
-        where MaskType : struct
-        where SeverityType : struct
+        where MaskType : Enum
+        where SeverityType : Enum
     {
         public string ProjectName { get; set; }
         public MaskType AcceptMask { get; set; }
@@ -67,6 +94,25 @@ namespace Byt3.ADL.Configs
         {
             return PrefixLookupSettings;
         }
+        public virtual void SetProjectName(string projectName)
+        {
+            ProjectName = projectName;
+        }
+
+        public virtual void SetMinSeverity(int severity)
+        {
+            MinSeverity = (SeverityType)Enum.ToObject(typeof(SeverityType), severity);
+        }
+
+        public virtual void SetAcceptMask(int mask)
+        {
+            AcceptMask = (MaskType)Enum.ToObject(typeof(MaskType), mask);
+        }
+
+        public virtual void SetPrefixLookupSettings(PrefixLookupSettings settings)
+        {
+            PrefixLookupSettings = settings;
+        }
 
         public ProjectDebugConfig(string projectName, MaskType acceptMask, SeverityType minSeverity,
             PrefixLookupSettings lookupSettings)
@@ -75,6 +121,11 @@ namespace Byt3.ADL.Configs
             AcceptMask = acceptMask;
             MinSeverity = minSeverity;
             PrefixLookupSettings = lookupSettings;
+        }
+
+        public override string ToString()
+        {
+            return ProjectName;
         }
     }
 }

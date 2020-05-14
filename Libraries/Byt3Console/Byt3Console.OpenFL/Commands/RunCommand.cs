@@ -69,6 +69,7 @@ namespace Byt3Console.OpenFL.Commands
             CLAPI.UpdateBitmap(CLAPI.MainThread, bmp,
                 CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int) result.Size));
             bmp.Save(outputFile);
+            bmp.Dispose();
             result.Dispose();
         }
     }

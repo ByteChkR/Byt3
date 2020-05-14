@@ -1,0 +1,55 @@
+--define texture logo: "Resources/Icons/OpenFL.png"
+--define texture temp: empty
+
+Main:
+	addc Background
+	addc Logo
+
+PlainPerlin:
+	rnd
+	perlin 0.8 7
+
+Perlin:
+	set PlainPerlin
+	add PlainPerlin
+
+Logo:
+	#Shape:
+	set logo
+	#subc CreateMask
+	#Colors:
+	setactive 0 1 2
+	mul PlainPerlin
+
+Background:
+	#Shape:
+	addc CreateMask
+	subc logo
+	#Colors:
+	setactive 0 1 2
+	mul PlainPerlin
+
+CreateMask:
+	setactive 0 3
+	circle1 0.5 0.5 0.4
+	invert
+	circle1 0.5 0.5 0.3
+	invert
+	
+	setactive 1 3
+	circle1 0.5 0.5 0.3
+	invert
+	circle1 0.5 0.5 0.2
+	invert
+
+	
+	setactive 2 3
+	circle1 0.5 0.5 0.2
+	invert
+	circle1 0.5 0.5 0.1
+	invert
+
+	
+	setactive 3
+	circle1 0.5 0.5 0.1
+

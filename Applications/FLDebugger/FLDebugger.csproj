@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props" Condition="Exists('..\..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -12,6 +16,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,7 +38,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>OpenFL.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Costura, Version=3.3.3.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Costura.Fody.3.3.3\lib\net40\Costura.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -50,53 +62,69 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeView.cs">
+    <Compile Include="Forms\BuildExceptionViewer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CodeView.Designer.cs">
-      <DependentUpon>CodeView.cs</DependentUpon>
+    <Compile Include="Forms\BuildExceptionViewer.Designer.cs">
+      <DependentUpon>BuildExceptionViewer.cs</DependentUpon>
     </Compile>
-    <Compile Include="CodeViewHelper.cs" />
-    <Compile Include="BufferView.cs">
+    <Compile Include="Forms\FLDebuggerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BufferView.Designer.cs">
+    <Compile Include="Forms\FLDebuggerWindow.Designer.cs">
+      <DependentUpon>FLDebuggerWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InstructionViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InstructionViewer.Designer.cs">
+      <DependentUpon>InstructionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\CodeViewHelper.cs" />
+    <Compile Include="Forms\BufferView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BufferView.Designer.cs">
       <DependentUpon>BufferView.cs</DependentUpon>
     </Compile>
-    <Compile Include="CodeView_IDebugger.cs">
+    <Compile Include="Forms\FLDebuggerWindow_IDebugger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CreateDebugger.cs" />
-    <Compile Include="CustomCheckedListBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CustomPictureBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="DebugConsole.cs" />
+    <Compile Include="Utils\DebugConsole.cs" />
     <Compile Include="FLDebugger.cs" />
-    <Compile Include="FLDebugHelper.cs" />
-    <Compile Include="frmOptimizationView.cs">
+    <Compile Include="Utils\FLDebugHelper.cs" />
+    <Compile Include="Forms\FLScriptEditor.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmOptimizationView.Designer.cs">
-      <DependentUpon>frmOptimizationView.cs</DependentUpon>
+    <Compile Include="Forms\FLScriptEditor.Designer.cs">
+      <DependentUpon>FLScriptEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="IProgramDebugger.cs" />
+    <Compile Include="Forms\LogDisplay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LogDisplay.Designer.cs">
+      <DependentUpon>LogDisplay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ResizablePanel.cs" />
-    <Compile Include="TestPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <EmbeddedResource Include="CodeView.resx">
-      <DependentUpon>CodeView.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\BuildExceptionViewer.resx">
+      <DependentUpon>BuildExceptionViewer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BufferView.resx">
+    <EmbeddedResource Include="Forms\FLDebuggerWindow.resx">
+      <DependentUpon>FLDebuggerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BufferView.resx">
       <DependentUpon>BufferView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmOptimizationView.resx">
-      <DependentUpon>frmOptimizationView.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\FLScriptEditor.resx">
+      <DependentUpon>FLScriptEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InstructionViewer.resx">
+      <DependentUpon>InstructionViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LogDisplay.resx">
+      <DependentUpon>LogDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -106,6 +134,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -146,6 +175,14 @@
       <Project>{48b0b6c3-b010-4766-9f43-22b11d7d06f2}</Project>
       <Name>Byt3.OpenFL.Parsing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Byt3.WindowsForms\Byt3.WindowsForms.csproj">
+      <Project>{f3682da2-6228-4afb-a269-3f6eadbf07bd}</Project>
+      <Name>Byt3.WindowsForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Byt3.AutoUpdate.Helper\Byt3.AutoUpdate.Helper.csproj">
+      <Project>{4c8a3949-a01e-4d5f-8d60-7e2ab8153632}</Project>
+      <Name>Byt3.AutoUpdate.Helper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj">
       <Project>{ff1c8442-5210-4458-ab9c-469f0cdbaa68}</Project>
       <Name>Byt3.DisposableManagement</Name>
@@ -153,6 +190,10 @@
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj">
       <Project>{9fce3d44-741f-4122-8a7d-c9cb1cf15381}</Project>
       <Name>Byt3.Utilities.ConsoleInternals</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj">
+      <Project>{610d3371-b0cd-4638-9bd9-d76c07f6589c}</Project>
+      <Name>Byt3.Utilities.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.FastString\Byt3.Utilities.FastString.csproj">
       <Project>{c254dc4d-cd80-4190-aa8c-0c0b24ce7984}</Project>
@@ -167,5 +208,23 @@
       <Name>Byt3.Utilities.TypeFinding</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\loading_pac.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OpenFL.ico" />
+    <Content Include="Resources\OpenFL.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\Fody.4.0.2\build\Fody.targets" Condition="Exists('..\..\packages\Fody.4.0.2\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Fody.4.0.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.4.0.2\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props'))" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>call $(SolutionDir)GenerateNewIcon.bat $(ProjectDir) $(SolutionDir)</PreBuildEvent>
+  </PropertyGroup>
 </Project>

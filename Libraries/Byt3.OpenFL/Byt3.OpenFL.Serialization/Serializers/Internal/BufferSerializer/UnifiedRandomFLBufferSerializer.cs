@@ -8,12 +8,18 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
         public override object Deserialize(PrimitiveValueWrapper s)
         {
             int name = s.ReadInt();
-            return new SerializableUnifiedRandomFLBuffer(ResolveId(name));
+            bool isArray = s.ReadBool();
+            return new SerializableUnifiedRandomFLBuffer(ResolveId(name), isArray, isArray ? s.ReadInt() : 0);
         }
 
         public override void Serialize(PrimitiveValueWrapper s, object obj)
         {
             s.Write(ResolveName(((SerializableUnifiedRandomFLBuffer)obj).Name));
+            s.Write(((SerializableUnifiedRandomFLBuffer)obj).IsArray);
+            if (((SerializableUnifiedRandomFLBuffer)obj).IsArray)
+            {
+                s.Write(((SerializableUnifiedRandomFLBuffer)obj).Size);
+            }
         }
     }
 }

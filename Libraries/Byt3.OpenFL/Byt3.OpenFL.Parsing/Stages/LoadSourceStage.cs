@@ -15,7 +15,7 @@ namespace Byt3.OpenFL.Parsing.Stages
 
         public override LoadSourceStageResult Process(FLParserInput input)
         {
-            Logger.Log(LogType.Log, "Loading Source: " + input.Filename, 2);
+            Logger.Log(LogType.Log, "Loading Source: " + input.Filename, 1);
             return new LoadSourceStageResult(input.Filename,
                 TextProcessorAPI.PreprocessLines(input.Filename, new Dictionary<string, bool>()).ToList());
         }

@@ -5,13 +5,15 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Random
 {
     public class SerializableUnifiedRandomFLBuffer : SerializableFLBuffer
     {
-        public SerializableUnifiedRandomFLBuffer(string name) : base(name)
+        public readonly int Size;
+        public SerializableUnifiedRandomFLBuffer(string name, bool isArray, int size) : base(name, isArray)
         {
+            Size = size;
         }
 
         public override FLBuffer GetBuffer()
         {
-            return URandomFLInstruction.ComputeUrnd();
+            return URandomFLInstruction.ComputeUrnd(IsArray, Size);
         }
         public override string ToString()
         {

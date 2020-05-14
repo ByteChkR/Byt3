@@ -61,9 +61,7 @@ namespace Byt3.OpenFL.Benchmarking
             File.WriteAllText(p, (BenchmarkHelper.RunNumber + 1).ToString());
         }
 
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(new ProjectDebugConfig(
-            "FL Benchmark", -1, 10,
-            PrefixLookupSettings.AddPrefixIfAvailable));
+        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(OpenFLBenchmarkingDebugConfig.Settings,"FL Benchmark");
 
         private static void SaveOutput(string subcategory, Bitmap bmp, FLProgram program, FLSetup setup, string file)
         {

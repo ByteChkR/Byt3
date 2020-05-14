@@ -35,7 +35,7 @@ namespace Byt3.OpenFL.Common.Instructions
                         new FLInvalidArgumentType("Argument: " + obj.Value, "MemoyBuffer/Image");
                 }
 
-                FLBuffer func = (FLBuffer) obj.Value;
+                FLBuffer func = (FLBuffer)obj.Value;
 
                 Logger.Log(LogType.Log, $"Writing Random Data to Active Buffer:" + func.DefinedBufferName,
                     MIN_INSTRUCTION_SEVERITY);
@@ -46,16 +46,33 @@ namespace Byt3.OpenFL.Common.Instructions
         }
 
 
-        public static FLBuffer ComputeRnd()
+        public static FLBuffer ComputeRnd(bool isArray, int size)
         {
-            LazyLoadingFLBuffer info = new LazyLoadingFLBuffer(root =>
+            LazyLoadingFLBuffer info;
+            if (!isArray)
             {
-                FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize, new byte[] {1, 1, 1, 1},
-                        RandomInstructionHelper.Randombytesource, false), root.Dimensions.x, root.Dimensions.y,
-                    "RandomBuffer");
-                buf.SetRoot(root);
-                return buf;
-            });
+                info = new LazyLoadingFLBuffer(root =>
+                {
+                    FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize,
+                            new byte[] { 1, 1, 1, 1 },
+                            RandomInstructionHelper.Randombytesource, false), root.Dimensions.x, root.Dimensions.y,
+                        "RandomBuffer");
+                    buf.SetRoot(root);
+                    return buf;
+                });
+            }
+            else
+            {
+                info = new LazyLoadingFLBuffer(root =>
+                {
+                    FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(size,
+                            new byte[] { 1, 1, 1, 1 },
+                            RandomInstructionHelper.Randombytesource, false), size, 1,
+                        "RandomBuffer");
+                    buf.SetRoot(root);
+                    return buf;
+                });
+            }
             return info;
         }
 

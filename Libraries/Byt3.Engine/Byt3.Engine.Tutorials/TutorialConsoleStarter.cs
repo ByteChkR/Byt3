@@ -15,8 +15,7 @@ namespace Byt3.Engine.Tutorials
     public class TutorialConsoleStarter : AConsole
     {
         private static readonly ADLLogger<LogType> Logger =
-            new ADLLogger<LogType>(new ProjectDebugConfig("Engine Demos", -1, 4,
-                PrefixLookupSettings.AddPrefixIfAvailable));
+            new ADLLogger<LogType>(EngineTutorialsDebugConfig.Settings, "Tutorial Console Starter");
 
         private GameEngine ge;
 

@@ -12,6 +12,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
         public override object Deserialize(PrimitiveValueWrapper s)
         {
             string name = ResolveId(s.ReadInt());
+            bool isArray = s.ReadBool();
             bool force = s.ReadBool();
             int n = s.ReadInt();
             int width = s.ReadInt();
@@ -25,18 +26,20 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 
             MemoryStream ms = new MemoryStream(s.ReadBytes());
 
-            Bitmap bmp = (Bitmap) Image.FromStream(ms);
+            Bitmap bmp = (Bitmap)Image.FromStream(ms);
 
-            WFCParameterObject obj = new WFCParameterObject(new SerializableFromBitmapFLBuffer("wfc-bin", bmp), n,
+
+            WFCParameterObject obj = new WFCParameterObject(new SerializableFromBitmapFLBuffer("wfc-bin", bmp, isArray, isArray ? s.ReadInt() : 0), n,
                 width, height, symmetry, ground, limit, pIn, pOut, force);
-            return new SerializableWaveFunctionCollapseFLBuffer(name, obj);
+            return new SerializableWaveFunctionCollapseFLBuffer(name, obj, isArray);
         }
 
 
         public override void Serialize(PrimitiveValueWrapper s, object input)
         {
-            SerializableWaveFunctionCollapseFLBuffer obj = (SerializableWaveFunctionCollapseFLBuffer) input;
+            SerializableWaveFunctionCollapseFLBuffer obj = (SerializableWaveFunctionCollapseFLBuffer)input;
             s.Write(ResolveName(obj.Name));
+            s.Write(obj.IsArray);
             s.Write(obj.Parameter.Force);
             s.Write(obj.Parameter.N);
             s.Write(obj.Parameter.Width);
@@ -53,7 +56,9 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 
             bmp.Save(ms, ImageFormat.Png);
 
-            s.Write(ms.GetBuffer(), (int) ms.Position);
+            s.Write(ms.GetBuffer(), (int)ms.Position);
+            if (obj.IsArray)
+                s.Write(obj.Parameter.SourceImage.Size);
 
             bmp.Dispose();
         }

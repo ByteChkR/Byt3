@@ -14,8 +14,7 @@ namespace Byt3.Engine.Demos
     public class DemoConsoleStarter : AConsole
     {
         private static readonly ADLLogger<DebugChannel> Logger =
-            new ADLLogger<DebugChannel>(new ProjectDebugConfig("Engine Demos", -1, 4,
-                PrefixLookupSettings.AddPrefixIfAvailable));
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "Demo Console Starter");
 
 
         public override string ConsoleKey => "demos";

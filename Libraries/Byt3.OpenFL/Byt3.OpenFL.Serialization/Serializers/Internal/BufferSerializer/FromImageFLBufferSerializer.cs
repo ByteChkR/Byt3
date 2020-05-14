@@ -20,18 +20,19 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
         {
             string name = ResolveId(s.ReadInt());
             bool raw = s.ReadBool();
+            bool isArray = s.ReadBool();
             if (raw)
             {
                 MemoryStream ms = new MemoryStream(s.ReadBytes());
 
                 Bitmap bmp = (Bitmap)Image.FromStream(ms);
 
-                return new SerializableFromBitmapFLBuffer(name, bmp);
+                return new SerializableFromBitmapFLBuffer(name, bmp, isArray, isArray ? s.ReadInt() : 0);
             }
             else
             {
                 string file = s.ReadString();
-                return new SerializableFromFileFLBuffer(name, file);
+                return new SerializableFromFileFLBuffer(name, file, isArray, isArray ? s.ReadInt() : 0);
             }
         }
 
@@ -44,6 +45,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 
             s.Write(ResolveName(buffer.Name));
             s.Write(StoreRaw);
+            s.Write(buffer.IsArray);
             if (StoreRaw)
             {
                 Bitmap bmp = buffer.Bitmap;
@@ -57,6 +59,9 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
             {
                 s.Write(buffer.File);
             }
+
+            if (buffer.IsArray)
+                s.Write(buffer.Size);
         }
     }
 }

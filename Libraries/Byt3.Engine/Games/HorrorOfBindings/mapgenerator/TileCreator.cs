@@ -26,7 +26,7 @@ namespace HorrorOfBindings.mapgenerator
     public class TileCreator
     {
         private static Random rnd = new Random();
-        private static ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(new ProjectDebugConfig("HoB_TileGenerator", -1, 20, PrefixLookupSettings.AddPrefixIfAvailable));
+        private static ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(HOBDebugConfig.Settings, "HoB_TileGenerator");
 
         public delegate GameObject CreateObject(Color input, Vector3 pos, Vector3 scale, ShaderProgram program);
 

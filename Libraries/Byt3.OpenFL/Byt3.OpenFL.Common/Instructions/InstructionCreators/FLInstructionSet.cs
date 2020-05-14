@@ -42,7 +42,13 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
         }
 
         private readonly List<FLInstructionCreator> creators = new List<FLInstructionCreator>();
+        public int CreatorCount => creators.Count;
 
+        public FLInstructionCreator GetCreatorAt(int idx)
+        {
+            if (idx >= 0 && idx < creators.Count) return creators[idx];
+            throw new IndexOutOfRangeException();
+        }
 
         public string[] GetInstructionNames()
         {

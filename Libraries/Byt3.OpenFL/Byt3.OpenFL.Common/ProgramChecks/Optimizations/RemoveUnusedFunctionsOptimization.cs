@@ -35,7 +35,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
             SerializableFLProgram input = (SerializableFLProgram)o;
             bool stop = false;
             int pass = 1;
-
+            int removed = 0;
 
             while (!stop)
             {
@@ -49,6 +49,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                 {
                     if (!funcs[input.Functions[i].Name])
                     {
+                        removed++;
                         input.Functions.RemoveAt(i);
                         removedOne = true;
                     }
@@ -58,6 +59,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                 pass++;
             }
 
+            Logger.Log(LogType.Log, $"Removed {removed} Functions in {pass} passes.", 1);
             return input;
         }
     }

@@ -26,8 +26,7 @@ namespace Byt3Console.OpenFL.Benchmarks
 
 
         private static readonly ADLLogger<LogType> Logger =
-            new ADLLogger<LogType>(new ProjectDebugConfig("FLBench-Console", -1, 3,
-                PrefixLookupSettings.AddPrefixIfAvailable));
+            new ADLLogger<LogType>(OpenFLBenchmarkingDebugConfig.Settings, "FLBench-Console");
         public static bool UseProgramChecks = true;
         public static bool UseMultiThread;
         public static FLBenchmarkSettings Settings = FLBenchmarkSettings.Default;

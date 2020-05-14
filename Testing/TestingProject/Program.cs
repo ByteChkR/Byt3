@@ -24,6 +24,7 @@ using Byt3Console.ExtPP;
 using Byt3Console.OpenFL;
 using Byt3Console.OpenFL.Benchmarks;
 using Byt3Console.OpenFL.ScriptGenerator;
+using Byt3Console.Png2Ico;
 using Byt3Console.VersionHelper;
 using HorrorOfBindings;
 using TestingProjectConsole;
@@ -34,6 +35,9 @@ namespace TestingProject
     internal static class Program
     {
         internal static bool Exit;
+
+        private static readonly ProjectDebugConfig Settings = new ProjectDebugConfig("Testing Project", -1, 10,
+            PrefixLookupSettings.AddPrefixIfAvailable);
 
         private static readonly Dictionary<string, AConsole> Consoles = new Dictionary<string, AConsole>
         {
@@ -49,6 +53,7 @@ namespace TestingProject
             {"vh", new VersionHelperConsole()},
             {"fl", new FLConsole()},
             {"hob", new HOBConsoleStarter()},
+            {"png2ico", new PNG2ICOConsole()}
         };
 
         public class ILTest
@@ -275,8 +280,7 @@ namespace TestingProject
             AssemblyGeneratorDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             EngineDebugConfig.Settings.MinSeverity = Verbosity.Level1;
 
-            ADLLogger<LogType> logger = new ADLLogger<LogType>(new ProjectDebugConfig("Testing Project", -1, 10,
-                PrefixLookupSettings.AddPrefixIfAvailable));
+            ADLLogger<LogType> logger = new ADLLogger<LogType>(Settings);
 
 
             logger.Log(LogType.Log, "Available Consoles: " + Consoles.Keys.Unpack(", "), 1);
@@ -314,7 +318,7 @@ namespace TestingProject
                 if (command[0] == "file")
                 {
                     command = File.ReadAllText(command[1])
-                        .Split(new[] {' ', '\n'}, StringSplitOptions.RemoveEmptyEntries).Select(x=>x.Trim()).ToArray();
+                        .Split(new[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
                 }
 
                 if (Consoles.ContainsKey(command[0]))

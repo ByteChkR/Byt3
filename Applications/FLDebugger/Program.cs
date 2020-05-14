@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
+using Byt3.AutoUpdate.Helper;
+using FLDebugger.Utils;
 
 namespace FLDebugger
 {
@@ -10,7 +15,18 @@ namespace FLDebugger
         [STAThread]
         private static void Main(string[] args)
         {
-            new DebugConsole().Run(args);
+
+            if (UpdateChecker.Check(args, "http://213.109.162.193/flrepo/", "FLDebugger", Assembly.GetExecutingAssembly()))
+            {
+                return;
+            }
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
+            new DebugConsole().Run(args.Reverse().Take(Math.Max(args.Length - 1, 0)).Reverse().ToArray());
+
+
         }
     }
 }

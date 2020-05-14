@@ -9,7 +9,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 
         public abstract string[] InstructionKeys {get;}
 
-        public virtual string GetArgumentSignatureForInstruction(SerializableFLInstruction instruction)
+        public virtual string GetArgumentSignatureForInstruction(string instruction)
         {
             return null;
         }

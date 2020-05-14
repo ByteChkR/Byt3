@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.1.91.2229</AssemblyVersion>
-    <FileVersion>1.1.91.2229</FileVersion>
+    <AssemblyVersion>1.2.73.1519</AssemblyVersion>
+    <FileVersion>1.2.73.1519</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />

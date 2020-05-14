@@ -4,8 +4,12 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty
 {
     public class SerializableEmptyFLBufferCreator : ASerializableBufferCreator
     {
-        public override SerializableFLBuffer CreateBuffer(string name, string[] args)
+        public override SerializableFLBuffer CreateBuffer(string name, string[] args, bool isArray, int arraySize)
         {
+            if (isArray)
+            {
+                return new SerializableEmptyFLBuffer(name, arraySize);
+            }
             return new SerializableEmptyFLBuffer(name);
         }
 

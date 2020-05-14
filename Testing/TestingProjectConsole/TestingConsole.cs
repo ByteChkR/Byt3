@@ -11,8 +11,10 @@ namespace TestingProjectConsole
     {
         internal static bool Exit;
 
-        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(
-            new ProjectDebugConfig("Test Project", (int) LogType.All, 10, PrefixLookupSettings.AddPrefixIfAvailable));
+        private static readonly ProjectDebugConfig Settings = new ProjectDebugConfig("Test Project", (int) LogType.All,
+            10, PrefixLookupSettings.AddPrefixIfAvailable);
+
+        private static readonly ADLLogger<LogType> Logger = new ADLLogger<LogType>(Settings);
 
         public override string ConsoleKey => "testing";
         public override string ConsoleTitle => "Testing Console";

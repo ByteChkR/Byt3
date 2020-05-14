@@ -22,11 +22,11 @@ namespace Byt3.OpenFL.Parsing
         public FLInstructionSet InstructionSet { get; }
 
         private static readonly ADLLogger<LogType> Logger =
-            new ADLLogger<LogType>(new ProjectDebugConfig("FLParserPipeline", -1, 10,
-                PrefixLookupSettings.AddPrefixIfAvailable));
+            new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "FLParserPipeline");
 
-        private const string DEFINE_SCRIPT_KEY = "--define script";
-        private const string DEFINE_TEXTURE_KEY = "--define texture";
+        public const string DEFINE_SCRIPT_KEY = "--define script";
+        public const string DEFINE_TEXTURE_KEY = "--define texture";
+        public const string DEFINE_ARRAY_KEY = "--define array";
 
         static FLParser()
         {
@@ -63,6 +63,7 @@ namespace Byt3.OpenFL.Parsing
         internal static string[] FindDefineStatements(List<string> source)
         {
             List<string> ret = new List<string>();
+            ret.AddRange(FindDefineArrayBuffers(source));
             for (int i = 0; i < source.Count; i++)
             {
                 if (IsDefineStatement(source[i]))
@@ -72,6 +73,20 @@ namespace Byt3.OpenFL.Parsing
             }
 
             ret.Add("--define texture in:");
+            return ret.ToArray();
+        }
+
+        internal static string[] FindDefineArrayBuffers(List<string> source)
+        {
+            List<string> ret = new List<string>();
+            for (int i = 0; i < source.Count; i++)
+            {
+                if (IsDefineArrayBuffer(source[i]))
+                {
+                    ret.Add(source[i]);
+                }
+            }
+
             return ret.ToArray();
         }
 
@@ -125,10 +140,20 @@ namespace Byt3.OpenFL.Parsing
             return GetName(ref definedBufferLine, DEFINE_TEXTURE_KEY);
         }
 
+        internal static string GetBufferArrayName(string definedBufferLine)
+        {
+            return GetName(ref definedBufferLine, DEFINE_ARRAY_KEY);
+        }
+
         private static string GetName(ref string line, string key)
         {
             int len = FString.FastIndexOf(ref line, ":") - key.Length;
             return line.Substring(key.Length, len).TrimStart();
+        }
+
+        internal static bool IsDefineArrayBuffer(string line)
+        {
+            return FString.FastIndexOf(ref line, DEFINE_ARRAY_KEY) == 0;
         }
 
         internal static bool IsDefineStatement(string line)

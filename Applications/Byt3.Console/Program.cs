@@ -138,7 +138,7 @@ namespace Byt3.Console
                     mi = t.GetMethod("Run");
                     break;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     System.Console.WriteLine("Error Loading Runner: "+ runnerLibs[i]);
                 }

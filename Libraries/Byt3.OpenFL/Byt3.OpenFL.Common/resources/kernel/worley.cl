@@ -31,7 +31,7 @@ float GetWorleyValue(float3 pos, float3 worleypoint, float max_distance)
 }
 
 
-__kernel void worley(__global uchar *image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, __global float* positions, int poscount,  float max_distance)
+__kernel void worley(__global uchar *image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, __global uchar* arrayPositions, int poscount,  float max_distance)
 {
 	/* code */
 	int idx = get_global_id(0);
@@ -55,7 +55,7 @@ __kernel void worley(__global uchar *image, int3 dimensions, int channelCount, f
 	for(int i = 0; i < poscount; i++)
 	{
 
-		float3 position = (float3)(positions[i], positions[i+1], positions[i+2]);
+		float3 position = (float3)(arrayPositions[i] / (float)dimensions.x, arrayPositions[i + 1] / (float)dimensions.y, arrayPositions[i + 2] / (float)dimensions.z);
 		value = GetWorleyDistance(fpos, position, value);
 	
 	}

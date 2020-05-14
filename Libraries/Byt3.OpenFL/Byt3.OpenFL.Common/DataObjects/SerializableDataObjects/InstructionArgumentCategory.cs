@@ -8,6 +8,7 @@
         Script = 4,
         Buffer = 8,
         Name = 16,
+        BufferArray = 32,
         DefinedElement = Function | Script | Buffer,
         DefinedFunction = Function | Script,
         InternalDefinedElement = Function | Buffer,

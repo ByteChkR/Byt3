@@ -22,14 +22,14 @@ namespace Byt3.OpenFL.Common
             int currentID = 0;
             int taskNr = 0;
             int maxTasks = input.Count / workSize;
-            Logger.Log(LogType.Log, $"Starting {maxTasks} Tasks...", 2);
+            Logger.Log(LogType.Log, $"Starting {maxTasks} Tasks...", 3);
             while (currentID != input.Count)
             {
                 int len = Math.Min(workSize, input.Count - currentID);
                 int id = currentID;
                 int nr = taskNr;
                 Task<List<Out>> task = new Task<List<Out>>(() => action(input, id, len));
-                task.ContinueWith(t => Logger.Log(LogType.Log, "Task " + nr + " of " + maxTasks + " completed.", 2));
+                task.ContinueWith(t => Logger.Log(LogType.Log, "Task " + nr + " of " + maxTasks + " completed.", 4));
 
                 taskList.Add(task);
                 if (settings.UseMultithread)
@@ -45,11 +45,10 @@ namespace Byt3.OpenFL.Common
                 taskNr++;
             }
 
-            Logger.Log(LogType.Log, $"Waiting for Tasks..", 2);
+            Logger.Log(LogType.Log, $"Waiting for Tasks..", 3);
             Task.WaitAll(taskList.ToArray());
 
             List<Out> ret = new List<Out>(input.Count);
-            int nextIndex = 0;
             for (int i = 0; i < taskList.Count; i++)
             {
                 ret.AddRange(taskList[i].Result);

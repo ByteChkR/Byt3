@@ -4,37 +4,6 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
 {
     public abstract class SerializableFLInstructionArgument
     {
-        internal static InstructionArgumentCategory Parse(char input)
-        {
-            switch (input)
-            {
-                case 'N': //Value
-                    return InstructionArgumentCategory.Value;
-                case 'F': //Function
-                    return InstructionArgumentCategory.Function;
-                case 'S': //Script
-                    return InstructionArgumentCategory.Script;
-                case 'B': //Buffer
-                    return InstructionArgumentCategory.Buffer;
-                case 'E': //Defined Element
-                    return InstructionArgumentCategory.DefinedElement;
-                case 'X': //Defined Executable(Script|Function)
-                    return InstructionArgumentCategory.DefinedFunction;
-                case 'I': //Internal Defined Element(E but without Scripts)
-                    return InstructionArgumentCategory.InternalDefinedElement;
-                case 'D':
-                    return InstructionArgumentCategory.Name;
-                case 'A':
-                    return InstructionArgumentCategory.AllElements;
-                case 'V':
-                    return InstructionArgumentCategory.NumberResolvable;
-                default:
-                    return InstructionArgumentCategory.Invalid;
-            }
-            
-        }
-
-
         public abstract InstructionArgumentCategory ArgumentCategory { get; }
         public abstract string Identifier { get; }
         public abstract object GetValue(FLProgram script);

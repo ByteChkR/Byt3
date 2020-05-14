@@ -39,13 +39,13 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators
             }
         }
 
-        public SerializableFLBuffer Create(string key, string name, string[] arguments)
+        public SerializableFLBuffer Create(string key, string name, string[] arguments, bool isArray, int size)
         {
             for (int i = 0; i < bufferCreators.Count; i++)
             {
                 if (bufferCreators[i].IsCorrectBuffer(key))
                 {
-                    return bufferCreators[i].CreateBuffer(name, arguments);
+                    return bufferCreators[i].CreateBuffer(name, arguments, isArray, size);
                 }
             }
 

@@ -6,22 +6,42 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty
 {
     public class SerializableEmptyFLBuffer : SerializableFLBuffer
     {
-        public SerializableEmptyFLBuffer(string name) : base(name)
+        public readonly int Size;
+
+        public SerializableEmptyFLBuffer(string name) : base(name, false)
         {
         }
+        public SerializableEmptyFLBuffer(string name, int size) : base(name, true)
+        {
+            Size = size;
+        }
+
+
 
         public override FLBuffer GetBuffer()
         {
-            return new LazyLoadingFLBuffer(root =>
-                new FLBuffer(
-                    CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite,
-                        "EmptySerializableBuffer." + Name),
-                    root.Dimensions.x, root.Dimensions.y));
+
+            if (!IsArray)
+            {
+                return new LazyLoadingFLBuffer(root =>
+                    new FLBuffer(
+                        CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, MemoryFlag.ReadWrite,
+                            "EmptySerializableBuffer." + Name),
+                        root.Dimensions.x, root.Dimensions.y));
+            }
+            else
+            {
+                return new LazyLoadingFLBuffer(root =>
+                    new FLBuffer(
+                        CLAPI.CreateEmpty<byte>(root.Instance, Size, MemoryFlag.ReadWrite,
+                            "EmptySerializableBuffer." + Name),
+                        Size, 1));
+            }
         }
 
         public override string ToString()
         {
-            return "--define texture " + Name + ": empty";
+            return $"--define {(IsArray ? "array" : "texture")} {Name}: empty";
         }
     }
 }

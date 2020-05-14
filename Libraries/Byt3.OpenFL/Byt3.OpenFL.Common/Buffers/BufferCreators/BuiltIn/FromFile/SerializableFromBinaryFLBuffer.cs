@@ -9,7 +9,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
         public int Width { get; }
         public int Height { get; }
 
-        public SerializableFromBinaryFLBuffer(string name, byte[] data, int width, int height) : base(name)
+        public SerializableFromBinaryFLBuffer(string name, byte[] data, int width, int height, bool isArray) : base(name, isArray)
         {
             Data = data;
             Width = width;
@@ -23,7 +23,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
 
         public override string ToString()
         {
-            return $"--define texture {Name}: binary({Width}/{Height})";
+            return $"--define {(IsArray ? "array" : "texture")} {Name} binary({Width}/{Height})";
         }
     }
 }

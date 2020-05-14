@@ -33,7 +33,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                 }
             }
 
-            Logger.Log(LogType.Log, "Removing Buffers", 2);
+            Logger.Log(LogType.Log, "Removing Buffers", 1);
             foreach (KeyValuePair<string, bool> keyValuePair in buffers)
             {
                 if (keyValuePair.Value)

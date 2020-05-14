@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Byt3.ADL;
+using Byt3.ADL.Configs;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
@@ -8,7 +10,12 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public abstract class FLProgramCheck : PipelineStage
     {
-        protected readonly ADLLogger<LogType> Logger;
+        private static readonly ProjectDebugConfig Settings = new ProjectDebugConfig("OpenFL.Common.ProgramChecks", -1, 4, PrefixLookupSettings.AddPrefixIfAvailable);
+
+        protected ADLLogger<LogType> Logger => CreatedLoggers[GetType()];
+
+        private static readonly Dictionary<Type, ADLLogger<LogType>> CreatedLoggers = new Dictionary<Type, ADLLogger<LogType>>();
+
         protected FLInstructionSet InstructionSet { get; private set; }
         protected BufferCreator BufferCreator { get; private set; }
         public abstract bool ChangesOutput { get; }
@@ -21,7 +28,12 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
         protected FLProgramCheck(Type inType, Type outType) : base(inType, outType)
         {
-            Logger = new ADLLogger<LogType>(OpenFLDebugConfig.Settings, GetType().Name);
+
+            if (!CreatedLoggers.ContainsKey(GetType()))
+            {
+                ADLLogger<LogType> l = new ADLLogger<LogType>(Settings, GetType().Name);
+                CreatedLoggers[GetType()] = l;
+            }
         }
     }
 
@@ -30,6 +42,9 @@ namespace Byt3.OpenFL.Common.ProgramChecks
     {
         protected FLProgramCheck() : base(typeof(T), typeof(T))
         {
+
+
+
         }
     }
 }

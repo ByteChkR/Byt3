@@ -23,12 +23,29 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                 if (serializableFlBuffer is SerializableRandomFLBuffer r)
                 {
                     rndBuffers.Add(r);
-                    input.DefinedBuffers[i] = new SerializableEmptyFLBuffer(r.Name);
+                    if (r.IsArray)
+                    {
+
+                        input.DefinedBuffers[i] = new SerializableEmptyFLBuffer(r.Name, r.Size);
+                    }
+                    else
+                    {
+
+                        input.DefinedBuffers[i] = new SerializableEmptyFLBuffer(r.Name);
+                    }
                 }
                 else if (serializableFlBuffer is SerializableUnifiedRandomFLBuffer u)
                 {
                     urndBuffers.Add(u);
-                    input.DefinedBuffers[i] = new SerializableEmptyFLBuffer(u.Name);
+                    if (u.IsArray)
+                    {
+                        input.DefinedBuffers[i] = new SerializableEmptyFLBuffer(u.Name, u.Size);
+
+                    }
+                    else
+                    {
+                        input.DefinedBuffers[i] = new SerializableEmptyFLBuffer(u.Name);
+                    }
                 }
             }
 
@@ -74,7 +91,6 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                 weavedBufferInitializationCode.ForEach(x => s += "\t" + x + "\n");
                 Logger.Log(LogType.Log, s, 2);
                 input.Functions.First(x => x.Name == "Main").Instructions.InsertRange(0, weavedBufferInitializationCode);
-
             }
             return input;
         }

@@ -19,8 +19,7 @@ namespace HorrorOfBindings
     public class HOBConsoleStarter : AConsole
     {
         private static readonly ADLLogger<DebugChannel> Logger =
-            new ADLLogger<DebugChannel>(new ProjectDebugConfig("Engine Demos", -1, 4,
-                PrefixLookupSettings.AddPrefixIfAvailable));
+            new ADLLogger<DebugChannel>(HOBDebugConfig.Settings,"HOB-Console");
 
 
         public override string ConsoleKey => "hob";
@@ -31,11 +30,11 @@ namespace HorrorOfBindings
             Byt3.ADL.Debug.DefaultInitialization();
             EmbeddedFileIOManager.Initialize();
 
-            OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level3;
+            HOBDebugConfig.Settings.MinSeverity = Verbosity.Level3;
 
             ManifestReader.RegisterAssembly(Assembly
                 .GetExecutingAssembly()); //Register this assembly(where the files will be embedded in)
-            ManifestReader.RegisterAssembly(typeof(OpenFLDebugConfig).Assembly); //Register the OpenFL.Common Assembly as it contains the CL kernels
+            ManifestReader.RegisterAssembly(typeof(HOBDebugConfig).Assembly); //Register the OpenFL.Common Assembly as it contains the CL kernels
             ManifestReader.PrepareManifestFiles(false); //First Read Assembly files
             ManifestReader
                 .PrepareManifestFiles(true); //Replace Any Loaded assembly files with files on the file system.

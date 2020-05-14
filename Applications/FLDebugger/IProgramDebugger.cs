@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using Byt3.OpenFL.Common.Buffers;
+﻿using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace FLDebugger

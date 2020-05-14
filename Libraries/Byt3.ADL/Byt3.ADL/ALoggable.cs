@@ -1,4 +1,6 @@
-﻿using Byt3.ADL.Configs;
+﻿using System;
+using System.Collections.Generic;
+using Byt3.ADL.Configs;
 
 namespace Byt3.ADL
 {
@@ -8,11 +10,16 @@ namespace Byt3.ADL
     /// </summary>
     public abstract class ALoggable<T> where T : struct
     {
-        protected readonly ADLLogger<T> Logger;
+        protected ADLLogger<T> Logger => CreatedLoggers[GetType()];
 
+        private static readonly Dictionary<Type, ADLLogger<T>> CreatedLoggers = new Dictionary<Type, ADLLogger<T>>();
         protected ALoggable(IProjectDebugConfig settings)
         {
-            Logger = new ADLLogger<T>(settings, GetType().Name);
+            if(!CreatedLoggers.ContainsKey(GetType()))
+            {
+                ADLLogger<T> l = new ADLLogger<T>(settings, GetType().Name);
+                CreatedLoggers[GetType()] = l;
+            }
         }
     }
 }

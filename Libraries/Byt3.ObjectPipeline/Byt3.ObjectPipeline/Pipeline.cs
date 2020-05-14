@@ -22,7 +22,7 @@ namespace Byt3.ObjectPipeline
 
             if (!Verified && !Verify())
             {
-                throw new PipelineNotValidException(this, "Can not use a Pipline that is incomplete.");
+                throw new PipelineNotValidException(this, "Can not use a Pipeline that is incomplete.");
             }
 
             object currentIn = input;

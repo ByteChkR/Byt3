@@ -5,18 +5,20 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Random
 {
     public class SerializableRandomFLBuffer : SerializableFLBuffer
     {
-        public SerializableRandomFLBuffer(string name) : base(name)
+        public readonly int Size;
+        public SerializableRandomFLBuffer(string name, bool isArray, int size) : base(name, isArray)
         {
+            Size = size;
         }
 
         public override FLBuffer GetBuffer()
         {
-            return RandomFLInstruction.ComputeRnd();
+            return RandomFLInstruction.ComputeRnd(IsArray, Size);
         }
 
         public override string ToString()
         {
-            return $"--define texture {Name}: rnd";
+            return $"--define texture {Name}: rnd {Size}";
         }
     }
 }

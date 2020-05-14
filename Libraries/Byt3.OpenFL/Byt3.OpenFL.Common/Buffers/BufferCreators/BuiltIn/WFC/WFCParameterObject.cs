@@ -43,7 +43,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
         }
 
 
-        public static SerializableFLBuffer CreateBuffer(string name, string[] args, bool force)
+        public static SerializableFLBuffer CreateBuffer(string name, string[] args, bool force, bool isArray, int size)
         {
             if (args.Length < 10)
             {
@@ -93,10 +93,10 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
             string fn = args[1].Trim().Replace("\"", "");
             if (IOManager.FileExists(fn))
             {
-                SerializableFromFileFLBuffer input = new SerializableFromFileFLBuffer("WFCInputBuffer", fn);
+                SerializableFromFileFLBuffer input = new SerializableFromFileFLBuffer("WFCInputBuffer", fn, isArray, size);
                 WFCParameterObject wfcPO = new WFCParameterObject(input, n, widh, heigt, symmetry, ground, limit,
                     periodicInput, periodicOutput, force);
-                return new SerializableWaveFunctionCollapseFLBuffer(name, wfcPO);
+                return new SerializableWaveFunctionCollapseFLBuffer(name, wfcPO, isArray);
             }
             else
             {

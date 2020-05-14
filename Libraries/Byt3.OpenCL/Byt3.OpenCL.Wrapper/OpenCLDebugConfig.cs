@@ -6,7 +6,7 @@ namespace Byt3.OpenCL.Wrapper
     public static class OpenCLDebugConfig
     {
         public static readonly ProjectDebugConfig<LogType, Verbosity> Settings =
-            new ProjectDebugConfig<LogType, Verbosity>("Byt3.OpenCL", LogType.All, Verbosity.Level4,
+            new ProjectDebugConfig<LogType, Verbosity>("Byt3.OpenCL", LogType.All, Verbosity.Level1,
                 PrefixLookupSettings.AddPrefixIfAvailable | PrefixLookupSettings.OnlyOnePrefix);
     }
 }

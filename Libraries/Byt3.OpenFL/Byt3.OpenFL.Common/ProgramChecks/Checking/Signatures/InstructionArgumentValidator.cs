@@ -4,35 +4,14 @@ using Byt3.ADL;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Exceptions;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.Instructions.SignatureParsing;
 
 namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public class InstructionArgumentValidator : FLProgramCheck<SerializableFLProgram>
     {
         public override bool ChangesOutput => false;
-        private bool ParseCreatorSig(string sig, out List<InstructionArgumentSignature> ret)
-        {
-            ret = new List<InstructionArgumentSignature>();
-            if (sig == null)
-            {
-                return false;
-            }
-
-            string[] overloads = sig.Split('|');
-
-            foreach (string overload in overloads)
-            {
-                List<InstructionArgumentCategory> signature = new List<InstructionArgumentCategory>();
-                for (int i = 0; i < overload.Length; i++)
-                {
-                    signature.Add(SerializableFLInstructionArgument.Parse(overload[i]));
-                }
-
-                ret.Add(new InstructionArgumentSignature {Signature = signature});
-            }
-
-            return true;
-        }
+        
 
 
         public override object Process(object o)
@@ -44,8 +23,8 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                 {
                     FLInstructionCreator creator = InstructionSet.GetCreator(serializableFlInstruction);
 
-                    bool hasDefinedSig = ParseCreatorSig(
-                        creator.GetArgumentSignatureForInstruction(serializableFlInstruction),
+                    bool hasDefinedSig = SignatureParser.ParseCreatorSig(
+                        creator.GetArgumentSignatureForInstruction(serializableFlInstruction.InstructionKey),
                         out List<InstructionArgumentSignature> creatorSigs);
                     if (!hasDefinedSig)
                     {

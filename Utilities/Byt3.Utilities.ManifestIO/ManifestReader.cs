@@ -17,8 +17,7 @@ namespace Byt3.Utilities.ManifestIO
     public static class ManifestReader
     {
         private static readonly ADLLogger<LogType> Logger =
-            new ADLLogger<LogType>(new ProjectDebugConfig("Manifest Reader", -1, 2,
-                PrefixLookupSettings.AddPrefixIfAvailable));
+            new ADLLogger<LogType>(ManifestIODebugConfig.Settings, "Manifest Reader");
 
         private static readonly Dictionary<string, AssemblyFile> _assemblyFiles = new Dictionary<string, AssemblyFile>();
         private static readonly List<Assembly> _loadedAssemblies = new List<Assembly>();
