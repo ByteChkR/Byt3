@@ -41,7 +41,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty
 
         public override string ToString()
         {
-            return $"--define {(IsArray ? "array" : "texture")} {Name}: empty";
+            return $"{(IsArray? FLKeywords.DefineArrayKey:FLKeywords.DefineTextureKey)} {Name}: empty";
         }
     }
 }

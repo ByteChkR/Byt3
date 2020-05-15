@@ -24,10 +24,10 @@ namespace FLDebugger
             });
         }
 
-        public static void Start(FLProgram program)
+        public static void Start(CLAPI instance, FLProgram program)
         {
             FLProgram.Debugger?.Register(program);
-            program.Run(CLAPI.MainThread, new FLBuffer(CLAPI.MainThread, 512, 512, "DebugInput"), true);
+            program.Run( new FLBuffer(instance, 512, 512, "DebugInput"), true);
             program.FreeResources();
         }
 

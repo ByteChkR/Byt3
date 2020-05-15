@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Byt3.OpenFL.Common;
 
 namespace Byt3.OpenFL.Benchmarking
 {
@@ -171,7 +172,7 @@ namespace Byt3.OpenFL.Benchmarking
 
         private static string GenerateBufferDefine(string bufferName, GeneratableBufferType type)
         {
-            string ret = $"--define texture {bufferName}: ";
+            string ret = $"{FLKeywords.DefineTextureKey} {bufferName}: ";
             switch (type)
             {
                 case GeneratableBufferType.Empty:

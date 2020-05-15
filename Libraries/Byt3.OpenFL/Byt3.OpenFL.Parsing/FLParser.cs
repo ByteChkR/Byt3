@@ -23,10 +23,7 @@ namespace Byt3.OpenFL.Parsing
 
         private static readonly ADLLogger<LogType> Logger =
             new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "FLParserPipeline");
-
-        public const string DEFINE_SCRIPT_KEY = "--define script";
-        public const string DEFINE_TEXTURE_KEY = "--define texture";
-        public const string DEFINE_ARRAY_KEY = "--define array";
+        
 
         static FLParser()
         {
@@ -72,7 +69,7 @@ namespace Byt3.OpenFL.Parsing
                 }
             }
 
-            ret.Add("--define texture in:");
+            ret.Add(FLKeywords.DefineTextureKey+" in:");
             return ret.ToArray();
         }
 
@@ -132,17 +129,17 @@ namespace Byt3.OpenFL.Parsing
 
         internal static string GetScriptName(string definedScriptLine)
         {
-            return GetName(ref definedScriptLine, DEFINE_SCRIPT_KEY);
+            return GetName(ref definedScriptLine, FLKeywords.DefineScriptKey);
         }
 
         internal static string GetBufferName(string definedBufferLine)
         {
-            return GetName(ref definedBufferLine, DEFINE_TEXTURE_KEY);
+            return GetName(ref definedBufferLine, FLKeywords.DefineTextureKey);
         }
 
         internal static string GetBufferArrayName(string definedBufferLine)
         {
-            return GetName(ref definedBufferLine, DEFINE_ARRAY_KEY);
+            return GetName(ref definedBufferLine, FLKeywords.DefineArrayKey);
         }
 
         private static string GetName(ref string line, string key)
@@ -153,17 +150,17 @@ namespace Byt3.OpenFL.Parsing
 
         internal static bool IsDefineArrayBuffer(string line)
         {
-            return FString.FastIndexOf(ref line, DEFINE_ARRAY_KEY) == 0;
+            return FString.FastIndexOf(ref line, FLKeywords.DefineArrayKey) == 0;
         }
 
         internal static bool IsDefineStatement(string line)
         {
-            return FString.FastIndexOf(ref line, DEFINE_TEXTURE_KEY) == 0;
+            return FString.FastIndexOf(ref line, FLKeywords.DefineTextureKey) == 0;
         }
 
         internal static bool IsDefineScriptStatement(string line)
         {
-            return FString.FastIndexOf(ref line, DEFINE_SCRIPT_KEY) == 0;
+            return FString.FastIndexOf(ref line, FLKeywords.DefineScriptKey) == 0;
         }
 
 

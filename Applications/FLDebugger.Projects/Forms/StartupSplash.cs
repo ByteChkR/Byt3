@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using FLDebugger.Projects.Forms;
 using FLDebugger.Projects.ProjectObjects;
 
 namespace FLDebugger.Projects
@@ -42,6 +43,9 @@ namespace FLDebugger.Projects
             InitializeComponent();
         }
 
+
+        StartupDialog dialog = new StartupDialog();
+
         private void StartupSplash_Load(object sender, EventArgs e)
         {
             Icon = Properties.Resources.OpenFL_Icon;
@@ -52,7 +56,7 @@ namespace FLDebugger.Projects
             CheckForIllegalCrossThreadCalls = false;
             if (Args.Length == 0)
             {
-                while (fbdProjectFolder.ShowDialog() != DialogResult.OK)
+                while (dialog.ShowDialog() != DialogResult.OK)
                 {
                     DialogResult res = MessageBox.Show("Invalid Folder.", "Error", MessageBoxButtons.RetryCancel);
                     if (res == DialogResult.Cancel)
@@ -63,7 +67,7 @@ namespace FLDebugger.Projects
                     }
                 }
 
-                Args = new[] { fbdProjectFolder.SelectedPath };
+                Args = new[] { dialog.SelectedPath };
             }
             LoadTask = new Task(Initialize);
             LoadTask.Start();

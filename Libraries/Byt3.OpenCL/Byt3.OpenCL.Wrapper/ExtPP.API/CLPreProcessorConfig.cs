@@ -17,9 +17,9 @@ namespace Byt3.OpenCL.Wrapper.ExtPP.API
         protected override List<AbstractPlugin> Plugins =>
             new List<AbstractPlugin>
             {
-                new FakeGenericsPlugin(),
+                new FakeGenericsPlugin(){Stage = "onload"},
                 new IncludePlugin(),
-                new ConditionalPlugin(),
+                new ConditionalPlugin(){Stage = "onload"},
                 new ExceptionPlugin(),
                 new MultiLinePlugin()
             };

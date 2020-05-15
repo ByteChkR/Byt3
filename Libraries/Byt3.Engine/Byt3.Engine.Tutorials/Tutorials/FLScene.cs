@@ -61,10 +61,10 @@ namespace Byt3.Engine.Tutorials.Tutorials
                     128);
 
 
-            FLProgram program = parser.Process(new FLParserInput("assets/filter/red.fl")).Initialize(iset);
+            FLProgram program = parser.Process(new FLParserInput("assets/filter/red.fl")).Initialize(CLAPI.MainThread, iset);
 
 
-            program.Run(CLAPI.MainThread, buffer, true);
+            program.Run(buffer, true);
 
             FLBuffer result = program.GetActiveBuffer(false);
             byte[] dat = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, result.Buffer, (int) result.Buffer.Size);

@@ -18,7 +18,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Random
 
         public override string ToString()
         {
-            return $"--define texture {Name}: rnd {Size}";
+            return $"{(IsArray? FLKeywords.DefineArrayKey:FLKeywords.DefineTextureKey)} {Name}: rnd {Size}";
         }
     }
 }

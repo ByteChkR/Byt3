@@ -39,21 +39,4 @@ namespace Byt3.OpenFL.Common.Instructions
             return "jmp " + Arguments.Unpack(" ");
         }
     }
-    public class PrintLineFLInstruction : FLInstruction
-    {
-        public PrintLineFLInstruction(List<FLInstructionArgument> arguments) : base(arguments)
-        {
-        }
-
-
-        public override void Process()
-        {
-            Logger.Log(LogType.Log, "FLSCRIPT: " + this, 1);
-        }
-
-        public override string ToString()
-        {
-            return "print " + Arguments.Unpack(" ");
-        }
-    }
 }

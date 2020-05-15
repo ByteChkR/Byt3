@@ -1,0 +1,3 @@
+--define array test: rnd 256
+Main:
+  print ~test

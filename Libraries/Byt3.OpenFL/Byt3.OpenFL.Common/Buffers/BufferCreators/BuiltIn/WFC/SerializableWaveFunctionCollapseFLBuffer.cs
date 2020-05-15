@@ -68,7 +68,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
 
         public override string ToString()
         {
-            return $"--define texture {Name}: wfc{(Parameter.Force?"f":"")} {Parameter}";
+            return $"{FLKeywords.DefineTextureKey} {Name}: wfc{(Parameter.Force?"f":"")} {Parameter}";
         }
     }
 }

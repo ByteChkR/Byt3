@@ -20,17 +20,17 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public override void Process()
         {
             FLBuffer input = Root.ActiveBuffer;
-            FLProgram externalFunction = ExternalFunctionBlueprint.Initialize(InstructionSet);
+            FLProgram externalFunction = ExternalFunctionBlueprint.Initialize(Root.Instance, InstructionSet);
 
             input.SetRoot(externalFunction);
 
             externalFunction.ActiveChannels = Root.ActiveChannels;
-            externalFunction.SetCLVariables(Root.Instance, input, false);
+            externalFunction.SetCLVariables(input, false);
             //Not making it internal to the subscript because that would dispose the buffer later in the method
             FLProgram.Debugger?.SubProgramStarted(Root, this, externalFunction);
 
             externalFunction.EntryPoint.Process();
-            
+
             FLProgram.Debugger?.SubProgramEnded(Root, externalFunction);
 
             FLBuffer buf = externalFunction.ActiveBuffer;
@@ -50,7 +50,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
         public override string ToString()
         {
-            return "--define script " + Name + ": [UNKNOWN]";
+            return $"{FLKeywords.DefineScriptKey} {Name}: [UNKNOWN]";
         }
     }
 }

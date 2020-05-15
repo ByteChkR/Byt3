@@ -40,7 +40,11 @@
             this.panelLegend = new System.Windows.Forms.Panel();
             this.gbLegend = new System.Windows.Forms.GroupBox();
             this.lbLegend = new System.Windows.Forms.ListBox();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panelInstructionInfo = new System.Windows.Forms.Panel();
+            this.panelInstructionDescription = new System.Windows.Forms.Panel();
+            this.gbInstructionDescription = new System.Windows.Forms.GroupBox();
+            this.rtbInstructionDescription = new System.Windows.Forms.RichTextBox();
+            this.panelInstructionName = new System.Windows.Forms.Panel();
             this.lblInstructionName = new System.Windows.Forms.Label();
             this.panelInstructions.SuspendLayout();
             this.gbInstructions.SuspendLayout();
@@ -50,7 +54,10 @@
             this.panelHeaderInfo.SuspendLayout();
             this.panelLegend.SuspendLayout();
             this.gbLegend.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panelInstructionInfo.SuspendLayout();
+            this.panelInstructionDescription.SuspendLayout();
+            this.gbInstructionDescription.SuspendLayout();
+            this.panelInstructionName.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelInstructions
@@ -60,7 +67,7 @@
             this.panelInstructions.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelInstructions.Location = new System.Drawing.Point(0, 0);
             this.panelInstructions.Name = "panelInstructions";
-            this.panelInstructions.Size = new System.Drawing.Size(200, 356);
+            this.panelInstructions.Size = new System.Drawing.Size(200, 563);
             this.panelInstructions.TabIndex = 0;
             // 
             // gbInstructions
@@ -71,7 +78,7 @@
             this.gbInstructions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gbInstructions.Location = new System.Drawing.Point(0, 0);
             this.gbInstructions.Name = "gbInstructions";
-            this.gbInstructions.Size = new System.Drawing.Size(200, 356);
+            this.gbInstructions.Size = new System.Drawing.Size(200, 563);
             this.gbInstructions.TabIndex = 0;
             this.gbInstructions.TabStop = false;
             this.gbInstructions.Text = "Instructions";
@@ -84,7 +91,7 @@
             this.lbInstructions.FormattingEnabled = true;
             this.lbInstructions.Location = new System.Drawing.Point(3, 16);
             this.lbInstructions.Name = "lbInstructions";
-            this.lbInstructions.Size = new System.Drawing.Size(194, 337);
+            this.lbInstructions.Size = new System.Drawing.Size(194, 544);
             this.lbInstructions.TabIndex = 0;
             this.lbInstructions.SelectedIndexChanged += new System.EventHandler(this.lbInstructions_SelectedIndexChanged);
             // 
@@ -96,7 +103,7 @@
             this.panelMainInstructionView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelMainInstructionView.Location = new System.Drawing.Point(200, 0);
             this.panelMainInstructionView.Name = "panelMainInstructionView";
-            this.panelMainInstructionView.Size = new System.Drawing.Size(442, 356);
+            this.panelMainInstructionView.Size = new System.Drawing.Size(392, 563);
             this.panelMainInstructionView.TabIndex = 1;
             // 
             // panelOverloads
@@ -104,9 +111,9 @@
             this.panelOverloads.BackColor = System.Drawing.Color.DimGray;
             this.panelOverloads.Controls.Add(this.gbOverloads);
             this.panelOverloads.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelOverloads.Location = new System.Drawing.Point(0, 203);
+            this.panelOverloads.Location = new System.Drawing.Point(0, 429);
             this.panelOverloads.Name = "panelOverloads";
-            this.panelOverloads.Size = new System.Drawing.Size(442, 153);
+            this.panelOverloads.Size = new System.Drawing.Size(392, 134);
             this.panelOverloads.TabIndex = 2;
             // 
             // gbOverloads
@@ -117,7 +124,7 @@
             this.gbOverloads.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.gbOverloads.Location = new System.Drawing.Point(0, 0);
             this.gbOverloads.Name = "gbOverloads";
-            this.gbOverloads.Size = new System.Drawing.Size(442, 153);
+            this.gbOverloads.Size = new System.Drawing.Size(392, 134);
             this.gbOverloads.TabIndex = 0;
             this.gbOverloads.TabStop = false;
             this.gbOverloads.Text = "Instruction Overloads:";
@@ -130,27 +137,27 @@
             this.lbOverloads.FormattingEnabled = true;
             this.lbOverloads.Location = new System.Drawing.Point(3, 16);
             this.lbOverloads.Name = "lbOverloads";
-            this.lbOverloads.Size = new System.Drawing.Size(436, 134);
+            this.lbOverloads.Size = new System.Drawing.Size(386, 115);
             this.lbOverloads.TabIndex = 0;
             // 
             // panelHeaderInfo
             // 
             this.panelHeaderInfo.BackColor = System.Drawing.Color.DimGray;
             this.panelHeaderInfo.Controls.Add(this.panelLegend);
-            this.panelHeaderInfo.Controls.Add(this.panel1);
+            this.panelHeaderInfo.Controls.Add(this.panelInstructionInfo);
             this.panelHeaderInfo.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeaderInfo.Location = new System.Drawing.Point(0, 0);
             this.panelHeaderInfo.Name = "panelHeaderInfo";
-            this.panelHeaderInfo.Size = new System.Drawing.Size(442, 203);
+            this.panelHeaderInfo.Size = new System.Drawing.Size(392, 429);
             this.panelHeaderInfo.TabIndex = 1;
             // 
             // panelLegend
             // 
             this.panelLegend.Controls.Add(this.gbLegend);
             this.panelLegend.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelLegend.Location = new System.Drawing.Point(0, 31);
+            this.panelLegend.Location = new System.Drawing.Point(0, 258);
             this.panelLegend.Name = "panelLegend";
-            this.panelLegend.Size = new System.Drawing.Size(442, 172);
+            this.panelLegend.Size = new System.Drawing.Size(392, 171);
             this.panelLegend.TabIndex = 4;
             // 
             // gbLegend
@@ -159,7 +166,7 @@
             this.gbLegend.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbLegend.Location = new System.Drawing.Point(0, 0);
             this.gbLegend.Name = "gbLegend";
-            this.gbLegend.Size = new System.Drawing.Size(442, 172);
+            this.gbLegend.Size = new System.Drawing.Size(392, 171);
             this.gbLegend.TabIndex = 1;
             this.gbLegend.TabStop = false;
             this.gbLegend.Text = "Instruction Argument Legend:";
@@ -184,17 +191,58 @@
             "Invalid = Can not parse Argument Signature"});
             this.lbLegend.Location = new System.Drawing.Point(3, 16);
             this.lbLegend.Name = "lbLegend";
-            this.lbLegend.Size = new System.Drawing.Size(436, 153);
+            this.lbLegend.Size = new System.Drawing.Size(386, 152);
             this.lbLegend.TabIndex = 0;
             // 
-            // panel1
+            // panelInstructionInfo
             // 
-            this.panel1.Controls.Add(this.lblInstructionName);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(442, 31);
-            this.panel1.TabIndex = 3;
+            this.panelInstructionInfo.Controls.Add(this.panelInstructionDescription);
+            this.panelInstructionInfo.Controls.Add(this.panelInstructionName);
+            this.panelInstructionInfo.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelInstructionInfo.Location = new System.Drawing.Point(0, 0);
+            this.panelInstructionInfo.Name = "panelInstructionInfo";
+            this.panelInstructionInfo.Size = new System.Drawing.Size(392, 258);
+            this.panelInstructionInfo.TabIndex = 3;
+            // 
+            // panelInstructionDescription
+            // 
+            this.panelInstructionDescription.Controls.Add(this.gbInstructionDescription);
+            this.panelInstructionDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelInstructionDescription.Location = new System.Drawing.Point(0, 29);
+            this.panelInstructionDescription.Name = "panelInstructionDescription";
+            this.panelInstructionDescription.Size = new System.Drawing.Size(392, 229);
+            this.panelInstructionDescription.TabIndex = 2;
+            // 
+            // gbInstructionDescription
+            // 
+            this.gbInstructionDescription.Controls.Add(this.rtbInstructionDescription);
+            this.gbInstructionDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbInstructionDescription.Location = new System.Drawing.Point(0, 0);
+            this.gbInstructionDescription.Name = "gbInstructionDescription";
+            this.gbInstructionDescription.Size = new System.Drawing.Size(392, 229);
+            this.gbInstructionDescription.TabIndex = 0;
+            this.gbInstructionDescription.TabStop = false;
+            this.gbInstructionDescription.Text = "Instruction Description:";
+            // 
+            // rtbInstructionDescription
+            // 
+            this.rtbInstructionDescription.BackColor = System.Drawing.Color.DimGray;
+            this.rtbInstructionDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rtbInstructionDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbInstructionDescription.Location = new System.Drawing.Point(3, 16);
+            this.rtbInstructionDescription.Name = "rtbInstructionDescription";
+            this.rtbInstructionDescription.Size = new System.Drawing.Size(386, 210);
+            this.rtbInstructionDescription.TabIndex = 0;
+            this.rtbInstructionDescription.Text = "";
+            // 
+            // panelInstructionName
+            // 
+            this.panelInstructionName.Controls.Add(this.lblInstructionName);
+            this.panelInstructionName.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelInstructionName.Location = new System.Drawing.Point(0, 0);
+            this.panelInstructionName.Name = "panelInstructionName";
+            this.panelInstructionName.Size = new System.Drawing.Size(392, 29);
+            this.panelInstructionName.TabIndex = 1;
             // 
             // lblInstructionName
             // 
@@ -210,7 +258,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(642, 356);
+            this.ClientSize = new System.Drawing.Size(592, 563);
             this.Controls.Add(this.panelMainInstructionView);
             this.Controls.Add(this.panelInstructions);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -226,8 +274,11 @@
             this.panelHeaderInfo.ResumeLayout(false);
             this.panelLegend.ResumeLayout(false);
             this.gbLegend.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panelInstructionInfo.ResumeLayout(false);
+            this.panelInstructionDescription.ResumeLayout(false);
+            this.gbInstructionDescription.ResumeLayout(false);
+            this.panelInstructionName.ResumeLayout(false);
+            this.panelInstructionName.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -246,6 +297,10 @@
         private System.Windows.Forms.Panel panelLegend;
         private System.Windows.Forms.GroupBox gbLegend;
         private System.Windows.Forms.ListBox lbLegend;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panelInstructionInfo;
+        private System.Windows.Forms.Panel panelInstructionDescription;
+        private System.Windows.Forms.GroupBox gbInstructionDescription;
+        private System.Windows.Forms.RichTextBox rtbInstructionDescription;
+        private System.Windows.Forms.Panel panelInstructionName;
     }
 }

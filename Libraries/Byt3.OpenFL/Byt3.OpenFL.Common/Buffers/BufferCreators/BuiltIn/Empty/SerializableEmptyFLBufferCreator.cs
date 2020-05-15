@@ -1,4 +1,5 @@
-﻿using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+﻿using System;
+using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 
 namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty
 {
@@ -8,6 +9,10 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty
         {
             if (isArray)
             {
+                if (arraySize == 0)
+                {
+                    throw  new InvalidOperationException($"Empty Array buffer \"{name}\" has to be initialized with a size as the first argument");
+                }
                 return new SerializableEmptyFLBuffer(name, arraySize);
             }
             return new SerializableEmptyFLBuffer(name);

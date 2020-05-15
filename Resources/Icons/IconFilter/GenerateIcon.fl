@@ -1,5 +1,11 @@
 --define texture logo: "Resources/Icons/OpenFL.png"
 --define texture temp: empty
+--define array worleypoints: rnd 900
+
+
+Worley:
+	worley worleypoints ~worleypoints 1
+	mulv 25
 
 Main:
 	addc Background
@@ -26,8 +32,12 @@ Background:
 	addc CreateMask
 	subc logo
 	#Colors:
-	setactive 0 1 2
+	setactive 0
 	mul PlainPerlin
+	setactive 1
+	mul Worley
+	setactive 2
+	mul Perlin
 
 CreateMask:
 	setactive 0 3
@@ -53,3 +63,4 @@ CreateMask:
 	setactive 3
 	circle1 0.5 0.5 0.1
 
+	

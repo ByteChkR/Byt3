@@ -23,7 +23,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
 
         public override string ToString()
         {
-            return $"--define {(IsArray ? "array" : "texture")} {Name} binary({Width}/{Height})";
+            return $"{(IsArray? FLKeywords.DefineArrayKey: FLKeywords.DefineTextureKey)} {Name} binary({Width}/{Height})";
         }
     }
 }

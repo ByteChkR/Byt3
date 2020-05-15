@@ -97,15 +97,15 @@ namespace Byt3.OpenFL.Threading
             if (context.IsCompiled)
             {
                 Stream s = IOManager.GetStream(context.Filename);
-                program = FLSerializer.LoadProgram(s, InstructionSet).Initialize(InstructionSet);
+                program = FLSerializer.LoadProgram(s, InstructionSet).Initialize(Instance,InstructionSet);
                 s.Close();
             }
             else
             {
-                program = Parser.Process(new FLParserInput(context.Filename)).Initialize(InstructionSet);
+                program = Parser.Process(new FLParserInput(context.Filename)).Initialize(Instance,InstructionSet);
             }
 
-            program.Run(Instance, input, true);
+            program.Run(input, true);
 
             return program;
         }

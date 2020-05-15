@@ -32,6 +32,7 @@ namespace FLDebugger.Forms
 {
     public partial class FLScriptEditor : Form
     {
+        private CLAPI Instance;
         private LogDisplay logDisplay;
         private FLParser p;
         private TextReader tr;
@@ -57,6 +58,7 @@ namespace FLDebugger.Forms
 
         public FLScriptEditor()
         {
+            Instance = CLAPI.GetInstance();
             InitializeComponent();
             rtbIn.WriteSource(DEFAULT_SCRIPT);
         }
@@ -111,6 +113,11 @@ namespace FLDebugger.Forms
             return loadT;
         }
 
+        private Exception GetInnerIfAggregate(Exception ex)
+        {
+            return ex is AggregateException ag ? GetInnerIfAggregate(ag.InnerExceptions.First()) : ex;
+        }
+
         private void InitializeViewer()
         {
             if (builder.IsAttached)
@@ -135,9 +142,12 @@ namespace FLDebugger.Forms
                 rtbOut.Text = source;
 
                 string s = $"Errors: {loadT.Exception.InnerExceptions.Count}\n";
+
                 foreach (Exception exceptionInnerException in loadT.Exception.InnerExceptions)
                 {
-                    s += "PARSE ERROR:\n\t" + exceptionInnerException.Message + "\n";
+
+                    Exception ex = GetInnerIfAggregate(exceptionInnerException);
+                    s += "PARSE ERROR:\n\t" + ex.Message + "\n";
                 }
 
                 SetLogOutput(s);
@@ -226,7 +236,7 @@ namespace FLDebugger.Forms
                 try
                 {
                     crash = false;
-                    db = new KernelDatabase(CLAPI.MainThread, "resources/kernel", DataVectorTypes.Uchar1);
+                    db = new KernelDatabase(Instance, "resources/kernel", DataVectorTypes.Uchar1);
                 }
                 catch (Exception exception)
                 {
@@ -335,15 +345,14 @@ namespace FLDebugger.Forms
                     FLProgram pro = null;
                     try
                     {
-                        CLAPI instance = CLAPI.GetInstance();
-                        FLInstructionSet iset = FLInstructionSet.CreateWithBuiltInTypes(instance, "resources/kernel");
-                        pro = prog.Initialize(iset);
+                        FLInstructionSet iset = FLInstructionSet.CreateWithBuiltInTypes(db);
+                        pro = prog.Initialize(Instance, iset);
 
-                        pro.Run(instance, new FLBuffer(instance, 512, 512, "Preview Buffer"), true);
+                        pro.Run(new FLBuffer(Instance, 512, 512, "Preview Buffer"), true);
                         if (previewPicture != null)
                         {
                             Bitmap bmp = new Bitmap(512, 512);
-                            CLAPI.UpdateBitmap(instance, bmp, pro.GetActiveBuffer(false).Buffer);
+                            CLAPI.UpdateBitmap(Instance, bmp, pro.GetActiveBuffer(false).Buffer);
                             previewPicture.Image = bmp;
                         }
                         pro.FreeResources();
@@ -410,7 +419,7 @@ namespace FLDebugger.Forms
             }
 
             Enabled = false;
-            FLDebugger.Start(prog.Initialize(instructionSet));
+            FLDebugger.Start(Instance, prog.Initialize(Instance, instructionSet));
             Enabled = true;
         }
 
@@ -530,6 +539,9 @@ namespace FLDebugger.Forms
                     previewForm = ContainerForm.CreateContainer(previewPicture, null, "Preview: ",
                         Resources.OpenFL_Icon, FormBorderStyle.SizableToolWindow);
                     CheckForIllegalCrossThreadCalls = false;
+
+                    InitProgram();
+                    ComputePreview();
                 }
             }
         }

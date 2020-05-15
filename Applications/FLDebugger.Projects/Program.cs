@@ -21,7 +21,10 @@ namespace FLDebugger.Projects
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FLProjectExplorer(args.Reverse().Take(Math.Max(args.Length - 1, 0)).Reverse().ToArray()));
+            string[] arg = args.Length > 0 && args[0] == "-no-update"
+                ? args.Reverse().Take(Math.Max(args.Length - 1, 0)).Reverse().ToArray()
+                : args;
+            Application.Run(new FLProjectExplorer(arg));
         }
     }
 

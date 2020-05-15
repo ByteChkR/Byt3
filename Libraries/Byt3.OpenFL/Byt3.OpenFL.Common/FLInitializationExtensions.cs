@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
@@ -9,7 +10,7 @@ namespace Byt3.OpenFL.Common
 {
     public static class FLInitializationExtensions
     {
-        public static FLProgram Initialize(this SerializableFLProgram program, FLInstructionSet instructionSet)
+        public static FLProgram Initialize(this SerializableFLProgram program, CLAPI instance, FLInstructionSet instructionSet)
         {
             Dictionary<string, FLBuffer> buffers = new Dictionary<string, FLBuffer>();
             Dictionary<string, FLFunction> functions = new Dictionary<string, FLFunction>();
@@ -36,7 +37,8 @@ namespace Byt3.OpenFL.Common
                 functions.Add(program.Functions[i].Name, new FLFunction(program.Functions[i].Name));
             }
 
-            FLProgram p = new FLProgram(externalFunctions, buffers, functions);
+            FLProgram p = new FLProgram(instance, externalFunctions, buffers, functions);
+            p.SetRoot();
             for (int i = 0; i < program.Functions.Count; i++)
             {
                 functions[program.Functions[i].Name].Initialize(program.Functions[i], p, instructionSet);
@@ -68,7 +70,7 @@ namespace Byt3.OpenFL.Common
 
             foreach (KeyValuePair<string, FLFunction> programFlFunction in program.FlFunctions)
             {
-                programFlFunction.Value.SetRoot(program);
+                programFlFunction.Value?.SetRoot(program);
             }
         }
 

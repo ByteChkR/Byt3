@@ -19,8 +19,6 @@ namespace Byt3.OpenFL.Parsing.Stages
             parser = parserInstance;
         }
 
-        private static readonly string COMMENT_PREFIX = "#";
-
         public override LoadSourceStageResult Process(LoadSourceStageResult input)
         {
             Logger.Log(LogType.Log, "Removing Comments.. ", 1);
@@ -51,7 +49,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             {
                 input[i] = input[i].Trim();
 
-                int idx = FString.FastIndexOf(input[i], COMMENT_PREFIX);
+                int idx = FString.FastIndexOf(input[i], FLKeywords.CommentBeginKey);
 
                 if (idx == 0)
                 {

@@ -1,0 +1,3 @@
+--define array test: empty
+Main:
+  print ~test

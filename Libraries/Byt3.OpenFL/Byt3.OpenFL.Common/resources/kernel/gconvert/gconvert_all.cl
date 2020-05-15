@@ -1,0 +1,11 @@
+#include gconvert_one.cl char
+#include gconvert_one.cl uchar
+#include gconvert_one.cl short
+#include gconvert_one.cl ushort
+#include gconvert_one.cl int
+#include gconvert_one.cl uint
+#include gconvert_one.cl long
+#include gconvert_one.cl ulong
+#include gconvert_one.cl float
+#include gconvert_one.cl double
+#include gconvert_one.cl half

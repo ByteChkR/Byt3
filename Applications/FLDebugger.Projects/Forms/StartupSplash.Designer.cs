@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(StartupSplash));
             this.lblProcessText = new System.Windows.Forms.Label();
             this.startup = new System.Windows.Forms.Timer(this.components);
-            this.fbdProjectFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.lblVersion = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -55,10 +54,6 @@
             // 
             this.startup.Interval = 1000;
             this.startup.Tick += new System.EventHandler(this.startup_Tick);
-            // 
-            // fbdProjectFolder
-            // 
-            this.fbdProjectFolder.Description = "Select Project Directory";
             // 
             // progressBar
             // 
@@ -119,7 +114,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lblProcessText;
         private System.Windows.Forms.Timer startup;
-        private System.Windows.Forms.FolderBrowserDialog fbdProjectFolder;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label lblVersion;
     }

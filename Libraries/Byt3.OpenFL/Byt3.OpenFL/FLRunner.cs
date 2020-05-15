@@ -71,7 +71,7 @@ namespace Byt3.OpenFL
 
         public FLProgram Run(SerializableFLProgram file, int width, int height)
         {
-            return Run(file.Initialize(InstructionSet), width, height);
+            return Run(file.Initialize(Instance, InstructionSet), width, height);
         }
 
         public FLProgram Run(FLProgram file, int width, int height)
@@ -85,13 +85,13 @@ namespace Byt3.OpenFL
 
         public FLProgram Run(FLProgram file, FLBuffer input, bool makeInternal)
         {
-            file.Run(Instance, input, makeInternal);
+            file.Run(input, makeInternal);
             return file;
         }
 
         public FLProgram Initialize(SerializableFLProgram file)
         {
-            return file.Initialize(InstructionSet);
+            return file.Initialize(Instance, InstructionSet);
         }
     }
 }

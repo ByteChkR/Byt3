@@ -105,10 +105,10 @@ namespace Byt3.OpenFL.Benchmarking
                     {
                         bmp = new Bitmap(BITMAP_RESOLUTION, BITMAP_RESOLUTION);
                         buf = new FLBuffer(CLAPI.MainThread, bmp, files[i]);
-                        program = parsedProgram.Initialize(setup.InstructionSet);
-                        if (warm) program.SetCLVariablesAndWarm(CLAPI.MainThread, buf, true, warm);
+                        program = parsedProgram.Initialize(CLAPI.MainThread, setup.InstructionSet);
+                        if (warm) program.SetCLVariablesAndWarm( buf, true, warm);
                     },
-                    (int its) => { program.Run(CLAPI.MainThread, buf, true); },
+                    (int its) => { program.Run(buf, true); },
                     (int its) => //After Test
                     {
                         Logger.Log(LogType.Log, "------------------------Run Finished------------------------", 1);
@@ -168,9 +168,9 @@ namespace Byt3.OpenFL.Benchmarking
                     {
                         bmp = new Bitmap(BITMAP_RESOLUTION, BITMAP_RESOLUTION);
                         buf = new FLBuffer(CLAPI.MainThread, bmp, files[i]);
-                        program = parsedProgram.Initialize(setup.InstructionSet);
+                        program = parsedProgram.Initialize(CLAPI.MainThread, setup.InstructionSet);
                     },
-                    (int its) => program.Run(CLAPI.MainThread, buf, true),
+                    (int its) => program.Run( buf, true),
                     (int its) => //After Test
                     {
                         if (its == iterations - 1)
@@ -291,7 +291,7 @@ namespace Byt3.OpenFL.Benchmarking
                 Logger.Log(LogType.Log, $"------------------------Run {key} Starting------------------------", 1);
                 PerformanceTester.PerformanceResult result = PerformanceTester.Tester.RunTest(key, iterations,
                     null,
-                    (int its) => { program = pr.Initialize(setup.InstructionSet); },
+                    (int its) => { program = pr.Initialize(CLAPI.MainThread, setup.InstructionSet); },
                     (int its) => program.FreeResources());
 
                 logOut.AppendLine("\t" + result);

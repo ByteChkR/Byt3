@@ -157,26 +157,47 @@ namespace Byt3.OpenFL.Parsing.Stages
                 return new SerializeDecimalArgument(value);
             }
 
+            IEnumerable<string> bufferNames = definedBuffers.Select(FLParser.GetBufferName);
+            IEnumerable<string> arrayBufferNames = definedBuffers.Select(FLParser.GetBufferArrayName);
+            IEnumerable<string> scriptNames = definedScripts.Select(FLParser.GetScriptName);
+
             if (functionHeaders.Count(x => x.Name == argument) != 0)
             {
                 return new SerializeFunctionArgument(argument);
             }
 
-            if (definedBuffers.Select(FLParser.GetBufferName).Contains(argument))
+            if (argument.StartsWith("~"))
+            {
+                string n = argument.Remove(0, 1);
+                if (arrayBufferNames.Contains(n))
+                {
+                    return new SerializeArrayLengthArgument(n);
+                }
+
+                if (bufferNames.Contains(n))
+                {
+                    throw new InvalidOperationException("Only array buffers can be queried for length: " + n);
+                }
+
+
+                throw new InvalidOperationException("Invalid Length operator. Can not find buffer with name: " + n);
+            }
+
+            if (bufferNames.Contains(argument))
             {
                 return new SerializeBufferArgument(argument);
             }
 
-            if (definedBuffers.Select(FLParser.GetBufferArrayName).Contains(argument))
+            if (arrayBufferNames.Contains(argument))
             {
                 return new SerializeArrayBufferArgument(argument);
             }
 
-            if (definedScripts.Select(FLParser.GetScriptName).Contains(argument))
+            if (scriptNames.Contains(argument))
             {
                 return new SerializeExternalFunctionArgument(argument);
             }
-
+            
             return new SerializeNameArgument(argument);
 
 
@@ -190,20 +211,20 @@ namespace Byt3.OpenFL.Parsing.Stages
 
             for (int i = start; i < start + count; i++)
             {
-                bool isArray = defineStatements[i].StartsWith(FLParser.DEFINE_ARRAY_KEY);
+                bool isArray = defineStatements[i].StartsWith(FLKeywords.DefineArrayKey);
                 string[] data = null;
                 if (isArray)
                 {
-                    data = defineStatements[i].Replace(FLParser.DEFINE_ARRAY_KEY, "")
+                    data = defineStatements[i].Replace(FLKeywords.DefineArrayKey, "")
                         .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
                 }
                 else
                 {
-                    data = defineStatements[i].Replace(FLParser.DEFINE_TEXTURE_KEY, "")
+                    data = defineStatements[i].Replace(FLKeywords.DefineTextureKey, "")
                         .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
                 }
 
-                
+
 
                 string bufferName = data[0].Trim();
                 if (bufferName == "in")
@@ -217,22 +238,21 @@ namespace Byt3.OpenFL.Parsing.Stages
                 string paramPart = data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0];
 
                 string[] parameter = data[1].Replace(paramPart + " ", "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                int size = 0;
-                if (isArray && (parameter.Length == 0 || !int.TryParse(parameter[0], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out size)))
-                {
-                    throw new Byt3Exception($"No array size specified \"{defineStatements[i]}\"");
-                }
+                
 
 
                 if (data[1].StartsWith("\"") && data[1].EndsWith("\"") && IOManager.FileExists(data[1].Trim().Replace("\"", "")))
                 {
                     SerializableFromFileFLBuffer bi =
-                        new SerializableFromFileFLBuffer(bufferName, data[1].Trim().Replace("\"", ""), isArray, size);
+                        new SerializableFromFileFLBuffer(bufferName, data[1].Trim().Replace("\"", ""), isArray, 0);
                     definedBuffers.Add(bi);
                 }
                 else
                 {
-
+                    int size = -1;
+                    if (isArray && parameter.Length != 0 && !int.TryParse(parameter[0], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out size))
+                    {
+                    }
                     SerializableFLBuffer buf = parser.BufferCreator.Create(paramPart, bufferName,
                         data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries), isArray, size);
                     if (buf != null)

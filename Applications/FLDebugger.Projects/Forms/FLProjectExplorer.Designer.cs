@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FLProjectExplorer));
-            this.tmrTreeViewRefresh = new System.Windows.Forms.Timer();
+            this.tmrTreeViewRefresh = new System.Windows.Forms.Timer(this.components);
             this.panelTop = new System.Windows.Forms.Panel();
             this.lblVersion = new System.Windows.Forms.Label();
             this.btnCollapse = new System.Windows.Forms.Button();

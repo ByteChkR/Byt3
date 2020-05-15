@@ -26,27 +26,4 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn
             return Value.ToString(CultureInfo.InvariantCulture);
         }
     }
-    public class SerializeNameArgument : SerializableFLInstructionArgument
-    {
-        public string Value { get; }
-
-        public override InstructionArgumentCategory ArgumentCategory => InstructionArgumentCategory.Name;
-        public override string Identifier => Value.ToString(); //Not used anyway
-
-        public SerializeNameArgument(string value)
-        {
-            Value = value;
-        }
-
-
-        public override object GetValue(FLProgram script)
-        {
-            return Value;
-        }
-
-        public override string ToString()
-        {
-            return Value;
-        }
-    }
 }

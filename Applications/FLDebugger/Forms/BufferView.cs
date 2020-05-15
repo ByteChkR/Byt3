@@ -16,7 +16,7 @@ namespace FLDebugger.Forms
     {
         private static readonly List<BufferView> OpenForms = new List<BufferView>();
 
-
+        private CLAPI Instance;
 
         private bool isRefreshing;
 
@@ -24,8 +24,9 @@ namespace FLDebugger.Forms
         private readonly int width;
         private readonly int height;
         private CustomPictureBox pbBufferContent;
-        public BufferView(FLBuffer buffer, int width, int height)
+        public BufferView(CLAPI instance, FLBuffer buffer, int width, int height)
         {
+            Instance = instance;
             InitializeComponent();
             pbBufferContent = CreatePreviewBox(panelImage);
             Buffer = buffer;
@@ -38,7 +39,7 @@ namespace FLDebugger.Forms
             comboBox1.SelectedIndex = 0;
 
 
-            RefreshImage(CLAPI.MainThread);
+            RefreshImage(Instance);
         }
 
         private CustomPictureBox CreatePreviewBox(Control parent)
@@ -80,7 +81,7 @@ namespace FLDebugger.Forms
             }
         }
 
-        public void RefreshImage(CLAPI instance)
+        private void RefreshImage(CLAPI instance)
         {
             if (isRefreshing) return;
             isRefreshing = true;
@@ -122,7 +123,7 @@ namespace FLDebugger.Forms
         private void btnReload_Click(object sender, EventArgs e)
         {
             if (isRefreshing) return;
-            RefreshImage(CLAPI.MainThread);
+            RefreshImage(Instance);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

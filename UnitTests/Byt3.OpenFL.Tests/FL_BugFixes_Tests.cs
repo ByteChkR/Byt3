@@ -20,9 +20,9 @@ namespace Byt3.OpenFL.Tests
 
             FLSetup s = new FLSetup(nameof(CorrectUnderlyingBuffer_For_IN_Test), "resources/kernel");
             SerializableFLProgram p = s.Parser.Process(new FLParserInput(file));
-            FLProgram pp = p.Initialize(s.InstructionSet);
+            FLProgram pp = p.Initialize(CLAPI.MainThread, s.InstructionSet);
             FLBuffer b = new FLBuffer(CLAPI.MainThread, 128,128, "TestInput");
-            pp.Run(CLAPI.MainThread, b, true);
+            pp.Run( b, true);
 
             FLBuffer i = pp.GetActiveBuffer(false);
             byte[] c = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, i.Buffer, (int)i.Size);

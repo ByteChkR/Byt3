@@ -20,9 +20,10 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         private bool channelDirty = true;
 
 
-        public FLProgram(Dictionary<string, ExternalFlFunction> definedScripts,
+        public FLProgram(CLAPI instance, Dictionary<string, ExternalFlFunction> definedScripts,
             Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, FLFunction> flFunctions) : base()
         {
+            Instance = instance;
             FlFunctions = flFunctions;
             DefinedBuffers = definedBuffers;
             DefinedScripts = definedScripts;
@@ -34,7 +35,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         }
 
         //Get set when calling Run/SetCLVariables
-        public CLAPI Instance { get; private set; }
+        public CLAPI Instance { get; }
         internal FLBuffer ActiveBuffer { get; set; }
 
         public byte[] ActiveChannels
@@ -197,10 +198,8 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         }
 
 
-        public void SetCLVariables(CLAPI instance, FLBuffer input, bool makeInputInternal)
+        public void SetCLVariables(FLBuffer input, bool makeInputInternal)
         {
-            //Setting Run Dependent Variables.
-            Instance = instance;
 
             DefinedBuffers["in"].ReplaceUnderlyingBuffer(input.Buffer, input.Width, input.Height); //Making effectively a zombie object that has no own buffer(but this is needed in order to keep the script intact
                                                                         //The Arguments that are referencing the IN buffer will otherwise have a different buffer as the input.
@@ -213,9 +212,9 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
 
         private bool warmed = false;
-        public void SetCLVariablesAndWarm(CLAPI instance, FLBuffer input, bool makeInputInternal, bool warmBuffers)
+        public void SetCLVariablesAndWarm(FLBuffer input, bool makeInputInternal, bool warmBuffers)
         {
-            SetCLVariables(instance, input, makeInputInternal);
+            SetCLVariables(input, makeInputInternal);
             warmed = true;
             if (!warmBuffers) return;
             Logger.Log(LogType.Log, "Warming Buffers...", 1);
@@ -230,14 +229,14 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             Logger.Log(LogType.Log, "Warming Buffers finished", 1);
         }
 
-        public void Run(CLAPI instance, FLBuffer input, bool makeInputInternal, FLFunction entry = null, bool warmBuffers = false)
+        public void Run(FLBuffer input, bool makeInputInternal, FLFunction entry = null, bool warmBuffers = false)
         {
             FLFunction entryPoint = entry ?? EntryPoint;
             if (entryPoint.Name == "Main")
                 Debugger?.ProgramStart(this);
             if (!warmed)
             {
-                SetCLVariablesAndWarm(instance, input, makeInputInternal, warmBuffers);
+                SetCLVariablesAndWarm(input, makeInputInternal, warmBuffers);
             }
             Input.SetKey("in");
             //Start Setup

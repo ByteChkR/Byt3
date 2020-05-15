@@ -25,7 +25,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                             string fname = t.Arguments[0].Identifier;
                             SerializableFLFunction func = input.Functions.First(x => x.Name == fname);
                             f.Instructions.RemoveAt(i);
-                            f.Instructions.AddRange(func.Instructions);
+                            f.Instructions.InsertRange(i, func.Instructions);
                             removedOne = true;
                         }
                     }

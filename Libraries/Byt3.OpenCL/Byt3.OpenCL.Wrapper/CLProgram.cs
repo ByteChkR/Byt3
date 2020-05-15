@@ -148,11 +148,23 @@ namespace Byt3.OpenCL.Wrapper
 
         public static CLProgramBuildResult TryBuildProgram(CLAPI instance, string filePath, out CLProgram program)
         {
-            string source = TextProcessorAPI.PreprocessSource(IOManager.ReadAllLines(filePath),
-                Path.GetDirectoryName(filePath), Path.GetExtension(filePath), new Dictionary<string, bool>());
+            //string source = TextProcessorAPI.PreprocessSource(IOManager.ReadAllLines(filePath),
+            //    Path.GetDirectoryName(filePath), Path.GetExtension(filePath), new Dictionary<string, bool>());
+            string source = TextProcessorAPI.PreprocessSource(filePath, new Dictionary<string, bool>());
 
             //            program = null;
+
             CLProgramBuildResult result = new CLProgramBuildResult(filePath, new List<CLProgramBuildError>());
+            
+
+
+            string[] kernelNames = FindKernelNames(source);
+            if (kernelNames.Length == 0)
+            {
+                program = new CLProgram(filePath, new Dictionary<string, CLKernel>());
+                return result;
+            }
+
             Program prgHandle;
 
             try
@@ -167,7 +179,6 @@ namespace Byt3.OpenCL.Wrapper
             }
 
 
-            string[] kernelNames = FindKernelNames(source);
             Dictionary<string, CLKernel> kernels = new Dictionary<string, CLKernel>();
             foreach (string kernelName in kernelNames)
             {
@@ -200,40 +211,6 @@ namespace Byt3.OpenCL.Wrapper
 
             program = new CLProgram(filePath, kernels);
             return result;
-        }
-
-        /// <summary>
-        /// Loads the source and initializes the CLProgram
-        /// </summary>
-        private void Initialize(CLAPI instance)
-        {
-            string source = TextProcessorAPI.PreprocessSource(IOManager.ReadAllLines(filePath),
-                Path.GetDirectoryName(filePath), Path.GetExtension(filePath), new Dictionary<string, bool>());
-            string[] kernelNames = FindKernelNames(source);
-
-
-            ClProgramHandle = CLAPI.CreateClProgramFromSource(instance, source);
-
-
-            foreach (string kernelName in kernelNames)
-            {
-                Kernel k = CLAPI.CreateKernelFromName(ClProgramHandle, kernelName);
-                int kernelNameIndex = source.IndexOf(" " + kernelName + " ", StringComparison.InvariantCulture);
-                kernelNameIndex = kernelNameIndex == -1
-                    ? source.IndexOf(" " + kernelName + "(", StringComparison.InvariantCulture)
-                    : kernelNameIndex;
-                KernelParameter[] parameter = KernelParameter.CreateKernelParametersFromKernelCode(source,
-                    kernelNameIndex,
-                    source.Substring(kernelNameIndex, source.Length - kernelNameIndex).IndexOf(')') + 1);
-                if (k == null)
-                {
-                    ContainedKernels.Add(kernelName, new CLKernel(instance, null, kernelName, parameter));
-                }
-                else
-                {
-                    ContainedKernels.Add(kernelName, new CLKernel(instance, k, kernelName, parameter));
-                }
-            }
         }
 
 

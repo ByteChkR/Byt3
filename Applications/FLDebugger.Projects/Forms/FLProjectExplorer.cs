@@ -19,14 +19,9 @@ namespace FLDebugger.Projects
             Args = args;
             
             InitializeComponent();
-            
+
 
             
-            
-            if(RefreshWorkingDirectory(args))
-            {
-                Text = Project.ProjectDirectory.Directory;
-            }
         }
 
 
@@ -53,7 +48,7 @@ namespace FLDebugger.Projects
 
         private void FLProjectExplorer_Load(object sender, EventArgs e)
         {
-
+            
             Icon = Properties.Resources.OpenFL_Icon;
             tmrTreeViewRefresh.Start();
             lblVersion.Text = "Version: " + Assembly.GetExecutingAssembly().GetName().Version;
@@ -62,6 +57,13 @@ namespace FLDebugger.Projects
             tvWorkingDir.NodeMouseClick += OnClickEntry;
             tvWorkingDir.KeyDown += TvWorkingDir_KeyDown;
             tvWorkingDir.KeyUp += TvWorkingDir_KeyUp;
+
+            Closing += (s, eventArgs) => tmrTreeViewRefresh.Stop();
+
+            if (RefreshWorkingDirectory(Args))
+            {
+                Text = Project.ProjectDirectory.Directory;
+            }
         }
 
         private void OnClickEntry(object sender, TreeNodeMouseClickEventArgs e)

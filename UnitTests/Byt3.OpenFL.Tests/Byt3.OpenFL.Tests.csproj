@@ -9,6 +9,16 @@
   <ItemGroup>
     <None Remove="resources\codeanalysistest.cl" />
     <None Remove="resources\engine.settings.xml" />
+    <None Remove="resources\filter\array_defines\defines\test_array_correct_empty.fl" />
+    <None Remove="resources\filter\array_defines\defines\test_array_correct_rnd.fl" />
+    <None Remove="resources\filter\array_defines\defines\test_array_correct_urnd.fl" />
+    <None Remove="resources\filter\array_defines\defines\test_array_empty.fl" />
+    <None Remove="resources\filter\array_defines\defines\test_array_invalid_no_size.fl" />
+    <None Remove="resources\filter\array_defines\defines\test_array_invalid_wfc.fl" />
+    <None Remove="resources\filter\array_defines\defines\test_array_rnd.fl" />
+    <None Remove="resources\filter\array_defines\defines\test_array_urnd.fl" />
+    <None Remove="resources\filter\array_defines\length_operator\test_length_invalid_on_texture.fl" />
+    <None Remove="resources\filter\array_defines\length_operator\test_length_on_array.fl" />
     <None Remove="resources\filter\bug_checks\set_temp_to_in_bug.fl" />
     <None Remove="resources\filter\comments\test.fl" />
     <None Remove="resources\filter\defines\test.fl" />
@@ -47,6 +57,13 @@
     <EmbeddedResource Include="resources\engine.settings.xml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="resources\filter\array_defines\defines\test_array_correct_empty.fl" />
+    <EmbeddedResource Include="resources\filter\array_defines\defines\test_array_correct_rnd.fl" />
+    <EmbeddedResource Include="resources\filter\array_defines\defines\test_array_correct_urnd.fl" />
+    <EmbeddedResource Include="resources\filter\array_defines\defines\test_array_invalid_no_size.fl" />
+    <EmbeddedResource Include="resources\filter\array_defines\defines\test_array_invalid_wfc.fl" />
+    <EmbeddedResource Include="resources\filter\array_defines\length_operator\test_length_invalid_on_texture.fl" />
+    <EmbeddedResource Include="resources\filter\array_defines\length_operator\test_length_on_array.fl" />
     <EmbeddedResource Include="resources\filter\bug_checks\set_temp_to_in_bug.fl" />
     <EmbeddedResource Include="resources\filter\comments\test.fl">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

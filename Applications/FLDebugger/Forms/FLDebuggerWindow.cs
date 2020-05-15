@@ -62,7 +62,7 @@ namespace FLDebugger.Forms
         {
             if (lbInternalBuffers.SelectedItem == null || !started) return;
             FLBuffer buf = lbInternalBuffers.SelectedItem as FLBuffer;
-            BufferView bvv = new BufferView(buf, Program.Dimensions.x, Program.Dimensions.y);
+            BufferView bvv = new BufferView(Program.Instance, buf, Program.Dimensions.x, Program.Dimensions.y);
             bvv.Show();
         }
 
@@ -98,7 +98,7 @@ namespace FLDebugger.Forms
         private void LbBuffers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (lbBuffers.SelectedItem == null || !started) return;
-            BufferView bvv = new BufferView(Program.GetBufferWithName(lbBuffers.SelectedItem.ToString(), false), Program.Dimensions.x, Program.Dimensions.y);
+            BufferView bvv = new BufferView(Program.Instance, Program.GetBufferWithName(lbBuffers.SelectedItem.ToString(), false), Program.Dimensions.x, Program.Dimensions.y);
             bvv.Show();
         }
 

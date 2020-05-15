@@ -10,18 +10,25 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
         private readonly string instructionKey;
         private readonly Type type;
         private readonly string argumentSignature;
-        public override string[] InstructionKeys => new[] {instructionKey};
+        private readonly string instructionDescription;
+        public override string[] InstructionKeys => new[] { instructionKey };
 
         public override string GetArgumentSignatureForInstruction(string instruction)
         {
             return argumentSignature;
         }
 
-        public DefaultInstructionCreator(string key, Type instructionType, string signature = null)
+        public DefaultInstructionCreator(string key, Type instructionType, string signature = null, string description = null)
         {
+            instructionDescription = description;
             argumentSignature = signature;
             instructionKey = key;
             type = instructionType;
+        }
+
+        public override string GetDescriptionForInstruction(string instruction)
+        {
+            return instructionDescription ?? base.GetDescriptionForInstruction(instruction);
         }
 
         public override bool IsInstruction(string key)
@@ -39,14 +46,14 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 args.Add(arg);
             }
 
-            return (FLInstruction) Activator.CreateInstance(type, new object[] {args});
+            return (FLInstruction)Activator.CreateInstance(type, new object[] { args });
         }
     }
 
     public class DefaultInstructionCreator<T> : DefaultInstructionCreator
         where T : FLInstruction
     {
-        public DefaultInstructionCreator(string key, string signature = null) : base(key, typeof(T), signature)
+        public DefaultInstructionCreator(string key, string signature = null, string description = null) : base(key, typeof(T), signature, description)
         {
         }
     }

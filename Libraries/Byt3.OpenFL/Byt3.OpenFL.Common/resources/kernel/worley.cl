@@ -1,4 +1,5 @@
 #include utils.cl
+#include gconvert.cl int float
 
 float GetWorleyDistance(float3 point, float3 worleypoint, float pmax)
 {
@@ -44,8 +45,9 @@ __kernel void worley(__global uchar *image, int3 dimensions, int channelCount, f
 
 
 	int3 idx3d = Get3DimensionalIndex(dimensions.x, dimensions.y, pixelIndex);
-	float3 idx3dNorm = (float3)(idx3d.x/(float)dimensions.y, idx3d.y/(float)dimensions.x, idx3d.z/(float)dimensions.z);
-	float3 fpos = fmod(idx3dNorm, 1.0f);
+	float3 idx3dNorm = int3TOfloat3(idx3d) / int3TOfloat3(dimensions);
+	//float3 idx3dNorm = (float3)(idx3d.x/(float)dimensions.y, idx3d.y/(float)dimensions.x, idx3d.z/(float)dimensions.z);
+	//float3 fpos = fmod(idx3dNorm, 1.0f);
 
 
 	float value = max_distance;
@@ -54,15 +56,13 @@ __kernel void worley(__global uchar *image, int3 dimensions, int channelCount, f
 
 	for(int i = 0; i < poscount; i++)
 	{
-
-		float3 position = (float3)(arrayPositions[i] / (float)dimensions.x, arrayPositions[i + 1] / (float)dimensions.y, arrayPositions[i + 2] / (float)dimensions.z);
-		value = GetWorleyDistance(fpos, position, value);
-	
+		float3 position = (float3)(arrayPositions[i] / maxValue, arrayPositions[i + 1] / maxValue, arrayPositions[i + 2] / maxValue);
+		value = GetWorleyDistance(idx3dNorm, position, value);
 	}
 
 	float result = clamp(value / max_distance, 0.0f, 1.0f);
 	
 
-	image[idx] = (uchar)(clamp(result * 255.0f, 0.0f, 255.0f));
+	image[idx] = (uchar)(clamp(result * maxValue, 0.0f, maxValue));
 
 }

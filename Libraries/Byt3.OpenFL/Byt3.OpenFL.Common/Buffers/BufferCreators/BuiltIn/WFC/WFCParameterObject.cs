@@ -45,6 +45,10 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
 
         public static SerializableFLBuffer CreateBuffer(string name, string[] args, bool force, bool isArray, int size)
         {
+            if (isArray)
+            {
+                throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement. WFC can not be used on arrays");
+            }
             if (args.Length < 10)
             {
                 throw new FLInvalidFunctionUseException("wfc", "Invalid WFC Define statement");

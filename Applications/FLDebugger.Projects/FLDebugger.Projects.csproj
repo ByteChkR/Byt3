@@ -5,7 +5,6 @@
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
-  
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -92,6 +91,12 @@
     <Compile Include="Forms\FLProjectExplorer.Designer.cs">
       <DependentUpon>FLProjectExplorer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\StartupDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\StartupDialog.Designer.cs">
+      <DependentUpon>StartupDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Instancing\DomainHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectObjects\Project.cs" />
@@ -108,6 +113,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FLProjectExplorer.resx">
       <DependentUpon>FLProjectExplorer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\StartupDialog.resx">
+      <DependentUpon>StartupDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

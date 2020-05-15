@@ -4,11 +4,6 @@ using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
 namespace Byt3.OpenFL.Common.Buffers
 {
-    public interface IWarmable
-    {
-        void Warm();
-    }
-
     public class LazyLoadingFLBuffer : FLBuffer, IDisposable, IWarmable
     {
         public delegate FLBuffer BufferLoader(FLProgram root);

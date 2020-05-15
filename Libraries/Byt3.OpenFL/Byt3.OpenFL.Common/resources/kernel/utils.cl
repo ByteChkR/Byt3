@@ -1,7 +1,12 @@
+#include interpolation/interpolation.cl
+
 uchar Lerp(uchar a, uchar b, float weightB)
-{
-    return (uchar)clamp((float)((float)a * (1 - weightB) + (float)b * weightB), (float)0.0, (float)255.0);
+{   
+    float w = clamp(weightB, 0.0f, 1.0f);
+    //return (uchar)floatMix(a, b, weightB);
+    return (uchar)(a * (1 - w) + b * w);
 }
+
 
 int GetFlattenedIndex(int x, int y, int z, int width, int height)
 {
