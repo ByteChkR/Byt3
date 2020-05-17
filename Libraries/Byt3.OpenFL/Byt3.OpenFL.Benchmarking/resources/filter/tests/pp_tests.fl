@@ -1,7 +1,7 @@
 
-pp_include: ../helper/pptests/include.fl
+~include: ../helper/pptests/include.fl
 
-pp_includeinl: ../helper/pptests/includeinl.fl
+~includeinl: ../helper/pptests/includeinl.fl
 
 Main:
 	#random noisetextemp
