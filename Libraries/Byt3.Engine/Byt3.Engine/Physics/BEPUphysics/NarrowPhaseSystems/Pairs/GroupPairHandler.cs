@@ -16,14 +16,14 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public abstract class GroupPairHandler : CollidablePairHandler, IPairHandlerParent
     {
-        private int contactCount;
-
         private readonly HashSet<CollidablePair> containedPairs = new HashSet<CollidablePair>();
         private readonly ContactManifoldConstraintGroup manifoldConstraintGroup;
         private readonly RawList<CollidablePair> pairsToRemove = new RawList<CollidablePair>();
 
         private readonly Dictionary<CollidablePair, CollidablePairHandler> subPairs =
             new Dictionary<CollidablePair, CollidablePairHandler>();
+
+        private int contactCount;
 
 
         ///<summary>

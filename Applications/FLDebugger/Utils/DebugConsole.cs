@@ -15,9 +15,9 @@ namespace FLDebugger.Utils
     {
         public override string ConsoleKey => "fldbg";
         public override string ConsoleTitle => "Open FL Debugger GUI";
+
         public override bool Run(string[] args)
         {
-
             OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             InternalADLProjectDebugConfig.Settings.MinSeverity = Verbosity.Level1;
             ManifestIODebugConfig.Settings.MinSeverity = Verbosity.Level1;
@@ -74,7 +74,8 @@ namespace FLDebugger.Utils
                     openForm.Close();
                 }
 
-                GetEditor(args).ShowDialog(); //Show as dialog to have a blocking call so we do not leave the try catch block
+                GetEditor(args)
+                    .ShowDialog(); //Show as dialog to have a blocking call so we do not leave the try catch block
             }
             catch (Exception e)
             {

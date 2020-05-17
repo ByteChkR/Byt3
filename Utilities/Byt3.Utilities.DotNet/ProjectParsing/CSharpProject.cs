@@ -6,6 +6,26 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
 {
     public class CSharpProject
     {
+        private readonly XmlDocument document;
+
+        internal CSharpProject(XmlDocument document)
+        {
+            this.document = document;
+        }
+
+
+        public XmlNode ProjectNode => document.FirstChild;
+        public List<CSharpReference> References => ParseReferences(GetChildren(ProjectNode).ToArray());
+
+        public List<CSharpReference> ProjectReferences =>
+            References.Where(x => x.ReferenceType == CSharpReferenceType.ProjectReference).ToList();
+
+        public List<CSharpReference> EmbeddedReferences =>
+            References.Where(x => x.ReferenceType == CSharpReferenceType.EmbeddedResource).ToList();
+
+        public List<CSharpReference> PackageReferences =>
+            References.Where(x => x.ReferenceType == CSharpReferenceType.PackageReference).ToList();
+
         public static List<XmlNode> GetChildren(XmlNode node)
         {
             List<XmlNode> ret = new List<XmlNode>();
@@ -41,26 +61,6 @@ namespace Byt3.Utilities.DotNet.ProjectParsing
             }
 
             return ret;
-        }
-
-
-        public XmlNode ProjectNode => document.FirstChild;
-        public List<CSharpReference> References => ParseReferences(GetChildren(ProjectNode).ToArray());
-
-        public List<CSharpReference> ProjectReferences =>
-            References.Where(x => x.ReferenceType == CSharpReferenceType.ProjectReference).ToList();
-
-        public List<CSharpReference> EmbeddedReferences =>
-            References.Where(x => x.ReferenceType == CSharpReferenceType.EmbeddedResource).ToList();
-
-        public List<CSharpReference> PackageReferences =>
-            References.Where(x => x.ReferenceType == CSharpReferenceType.PackageReference).ToList();
-
-        private readonly XmlDocument document;
-
-        internal CSharpProject(XmlDocument document)
-        {
-            this.document = document;
         }
 
         public void Save(string path)

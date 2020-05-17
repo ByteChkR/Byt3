@@ -15,7 +15,10 @@ namespace Byt3Console.Runner
             if (args.Length == 1 && args[0] == "reload")
             {
                 if (File.Exists(ConsolePaths.RunnerConfig))
+                {
                     File.Delete(ConsolePaths.RunnerConfig);
+                }
+
                 Console.WriteLine("Index File Cleared");
                 return;
             }

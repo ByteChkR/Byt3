@@ -2,11 +2,11 @@
 {
     public class FLUnresolvedDefinedBuffer
     {
-        public string BufferName { get; }
-
         public FLUnresolvedDefinedBuffer(string bufferName)
         {
             BufferName = bufferName;
         }
+
+        public string BufferName { get; }
     }
 }

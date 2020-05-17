@@ -3,7 +3,7 @@ using Byt3.Serialization;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.ArgumentSerializer
 {
-    public class SerializableBufferArgumentSerializer :FLBaseSerializer
+    public class SerializableBufferArgumentSerializer : FLBaseSerializer
     {
         public override object Deserialize(PrimitiveValueWrapper s)
         {

@@ -13,16 +13,17 @@ namespace FLDebugger.Forms
 {
     public partial class FLDebuggerWindow : Form
     {
-
-        private FLProgram Program;
-        private Dictionary<FLParsedObject, int> marks;
-        private int selectedLine;
-        private bool nohalt = false;
-        private bool started = false;
-        private bool exitDirect;
-        private string Source;
-
         private CustomCheckedListBox clbCode;
+
+
+        private bool continueEx;
+        private bool exitDirect;
+        private readonly Dictionary<IParsedObject, int> marks;
+        private bool nohalt;
+        private FLProgram Program;
+        private int selectedLine;
+        private readonly string Source;
+        private bool started;
 
         public FLDebuggerWindow(FLProgram program)
         {
@@ -31,7 +32,6 @@ namespace FLDebugger.Forms
             Source = source;
             InitializeComponent();
         }
-
 
 
         private void CodeView_Load(object sender, EventArgs e)
@@ -50,8 +50,7 @@ namespace FLDebugger.Forms
             DoubleBuffered = true;
 
 
-
-            clbCode.Items.AddRange(Source.Split(new[] { '\n' }));
+            clbCode.Items.AddRange(Source.Split('\n'));
 
             UpdateSidePanel();
             btnContinue.Text = "Start";
@@ -60,7 +59,11 @@ namespace FLDebugger.Forms
 
         private void LbInternalBuffersOnMouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (lbInternalBuffers.SelectedItem == null || !started) return;
+            if (lbInternalBuffers.SelectedItem == null || !started)
+            {
+                return;
+            }
+
             FLBuffer buf = lbInternalBuffers.SelectedItem as FLBuffer;
             BufferView bvv = new BufferView(Program.Instance, buf, Program.Dimensions.x, Program.Dimensions.y);
             bvv.Show();
@@ -69,7 +72,6 @@ namespace FLDebugger.Forms
         private Color GetCodeItemForeColor(CustomCheckedListBox listbox, DrawItemEventArgs e)
         {
             return listbox.ForeColor;
-
         }
 
 
@@ -79,14 +81,13 @@ namespace FLDebugger.Forms
             {
                 return Color.Orange;
             }
-            else if (listbox.GetItemChecked(e.Index))
+
+            if (listbox.GetItemChecked(e.Index))
             {
                 return Color.DarkRed;
             }
-            else
-            {
-                return listbox.BackColor;
-            }
+
+            return listbox.BackColor;
         }
 
         private void CodeView_Closing(object sender, CancelEventArgs e)
@@ -97,8 +98,14 @@ namespace FLDebugger.Forms
 
         private void LbBuffers_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (lbBuffers.SelectedItem == null || !started) return;
-            BufferView bvv = new BufferView(Program.Instance, Program.GetBufferWithName(lbBuffers.SelectedItem.ToString(), false), Program.Dimensions.x, Program.Dimensions.y);
+            if (lbBuffers.SelectedItem == null || !started)
+            {
+                return;
+            }
+
+            BufferView bvv = new BufferView(Program.Instance,
+                Program.GetBufferWithName(lbBuffers.SelectedItem.ToString(), false), Program.Dimensions.x,
+                Program.Dimensions.y);
             bvv.Show();
         }
 
@@ -106,6 +113,7 @@ namespace FLDebugger.Forms
         {
             return marks[obj];
         }
+
         private void SelectLine(int line)
         {
             selectedLine = line;
@@ -129,8 +137,6 @@ namespace FLDebugger.Forms
         }
 
 
-
-
         private void UpdateSidePanel()
         {
             FLBuffer active = Program.GetActiveBuffer(false);
@@ -144,12 +150,15 @@ namespace FLDebugger.Forms
                     s += " " + Program.ActiveChannels[i];
                 }
             }
-            else s += " NULL";
+            else
+            {
+                s += " NULL";
+            }
+
             lblActiveChannels.Text = s;
 
             lbBuffers.Items.Clear();
             lbBuffers.Items.AddRange(Program.BufferNames.Cast<object>().ToArray());
-
         }
 
         public void MarkInstruction(int instr)
@@ -157,8 +166,6 @@ namespace FLDebugger.Forms
             SelectLine(instr);
         }
 
-
-        private bool continueEx = false;
         private void btnContinue_Click(object sender, EventArgs e)
         {
             started = true;
@@ -189,7 +196,6 @@ namespace FLDebugger.Forms
 
         private void lbBuffers_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
     }
 }

@@ -7,7 +7,8 @@ namespace FLDebugger.Forms
 {
     public partial class BuildExceptionViewer : Form
     {
-        private CLBuildException exception;
+        private readonly CLBuildException exception;
+
         public BuildExceptionViewer(CLBuildException ex)
         {
             exception = ex;
@@ -28,7 +29,8 @@ namespace FLDebugger.Forms
                 string txt = $"File: {br.TargetFile} Errors: {br.BuildErrors.Count}\n";
                 for (int i = 0; i < br.BuildErrors.Count; i++)
                 {
-                    txt += $"\t{i} [{br.BuildErrors[i].Error}] {br.BuildErrors[i].Exception.GetType().Name} : {br.BuildErrors[i].Message}";
+                    txt +=
+                        $"\t{i} [{br.BuildErrors[i].Error}] {br.BuildErrors[i].Exception.GetType().Name} : {br.BuildErrors[i].Message}";
                 }
 
                 rtbExText.Text = txt;

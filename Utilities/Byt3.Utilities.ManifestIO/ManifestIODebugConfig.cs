@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using Byt3.ADL;
+﻿using Byt3.ADL;
 using Byt3.ADL.Configs;
 
 namespace Byt3.Utilities.ManifestIO

@@ -5,10 +5,10 @@ namespace HorrorOfBindings.components
 {
     public class GeneralTimer : AbstractComponent
     {
-        private float _fireTime;
+        private readonly Action _action;
+        private readonly float _fireTime;
+        private readonly bool _loop;
         private float _time;
-        private Action _action;
-        private bool _loop;
 
         public GeneralTimer(float fireTime, Action action, bool loop = false)
         {

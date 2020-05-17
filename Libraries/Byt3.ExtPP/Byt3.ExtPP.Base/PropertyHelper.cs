@@ -60,7 +60,7 @@ namespace Byt3.ExtPP.Base
 
             if (body.NodeType == ExpressionType.MemberAccess)
             {
-                return ((MemberExpression) body).Member as MemberInfo;
+                return ((MemberExpression) body).Member;
             }
 
             return null;

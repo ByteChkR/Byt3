@@ -1,10 +1,14 @@
-﻿using Assimp;
-using Byt3.Engine.Core;
+﻿using Byt3.Engine.Core;
 
 namespace HorrorOfBindings.components.Weapons
 {
     public abstract class AbstractWeapon : AbstractComponent
     {
+        private float _fireRateTimer;
+        private bool _isReloading;
+        private bool _isShooting;
+        private bool _pullTrigger;
+        private float _reloadTimer;
         public Bullet BulletPrefab { get; set; }
         public GameObject WeaponNozzle { get; set; }
         public float FireRate { get; set; }
@@ -12,11 +16,6 @@ namespace HorrorOfBindings.components.Weapons
         public int MaxAmmoCount { get; set; }
         public int CurrentAmmoCount { get; set; }
         public bool AutoReload { get; set; }
-        private float _reloadTimer = 0;
-        private float _fireRateTimer = 0;
-        private bool _isShooting = false;
-        private bool _isReloading = false;
-        private bool _pullTrigger = false;
         public virtual bool EmptyMagazine => CurrentAmmoCount == 0;
         public virtual bool CanReload => CurrentAmmoCount < MaxAmmoCount;
 
@@ -57,12 +56,10 @@ namespace HorrorOfBindings.components.Weapons
                 Owner.Scene.Add(bullet);
                 _fireRateTimer = FireRate;
                 _isShooting = true;
-                return;
             }
             else if (AutoReload)
             {
                 Reload();
-                return;
             }
         }
 

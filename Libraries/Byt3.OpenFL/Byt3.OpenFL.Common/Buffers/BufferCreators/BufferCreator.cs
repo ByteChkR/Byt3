@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+using Byt3.OpenFL.Common.ElementModifiers;
 using Byt3.OpenFL.Common.Exceptions;
 
 namespace Byt3.OpenFL.Common.Buffers.BufferCreators
@@ -39,13 +40,14 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators
             }
         }
 
-        public SerializableFLBuffer Create(string key, string name, string[] arguments, bool isArray, int size)
+        public SerializableFLBuffer Create(string key, string name, string[] arguments, FLBufferModifiers modifiers,
+            int size)
         {
             for (int i = 0; i < bufferCreators.Count; i++)
             {
                 if (bufferCreators[i].IsCorrectBuffer(key))
                 {
-                    return bufferCreators[i].CreateBuffer(name, arguments, isArray, size);
+                    return bufferCreators[i].CreateBuffer(name, arguments, modifiers, size);
                 }
             }
 

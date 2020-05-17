@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Byt3.Utilities.FastString;
@@ -34,9 +29,11 @@ namespace Byt3.AutoUpdate
 
         private void FileDownloadClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            int totalKB = (int)(e.TotalBytesToReceive / 1024);
-            int currentKB = (int)(e.BytesReceived / 1024);
-            SetStatus($"Downloading.. {Math.Round(currentKB / 1024f, 2)} MB ({Math.Round(currentKB / (float)totalKB, 2)}%)", currentKB, totalKB);//Prevent overflow of integer by having slightly less granular progress percentage
+            int totalKB = (int) (e.TotalBytesToReceive / 1024);
+            int currentKB = (int) (e.BytesReceived / 1024);
+            SetStatus(
+                $"Downloading.. {Math.Round(currentKB / 1024f, 2)} MB ({Math.Round(currentKB / (float) totalKB, 2)}%)",
+                currentKB, totalKB); //Prevent overflow of integer by having slightly less granular progress percentage
         }
 
         private void SetStatus(string text, int process, int maxProcess)
@@ -61,7 +58,8 @@ namespace Byt3.AutoUpdate
         private Task DownloadUpdate(Version version, out string tempFile)
         {
             tempFile = Path.GetRandomFileName();
-            return fileDownloadClient.DownloadFileTaskAsync($"{Program.TargetURL}{Program.ProjectName}/{version}.zip", tempFile);
+            return fileDownloadClient.DownloadFileTaskAsync($"{Program.TargetURL}{Program.ProjectName}/{version}.zip",
+                tempFile);
             //return new Task<string>(() =>
             //{
             //    string tempFile = Path.GetRandomFileName();
@@ -80,11 +78,21 @@ namespace Byt3.AutoUpdate
                 {
                     ZipArchiveEntry zipArchiveEntry = file.Entries[i];
                     string destinationDir = Path.Combine(targetDir, Path.GetDirectoryName(zipArchiveEntry.FullName));
-                    if (!Directory.Exists(destinationDir)) Directory.CreateDirectory(destinationDir);
-                    waitAction?.Invoke($"[{i + 1}/{file.Entries.Count}] Extracting File: {zipArchiveEntry.Name}", i + 1, file.Entries.Count);
-                    if (File.Exists(Path.Combine(destinationDir, zipArchiveEntry.Name))) File.Delete(Path.Combine(destinationDir, zipArchiveEntry.Name));
+                    if (!Directory.Exists(destinationDir))
+                    {
+                        Directory.CreateDirectory(destinationDir);
+                    }
+
+                    waitAction?.Invoke($"[{i + 1}/{file.Entries.Count}] Extracting File: {zipArchiveEntry.Name}", i + 1,
+                        file.Entries.Count);
+                    if (File.Exists(Path.Combine(destinationDir, zipArchiveEntry.Name)))
+                    {
+                        File.Delete(Path.Combine(destinationDir, zipArchiveEntry.Name));
+                    }
+
                     zipArchiveEntry.ExtractToFile(Path.Combine(destinationDir, zipArchiveEntry.Name));
                 }
+
                 file.Dispose();
                 File.Delete(archiveFile);
             });
@@ -114,12 +122,14 @@ namespace Byt3.AutoUpdate
                 {
                     Application.DoEvents();
                 }
+
                 Task waitTask = new Task(WaitForProcessTask);
                 waitTask.Start();
                 while (!waitTask.IsCompleted)
                 {
                     Application.DoEvents();
                 }
+
                 if (waitTask.IsFaulted)
                 {
                     throw waitTask.Exception.InnerException;
@@ -131,6 +141,7 @@ namespace Byt3.AutoUpdate
                 {
                     Application.DoEvents();
                 }
+
                 if (extractTask.IsFaulted)
                 {
                     throw extractTask.Exception.InnerException;
@@ -155,7 +166,6 @@ namespace Byt3.AutoUpdate
                     Application.DoEvents();
                 }
             }
-
         }
     }
 }

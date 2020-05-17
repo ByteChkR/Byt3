@@ -13,7 +13,7 @@ namespace Byt3.Collections.Smoothing
                         Arch2); //Creates interpolation (first Slerp T then use it to create arch2)
             interpolator =
                 Interpolator.CreateInterpolator(Flip, Slerp //Normal Interpolation Delegate
-                    , (float time) => SmoothStart(time, 1) //Sometimes you need to use anonymous functions.(GOD BLESS C#)
+                    , time => SmoothStart(time, 1) //Sometimes you need to use anonymous functions.(GOD BLESS C#)
                 ); //Creates interpolation (first Slerp T then use it to plug a SmoothStartCurve)
 
             Interpolator test = Interpolator.CreateInterpolator(Flip, Flip);
@@ -30,36 +30,6 @@ namespace Byt3.Collections.Smoothing
             {
                 float t = i / 10000f;
                 float hh = interpolator.Interpolate(t);
-            }
-        }
-
-        public class Interpolator
-        {
-            public delegate float InterpolatingDelegate(float time);
-
-            private List<InterpolatingDelegate> interpolations;
-
-
-            private Interpolator()
-            {
-                interpolations = new List<InterpolatingDelegate>();
-            }
-
-            public float Interpolate(float t)
-            {
-                float ret = t;
-                foreach (InterpolatingDelegate iDel in interpolations)
-                {
-                    ret = iDel(ret);
-                }
-
-                return ret;
-            }
-
-            public static Interpolator CreateInterpolator(params InterpolatingDelegate[] interpolations)
-            {
-                Interpolator ret = new Interpolator {interpolations = interpolations.ToList()};
-                return ret;
             }
         }
 
@@ -153,6 +123,36 @@ namespace Byt3.Collections.Smoothing
         public static float Scale(float t, float scale)
         {
             return t * scale;
+        }
+
+        public class Interpolator
+        {
+            public delegate float InterpolatingDelegate(float time);
+
+            private List<InterpolatingDelegate> interpolations;
+
+
+            private Interpolator()
+            {
+                interpolations = new List<InterpolatingDelegate>();
+            }
+
+            public float Interpolate(float t)
+            {
+                float ret = t;
+                foreach (InterpolatingDelegate iDel in interpolations)
+                {
+                    ret = iDel(ret);
+                }
+
+                return ret;
+            }
+
+            public static Interpolator CreateInterpolator(params InterpolatingDelegate[] interpolations)
+            {
+                Interpolator ret = new Interpolator {interpolations = interpolations.ToList()};
+                return ret;
+            }
         }
     }
 }

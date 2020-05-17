@@ -13,11 +13,11 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public class BoxSpherePairHandler : ConvexPairHandler
     {
-        private ConvexCollidable<BoxShape> box;
         private readonly NonConvexContactManifoldConstraint contactConstraint;
 
         //Using a non-convex one since they have slightly lower overhead than their Convex friends when dealing with a single contact point.
         private readonly BoxSphereContactManifold contactManifold = new BoxSphereContactManifold();
+        private ConvexCollidable<BoxShape> box;
         private ConvexCollidable<SphereShape> sphere;
 
         public BoxSpherePairHandler()

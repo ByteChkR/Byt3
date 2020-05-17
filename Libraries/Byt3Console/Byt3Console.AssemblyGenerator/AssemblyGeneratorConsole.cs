@@ -7,11 +7,9 @@ namespace Byt3Console.AssemblyGenerator
 {
     public class AssemblyGeneratorConsole : AConsole
     {
+        public static string Output;
         public override string ConsoleKey => "asmgen";
         public override string ConsoleTitle => "Assembly Generator";
-
-
-        public static string Output;
         public static bool BuildConsole { get; set; }
         public static string Target { get; set; }
         public static bool HasTarget => !string.IsNullOrEmpty(Target);

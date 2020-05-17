@@ -8,6 +8,13 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public class FLProgramCheckBuilder
     {
+        public FLProgramCheckBuilder(FLInstructionSet iset, BufferCreator bc)
+        {
+            ProgramChecks = new List<FLProgramCheck>();
+            InstructionSet = iset;
+            BufferCreator = bc;
+        }
+
         public FLInstructionSet InstructionSet { get; }
         public BufferCreator BufferCreator { get; }
 
@@ -21,7 +28,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             new RemoveUnusedBuffersOptimization(),
             new RemoveUnusedFunctionsEarlyOptimization(),
             new InstructionArgumentValidator(),
-            new FilePathValidator(),
+            new FilePathValidator()
         };
 
         public static FLProgramCheckBuilder CreateDefaultCheckBuilder(FLInstructionSet iset, BufferCreator bc)
@@ -32,15 +39,8 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             {
                 pipeline.AddProgramCheck(checks[i]);
             }
-            
-            return pipeline;
-        }
 
-        public FLProgramCheckBuilder(FLInstructionSet iset, BufferCreator bc)
-        {
-            ProgramChecks = new List<FLProgramCheck>();
-            InstructionSet = iset;
-            BufferCreator = bc;
+            return pipeline;
         }
 
         public void AddProgramCheck(FLProgramCheck check)
@@ -53,7 +53,18 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             if (!ProgramChecks.Contains(check))
             {
                 ProgramChecks.Add(check);
+                ProgramChecks.Sort((x, y) => y.Priority.CompareTo(x.Priority));
             }
+        }
+
+        public void RemoveAllProgramChecks()
+        {
+            if (IsAttached)
+            {
+                return;
+            }
+
+            ProgramChecks.Clear();
         }
 
         public void RemoveProgramCheck(FLProgramCheck check)
@@ -75,7 +86,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 
             for (int i = 0; i < ProgramChecks.Count; i++)
             {
-                ProgramChecks[i].SetValues(InstructionSet, BufferCreator);
+                ProgramChecks[i].SetValues(InstructionSet, BufferCreator, target);
             }
 
             foreach (FLProgramCheck flProgramCheck in ProgramChecks)

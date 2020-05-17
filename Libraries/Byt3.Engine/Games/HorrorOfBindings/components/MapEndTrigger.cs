@@ -1,5 +1,4 @@
-﻿using System;
-using Byt3.Collections;
+﻿using Byt3.Collections;
 using Byt3.Engine.Core;
 using Byt3.Engine.Physics;
 using Byt3.Engine.Physics.BEPUphysics.CollisionTests;
@@ -11,7 +10,7 @@ namespace HorrorOfBindings.components
 {
     public class MapEndTrigger : AbstractComponent
     {
-        private float time = 0;
+        private float time;
         private float y;
 
         protected override void Awake()

@@ -28,17 +28,19 @@ namespace Byt3.Engine.Core
         /// </summary>
         private bool changeScene;
 
-        private bool exiting;
+        private AbstractComponent[] debugComponents = new AbstractComponent[0];
 
-        /// <summary>
-        /// The Next scene to be initialized
-        /// </summary>
-        private Type nextScene;
+        private bool exiting;
 
         /// <summary>
         /// An internal update frame counter
         /// </summary>
         private int frameCounter;
+
+        /// <summary>
+        /// The Next scene to be initialized
+        /// </summary>
+        private Type nextScene;
 
         /// <summary>
         /// Renderer Instance
@@ -49,6 +51,9 @@ namespace Byt3.Engine.Core
         /// An internal render frame counter
         /// </summary>
         private int renderFrameCounter;
+
+
+        private bool staticInitialized;
 
         /// <summary>
         /// The Window used to render
@@ -137,6 +142,22 @@ namespace Byt3.Engine.Core
         public Vector2 MousePosition { get; private set; }
 
         public Vector2 MouseDelta { get; private set; }
+
+        public void Dispose()
+        {
+            Prefabs.DisposeObjects();
+            ShaderProgram.ResetLastUsedProgram();
+            DefaultFilepaths.DisposeObjects();
+            Renderer.Dispose();
+
+            ManifestReader.ClearUnpackedFiles();
+
+            WindowUnInit();
+
+
+            HandleBase.DisposeAllHandles();
+            EngineStatisticsManager.DisposeAllHandles();
+        }
 
         /// <summary>
         /// Sets the Game Window Context as active for the Calling thread.
@@ -229,9 +250,6 @@ namespace Byt3.Engine.Core
             Instance = null;
         }
 
-
-        private bool staticInitialized;
-
         private void StaticInit()
         {
             if (staticInitialized)
@@ -264,22 +282,6 @@ namespace Byt3.Engine.Core
             RemoveSceneObjects();
 
             window.Exit();
-        }
-
-        public void Dispose()
-        {
-            Prefabs.DisposeObjects();
-            ShaderProgram.ResetLastUsedProgram();
-            DefaultFilepaths.DisposeObjects();
-            Renderer.Dispose();
-
-            ManifestReader.ClearUnpackedFiles();
-
-            WindowUnInit();
-
-
-            HandleBase.DisposeAllHandles();
-            EngineStatisticsManager.DisposeAllHandles();
         }
 
 
@@ -365,8 +367,6 @@ namespace Byt3.Engine.Core
             exiting = false;
             window.Run(0, 0);
         }
-
-        private AbstractComponent[] debugComponents = new AbstractComponent[0];
 
         public void SetDebugComponents(AbstractComponent[] components)
         {

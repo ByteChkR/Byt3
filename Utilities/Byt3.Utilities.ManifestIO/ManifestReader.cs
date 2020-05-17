@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Byt3.ADL;
-using Byt3.ADL.Configs;
 using Byt3.Callbacks;
 using Byt3.Engine.AssetPackaging;
 using Byt3.Utilities.FastString;
@@ -19,7 +18,9 @@ namespace Byt3.Utilities.ManifestIO
         private static readonly ADLLogger<LogType> Logger =
             new ADLLogger<LogType>(ManifestIODebugConfig.Settings, "Manifest Reader");
 
-        private static readonly Dictionary<string, AssemblyFile> _assemblyFiles = new Dictionary<string, AssemblyFile>();
+        private static readonly Dictionary<string, AssemblyFile>
+            _assemblyFiles = new Dictionary<string, AssemblyFile>();
+
         private static readonly List<Assembly> _loadedAssemblies = new List<Assembly>();
         private static readonly List<string> _unpackedFiles = new List<string>();
 
@@ -56,7 +57,7 @@ namespace Byt3.Utilities.ManifestIO
 
             string list = tr.ReadToEnd();
             tr.Close();
-            string[] files = list.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] files = list.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 
             for (int i = 0; i < files.Length; i++)
             {
@@ -333,10 +334,10 @@ namespace Byt3.Utilities.ManifestIO
             string[] files = _assemblyFiles.Keys.ToArray();
             string p = SanitizeFilename(path);
             List<string> ret = new List<string>();
-            string[] searchParts = searchPattern.Split(new[] { '*' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] searchParts = searchPattern.Split(new[] {'*'}, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < files.Length; i++)
             {
-                if (files[i].StartsWith(p)/* && (files[i].EndsWith(searchPattern) || searchPattern == "*")*/)
+                if (files[i].StartsWith(p) /* && (files[i].EndsWith(searchPattern) || searchPattern == "*")*/)
                 {
                     string filePart = files[i].Replace(p, "");
                     int lastIdx = 0;
@@ -350,8 +351,11 @@ namespace Byt3.Utilities.ManifestIO
                             break;
                         }
                     }
+
                     if (valid)
+                    {
                         ret.Add(UnSanitizeFilename(files[i]));
+                    }
                 }
             }
 

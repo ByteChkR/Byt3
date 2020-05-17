@@ -7,7 +7,8 @@ namespace Byt3.ExtPP.Base
     /// The Extension class contains a multitude of useful operations on arrays and strings.
     /// </summary>
     public static class Extensions
-    {/// <summary>
+    {
+        /// <summary>
         /// Creates a sub array starting from 0 to length
         /// </summary>
         /// <typeparam name="T">Type</typeparam>
@@ -18,7 +19,6 @@ namespace Byt3.ExtPP.Base
         {
             return SubArray(arr, 0, length);
         }
-        
 
 
         /// <summary>
@@ -40,9 +40,5 @@ namespace Byt3.ExtPP.Base
 
             return ret;
         }
-
-
-
-        
     }
 }

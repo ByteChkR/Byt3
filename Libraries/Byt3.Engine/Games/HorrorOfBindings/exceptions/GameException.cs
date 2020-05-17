@@ -1,7 +1,6 @@
 ﻿using System;
 using Byt3.Engine.Exceptions;
 
-
 namespace HorrorOfBindings.exceptions
 {
     public class GameException : EngineException

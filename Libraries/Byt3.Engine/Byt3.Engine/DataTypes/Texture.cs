@@ -8,14 +8,14 @@ namespace Byt3.Engine.DataTypes
     /// </summary>
     public class Texture : DisposableGLObjectBase
     {
+        private readonly long bytes;
+
+        private bool dontDispose;
+
         /// <summary>
         /// Private flag to keep from disposing the texture twice
         /// </summary>
         public bool IsDisposed;
-
-        private bool dontDispose;
-
-        private readonly long bytes;
 
         /// <summary>
         /// Internal Constructor to Create a Texture Object from a GL Texture Handle

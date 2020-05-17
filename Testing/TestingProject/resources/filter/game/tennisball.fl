@@ -1,29 +1,28 @@
---define texture random: urnd
 
-CreateMask:
+CreateMask: static
   setactive 3
   setv 1
   setactive 0 1 2
-  circle 0.5 0.5 0 0.4
+  circle1 0.5 0.5 0.4
   invert
-  circle 0.5 0.5 0 0.3
+  circle1 0.5 0.5 0.3
 
 CreateMaskInv:
   jmp CreateMask
   invert
 
-Perlin:
+Perlin: static
   setactive 3
   setv 1
   setactive 0 1 2
-  set random
+  urnd
   perlin 0.8 7
 
-YPerlin:
+YPerlin: static
   setactive 3
   setv 1
   setactive 1 2
-  set random
+  urnd
   perlin 0.8 7
   
 
@@ -33,13 +32,16 @@ YellowPerlin:
   adjustlevel 0.9 1
 
 
-White:
+White: static
   setactive 0 1 2
   setv 1
 
-Main:
-  setactive 0 1
+Main:  
+  setactive 3
+  setv 1
+  setactive 1 2
   mixt YellowPerlin CreateMask
   mulv 2
   setactive 0 1 2
   mixt White CreateMaskInv
+ 

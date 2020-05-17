@@ -10,7 +10,6 @@ using Byt3.Serialization.Serializers;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal
 {
-
     public abstract class FLBaseSerializer : ASerializer
     {
         private List<string> idMap;
@@ -29,13 +28,13 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
         {
             return idMap.IndexOf(name);
         }
-
     }
 
     public class SerializableFLProgramSerializer : ASerializer<SerializableFLProgram>
     {
         private readonly Byt3Serializer bufferSerializer;
         private readonly FLInstructionSet instructionSet;
+
         public SerializableFLProgramSerializer(Dictionary<Type, FLBaseSerializer> serializers, FLInstructionSet iset)
         {
             instructionSet = iset;
@@ -143,7 +142,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             string[] funcMap = obj.Functions.Select(x => x.Name).ToArray();
             string[] exMap = obj.ExternalFunctions.Select(x => x.Name).ToArray();
             string[] bufMap = obj.DefinedBuffers.Select(x => x.Name).ToArray();
-            
+
             List<string> idMap = new List<string>();
             idMap.AddRange(funcMap);
             idMap.AddRange(exMap);
@@ -164,7 +163,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                         $"Can not Deserialize Serializable Defined buffer: {obj.DefinedBuffers[i].Name} ID: {i}");
                 }
 
-                s.Write(temp.GetBuffer(), (int)temp.Position);
+                s.Write(temp.GetBuffer(), (int) temp.Position);
             }
 
             for (int i = 0; i < obj.Functions.Count; i++)
@@ -176,7 +175,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                         $"Can not Deserialize Serializable Function: {obj.Functions[i].Name} ID: {i}");
                 }
 
-                s.Write(temp.GetBuffer(), (int)temp.Position);
+                s.Write(temp.GetBuffer(), (int) temp.Position);
             }
 
             for (int i = 0; i < obj.ExternalFunctions.Count; i++)
@@ -188,7 +187,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                         $"Can not Deserialize Serializable External Function: {obj.ExternalFunctions[i].Name} ID: {i}");
                 }
 
-                s.Write(temp.GetBuffer(), (int)temp.Position);
+                s.Write(temp.GetBuffer(), (int) temp.Position);
             }
         }
     }

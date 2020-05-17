@@ -75,6 +75,16 @@ namespace Byt3.ExtPP
             Change(key, false);
         }
 
+        /// <summary>
+        /// Returns true if the definition is "set" and returns false if the definition is "unset"
+        /// </summary>
+        /// <param name="key">The key to be checked</param>
+        /// <returns>returns true when the key is set.</returns>
+        public bool Check(string key)
+        {
+            return definitions.ContainsKey(key) && definitions[key];
+        }
+
 
         /// <summary>
         /// Change the definition state.
@@ -92,16 +102,6 @@ namespace Byt3.ExtPP
             {
                 definitions.Add(key, state);
             }
-        }
-
-        /// <summary>
-        /// Returns true if the definition is "set" and returns false if the definition is "unset"
-        /// </summary>
-        /// <param name="key">The key to be checked</param>
-        /// <returns>returns true when the key is set.</returns>
-        public bool Check(string key)
-        {
-            return definitions.ContainsKey(key) && definitions[key];
         }
     }
 }

@@ -8,43 +8,6 @@ namespace Byt3.ExtPP.Base
     public class CommandInfo
     {
         /// <summary>
-        /// The help text of the command
-        /// </summary>
-        public string HelpText => Meta.HelpText;
-
-        /// <summary>
-        /// The primary command.
-        /// Can be accessed with --
-        /// </summary>
-        public string Command => Meta.Command;
-
-        /// <summary>
-        /// The shortcut for the command
-        /// Can be accessed with -
-        /// </summary>
-        public string ShortCut => Meta.ShortCut;
-
-        /// <summary>
-        /// If this parameter can be set by a global prefix
-        /// </summary>
-        public bool IncludeGlobal => Meta.IncludeGlobal;
-
-        /// <summary>
-        /// The field that will be set with reflection
-        /// </summary>
-        public PropertyInfo Field { get; }
-
-        /// <summary>
-        /// Wrapper to separate serializable info from the command info.
-        /// </summary>
-        public CommandMetaData Meta { get; }
-
-        /// <summary>
-        /// If true will set the value of the command to the default value if not specified directly in the settings
-        /// </summary>
-        public object DefaultIfNotSpecified { get; }
-
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="command">primary command prefix</param>
@@ -97,6 +60,43 @@ namespace Byt3.ExtPP.Base
             bool global) : this(command, shortcut, field, helpText, null, global)
         {
         }
+
+        /// <summary>
+        /// The help text of the command
+        /// </summary>
+        public string HelpText => Meta.HelpText;
+
+        /// <summary>
+        /// The primary command.
+        /// Can be accessed with --
+        /// </summary>
+        public string Command => Meta.Command;
+
+        /// <summary>
+        /// The shortcut for the command
+        /// Can be accessed with -
+        /// </summary>
+        public string ShortCut => Meta.ShortCut;
+
+        /// <summary>
+        /// If this parameter can be set by a global prefix
+        /// </summary>
+        public bool IncludeGlobal => Meta.IncludeGlobal;
+
+        /// <summary>
+        /// The field that will be set with reflection
+        /// </summary>
+        public PropertyInfo Field { get; }
+
+        /// <summary>
+        /// Wrapper to separate serializable info from the command info.
+        /// </summary>
+        public CommandMetaData Meta { get; }
+
+        /// <summary>
+        /// If true will set the value of the command to the default value if not specified directly in the settings
+        /// </summary>
+        public object DefaultIfNotSpecified { get; }
 
 
         /// <summary>

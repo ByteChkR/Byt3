@@ -9,63 +9,6 @@ namespace Byt3.PackageHandling.Tests
         internal bool CCalled;
         internal bool DCalled;
 
-        #region Example Handler / Handle Objects
-
-        private class A
-        {
-        }
-
-        private class B
-        {
-        }
-
-        private class C_B : B
-        {
-        }
-
-        private class D_C : C_B
-        {
-        }
-
-        private abstract class HandlerHelper<T> : AHandler<T>
-        {
-            public Byt3HandlerTests TestInstance;
-        }
-
-        private class HandlerA : HandlerHelper<A>
-        {
-            public override void Handle(A objectToHandle, object context)
-            {
-                TestInstance.ACalled = true;
-            }
-        }
-
-        private class HandlerB : HandlerHelper<B>
-        {
-            public override void Handle(B objectToHandle, object context)
-            {
-                TestInstance.BCalled = true;
-            }
-        }
-
-        private class HandlerC : HandlerHelper<C_B>
-        {
-            public override void Handle(C_B objectToHandle, object context)
-            {
-                TestInstance.CCalled = true;
-            }
-        }
-
-        private class HandlerD : HandlerHelper<D_C>
-        {
-            public override void Handle(D_C objectToHandle, object context)
-            {
-                TestInstance.DCalled = true;
-            }
-        }
-
-        #endregion
-
         private Byt3Handler GetHandler(Byt3HandlerLookupType type, AHandler fallback)
         {
             ACalled = BCalled = CCalled = DCalled = false;
@@ -130,5 +73,62 @@ namespace Byt3.PackageHandling.Tests
             handler.Handle(new D_C(), null); //Works because of fallback
             Assert.False(ACalled && BCalled && CCalled && DCalled);
         }
+
+        #region Example Handler / Handle Objects
+
+        private class A
+        {
+        }
+
+        private class B
+        {
+        }
+
+        private class C_B : B
+        {
+        }
+
+        private class D_C : C_B
+        {
+        }
+
+        private abstract class HandlerHelper<T> : AHandler<T>
+        {
+            public Byt3HandlerTests TestInstance;
+        }
+
+        private class HandlerA : HandlerHelper<A>
+        {
+            public override void Handle(A objectToHandle, object context)
+            {
+                TestInstance.ACalled = true;
+            }
+        }
+
+        private class HandlerB : HandlerHelper<B>
+        {
+            public override void Handle(B objectToHandle, object context)
+            {
+                TestInstance.BCalled = true;
+            }
+        }
+
+        private class HandlerC : HandlerHelper<C_B>
+        {
+            public override void Handle(C_B objectToHandle, object context)
+            {
+                TestInstance.CCalled = true;
+            }
+        }
+
+        private class HandlerD : HandlerHelper<D_C>
+        {
+            public override void Handle(D_C objectToHandle, object context)
+            {
+                TestInstance.DCalled = true;
+            }
+        }
+
+        #endregion
     }
 }

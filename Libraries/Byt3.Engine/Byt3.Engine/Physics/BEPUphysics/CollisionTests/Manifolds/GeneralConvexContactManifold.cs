@@ -14,8 +14,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.Manifolds
     ///</summary>
     public class GeneralConvexContactManifold : ContactManifold
     {
+        private readonly RawValueList<ContactSupplementData>
+            supplementData = new RawValueList<ContactSupplementData>(4);
+
         protected ConvexCollidable collidableA, collidableB;
-        private readonly RawValueList<ContactSupplementData> supplementData = new RawValueList<ContactSupplementData>(4);
 
         ///<summary>
         /// Constructs a new convex-convex manifold.

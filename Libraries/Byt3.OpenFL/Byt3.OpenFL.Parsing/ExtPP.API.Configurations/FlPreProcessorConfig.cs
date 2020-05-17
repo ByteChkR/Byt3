@@ -12,8 +12,8 @@ namespace Byt3.OpenFL.Parsing.ExtPP.API.Configurations
     /// </summary>
     public class FLPreProcessorConfig : APreProcessorConfig
     {
-        public override string FileExtension => ".fl";
         private static readonly StringBuilder Sb = new StringBuilder();
+        public override string FileExtension => ".fl";
 
         protected override List<AbstractPlugin> Plugins
         {
@@ -35,12 +35,18 @@ namespace Byt3.OpenFL.Parsing.ExtPP.API.Configurations
                     UndefineKeyword = FLKeywords.UndefineKeyword
                 };
 
+                ExceptionPlugin ep = new ExceptionPlugin
+                {
+                    ErrorKeyword = FLKeywords.PPErrorKeyword,
+                    WarningKeyword = FLKeywords.PPWarningKeyword
+                };
+
                 return new List<AbstractPlugin>
                 {
                     new FakeGenericsPlugin(),
                     inc,
                     cond,
-                    new ExceptionPlugin(),
+                    ep,
                     new MultiLinePlugin()
                 };
             }

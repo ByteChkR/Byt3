@@ -11,7 +11,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Vehicle
     {
         internal float accumulatedImpulse;
         private float allowedCompression = .01f;
-        
+
         private float angularAX, angularAY, angularAZ;
         private float angularBX, angularBY, angularBZ;
         private float bias;

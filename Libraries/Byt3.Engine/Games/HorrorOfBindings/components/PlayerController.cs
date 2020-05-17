@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Numerics;
 using Byt3.Engine.Audio;
 using Byt3.Engine.Core;
 using Byt3.Engine.DataTypes;
@@ -19,10 +18,7 @@ using HorrorOfBindings.mapgenerator;
 using HorrorOfBindings.scenes;
 using HorrorOfBindings.ui;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using ArbTextureNonPowerOfTwo = OpenTK.Graphics.OpenGL.ArbTextureNonPowerOfTwo;
-using Vector2 = OpenTK.Vector2;
 using Vector3 = OpenTK.Vector3;
 using Vector4 = OpenTK.Vector4;
 
@@ -30,40 +26,60 @@ namespace HorrorOfBindings.components
 {
     public class PlayerController : AbstractComponent
     {
-        private float GravityIncUngrounded = 5;
-        private float CurrentGravity = 0;
-        private int raycastLayer;
-        private int bulletLayer;
-        private float MoveSpeed = 10;
-        private float JumpForce = 200;
-        private Key Forward = Key.W;
-        private Key Left = Key.A;
-        private Key Back = Key.S;
-        private Key Right = Key.D;
-        private Key Jump = Key.Space;
-        private bool UseGlobalForward = true;
-        private Collider Collider;
-        private GameObject nozzle;
-        private Mesh bulletModel;
-        private Texture bulletTexture;
-        private ShaderProgram bulletShader;
-        private float BulletLaunchForce = 100;
-        private float BulletsPerSecond => wavesSurvived * baseBulletsPerSecond;
-        private static float BulletMass = 1;
-        private static bool physicalBullets = true;
-        private int hp = 15;
-        private int maxHP = 15;
-        private float BulletThreshold => 1f / BulletsPerSecond;
-        private bool left, right, fwd, back, jump;
-        private static float baseBulletsPerSecond = 5;
-        public static int wavesSurvived = 1;
-        private bool Grounded = false;
-        private AudioSourceComponent AudioSource;
-        private static AudioFile JumpSound, SpawnSound, ShootSound, ShootSound2;
-
         public delegate void onHpChange(float ratio);
 
+        private static float BulletMass = 1;
+        private static bool physicalBullets = true;
+        private static float baseBulletsPerSecond = 5;
+        public static int wavesSurvived = 1;
+        private static AudioFile JumpSound, SpawnSound, ShootSound, ShootSound2;
+
         public static onHpChange OnHPChange;
+        private readonly AudioSourceComponent AudioSource;
+        private readonly Key Back = Key.S;
+        private float BulletLaunchForce = 100;
+        private readonly int bulletLayer;
+        private readonly Mesh bulletModel;
+        private readonly ShaderProgram bulletShader;
+        private readonly Texture bulletTexture;
+        private Collider Collider;
+        private float CurrentGravity;
+        private readonly Key Forward = Key.W;
+        private readonly float GravityIncUngrounded = 5;
+        private bool Grounded;
+        private int hp = 15;
+        private readonly Key Jump = Key.Space;
+        private readonly float JumpForce = 200;
+
+        private int lastEnemySpawn;
+        private bool left, right, fwd, back, jump;
+        private readonly Key Left = Key.A;
+        private readonly int maxHP = 15;
+        private float MoveSpeed = 10;
+        private readonly GameObject nozzle;
+        private int raycastLayer;
+        private readonly Key Right = Key.D;
+        private readonly Random rnd = new Random();
+
+        private float time;
+        private readonly bool UseGlobalForward = true;
+
+        public PlayerController(GameObject nozzle, Mesh bulletModel, Texture bulletTexture, ShaderProgram bulletShader,
+            float speed, bool useGlobalForward, AudioSourceComponent audioSource)
+        {
+            AudioSource = audioSource;
+            this.bulletTexture = bulletTexture;
+            bulletLayer = LayerManager.NameToLayer("physics");
+            this.nozzle = nozzle;
+            this.bulletModel = bulletModel;
+            this.bulletShader = bulletShader;
+            MoveSpeed = speed;
+            UseGlobalForward = useGlobalForward;
+            raycastLayer = LayerManager.NameToLayer("raycast");
+        }
+
+        private float BulletsPerSecond => wavesSurvived * baseBulletsPerSecond;
+        private float BulletThreshold => 1f / BulletsPerSecond;
 
 
         public static GameObject[] CreatePlayer(Vector3 position, BasicCamera cam)
@@ -85,9 +101,8 @@ namespace HorrorOfBindings.components
             GameObject playerH = new GameObject(new Vector3(0, 10, 0), "PlayerHead");
             GameObject lightS = new GameObject(Vector3.UnitY * 2f, "Light");
             playerH.Add(lightS);
-            lightS.AddComponent(new LightComponent() {AmbientContribution = 0f});
+            lightS.AddComponent(new LightComponent {AmbientContribution = 0f});
             lightS.LocalPosition = Vector3.UnitY * 14f;
-
 
 
             //Movement for camera
@@ -99,10 +114,10 @@ namespace HorrorOfBindings.components
             cam.AddComponent(new CameraRaycaster(mouseTarget, playerH));
 
             //Movement for Player Head
-            OffsetConstraint connection = new OffsetConstraint()
+            OffsetConstraint connection = new OffsetConstraint
             {
                 Damping = 0, //Directly over the moving collider, no inertia
-                MoveSpeed = 20, //Even less inertia by moving faster in general
+                MoveSpeed = 20 //Even less inertia by moving faster in general
             };
             connection.Attach(player, Vector3.UnitY * 1);
             playerH.AddComponent(connection);
@@ -164,7 +179,7 @@ namespace HorrorOfBindings.components
 
         private void SpawnProjectile()
         {
-           Byt3. Engine.Physics.BEPUutilities.Vector3 v = Vector3.Zero;
+            Byt3.Engine.Physics.BEPUutilities.Vector3 v = Vector3.Zero;
             if (Grounded || !CameraRaycaster.ObjectUnderMouse(GameEngine.Instance.CurrentScene.Camera.LocalPosition,
                     out KeyValuePair<Collider, RayHit> hit))
             {
@@ -207,9 +222,6 @@ namespace HorrorOfBindings.components
             AudioSource.Play();
         }
 
-        private int lastEnemySpawn = 0;
-        private Random rnd = new Random();
-
         private void GameLogic()
         {
             if (hp <= 0)
@@ -236,20 +248,6 @@ namespace HorrorOfBindings.components
                     }
                 }
             }
-        }
-
-        public PlayerController(GameObject nozzle, Mesh bulletModel, Texture bulletTexture, ShaderProgram bulletShader,
-            float speed, bool useGlobalForward, AudioSourceComponent audioSource)
-        {
-            AudioSource = audioSource;
-            this.bulletTexture = bulletTexture;
-            bulletLayer = LayerManager.NameToLayer("physics");
-            this.nozzle = nozzle;
-            this.bulletModel = bulletModel;
-            this.bulletShader = bulletShader;
-            MoveSpeed = speed;
-            UseGlobalForward = useGlobalForward;
-            raycastLayer = LayerManager.NameToLayer("raycast");
         }
 
         private string cmdBulletMass(string[] args)
@@ -316,7 +314,7 @@ namespace HorrorOfBindings.components
 
         private string cmdResetPlayer(string[] args)
         {
-            Collider.PhysicsCollider.Position =Byt3. Engine.Physics.BEPUutilities.Vector3.UnitY * 4;
+            Collider.PhysicsCollider.Position = Byt3.Engine.Physics.BEPUutilities.Vector3.UnitY * 4;
             ColliderConstraints constraints = Collider.ColliderConstraints;
             constraints.PositionConstraints = FreezeConstraints.NONE;
             Collider.ColliderConstraints = constraints;
@@ -390,8 +388,6 @@ namespace HorrorOfBindings.components
             return ret;
         }
 
-        private float time;
-
         private Vector3 computeJumpAcc()
         {
             if (Grounded && jump)
@@ -422,8 +418,9 @@ namespace HorrorOfBindings.components
                 Vector3 vec = new Vector3(vel.X * deltaTime * MoveSpeed, vel.Y * deltaTime * JumpForce,
                     vel.Z * deltaTime * MoveSpeed);
 
-                
-               Byt3. Engine.Physics.BEPUutilities.Vector3 v = new Byt3.Engine.Physics.BEPUutilities.Vector3(vec.X, vec.Y, vec.Z);
+
+                Byt3.Engine.Physics.BEPUutilities.Vector3 v =
+                    new Byt3.Engine.Physics.BEPUutilities.Vector3(vec.X, vec.Y, vec.Z);
                 Collider.PhysicsCollider.ApplyLinearImpulse(ref v);
             }
 

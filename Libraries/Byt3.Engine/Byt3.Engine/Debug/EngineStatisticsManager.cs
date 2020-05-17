@@ -10,6 +10,7 @@ namespace Byt3.Engine.Debug
     /// </summary>
     public static class EngineStatisticsManager
     {
+        private static readonly List<DisposableObjectBase> objects = new List<DisposableObjectBase>();
         public static int TotalUpdates { get; private set; }
         public static int TotalFrames { get; private set; }
         public static float BiggestUpdateTime { get; private set; }
@@ -61,8 +62,6 @@ namespace Byt3.Engine.Debug
         {
             objects.Remove(bytes);
         }
-
-        private static readonly List<DisposableObjectBase> objects = new List<DisposableObjectBase>();
 
 
         public static void DisposeAllHandles()

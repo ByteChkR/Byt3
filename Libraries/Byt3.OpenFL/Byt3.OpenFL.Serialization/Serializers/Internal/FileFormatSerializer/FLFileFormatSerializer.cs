@@ -11,11 +11,12 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer
     {
         private static readonly Dictionary<string, ExtraStage> ExtraSteps = new Dictionary<string, ExtraStage>
         {
-            {"zip", new ExtraStage(new ZipExtraStage(), new UnZipExtraStage())},
+            {"zip", new ExtraStage(new ZipExtraStage(), new UnZipExtraStage())}
         };
 
-        private readonly FLProgramHeaderSerializer phs = new FLProgramHeaderSerializer();
         private readonly FLHeaderSerializer flHs = new FLHeaderSerializer();
+
+        private readonly FLProgramHeaderSerializer phs = new FLProgramHeaderSerializer();
 
         public override FLFileFormat DeserializePacket(PrimitiveValueWrapper s)
         {
@@ -44,7 +45,11 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer
             List<ExtraStage> ret = new List<ExtraStage>();
             for (int i = 0; i < extraStages.Length; i++)
             {
-                if(string.IsNullOrEmpty(extraStages[i]))continue;
+                if (string.IsNullOrEmpty(extraStages[i]))
+                {
+                    continue;
+                }
+
                 if (!ExtraSteps.ContainsKey(extraStages[i]))
                 {
                     throw new FLDeserializationException(

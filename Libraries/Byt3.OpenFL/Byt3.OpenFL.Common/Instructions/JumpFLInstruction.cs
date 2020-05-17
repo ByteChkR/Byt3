@@ -8,7 +8,8 @@ namespace Byt3.OpenFL.Common.Instructions
 {
     public class JumpFLInstruction : FLInstruction
     {
-        private int ArgumentOffset;
+        private readonly int ArgumentOffset;
+
         public JumpFLInstruction(List<FLInstructionArgument> arguments) : base(arguments)
         {
         }
@@ -21,13 +22,13 @@ namespace Byt3.OpenFL.Common.Instructions
 
         public override void Process()
         {
-
-            if (Arguments.Count != ArgumentOffset + 1 || Arguments[ArgumentOffset].Type != FLInstructionArgumentType.Function)
+            if (Arguments.Count != ArgumentOffset + 1 ||
+                Arguments[ArgumentOffset].Type != FLInstructionArgumentType.Function)
             {
                 throw new InvalidOperationException("Jump instruction needs to point to a valid function.");
             }
 
-            FLFunction obj = (FLFunction)Arguments[ArgumentOffset].Value;
+            IFunction obj = (IFunction) Arguments[ArgumentOffset].GetValue();
 
             Logger.Log(LogType.Log, "Jumping to " + obj.Name, MIN_INSTRUCTION_SEVERITY);
 

@@ -10,7 +10,8 @@ namespace Byt3.OpenFL.Threading
     /// </summary>
     public class FlMultiThreadScriptRunner : FLScriptRunner
     {
-        private Action OnFinishQueue;
+        private readonly Action OnFinishQueue;
+
         public FlMultiThreadScriptRunner(Action onFinishQueueCallback,
             DataVectorTypes dataVectorTypes = DataVectorTypes.Uchar1, string kernelFolder = "resources/kernel") : base(
             CLAPI.GetInstance(), dataVectorTypes, kernelFolder)
@@ -20,7 +21,7 @@ namespace Byt3.OpenFL.Threading
 
         public override void Process()
         {
-            ThreadManager.RunTask(_proc, (o) => OnFinishQueue());
+            ThreadManager.RunTask(_proc, o => OnFinishQueue());
         }
 
         private object _proc()
@@ -31,6 +32,7 @@ namespace Byt3.OpenFL.Threading
                 FLProgram texUpdate = Process(fle);
                 fle.OnFinishCallback?.Invoke(texUpdate);
             }
+
             OnFinishQueue?.Invoke();
             return new object();
         }

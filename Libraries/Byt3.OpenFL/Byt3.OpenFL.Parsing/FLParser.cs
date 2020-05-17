@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Byt3.ADL;
-using Byt3.ADL.Configs;
 using Byt3.ExtPP.API;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Parsing.ExtPP.API.Configurations;
 using Byt3.OpenFL.Parsing.Stages;
 using Byt3.Utilities.FastString;
@@ -17,19 +18,14 @@ namespace Byt3.OpenFL.Parsing
 {
     public class FLParser : Pipeline
     {
-        public WorkItemRunnerSettings WorkItemRunnerSettings { get; }
-        public BufferCreator BufferCreator { get; }
-        public FLInstructionSet InstructionSet { get; }
-
         private static readonly ADLLogger<LogType> Logger =
             new ADLLogger<LogType>(OpenFLDebugConfig.Settings, "FLParserPipeline");
-        
+
 
         static FLParser()
         {
             TextProcessorAPI.Configs[".fl"] = new FLPreProcessorConfig();
         }
-
 
 
         public FLParser(FLInstructionSet instructionSet, BufferCreator bufferCreator,
@@ -51,50 +47,69 @@ namespace Byt3.OpenFL.Parsing
         {
         }
 
+        public WorkItemRunnerSettings WorkItemRunnerSettings { get; }
+        public BufferCreator BufferCreator { get; }
+        public FLInstructionSet InstructionSet { get; }
+
         public SerializableFLProgram Process(FLParserInput input)
         {
-            return (SerializableFLProgram)Process((object)input);
+            return (SerializableFLProgram) Process((object) input);
         }
 
 
-        internal static string[] FindDefineStatements(List<string> source)
+        internal static DefineStatement[] FindDefineStatements(List<string> source)
         {
-            List<string> ret = new List<string>();
+            List<DefineStatement> ret = new List<DefineStatement>();
             ret.AddRange(FindDefineArrayBuffers(source));
             for (int i = 0; i < source.Count; i++)
             {
                 if (IsDefineStatement(source[i]))
                 {
-                    ret.Add(source[i]);
+                    ret.Add(new DefineStatement(source[i]));
                 }
             }
 
-            ret.Add(FLKeywords.DefineTextureKey+" in:");
+            ret.Add(new DefineStatement(FLKeywords.DefineTextureKey + $" {FLKeywords.InputBufferKey}:"));
             return ret.ToArray();
         }
 
-        internal static string[] FindDefineArrayBuffers(List<string> source)
+        internal static string[] FindParserOptions(List<string> source)
         {
             List<string> ret = new List<string>();
+            for (int i = 0; i < source.Count; i++)
+            {
+                if (IsParserOption(source[i].Trim()))
+                {
+                    ret.AddRange(source[i].Trim().Remove(0, FLKeywords.SetParserOptionKey.Length)
+                        .Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
+                }
+            }
+
+            return ret.ToArray();
+        }
+
+        internal static DefineStatement[] FindDefineArrayBuffers(List<string> source)
+        {
+            List<DefineStatement> ret = new List<DefineStatement>();
             for (int i = 0; i < source.Count; i++)
             {
                 if (IsDefineArrayBuffer(source[i]))
                 {
-                    ret.Add(source[i]);
+                    ret.Add(new DefineStatement(source[i]));
                 }
             }
 
             return ret.ToArray();
         }
 
-        internal static string[] FindDefineScriptsStatements(List<string> source)
+        internal static DefineStatement[] FindDefineScriptsStatements(List<string> source)
         {
-            List<string> ret = new List<string>();
+            List<DefineStatement> ret = new List<DefineStatement>();
             for (int i = 0; i < source.Count; i++)
             {
                 if (IsDefineScriptStatement(source[i]))
                 {
-                    ret.Add(source[i]);
+                    ret.Add(new DefineStatement(source[i]));
                 }
             }
 
@@ -108,7 +123,7 @@ namespace Byt3.OpenFL.Parsing
             {
                 if (IsFunctionHeader(source[i]))
                 {
-                    ret.Add(source[i].Remove(source[i].Length - 1, 1));
+                    ret.Add(source[i]);
                 }
             }
 
@@ -148,6 +163,11 @@ namespace Byt3.OpenFL.Parsing
             return line.Substring(key.Length, len).TrimStart();
         }
 
+        internal static bool IsParserOption(string line)
+        {
+            return FString.FastIndexOf(ref line, FLKeywords.SetParserOptionKey) == 0;
+        }
+
         internal static bool IsDefineArrayBuffer(string line)
         {
             return FString.FastIndexOf(ref line, FLKeywords.DefineArrayKey) == 0;
@@ -171,12 +191,18 @@ namespace Byt3.OpenFL.Parsing
                 return false;
             }
 
-            return line[line.Length - 1] == ':';
+            return FString.FastIndexOf(ref line, "--") == -1 && line.IndexOf(':') != -1;
         }
 
         internal static string[] GetFunctionBody(string functionHeader, List<string> source)
         {
-            int index = source.IndexOf(functionHeader + ":");
+            string line = source.FirstOrDefault(x => x.StartsWith(functionHeader + ":"));
+            if (line == null)
+            {
+                return new string[0];
+            }
+
+            int index = source.IndexOf(line);
             List<string> ret = new List<string>();
             for (int i = index + 1; i < source.Count; i++)
             {

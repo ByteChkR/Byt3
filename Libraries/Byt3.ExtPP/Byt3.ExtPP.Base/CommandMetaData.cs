@@ -9,6 +9,25 @@ namespace Byt3.ExtPP.Base
     [Serializable]
     public class CommandMetaData
     {
+        public CommandMetaData()
+        {
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="shortcut"></param>
+        /// <param name="helpText"></param>
+        /// <param name="global"></param>
+        public CommandMetaData(string command, string shortcut, string helpText, bool global)
+        {
+            Command = command;
+            HelpText = helpText;
+            ShortCut = shortcut;
+            IncludeGlobal = global;
+        }
+
         /// <summary>
         /// The help text of the Command
         /// </summary>
@@ -34,25 +53,6 @@ namespace Byt3.ExtPP.Base
         /// </summary>
         [XmlElement]
         public string Command { get; set; }
-
-        public CommandMetaData()
-        {
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="command"></param>
-        /// <param name="shortcut"></param>
-        /// <param name="helpText"></param>
-        /// <param name="global"></param>
-        public CommandMetaData(string command, string shortcut, string helpText, bool global)
-        {
-            Command = command;
-            HelpText = helpText;
-            ShortCut = shortcut;
-            IncludeGlobal = global;
-        }
 
         /// <summary>
         /// Writes the meta data as readable text.

@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>7.1</LangVersion>
-    <AssemblyVersion>1.5.89.258</AssemblyVersion>
-    <FileVersion>1.5.89.258</FileVersion>
+    <AssemblyVersion>1.6.25.947</AssemblyVersion>
+    <FileVersion>1.6.25.947</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="assets\kernel\**" />
@@ -74,7 +74,7 @@
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.ManifestIO\Byt3.Utilities.ManifestIO.csproj" />
     <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Threading\Byt3.OpenFL.Threading.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

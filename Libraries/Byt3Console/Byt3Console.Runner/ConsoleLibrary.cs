@@ -66,7 +66,7 @@ namespace Byt3Console.Runner
                     .ResolveLibrary(addedFiles[i]);
                 changed = true;
                 AppDomainController adc = AppDomainController.Create("LoadingAssembly_" + libPath,
-                    new[] { Path.GetDirectoryName(libPath) });
+                    new[] {Path.GetDirectoryName(libPath)});
                 try
                 {
                     Type[] consoleTypes = adc.GetTypes(libPath, typeof(AConsole));
@@ -99,8 +99,9 @@ namespace Byt3Console.Runner
         public string[] FindAddedFiles(string[] files)
         {
             return files.Where(x => ConsoleRunner.Resolvers.ContainsKey(Path.GetExtension(x)) &&
-                    ConsoleEntries.All(
-                        y =>  y.LibPath != ConsoleRunner.Resolvers[Path.GetExtension(x)].ResolveLibrary(x)))
+                                    ConsoleEntries.All(
+                                        y => y.LibPath != ConsoleRunner.Resolvers[Path.GetExtension(x)]
+                                                 .ResolveLibrary(x)))
                 .ToArray();
         }
 
@@ -126,7 +127,6 @@ namespace Byt3Console.Runner
                             break;
                         }
                     }
-
                 }
             }
 
@@ -157,7 +157,7 @@ namespace Byt3Console.Runner
 
             XmlSerializer xs = new XmlSerializer(typeof(ConsoleLibrary));
             Stream s = File.OpenRead(filePath);
-            ConsoleLibrary lib = (ConsoleLibrary)xs.Deserialize(s);
+            ConsoleLibrary lib = (ConsoleLibrary) xs.Deserialize(s);
             s.Close();
             return lib;
         }

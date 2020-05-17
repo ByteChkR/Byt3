@@ -2,11 +2,10 @@
 {
     public class SerializeArrayBufferArgument : SerializeBufferArgument
     {
-        public override InstructionArgumentCategory ArgumentCategory => InstructionArgumentCategory.BufferArray;
-
         public SerializeArrayBufferArgument(string index) : base(index)
         {
         }
 
+        public override InstructionArgumentCategory ArgumentCategory => InstructionArgumentCategory.BufferArray;
     }
 }

@@ -7,15 +7,6 @@ namespace Byt3.OpenFL.Parsing.StageResults
 {
     public class ParseTreeStageResult
     {
-        public CLAPI Instance { get; }
-
-        //Task:
-        //  Replace FLBuffer Class with AParsableBuffer that implements GetBuffer() which returns the FLBuffer object
-        //      Because: Serializer can then Serialize the Parsable Buffer
-        public Dictionary<string, FLBuffer> DefinedBuffers { get; }
-        public FLFunction[] FlFunctions { get; }
-        public Dictionary<string, FLFunction> DefinedScripts { get; }
-
         public ParseTreeStageResult(CLAPI instance, Dictionary<string, FLFunction> definedScripts,
             Dictionary<string, FLBuffer> definedBuffers, FLFunction[] flFunctions)
         {
@@ -24,5 +15,14 @@ namespace Byt3.OpenFL.Parsing.StageResults
             DefinedBuffers = definedBuffers;
             DefinedScripts = definedScripts;
         }
+
+        public CLAPI Instance { get; }
+
+        //Task:
+        //  Replace FLBuffer Class with AParsableBuffer that implements GetBuffer() which returns the FLBuffer object
+        //      Because: Serializer can then Serialize the Parsable Buffer
+        public Dictionary<string, FLBuffer> DefinedBuffers { get; }
+        public FLFunction[] FlFunctions { get; }
+        public Dictionary<string, FLFunction> DefinedScripts { get; }
     }
 }

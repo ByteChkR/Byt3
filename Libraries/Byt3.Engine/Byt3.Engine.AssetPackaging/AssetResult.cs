@@ -18,9 +18,10 @@ namespace Byt3.Engine.AssetPackaging
         public bool Compression;
 
 
-        [XmlIgnore] public List<AssetPack> Packs = new List<AssetPack>();
-
         private string OutputFolder;
+
+
+        [XmlIgnore] public List<AssetPack> Packs = new List<AssetPack>();
 
         public AssetResult()
         {
@@ -57,7 +58,7 @@ namespace Byt3.Engine.AssetPackaging
             AssetPointer ap = new AssetPointer
             {
                 PackageId = firstPack,
-                Offset = (int) Packs[firstPack].BytesWritten,
+                Offset = Packs[firstPack].BytesWritten,
                 PackageSize = AssetPacker.PackSize,
                 Length = (int) s.Length,
                 Path = packPath,

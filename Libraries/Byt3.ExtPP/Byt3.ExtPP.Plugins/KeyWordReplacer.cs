@@ -18,30 +18,6 @@ namespace Byt3.ExtPP.Plugins
         public override string[] Prefix => new[] {"kwr", "KWReplacer"};
         public string[] Keywords { get; set; }
 
-        private Dictionary<string, string> GetKeywords()
-        {
-            Dictionary<string, string> ret = new Dictionary<string, string>();
-            if (!NoDefaultKeywords)
-            {
-                ret.Add("DATE_TIME", DateTime.Now.ToString(DateTimeFormatString));
-                ret.Add("DATE", DateTime.Now.ToString(DateFormatString));
-                ret.Add("TIME", DateTime.Now.ToString(TimeFormatString));
-            }
-
-            if (Keywords == null)
-            {
-                return ret;
-            }
-
-            for (int i = 0; i < Keywords.Length; i++)
-            {
-                string[] s = Keywords[i].Split(':');
-                ret.Add(s[0], s[1]);
-            }
-
-            return ret;
-        }
-
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-order", "o", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Order)),
@@ -65,8 +41,32 @@ namespace Byt3.ExtPP.Plugins
                 "Sets the Surrounding char that escapes the variable names"),
             new CommandInfo("set-kwdata", "kwd",
                 PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Keywords)),
-                "Sets the Keywords that need to be replaced with values. <keyword>:<value>"),
+                "Sets the Keywords that need to be replaced with values. <keyword>:<value>")
         };
+
+        private Dictionary<string, string> GetKeywords()
+        {
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            if (!NoDefaultKeywords)
+            {
+                ret.Add("DATE_TIME", DateTime.Now.ToString(DateTimeFormatString));
+                ret.Add("DATE", DateTime.Now.ToString(DateFormatString));
+                ret.Add("TIME", DateTime.Now.ToString(TimeFormatString));
+            }
+
+            if (Keywords == null)
+            {
+                return ret;
+            }
+
+            for (int i = 0; i < Keywords.Length; i++)
+            {
+                string[] s = Keywords[i].Split(':');
+                ret.Add(s[0], s[1]);
+            }
+
+            return ret;
+        }
 
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)

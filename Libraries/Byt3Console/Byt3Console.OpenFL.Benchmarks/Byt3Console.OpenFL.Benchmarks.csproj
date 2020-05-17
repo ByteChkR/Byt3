@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.2.94.258</AssemblyVersion>
-    <FileVersion>1.2.94.258</FileVersion>
+    <AssemblyVersion>1.3.30.947</AssemblyVersion>
+    <FileVersion>1.3.30.947</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
@@ -13,7 +13,7 @@
     <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Benchmarking\Byt3.OpenFL.Benchmarking.csproj" />
     <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Common\Byt3.OpenFL.Common.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

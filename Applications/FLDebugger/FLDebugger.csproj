@@ -62,12 +62,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\AboutInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AboutInfo.Designer.cs">
+      <DependentUpon>AboutInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\BuildExceptionViewer.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\BuildExceptionViewer.Designer.cs">
       <DependentUpon>BuildExceptionViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\FLDataContainer.cs" />
     <Compile Include="Forms\FLDebuggerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,6 +115,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\AboutInfo.resx">
+      <DependentUpon>AboutInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\BuildExceptionViewer.resx">
       <DependentUpon>BuildExceptionViewer.cs</DependentUpon>
     </EmbeddedResource>
@@ -136,6 +146,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="fl_examples.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -6,7 +6,10 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {
     public class RemoveUnusedScriptsOptimization : FLProgramCheck<SerializableFLProgram>
     {
-        public override bool ChangesOutput => true;
+        public override int Priority => 3;
+        public override bool Recommended => true;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.Optimization;
+
         public override object Process(object o)
         {
             SerializableFLProgram input = (SerializableFLProgram) o;
@@ -24,8 +27,6 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                         {
                             case InstructionArgumentCategory.Script:
                                 scripts[serializableFlInstructionArgument.Identifier] = true;
-                                break;
-                            default:
                                 break;
                         }
                     }

@@ -10,7 +10,9 @@ using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn;
+using Byt3.OpenFL.Common.ElementModifiers;
 using Byt3.OpenFL.Common.Exceptions;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Parsing.StageResults;
 using Byt3.Utilities.Exceptions;
 using Byt3.Utilities.FastString;
@@ -48,14 +50,14 @@ namespace Byt3.OpenFL.Parsing.Stages
             return new SerializableFLProgram(input.Filename, scripts, flFunctions, definedBuffers);
         }
 
-        private List<SerializableExternalFLFunction> ParseScriptDefines(string[] statements)
+        private List<SerializableExternalFLFunction> ParseScriptDefines(DefineStatement[] statements)
         {
             List<SerializableExternalFLFunction> ret = new List<SerializableExternalFLFunction>();
 
             for (int i = 0; i < statements.Length; i++)
             {
-                string name = FLParser.GetScriptName(statements[i]);
-                string relPath = FLParser.GetScriptPath(statements[i]);
+                string name = statements[i].Name;
+                string relPath = FLParser.GetScriptPath(statements[i].SourceLine);
                 string p = relPath;
 
                 if (!IOManager.FileExists(p))
@@ -64,30 +66,31 @@ namespace Byt3.OpenFL.Parsing.Stages
                 }
 
 
-                SerializableFLProgram ps = parser.Process(new FLParserInput(p));
-                ret.Add(new SerializableExternalFLFunction(name, ps));
+                SerializableFLProgram ps = parser.Process(new FLParserInput(p, false));
+                ret.Add(new SerializableExternalFLFunction(name, ps,
+                    statements[i].Modifiers as FLExecutableElementModifiers));
             }
 
             return ret;
         }
 
         private List<SerializableFLFunction> ParseFunctionsTask(List<StaticFunction> functionHeaders, int start,
-            int count, string[] definedBuffers,
-            string[] definedScripts)
+            int count, DefineStatement[] definedBuffers,
+            DefineStatement[] definedScripts)
         {
             List<SerializableFLFunction> ret = new List<SerializableFLFunction>();
             for (int i = start; i < start + count; i++)
             {
                 ret.Add(ParseFunctionObject(functionHeaders, definedBuffers, definedScripts,
-                    functionHeaders[i].Name, functionHeaders[i].Body));
+                    functionHeaders[i]));
             }
 
             return ret;
         }
 
         private List<SerializableFLFunction> ParseFunctions(List<StaticFunction> functionHeaders,
-            string[] definedBuffers,
-            string[] definedScripts)
+            DefineStatement[] definedBuffers,
+            DefineStatement[] definedScripts)
         {
             return WorkItemRunner.RunInWorkItems(functionHeaders.ToList(),
                 (input, start, count) => ParseFunctionsTask(input, start, count, definedBuffers, definedScripts),
@@ -95,25 +98,26 @@ namespace Byt3.OpenFL.Parsing.Stages
         }
 
         private SerializableFLFunction ParseFunctionObject(List<StaticFunction> functionHeaders,
-            string[] definedBuffers,
-            string[] definedScripts,
-            string name, StaticInstruction[] functionPart)
+            DefineStatement[] definedBuffers,
+            DefineStatement[] definedScripts,
+            StaticFunction currentFunction)
         {
             List<SerializableFLInstruction> instructions =
-                ParseInstructions(functionHeaders, definedBuffers, definedScripts, functionPart);
-            return new SerializableFLFunction(name, instructions);
+                ParseInstructions(functionHeaders, definedBuffers, definedScripts, currentFunction);
+            return new SerializableFLFunction(currentFunction.Name, currentFunction.Body, instructions,
+                currentFunction.Modifiers);
         }
 
         private List<SerializableFLInstruction> ParseInstructions(List<StaticFunction> functionHeaders,
-            string[] definedBuffers,
-            string[] definedScripts,
-            StaticInstruction[] functionBody)
+            DefineStatement[] definedBuffers,
+            DefineStatement[] definedScripts,
+            StaticFunction currentFunction)
         {
             List<SerializableFLInstruction> instructions = new List<SerializableFLInstruction>();
-            for (int i = 0; i < functionBody.Length; i++)
+            for (int i = 0; i < currentFunction.Body.Length; i++)
             {
                 SerializableFLInstruction inst =
-                    ParseInstruction(functionHeaders, definedBuffers, definedScripts, functionBody[i]);
+                    ParseInstruction(functionHeaders, definedBuffers, definedScripts, currentFunction, i);
                 if (inst != null)
                 {
                     instructions.Add(inst);
@@ -124,10 +128,11 @@ namespace Byt3.OpenFL.Parsing.Stages
         }
 
         private SerializableFLInstruction ParseInstruction(List<StaticFunction> functionHeaders,
-            string[] definedBuffers,
-            string[] definedScripts,
-            StaticInstruction instruction)
+            DefineStatement[] definedBuffers,
+            DefineStatement[] definedScripts,
+            StaticFunction currentFunction, int instructionIndex)
         {
+            StaticInstruction instruction = currentFunction.Body[instructionIndex];
             if (instruction.Key == "")
             {
                 return null;
@@ -138,7 +143,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             for (int i = 0; i < instruction.Arguments.Length; i++)
             {
                 args.Add(ParseInstructionArgument(functionHeaders, definedBuffers, definedScripts,
-                    instruction.Arguments[i]));
+                    instruction.Arguments[i], currentFunction));
             }
 
 
@@ -147,9 +152,10 @@ namespace Byt3.OpenFL.Parsing.Stages
 
 
         private SerializableFLInstructionArgument ParseInstructionArgument(List<StaticFunction> functionHeaders,
-            string[] definedBuffers,
-            string[] definedScripts,
-            string argument)
+            DefineStatement[] definedBuffers,
+            DefineStatement[] definedScripts,
+            string argument,
+            StaticFunction currentFunction)
         {
             if (decimal.TryParse(argument, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
                 out decimal value))
@@ -157,17 +163,29 @@ namespace Byt3.OpenFL.Parsing.Stages
                 return new SerializeDecimalArgument(value);
             }
 
-            IEnumerable<string> bufferNames = definedBuffers.Select(FLParser.GetBufferName);
-            IEnumerable<string> arrayBufferNames = definedBuffers.Select(FLParser.GetBufferArrayName);
-            IEnumerable<string> scriptNames = definedScripts.Select(FLParser.GetScriptName);
+            IEnumerable<string> bufferNames = definedBuffers.Where(x => (x.Modifiers as FLBufferModifiers).IsTexture)
+                .Select(x => x.Name);
+            IEnumerable<string> arrayBufferNames = definedBuffers.Where(x => (x.Modifiers as FLBufferModifiers).IsArray)
+                .Select(x => x.Name);
+            IEnumerable<string> scriptNames = definedScripts.Select(x => x.Name);
 
-            if (functionHeaders.Count(x => x.Name == argument) != 0)
+            StaticFunction func = functionHeaders.FirstOrDefault(x => x.Name == argument);
+            if (func != null)
             {
+                //if (currentFunction.Modifiers.IsStatic && !func.Modifiers.IsStatic)
+                //{
+                //    throw new FLInvalidFunctionUseException($"{currentFunction}", "Can not call a non static function from a static function");
+                //}
                 return new SerializeFunctionArgument(argument);
             }
 
             if (argument.StartsWith("~"))
             {
+                //if (currentFunction.Modifiers.IsStatic)
+                //{
+                //    throw new FLInvalidFunctionUseException($"{currentFunction}", "Can not Access Buffers from a static function");
+                //}
+
                 string n = argument.Remove(0, 1);
                 if (arrayBufferNames.Contains(n))
                 {
@@ -185,11 +203,21 @@ namespace Byt3.OpenFL.Parsing.Stages
 
             if (bufferNames.Contains(argument))
             {
+                //if (currentFunction.Modifiers.IsStatic)
+                //{
+                //    throw new FLInvalidFunctionUseException($"{currentFunction}", "Can not Access Buffers from a static function");
+                //}
+
                 return new SerializeBufferArgument(argument);
             }
 
             if (arrayBufferNames.Contains(argument))
             {
+                //if (currentFunction.Modifiers.IsStatic)
+                //{
+                //    throw new FLInvalidFunctionUseException($"{currentFunction}", "Can not Access Buffers from a static function");
+                //}
+
                 return new SerializeArrayBufferArgument(argument);
             }
 
@@ -197,64 +225,62 @@ namespace Byt3.OpenFL.Parsing.Stages
             {
                 return new SerializeExternalFunctionArgument(argument);
             }
-            
+
+            //if (currentFunction.Modifiers.IsStatic)
+            //{
+            //    throw new FLInvalidFunctionUseException($"{currentFunction}", "Can not Access Variables from a static function");
+            //}
+            //else
+            //{
             return new SerializeNameArgument(argument);
+            //}
 
 
             //throw new InvalidOperationException("Can not parse argument: " + argument);
         }
 
 
-        private List<SerializableFLBuffer> ParseDefinedBuffersTask(List<string> defineStatements, int start, int count)
+        private List<SerializableFLBuffer> ParseDefinedBuffersTask(List<DefineStatement> defineStatements, int start,
+            int count)
         {
             List<SerializableFLBuffer> definedBuffers = new List<SerializableFLBuffer>();
 
             for (int i = start; i < start + count; i++)
             {
-                bool isArray = defineStatements[i].StartsWith(FLKeywords.DefineArrayKey);
-                string[] data = null;
-                if (isArray)
-                {
-                    data = defineStatements[i].Replace(FLKeywords.DefineArrayKey, "")
-                        .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                }
-                else
-                {
-                    data = defineStatements[i].Replace(FLKeywords.DefineTextureKey, "")
-                        .Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                }
+                FLBufferModifiers bmod = defineStatements[i].Modifiers as FLBufferModifiers;
+                string name = defineStatements[i].Name;
+                List<string> parameter = defineStatements[i].Parameter.ToList();
+                string bufferName = bmod.ElementName;
 
-
-
-                string bufferName = data[0].Trim();
-                if (bufferName == "in")
+                if (bufferName == FLKeywords.InputBufferKey)
                 {
-                    SerializableFLBuffer bi = new SerializableEmptyFLBuffer("in");
+                    SerializableFLBuffer bi = new SerializableEmptyFLBuffer(FLKeywords.InputBufferKey, bmod);
                     definedBuffers.Add(bi);
                     continue;
                 }
 
-
-                string paramPart = data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0];
-
-                string[] parameter = data[1].Replace(paramPart + " ", "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                
+                string creatorKey = parameter.First();
+                parameter.RemoveAt(0);
 
 
-                if (data[1].StartsWith("\"") && data[1].EndsWith("\"") && IOManager.FileExists(data[1].Trim().Replace("\"", "")))
+                if (creatorKey.StartsWith("\"") && creatorKey.EndsWith("\"")
+                ) //IOManager.FileExists(paramPart.Trim().Replace("\"", ""))
                 {
+                    string path = creatorKey.Trim().Replace("\"", "");
                     SerializableFromFileFLBuffer bi =
-                        new SerializableFromFileFLBuffer(bufferName, data[1].Trim().Replace("\"", ""), isArray, 0);
+                        new SerializableFromFileFLBuffer(bufferName, path, bmod, 0);
                     definedBuffers.Add(bi);
                 }
                 else
                 {
                     int size = -1;
-                    if (isArray && parameter.Length != 0 && !int.TryParse(parameter[0], NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out size))
+                    if (bmod.IsArray && parameter.Count != 0 && !int.TryParse(parameter[0],
+                            NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out size))
                     {
                     }
-                    SerializableFLBuffer buf = parser.BufferCreator.Create(paramPart, bufferName,
-                        data[1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries), isArray, size);
+
+                    SerializableFLBuffer buf =
+                        parser.BufferCreator.Create(creatorKey, bufferName, parameter.ToArray(), bmod, size);
                     if (buf != null)
                     {
                         definedBuffers.Add(buf);
@@ -269,7 +295,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             return definedBuffers;
         }
 
-        private List<SerializableFLBuffer> ParseDefinedBuffers(string[] defineStatements)
+        private List<SerializableFLBuffer> ParseDefinedBuffers(DefineStatement[] defineStatements)
         {
             return WorkItemRunner.RunInWorkItems(defineStatements.ToList(), ParseDefinedBuffersTask,
                 parser.WorkItemRunnerSettings);

@@ -40,12 +40,12 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionRuleManagement
         /// </summary>
         public static CollisionGroup DefaultKinematicCollisionGroup = new CollisionGroup();
 
-
-        internal CollisionGroup group;
-
         private readonly int hashCode;
 
         private readonly Action OnChangedDelegate;
+
+
+        internal CollisionGroup group;
 
 
         internal CollisionRule personal = CollisionRule.Defer;

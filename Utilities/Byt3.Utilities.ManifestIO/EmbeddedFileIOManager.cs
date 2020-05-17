@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using Byt3.ADL;
-using Byt3.ADL.Configs;
 using Byt3.Callbacks;
 
 namespace Byt3.Utilities.ManifestIO
@@ -13,12 +12,6 @@ namespace Byt3.Utilities.ManifestIO
     /// </summary>
     public class EmbeddedFileIOManager : IOCallback
     {
-        public static void Initialize()
-        {
-            if (!(IOManager.Callback is EmbeddedFileIOManager))
-                IOManager.SetIOCallback(new EmbeddedFileIOManager());
-        }
-
         private static readonly ADLLogger<LogType> Logger =
             new ADLLogger<LogType>(ManifestIODebugConfig.Settings, "File IOManager");
 
@@ -94,7 +87,7 @@ namespace Byt3.Utilities.ManifestIO
             if (ManifestReader.DirectoryExists(foldername))
             {
                 Logger.Log(LogType.Log, foldername + " Found in Assembly Manifest.", 5);
-                files.AddRange(ManifestReader.GetFiles(foldername, searchPattern/*.Replace("*", "")*/));
+                files.AddRange(ManifestReader.GetFiles(foldername, searchPattern /*.Replace("*", "")*/));
             }
 
             return files.ToArray();
@@ -120,6 +113,14 @@ namespace Byt3.Utilities.ManifestIO
             }
 
             throw new InvalidFilePathException(filename);
+        }
+
+        public static void Initialize()
+        {
+            if (!(IOManager.Callback is EmbeddedFileIOManager))
+            {
+                IOManager.SetIOCallback(new EmbeddedFileIOManager());
+            }
         }
     }
 }

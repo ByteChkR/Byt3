@@ -9,67 +9,11 @@ namespace Byt3.Utilities.Benchmarking
 {
     public class PerformanceTester
     {
-        public class PerformanceTarget
-        {
-            public string TestName;
-            public decimal Target;
-            public decimal Variance;
-            public bool LowerIsBetter;
-
-            public PerformanceTarget()
-            {
-            }
-
-            public PerformanceTarget(string nameOfTest, decimal target, int n)
-            {
-                TestName = nameOfTest;
-                Target = target;
-                Variance = Target / 2;
-                LowerIsBetter = true;
-            }
-        }
-
-        public class PerformanceResult
-        {
-            public bool Matched => (!LowerIsBetter || TargetAndVariance >= Result) &&
-                                   (LowerIsBetter || TargetAndVariance <= Result);
-
-            public decimal TargetAndVariance => LowerIsBetter ? Target + Variance : Target - Variance;
-            public decimal DeltaFromTarget => Target - Result;
-            public decimal Percentage => Math.Round(Result / Target * 100, 4);
-
-            public bool LowerIsBetter;
-            public string TestName;
-            public int N;
-            public decimal Result;
-            public decimal Target;
-            public decimal Variance;
-
-            public PerformanceResult()
-            {
-            }
-
-            public PerformanceResult(PerformanceTarget target, int n, decimal result)
-            {
-                LowerIsBetter = target.LowerIsBetter;
-                TestName = target.TestName;
-                N = n;
-                Result = result;
-                Target = target.Target;
-                Variance = target.Variance;
-            }
-
-            public override string ToString()
-            {
-                return
-                    $"[{(Matched ? "Pass" : "Fail")}] {TestName}: {Result}ms ({Percentage}%); Target: {Target}ms; Delta: {DeltaFromTarget}ms";
-            }
-        }
-
-        private readonly List<PerformanceTarget> Targets;
         private const string TARGET_DIRECTORY = "performance_targets";
 
         public static readonly PerformanceTester Tester = new PerformanceTester();
+
+        private readonly List<PerformanceTarget> Targets;
 
 
         private PerformanceTester()
@@ -140,5 +84,61 @@ namespace Byt3.Utilities.Benchmarking
             return new PerformanceResult(target, testCount, result);
         }
 
+        public class PerformanceTarget
+        {
+            public bool LowerIsBetter;
+            public decimal Target;
+            public string TestName;
+            public decimal Variance;
+
+            public PerformanceTarget()
+            {
+            }
+
+            public PerformanceTarget(string nameOfTest, decimal target, int n)
+            {
+                TestName = nameOfTest;
+                Target = target;
+                Variance = Target / 2;
+                LowerIsBetter = true;
+            }
+        }
+
+        public class PerformanceResult
+        {
+            public bool LowerIsBetter;
+            public int N;
+            public decimal Result;
+            public decimal Target;
+            public string TestName;
+            public decimal Variance;
+
+            public PerformanceResult()
+            {
+            }
+
+            public PerformanceResult(PerformanceTarget target, int n, decimal result)
+            {
+                LowerIsBetter = target.LowerIsBetter;
+                TestName = target.TestName;
+                N = n;
+                Result = result;
+                Target = target.Target;
+                Variance = target.Variance;
+            }
+
+            public bool Matched => (!LowerIsBetter || TargetAndVariance >= Result) &&
+                                   (LowerIsBetter || TargetAndVariance <= Result);
+
+            public decimal TargetAndVariance => LowerIsBetter ? Target + Variance : Target - Variance;
+            public decimal DeltaFromTarget => Target - Result;
+            public decimal Percentage => Math.Round(Result / Target * 100, 4);
+
+            public override string ToString()
+            {
+                return
+                    $"[{(Matched ? "Pass" : "Fail")}] {TestName}: {Result}ms ({Percentage}%); Target: {Target}ms; Delta: {DeltaFromTarget}ms";
+            }
+        }
     }
 }

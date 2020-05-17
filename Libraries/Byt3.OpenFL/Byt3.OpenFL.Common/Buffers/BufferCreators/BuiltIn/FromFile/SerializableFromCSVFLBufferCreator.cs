@@ -3,20 +3,23 @@ using System.IO;
 using System.Linq;
 using Byt3.Callbacks;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+using Byt3.OpenFL.Common.ElementModifiers;
 using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
 {
     public class SerializableFromCSVFLBufferCreator : ASerializableBufferCreator
     {
-        public override SerializableFLBuffer CreateBuffer(string name, string[] args, bool isArray, int arraySize)
+        public override SerializableFLBuffer CreateBuffer(string name, string[] args, FLBufferModifiers modifiers,
+            int arraySize)
         {
-            if (!isArray)
+            if (!modifiers.IsArray)
             {
                 throw new InvalidOperationException("Can not load a csv file as a texture.");
             }
-            byte[] csvData = ParseCSV(args[1].Replace("\"", ""));
-            return new SerializableFromBinaryFLBuffer(name, csvData, csvData.Length, 1, isArray);
+
+            byte[] csvData = ParseCSV(args[0].Replace("\"", ""));
+            return new SerializableFromBinaryFLBuffer(name, csvData, csvData.Length, 1, modifiers);
         }
 
         private static byte[] ParseCSV(string file)

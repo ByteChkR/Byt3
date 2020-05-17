@@ -12,10 +12,8 @@ namespace Byt3Console.OpenFL
 {
     public class FLConsole : AConsole
     {
-        public static Version ConsoleVersion => Assembly.GetExecutingAssembly().GetName().Version;
-
-
         internal static readonly FLConsoleSettings Settings = FLConsoleSettings.Default;
+        public static Version ConsoleVersion => Assembly.GetExecutingAssembly().GetName().Version;
 
         public override string ConsoleKey => "fl";
         public override string ConsoleTitle => "OpenFL Console Runner";
@@ -25,11 +23,11 @@ namespace Byt3Console.OpenFL
             Debug.DefaultInitialization();
 
 
-
             EmbeddedFileIOManager.Initialize();
             ManifestReader.RegisterAssembly(typeof(KernelFLInstruction).Assembly); //Register Built In Kernels
             ManifestReader.PrepareManifestFiles(false); //First Read Assembly files
-            ManifestReader.PrepareManifestFiles(true); //Replace Any Loaded assembly files with files on the file system.
+            ManifestReader
+                .PrepareManifestFiles(true); //Replace Any Loaded assembly files with files on the file system.
 
             Runner.AddCommand(new DefaultHelpCommand());
             Runner.AddCommand(new SetWorkingDirCommand());

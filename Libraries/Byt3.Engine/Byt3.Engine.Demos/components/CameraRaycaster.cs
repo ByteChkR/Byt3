@@ -14,7 +14,7 @@ namespace Byt3.Engine.Demos.components
         private readonly GameObject sphereTargetMarker;
 
 
-        public CameraRaycaster(GameObject targetmarker,  GameObject looker)
+        public CameraRaycaster(GameObject targetmarker, GameObject looker)
         {
             cast = LayerManager.NameToLayer("raycast");
             sphereTargetMarker = targetmarker;

@@ -183,7 +183,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
             return outputOverlappedElements.Count > 0;
         }
 
-        
+
         /// <summary>
         /// Gets the triangles whose bounding boxes are overlapped by the query.
         /// </summary>
@@ -271,7 +271,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
             internal abstract void GetOverlaps(ref BoundingBox boundingBox, IList<T> outputOverlappedElements);
 
             internal abstract void GetOverlaps(ref BoundingSphere boundingSphere, IList<T> outputOverlappedElements);
-            
+
             internal abstract void GetOverlaps(ref Ray ray, float maximumLength, IList<T> outputOverlappedElements);
 
             internal abstract void GetOverlaps<TElement>(BoundingBoxTree<TElement>.Node opposingNode,

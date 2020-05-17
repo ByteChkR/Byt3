@@ -15,112 +15,6 @@ namespace Byt3.ExtPP.Plugins
 {
     public class TextEncoderPlugin : AbstractFullScriptPlugin
     {
-        public class TextEncoding
-        {
-            public delegate string EncodeDel(string text, string[] parameter);
-
-            public delegate string DecodeDel(string text, string[] parameter);
-
-            public string Key { get; private set; }
-            private readonly EncodeDel encode;
-            private readonly DecodeDel decode;
-
-            public TextEncoding(string key, EncodeDel encode, DecodeDel decode)
-            {
-                Key = key;
-                this.encode = encode;
-                this.decode = decode;
-            }
-
-            public string Encode(string text, string[] parameter)
-            {
-                return encode?.Invoke(text, parameter);
-            }
-
-            public string Decode(string text, string[] parameter)
-            {
-                return decode?.Invoke(text, parameter);
-            }
-
-            #region En/Decodings
-
-            public static TextEncoding Base64 { get; } = new TextEncoding("b64", Encode_BASE64, Decode_BASE64);
-
-            public static TextEncoding Rot { get; } = new TextEncoding("rot",
-                (text, parameter) => DeEncode_ROT(text, parameter, true),
-                (text, parameter) => DeEncode_ROT(text, parameter, false));
-
-
-            #region BASE64
-
-            public static string Decode_BASE64(string text, string[] parameter)
-            {
-                return Encoding.Default.GetString(Convert.FromBase64String(text));
-            }
-
-            public static string Encode_BASE64(string text, string[] parameter)
-            {
-                return Convert.ToBase64String(Encoding.Default.GetBytes(text));
-            }
-
-            #endregion
-
-            #region ROT
-
-            private const char SPACE = ' ';
-            private const char LOWER_A = 'a';
-            private const char UPPER_A = 'A';
-
-            public static string DeEncode_ROT(string text, string[] parameter, bool encode)
-            {
-                int amount = Math.Abs(int.Parse(parameter[0]) % 13);
-                StringBuilder ret = new StringBuilder();
-                for (int i = 0; i < text.Length; i++)
-                {
-                    int offset;
-                    char begin;
-                    if (text[i] == SPACE)
-                    {
-                        ret.Append(' ');
-                        continue;
-                    }
-
-                    if (char.IsLower(text[i]))
-                    {
-                        offset = text[i] - LOWER_A;
-                        begin = LOWER_A;
-                    }
-                    else
-                    {
-                        offset = text[i] - UPPER_A;
-                        begin = UPPER_A;
-                    }
-
-                    if (encode)
-                    {
-                        offset += amount;
-                        offset %= 26;
-                    }
-                    else
-                    {
-                        offset -= amount;
-                        if (offset < 0)
-                        {
-                            offset = 26 + offset;
-                        }
-                    }
-
-                    ret.Append((char) (begin + offset));
-                }
-
-                return ret.ToString();
-            }
-
-            #endregion
-
-            #endregion
-        }
-
         private static readonly List<TextEncoding> Encoders = new List<TextEncoding>
         {
             TextEncoding.Base64, TextEncoding.Rot
@@ -164,7 +58,7 @@ namespace Byt3.ExtPP.Plugins
                 "Sets the keyword that is used to open a Decode block"),
             new CommandInfo("set-end-decode-keyword", "sedk",
                 PropertyHelper.GetPropertyInfo(typeof(TextEncoderPlugin), nameof(BlockDecodeEndKeyword)),
-                "Sets the keyword that is used to end a Decode block"),
+                "Sets the keyword that is used to end a Decode block")
         };
 
 
@@ -276,6 +170,113 @@ namespace Byt3.ExtPP.Plugins
 
 
             return true;
+        }
+
+        public class TextEncoding
+        {
+            public delegate string DecodeDel(string text, string[] parameter);
+
+            public delegate string EncodeDel(string text, string[] parameter);
+
+            private readonly DecodeDel decode;
+            private readonly EncodeDel encode;
+
+            public TextEncoding(string key, EncodeDel encode, DecodeDel decode)
+            {
+                Key = key;
+                this.encode = encode;
+                this.decode = decode;
+            }
+
+            public string Key { get; }
+
+            public string Encode(string text, string[] parameter)
+            {
+                return encode?.Invoke(text, parameter);
+            }
+
+            public string Decode(string text, string[] parameter)
+            {
+                return decode?.Invoke(text, parameter);
+            }
+
+            #region En/Decodings
+
+            public static TextEncoding Base64 { get; } = new TextEncoding("b64", Encode_BASE64, Decode_BASE64);
+
+            public static TextEncoding Rot { get; } = new TextEncoding("rot",
+                (text, parameter) => DeEncode_ROT(text, parameter, true),
+                (text, parameter) => DeEncode_ROT(text, parameter, false));
+
+
+            #region BASE64
+
+            public static string Decode_BASE64(string text, string[] parameter)
+            {
+                return Encoding.Default.GetString(Convert.FromBase64String(text));
+            }
+
+            public static string Encode_BASE64(string text, string[] parameter)
+            {
+                return Convert.ToBase64String(Encoding.Default.GetBytes(text));
+            }
+
+            #endregion
+
+            #region ROT
+
+            private const char SPACE = ' ';
+            private const char LOWER_A = 'a';
+            private const char UPPER_A = 'A';
+
+            public static string DeEncode_ROT(string text, string[] parameter, bool encode)
+            {
+                int amount = Math.Abs(int.Parse(parameter[0]) % 13);
+                StringBuilder ret = new StringBuilder();
+                for (int i = 0; i < text.Length; i++)
+                {
+                    int offset;
+                    char begin;
+                    if (text[i] == SPACE)
+                    {
+                        ret.Append(' ');
+                        continue;
+                    }
+
+                    if (char.IsLower(text[i]))
+                    {
+                        offset = text[i] - LOWER_A;
+                        begin = LOWER_A;
+                    }
+                    else
+                    {
+                        offset = text[i] - UPPER_A;
+                        begin = UPPER_A;
+                    }
+
+                    if (encode)
+                    {
+                        offset += amount;
+                        offset %= 26;
+                    }
+                    else
+                    {
+                        offset -= amount;
+                        if (offset < 0)
+                        {
+                            offset = 26 + offset;
+                        }
+                    }
+
+                    ret.Append((char) (begin + offset));
+                }
+
+                return ret.ToString();
+            }
+
+            #endregion
+
+            #endregion
         }
     }
 }

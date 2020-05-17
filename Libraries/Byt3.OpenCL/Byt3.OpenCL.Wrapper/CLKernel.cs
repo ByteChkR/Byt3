@@ -6,7 +6,6 @@ using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Memory;
 
-
 namespace Byt3.OpenCL.Wrapper
 {
     /// <summary>
@@ -52,6 +51,11 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         public string Name { get; }
 
+        public void Dispose()
+        {
+            Kernel.Dispose();
+        }
+
         /// <summary>
         /// Sets the buffer as argument.
         /// </summary>
@@ -70,11 +74,6 @@ namespace Byt3.OpenCL.Wrapper
         public void SetArg(string parameterName, object value)
         {
             SetArg(Parameter[parameterName].Id, Parameter[parameterName].CastToType(instance, value));
-        }
-
-        public void Dispose()
-        {
-            Kernel.Dispose();
         }
 
         /// <summary>

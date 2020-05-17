@@ -11,8 +11,9 @@ namespace FLDebugger.Forms
 {
     public partial class InstructionViewer : Form
     {
-        private List<FLInstructionCreator> InstructionSet;
-        private List<string> InstructionKeys;
+        private readonly List<string> InstructionKeys;
+        private readonly List<FLInstructionCreator> InstructionSet;
+
         public InstructionViewer(FLInstructionSet instructionSet)
         {
             InstructionSet = new List<FLInstructionCreator>();
@@ -34,7 +35,8 @@ namespace FLDebugger.Forms
         private void InstructionViewer_Load(object sender, EventArgs e)
         {
             InstructionKeys.Sort();
-            lbInstructions.Items.AddRange(InstructionKeys.Select(x => x.StartsWith("_") ? "(INCOMPATIBLE)" + x : x).Cast<object>().ToArray());
+            lbInstructions.Items.AddRange(InstructionKeys.Select(x => x.StartsWith("_") ? "(INCOMPATIBLE)" + x : x)
+                .Cast<object>().ToArray());
         }
 
         private void lbInstructions_SelectedIndexChanged(object sender, EventArgs e)
@@ -45,7 +47,11 @@ namespace FLDebugger.Forms
             if (lbInstructions.SelectedIndex != -1)
             {
                 string inst = lbInstructions.SelectedItem.ToString();
-                if (inst.StartsWith("(INCOMPATIBLE)")) inst = inst.Remove(0, "(INCOMPATIBLE)".Length);
+                if (inst.StartsWith("(INCOMPATIBLE)"))
+                {
+                    inst = inst.Remove(0, "(INCOMPATIBLE)".Length);
+                }
+
                 FLInstructionCreator c = FindCreator(inst);
                 string args = c.GetArgumentSignatureForInstruction(inst);
 
@@ -60,7 +66,6 @@ namespace FLDebugger.Forms
                 {
                     lbOverloads.Items.Add(sig[i]);
                 }
-
             }
         }
 

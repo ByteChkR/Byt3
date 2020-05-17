@@ -15,7 +15,7 @@ namespace Byt3.PackageHandling
     {
         internal override void Handle(object objectToHandle, object context)
         {
-            Handle((T)objectToHandle, context);
+            Handle((T) objectToHandle, context);
         }
 
         public abstract void Handle(T objectToHandle, object context);

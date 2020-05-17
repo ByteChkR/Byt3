@@ -2,16 +2,22 @@
 using Byt3.Engine.Core;
 using Byt3.Engine.Physics;
 using Byt3.Engine.Physics.BEPUutilities;
-using OpenTK.Input;
 using Vector3 = OpenTK.Vector3;
 
 namespace HorrorOfBindings.components
 {
     public class CameraRaycaster : AbstractComponent
     {
-        private int cast;
-        private GameObject sphereTargetMarker;
-        private GameObject looker;
+        private readonly int cast;
+        private readonly GameObject looker;
+        private readonly GameObject sphereTargetMarker;
+
+        public CameraRaycaster(GameObject targetmarker, GameObject looker)
+        {
+            cast = LayerManager.NameToLayer("raycast");
+            sphereTargetMarker = targetmarker;
+            this.looker = looker;
+        }
 
         public static bool ObjectUnderMouse(Vector3 cameraPosition, out KeyValuePair<Collider, RayHit> hit)
         {
@@ -20,13 +26,6 @@ namespace HorrorOfBindings.components
                 out hit);
 
             return ret;
-        }
-
-        public CameraRaycaster(GameObject targetmarker, GameObject looker)
-        {
-            cast = LayerManager.NameToLayer("raycast");
-            sphereTargetMarker = targetmarker;
-            this.looker = looker;
         }
 
         protected override void Update(float deltaTime)

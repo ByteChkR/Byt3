@@ -8,56 +8,76 @@ namespace Byt3.CommandRunner
     /// <summary>
     /// Contains the Logic for Running Commands
     /// </summary>
-    public static class Runner
+    public class Runner
     {
-        private static ADLLogger<LogType> Logger =>
-            _logger ?? (_logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Runner"));
+        private static readonly Runner instance = new Runner();
 
         private static ADLLogger<LogType> _logger;
 
         /// <summary>
         /// All Commands currently loaded in the Library
         /// </summary>
-        private static readonly List<AbstractCommand> Commands = new List<AbstractCommand>();
+        private readonly List<AbstractCommand> Commands = new List<AbstractCommand>();
+
+        private static ADLLogger<LogType> Logger =>
+            _logger ?? (_logger = new ADLLogger<LogType>(CommandRunnerDebugConfig.Settings, "Runner"));
 
         /// <summary>
         /// Count of the Loaded Commands.
         /// </summary>
-        public static int CommandCount => Commands.Count;
+        public int _CommandCount => Commands.Count;
+
+        public static int CommandCount => instance._CommandCount;
+
+        public static void AddAssembly(string path)
+        {
+            instance._AddAssembly(path);
+        }
 
         /// <summary>
         /// Adds an Assemblys Commands by its Full Path
         /// </summary>
         /// <param name="path">Full path to assembly.</param>
-        public static void AddAssembly(string path)
+        public void _AddAssembly(string path)
         {
             if (AssemblyHelper.TryLoadAssembly(path, out Assembly asm))
             {
-                AddAssembly(asm);
+                _AddAssembly(asm);
             }
+        }
+
+
+        public static void AddAssembly(Assembly asm)
+        {
+            instance._AddAssembly(asm);
         }
 
         /// <summary>
         /// Adds an Assemblys Commands
         /// </summary>
         /// <param name="asm">Assembly to Add</param>
-        public static void AddAssembly(Assembly asm)
+        public void _AddAssembly(Assembly asm)
         {
             List<AbstractCommand> cmds = AssemblyHelper.LoadCommandsFromAssembly(asm);
             for (int i = 0; i < cmds.Count; i++)
             {
-                AddCommand(cmds[i]);
+                _AddCommand(cmds[i]);
             }
+        }
+
+        public static void AddCommand(AbstractCommand cmd)
+        {
+            instance._AddCommand(cmd);
         }
 
         /// <summary>
         /// Adds a Single Command to the System.
         /// </summary>
         /// <param name="cmd"></param>
-        public static void AddCommand(AbstractCommand cmd)
+        public void _AddCommand(AbstractCommand cmd)
         {
             Logger.Log(LogType.Log, "Adding Command: " + cmd.GetType().FullName, 2);
-            if (IsInterfering(cmd))
+            if (_IsInterfering(cmd))
             {
                 Logger.Log(LogType.Log, "Command:" + cmd.GetType().FullName + " is interfering with other Commands.",
                     1);
@@ -66,7 +86,13 @@ namespace Byt3.CommandRunner
             Commands.Add(cmd);
         }
 
+
         public static void RemoveAt(int index)
+        {
+            instance._RemoveAt(index);
+        }
+
+        public void _RemoveAt(int index)
         {
             if (index >= 0 && Commands.Count > index)
             {
@@ -76,7 +102,17 @@ namespace Byt3.CommandRunner
 
         public static void RemoveAllCommands()
         {
+            instance._RemoveAllCommands();
+        }
+
+        public void _RemoveAllCommands()
+        {
             Commands.Clear();
+        }
+
+        public static bool IsInterfering(AbstractCommand cmd)
+        {
+            return instance._IsInterfering(cmd);
         }
 
         /// <summary>
@@ -84,7 +120,7 @@ namespace Byt3.CommandRunner
         /// </summary>
         /// <param name="cmd">The Command</param>
         /// <returns>Returns true when interfering with other commands.</returns>
-        private static bool IsInterfering(AbstractCommand cmd)
+        private bool _IsInterfering(AbstractCommand cmd)
         {
             for (int i = 0; i < Commands.Count; i++)
             {
@@ -97,21 +133,33 @@ namespace Byt3.CommandRunner
             return false;
         }
 
+
+        public static AbstractCommand GetCommandAt(int index)
+        {
+            return instance._GetCommandAt(index);
+        }
+
         /// <summary>
         /// Returns the command at index.
         /// </summary>
         /// <param name="index">The index</param>
         /// <returns>Command at index.</returns>
-        public static AbstractCommand GetCommandAt(int index)
+        public AbstractCommand _GetCommandAt(int index)
         {
             return Commands[index];
+        }
+
+
+        public static bool RunCommands(string[] args)
+        {
+            return instance._RunCommands(args);
         }
 
         /// <summary>
         /// Runs the Commands with the Passed arguments.
         /// </summary>
         /// <param name="args">The arguments to use</param>
-        public static bool RunCommands(string[] args)
+        public bool _RunCommands(string[] args)
         {
             bool didExecute = false;
             for (int i = 0; i < args.Length; i++)

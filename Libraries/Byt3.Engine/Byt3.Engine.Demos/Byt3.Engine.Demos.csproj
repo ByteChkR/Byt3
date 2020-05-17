@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.5.84.258</AssemblyVersion>
-    <FileVersion>1.5.84.258</FileVersion>
+    <AssemblyVersion>1.6.19.947</AssemblyVersion>
+    <FileVersion>1.6.19.947</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="assets\filter\tests\**" />
@@ -69,7 +69,7 @@
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
     <ProjectReference Include="..\Byt3.Engine\Byt3.Engine.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

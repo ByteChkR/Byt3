@@ -9,17 +9,16 @@ namespace Byt3.Engine.Physics.BEPUphysics.DeactivationManagement
     ///</summary>
     public class SimulationIsland
     {
-        internal bool allowDeactivation = true;
-
         private readonly Action<SimulationIslandMember> becameDeactivationCandidateDelegate;
 
         private readonly Action<SimulationIslandMember> becameNonDeactivationCandidateDelegate;
 
+        private readonly Action<SimulationIslandMember> memberActivatedDelegate;
+        internal bool allowDeactivation = true;
+
         internal int deactivationCandidateCount;
         internal SimulationIsland immediateParent;
         internal bool isActive = true;
-
-        private readonly Action<SimulationIslandMember> memberActivatedDelegate;
 
         internal int memberCount;
 

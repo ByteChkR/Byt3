@@ -1,31 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Byt3.Utilities.FastString;
 
 namespace Byt3.AutoUpdate
 {
-    static class Program
+    internal static class Program
     {
-
+        public static string[] Args;
         public static string TargetURL { get; private set; }
         public static Version CurrentVersion { get; private set; }
         public static string DestinationFile { get; private set; }
         public static string ProjectName { get; private set; }
         public static string DestinationFolder => Path.GetDirectoryName(DestinationFile);
         public static Process WaitProcess { get; private set; }
-        public static string[] Args;
 
         public static bool IsInDestinationFolder =>
             Assembly.GetExecutingAssembly().Location.StartsWith(Path.GetFullPath(DestinationFolder));
 
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             try
             {
@@ -39,6 +35,11 @@ namespace Byt3.AutoUpdate
             }
             catch (Exception e)
             {
+                if (args.Length < 4)
+                {
+                    MessageBox.Show("Do not start the updater manually.");
+                    return;
+                }
             }
 
             //if (IsInDestinationFolder)

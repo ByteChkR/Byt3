@@ -7,6 +7,10 @@ namespace Byt3.ExtPP.Tests
 {
     public static class MethodPrecompiler
     {
+        private const BindingFlags METHOD_BINDING_FLAGS =
+            BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic |
+            BindingFlags.Instance | BindingFlags.Static;
+
         public static void Precompile(string methodName)
         {
             RuntimeMethodHandle handle = FindMethodWithName(methodName).MethodHandle;
@@ -36,9 +40,5 @@ namespace Byt3.ExtPP.Tests
                     .SelectMany(type => type.GetMethods(METHOD_BINDING_FLAGS))
                     .FirstOrDefault(method => method.Name == methodName);
         }
-
-        private const BindingFlags METHOD_BINDING_FLAGS =
-            BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic |
-            BindingFlags.Instance | BindingFlags.Static;
     }
 }

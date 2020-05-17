@@ -34,13 +34,13 @@
             this.btnPopOutInput = new System.Windows.Forms.Button();
             this.rtbIn = new System.Windows.Forms.RichTextBox();
             this.panelToolbar = new System.Windows.Forms.Panel();
+            this.btnAbout = new System.Windows.Forms.Button();
+            this.btnShowInstructions = new System.Windows.Forms.Button();
             this.cbAutoBuild = new System.Windows.Forms.CheckBox();
             this.cbLiveView = new System.Windows.Forms.CheckBox();
             this.btnRestartDebugger = new System.Windows.Forms.Button();
             this.btnShowLog = new System.Windows.Forms.Button();
-            this.lblFLVersion = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.btnSwitchDockSide = new System.Windows.Forms.Button();
             this.btnSetHomeDir = new System.Windows.Forms.Button();
             this.btnDebug = new System.Windows.Forms.Button();
@@ -59,7 +59,8 @@
             this.tmrConsoleColors = new System.Windows.Forms.Timer(this.components);
             this.fbdSelectHomeDir = new System.Windows.Forms.FolderBrowserDialog();
             this.sfdScript = new System.Windows.Forms.SaveFileDialog();
-            this.btnShowInstructions = new System.Windows.Forms.Button();
+            this.cbBuildMode = new System.Windows.Forms.ComboBox();
+            this.lblBuildMode = new System.Windows.Forms.Label();
             this.panelInput.SuspendLayout();
             this.panelToolbar.SuspendLayout();
             this.panelConsoleOut.SuspendLayout();
@@ -108,14 +109,15 @@
             // panelToolbar
             // 
             this.panelToolbar.BackColor = System.Drawing.Color.DimGray;
+            this.panelToolbar.Controls.Add(this.lblBuildMode);
+            this.panelToolbar.Controls.Add(this.cbBuildMode);
+            this.panelToolbar.Controls.Add(this.btnAbout);
             this.panelToolbar.Controls.Add(this.btnShowInstructions);
             this.panelToolbar.Controls.Add(this.cbAutoBuild);
             this.panelToolbar.Controls.Add(this.cbLiveView);
             this.panelToolbar.Controls.Add(this.btnRestartDebugger);
             this.panelToolbar.Controls.Add(this.btnShowLog);
-            this.panelToolbar.Controls.Add(this.lblFLVersion);
             this.panelToolbar.Controls.Add(this.btnSave);
-            this.panelToolbar.Controls.Add(this.label1);
             this.panelToolbar.Controls.Add(this.btnSwitchDockSide);
             this.panelToolbar.Controls.Add(this.btnSetHomeDir);
             this.panelToolbar.Controls.Add(this.btnDebug);
@@ -128,10 +130,34 @@
             this.panelToolbar.Size = new System.Drawing.Size(236, 491);
             this.panelToolbar.TabIndex = 0;
             // 
+            // btnAbout
+            // 
+            this.btnAbout.BackColor = System.Drawing.Color.DimGray;
+            this.btnAbout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAbout.Location = new System.Drawing.Point(0, 432);
+            this.btnAbout.Name = "btnAbout";
+            this.btnAbout.Size = new System.Drawing.Size(236, 23);
+            this.btnAbout.TabIndex = 16;
+            this.btnAbout.Text = "Version Info";
+            this.btnAbout.UseVisualStyleBackColor = false;
+            this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
+            // 
+            // btnShowInstructions
+            // 
+            this.btnShowInstructions.BackColor = System.Drawing.Color.DimGray;
+            this.btnShowInstructions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShowInstructions.Location = new System.Drawing.Point(0, 287);
+            this.btnShowInstructions.Name = "btnShowInstructions";
+            this.btnShowInstructions.Size = new System.Drawing.Size(236, 23);
+            this.btnShowInstructions.TabIndex = 15;
+            this.btnShowInstructions.Text = "Show Instructions";
+            this.btnShowInstructions.UseVisualStyleBackColor = false;
+            this.btnShowInstructions.Click += new System.EventHandler(this.btnShowInstructions_Click);
+            // 
             // cbAutoBuild
             // 
             this.cbAutoBuild.AutoSize = true;
-            this.cbAutoBuild.Location = new System.Drawing.Point(159, 448);
+            this.cbAutoBuild.Location = new System.Drawing.Point(42, 465);
             this.cbAutoBuild.Name = "cbAutoBuild";
             this.cbAutoBuild.Size = new System.Drawing.Size(74, 17);
             this.cbAutoBuild.TabIndex = 14;
@@ -141,7 +167,7 @@
             // cbLiveView
             // 
             this.cbLiveView.AutoSize = true;
-            this.cbLiveView.Location = new System.Drawing.Point(159, 471);
+            this.cbLiveView.Location = new System.Drawing.Point(122, 465);
             this.cbLiveView.Name = "cbLiveView";
             this.cbLiveView.Size = new System.Drawing.Size(64, 17);
             this.cbLiveView.TabIndex = 13;
@@ -159,7 +185,7 @@
             this.btnRestartDebugger.Name = "btnRestartDebugger";
             this.btnRestartDebugger.Size = new System.Drawing.Size(236, 23);
             this.btnRestartDebugger.TabIndex = 12;
-            this.btnRestartDebugger.Text = "Restart Debugger";
+            this.btnRestartDebugger.Text = "[EXPERIMENTAL]Restart Debugger";
             this.btnRestartDebugger.UseVisualStyleBackColor = false;
             this.btnRestartDebugger.Click += new System.EventHandler(this.btnRestartDebugger_Click);
             // 
@@ -175,16 +201,6 @@
             this.btnShowLog.UseVisualStyleBackColor = false;
             this.btnShowLog.Click += new System.EventHandler(this.btnShowLog_Click);
             // 
-            // lblFLVersion
-            // 
-            this.lblFLVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblFLVersion.AutoSize = true;
-            this.lblFLVersion.Location = new System.Drawing.Point(12, 430);
-            this.lblFLVersion.Name = "lblFLVersion";
-            this.lblFLVersion.Size = new System.Drawing.Size(91, 52);
-            this.lblFLVersion.TabIndex = 10;
-            this.lblFLVersion.Text = "OpenFL Versions:\r\nEditor:\r\nParser:\r\nCommon:";
-            // 
             // btnSave
             // 
             this.btnSave.BackColor = System.Drawing.Color.DimGray;
@@ -196,15 +212,6 @@
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 240);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(212, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "[CTRL] + Click to change optimization order";
             // 
             // btnSwitchDockSide
             // 
@@ -260,9 +267,9 @@
             this.lbOptimizations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbOptimizations.CheckOnClick = true;
             this.lbOptimizations.FormattingEnabled = true;
-            this.lbOptimizations.Location = new System.Drawing.Point(0, 70);
+            this.lbOptimizations.Location = new System.Drawing.Point(0, 100);
             this.lbOptimizations.Name = "lbOptimizations";
-            this.lbOptimizations.Size = new System.Drawing.Size(236, 167);
+            this.lbOptimizations.Size = new System.Drawing.Size(236, 152);
             this.lbOptimizations.TabIndex = 1;
             this.lbOptimizations.SelectedIndexChanged += new System.EventHandler(this.lbOptimizations_SelectedIndexChanged);
             // 
@@ -290,7 +297,8 @@
             this.rtbOut.ForeColor = System.Drawing.Color.Black;
             this.rtbOut.Location = new System.Drawing.Point(0, 0);
             this.rtbOut.Name = "rtbOut";
-            this.rtbOut.Size = new System.Drawing.Size(315, 315);
+            this.rtbOut.ReadOnly = true;
+            this.rtbOut.Size = new System.Drawing.Size(292, 315);
             this.rtbOut.TabIndex = 0;
             this.rtbOut.Text = "";
             // 
@@ -302,7 +310,7 @@
             this.panelConsoleOut.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelConsoleOut.Location = new System.Drawing.Point(236, 315);
             this.panelConsoleOut.Name = "panelConsoleOut";
-            this.panelConsoleOut.Size = new System.Drawing.Size(649, 176);
+            this.panelConsoleOut.Size = new System.Drawing.Size(626, 176);
             this.panelConsoleOut.TabIndex = 1;
             // 
             // btnPopOutBuildLog
@@ -310,7 +318,7 @@
             this.btnPopOutBuildLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPopOutBuildLog.BackColor = System.Drawing.Color.DimGray;
             this.btnPopOutBuildLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPopOutBuildLog.Location = new System.Drawing.Point(562, 150);
+            this.btnPopOutBuildLog.Location = new System.Drawing.Point(539, 150);
             this.btnPopOutBuildLog.Name = "btnPopOutBuildLog";
             this.btnPopOutBuildLog.Size = new System.Drawing.Size(84, 23);
             this.btnPopOutBuildLog.TabIndex = 12;
@@ -326,8 +334,9 @@
             this.rtbParserOutput.ForeColor = System.Drawing.Color.Maroon;
             this.rtbParserOutput.Location = new System.Drawing.Point(0, 0);
             this.rtbParserOutput.Name = "rtbParserOutput";
+            this.rtbParserOutput.ReadOnly = true;
             this.rtbParserOutput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.rtbParserOutput.Size = new System.Drawing.Size(649, 176);
+            this.rtbParserOutput.Size = new System.Drawing.Size(626, 176);
             this.rtbParserOutput.TabIndex = 0;
             this.rtbParserOutput.Text = "";
             // 
@@ -339,7 +348,7 @@
             this.panelCodeArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCodeArea.Location = new System.Drawing.Point(236, 0);
             this.panelCodeArea.Name = "panelCodeArea";
-            this.panelCodeArea.Size = new System.Drawing.Size(649, 315);
+            this.panelCodeArea.Size = new System.Drawing.Size(626, 315);
             this.panelCodeArea.TabIndex = 2;
             // 
             // panelOutput
@@ -350,7 +359,7 @@
             this.panelOutput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelOutput.Location = new System.Drawing.Point(334, 0);
             this.panelOutput.Name = "panelOutput";
-            this.panelOutput.Size = new System.Drawing.Size(315, 315);
+            this.panelOutput.Size = new System.Drawing.Size(292, 315);
             this.panelOutput.TabIndex = 1;
             // 
             // btnPopOutOutput
@@ -358,7 +367,7 @@
             this.btnPopOutOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPopOutOutput.BackColor = System.Drawing.Color.DimGray;
             this.btnPopOutOutput.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPopOutOutput.Location = new System.Drawing.Point(228, 289);
+            this.btnPopOutOutput.Location = new System.Drawing.Point(205, 289);
             this.btnPopOutOutput.Name = "btnPopOutOutput";
             this.btnPopOutOutput.Size = new System.Drawing.Size(84, 23);
             this.btnPopOutOutput.TabIndex = 13;
@@ -387,23 +396,33 @@
             this.sfdScript.Filter = "FLScript|*.fl";
             this.sfdScript.Title = "Save FL Script";
             // 
-            // btnShowInstructions
+            // cbBuildMode
             // 
-            this.btnShowInstructions.BackColor = System.Drawing.Color.DimGray;
-            this.btnShowInstructions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowInstructions.Location = new System.Drawing.Point(0, 287);
-            this.btnShowInstructions.Name = "btnShowInstructions";
-            this.btnShowInstructions.Size = new System.Drawing.Size(236, 23);
-            this.btnShowInstructions.TabIndex = 15;
-            this.btnShowInstructions.Text = "Show Instructions";
-            this.btnShowInstructions.UseVisualStyleBackColor = false;
-            this.btnShowInstructions.Click += new System.EventHandler(this.btnShowInstructions_Click);
+            this.cbBuildMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBuildMode.FormattingEnabled = true;
+            this.cbBuildMode.Items.AddRange(new object[] {
+            "Debug",
+            "Release"});
+            this.cbBuildMode.Location = new System.Drawing.Point(81, 70);
+            this.cbBuildMode.Name = "cbBuildMode";
+            this.cbBuildMode.Size = new System.Drawing.Size(149, 21);
+            this.cbBuildMode.TabIndex = 17;
+            this.cbBuildMode.SelectedIndexChanged += new System.EventHandler(this.cbBuildMode_SelectedIndexChanged);
+            // 
+            // lblBuildMode
+            // 
+            this.lblBuildMode.AutoSize = true;
+            this.lblBuildMode.Location = new System.Drawing.Point(12, 73);
+            this.lblBuildMode.Name = "lblBuildMode";
+            this.lblBuildMode.Size = new System.Drawing.Size(63, 13);
+            this.lblBuildMode.TabIndex = 18;
+            this.lblBuildMode.Text = "Build Mode:";
             // 
             // FLScriptEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(885, 491);
+            this.ClientSize = new System.Drawing.Size(862, 491);
             this.Controls.Add(this.panelCodeArea);
             this.Controls.Add(this.panelConsoleOut);
             this.Controls.Add(this.panelToolbar);
@@ -442,10 +461,8 @@
         private System.Windows.Forms.Button btnSetHomeDir;
         private System.Windows.Forms.FolderBrowserDialog fbdSelectHomeDir;
         private System.Windows.Forms.Button btnSwitchDockSide;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.SaveFileDialog sfdScript;
-        private System.Windows.Forms.Label lblFLVersion;
         private System.Windows.Forms.Button btnShowLog;
         private System.Windows.Forms.Button btnPopOutBuildLog;
         private System.Windows.Forms.Button btnPopOutInput;
@@ -454,6 +471,9 @@
         private System.Windows.Forms.CheckBox cbLiveView;
         private System.Windows.Forms.CheckBox cbAutoBuild;
         private System.Windows.Forms.Button btnShowInstructions;
+        private System.Windows.Forms.Button btnAbout;
+        private System.Windows.Forms.Label lblBuildMode;
+        private System.Windows.Forms.ComboBox cbBuildMode;
     }
 }
 

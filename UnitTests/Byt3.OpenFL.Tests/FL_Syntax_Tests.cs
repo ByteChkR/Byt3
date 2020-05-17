@@ -9,9 +9,9 @@ using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
-using Byt3.OpenFL.Parsing.Stages;
 using Byt3.Utilities.Exceptions;
 using NUnit.Framework;
 
@@ -19,7 +19,6 @@ namespace Byt3.OpenFL.Tests
 {
     public class FL_Syntax_Tests
     {
-
         #region Array Buffers
 
         [Test]
@@ -34,14 +33,14 @@ namespace Byt3.OpenFL.Tests
             foreach (string file in files)
             {
                 Assert.Catch<AggregateException>(() =>
-                {
-                    FLParser parser = new FLParser();
+                    {
+                        FLParser parser = new FLParser();
 
-                    Assembly asm = Assembly.GetAssembly(typeof(ASerializableBufferCreator));
-                    parser.BufferCreator.AddBufferCreatorsInAssembly(asm);
+                        Assembly asm = Assembly.GetAssembly(typeof(ASerializableBufferCreator));
+                        parser.BufferCreator.AddBufferCreatorsInAssembly(asm);
 
-                    SerializableFLProgram pr = parser.Process(new FLParserInput(file));
-                }, "File: " + file);
+                        SerializableFLProgram pr = parser.Process(new FLParserInput(file));
+                    }, "File: " + file);
             }
         }
 
@@ -56,14 +55,12 @@ namespace Byt3.OpenFL.Tests
 
             foreach (string file in files)
             {
-
                 FLParser parser = new FLParser();
 
                 Assembly asm = Assembly.GetAssembly(typeof(ASerializableBufferCreator));
                 parser.BufferCreator.AddBufferCreatorsInAssembly(asm);
 
                 SerializableFLProgram pr = parser.Process(new FLParserInput(file));
-
             }
         }
 
@@ -108,8 +105,6 @@ namespace Byt3.OpenFL.Tests
         #endregion
 
         #region Other
-
-
 
         [Test]
         public void OpenFL_Comments_Test()
@@ -165,7 +160,7 @@ namespace Byt3.OpenFL.Tests
 
 
             Assert.True(result.DefinedBuffers.Count == 5);
-            Assert.True(result.DefinedBuffers.Count(x => x.Name == "in") == 1);
+            Assert.True(result.DefinedBuffers.Count(x => x.Name == FLKeywords.InputBufferKey) == 1);
             Assert.True(result.DefinedBuffers.Count(x => x.Name == "textureD") == 1);
             Assert.True(result.DefinedBuffers.Count(x => x.Name == "textureC") == 1);
             Assert.True(result.DefinedBuffers.Count(x => x.Name == "textureB") == 1);
@@ -232,9 +227,9 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_TypeConversion_Test()
         {
             float f = float.MaxValue / 2;
-            byte b = (byte)CLTypeConverter.Convert(typeof(byte), f);
+            byte b = (byte) CLTypeConverter.Convert(typeof(byte), f);
             float4 f4 = new float4(f);
-            uchar4 i4 = (uchar4)CLTypeConverter.Convert(typeof(uchar4), f4);
+            uchar4 i4 = (uchar4) CLTypeConverter.Convert(typeof(uchar4), f4);
             Assert.True(b == 128);
 
             for (int i = 0; i < 4; i++)

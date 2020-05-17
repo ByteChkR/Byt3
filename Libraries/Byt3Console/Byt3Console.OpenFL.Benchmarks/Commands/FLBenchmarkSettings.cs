@@ -6,17 +6,17 @@ namespace Byt3Console.OpenFL.Benchmarks.Commands
 {
     public class FLBenchmarkSettings
     {
+        public string CheckPipeline;
         public int ExecutionIterations;
-        public int ParsingIterations;
-        public int IOIterations;
-        public int InitIterations;
-        public string PerformanceFolder;
         public string ExtraSteps;
+        public int InitIterations;
+        public int IOIterations;
+        public int ParsingIterations;
+        public string PerformanceFolder;
         public string ScriptDirectories;
-        public int WorkSizeMultiplier;
         public int TotalRepetitions;
         public bool WarmProgram;
-        public string CheckPipeline;
+        public int WorkSizeMultiplier;
 
         public static FLBenchmarkSettings Default =>
             new FLBenchmarkSettings
@@ -30,7 +30,7 @@ namespace Byt3Console.OpenFL.Benchmarks.Commands
                 ExtraSteps = "",
                 ScriptDirectories = "resources/filter/tests",
                 TotalRepetitions = 5,
-                CheckPipeline = FLProgramCheckBuilder.Default.Select(x=>x.GetType().Name).Unpack(";") 
+                CheckPipeline = FLProgramCheckBuilder.Default.Select(x => x.GetType().Name).Unpack(";")
             };
     }
 }

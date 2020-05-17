@@ -1,17 +1,15 @@
 ﻿using Byt3.OpenFL.Benchmarking;
 using Byt3.OpenFL.Common.Exceptions;
-using Byt3.OpenFL.Parsing.Stages;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using NUnit.Framework;
 
 namespace Byt3.OpenFL.Tests
 {
     public class FL_ProgramCheck_Tests
     {
-
         [Test]
         public void OpenFL_FilePathValidator_Incorrect_Test()
         {
-
             TestSetup.SetupTestingSession();
             FLSetup setup = new FLSetup(nameof(OpenFL_FilePathValidator_Incorrect_Test), "resources/kernel");
 

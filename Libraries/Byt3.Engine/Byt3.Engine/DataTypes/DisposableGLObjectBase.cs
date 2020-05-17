@@ -5,8 +5,6 @@ namespace Byt3.Engine.DataTypes
 {
     public abstract class DisposableGLObjectBase : DisposableObjectBase
     {
-        private bool IsCopy { get; }
-
         protected DisposableGLObjectBase(bool isCopy, object handleIdentifier) : base(handleIdentifier)
         {
             IsCopy = isCopy;
@@ -15,6 +13,8 @@ namespace Byt3.Engine.DataTypes
                 EngineStatisticsManager.GlObjectCreated(this);
             }
         }
+
+        private bool IsCopy { get; }
 
         public override void Dispose()
         {

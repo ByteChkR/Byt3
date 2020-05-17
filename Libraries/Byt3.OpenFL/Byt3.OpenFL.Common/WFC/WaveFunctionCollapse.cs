@@ -21,14 +21,6 @@ namespace Byt3.OpenFL.Common.WFC
         protected static readonly int[] Dy = {0, 1, 0, -1};
         private static readonly int[] Opposite = {2, 3, 0, 1};
         private int[][][] compatible;
-
-        private (int, int)[] stack;
-        private int stacksize;
-        private double sumOfWeights, sumOfWeightLogWeights, startingEntropy;
-
-        private int[] sumsOfOnes;
-        private double[] sumsOfWeights, sumsOfWeightLogWeights, entropies;
-        private double[] weightLogWeights;
         protected int Fmx, Fmy, T;
         protected int[] Observed;
         protected bool Periodic;
@@ -36,7 +28,15 @@ namespace Byt3.OpenFL.Common.WFC
         protected int[][][] Propagator;
 
         protected Random Random;
+
+        private (int, int)[] stack;
+        private int stacksize;
+        private double sumOfWeights, sumOfWeightLogWeights, startingEntropy;
+
+        private int[] sumsOfOnes;
+        private double[] sumsOfWeights, sumsOfWeightLogWeights, entropies;
         protected bool[][] Wave;
+        private double[] weightLogWeights;
 
         protected double[] Weights;
 

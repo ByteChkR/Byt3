@@ -4,7 +4,13 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class SetEngineVersionCommand : AbstractCommand
     {
-        private static void SetEngineVersion( string[] args)
+        public SetEngineVersionCommand() : base(new[] {"--engine", "-e"},
+            "--engine <Version>\nSpecify a manual version")
+        {
+            CommandAction = (info, strings) => SetEngineVersion(strings);
+        }
+
+        private static void SetEngineVersion(string[] args)
         {
             if (args.Length == 0)
             {
@@ -15,12 +21,6 @@ namespace Byt3Console.Engine.Player.Commands
                 System.Console.WriteLine("Overriding Engine Version: " + args[0]);
                 EnginePlayerConsole.EngineVersion = args[0];
             }
-        }
-
-        public SetEngineVersionCommand() : base( new[] {"--engine", "-e"},
-            "--engine <Version>\nSpecify a manual version", false)
-        {
-            CommandAction = (info, strings) => SetEngineVersion(strings);
         }
     }
 }

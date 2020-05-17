@@ -13,8 +13,6 @@ namespace Byt3.Engine.DataTypes
     /// </summary>
     public class GameFont : IDisposable
     {
-        private bool isDisposed;
-
         /// <summary>
         /// The internal font atlas that is used to map Text Characters to the OpenGL Abstraction (TextCharacter)
         /// </summary>
@@ -24,6 +22,8 @@ namespace Byt3.Engine.DataTypes
         /// Private field for the font this GameFont has been loaded from. Not needed perse, but it is convenient
         /// </summary>
         private readonly FontFace fontFace;
+
+        private bool isDisposed;
 
 
         /// <summary>

@@ -11,16 +11,6 @@ namespace Byt3.ADL.Configs
     public class SerializableDictionary<T1, T2>
     {
         /// <summary>
-        ///     The Stored Keys
-        /// </summary>
-        public List<T1> Keys { get; set; }
-
-        /// <summary>
-        ///     The Stored Values
-        /// </summary>
-        public List<T2> Values { get; set; }
-
-        /// <summary>
         ///     Converts dict into a Serializable Dictionary
         /// </summary>
         /// <param name="dict">The Dictionary you want to serialize</param>
@@ -40,6 +30,16 @@ namespace Byt3.ADL.Configs
             Keys = new List<T1>();
             Values = new List<T2>();
         }
+
+        /// <summary>
+        ///     The Stored Keys
+        /// </summary>
+        public List<T1> Keys { get; set; }
+
+        /// <summary>
+        ///     The Stored Values
+        /// </summary>
+        public List<T2> Values { get; set; }
 
         public T2 GetValue(T1 key)
         {

@@ -20,7 +20,7 @@ namespace Byt3.Engine.DataTypes
     {
         private static readonly ADLLogger<DebugChannel> Logger =
             new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "DefaultFilepaths");
-        
+
 
         public static void DisposeObjects()
         {
@@ -47,7 +47,18 @@ namespace Byt3.Engine.DataTypes
             _defaultScreenShader?.Dispose();
             _defaultScreenShader = null;
         }
-        
+
+        private static Dictionary<ShaderType, string> GetDictionary(List<ShaderPath> list)
+        {
+            Dictionary<ShaderType, string> ret = new Dictionary<ShaderType, string>();
+            for (int i = 0; i < list.Count; i++)
+            {
+                ret.Add(list[i].Type, list[i].Path);
+            }
+
+            return ret;
+        }
+
 
         #region Private Static Fields
 
@@ -138,17 +149,17 @@ namespace Byt3.Engine.DataTypes
         /// <summary>
         /// Path to the Default Mesh
         /// </summary>
-        public static string DefaultMeshPath => defaultMesh;
+        public static string DefaultMeshPath { get; } = "assets/models/default_mesh.obj";
 
         /// <summary>
         /// Path to the Default Texture
         /// </summary>
-        public static string DefaultTexturePath => defaultTexture;
+        public static string DefaultTexturePath { get; } = "assets/textures/default_texture.bmp";
 
         /// <summary>
         /// Path to the Default Font
         /// </summary>
-        public static string DefaultFontPath => defaultFont;
+        public static string DefaultFontPath { get; } = "assets/fonts/default_font.ttf";
 
         /// <summary>
         /// The default font
@@ -218,9 +229,6 @@ namespace Byt3.Engine.DataTypes
 
         #region Private Properties
 
-        private static string defaultFont = "assets/fonts/default_font.ttf";
-
-
         private static List<ShaderPath> defaultLitShader = new List<ShaderPath>
         {
             new ShaderPath {Type = ShaderType.FragmentShader, Path = "assets/shader/lit/shader.fs"},
@@ -241,15 +249,11 @@ namespace Byt3.Engine.DataTypes
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/internal/merge_stage/merge_shader.vs"}
         };
 
-        private static string defaultMesh = "assets/models/default_mesh.obj";
-
         private static List<ShaderPath> defaultScreenShader = new List<ShaderPath>
         {
             new ShaderPath {Type = ShaderType.FragmentShader, Path = "assets/shader/internal/screen_stage/shader.fs"},
             new ShaderPath {Type = ShaderType.VertexShader, Path = "assets/shader/internal/screen_stage/shader.vs"}
         };
-
-        private static string defaultTexture = "assets/textures/default_texture.bmp";
 
         private static List<ShaderPath> defaultUiGraphShader = new List<ShaderPath>
         {
@@ -277,17 +281,6 @@ namespace Byt3.Engine.DataTypes
 
         #endregion
 
-        private static Dictionary<ShaderType, string> GetDictionary(List<ShaderPath> list)
-        {
-            Dictionary<ShaderType, string> ret = new Dictionary<ShaderType, string>();
-            for (int i = 0; i < list.Count; i++)
-            {
-                ret.Add(list[i].Type, list[i].Path);
-            }
-
-            return ret;
-        }
-        
 
         #region Private Static Helper Functions
 

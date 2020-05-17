@@ -18,6 +18,18 @@ namespace Byt3.ExtPP.Base
             new ADLLogger<LogType>(ExtPPDebugConfig.Settings, "PP Utils");
 
         /// <summary>
+        /// The List of implemented parsers.
+        /// </summary>
+        private static readonly Dictionary<Type, TryParse> Parser = new Dictionary<Type, TryParse>
+        {
+            {typeof(string), CreateTryParser<string>()},
+            {typeof(int), CreateTryParser<int>()},
+            {typeof(float), CreateTryParser<float>()},
+            {typeof(char), CreateTryParser<char>()},
+            {typeof(bool), CreateTryParser<bool>()}
+        };
+
+        /// <summary>
         /// Removes all lines of the source that start with one of the statements
         /// It takes care of possible indentations and spaces
         /// </summary>
@@ -52,7 +64,7 @@ namespace Byt3.ExtPP.Base
         /// <returns>the fixed line without any excess spaces</returns>
         public static string RemoveExcessSpaces(string line, string separator)
         {
-            string ret = line.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
+            string ret = line.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
             Logger.Log(LogType.Log, $"Removing Excess Spaces: {line} => {ret}", 7);
             return ret;
         }
@@ -75,7 +87,7 @@ namespace Byt3.ExtPP.Base
             }
         }
 
-        
+
         /// <summary>
         /// Returns true if the path is valid relative to the current path(the current script that is processed
         /// </summary>
@@ -84,9 +96,9 @@ namespace Byt3.ExtPP.Base
         /// <returns>true if the relative path is pointing towards a valid file.</returns>
         public static bool FileExistsRelativeTo(string currentPath, string file)
         {
-            string s = PathTools. CleanPath(Path.Combine(currentPath, file));
+            string s = PathTools.CleanPath(Path.Combine(currentPath, file));
 
-            bool ret1 = IOManager.FileExists(s/*Path.Combine(currentPath, file)*/);
+            bool ret1 = IOManager.FileExists(s /*Path.Combine(currentPath, file)*/);
 
             return ret1;
         }
@@ -144,30 +156,10 @@ namespace Byt3.ExtPP.Base
                 return new string[0];
             }
 
-            string[] ret = statement.Split(new[] { separator }, StringSplitOptions.None);
+            string[] ret = statement.Split(new[] {separator}, StringSplitOptions.None);
 
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }
-
-        /// <summary>
-        /// A Delegate used to create different parsers
-        /// </summary>
-        /// <param name="val">the string input</param>
-        /// <param name="value">the output of the parser</param>
-        /// <returns>success state of the operation</returns>
-        private delegate bool TryParse(string val, out object value);
-
-        /// <summary>
-        /// The List of implemented parsers.
-        /// </summary>
-        private static readonly Dictionary<Type, TryParse> Parser = new Dictionary<Type, TryParse>
-        {
-            {typeof(string), CreateTryParser<string>()},
-            {typeof(int), CreateTryParser<int>()},
-            {typeof(float), CreateTryParser<float>()},
-            {typeof(char), CreateTryParser<char>()},
-            {typeof(bool), CreateTryParser<bool>()},
-        };
 
         /// <summary>
         /// Creates parser from type.
@@ -303,7 +295,7 @@ namespace Byt3.ExtPP.Base
         /// <returns>The obj array cast to T</returns>
         public static T Parse<T>(string obj, object defaul)
         {
-            return (T)Parse(typeof(T), obj, defaul);
+            return (T) Parse(typeof(T), obj, defaul);
         }
 
         /// <summary>
@@ -328,21 +320,21 @@ namespace Byt3.ExtPP.Base
 
             int ret = -1;
 
-            string[] ands = input.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] ands = input.Split(new[] {'&'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string and in ands)
             {
-                string[] ors = and.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] ors = and.Split(new[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
                 int r = -1;
                 foreach (string or in ors)
                 {
                     string enumStr = or.Trim();
                     if (r == -1)
                     {
-                        r = (int)Enum.Parse(enu, enumStr);
+                        r = (int) Enum.Parse(enu, enumStr);
                     }
                     else
                     {
-                        r |= (int)Enum.Parse(enu, enumStr);
+                        r |= (int) Enum.Parse(enu, enumStr);
                     }
                 }
 
@@ -373,5 +365,13 @@ namespace Byt3.ExtPP.Base
 
             return true;
         }
+
+        /// <summary>
+        /// A Delegate used to create different parsers
+        /// </summary>
+        /// <param name="val">the string input</param>
+        /// <param name="value">the output of the parser</param>
+        /// <returns>success state of the operation</returns>
+        private delegate bool TryParse(string val, out object value);
     }
 }

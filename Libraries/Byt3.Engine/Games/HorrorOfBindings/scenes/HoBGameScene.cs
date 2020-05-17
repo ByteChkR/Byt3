@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using Byt3.Engine.Core;
@@ -16,15 +15,29 @@ using Byt3.Engine.UI.Animations.Interpolators;
 using HorrorOfBindings.components;
 using HorrorOfBindings.mapgenerator;
 using OpenTK;
-using Bitmap = System.Drawing.Bitmap;
 
 namespace HorrorOfBindings.scenes
 {
     public class HoBGameScene : AbstractScene
     {
-        private BasicCamera camera;
-        private GameObject groundObj;
         public static bool[,] map;
+
+        private static GameObject[] objects = new GameObject[0];
+        private static Texture BlackBG = TextureLoader.ColorToTexture(Color.Black);
+        private static Texture LoadingSymbol = TextureLoader.FileToTexture("assets/textures/LoadingSymbol.jpg");
+
+        internal static bool ComesFromMenu = true;
+        private static GameObject bg;
+        private static GameObject loading;
+        private BasicCamera camera;
+
+        private bool finished;
+        private readonly object finishedLock = new object();
+        private GameObject groundObj;
+
+        private Stopwatch LoadTime;
+
+        private GeneralTimer LoadTimer;
 
         private void LoadGameScene(BasicCamera c)
         {
@@ -77,8 +90,6 @@ namespace HorrorOfBindings.scenes
 
             return (new Vector3(map.GetLength(0) / 2f, 5, map.GetLength(1)) - offset) * scale;
         }
-
-        private static GameObject[] objects = new GameObject[0];
 
         private void CreateMap(Bitmap input, ShaderProgram prog)
         {
@@ -210,7 +221,7 @@ namespace HorrorOfBindings.scenes
 
             WFCMapGenerator preview = WFCMapGenerator
                 .CreateWFCPreview(Vector3.Zero, "assets/WFCTiles", false,
-                    (input) => CreateMap(input, DefaultFilepaths.DefaultLitShader))
+                    input => CreateMap(input, DefaultFilepaths.DefaultLitShader))
                 .GetComponent<WFCMapGenerator>();
             preview.Height = 256;
             preview.Width = 32;
@@ -221,7 +232,7 @@ namespace HorrorOfBindings.scenes
 
             while (!preview.Success)
             {
-                Logger.Log(DebugChannel.Log | DebugChannel.Game, "Generating map Try " + tries,  8);
+                Logger.Log(DebugChannel.Log | DebugChannel.Game, "Generating map Try " + tries, 8);
                 preview.Generate(1);
                 tries++;
             }
@@ -247,28 +258,18 @@ namespace HorrorOfBindings.scenes
             }
 
             LoadLoadingScreen(bg);
-            LoadTimer= new GeneralTimer(0.0015f, FinalizeLoad, true);
+            LoadTimer = new GeneralTimer(0.0015f, FinalizeLoad, true);
             AddComponent(LoadTimer);
-            TextureGenerator.OnProcessFinished +=FinishedTexGen;
+            TextureGenerator.OnProcessFinished += FinishedTexGen;
             LoadTime = Stopwatch.StartNew();
             TextureGenerator.Process();
-
         }
 
-        private Stopwatch LoadTime;
         private void FinishedTexGen()
         {
             TextureGenerator.OnProcessFinished = null;
             LoadingFinished();
         }
-
-        private GeneralTimer LoadTimer;
-        private static Texture BlackBG = TextureLoader.ColorToTexture(Color.Black);
-        private static Texture LoadingSymbol = TextureLoader.FileToTexture("assets/textures/LoadingSymbol.jpg");
-
-        internal static bool ComesFromMenu = true;
-        private static GameObject bg;
-        private static GameObject loading;
 
         public void LoadLoadingScreen(Texture background = null)
         {
@@ -340,12 +341,11 @@ namespace HorrorOfBindings.scenes
             EnemyComponent.active = true;
         }
 
-        private bool finished = false;
-        private object finishedLock = new object();
         private void FinalizeLoad()
         {
-            lock(finishedLock)
-                if(finished)
+            lock (finishedLock)
+            {
+                if (finished)
                 {
                     GameEngine.Instance.MakeCurrent();
                     finished = false;
@@ -357,11 +357,15 @@ namespace HorrorOfBindings.scenes
                     loading.Destroy();
                     GameEngine.Instance.CurrentScene.AddComponent(new GeneralTimer(5, ActivateEnemies));
                 }
+            }
         }
 
         private void LoadingFinished()
         {
-            lock (finishedLock) finished = true;
+            lock (finishedLock)
+            {
+                finished = true;
+            }
         }
 
         public override void OnDestroy()

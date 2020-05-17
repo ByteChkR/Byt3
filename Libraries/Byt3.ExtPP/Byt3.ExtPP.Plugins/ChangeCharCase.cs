@@ -23,8 +23,10 @@ namespace Byt3.ExtPP.Plugins
                     "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
                 new CommandInfo("set-case", "sc",
                     PropertyHelper.GetPropertyInfo(typeof(ChangeCharCase), nameof(CaseChange)),
-                    "Sets the Case that will transform the text. Options: tolower(default)/toupper"),
+                    "Sets the Case that will transform the text. Options: tolower(default)/toupper")
             };
+
+        public override string[] Prefix => new[] {"ccc", "ChangeCharCase"};
 
 
         public override string LineStage(string source)
@@ -33,8 +35,6 @@ namespace Byt3.ExtPP.Plugins
                 ? source.ToLower(CultureInfo.InvariantCulture)
                 : source.ToUpper(CultureInfo.InvariantCulture);
         }
-
-        public override string[] Prefix => new[] {"ccc", "ChangeCharCase"};
 
         /// <summary>
         /// No initialization needed for this plugin.

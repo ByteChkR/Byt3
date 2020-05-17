@@ -11,7 +11,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Vehicle
     public class WheelSlidingFriction : ISolverSettings
     {
         internal float accumulatedImpulse;
-        
+
         private float angularAX, angularAY, angularAZ;
         private float angularBX, angularBY, angularBZ;
         internal bool isActive = true;

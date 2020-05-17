@@ -5,6 +5,12 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class ClearCacheCommand : AbstractCommand
     {
+        public ClearCacheCommand() : base(new[] {"--clear-cache", "-cC"},
+            "--clear-cache\nClears all engines in the cache")
+        {
+            CommandAction = (info, strings) => ClearCache();
+        }
+
         private static void ClearCache()
         {
             System.Console.WriteLine("Deleting Engine Cache...");
@@ -16,12 +22,6 @@ namespace Byt3Console.Engine.Player.Commands
                     File.Delete(files[i]);
                 }
             }
-        }
-
-        public ClearCacheCommand() : base( new[] {"--clear-cache", "-cC"},
-            "--clear-cache\nClears all engines in the cache", false)
-        {
-            CommandAction = (info, strings) => ClearCache();
         }
     }
 }

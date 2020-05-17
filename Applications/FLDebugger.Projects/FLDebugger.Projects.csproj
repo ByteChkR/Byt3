@@ -99,6 +99,9 @@
     </Compile>
     <Compile Include="Instancing\DomainHelper.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProjectObjects\FSDir.cs" />
+    <Compile Include="ProjectObjects\FSEntry.cs" />
+    <Compile Include="ProjectObjects\FSFile.cs" />
     <Compile Include="ProjectObjects\Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\StartupSplash.cs">

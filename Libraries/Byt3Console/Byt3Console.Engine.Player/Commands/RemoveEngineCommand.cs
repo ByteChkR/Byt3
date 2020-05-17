@@ -5,7 +5,13 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class RemoveEngineCommand : AbstractCommand
     {
-        private static void RemoveEngine( string[] args)
+        public RemoveEngineCommand() : base(new[] {"--remove-engine", "-r"},
+            "--remove-engine <Version>\nRemoves an engine Version from the engine cache")
+        {
+            CommandAction = (info, strings) => RemoveEngine(strings);
+        }
+
+        private static void RemoveEngine(string[] args)
         {
             if (EnginePlayerConsole.IsEngineVersionAvailable(args[0]))
             {
@@ -16,12 +22,6 @@ namespace Byt3Console.Engine.Player.Commands
             {
                 System.Console.WriteLine("Engine Version not available. Skipping Deletion.");
             }
-        }
-
-        public RemoveEngineCommand() : base( new[] {"--remove-engine", "-r"},
-            "--remove-engine <Version>\nRemoves an engine Version from the engine cache", false)
-        {
-            CommandAction = (info, strings) => RemoveEngine(strings);
         }
     }
 }

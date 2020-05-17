@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.8.19.258</AssemblyVersion>
-    <FileVersion>1.8.19.258</FileVersion>
+    <AssemblyVersion>1.8.53.947</AssemblyVersion>
+    <FileVersion>1.8.53.947</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="kernel\**" />
@@ -17,7 +17,7 @@
     <ProjectReference Include="..\..\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
     <ProjectReference Include="..\..\Byt3.OpenFL\Byt3.OpenFL.Threading\Byt3.OpenFL.Threading.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

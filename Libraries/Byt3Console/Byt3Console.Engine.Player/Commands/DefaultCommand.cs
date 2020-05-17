@@ -5,6 +5,13 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class DefaultCommand : AbstractCommand
     {
+        public DefaultCommand() : base(new[] {"--default"},
+            "Default command.\nExecutes the --run Command when a game is passed\nExecutes the --add-engine command when an engine is passed",
+            true)
+        {
+            CommandAction = Default;
+        }
+
         private static void Default(StartupArgumentInfo info, string[] args)
         {
             if (args.Length == 0 || !File.Exists(args[0]))
@@ -13,19 +20,12 @@ namespace Byt3Console.Engine.Player.Commands
             }
             else if (args[0].EndsWith(".engine"))
             {
-                AddEngineCommand.AddEngine( args);
+                AddEngineCommand.AddEngine(args);
             }
             else if (args[0].EndsWith(".game"))
             {
-                RunCommand.Run( args);
+                RunCommand.Run(args);
             }
-        }
-
-        public DefaultCommand() : base( new[] {"--default"},
-            "Default command.\nExecutes the --run Command when a game is passed\nExecutes the --add-engine command when an engine is passed",
-            true)
-        {
-            CommandAction = Default;
         }
     }
 }

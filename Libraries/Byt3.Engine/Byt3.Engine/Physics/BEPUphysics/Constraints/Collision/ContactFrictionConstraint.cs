@@ -12,7 +12,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.Collision
     public class ContactFrictionConstraint : SolverUpdateable
     {
         internal float accumulatedImpulse;
-        
+
         private float angularAX, angularAY, angularAZ;
         private float angularBX, angularBY, angularBZ;
         private Entity entityA, entityB;

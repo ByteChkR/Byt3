@@ -7,23 +7,27 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 {
     public class DefaultInstructionCreator : FLInstructionCreator
     {
-        private readonly string instructionKey;
-        private readonly Type type;
         private readonly string argumentSignature;
         private readonly string instructionDescription;
-        public override string[] InstructionKeys => new[] { instructionKey };
+        private readonly string instructionKey;
+        private readonly Type type;
 
-        public override string GetArgumentSignatureForInstruction(string instruction)
+        public DefaultInstructionCreator(string key, Type instructionType, string signature = null,
+            string description = null, bool allowStaticUse = true)
         {
-            return argumentSignature;
-        }
-
-        public DefaultInstructionCreator(string key, Type instructionType, string signature = null, string description = null)
-        {
+            AllowStaticUse = allowStaticUse;
             instructionDescription = description;
             argumentSignature = signature;
             instructionKey = key;
             type = instructionType;
+        }
+
+        public override string[] InstructionKeys => new[] {instructionKey};
+        public override bool AllowStaticUse { get; }
+
+        public override string GetArgumentSignatureForInstruction(string instruction)
+        {
+            return argumentSignature;
         }
 
         public override string GetDescriptionForInstruction(string instruction)
@@ -46,14 +50,15 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 args.Add(arg);
             }
 
-            return (FLInstruction)Activator.CreateInstance(type, new object[] { args });
+            return (FLInstruction) Activator.CreateInstance(type, args);
         }
     }
 
     public class DefaultInstructionCreator<T> : DefaultInstructionCreator
         where T : FLInstruction
     {
-        public DefaultInstructionCreator(string key, string signature = null, string description = null) : base(key, typeof(T), signature, description)
+        public DefaultInstructionCreator(string key, string signature = null, string description = null,
+            bool allowStaticUse = true) : base(key, typeof(T), signature, description, allowStaticUse)
         {
         }
     }

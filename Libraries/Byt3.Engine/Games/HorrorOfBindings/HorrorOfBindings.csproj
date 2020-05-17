@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>0.0.9.947</AssemblyVersion>
+    <FileVersion>0.0.9.947</FileVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="assets\audio\JumpSound.wav" />
     <None Remove="assets\audio\ShootSound.wav" />
@@ -31,7 +31,6 @@
     <None Remove="assets\WFCTiles\cobble.png" />
     <None Remove="assets\WFCTiles\menubg.png" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="assets\audio\JumpSound.wav" />
     <EmbeddedResource Include="assets\audio\ShootSound.wav" />
@@ -59,7 +58,6 @@
     <EmbeddedResource Include="assets\WFCTiles\cobble.png" />
     <EmbeddedResource Include="assets\WFCTiles\menubg.png" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
     <ProjectReference Include="..\..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
@@ -69,5 +67,7 @@
     <ProjectReference Include="..\..\..\Byt3.OpenFL\Byt3.OpenFL\Byt3.OpenFL.csproj" />
     <ProjectReference Include="..\..\Byt3.Engine\Byt3.Engine.csproj" />
   </ItemGroup>
-
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
 </Project>

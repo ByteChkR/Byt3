@@ -10,16 +10,17 @@ namespace Byt3.ADL
     /// </summary>
     public abstract class ALoggable<T> where T : struct
     {
-        protected ADLLogger<T> Logger => CreatedLoggers[GetType()];
-
         private static readonly Dictionary<Type, ADLLogger<T>> CreatedLoggers = new Dictionary<Type, ADLLogger<T>>();
+
         protected ALoggable(IProjectDebugConfig settings)
         {
-            if(!CreatedLoggers.ContainsKey(GetType()))
+            if (!CreatedLoggers.ContainsKey(GetType()))
             {
                 ADLLogger<T> l = new ADLLogger<T>(settings, GetType().Name);
                 CreatedLoggers[GetType()] = l;
             }
         }
+
+        protected ADLLogger<T> Logger => CreatedLoggers[GetType()];
     }
 }

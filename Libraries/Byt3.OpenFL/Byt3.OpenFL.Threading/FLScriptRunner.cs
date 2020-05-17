@@ -9,9 +9,9 @@ using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
-using Byt3.OpenFL.Parsing.Stages;
 using Byt3.OpenFL.Serialization;
 
 namespace Byt3.OpenFL.Threading
@@ -21,15 +21,13 @@ namespace Byt3.OpenFL.Threading
     /// </summary>
     public class FLScriptRunner : IDisposable
     {
-        protected FLParser Parser;
-        protected FLInstructionSet InstructionSet;
         protected BufferCreator BufferCreator;
         protected KernelDatabase Db;
         protected CLAPI Instance;
+        protected FLInstructionSet InstructionSet;
+        protected FLParser Parser;
 
         protected Queue<FlScriptExecutionContext> ProcessQueue;
-        public int ItemsInQueue => ProcessQueue.Count;
-        private FLProgramCheckBuilder ProgramChecks { get; }
 
         public FLScriptRunner(CLAPI instance, KernelDatabase dataBase, BufferCreator creator,
             FLInstructionSet instructionSet, FLProgramCheckBuilder checkBuilder, WorkItemRunnerSettings runnerSettings)
@@ -59,19 +57,23 @@ namespace Byt3.OpenFL.Threading
             ProcessQueue = new Queue<FlScriptExecutionContext>();
         }
 
+        public int ItemsInQueue => ProcessQueue.Count;
+        private FLProgramCheckBuilder ProgramChecks { get; }
+
+        public virtual void Dispose()
+        {
+            Db?.Dispose();
+        }
+
         public void AddProgramCheck(FLProgramCheck check)
         {
             if (ProgramChecks.IsAttached)
             {
                 ProgramChecks.Detach(false);
             }
+
             ProgramChecks.AddProgramCheck(check);
             ProgramChecks.Attach(Parser, true);
-        }
-
-        public virtual void Dispose()
-        {
-            Db?.Dispose();
         }
 
         public virtual void Enqueue(FlScriptExecutionContext context)
@@ -97,12 +99,12 @@ namespace Byt3.OpenFL.Threading
             if (context.IsCompiled)
             {
                 Stream s = IOManager.GetStream(context.Filename);
-                program = FLSerializer.LoadProgram(s, InstructionSet).Initialize(Instance,InstructionSet);
+                program = FLSerializer.LoadProgram(s, InstructionSet).Initialize(Instance, InstructionSet);
                 s.Close();
             }
             else
             {
-                program = Parser.Process(new FLParserInput(context.Filename)).Initialize(Instance,InstructionSet);
+                program = Parser.Process(new FLParserInput(context.Filename)).Initialize(Instance, InstructionSet);
             }
 
             program.Run(input, true);

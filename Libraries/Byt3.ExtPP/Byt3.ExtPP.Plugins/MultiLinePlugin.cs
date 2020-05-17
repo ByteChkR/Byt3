@@ -25,7 +25,7 @@ namespace Byt3.ExtPP.Plugins
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
             new CommandInfo("set-mlkeyword", "mlk",
                 PropertyHelper.GetPropertyInfo(typeof(MultiLinePlugin), nameof(MultiLineKeyword)),
-                "Sets the keyword that is used to detect when to lines should be merged. The line containing the keyword will be merges with the next line in the file"),
+                "Sets the keyword that is used to detect when to lines should be merged. The line containing the keyword will be merges with the next line in the file")
         };
 
 

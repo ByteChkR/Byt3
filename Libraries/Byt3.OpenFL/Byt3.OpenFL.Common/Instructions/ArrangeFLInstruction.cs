@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Byt3.ADL;
-using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.Utilities.FastString;
 
@@ -9,11 +7,8 @@ namespace Byt3.OpenFL.Common.Instructions
 {
     public abstract class ArrangeFLInstruction : FLInstruction
     {
-
-
         protected ArrangeFLInstruction(List<FLInstructionArgument> arguments) : base(arguments)
         {
-
         }
 
         public override void Process()
@@ -23,13 +18,13 @@ namespace Byt3.OpenFL.Common.Instructions
             {
                 if (i >= Arguments.Count)
                 {
-                    newOrder[i] = (byte)i;
+                    newOrder[i] = (byte) i;
                 }
                 else
                 {
                     if (Arguments[i].Type == FLInstructionArgumentType.Number)
                     {
-                        byte channel = (byte)Convert.ChangeType(Arguments[i].Value, typeof(byte));
+                        byte channel = (byte) Convert.ChangeType(Arguments[i].GetValue(), typeof(byte));
                         newOrder[i] = channel;
                     }
                     else
@@ -40,7 +35,6 @@ namespace Byt3.OpenFL.Common.Instructions
             }
 
             Arrange(newOrder);
-
         }
 
         protected abstract void Arrange(byte[] newOrder);
@@ -49,7 +43,5 @@ namespace Byt3.OpenFL.Common.Instructions
         {
             return "arrange " + Arguments.Unpack(" ");
         }
-
-
     }
 }

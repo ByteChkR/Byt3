@@ -15,12 +15,12 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     public class DetectorVolumeMobileMeshPairHandler : DetectorVolumePairHandler
     {
         private readonly TriangleShape detectorTriangle = new TriangleShape {collisionMargin = 0};
-        private MobileMeshCollidable mesh;
 
 
         private readonly TriangleShape mobileTriangle = new TriangleShape();
 
         private readonly RawList<int> overlaps = new RawList<int>(8);
+        private MobileMeshCollidable mesh;
 
         /// <summary>
         /// Gets the entity collidable associated with the pair.

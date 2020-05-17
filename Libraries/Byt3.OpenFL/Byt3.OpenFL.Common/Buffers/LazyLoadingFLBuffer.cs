@@ -8,8 +8,17 @@ namespace Byt3.OpenFL.Common.Buffers
     {
         public delegate FLBuffer BufferLoader(FLProgram root);
 
-        protected BufferLoader Loader;
+        private readonly bool WarmOnStart;
         private MemoryBuffer _buffer;
+
+        protected BufferLoader Loader;
+
+
+        public LazyLoadingFLBuffer(BufferLoader loader, bool warmOnStart) : base(default(MemoryBuffer), -1, -1)
+        {
+            WarmOnStart = warmOnStart;
+            Loader = loader;
+        }
 
         public override MemoryBuffer Buffer
         {
@@ -25,6 +34,23 @@ namespace Byt3.OpenFL.Common.Buffers
             }
         }
 
+        public override void Dispose()
+        {
+            _buffer?.Dispose();
+            _buffer = null;
+            Loader = null;
+        }
+
+        public void Warm(bool force)
+        {
+            if (!WarmOnStart && !force)
+            {
+                return;
+            }
+
+            InitializeBuffer();
+        }
+
         private void InitializeBuffer()
         {
             if (_buffer == null)
@@ -36,29 +62,11 @@ namespace Byt3.OpenFL.Common.Buffers
             }
         }
 
-        public void Warm()
-        {
-            InitializeBuffer();
-        }
-
-
-        public LazyLoadingFLBuffer(BufferLoader loader) : base(default(MemoryBuffer), -1, -1)
-        {
-            Loader = loader;
-        }
-
         internal override void ReplaceUnderlyingBuffer(MemoryBuffer buf, int width, int height)
         {
             Width = width;
             Height = height;
             Buffer = buf;
-        }
-
-        public override void Dispose()
-        {
-            _buffer?.Dispose();
-            _buffer = null;
-            Loader = null;
         }
     }
 }

@@ -1,23 +1,27 @@
-﻿using System.Collections.Generic;
-using Byt3.OpenFL.Common.Buffers;
+﻿using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+using Byt3.OpenFL.Common.ElementModifiers;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 
 namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 {
-    public class ExternalFlFunction : FLFunction
+    public class ExternalFlFunction : FLParsedObject, IFunction
     {
         private readonly SerializableFLProgram ExternalFunctionBlueprint;
         private readonly FLInstructionSet InstructionSet;
+        private readonly FLExecutableElementModifiers Modifiers;
 
-        public ExternalFlFunction(string name, SerializableFLProgram external, FLInstructionSet iset) : base(name,
-            new List<FLInstruction>())
+        public ExternalFlFunction(string name, SerializableFLProgram external, FLInstructionSet iset,
+            FLExecutableElementModifiers modifiers)
         {
+            Modifiers = modifiers;
             ExternalFunctionBlueprint = external;
             InstructionSet = iset;
         }
 
-        public override void Process()
+        public string Name { get; }
+
+        public void Process()
         {
             FLBuffer input = Root.ActiveBuffer;
             FLProgram externalFunction = ExternalFunctionBlueprint.Initialize(Root.Instance, InstructionSet);

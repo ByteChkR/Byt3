@@ -8,12 +8,17 @@ namespace FLDebugger.Forms
 {
     public partial class FLDebuggerWindow : IProgramDebugger
     {
+        private readonly Stopwatch instrTimer = new Stopwatch();
+        private readonly Stopwatch totalTimer = new Stopwatch();
         public bool FollowScripts { get; private set; }
-        private Stopwatch instrTimer = new Stopwatch();
-        private Stopwatch totalTimer = new Stopwatch();
+
         public void ProcessEvent(FLParsedObject obj)
         {
-            if (nohalt) return;
+            if (nohalt)
+            {
+                return;
+            }
+
             instrTimer.Stop();
             totalTimer.Stop();
             double millis = instrTimer.Elapsed.TotalMilliseconds;
@@ -41,13 +46,14 @@ namespace FLDebugger.Forms
             btnRunToEnd.Enabled = true;
             MarkInstruction(line);
             clbCode.Invalidate();
-            
+
             continueEx = false;
             Text = "IN HALT MODE";
             while (!continueEx && !nohalt)
             {
                 Application.DoEvents();
             }
+
             btnContinue.Enabled = false;
             btnRunToEnd.Enabled = true;
 
@@ -58,7 +64,6 @@ namespace FLDebugger.Forms
 
         public void ProgramExit()
         {
-
             UpdateSidePanel();
             btnContinue.Text = "Close";
             btnContinue.Enabled = true;
@@ -69,18 +74,22 @@ namespace FLDebugger.Forms
             {
                 Application.DoEvents();
             }
+
             btnContinue.Enabled = false;
 
             Program = null;
             Close();
-
         }
 
         public void SubProgramStarted()
         {
             instrTimer.Stop();
             totalTimer.Stop();
-            if (nohalt) return;
+            if (nohalt)
+            {
+                return;
+            }
+
             Enabled = false;
             continueEx = false;
             Show();
@@ -107,6 +116,7 @@ namespace FLDebugger.Forms
             {
                 Application.DoEvents();
             }
+
             btnContinue.Enabled = false;
             btnContinue.Text = "Continue";
         }

@@ -10,14 +10,14 @@ namespace Byt3.Engine.BuildTools.Common
     /// </summary>
     public class ConsoleRedirector
     {
+        private readonly object _lockObj = new object();
         private TextReader _cEOut;
         private TextReader _cOut;
         private Action<string> _del;
         private Thread _errThread;
         private Process _proc;
-        private Thread _thread;
-        private readonly object _lockObj = new object();
         private bool _quitFlag;
+        private Thread _thread;
 
 
         public static ConsoleRedirector CreateRedirector(StreamReader consoleOut, StreamReader errorConsoleOut,

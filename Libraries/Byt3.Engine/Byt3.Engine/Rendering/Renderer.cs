@@ -29,17 +29,12 @@ namespace Byt3.Engine.Rendering
         /// </summary>
         internal static List<LightComponent> Lights = new List<LightComponent>();
 
-        /// <summary>
-        ///  A list of render targets
-        /// </summary>
-        private readonly List<RenderTarget> targets = new List<RenderTarget>();
-        private readonly Dictionary<int, bool> renderListDirtyFlag = new Dictionary<int, bool>();
-        private readonly Dictionary<int, List<RenderingComponent>> renderLists = new Dictionary<int, List<RenderingComponent>>();
+        private readonly RenderTargetMergeStage mergeStage;
 
-        /// <summary>
-        /// The Clear color of the two standard Render targets(World/UI)
-        /// </summary>
-        private Color clearColor = Color.FromArgb(0, 0, 0, 0);
+        private readonly Dictionary<int, bool> renderListDirtyFlag = new Dictionary<int, bool>();
+
+        private readonly Dictionary<int, List<RenderingComponent>> renderLists =
+            new Dictionary<int, List<RenderingComponent>>();
 
         /// <summary>
         /// Default Render Target(Game World)
@@ -51,18 +46,15 @@ namespace Byt3.Engine.Rendering
         /// </summary>
         private readonly RenderTarget rt1;
 
-        private readonly RenderTargetMergeStage mergeStage;
+        /// <summary>
+        ///  A list of render targets
+        /// </summary>
+        private readonly List<RenderTarget> targets = new List<RenderTarget>();
 
-        private void OnRenderListChanged(RenderListChangeType type, RenderingComponent component)
-        {
-            for (int i = 0; i < targets.Count; i++)
-            {
-                if ((targets[i].PassMask & component.RenderQueue) != 0)
-                {
-                    renderListDirtyFlag[targets[i].PassMask] = true;
-                }
-            }
-        }
+        /// <summary>
+        /// The Clear color of the two standard Render targets(World/UI)
+        /// </summary>
+        private Color clearColor = Color.FromArgb(0, 0, 0, 0);
 
         /// <summary>
         /// Internal Constructor
@@ -78,13 +70,31 @@ namespace Byt3.Engine.Rendering
             GL.Enable(EnableCap.DepthTest);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-            rt = new RenderTarget(null, 1, clearColor) { MergeType = RenderTargetMergeType.Additive };
+            rt = new RenderTarget(null, 1, clearColor) {MergeType = RenderTargetMergeType.Additive};
             AddRenderTarget(rt);
             rt1 = new RenderTarget(new ScreenCamera(), 1 << 30, clearColor)
             {
                 MergeType = RenderTargetMergeType.Additive
             };
             AddRenderTarget(rt1);
+        }
+
+        /// <summary>
+        /// Current target id
+        /// </summary>
+        private int CurrentTarget { get; set; }
+
+        /// <summary>
+        /// The Clear color of the two standard Render targets(World/UI)
+        /// </summary>
+        public Color ClearColor
+        {
+            set
+            {
+                clearColor = value;
+                rt1.ClearColor = rt.ClearColor = clearColor;
+            }
+            get => clearColor;
         }
 
         public void Dispose()
@@ -105,22 +115,15 @@ namespace Byt3.Engine.Rendering
             mergeStage.Dispose();
         }
 
-        /// <summary>
-        /// Current target id
-        /// </summary>
-        private int CurrentTarget { get; set; }
-
-        /// <summary>
-        /// The Clear color of the two standard Render targets(World/UI)
-        /// </summary>
-        public Color ClearColor
+        private void OnRenderListChanged(RenderListChangeType type, RenderingComponent component)
         {
-            set
+            for (int i = 0; i < targets.Count; i++)
             {
-                clearColor = value;
-                rt1.ClearColor = rt.ClearColor = clearColor;
+                if ((targets[i].PassMask & component.RenderQueue) != 0)
+                {
+                    renderListDirtyFlag[targets[i].PassMask] = true;
+                }
             }
-            get => clearColor;
         }
 
         /// <summary>
@@ -163,18 +166,27 @@ namespace Byt3.Engine.Rendering
         /// <returns>A sorted list of renderer contexts</returns>
         private List<RenderingComponent> CreateRenderQueue(int renderTarget, Matrix4 view)
         {
+            if (!renderListDirtyFlag[renderTarget])
+            {
+                return renderLists[renderTarget];
+            }
 
-            if (!renderListDirtyFlag[renderTarget]) return renderLists[renderTarget];
             renderListDirtyFlag[renderTarget] = false;
             if (!renderLists.ContainsKey(renderTarget))
+            {
                 renderLists[renderTarget] = new List<RenderingComponent>();
-            else renderLists[renderTarget].Clear();
+            }
+            else
+            {
+                renderLists[renderTarget].Clear();
+            }
+
             foreach (GameObject renderer in GameObject.ObjsWithAttachedRenderers)
             {
                 RenderingComponent context = renderer.RenderingComponent;
                 if ((renderer.RenderingComponent.RenderQueue & renderTarget) != 0)
-                //if (MaskHelper.IsContainedInMask(renderer.RenderingComponent.RenderQueue, renderTarget, false) &&
-                //    context.RenderType == type)
+                    //if (MaskHelper.IsContainedInMask(renderer.RenderingComponent.RenderQueue, renderTarget, false) &&
+                    //    context.RenderType == type)
                 {
                     context.PrecalculateMv(view);
                     renderLists[renderTarget].Add(context);
@@ -247,7 +259,9 @@ namespace Byt3.Engine.Rendering
             for (int i = 0; i < contexts.Count; i++)
             {
                 if (contexts[i].Owner != null)
+                {
                     contexts[i].Render(viewM, cam.Projection);
+                }
             }
         }
     }

@@ -7,6 +7,12 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class BuildCommand : AbstractCommand
     {
+        public BuildCommand() : base(new[] {"--build", "-b"},
+            "--build <Path/To/CSProj/File> <OutputDirectory>\nBuilds the Specified csproj file and moves all output to the output folder.")
+        {
+            CommandAction = (info, strings) => Build(strings);
+        }
+
         private static void Build(string[] args)
         {
             try
@@ -45,13 +51,6 @@ namespace Byt3.Engine.BuildTools.Commands
             {
                 throw new BuilderInputException("Input Error", e);
             }
-        }
-
-        public BuildCommand() : base( new[] {"--build", "-b"},
-            "--build <Path/To/CSProj/File> <OutputDirectory>\nBuilds the Specified csproj file and moves all output to the output folder.",
-            false)
-        {
-            CommandAction = (info, strings) => Build(strings);
         }
     }
 }

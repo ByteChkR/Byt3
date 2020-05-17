@@ -7,9 +7,9 @@ using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
-using Byt3.OpenFL.Parsing.Stages;
 using Byt3.OpenFL.Serialization;
 
 namespace Byt3Console.OpenFL.Commands

@@ -11,10 +11,9 @@ namespace FLDebugger.Forms
 {
     public partial class LogDisplay : Form
     {
-
         private bool allowLogEdit;
         private bool ignoreSeveritySet;
-        private StringBuilder logOut = new StringBuilder();
+        private readonly StringBuilder logOut = new StringBuilder();
 
 
         public LogDisplay()
@@ -44,6 +43,7 @@ namespace FLDebugger.Forms
             {
                 rtbLogOut.Text = logOut.ToString();
             }
+
             rtbLogOut.ScrollToCaret();
         }
 
@@ -58,16 +58,15 @@ namespace FLDebugger.Forms
 
         private void cbProjects_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             if (cbProjects.SelectedIndex != -1)
             {
                 ReadOnlyDictionary<IProjectDebugConfig, List<ADLLogger>> map = ADLLogger.GetReadOnlyLoggerMap();
-                IProjectDebugConfig config = (IProjectDebugConfig)cbProjects.SelectedItem;
+                IProjectDebugConfig config = (IProjectDebugConfig) cbProjects.SelectedItem;
                 lbLogger.Items.Clear();
                 lbLogger.Items.AddRange(map[config].ToArray());
                 ignoreSeveritySet = true;
                 cbMinSeverity.SelectedIndex =
-                    cbMinSeverity.Items.IndexOf(((Verbosity)config.GetMinSeverity()).ToString());
+                    cbMinSeverity.Items.IndexOf(((Verbosity) config.GetMinSeverity()).ToString());
                 ignoreSeveritySet = false;
             }
         }
@@ -81,8 +80,8 @@ namespace FLDebugger.Forms
         {
             if (!ignoreSeveritySet && cbProjects.SelectedIndex != -1)
             {
-                IProjectDebugConfig config = (IProjectDebugConfig)cbProjects.SelectedItem;
-                config.SetMinSeverity((int)Enum.Parse(typeof(Verbosity), cbMinSeverity.SelectedItem.ToString()));
+                IProjectDebugConfig config = (IProjectDebugConfig) cbProjects.SelectedItem;
+                config.SetMinSeverity((int) Enum.Parse(typeof(Verbosity), cbMinSeverity.SelectedItem.ToString()));
             }
         }
 

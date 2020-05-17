@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Byt3.WindowsForms.Forms
@@ -13,17 +8,19 @@ namespace Byt3.WindowsForms.Forms
     public partial class ContainerForm : Form
     {
         private readonly Control Control;
-        private readonly Control OriginalParent;
-        private readonly DockStyle OriginalDockStyle;
         private readonly Action<Control, CancelEventArgs> OnClose;
+        private readonly DockStyle OriginalDockStyle;
+        private readonly Control OriginalParent;
 
-        public ContainerForm(Control ctrl, Action<Control, CancelEventArgs> onClose, string title, Icon icon, FormBorderStyle borderStyle, Size minSize, Size maxSize)
+        public ContainerForm(Control ctrl, Action<Control, CancelEventArgs> onClose, string title, Icon icon,
+            FormBorderStyle borderStyle, Size minSize, Size maxSize)
         {
             InitializeComponent();
             if (icon != null)
             {
                 Icon = icon;
             }
+
             Control = ctrl;
             OriginalParent = Control.Parent;
             OriginalDockStyle = Control.Dock;
@@ -32,7 +29,6 @@ namespace Byt3.WindowsForms.Forms
             Control.Dock = DockStyle.Fill;
 
             OnClose = onClose;
-
 
 
             Text = title;
@@ -53,19 +49,27 @@ namespace Byt3.WindowsForms.Forms
         {
             return CreateContainer(ctrl, onClose, ctrl.Name, null);
         }
-        public static ContainerForm CreateContainer(Control ctrl, Action<Control, CancelEventArgs> onClose, string title, Icon icon)
+
+        public static ContainerForm CreateContainer(Control ctrl, Action<Control, CancelEventArgs> onClose,
+            string title, Icon icon)
         {
             return CreateContainer(ctrl, onClose, title, icon, FormBorderStyle.SizableToolWindow);
         }
-        public static ContainerForm CreateContainer(Control ctrl, Action<Control, CancelEventArgs> onClose, string title, Icon icon, FormBorderStyle borderStyle)
+
+        public static ContainerForm CreateContainer(Control ctrl, Action<Control, CancelEventArgs> onClose,
+            string title, Icon icon, FormBorderStyle borderStyle)
         {
             return CreateContainer(ctrl, onClose, title, icon, borderStyle, SystemInformation.BorderSize + ctrl.Size);
         }
-        public static ContainerForm CreateContainer(Control ctrl, Action<Control, CancelEventArgs> onClose, string title, Icon icon, FormBorderStyle borderStyle, Size minSize)
+
+        public static ContainerForm CreateContainer(Control ctrl, Action<Control, CancelEventArgs> onClose,
+            string title, Icon icon, FormBorderStyle borderStyle, Size minSize)
         {
-            return CreateContainer(ctrl, onClose, title, icon, borderStyle, minSize, new Size(0,0));
+            return CreateContainer(ctrl, onClose, title, icon, borderStyle, minSize, new Size(0, 0));
         }
-        public static ContainerForm CreateContainer(Control ctrl, Action<Control, CancelEventArgs> onClose, string title, Icon icon, FormBorderStyle borderStyle, Size minSize, Size maxSize)
+
+        public static ContainerForm CreateContainer(Control ctrl, Action<Control, CancelEventArgs> onClose,
+            string title, Icon icon, FormBorderStyle borderStyle, Size minSize, Size maxSize)
         {
             ContainerForm form = new ContainerForm(ctrl, onClose, title, icon, borderStyle, minSize, maxSize);
             form.Show();

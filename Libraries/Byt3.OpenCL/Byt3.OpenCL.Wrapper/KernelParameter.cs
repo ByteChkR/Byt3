@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Wrapper.TypeEnums;
 
-
 namespace Byt3.OpenCL.Wrapper
 {
     /// <summary>

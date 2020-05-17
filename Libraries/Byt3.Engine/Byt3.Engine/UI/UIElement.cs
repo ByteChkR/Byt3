@@ -14,16 +14,16 @@ namespace Byt3.Engine.UI
         /// </summary>
         private float alpha;
 
+        /// <summary>
+        /// Flag if the context has changed and needs an update
+        /// </summary>
+        protected bool ContextInvalid = true;
+
 
         /// <summary>
         /// backing field for the Render Mask
         /// </summary>
         private int renderMask;
-
-        /// <summary>
-        /// Flag if the context has changed and needs an update
-        /// </summary>
-        protected bool ContextInvalid = true;
 
 
         /// <summary>

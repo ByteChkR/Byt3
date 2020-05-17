@@ -35,7 +35,7 @@ namespace Byt3.OpenCL
 
         #region Internal Properties
 
-        public bool NeedsDisposal { get; private set; }
+        public bool NeedsDisposal { get; }
 
         /// <summary>
         /// Gets the handle to the OpenCL object.

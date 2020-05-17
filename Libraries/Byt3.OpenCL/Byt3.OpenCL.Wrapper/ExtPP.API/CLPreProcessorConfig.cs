@@ -11,15 +11,15 @@ namespace Byt3.OpenCL.Wrapper.ExtPP.API
     /// </summary>
     public class CLPreProcessorConfig : APreProcessorConfig
     {
-        public override string FileExtension => ".cl";
         private static readonly StringBuilder Sb = new StringBuilder();
+        public override string FileExtension => ".cl";
 
         protected override List<AbstractPlugin> Plugins =>
             new List<AbstractPlugin>
             {
-                new FakeGenericsPlugin(){Stage = "onload"},
+                new FakeGenericsPlugin {Stage = "onload"},
                 new IncludePlugin(),
-                new ConditionalPlugin(){Stage = "onload"},
+                new ConditionalPlugin {Stage = "onload"},
                 new ExceptionPlugin(),
                 new MultiLinePlugin()
             };

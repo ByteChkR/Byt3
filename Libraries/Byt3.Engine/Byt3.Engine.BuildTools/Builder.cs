@@ -59,11 +59,6 @@ namespace Byt3.Engine.BuildTools
             }
         }
 
-        public class BuildFailedException : Byt3Exception
-        {
-            public BuildFailedException(string message) : base(message) { }
-        }
-
         private static int BuildCommand(string filepath)
         {
             string exec = IsWindows ? "cmd.exe" : "dotnet";
@@ -227,6 +222,13 @@ namespace Byt3.Engine.BuildTools
             }
 
             return files;
+        }
+
+        public class BuildFailedException : Byt3Exception
+        {
+            public BuildFailedException(string message) : base(message)
+            {
+            }
         }
     }
 }

@@ -20,16 +20,17 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
         /// </summary>
         private readonly Cylinder characterBody;
 
-        private float crouchingHeight;
         private readonly ConvexCollidable<CylinderShape> crouchingQueryObject;
         private readonly ConvexCollidable<CylinderShape> currentQueryObject;
-
-        private float proneHeight;
         private readonly ConvexCollidable<CylinderShape> proneQueryObject;
 
-        private float standingHeight;
-
         private readonly ConvexCollidable<CylinderShape> standingQueryObject;
+
+        private float crouchingHeight;
+
+        private float proneHeight;
+
+        private float standingHeight;
 
         /// <summary>
         /// Constructs a stance manager for a character.

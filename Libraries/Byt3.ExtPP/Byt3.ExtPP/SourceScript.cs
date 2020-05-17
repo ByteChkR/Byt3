@@ -13,25 +13,14 @@ namespace Byt3.ExtPP
         private readonly IFileContent filepath;
 
         /// <summary>
-        /// if the source was requested at least once, it remains cached in here
-        /// </summary>
-        private string[] source;
-
-        /// <summary>
-        /// Flag to check if the file was already loaded into memory
-        /// </summary>
-        public bool IsSourceLoaded => source != null;
-
-
-        /// <summary>
-        /// The key that will get assigned to this script.
-        /// </summary>
-        private string Key => filepath.GetKey();
-
-        /// <summary>
         /// A Cache that is shared with all plugins to exchange information between different processing steps
         /// </summary>
         private readonly ImportResult importInfo;
+
+        /// <summary>
+        /// if the source was requested at least once, it remains cached in here
+        /// </summary>
+        private string[] source;
 
 
         /// <summary>
@@ -47,6 +36,17 @@ namespace Byt3.ExtPP
             this.importInfo = importInfo;
             filepath = path;
         }
+
+        /// <summary>
+        /// Flag to check if the file was already loaded into memory
+        /// </summary>
+        public bool IsSourceLoaded => source != null;
+
+
+        /// <summary>
+        /// The key that will get assigned to this script.
+        /// </summary>
+        private string Key => filepath.GetKey();
 
         /// <summary>
         /// Returns the full filepath of this script.

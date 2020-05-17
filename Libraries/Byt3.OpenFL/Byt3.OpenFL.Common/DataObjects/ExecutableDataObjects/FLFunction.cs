@@ -3,12 +3,8 @@ using Byt3.OpenFL.Common.Instructions.Variables;
 
 namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 {
-    public class FLFunction : FLParsedObject
+    public class FLFunction : FLParsedObject, IFunction
     {
-        public string Name { get; }
-        public List<FLInstruction> Instructions { get; private set; }
-        public VariableManager<decimal> Variables { get; private set; }
-
         public FLFunction(string name, List<FLInstruction> instructions)
         {
             Name = name;
@@ -20,11 +16,10 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             Name = name;
         }
 
-        internal void SetInstructions(List<FLInstruction> instructions)
-        {
-            Instructions = instructions;
-        }
-        
+        public List<FLInstruction> Instructions { get; private set; }
+        public VariableManager<decimal> Variables { get; private set; }
+        public string Name { get; }
+
         public virtual void Process()
         {
             FLProgram.Debugger?.ProcessEvent(this);
@@ -46,12 +41,21 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
             Variables = root.Variables.AddScope();
 
-            if (Instructions == null) return;
+            if (Instructions == null)
+            {
+                return;
+            }
+
             for (int i = 0; i < Instructions.Count; i++)
             {
                 Instructions[i].SetRoot(root);
                 Instructions[i].SetParent(this);
             }
+        }
+
+        internal void SetInstructions(List<FLInstruction> instructions)
+        {
+            Instructions = instructions;
         }
     }
 }

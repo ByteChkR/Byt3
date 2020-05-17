@@ -5,6 +5,6 @@
         Undefined,
         PackageReference,
         ProjectReference,
-        EmbeddedResource,
+        EmbeddedResource
     }
 }

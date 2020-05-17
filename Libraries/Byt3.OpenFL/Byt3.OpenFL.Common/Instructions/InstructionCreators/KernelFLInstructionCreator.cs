@@ -9,14 +9,14 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 {
     public class KernelFLInstructionCreator : FLInstructionCreator
     {
-        public KernelDatabase KernelList { get; }
-
-        public override string[] InstructionKeys => KernelList.KernelNames.ToArray();
-
         public KernelFLInstructionCreator(KernelDatabase kernelList)
         {
             KernelList = kernelList;
         }
+
+        public KernelDatabase KernelList { get; }
+
+        public override string[] InstructionKeys => KernelList.KernelNames.ToArray();
 
         public override void Dispose()
         {
@@ -30,13 +30,15 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             {
                 return null;
             }
+
             StringBuilder sb = new StringBuilder();
             bool compatible = !instruction.StartsWith("_");
             if (!compatible)
             {
                 sb.AppendLine(
-                    $"IMPORTANT: THIS CL KERNEL DOES NOT HAVE THE RIGHT FL HEADER SIGNATURE AND IS THEREFORE NOT DIRECTLY USABLE IN A FL SCRIPT!\n");
+                    "IMPORTANT: THIS CL KERNEL DOES NOT HAVE THE RIGHT FL HEADER SIGNATURE AND IS THEREFORE NOT DIRECTLY USABLE IN A FL SCRIPT!\n");
             }
+
             sb.AppendLine($"OpenCL Kernel: {kernel.Name} (Automatic Generated Description):");
             sb.AppendLine("Arguments:");
             foreach (KeyValuePair<string, KernelParameter> kernelParameter in kernel.Parameter)
@@ -56,16 +58,16 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 {
                     if (kernelParameter.Key.StartsWith("array"))
                     {
-                        sb.AppendLine($"Array Buffer");
+                        sb.AppendLine("Array Buffer");
                     }
                     else
                     {
-                        sb.AppendLine($"Buffer");
+                        sb.AppendLine("Buffer");
                     }
                 }
                 else
                 {
-                    sb.AppendLine($"NumberResolvable");
+                    sb.AppendLine("NumberResolvable");
                 }
             }
 
@@ -81,7 +83,9 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 
             bool includeHeader = instruction.StartsWith("_");
 
-            char[] arg = new char[includeHeader ? kernel.Parameter.Count : kernel.Parameter.Count - KernelFLInstruction.FL_HEADER_ARG_COUNT];
+            char[] arg = new char[includeHeader
+                ? kernel.Parameter.Count
+                : kernel.Parameter.Count - KernelFLInstruction.FL_HEADER_ARG_COUNT];
             foreach (KeyValuePair<string, KernelParameter> kernelParameter in kernel.Parameter)
             {
                 if (!includeHeader && kernelParameter.Value.Id < KernelFLInstruction.FL_HEADER_ARG_COUNT)

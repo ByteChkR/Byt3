@@ -6,12 +6,15 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {
     public class RemoveUnusedFunctionsOptimization : FLProgramCheck<SerializableFLProgram>
     {
-        public override bool ChangesOutput => true;
+        public override int Priority => 3;
+        public override bool Recommended => true;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.Optimization;
+
         private Dictionary<string, bool> ParseFunctions(SerializableFLProgram input)
         {
             Dictionary<string, bool> funcs = new Dictionary<string, bool>();
-            input.Functions.ForEach(x => funcs.Add(x.Name, x.Name == "Main"));
-            Logger.Log(LogType.Log, $"Finding Unused Functions.", 2);
+            input.Functions.ForEach(x => funcs.Add(x.Name, x.Name == FLKeywords.EntryFunctionKey));
+            Logger.Log(LogType.Log, "Finding Unused Functions.", 2);
 
             foreach (SerializableFLFunction serializableFlFunction in input.Functions)
             {
@@ -32,7 +35,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 
         public override object Process(object o)
         {
-            SerializableFLProgram input = (SerializableFLProgram)o;
+            SerializableFLProgram input = (SerializableFLProgram) o;
             bool stop = false;
             int pass = 1;
             int removed = 0;

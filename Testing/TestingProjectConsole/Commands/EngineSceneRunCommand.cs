@@ -31,7 +31,7 @@ namespace TestingProjectConsole.Commands
             {"GettingStarted", typeof(GettingStartedScene)},
             {"Physics", typeof(PhysicsScene)},
             {"RayCasting", typeof(RayCastingScene)},
-            {"RenderTargets", typeof(RenderTargetsScene)},
+            {"RenderTargets", typeof(RenderTargetsScene)}
         };
 
         public EngineSceneRunCommand() : base(new[] {"--engine", "-e"},
@@ -113,7 +113,7 @@ namespace TestingProjectConsole.Commands
 
             if (AttachTimeout)
             {
-                ge.SetDebugComponents(new AbstractComponent[] {new TimeoutComponent(TimeoutTime),});
+                ge.SetDebugComponents(new AbstractComponent[] {new TimeoutComponent(TimeoutTime)});
             }
 
             ge.Run();

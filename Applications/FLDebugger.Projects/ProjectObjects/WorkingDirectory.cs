@@ -3,77 +3,11 @@ using System.Windows.Forms;
 
 namespace FLDebugger.Projects
 {
-
-    public abstract class FSEntry : TreeNode
-    {
-        internal static int Entries;
-        public readonly string EntryPath;
-
-        protected FSEntry(string path)
-        {
-            Entries++;
-            Text = Path.GetFileName(path);
-            EntryPath = path;
-        }
-
-        public virtual string GetName() => Path.GetFileName(EntryPath);
-    }
-
-    public class FSFile : FSEntry
-    {
-        public FSFile(string path) : base(path)
-        {
-        }
-
-        public string GetExtension() => Path.GetExtension(EntryPath);
-    }
-
-    public class FSDir : FSEntry
-    {
-        public FSDir(string path) : base(path)
-        {
-            DirectoryInfo di = new DirectoryInfo(path);
-
-            foreach (DirectoryInfo entry in di.GetDirectories("*", SearchOption.TopDirectoryOnly))
-            {
-                Nodes.Add(new FSDir(entry.FullName));
-            }
-
-            FileInfo[] files = di.GetFiles("*", SearchOption.TopDirectoryOnly);
-            for (int i = 0; i < files.Length; i++)
-            {
-                FileInfo fileInfo = files[i];
-                Nodes.Add(new FSFile(fileInfo.FullName));
-            }
-
-        }
-
-
-        internal FSEntry Find(string fullPath)
-        {
-            foreach (TreeNode treeNode in Nodes)
-            {
-                FSEntry e = (FSEntry)treeNode;
-                if (fullPath == e.EntryPath) return e;
-                if (fullPath.Contains(e.EntryPath))
-                {
-                    FSDir dir = (FSDir)e;
-                    FSEntry ret = dir.Find(fullPath);
-                    return ret;
-                }
-            }
-
-            return null;
-        }
-    }
-
     public class WorkingDirectory
     {
-        public bool IsDirty { get; private set; }
-        public string Directory { get; internal set; }
-        private FileSystemWatcher directoryWatcher;
-        private FSDir tree;
         internal static int FilesMax;
+        private readonly FileSystemWatcher directoryWatcher;
+        private readonly FSDir tree;
 
         public WorkingDirectory(string directory)
         {
@@ -89,6 +23,9 @@ namespace FLDebugger.Projects
             directoryWatcher.Error += OnWatcherError;
         }
 
+        public bool IsDirty { get; private set; }
+        public string Directory { get; internal set; }
+
         public void UpdateTreeView(TreeView tv)
         {
             if (IsDirty)
@@ -97,6 +34,7 @@ namespace FLDebugger.Projects
                 IsDirty = false;
                 //tree = new FSDir(Directory);
             }
+
             tv.Nodes.Clear();
             tv.Nodes.Add(tree);
         }

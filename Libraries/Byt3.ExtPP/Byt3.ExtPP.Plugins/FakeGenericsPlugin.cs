@@ -34,7 +34,7 @@ namespace Byt3.ExtPP.Plugins
                 "Sets the separator that is used to separate different generic types"),
             new CommandInfo("set-stage", "ss",
                 PropertyHelper.GetPropertyInfo(typeof(FakeGenericsPlugin), nameof(Stage)),
-                "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+                "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp")
         };
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)

@@ -2,6 +2,6 @@
 {
     public interface IWarmable
     {
-        void Warm();
+        void Warm(bool force);
     }
 }

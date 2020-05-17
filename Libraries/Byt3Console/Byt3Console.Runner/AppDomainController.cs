@@ -8,19 +8,6 @@ namespace Byt3Console.Runner
 {
     public class AppDomainController : MarshalByRefObject, IDisposable
     {
-        private class AssemblyLoadException : Exception
-        {
-            public AssemblyLoadException(string message) : base(message)
-            {
-            }
-        }
-
-        public static AppDomainController Create(string domainName, string[] extraAssemblyFolders)
-        {
-            //AppDomain domain = AppDomain.CreateDomain(domainName);
-            return new AppDomainController(null, extraAssemblyFolders);
-        }
-
         //private readonly AppDomain Domain;
         private readonly string[] ExtraAssemblyFolders;
         private readonly Dictionary<string, Assembly> LoadedAssemblies = new Dictionary<string, Assembly>();
@@ -31,15 +18,26 @@ namespace Byt3Console.Runner
             //AppDomain.CurrentDomain.AssemblyResolve += Domain_AssemblyResolve;
         }
 
+        public void Dispose()
+        {
+            // AppDomain.Unload(Domain);
+        }
+
+        public static AppDomainController Create(string domainName, string[] extraAssemblyFolders)
+        {
+            //AppDomain domain = AppDomain.CreateDomain(domainName);
+            return new AppDomainController(null, extraAssemblyFolders);
+        }
+
         private Assembly Domain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             for (int i = 0; i < ExtraAssemblyFolders.Length; i++)
             {
-                string[] files = Directory.GetFiles(ExtraAssemblyFolders[i], $"*.dll",
+                string[] files = Directory.GetFiles(ExtraAssemblyFolders[i], "*.dll",
                     SearchOption.TopDirectoryOnly);
                 for (int j = 0; j < files.Length; j++)
                 {
-                    if(files[j].Contains(args.Name))
+                    if (files[j].Contains(args.Name))
                     {
                         try
                         {
@@ -126,9 +124,11 @@ namespace Byt3Console.Runner
             return ret;
         }
 
-        public void Dispose()
+        private class AssemblyLoadException : Exception
         {
-            // AppDomain.Unload(Domain);
+            public AssemblyLoadException(string message) : base(message)
+            {
+            }
         }
     }
 }

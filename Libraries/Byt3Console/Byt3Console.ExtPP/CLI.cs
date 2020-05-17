@@ -23,10 +23,21 @@ namespace Byt3Console.ExtPP
     public class CLI : ALoggable<LogType>
     {
         /// <summary>
-        /// A delegate used to handle all commands in the Command Line Interface
+        /// Instance of the plugin manager.
         /// </summary>
-        /// <returns></returns>
-        private delegate bool CommandHandler();
+        private readonly PluginManager.PluginManager pluginManager;
+
+
+        /// <summary>
+        /// Constructor that does the parameter analysis.
+        /// </summary>
+        /// <param name="args"></param>
+        public CLI(string[] args) : base(ExtPPDebugConfig.Settings)
+        {
+            pluginManager = new PluginManager.PluginManager();
+
+            DoExecution(args);
+        }
 
         /// <summary>
         /// Default helptext to show.
@@ -49,11 +60,141 @@ namespace Byt3Console.ExtPP
                                                 "\next_pp: " + Assembly.GetAssembly(typeof(Definitions)).GetName()
                                                     .Version;
 
+        /// <summary>
+        /// Processes all the queued files with the PreProcessor
+        /// </summary>
+        /// <param name="pp">The PreProcessor</param>
+        /// <param name="settings">The settings used in the computation.</param>
+        private void Process(PreProcessor pp, Settings settings)
+        {
+            //Run/Execute PreProcessor
+            for (int index = 0; index < Input.Length; index++)
+            {
+                string input = Input[index];
+                string[] src =
+                    pp.Run(input.Split(',').Select(x => new FilePathContent(x, x)).OfType<IFileContent>().ToArray(),
+                        settings, defs);
+
+                if (OutputToConsole)
+                {
+                    if (Output != null && Output.Length > index)
+                    {
+                        string outp = Path.GetFullPath(Output[index]);
+                        string sr = src.Unpack("\n");
+                        File.WriteAllText(outp, sr);
+                    }
+                }
+                else
+                {
+                    string outp = Path.GetFullPath(Output[index]);
+                    string sr = src.Unpack("\n");
+                    File.WriteAllText(outp, sr);
+                }
+            }
+        }
+
 
         /// <summary>
-        /// Instance of the plugin manager.
+        /// Applies/Brings the configuration of the CLI up and running so it can start the PreProcessing.
         /// </summary>
-        private readonly PluginManager.PluginManager pluginManager;
+        public bool Apply()
+        {
+            List<CommandHandler> loadOrder = CommandApplyOrder;
+
+            foreach (CommandHandler commandHandler in loadOrder)
+            {
+                if (commandHandler()) //Command wants us to exit the program(work was finished)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void DoExecution(string[] args)
+        {
+            List<string> arf = ComputeFileReferences(args.ToList());
+
+            string[] arguments = arf.ToArray();
+
+            Settings settings = new Settings(AnalyzeArgs(arguments));
+
+            settings.ApplySettings(Info, this);
+
+
+            if (Apply())
+            {
+                PreProcessor pp = new PreProcessor();
+                pp.SetFileProcessingChain(chain);
+                Process(pp, settings);
+            }
+        }
+
+        private static string[][] SplitExecutions(string[] args)
+        {
+            string argstr = args.Unpack(" ");
+            List<string[]> ret = new List<string[]>();
+            string[] execs = argstr.Split(new[] {"__"}, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < execs.Length; i++)
+            {
+                ret.Add(execs[i].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
+            }
+
+            return ret.ToArray();
+        }
+
+        /// <summary>
+        /// Main entry point.
+        /// </summary>
+        /// <param name="args"></param>
+        public static void StartConsole(string[] args)
+        {
+            Debug.DefaultInitialization();
+            CrashHandler.Initialize();
+
+
+            float start = Timer.MS; // Load assembly
+            Console.WriteLine(CliHeader, start);
+
+
+            if (args.Length != 0)
+            {
+                string[][] execs = SplitExecutions(args);
+                foreach (string[] execution in execs)
+                {
+                    new CLI(execution);
+                }
+            }
+            else
+            {
+                //Not empty... Just special.
+#if DEBUG
+
+                CLI c;
+                string[] arf;
+                bool exit = false;
+                do
+                {
+                    arf = Console.ReadLine().Pack(" ").ToArray();
+                    if (arf.Contains("exit"))
+                    {
+                        exit = true;
+                    }
+
+                    c = new CLI(arf);
+                    Debug.RemoveAllOutputStreams();
+                    c = null;
+                } while (!exit);
+#endif
+            }
+        }
+
+        /// <summary>
+        /// A delegate used to handle all commands in the Command Line Interface
+        /// </summary>
+        /// <returns></returns>
+        private delegate bool CommandHandler();
 
 
         #region Commands
@@ -129,7 +270,7 @@ namespace Byt3Console.ExtPP
             new CommandInfo("throw-on-error", "toe", PropertyHelper<CLI>.GetPropertyInfo(x => x.ThrowOnError),
                 "--throw-on-error <true|false>\r\n\t\tCrashes the programm if any errors are occuring."),
             new CommandInfo("generate-readme", "gen-r", PropertyHelper<CLI>.GetPropertyInfo(x => x.ReadmeArgs),
-                "--generate-readme <self|pathToPluginLibrary> <outputfile>\r\n\t\tGenerates a readme file in markdown syntax."),
+                "--generate-readme <self|pathToPluginLibrary> <outputfile>\r\n\t\tGenerates a readme file in markdown syntax.")
         };
 
         #endregion
@@ -306,7 +447,7 @@ namespace Byt3Console.ExtPP
                     Logger.Log(LogType.Log, "Listing Plugins: ", 0);
                     foreach (AbstractPlugin plugin in plugins)
                     {
-                        Logger.Log(LogType.Log, $"\n{PluginExtensions.ListInfo(plugin, true).Unpack("\n")}", 0);
+                        Logger.Log(LogType.Log, $"\n{plugin.ListInfo(true).Unpack("\n")}", 0);
                     }
                 }
                 else
@@ -391,7 +532,7 @@ namespace Byt3Console.ExtPP
             foreach (AbstractPlugin abstractPlugin in plugins)
             {
                 Logger.Log(LogType.Log, $"Generating Readme for plugin: {abstractPlugin.GetType().Name}", 1);
-                ret.AddRange(PluginExtensions.ToMarkdown(abstractPlugin));
+                ret.AddRange(abstractPlugin.ToMarkdown());
             }
 
             return ret;
@@ -594,7 +735,7 @@ namespace Byt3Console.ExtPP
         {
             int mask = -1;
             bool timestamp = true;
-            string[] vars = input.Split(new[] {':'});
+            string[] vars = input.Split(':');
             if (vars.Length > 0)
             {
                 if (vars[0] != "all")
@@ -703,10 +844,8 @@ namespace Byt3Console.ExtPP
                     $"Creating Chain Collection with Plugins: {r.Select(x => x.GetType().Name).Unpack(", ")}", 2);
                 return r;
             }
-            else
-            {
-                Logger.Log(LogType.Log, "Could not find a Chain collection in the specified file.", 2);
-            }
+
+            Logger.Log(LogType.Log, "Could not find a Chain collection in the specified file.", 2);
 
             return new List<AbstractPlugin>();
         }
@@ -939,147 +1078,5 @@ namespace Byt3Console.ExtPP
         }
 
         #endregion
-
-        /// <summary>
-        /// Processes all the queued files with the PreProcessor
-        /// </summary>
-        /// <param name="pp">The PreProcessor</param>
-        /// <param name="settings">The settings used in the computation.</param>
-        private void Process(PreProcessor pp, Settings settings)
-        {
-            //Run/Execute PreProcessor
-            for (int index = 0; index < Input.Length; index++)
-            {
-                string input = Input[index];
-                string[] src =
-                    pp.Run(input.Split(',').Select(x => new FilePathContent(x, x)).OfType<IFileContent>().ToArray(),
-                        settings, defs);
-
-                if (OutputToConsole)
-                {
-                    if (Output != null && Output.Length > index)
-                    {
-                        string outp = Path.GetFullPath(Output[index]);
-                        string sr = src.Unpack("\n");
-                        File.WriteAllText(outp, sr);
-                    }
-                }
-                else
-                {
-                    string outp = Path.GetFullPath(Output[index]);
-                    string sr = src.Unpack("\n");
-                    File.WriteAllText(outp, sr);
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Applies/Brings the configuration of the CLI up and running so it can start the PreProcessing.
-        /// </summary>
-        public bool Apply()
-        {
-            List<CommandHandler> loadOrder = CommandApplyOrder;
-
-            foreach (CommandHandler commandHandler in loadOrder)
-            {
-                if (commandHandler()) //Command wants us to exit the program(work was finished)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-
-        /// <summary>
-        /// Constructor that does the parameter analysis.
-        /// </summary>
-        /// <param name="args"></param>
-        public CLI(string[] args) : base(ExtPPDebugConfig.Settings)
-        {
-            pluginManager = new PluginManager.PluginManager();
-
-            DoExecution(args);
-        }
-
-        private void DoExecution(string[] args)
-        {
-            List<string> arf = ComputeFileReferences(args.ToList());
-
-            string[] arguments = arf.ToArray();
-
-            Settings settings = new Settings(AnalyzeArgs(arguments));
-
-            settings.ApplySettings(Info, this);
-
-
-            if (Apply())
-            {
-                PreProcessor pp = new PreProcessor();
-                pp.SetFileProcessingChain(chain);
-                Process(pp, settings);
-            }
-        }
-
-        private static string[][] SplitExecutions(string[] args)
-        {
-            string argstr = args.Unpack(" ");
-            List<string[]> ret = new List<string[]>();
-            string[] execs = argstr.Split(new[] {"__"}, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < execs.Length; i++)
-            {
-                ret.Add(execs[i].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries));
-            }
-
-            return ret.ToArray();
-        }
-
-        /// <summary>
-        /// Main entry point.
-        /// </summary>
-        /// <param name="args"></param>
-        public static void StartConsole(string[] args)
-        {
-            Debug.DefaultInitialization();
-            CrashHandler.Initialize();
-
-
-            float start = Timer.MS; // Load assembly
-            Console.WriteLine(CliHeader, start);
-
-
-            if (args.Length != 0)
-            {
-                string[][] execs = SplitExecutions(args);
-                foreach (string[] execution in execs)
-                {
-                    new CLI(execution);
-                }
-            }
-            else
-            {
-                //Not empty... Just special.
-#if DEBUG
-
-                CLI c;
-                string[] arf;
-                bool exit = false;
-                do
-                {
-                    arf = Console.ReadLine().Pack(" ").ToArray();
-                    if (arf.Contains("exit"))
-                    {
-                        exit = true;
-                    }
-
-                    c = new CLI(arf);
-                    Debug.RemoveAllOutputStreams();
-                    c = null;
-                } while (!exit);
-#endif
-            }
-        }
     }
 }

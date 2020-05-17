@@ -397,7 +397,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.UpdateableSystems
             Vector3.Add(ref minimum, ref offset, out origin);
             Vector3.Multiply(ref zSpacing, .5f, out offset);
             Vector3.Add(ref origin, ref offset, out origin);
-
         }
 
         private float GetSubmergedHeight(EntityCollidable collidable, float maxLength, float boundingBoxHeight,

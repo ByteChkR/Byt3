@@ -39,7 +39,7 @@ namespace Byt3.ExtPP.Plugins
                 "When an Error Occurs it will throw an exception that will halt the processing."),
             new CommandInfo("throw-on-warning", "tow",
                 PropertyHelper.GetPropertyInfo(typeof(ExceptionPlugin), nameof(ThrowOnWarning)),
-                "When a Warning Occurs it will throw an exception that will halt the processing."),
+                "When a Warning Occurs it will throw an exception that will halt the processing.")
         };
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)

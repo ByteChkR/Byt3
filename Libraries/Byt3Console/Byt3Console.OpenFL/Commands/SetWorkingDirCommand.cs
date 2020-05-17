@@ -5,7 +5,7 @@ namespace Byt3Console.OpenFL.Commands
 {
     public class SetWorkingDirCommand : AbstractCommand
     {
-        public SetWorkingDirCommand() : base(new[] { "--set-working-dir", "-wd" },
+        public SetWorkingDirCommand() : base(new[] {"--set-working-dir", "-wd"},
             "Can be used to set the working directory before execution")
         {
             CommandAction = (info, strings) => SetWorkingDir(strings);

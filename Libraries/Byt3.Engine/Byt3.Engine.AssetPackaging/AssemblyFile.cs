@@ -22,11 +22,6 @@ namespace Byt3.Engine.AssetPackaging
         public readonly string[] ManifestFilepaths;
 
         /// <summary>
-        /// If the assembly has compressed files
-        /// </summary>
-        public bool Compression { get; }
-
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="compression"></param>
@@ -43,6 +38,11 @@ namespace Byt3.Engine.AssetPackaging
             ManifestFilepaths = manifestFilepaths;
             Assembly = assembly;
         }
+
+        /// <summary>
+        /// If the assembly has compressed files
+        /// </summary>
+        public bool Compression { get; }
 
 
         public virtual Stream GetResourceStream(int index)
@@ -127,7 +127,7 @@ namespace Byt3.Engine.AssetPackaging
 
                 str.Close();
             }
-            
+
             return new MemoryStream(ret.ToArray());
         }
     }

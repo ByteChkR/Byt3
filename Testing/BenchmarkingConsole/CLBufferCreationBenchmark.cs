@@ -7,11 +7,11 @@ namespace BenchmarkingConsole
     [MemoryDiagnoser]
     public class CLBufferCreationBenchmark
     {
-        [Params(128 * 128, 256 * 256, 512 * 512, 1024 * 1024)]
-        public int BufferSize { get; set; }
         public CLAPI instance = CLAPI.GetInstance();
 
-        
+        [Params(128 * 128, 256 * 256, 512 * 512, 1024 * 1024)]
+        public int BufferSize { get; set; }
+
 
         [Benchmark]
         public void CreateEmptyAlloc()

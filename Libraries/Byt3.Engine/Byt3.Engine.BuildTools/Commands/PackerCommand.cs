@@ -6,6 +6,12 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class PackerCommand : AbstractCommand
     {
+        public PackerCommand() : base(new[] {"--pack-assets", "--packer"},
+            "--packer <outputFolder> <packSize> <fileExtensions> <unpackFileExtensions> <assetFolder>\nPackage the Asset Files")
+        {
+            CommandAction = (info, strings) => PackAssets(strings);
+        }
+
         private static void PackAssets(string[] args)
         {
             try
@@ -18,13 +24,6 @@ namespace Byt3.Engine.BuildTools.Commands
             {
                 throw new BuilderInputException("Input Error", e);
             }
-        }
-
-        public PackerCommand() : base(new[] { "--pack-assets", "--packer" },
-            "--packer <outputFolder> <packSize> <fileExtensions> <unpackFileExtensions> <assetFolder>\nPackage the Asset Files",
-            false)
-        {
-            CommandAction = (info, strings) => PackAssets(strings);
         }
     }
 }

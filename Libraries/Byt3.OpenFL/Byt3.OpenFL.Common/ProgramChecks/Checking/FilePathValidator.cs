@@ -7,10 +7,11 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public class FilePathValidator : FLProgramCheck<SerializableFLProgram>
     {
+        public override int Priority => 5;
 
+        public override bool Recommended => true;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.Validation;
 
-
-        public override bool ChangesOutput => false;
         public override object Process(object o)
         {
             SerializableFLProgram input = (SerializableFLProgram) o;

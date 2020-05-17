@@ -27,7 +27,7 @@ namespace Byt3.OpenFL.Parsing.Stages
             WorkItemRunner.RunInWorkItems(input.Source, RemoveCommentTask, parser.WorkItemRunnerSettings);
 
 
-            Logger.Log(LogType.Log, $"Optimizing Script Length..", 1);
+            Logger.Log(LogType.Log, "Optimizing Script Length..", 1);
             for (int i = input.Source.Count - 1; i >= 0; i--)
             {
                 if (string.IsNullOrWhiteSpace(input.Source[i]))

@@ -11,16 +11,16 @@ using Byt3.Utilities.Benchmarking;
 
 namespace Byt3.OpenFL.Benchmarking
 {
-
     public class FLSetup : BenchmarkHelper, IDisposable
     {
-        public readonly KernelDatabase KernelDatabase;
-        public readonly FLInstructionSet InstructionSet;
         public readonly BufferCreator BufferCreator;
+        public readonly FLInstructionSet InstructionSet;
+        public readonly KernelDatabase KernelDatabase;
         public FLProgramCheckBuilder CheckBuilder;
         public FLParser Parser;
 
-        public FLSetup(string testName, string kernelPath, string performance = "performance", Type[] checkPipeline = null,
+        public FLSetup(string testName, string kernelPath, string performance = "performance",
+            Type[] checkPipeline = null,
             bool useMultiThreading = false, int workSizeMultiplier = 2) : base(testName, performance)
         {
             KernelDatabase = new KernelDatabase(CLAPI.MainThread, kernelPath, DataVectorTypes.Uchar1);
@@ -33,11 +33,11 @@ namespace Byt3.OpenFL.Benchmarking
             }
             else
             {
-               CheckBuilder= new FLProgramCheckBuilder(InstructionSet, BufferCreator);
-               foreach (Type useCheck in checkPipeline)
-               {
-                   CheckBuilder.AddProgramCheck((FLProgramCheck)Activator.CreateInstance(useCheck));
-               }
+                CheckBuilder = new FLProgramCheckBuilder(InstructionSet, BufferCreator);
+                foreach (Type useCheck in checkPipeline)
+                {
+                    CheckBuilder.AddProgramCheck((FLProgramCheck) Activator.CreateInstance(useCheck));
+                }
             }
 
 
@@ -48,6 +48,11 @@ namespace Byt3.OpenFL.Benchmarking
 
             Directory.CreateDirectory(RunResultPath);
             Directory.CreateDirectory(DataOutputDirectory);
+        }
+
+        public void Dispose()
+        {
+            KernelDatabase.Dispose();
         }
 
         public void SetCheckBuilder(FLProgramCheckBuilder checkBuilder, bool attach)
@@ -63,12 +68,5 @@ namespace Byt3.OpenFL.Benchmarking
                 CheckBuilder.Attach(Parser, true);
             }
         }
-
-        public void Dispose()
-        {
-            KernelDatabase.Dispose();
-        }
-
-
     }
 }

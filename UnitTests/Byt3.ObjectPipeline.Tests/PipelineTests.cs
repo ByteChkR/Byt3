@@ -8,54 +8,6 @@ namespace Byt3.ObjectPipeline.Tests
 {
     public class PipelineTests
     {
-        #region Example Pipeline Stages
-
-        private class InterceptFileReadStage : PipelineStage<string, byte[]>
-        {
-            public override byte[] Process(string input)
-            {
-                if (Path.GetFullPath(input) == Path.GetFullPath("C:\\TestFile"))
-                {
-                    return Encoding.ASCII.GetBytes("Hello World!");
-                }
-
-                if (Path.GetFullPath(input) == Path.GetFullPath("C:\\InterceptedFile"))
-                {
-                    return Encoding.ASCII.GetBytes("!dlroW olleH");
-                }
-
-                return File.ReadAllBytes(input);
-            }
-        }
-
-        private class InterceptFilePathStage : PipelineStage<string, string>
-        {
-            private readonly string fileToIntercept = "C:\\TestFile";
-
-            public override string Process(string input)
-            {
-                return Path.GetFullPath(input) == Path.GetFullPath(fileToIntercept) ? "C:\\InterceptedFile" : input;
-            }
-        }
-
-        private class ToLowerStage : PipelineStage<string, string>
-        {
-            public override string Process(string input)
-            {
-                return input.ToLower(CultureInfo.InvariantCulture);
-            }
-        }
-
-        private class BytesToTextStage : PipelineStage<byte[], string>
-        {
-            public override string Process(byte[] input)
-            {
-                return Encoding.ASCII.GetString(input);
-            }
-        }
-
-        #endregion
-
         [Test]
         public void Pipeline_InvalidStates_Test()
         {
@@ -100,7 +52,7 @@ namespace Byt3.ObjectPipeline.Tests
             //Delegate Pipeline requires no creation of classes.
             //This implements the same logic as the ToLowerStage class.
             DelegatePipelineStage<string, string> processTextExample =
-                new DelegatePipelineStage<string, string>((input) => input.ToLower());
+                new DelegatePipelineStage<string, string>(input => input.ToLower());
 
             BytesToTextStage decodeTextExample = new BytesToTextStage();
 
@@ -157,5 +109,53 @@ namespace Byt3.ObjectPipeline.Tests
             Assert.True(testFile == "!dlrow olleh"); //To Lower
             Assert.True(testFile == interceptedFile); //Check if the "Different Files match"
         }
+
+        #region Example Pipeline Stages
+
+        private class InterceptFileReadStage : PipelineStage<string, byte[]>
+        {
+            public override byte[] Process(string input)
+            {
+                if (Path.GetFullPath(input) == Path.GetFullPath("C:\\TestFile"))
+                {
+                    return Encoding.ASCII.GetBytes("Hello World!");
+                }
+
+                if (Path.GetFullPath(input) == Path.GetFullPath("C:\\InterceptedFile"))
+                {
+                    return Encoding.ASCII.GetBytes("!dlroW olleH");
+                }
+
+                return File.ReadAllBytes(input);
+            }
+        }
+
+        private class InterceptFilePathStage : PipelineStage<string, string>
+        {
+            private readonly string fileToIntercept = "C:\\TestFile";
+
+            public override string Process(string input)
+            {
+                return Path.GetFullPath(input) == Path.GetFullPath(fileToIntercept) ? "C:\\InterceptedFile" : input;
+            }
+        }
+
+        private class ToLowerStage : PipelineStage<string, string>
+        {
+            public override string Process(string input)
+            {
+                return input.ToLower(CultureInfo.InvariantCulture);
+            }
+        }
+
+        private class BytesToTextStage : PipelineStage<byte[], string>
+        {
+            public override string Process(byte[] input)
+            {
+                return Encoding.ASCII.GetString(input);
+            }
+        }
+
+        #endregion
     }
 }

@@ -11,26 +11,10 @@ namespace Byt3.ExtPP.Base.Plugins
     /// </summary>
     public abstract class AbstractPlugin : ALoggable<LogType>
     {
-
         protected const int PLUGIN_MIN_SEVERITY = 5;
 
         protected AbstractPlugin() : base(ExtPPDebugConfig.Settings)
         {
-        }
-
-        /// <summary>
-        /// Returns the plugins that are meant to be run at the specified stage
-        /// </summary>
-        /// <param name="plugins">All plugins loaded</param>
-        /// <param name="type">The plugin type</param>
-        /// <param name="stage">the process stage</param>
-        /// <returns></returns>
-        public static List<AbstractPlugin> GetPluginsForStage(List<AbstractPlugin> plugins, PluginType type,
-            ProcessStage stage)
-        {
-            return plugins.Where(
-                x => BitMask.IsContainedInMask((int) x.PluginTypeToggle, (int) type, true) &&
-                     BitMask.IsContainedInMask((int) x.ProcessStages, (int) stage, true)).ToList();
         }
 
         /// <summary>
@@ -57,6 +41,26 @@ namespace Byt3.ExtPP.Base.Plugins
         /// A list of command infos. This list contains all the different commands of the plugin/program
         /// </summary>
         public virtual List<CommandInfo> Info => new List<CommandInfo>();
+
+        /// <summary>
+        /// A list of statements that need to be removed as a last step of the processing routine
+        /// </summary>
+        public virtual string[] Cleanup => new string[0];
+
+        /// <summary>
+        /// Returns the plugins that are meant to be run at the specified stage
+        /// </summary>
+        /// <param name="plugins">All plugins loaded</param>
+        /// <param name="type">The plugin type</param>
+        /// <param name="stage">the process stage</param>
+        /// <returns></returns>
+        public static List<AbstractPlugin> GetPluginsForStage(List<AbstractPlugin> plugins, PluginType type,
+            ProcessStage stage)
+        {
+            return plugins.Where(
+                x => BitMask.IsContainedInMask((int) x.PluginTypeToggle, (int) type, true) &&
+                     BitMask.IsContainedInMask((int) x.ProcessStages, (int) stage, true)).ToList();
+        }
 
         /// <summary>
         /// Gets called once on each file.
@@ -117,11 +121,6 @@ namespace Byt3.ExtPP.Base.Plugins
         {
             return source;
         }
-
-        /// <summary>
-        /// A list of statements that need to be removed as a last step of the processing routine
-        /// </summary>
-        public virtual string[] Cleanup => new string[0];
 
         /// <summary>
         /// Initialization of the plugin

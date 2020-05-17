@@ -1,4 +1,5 @@
 ﻿using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+using Byt3.OpenFL.Common.ElementModifiers;
 
 namespace Byt3.OpenFL.Common.Buffers.BufferCreators
 {
@@ -9,6 +10,8 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators
     public abstract class ASerializableBufferCreator
     {
         public abstract bool IsCorrectBuffer(string bufferKey);
-        public abstract SerializableFLBuffer CreateBuffer(string name, string[] args, bool isArray, int arraySize);
+
+        public abstract SerializableFLBuffer CreateBuffer(string name, string[] args, FLBufferModifiers modifiers,
+            int arraySize);
     }
 }

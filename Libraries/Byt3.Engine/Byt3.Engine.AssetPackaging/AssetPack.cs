@@ -8,12 +8,15 @@ namespace Byt3.Engine.AssetPackaging
     public class AssetPack
     {
         private readonly Stream Content;
-        public int BytesWritten { get; private set; }
 
         public AssetPack(Stream s)
         {
             Content = s;
         }
+
+        public int BytesWritten { get; private set; }
+
+        public int SpaceLeft => AssetPacker.MaxsizeKilobytes * AssetPacker.Kilobyte - BytesWritten;
 
         public void Save()
 
@@ -26,7 +29,5 @@ namespace Byt3.Engine.AssetPackaging
             Content.Write(buf, start, count);
             BytesWritten += count;
         }
-
-        public int SpaceLeft => AssetPacker.MaxsizeKilobytes * AssetPacker.Kilobyte - BytesWritten;
     }
 }

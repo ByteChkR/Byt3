@@ -20,12 +20,6 @@ namespace Byt3.ADL.Streams
 
 
         /// <summary>
-        ///     Is the stream closed?
-        /// </summary>
-        public bool IsClosed { get; protected set; }
-
-
-        /// <summary>
         ///     Creates a Log stream based on the parameters supplied.
         /// </summary>
         /// <param name="baseStream"></param>
@@ -37,6 +31,12 @@ namespace Byt3.ADL.Streams
             AddTimeStamp = setTimeStamp;
             BaseStream = baseStream;
         }
+
+
+        /// <summary>
+        ///     Is the stream closed?
+        /// </summary>
+        public bool IsClosed { get; protected set; }
 
         /// <summary>
         ///     Writes a log to the stream.

@@ -10,8 +10,6 @@ using Byt3.Engine.Physics.BEPUphysics.Materials;
 using Byt3.Engine.Rendering;
 using Byt3.Engine.Tutorials.Tutorials.Components;
 using OpenTK;
-using MathHelper = OpenTK.MathHelper;
-using Vector3 = OpenTK.Vector3;
 
 namespace Byt3.Engine.Tutorials.Tutorials
 {

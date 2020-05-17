@@ -14,6 +14,16 @@ namespace Byt3.Engine.AI
         private readonly List<AiNode> connections;
 
         /// <summary>
+        /// Public Constructor
+        /// </summary>
+        /// <param name="walkable">Walkable Flag</param>
+        public AiNode(bool walkable)
+        {
+            connections = new List<AiNode>();
+            Walkable = walkable;
+        }
+
+        /// <summary>
         /// Current Cost of the node in the current search query
         /// </summary>
         public float CurrentCost { get; set; }
@@ -45,16 +55,6 @@ namespace Byt3.Engine.AI
         /// The multiplier that changes the walkcosts(distance from node to node) to traverse over this node.
         /// </summary>
         public float WalkCostMultiplier { get; set; } = 1;
-
-        /// <summary>
-        /// Public Constructor
-        /// </summary>
-        /// <param name="walkable">Walkable Flag</param>
-        public AiNode(bool walkable)
-        {
-            connections = new List<AiNode>();
-            Walkable = walkable;
-        }
 
         /// <summary>
         /// Total Cost of the node in the current search query
@@ -119,7 +119,7 @@ namespace Byt3.Engine.AI
 
             if (!otherContains && addReverse)
             {
-                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"Adding Node Connection in reverse.", 5);
+                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, "Adding Node Connection in reverse.", 5);
                 other.AddConnection(this, false); //Add the other way around
             }
         }
@@ -141,7 +141,7 @@ namespace Byt3.Engine.AI
             connections.Remove(other);
             if (removeReverse)
             {
-                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"Removing reverse Node Connection.", 5);
+                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, "Removing reverse Node Connection.", 5);
                 other.RemoveConnection(this, false);
             }
         }

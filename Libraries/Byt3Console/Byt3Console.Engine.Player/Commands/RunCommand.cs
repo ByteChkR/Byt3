@@ -14,6 +14,11 @@ namespace Byt3Console.Engine.Player.Commands
     {
         public static Process _p;
 
+        public RunCommand() : base(new[] {"--run"}, "--run <Path/To/File.game>")
+        {
+            CommandAction = (info, strings) => Run(strings);
+        }
+
 
         private static void LoadEngine(string version)
         {
@@ -217,11 +222,6 @@ namespace Byt3Console.Engine.Player.Commands
             crd.StopThreads();
             Console.WriteLine(crd.GetRemainingLogs());
             Directory.Delete(EnginePlayerConsole.GameDir, true);
-        }
-
-        public RunCommand() : base( new[] {"--run"}, "--run <Path/To/File.game>", false)
-        {
-            CommandAction = (info, strings) => Run(strings);
         }
     }
 }

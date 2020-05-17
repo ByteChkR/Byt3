@@ -49,6 +49,16 @@ namespace Byt3.Engine.UI
             }
         }
 
+        public void Dispose()
+        {
+            foreach (KeyValuePair<string, Tuple<string, GameFont>> keyValuePair in fonts)
+            {
+                keyValuePair.Value.Item2.Dispose();
+            }
+
+            fonts.Clear();
+        }
+
         /// <summary>
         /// Manually loads a font by filename with default pixel size 32
         /// </summary>
@@ -240,16 +250,6 @@ namespace Byt3.Engine.UI
             }
 
             return fonts[path].Item2;
-        }
-
-        public void Dispose()
-        {
-            foreach (KeyValuePair<string, Tuple<string, GameFont>> keyValuePair in fonts)
-            {
-                keyValuePair.Value.Item2.Dispose();
-            }
-
-            fonts.Clear();
         }
     }
 }

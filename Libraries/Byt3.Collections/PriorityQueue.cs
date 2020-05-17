@@ -7,8 +7,6 @@ namespace Byt3.Collections
     {
         //The underlying structure.
         private readonly List<T> list;
-        public int Count => list.Count;
-        public bool IsDescending { get; }
 
         public PriorityQueue()
         {
@@ -46,6 +44,9 @@ namespace Byt3.Collections
                 Enqueue(item);
             }
         }
+
+        public int Count => list.Count;
+        public bool IsDescending { get; }
 
 
         public void Enqueue(T x)

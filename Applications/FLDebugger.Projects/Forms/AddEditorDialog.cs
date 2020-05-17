@@ -8,12 +8,13 @@ namespace FLDebugger.Projects
 {
     public partial class AddEditorDialog : Form
     {
-        private string[] Extensions => tbExtensions.Text.Replace(" ", "").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
         public AddEditorDialog()
         {
             InitializeComponent();
         }
+
+        private string[] Extensions =>
+            tbExtensions.Text.Replace(" ", "").Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
 
         private void btnBrowseEditor_Click(object sender, EventArgs e)
         {
@@ -74,8 +75,10 @@ namespace FLDebugger.Projects
             foreach (string extension in Extensions)
             {
                 string filePath = Path.Combine(StartupSplash.EditorConfigPath, $"{extension.Remove(0, 1)}_Config.xml");
-                ExternalProgramEditor editor = new ExternalProgramEditor(extension) { Format = tbFormat.Text, Target = tbEditorPath.Text, SetWorkingDir = cbSetWorkingDir.Checked};
-                if (!File.Exists(filePath) || MessageBox.Show($"Overwrite File: {filePath}?", "Confirm Overwrite", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                ExternalProgramEditor editor = new ExternalProgramEditor(extension)
+                    {Format = tbFormat.Text, Target = tbEditorPath.Text, SetWorkingDir = cbSetWorkingDir.Checked};
+                if (!File.Exists(filePath) || MessageBox.Show($"Overwrite File: {filePath}?", "Confirm Overwrite",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     XmlSerializer xs = new XmlSerializer(typeof(ExternalProgramEditor));
                     Stream s = File.Create(filePath);
@@ -90,7 +93,6 @@ namespace FLDebugger.Projects
 
         private void AddEditorDialog_Load(object sender, EventArgs e)
         {
-
             Icon = Properties.Resources.OpenFL_Icon;
         }
     }

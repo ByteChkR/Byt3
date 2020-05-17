@@ -45,7 +45,7 @@ namespace Byt3.OpenFL.Common
                 taskNr++;
             }
 
-            Logger.Log(LogType.Log, $"Waiting for Tasks..", 3);
+            Logger.Log(LogType.Log, "Waiting for Tasks..", 3);
             Task.WaitAll(taskList.ToArray());
 
             List<Out> ret = new List<Out>(input.Count);
@@ -64,7 +64,7 @@ namespace Byt3.OpenFL.Common
             int workSize = settings.GetOptimalWorkSize(input.Count);
             int currentID = 0;
             int taskNr = 0;
-            Logger.Log(LogType.Log, $"Starting Tasks...", 2);
+            Logger.Log(LogType.Log, "Starting Tasks...", 2);
             while (currentID != input.Count)
             {
                 int len = Math.Min(workSize, input.Count - currentID);
@@ -87,7 +87,7 @@ namespace Byt3.OpenFL.Common
                 taskNr++;
             }
 
-            Logger.Log(LogType.Log, $"Waiting for Tasks..", 2);
+            Logger.Log(LogType.Log, "Waiting for Tasks..", 2);
             Task.WaitAll(taskList.ToArray());
         }
     }

@@ -162,7 +162,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms
 
         private bool DoDeepContact(out ContactData contact)
         {
-            
             if (previousState == CollisionState.Separated
             ) //If it was shallow before, then its closest points will be used to find the normal.
             {
@@ -199,7 +198,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.CollisionAlgorithms
             //This is rare, but could happen.
             state = CollisionState.Separated;
             return false;
-            
         }
 
         ///<summary>

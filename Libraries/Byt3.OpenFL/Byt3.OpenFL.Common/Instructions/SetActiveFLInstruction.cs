@@ -22,7 +22,7 @@ namespace Byt3.OpenFL.Common.Instructions
                 {
                     if (Arguments[i].Type == FLInstructionArgumentType.Buffer)
                     {
-                        FLBuffer obj = (FLBuffer) Arguments[i].Value;
+                        FLBuffer obj = (FLBuffer) Arguments[i].GetValue();
                         Logger.Log(LogType.Log, "Setting Active Buffer: " + obj.DefinedBufferName,
                             MIN_INSTRUCTION_SEVERITY);
 
@@ -33,14 +33,13 @@ namespace Byt3.OpenFL.Common.Instructions
 
                     if (Arguments[i].Type == FLInstructionArgumentType.Function)
                     {
-
                         FLBuffer buffer =
                             Root.RegisterUnmanagedBuffer(new FLBuffer(Root.Instance, Root.Dimensions.x,
                                 Root.Dimensions.y, "FunctionInputBuffer_Registered"));
-                        FLFunction source = (FLFunction) Arguments[i].Value;
+                        IFunction source = (IFunction) Arguments[i].GetValue();
 
 
-                        Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
+                        Logger.Log(LogType.Log, "Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
                         Root.PushContext();
 
                         Logger.Log(LogType.Log, $"Executing Function: {source.Name}", MIN_INSTRUCTION_SEVERITY + 2);
@@ -51,7 +50,7 @@ namespace Byt3.OpenFL.Common.Instructions
 
                         FLBuffer output = Root.ActiveBuffer;
 
-                        Logger.Log(LogType.Log, $"Returning from Function Context", MIN_INSTRUCTION_SEVERITY + 3);
+                        Logger.Log(LogType.Log, "Returning from Function Context", MIN_INSTRUCTION_SEVERITY + 3);
                         Root.ReturnFromContext();
 
                         Root.ActiveBuffer = output;
@@ -62,7 +61,7 @@ namespace Byt3.OpenFL.Common.Instructions
 
                 if (Arguments[i].Type == FLInstructionArgumentType.Number)
                 {
-                    int channel = (int) Convert.ChangeType(Arguments[i].Value, typeof(int));
+                    int channel = (int) Convert.ChangeType(Arguments[i].GetValue(), typeof(int));
                     Logger.Log(LogType.Log, "Setting Active Channel: " + channel, MIN_INSTRUCTION_SEVERITY);
                     newFlags[channel] = 1;
                 }
@@ -74,6 +73,7 @@ namespace Byt3.OpenFL.Common.Instructions
 
             Root.ActiveChannels = newFlags;
         }
+
         public override string ToString()
         {
             return "setactive " + Arguments.Unpack(" ");

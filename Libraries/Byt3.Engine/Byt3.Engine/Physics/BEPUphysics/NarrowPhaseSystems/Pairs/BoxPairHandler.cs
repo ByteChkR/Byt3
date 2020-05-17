@@ -11,10 +11,9 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public class BoxPairHandler : ConvexConstraintPairHandler
     {
+        private readonly BoxContactManifold contactManifold = new BoxContactManifold();
         private ConvexCollidable<BoxShape> boxA;
         private ConvexCollidable<BoxShape> boxB;
-
-        private readonly BoxContactManifold contactManifold = new BoxContactManifold();
 
         public override Collidable CollidableA => boxA;
 

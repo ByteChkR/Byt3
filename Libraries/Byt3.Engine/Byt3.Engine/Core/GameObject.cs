@@ -14,7 +14,11 @@ using OpenTK.Input;
 
 namespace Byt3.Engine.Core
 {
-    internal enum RenderListChangeType { Add, Remove}
+    internal enum RenderListChangeType
+    {
+        Add,
+        Remove
+    }
 
     /// <summary>
     /// The Object is implementing the transform logic and contains the components
@@ -25,10 +29,11 @@ namespace Byt3.Engine.Core
         /// Internal cache of objects with renderers to loop through them quickly
         /// </summary>
         internal static List<GameObject> ObjsWithAttachedRenderers = new List<GameObject>();
-        
 
 
-        internal static Action<RenderListChangeType, RenderingComponent> AttachedRenderersChanged = (type, component) => {};
+        internal static Action<RenderListChangeType, RenderingComponent> AttachedRenderersChanged = (type, component) =>
+        {
+        };
 
         /// <summary>
         /// Internal cache of objects with colliders to loop through them quickly
@@ -67,12 +72,12 @@ namespace Byt3.Engine.Core
         private Physics.BEPUutilities.Vector3 scale = new Physics.BEPUutilities.Vector3(1f, 1f, 1f);
         private Matrix4 transform = Matrix4.Identity;
 
+        private bool transformChanged = true;
+
         /// <summary>
         /// Internal cache for the world transform
         /// </summary>
         internal Matrix4 WorldTransformCache;
-
-        private bool transformChanged = true;
 
         /// <summary>
         /// public constructor

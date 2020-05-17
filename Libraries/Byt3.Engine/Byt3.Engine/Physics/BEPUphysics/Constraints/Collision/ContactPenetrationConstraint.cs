@@ -13,7 +13,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.Collision
     public class ContactPenetrationConstraint : SolverUpdateable
     {
         internal float accumulatedImpulse;
-        
+
         internal float angularAX, angularAY, angularAZ;
         internal float angularBX, angularBY, angularBZ;
         private float bias;

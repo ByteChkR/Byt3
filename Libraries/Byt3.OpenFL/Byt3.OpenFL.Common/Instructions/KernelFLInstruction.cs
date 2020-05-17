@@ -11,8 +11,13 @@ namespace Byt3.OpenFL.Common.Instructions
 {
     public class KernelFLInstruction : FLInstruction
     {
-        private readonly CLKernel Kernel;
+        /// <summary>
+        /// FL header Count(the offset from 0 where the "user" parameter start)
+        /// </summary>
+        public const int FL_HEADER_ARG_COUNT = 5;
+
         private readonly float GenMaxSize;
+        private readonly CLKernel Kernel;
 
         public KernelFLInstruction(float genMaxSize, CLKernel kernel, List<FLInstructionArgument> arguments) :
             base(arguments)
@@ -21,21 +26,10 @@ namespace Byt3.OpenFL.Common.Instructions
             GenMaxSize = genMaxSize;
         }
 
-        /// <summary>
-        /// FL header Count(the offset from 0 where the "user" parameter start)
-        /// </summary>
-        public const int FL_HEADER_ARG_COUNT = 5;
-
 
         public override string ToString()
         {
             return Kernel.Name + " " + Arguments.Unpack(" ");
-        }
-
-        private struct ArgumentResult
-        {
-            public object Value;
-            public FLInstructionArgumentType Type;
         }
 
         private ArgumentResult Compute(FLInstructionArgument arg)
@@ -45,20 +39,20 @@ namespace Byt3.OpenFL.Common.Instructions
             switch (arg.Type)
             {
                 case FLInstructionArgumentType.Number:
-                    ret.Value = arg.Value;
+                    ret.Value = arg.GetValue();
                     break;
                 case FLInstructionArgumentType.Name:
-                    ret.Value = Parent.Variables.GetVariable(arg.Value.ToString());
+                    ret.Value = Parent.Variables.GetVariable(arg.GetValue().ToString());
                     ret.Type = FLInstructionArgumentType.Number; //Translate the Variable to a Number
                     break;
                 case FLInstructionArgumentType.Buffer:
-                    ret.Value = arg.Value;
+                    ret.Value = arg.GetValue();
                     break;
                 case FLInstructionArgumentType.Function:
                     ret.Value = ComputeFunction(arg);
                     break;
                 default:
-                    throw new InvalidOperationException("Can not parse: " + arg.Value);
+                    throw new InvalidOperationException("Can not parse: " + arg.GetValue());
             }
 
             return ret;
@@ -66,13 +60,13 @@ namespace Byt3.OpenFL.Common.Instructions
 
         private FLBuffer ComputeFunction(FLInstructionArgument arg)
         {
-            FLFunction flFunction = (FLFunction)arg.Value; //Process the Function Object
+            IFunction flFunction = (IFunction) arg.GetValue(); //Process the Function Object
 
             FLBuffer buffer =
                 Root.RegisterUnmanagedBuffer(new FLBuffer(Root.Instance, Root.Dimensions.x,
                     Root.Dimensions.y, $"{flFunction.Name}_InputBuffer"));
 
-            Logger.Log(LogType.Log, $"Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
+            Logger.Log(LogType.Log, "Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
             Root.PushContext(); //Store Dynamic Variables
 
             Logger.Log(LogType.Log, $"Executing Function: {flFunction.Name}", MIN_INSTRUCTION_SEVERITY + 2);
@@ -84,10 +78,8 @@ namespace Byt3.OpenFL.Common.Instructions
                 MIN_INSTRUCTION_SEVERITY + 2);
 
             FLBuffer ret = Root.ActiveBuffer;
-            //Kernel.SetBuffer(kernelArgIndex,
-            //    Root.ActiveBuffer.Buffer); //Set the Active Buffer as the Kernel Argument
 
-            Logger.Log(LogType.Log, $"Returning from Function Context", MIN_INSTRUCTION_SEVERITY + 3);
+            Logger.Log(LogType.Log, "Returning from Function Context", MIN_INSTRUCTION_SEVERITY + 3);
             Root.ReturnFromContext(); //Restore active channels and buffer
             return ret;
         }
@@ -119,13 +111,13 @@ namespace Byt3.OpenFL.Common.Instructions
                         Kernel.SetArg(kernelArgIndex, arg.Value); //The Value is a Decimal
                         break;
                     case FLInstructionArgumentType.Buffer:
-                        FLBuffer bi = (FLBuffer)arg.Value;
+                        FLBuffer bi = (FLBuffer) arg.Value;
                         Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{bi.DefinedBufferName}",
                             MIN_INSTRUCTION_SEVERITY + 2);
                         Kernel.SetBuffer(kernelArgIndex, bi.Buffer);
                         break;
                     case FLInstructionArgumentType.Function:
-                        FLBuffer funcBuffer = (FLBuffer)arg.Value;
+                        FLBuffer funcBuffer = (FLBuffer) arg.Value;
                         Logger.Log(LogType.Log, $"[{Kernel.Name}]Argument Buffer{funcBuffer.DefinedBufferName}",
                             MIN_INSTRUCTION_SEVERITY + 2);
                         Kernel.SetBuffer(kernelArgIndex, funcBuffer.Buffer);
@@ -137,6 +129,12 @@ namespace Byt3.OpenFL.Common.Instructions
 
             CLAPI.Run(Root.Instance, Kernel, Root.ActiveBuffer.Buffer, Root.Dimensions, GenMaxSize,
                 Root.ActiveChannelBuffer, 4);
+        }
+
+        private struct ArgumentResult
+        {
+            public object Value;
+            public FLInstructionArgumentType Type;
         }
     }
 }

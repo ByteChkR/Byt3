@@ -53,6 +53,11 @@ namespace Byt3.Engine.Debug
         private readonly Dictionary<string, ConsoleCommand> commands = new Dictionary<string, ConsoleCommand>();
 
         /// <summary>
+        /// The Maximum amount of graph data stored
+        /// </summary>
+        private readonly int maxGraphCount = 1600;
+
+        /// <summary>
         /// Reference to the Background Image Renderer Component
         /// </summary>
         private UiImageRendererComponent bgImage;
@@ -92,6 +97,9 @@ namespace Byt3.Engine.Debug
         /// </summary>
         private int currentId;
 
+        private int fps;
+        private float frames;
+
         /// <summary>
         /// The Graph component
         /// </summary>
@@ -108,14 +116,14 @@ namespace Byt3.Engine.Debug
         private UiTextRendererComponent hintText;
 
         /// <summary>
+        /// The current position in the input(the position of characters)
+        /// </summary>
+        private int inputIndex;
+
+        /// <summary>
         /// Flag used to indicate that the console window has changed and we need to redraw it
         /// </summary>
         private bool invalidate;
-
-        /// <summary>
-        /// The Maximum amount of graph data stored
-        /// </summary>
-        private readonly int maxGraphCount = 1600;
 
         /// <summary>
         /// String builder used for outputs to the console.
@@ -133,25 +141,49 @@ namespace Byt3.Engine.Debug
         /// </summary>
         private bool showConsole;
 
+        private float time;
+
         /// <summary>
         /// Reference to the Title Renderer Component
         /// </summary>
         private UiTextRendererComponent title;
 
-        private int fps;
-        private float frames;
-
-        /// <summary>
-        /// The current position in the input(the position of characters)
-        /// </summary>
-        private int inputIndex;
-
-        private float time;
-
         /// <summary>
         /// The Maximum Amount of console lines that is *roughly* working for the usecase
         /// </summary>
         private static int MaxConsoleLines => (GameEngine.Instance.Height - 100) / 20;
+
+        private static Dictionary<string, Type> SceneList
+        {
+            get
+            {
+                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                Dictionary<string, Type> ret = new Dictionary<string, Type>();
+                for (int i = 0; i < assemblies.Length; i++)
+                {
+                    Type[] types = assemblies[i].GetTypes();
+                    foreach (Type type in types)
+                    {
+                        if (typeof(AbstractScene) != type && typeof(AbstractScene).IsAssignableFrom(type))
+                        {
+                            if (!ret.ContainsKey(type.Name))
+                            {
+                                ret.Add(type.Name, type);
+                            }
+                            else if (type != ret[type.Name])
+                            {
+                                Type t1 = ret[type.Name];
+                                ret.Remove(type.Name);
+                                ret.Add(t1.FullName, t1);
+                                ret.Add(type.FullName, type);
+                            }
+                        }
+                    }
+                }
+
+                return ret;
+            }
+        }
 
 
         /// <summary>
@@ -302,7 +334,7 @@ namespace Byt3.Engine.Debug
         /// <param name="text"></param>
         public void WriteToConsole(string text)
         {
-            string[] arr = text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] arr = text.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string s in arr)
             {
                 consoleOutBuffer.Enqueue(s);
@@ -369,38 +401,6 @@ namespace Byt3.Engine.Debug
             AddCommand("ls", cmd_ListScenes);
         }
 
-        private static Dictionary<string, Type> SceneList
-        {
-            get
-            {
-                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-                Dictionary<string, Type> ret = new Dictionary<string, Type>();
-                for (int i = 0; i < assemblies.Length; i++)
-                {
-                    Type[] types = assemblies[i].GetTypes();
-                    foreach (Type type in types)
-                    {
-                        if (typeof(AbstractScene) != type && typeof(AbstractScene).IsAssignableFrom(type))
-                        {
-                            if (!ret.ContainsKey(type.Name))
-                            {
-                                ret.Add(type.Name, type);
-                            }
-                            else if (type != ret[type.Name])
-                            {
-                                Type t1 = ret[type.Name];
-                                ret.Remove(type.Name);
-                                ret.Add(t1.FullName, t1);
-                                ret.Add(type.FullName, type);
-                            }
-                        }
-                    }
-                }
-
-                return ret;
-            }
-        }
-
         private static string cmd_ListScenes(string[] args)
         {
             StringBuilder sb = new StringBuilder();
@@ -418,12 +418,10 @@ namespace Byt3.Engine.Debug
             {
                 return "Scene Not found";
             }
-            else
-            {
-                GameEngine.Instance.InitializeScene(SceneList[args[0]]);
 
-                return "Scene Loaded";
-            }
+            GameEngine.Instance.InitializeScene(SceneList[args[0]]);
+
+            return "Scene Loaded";
         }
 
         private static string cmd_ReLoadScene(string[] args)

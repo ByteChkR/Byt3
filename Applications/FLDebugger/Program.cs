@@ -15,8 +15,8 @@ namespace FLDebugger
         [STAThread]
         private static void Main(string[] args)
         {
-
-            if (UpdateChecker.Check(args, "http://213.109.162.193/flrepo/", "FLDebugger", Assembly.GetExecutingAssembly()))
+            if (UpdateChecker.Check(args, "http://213.109.162.193/flrepo/", "FLDebugger",
+                Assembly.GetExecutingAssembly()))
             {
                 return;
             }
@@ -25,8 +25,6 @@ namespace FLDebugger
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
             new DebugConsole().Run(args.Reverse().Take(Math.Max(args.Length - 1, 0)).Reverse().ToArray());
-
-
         }
     }
 }

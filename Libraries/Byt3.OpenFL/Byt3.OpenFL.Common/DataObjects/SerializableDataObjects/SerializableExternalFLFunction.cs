@@ -1,13 +1,18 @@
-﻿namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
+﻿using Byt3.OpenFL.Common.ElementModifiers;
+
+namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
 {
     public class SerializableExternalFLFunction : SerializableNamedObject
     {
-        public SerializableFLProgram ExternalProgram { get; }
-
-        public SerializableExternalFLFunction(string name, SerializableFLProgram externalProgram) : base(name)
+        public SerializableExternalFLFunction(string name, SerializableFLProgram externalProgram,
+            FLExecutableElementModifiers mod) : base(name)
         {
             ExternalProgram = externalProgram;
+            Modifiers = mod;
         }
+
+        public SerializableFLProgram ExternalProgram { get; }
+        public FLExecutableElementModifiers Modifiers { get; }
 
 
         public override string ToString()

@@ -12,6 +12,11 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class BuildXMLCommand : AbstractCommand
     {
+        public BuildXMLCommand() : base(new[] {"--xml"}, "--xml <Path/To/File.xml>", true)
+        {
+            CommandAction = BuildXML;
+        }
+
         private static string[] CreateFileList(string path, string searchPatterns, char separator = '+')
         {
             string[] patterns = searchPatterns.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries);
@@ -202,11 +207,6 @@ namespace Byt3.Engine.BuildTools.Commands
                     }
                 }
             }
-        }
-
-        public BuildXMLCommand() : base( new[] {"--xml"}, "--xml <Path/To/File.xml>", true)
-        {
-            CommandAction = BuildXML;
         }
     }
 }

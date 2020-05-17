@@ -5,7 +5,9 @@ namespace Byt3.OpenFL.Common.ProgramChecks
 {
     public class InstructionValidator : FLProgramCheck<SerializableFLProgram>
     {
-        public override bool ChangesOutput => false;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.Validation;
+        public override int Priority => 5;
+        public override bool Recommended => true;
 
         public override object Process(object o)
         {
@@ -17,10 +19,22 @@ namespace Byt3.OpenFL.Common.ProgramChecks
                     if (!InstructionSet.HasInstruction(serializableFlInstruction.InstructionKey))
                     {
                         throw new FLProgramCheckException(
-                            $"The Script is referencing the instruction with key: " +
+                            "The Script is referencing the instruction with key: " +
                             serializableFlInstruction.InstructionKey +
                             " but the Instruction is not in the Instruction Set", this);
                     }
+
+                    //if (serializableFlFunction.Modifiers.IsStatic)
+                    //{
+                    //    FLInstructionCreator c = InstructionSet.GetCreator(serializableFlInstruction);
+                    //    if (!c.AllowStaticUse)
+                    //    {
+                    //        throw new FLProgramCheckException(
+                    //            $"The Script is referencing the instruction with key: " +
+                    //            serializableFlInstruction.InstructionKey +
+                    //            " but the Instruction is not Available in static functions", this);
+                    //    }
+                    //}
                 }
             }
 

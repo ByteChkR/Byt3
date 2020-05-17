@@ -11,17 +11,16 @@ namespace Byt3.Engine.Physics.BEPUik
     /// </summary>
     public class ActiveSet : IDisposable
     {
+        //Stores data about an in-process BFS.
+        private readonly Queue<Bone> bonesToVisit = new Queue<Bone>();
+
+        private readonly List<Bone> uniqueChildren = new List<Bone>();
         private float automassTarget = 1;
 
         private float automassUnstressedFalloff = 0.9f;
 
         internal List<Bone> bones = new List<Bone>();
-
-        //Stores data about an in-process BFS.
-        private readonly Queue<Bone> bonesToVisit = new Queue<Bone>();
         internal List<IKJoint> joints = new List<IKJoint>();
-
-        private readonly List<Bone> uniqueChildren = new List<Bone>();
 
         /// <summary>
         /// Gets the most recently computed set of active joints sorted by their traversal distance from control constraints.

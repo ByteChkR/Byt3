@@ -37,7 +37,7 @@ namespace Byt3.Engine.BuildTools.PackageCreator.Versions.Legacy
                 pack?.Dispose();
                 return false;
             }
-            
+
             tr.Close();
             pack.Dispose();
             return true;

@@ -16,20 +16,19 @@ namespace Byt3.ExtPP
     /// </summary>
     public class PreProcessor : ALoggable<LogType>
     {
-        public PreProcessor() : base(ExtPPDebugConfig.Settings)
-        {
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private readonly string sep = " ";
 
         /// <summary>
         /// List of loaded plugins
         /// </summary>
         private List<AbstractPlugin> plugins = new List<AbstractPlugin>();
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private readonly string sep = " ";
+        public PreProcessor() : base(ExtPPDebugConfig.Settings)
+        {
+        }
 
         /// <summary>
         /// Returns the List of statements from all the plugins that are remaining in the file and need to be removed as a last step

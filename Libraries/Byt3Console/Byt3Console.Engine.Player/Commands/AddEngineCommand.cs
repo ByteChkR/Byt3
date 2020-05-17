@@ -8,6 +8,12 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class AddEngineCommand : AbstractCommand
     {
+        public AddEngineCommand() : base(new[] {"--add-engine", "-a"},
+            "--add-engine <<Path/To/File.engine>\nAdds an engine file to the engine cache")
+        {
+            CommandAction = (info, strings) => AddEngine(strings);
+        }
+
         private static void AddEngine(string path)
         {
             try
@@ -37,12 +43,6 @@ namespace Byt3Console.Engine.Player.Commands
             }
 
             AddEngine(args[0]);
-        }
-
-        public AddEngineCommand() : base( new[] {"--add-engine", "-a"},
-            "--add-engine <<Path/To/File.engine>\nAdds an engine file to the engine cache", false)
-        {
-            CommandAction = (info, strings) => AddEngine(strings);
         }
     }
 }

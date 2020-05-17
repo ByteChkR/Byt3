@@ -14,10 +14,6 @@ namespace Byt3Console.OpenFL
 {
     public class FLConsoleSettings
     {
-        public int Verbosity;
-        public bool MultiThread;
-        public int WorkSizeMultiplier;
-        public string ProgramChecks;
         public string BufferCreators;
 
         /// <summary>
@@ -25,7 +21,12 @@ namespace Byt3Console.OpenFL
         /// </summary>
         public string KernelFolder;
 
+        public bool MultiThread;
+        public string ProgramChecks;
+
         public Resolution Resolution;
+        public int Verbosity;
+        public int WorkSizeMultiplier;
 
         public List<Type> BufferCreatorTypes
         {
@@ -57,7 +58,7 @@ namespace Byt3Console.OpenFL
                 return ret;
             }
         }
-        
+
 
         public static FLConsoleSettings Default
         {
@@ -67,12 +68,12 @@ namespace Byt3Console.OpenFL
                 {
                     MultiThread = false,
                     WorkSizeMultiplier = 2,
-                    ProgramChecks = FLProgramCheckBuilder.Default.Select(x=>x.GetType().Name).Unpack(";"),
+                    ProgramChecks = FLProgramCheckBuilder.Default.Select(x => x.GetType().Name).Unpack(";"),
                     BufferCreators = GetBuiltInTypesAssignableFrom(typeof(ASerializableBufferCreator))
                         .Select(x => x.AssemblyQualifiedName).Unpack(";"),
                     KernelFolder = "resources/kernel",
                     Resolution = new Resolution(128, 128),
-                    Verbosity = 1,
+                    Verbosity = 1
                 };
                 return settings;
             }

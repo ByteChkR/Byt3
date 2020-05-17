@@ -9,16 +9,6 @@ namespace Byt3.Utilities.DotNet
     [Serializable]
     public class ModuleDefinition
     {
-        public string Name { get; set; }
-        public string RootDirectory { get; set; }
-
-        public string[] ScriptFiles => Directory.GetFiles(RootDirectory, "*.cs", SearchOption.AllDirectories)
-            .Where(x => !x.Contains("\\bin\\") && !x.Contains("\\obj\\")).ToArray();
-
-        public CSharpReference[] Packages { get; set; }
-        public CSharpReference[] Projects { get; set; }
-        public CSharpReference[] EmbeddedFiles { get; set; }
-
         public ModuleDefinition()
         {
         }
@@ -32,6 +22,16 @@ namespace Byt3.Utilities.DotNet
             Name = name;
             RootDirectory = rootDirectory;
         }
+
+        public string Name { get; set; }
+        public string RootDirectory { get; set; }
+
+        public string[] ScriptFiles => Directory.GetFiles(RootDirectory, "*.cs", SearchOption.AllDirectories)
+            .Where(x => !x.Contains("\\bin\\") && !x.Contains("\\obj\\")).ToArray();
+
+        public CSharpReference[] Packages { get; set; }
+        public CSharpReference[] Projects { get; set; }
+        public CSharpReference[] EmbeddedFiles { get; set; }
 
         public static ModuleDefinition Load(string path)
         {

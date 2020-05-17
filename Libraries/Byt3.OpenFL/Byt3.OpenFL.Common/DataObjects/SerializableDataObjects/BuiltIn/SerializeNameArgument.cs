@@ -4,20 +4,20 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn
 {
     public class SerializeNameArgument : SerializableFLInstructionArgument
     {
-        public string Value { get; }
-
-        public override InstructionArgumentCategory ArgumentCategory => InstructionArgumentCategory.Name;
-        public override string Identifier => Value; //Not used anyway
-
         public SerializeNameArgument(string value)
         {
             Value = value;
         }
 
+        public string Value { get; }
 
-        public override object GetValue(FLProgram script)
+        public override InstructionArgumentCategory ArgumentCategory => InstructionArgumentCategory.Name;
+        public override string Identifier => Value; //Not used anyway
+
+
+        public override ImplicitCastBox GetValue(FLProgram script)
         {
-            return Value;
+            return new ImplicitCastBox<string>(() => Value);
         }
 
         public override string ToString()

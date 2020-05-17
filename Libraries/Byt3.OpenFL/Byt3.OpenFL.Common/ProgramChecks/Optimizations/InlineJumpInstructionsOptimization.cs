@@ -5,11 +5,12 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {
     public class InlineJumpInstructionsOptimization : FLProgramCheck<SerializableFLProgram>
     {
-        public override bool ChangesOutput => true;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.Optimization;
+        public override int Priority => 1;
 
         public override object Process(object o)
         {
-            SerializableFLProgram input = (SerializableFLProgram)o;
+            SerializableFLProgram input = (SerializableFLProgram) o;
             bool removedOne = true;
             while (removedOne)
             {
@@ -31,6 +32,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                     }
                 }
             }
+
             return input;
         }
     }

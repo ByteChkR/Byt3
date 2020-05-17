@@ -7,6 +7,11 @@ namespace Byt3.Utilities.ConsoleInternals
     {
         private readonly object instance;
 
+        public ResolverWrapper(object resolver)
+        {
+            instance = resolver;
+        }
+
         public string ActualResolverName => instance.GetType().Name;
 
         public string FileExtension =>
@@ -17,11 +22,6 @@ namespace Byt3.Utilities.ConsoleInternals
             Type t = instance.GetType();
             MethodInfo meth = t.GetMethod("ResolveLibrary");
             return (string) meth.Invoke(instance, new object[] {libraryFile});
-        }
-
-        public ResolverWrapper(object resolver)
-        {
-            instance = resolver;
         }
     }
 }

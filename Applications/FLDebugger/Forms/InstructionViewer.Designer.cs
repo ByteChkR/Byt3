@@ -231,6 +231,7 @@
             this.rtbInstructionDescription.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtbInstructionDescription.Location = new System.Drawing.Point(3, 16);
             this.rtbInstructionDescription.Name = "rtbInstructionDescription";
+            this.rtbInstructionDescription.ReadOnly = true;
             this.rtbInstructionDescription.Size = new System.Drawing.Size(386, 210);
             this.rtbInstructionDescription.TabIndex = 0;
             this.rtbInstructionDescription.Text = "";

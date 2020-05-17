@@ -10,24 +10,10 @@ namespace Byt3.Console
 {
     internal static class ResolverManager
     {
-        private class DefaultLibResolver : IResolver
-        {
-            public string FileExtension => ".dll";
-
-            public string ResolveLibrary(string libraryFile)
-            {
-                return libraryFile;
-            }
-
-            public void Dispose()
-            {
-            }
-        }
-
         public static Dictionary<string, ResolverWrapper> LoadResolvers()
         {
-
-            string[] files = Directory.GetFiles(Program.InternalsFolder, Program.RESOLVER_FILE_SEARCH_PATTERN, SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(Program.InternalsFolder, Program.RESOLVER_FILE_SEARCH_PATTERN,
+                SearchOption.AllDirectories);
 
             Dictionary<string, ResolverWrapper> ret = new Dictionary<string, ResolverWrapper>();
 
@@ -44,20 +30,20 @@ namespace Byt3.Console
             {
                 ResolverWrapper current = queue.Dequeue();
 
-                System.Console.WriteLine($"Loading Resolver Pass {passId}: [{current.FileExtension}]");
+                //System.Console.WriteLine($"Loading Resolver Pass {passId}: [{current.FileExtension}]");
 
-                List<ResolverWrapper> loadedResolvers = LoadResolverWithResolver(current.FileExtension, files, current, ignoreList);
+                List<ResolverWrapper> loadedResolvers =
+                    LoadResolverWithResolver(current.FileExtension, files, current, ignoreList);
                 for (int i = 0; i < loadedResolvers.Count; i++)
                 {
-                    System.Console.WriteLine($"Adding Resolver: {loadedResolvers[i].ActualResolverName} for extension {loadedResolvers[i].FileExtension}");
+                    //System.Console.WriteLine($"Adding Resolver: {loadedResolvers[i].ActualResolverName} for extension {loadedResolvers[i].FileExtension}");
                     if (ret.ContainsKey(loadedResolvers[i].FileExtension))
                     {
-                        System.Console.WriteLine($"Duplicate Resolver Entry Found.. Replacing {ret[loadedResolvers[i].FileExtension].ActualResolverName} with {loadedResolvers[i].ActualResolverName}");
+                        //System.Console.WriteLine($"Duplicate Resolver Entry Found.. Replacing {ret[loadedResolvers[i].FileExtension].ActualResolverName} with {loadedResolvers[i].ActualResolverName}");
                     }
 
                     ret[loadedResolvers[i].FileExtension] = loadedResolvers[i];
                     queue.Enqueue(loadedResolvers[i]);
-
                 }
 
                 passId++;
@@ -66,9 +52,11 @@ namespace Byt3.Console
             return ret;
         }
 
-        public static List<ResolverWrapper> LoadResolverWithResolver(string ext, string[] allFiles, ResolverWrapper resolver, List<string> fileIgnoreList)
+        public static List<ResolverWrapper> LoadResolverWithResolver(string ext, string[] allFiles,
+            ResolverWrapper resolver, List<string> fileIgnoreList)
         {
-            string[] files = allFiles.Where(x => x.EndsWith(ext) && !fileIgnoreList.Contains(x)).ToArray(); //Filter for extensions and ignore list
+            string[] files = allFiles.Where(x => x.EndsWith(ext) && !fileIgnoreList.Contains(x))
+                .ToArray(); //Filter for extensions and ignore list
             List<ResolverWrapper> ret = new List<ResolverWrapper>();
             for (int i = 0; i < files.Length; i++)
             {
@@ -87,6 +75,7 @@ namespace Byt3.Console
                             ret.Add(ir);
                         }
                     }
+
                     fileIgnoreList.Add(files[i]);
                 }
                 catch (Exception e)
@@ -97,28 +86,49 @@ namespace Byt3.Console
 
             return ret;
         }
+
+        private class DefaultLibResolver : IResolver
+        {
+            public string FileExtension => ".dll";
+
+            public string ResolveLibrary(string libraryFile)
+            {
+                return libraryFile;
+            }
+
+            public void Dispose()
+            {
+            }
+        }
     }
 
     internal class Program
     {
-        public static readonly string InternalsFolder = Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath), "internals");
+        public const string RESOLVER_FILE_SEARCH_PATTERN = "*.Resolver.*";
+        public const string RUNNER_FILE_SEARCH_PATTERN = "*.Runner.*";
+
+        public static readonly string InternalsFolder =
+            Path.Combine(Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath),
+                "internals");
 
         private static Dictionary<string, ResolverWrapper> FileResolvers;
 
         public static readonly string ResolverQualifiedName = typeof(IResolver).AssemblyQualifiedName;
-        public const string RESOLVER_FILE_SEARCH_PATTERN = "*.Resolver.*";
-        public const string RUNNER_FILE_SEARCH_PATTERN = "*.Runner.*";
 
         private static void Main(string[] args)
         {
             //AppDomain.CurrentDomain.AssemblyLoad+= CurrentDomainOnAssemblyLoad;
             //AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
-            if (!Directory.Exists(InternalsFolder)) Directory.CreateDirectory(InternalsFolder);
+            if (!Directory.Exists(InternalsFolder))
+            {
+                Directory.CreateDirectory(InternalsFolder);
+            }
 
             FileResolvers = ResolverManager.LoadResolvers();
-            string[] runnerLibs = Directory.GetFiles(InternalsFolder, RUNNER_FILE_SEARCH_PATTERN, SearchOption.AllDirectories);
+            string[] runnerLibs =
+                Directory.GetFiles(InternalsFolder, RUNNER_FILE_SEARCH_PATTERN, SearchOption.AllDirectories);
 
-            if (runnerLibs.Length==0)
+            if (runnerLibs.Length == 0)
             {
                 System.Console.WriteLine("Can not Locate a Valid Runner Library.");
                 System.Console.WriteLine("Path is Empty: " + InternalsFolder);
@@ -126,13 +136,14 @@ namespace Byt3.Console
                 return;
             }
 
-            MethodInfo mi=null;
+            MethodInfo mi = null;
             for (int i = 0; i < runnerLibs.Length; i++)
             {
                 try
                 {
-                    Assembly asm = Assembly.LoadFrom(FileResolvers[Path.GetExtension(runnerLibs[i])].ResolveLibrary(runnerLibs[i]));
-                    System.Console.WriteLine("Loading Runner: " + asm.GetName().Version);
+                    Assembly asm = Assembly.LoadFrom(FileResolvers[Path.GetExtension(runnerLibs[i])]
+                        .ResolveLibrary(runnerLibs[i]));
+                    //System.Console.WriteLine("Loading Runner: " + asm.GetName().Version);
                     Type t = asm.GetExportedTypes().First(x => x.Name == "ConsoleRunner");
 
                     mi = t.GetMethod("Run");
@@ -140,7 +151,7 @@ namespace Byt3.Console
                 }
                 catch (Exception)
                 {
-                    System.Console.WriteLine("Error Loading Runner: "+ runnerLibs[i]);
+                    System.Console.WriteLine("Error Loading Runner: " + runnerLibs[i]);
                 }
             }
 
@@ -153,13 +164,13 @@ namespace Byt3.Console
             catch (Exception e)
             {
                 Exception ex = e.InnerException ?? e;
-                System.Console.WriteLine("Runner Command Errored.");
+                //System.Console.WriteLine("Runner Command Errored.");
                 System.Console.WriteLine("Exception " + ex.GetType().Name + ": " + ex.Message);
                 System.Console.WriteLine(ex.StackTrace);
-                System.Console.ReadLine();
+                //System.Console.ReadLine();
             }
 
-           
+
 #if DEBUG
             //System.Console.ReadLine();
 #endif

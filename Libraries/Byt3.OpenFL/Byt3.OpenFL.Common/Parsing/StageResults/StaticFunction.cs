@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Linq;
+using Byt3.OpenFL.Common.ElementModifiers;
 
 namespace Byt3.OpenFL.Parsing.StageResults
 {
     public class StaticFunction
     {
-        public readonly string Name;
         public readonly StaticInstruction[] Body;
+        public readonly FLFunctionElementModifiers Modifiers;
+        public readonly string Name;
 
-        public StaticFunction(string name, string[] body)
+        public StaticFunction(string name, string[] body, string[] modifiers)
         {
+            Modifiers = new FLFunctionElementModifiers(name, modifiers);
+
+
             Name = name;
             Body = body.Select(x => new StaticInstruction(x.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries)))
                 .ToArray();
@@ -17,7 +22,7 @@ namespace Byt3.OpenFL.Parsing.StageResults
 
         public override string ToString()
         {
-            return Name;
+            return $"{Name}: {Modifiers}";
         }
     }
 }

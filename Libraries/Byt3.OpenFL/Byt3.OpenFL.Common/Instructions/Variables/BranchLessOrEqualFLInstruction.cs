@@ -6,7 +6,6 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
 {
     public class BranchLessOrEqualFLInstruction : JumpFLInstruction
     {
-
         public BranchLessOrEqualFLInstruction(List<FLInstructionArgument> arguments) : base(2, arguments)
         {
         }
@@ -16,19 +15,31 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
         {
             FLInstructionArgument left = Arguments[0];
             FLInstructionArgument right = Arguments[1];
-            decimal l=0, r=0;
-            if (left.Type == FLInstructionArgumentType.Number) l = (decimal) left.Value;
-            else if (left.Type == FLInstructionArgumentType.Name && Parent.Variables.IsDefined(left.Value.ToString()))
-                l = Parent.Variables.GetVariable(left.Value.ToString());
-            if (right.Type == FLInstructionArgumentType.Number) r = (decimal)right.Value;
-            else if (right.Type == FLInstructionArgumentType.Name && Parent.Variables.IsDefined(right.Value.ToString()))
-                r = Parent.Variables.GetVariable(right.Value.ToString());
+            decimal l = 0, r = 0;
+            if (left.Type == FLInstructionArgumentType.Number)
+            {
+                l = (decimal) left.GetValue();
+            }
+            else if (left.Type == FLInstructionArgumentType.Name &&
+                     Parent.Variables.IsDefined(left.GetValue().ToString()))
+            {
+                l = Parent.Variables.GetVariable(left.GetValue().ToString());
+            }
+
+            if (right.Type == FLInstructionArgumentType.Number)
+            {
+                r = (decimal) right.GetValue();
+            }
+            else if (right.Type == FLInstructionArgumentType.Name &&
+                     Parent.Variables.IsDefined(right.GetValue().ToString()))
+            {
+                r = Parent.Variables.GetVariable(right.GetValue().ToString());
+            }
 
             if (l <= r)
             {
                 base.Process();
             }
-
         }
 
         public override string ToString()

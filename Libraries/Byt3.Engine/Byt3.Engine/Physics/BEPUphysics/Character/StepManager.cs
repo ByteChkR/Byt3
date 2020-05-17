@@ -18,10 +18,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
         private readonly Cylinder characterBody;
         private readonly ConvexCollidable<CylinderShape> currentQueryObject;
 
-        private float maximumStepHeight = 1f;
-
-        private float minimumDownStepHeight = .1f;
-
         private readonly float minimumUpStepHeight;
 
 
@@ -30,6 +26,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
         private readonly float
             upStepMargin =
                 .1f; //There's a little extra space above the maximum step height to start the obstruction and downcast test rays.  Helps when a step is very close to the max step height.
+
+        private float maximumStepHeight = 1f;
+
+        private float minimumDownStepHeight = .1f;
 
         /// <summary>
         /// Constructs a new step manager for a character.

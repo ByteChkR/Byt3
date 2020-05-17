@@ -9,15 +9,15 @@ using Byt3.Utilities.Exceptions;
 
 namespace Byt3.OpenCL.Wrapper
 {
-
     public class CLBuildException : Byt3Exception
     {
         public readonly List<CLProgramBuildResult> BuildResults;
-        public CLBuildException(CLProgramBuildResult result) : this(new List<CLProgramBuildResult> { result })
+
+        public CLBuildException(CLProgramBuildResult result) : this(new List<CLProgramBuildResult> {result})
         {
         }
 
-        public CLBuildException(List<CLProgramBuildResult> results):base("")
+        public CLBuildException(List<CLProgramBuildResult> results) : base("")
         {
             BuildResults = results;
         }
@@ -29,19 +29,17 @@ namespace Byt3.OpenCL.Wrapper
     /// </summary>
     public class KernelDatabase : ALoggable<LogType>, IDisposable
     {
-        static KernelDatabase()
-        {
-            TextProcessorAPI.Configs[".cl"] = new CLPreProcessorConfig();
-        }
-
         /// <summary>
         /// The currently loaded kernels
         /// </summary>
         private readonly Dictionary<string, CLKernel> loadedKernels;
 
-        public List<string> KernelNames => new List<string>(loadedKernels.Keys);
-
         private readonly List<CLProgram> loadedPrograms;
+
+        static KernelDatabase()
+        {
+            TextProcessorAPI.Configs[".cl"] = new CLPreProcessorConfig();
+        }
 
         /// <summary>
         /// Public constructor
@@ -57,6 +55,7 @@ namespace Byt3.OpenCL.Wrapper
             {
                 throw new OpenClException("Can not find directory: " + folderName);
             }
+
             loadedPrograms = new List<CLProgram>();
             loadedKernels = new Dictionary<string, CLKernel>();
             LoadFolder(instance, folderName);
@@ -75,6 +74,8 @@ namespace Byt3.OpenCL.Wrapper
             loadedPrograms = new List<CLProgram>();
             loadedKernels = new Dictionary<string, CLKernel>();
         }
+
+        public List<string> KernelNames => new List<string>(loadedKernels.Keys);
 
 
         public string GenDataType { get; }
@@ -112,7 +113,11 @@ namespace Byt3.OpenCL.Wrapper
                 throwEx |= !res;
                 results.Add(res);
             }
-            if(throwEx)throw new CLBuildException(results);
+
+            if (throwEx)
+            {
+                throw new CLBuildException(results);
+            }
         }
 
 
@@ -126,10 +131,8 @@ namespace Byt3.OpenCL.Wrapper
                 {
                     throw e;
                 }
-                else
-                {
-                    ex.BuildErrors.Add(new CLProgramBuildError(ErrorType.ProgramBuild, e));
-                }
+
+                ex.BuildErrors.Add(new CLProgramBuildError(ErrorType.ProgramBuild, e));
             }
 
 
@@ -143,12 +146,11 @@ namespace Byt3.OpenCL.Wrapper
                 {
                     throw br.GetAggregateException();
                 }
-                else
-                {
-                    ex.BuildErrors.AddRange(br.BuildErrors);
-                    return;
-                }
+
+                ex.BuildErrors.AddRange(br.BuildErrors);
+                return;
             }
+
             //CLProgram program = new CLProgram(instance, path);
             loadedPrograms.Add(program);
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)

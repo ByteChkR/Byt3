@@ -7,6 +7,12 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class CreateEnginePackageCommand : AbstractCommand
     {
+        public CreateEnginePackageCommand() : base(new[] {"--create-engine-package", "-cep"},
+            "--create-engine-package <Engine.csproj file> <OutputFile> <optional:FileList>\nCreates an Engine Package from an Engine.csproj file\n--packager-version <packagerVersion> overrides the packager version that is used.")
+        {
+            CommandAction = CreateEnginePackage;
+        }
+
         private static void CreateEnginePackage(StartupArgumentInfo info, string[] args)
         {
             //1 Directory of unpacked game build
@@ -59,13 +65,6 @@ namespace Byt3.Engine.BuildTools.Commands
             {
                 throw new BuilderInputException("Input Error", e);
             }
-        }
-
-        public CreateEnginePackageCommand() : base( new[] {"--create-engine-package", "-cep"},
-            "--create-engine-package <Engine.csproj file> <OutputFile> <optional:FileList>\nCreates an Engine Package from an Engine.csproj file\n--packager-version <packagerVersion> overrides the packager version that is used.",
-            false)
-        {
-            CommandAction = CreateEnginePackage;
         }
     }
 }

@@ -1,11 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>0.0.4.943</AssemblyVersion>
+    <FileVersion>0.0.4.943</FileVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Byt3.Utilities.FastString\Byt3.Utilities.FastString.csproj" />
   </ItemGroup>
-
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
 </Project>

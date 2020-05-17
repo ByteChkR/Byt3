@@ -21,7 +21,7 @@ namespace Byt3Console.ExtPP.PluginManager
             List<string> ret = new List<string>();
             foreach (CommandInfo cmd in info)
             {
-                ret.Add("--" + prefix.Unpack("/") + ":" + cmd.ToString());
+                ret.Add("--" + prefix.Unpack("/") + ":" + cmd);
             }
 
             return ret;
@@ -81,7 +81,7 @@ namespace Byt3Console.ExtPP.PluginManager
             List<string> ret = new List<string>();
             for (int i = 0; i < info.Count; i++)
             {
-                string[] helpt = info[i].HelpText.Split(new[] {'\n'});
+                string[] helpt = info[i].HelpText.Split('\n');
                 ret.Add(tab + info[i].Command + "/" + info[i].ShortCut);
                 ret.Add(tab + "\t" + helpt.Unpack("\n\t" + tab));
             }

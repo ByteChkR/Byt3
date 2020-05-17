@@ -22,17 +22,6 @@ namespace Byt3.Engine.Rendering
             new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, "ShaderProgram");
 
         private static int _lastUsedPrgId = -1;
-        private bool isDisposed;
-
-        internal static void ResetLastUsedProgram()
-        {
-            _lastUsedPrgId = -1;
-        }
-
-        private static void ChangeLastProgId(ShaderProgram prog)
-        {
-            _lastUsedPrgId = prog.prgId;
-        }
 
 
         /// <summary>
@@ -41,6 +30,7 @@ namespace Byt3.Engine.Rendering
         private readonly int prgId;
 
         private readonly Dictionary<string, int> uniformCache = new Dictionary<string, int>();
+        private bool isDisposed;
 
         /// <summary>
         /// Private constructor
@@ -58,6 +48,16 @@ namespace Byt3.Engine.Rendering
         {
             isDisposed = true;
             GL.DeleteProgram(prgId);
+        }
+
+        internal static void ResetLastUsedProgram()
+        {
+            _lastUsedPrgId = -1;
+        }
+
+        private static void ChangeLastProgId(ShaderProgram prog)
+        {
+            _lastUsedPrgId = prog.prgId;
         }
 
         /// <summary>
@@ -121,7 +121,8 @@ namespace Byt3.Engine.Rendering
                 string dirName = Path.GetDirectoryName(subshader.Value);
                 StringBuilder src = new StringBuilder();
                 string[] lines =
-                    TextProcessorAPI.PreprocessLines(tr.ReadToEnd().Replace("\r", "").Split('\n'), dirName, Path.GetExtension(subshader.Value), null);
+                    TextProcessorAPI.PreprocessLines(tr.ReadToEnd().Replace("\r", "").Split('\n'), dirName,
+                        Path.GetExtension(subshader.Value), null);
                 tr.Close();
                 for (int i = 0; i < lines.Length; i++)
                 {

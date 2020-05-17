@@ -1,5 +1,4 @@
-﻿using System;
-using Byt3.Collections;
+﻿using Byt3.Collections;
 using Byt3.Engine.Core;
 using OpenTK;
 
@@ -8,10 +7,10 @@ namespace HorrorOfBindings.components
     public class OffsetConstraint : AbstractComponent
     {
         private GameObject _attachedObject;
-        public Vector3 Offset { get; set; }
+        private float _inverseDamp = 1;
 
         private Vector3 _velocity;
-        private float _inverseDamp = 1;
+        public Vector3 Offset { get; set; }
 
         public float Damping
         {

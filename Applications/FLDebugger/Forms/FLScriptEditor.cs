@@ -10,16 +10,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Byt3.ADL.Streams;
 using Byt3.OpenCL.Wrapper;
-using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers;
-using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
-using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
-using Byt3.OpenFL.Parsing;
-using Byt3.OpenFL.Parsing.Stages;
 using Byt3.Utilities.ManifestIO;
 using Byt3.Utilities.TypeFinding;
 using Byt3.WindowsForms.CustomControls;
@@ -32,35 +28,45 @@ namespace FLDebugger.Forms
 {
     public partial class FLScriptEditor : Form
     {
-        private CLAPI Instance;
-        private LogDisplay logDisplay;
-        private FLParser p;
-        private TextReader tr;
-        private Stream ms = new PipeStream();
-        private KernelDatabase db;
-        private FLProgramCheckBuilder builder;
-        private FLInstructionSet instructionSet;
-        private SerializableFLProgram prog;
-        private BufferCreator bufferCreator;
-        private string Path;
-        private bool optimizationsDirty;
-        private bool outputDirty = true;
-
         private static readonly string TempEditorContentPath = System.IO.Path.Combine(
             System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
             "tempeditorcontent_" + System.IO.Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName()) +
             ".fl");
 
-        private const string DEFAULT_SCRIPT = "Main:\n\tsetactive 3\n\tsetv 1\n\tsetactive 0 1 2\n\tsetv 1";
+        private static readonly string DEFAULT_SCRIPT =
+            $"{FLKeywords.EntryFunctionKey}:\n\tsetactive 3\n\tsetv 1\n\tsetactive 0 1 2\n\tsetv 1";
+
+
+        private AboutInfo aboutForm;
+        private bool allowLogUpdate;
+        private FLDataContainer Container;
 
 
         private bool ControlMod;
 
+        private bool ignoreChanged;
+
+        private InstructionViewer iv;
+        private LogDisplay logDisplay;
+
+        private string logOut = "";
+        private readonly Stream ms = new PipeStream();
+        private bool optimizationsDirty;
+        private bool outputDirty = true;
+        private string Path;
+        private ContainerForm previewForm;
+
+        private PictureBox previewPicture;
+        private Task previewTask;
+
+        private TextReader tr;
+
         public FLScriptEditor()
         {
-            Instance = CLAPI.GetInstance();
             InitializeComponent();
             rtbIn.WriteSource(DEFAULT_SCRIPT);
+            cbBuildMode.SelectedIndex = 0;
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         public FLScriptEditor(string path) : this()
@@ -84,8 +90,6 @@ namespace FLDebugger.Forms
             }
         }
 
-        private bool ignoreChanged = false;
-
 
         private static ResizeableControl MakeResizable(Control control, ResizeableControl.EdgeEnum activeEdges,
             params Control[] dockedChildren)
@@ -99,17 +103,14 @@ namespace FLDebugger.Forms
 
         private Task<SerializableFLProgram> ParseProgram()
         {
-            List<string> si = lbOptimizations.CheckedItems.Cast<string>().ToList();
-            si.Select(x =>
-                (FLProgramCheck)Activator.CreateInstance(TypeAccumulator<FLProgramCheck>.GetTypesByName(x)
-                    .First())).ToList().ForEach(x => builder.AddProgramCheck(x));
-            builder.Attach(p, true);
-
-
+            Container.CheckBuilder.RemoveAllProgramChecks();
+            List<FLProgramCheck> si = lbOptimizations.CheckedItems.Cast<FLProgramCheck>().ToList();
+            si.ForEach(x => Container.CheckBuilder.AddProgramCheck(x));
+            Container.CheckBuilder.Attach(Container.Parser, true);
 
 
             Task<SerializableFLProgram> loadT =
-                new Task<SerializableFLProgram>(() => p.Process(new FLParserInput(Path)));
+                new Task<SerializableFLProgram>(() => Container.Parser.Process(new FLParserInput(Path, cbBuildMode.SelectedItem.ToString().ToUpper())));
             return loadT;
         }
 
@@ -120,12 +121,11 @@ namespace FLDebugger.Forms
 
         private void InitializeViewer()
         {
-            if (builder.IsAttached)
+            if (Container.CheckBuilder.IsAttached)
             {
-                builder.Detach(false);
+                Container.CheckBuilder.Detach(false);
             }
 
-            builder = new FLProgramCheckBuilder(instructionSet, bufferCreator);
 
             string source = File.ReadAllText(Path);
             Text = "FL Parse Output Viewing: " + Path;
@@ -145,7 +145,6 @@ namespace FLDebugger.Forms
 
                 foreach (Exception exceptionInnerException in loadT.Exception.InnerExceptions)
                 {
-
                     Exception ex = GetInnerIfAggregate(exceptionInnerException);
                     s += "PARSE ERROR:\n\t" + ex.Message + "\n";
                 }
@@ -155,8 +154,8 @@ namespace FLDebugger.Forms
             else
             {
                 outputDirty = false;
-                prog = loadT.Result;
-                string s = prog.ToString();
+                Container.SerializedProgram = loadT.Result;
+                string s = Container.SerializedProgram.ToString();
                 if (s.Count(x => x == '\n') > 100)
                 {
                     rtbOut.Text = s;
@@ -165,21 +164,24 @@ namespace FLDebugger.Forms
 
                 rtbOut.WriteSource(s);
                 SetLogOutput("Build Succeeded.\n");
-
-
             }
         }
 
         private void rtbIn_TextChanged(object sender, EventArgs e)
         {
             outputDirty = true;
-            if (ignoreChanged) return;
-            if (tmrConsoleColors.Enabled) tmrConsoleColors.Stop();
+            if (ignoreChanged)
+            {
+                return;
+            }
+
+            if (tmrConsoleColors.Enabled)
+            {
+                tmrConsoleColors.Stop();
+            }
+
             tmrConsoleColors.Start();
         }
-
-        private string logOut = "";
-        private bool allowLogUpdate = false;
 
         private void tmrConsoleRefresh_Tick(object sender, EventArgs e)
         {
@@ -188,19 +190,12 @@ namespace FLDebugger.Forms
             logDisplay.Append(r);
         }
 
-        private ResizeableControl rPanelOut;
-        private ResizeableControl rPanelConsoleOut;
-
         private void frmOptimizationView_Load(object sender, EventArgs e)
         {
-            Icon = Properties.Resources.OpenFL_Icon;
+            Icon = Resources.OpenFL_Icon;
             Closing += FLScriptEditor_Closing;
             logDisplay = new LogDisplay();
 
-            lblFLVersion.Text = "OpenFL Versions:";
-            lblFLVersion.Text += "\n   Editor: " + Assembly.GetExecutingAssembly().GetName().Version;
-            lblFLVersion.Text += "\n   Parser: " + typeof(FLParser).Assembly.GetName().Version;
-            lblFLVersion.Text += "\n   Common: " + OpenFLDebugConfig.CommonVersion;
 
             FLDebugger.Initialize();
             DoubleBuffered = true;
@@ -208,8 +203,8 @@ namespace FLDebugger.Forms
 
             //MakeResizable(panelCodeArea, ResizeableControl.EdgeEnum.None);
             //MakeResizable(panelToolbar, ResizeableControl.EdgeEnum.Left|ResizeableControl.EdgeEnum.Right);
-            rPanelConsoleOut = MakeResizable(panelConsoleOut, ResizeableControl.EdgeEnum.Top, rtbParserOutput);
-            rPanelOut = MakeResizable(panelInput, ResizeableControl.EdgeEnum.Right, rtbIn);
+            MakeResizable(panelConsoleOut, ResizeableControl.EdgeEnum.Top, rtbParserOutput);
+            MakeResizable(panelInput, ResizeableControl.EdgeEnum.Right, rtbIn);
 
 
             panelCodeArea.Resize += PanelCodeArea_Resize;
@@ -220,63 +215,47 @@ namespace FLDebugger.Forms
             tmrConsoleRefresh.Start();
 
 
-            LogTextStream ls = new LogTextStream(ms, false);
+            LogTextStream ls = new LogTextStream(ms);
             Debug.DefaultInitialization();
             Debug.AddOutputStream(ls);
             tr = new StreamReader(ms);
+
             TypeAccumulator.RegisterAssembly(typeof(OpenFLDebugConfig).Assembly);
             ManifestReader.RegisterAssembly(typeof(OpenFLDebugConfig).Assembly);
             ManifestReader.PrepareManifestFiles(false);
             ManifestReader.PrepareManifestFiles(true);
             EmbeddedFileIOManager.Initialize();
 
-            bool crash = false;
-            do
-            {
-                try
-                {
-                    crash = false;
-                    db = new KernelDatabase(Instance, "resources/kernel", DataVectorTypes.Uchar1);
-                }
-                catch (Exception exception)
-                {
-                    crash = true;
-                    if (exception is CLBuildException buildException
-                    ) //Display the Compile errors in a more convenient dialog
-                    {
-                        BuildExceptionViewer bev = new BuildExceptionViewer(buildException);
-                        bev.ShowDialog();
-                    }
-                    else
-                    {
-                        throw exception; //Let the Exception Viewer Catch that
-                    }
-                }
-            } while (crash);
+
+            Container = new FLDataContainer();
 
 
-            instructionSet = FLInstructionSet.CreateWithBuiltInTypes(db);
-            bufferCreator = BufferCreator.CreateWithBuiltInTypes();
-
-
-            p = new FLParser(instructionSet, bufferCreator, new WorkItemRunnerSettings(true, 2));
-
-
-            builder = new FLProgramCheckBuilder(instructionSet, bufferCreator);
-            IEnumerable<string> types = typeof(OpenFLDebugConfig).Assembly.GetExportedTypes()
+            List<FLProgramCheck> types = typeof(OpenFLDebugConfig).Assembly.GetExportedTypes()
                 .Where(x => typeof(FLProgramCheck).IsAssignableFrom(x) && !x.IsAbstract && x != typeof(FLProgramCheck))
-                .Select(x => x.Name);
+                .Select(x => (FLProgramCheck)Activator.CreateInstance(x)).ToList();
+
+            types.Sort((x, y) => x.Priority.CompareTo(y.Priority));
+
             lbOptimizations.ItemCheck += LbOptimizationsOnItemCheck;
             rtbParserOutput.TextChanged += RtbParserOutputTextChanged;
-            foreach (string type in types)
+            for (int i = 0; i < types.Count; i++)
             {
+                FLProgramCheck type = types[i];
                 lbOptimizations.Items.Add(type);
+                if (type.Recommended)
+                {
+                    lbOptimizations.SetItemChecked(i, true);
+                }
             }
         }
 
         private void FLScriptEditor_Closing(object sender, CancelEventArgs e)
         {
-            if (File.Exists(TempEditorContentPath)) File.Delete(TempEditorContentPath);
+            if (File.Exists(TempEditorContentPath))
+            {
+                File.Delete(TempEditorContentPath);
+            }
+
             Application.Exit();
         }
 
@@ -337,7 +316,7 @@ namespace FLDebugger.Forms
             {
                 previewTask = new Task(() =>
                 {
-                    if (prog == null)
+                    if (Container.SerializedProgram == null)
                     {
                         throw new InvalidOperationException();
                     }
@@ -345,16 +324,16 @@ namespace FLDebugger.Forms
                     FLProgram pro = null;
                     try
                     {
-                        FLInstructionSet iset = FLInstructionSet.CreateWithBuiltInTypes(db);
-                        pro = prog.Initialize(Instance, iset);
+                        pro = Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet);
 
-                        pro.Run(new FLBuffer(Instance, 512, 512, "Preview Buffer"), true);
+                        pro.Run(new FLBuffer(Container.Instance, 512, 512, "Preview Buffer"), true);
                         if (previewPicture != null)
                         {
                             Bitmap bmp = new Bitmap(512, 512);
-                            CLAPI.UpdateBitmap(Instance, bmp, pro.GetActiveBuffer(false).Buffer);
+                            CLAPI.UpdateBitmap(Container.Instance, bmp, pro.GetActiveBuffer(false).Buffer);
                             previewPicture.Image = bmp;
                         }
+
                         pro.FreeResources();
                     }
                     catch (Exception ex)
@@ -365,7 +344,6 @@ namespace FLDebugger.Forms
                             previewPicture.Image = SystemIcons.Error.ToBitmap();
                         }
                     }
-
                 });
                 previewTask.Start();
             }
@@ -413,13 +391,14 @@ namespace FLDebugger.Forms
 
         private void btnDebug_Click(object sender, EventArgs e)
         {
-            if (prog == null || optimizationsDirty || outputDirty)
+            if (Container.SerializedProgram == null || optimizationsDirty || outputDirty)
             {
                 InitProgram();
             }
 
             Enabled = false;
-            FLDebugger.Start(Instance, prog.Initialize(Instance, instructionSet));
+            FLDebugger.Start(Container.Instance,
+                Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet));
             Enabled = true;
         }
 
@@ -447,20 +426,8 @@ namespace FLDebugger.Forms
             }
         }
 
-        private int previousClickedOptimization = -1;
-
         private void lbOptimizations_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ControlMod && previousClickedOptimization != -1 && lbOptimizations.SelectedIndex != -1 &&
-                previousClickedOptimization != lbOptimizations.SelectedIndex)
-            {
-                object objold = lbOptimizations.Items[previousClickedOptimization];
-                lbOptimizations.Items[previousClickedOptimization] =
-                    lbOptimizations.Items[lbOptimizations.SelectedIndex];
-                lbOptimizations.Items[lbOptimizations.SelectedIndex] = objold;
-            }
-
-            previousClickedOptimization = lbOptimizations.SelectedIndex;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -516,10 +483,6 @@ namespace FLDebugger.Forms
             Application.Exit();
         }
 
-        private PictureBox previewPicture;
-        private ContainerForm previewForm;
-        private Task previewTask;
-
         private void cbLiveView_CheckedChanged(object sender, EventArgs e)
         {
             if (!cbLiveView.Checked)
@@ -546,14 +509,45 @@ namespace FLDebugger.Forms
             }
         }
 
-        private InstructionViewer iv;
         private void btnShowInstructions_Click(object sender, EventArgs e)
         {
             if (iv == null || iv.IsDisposed)
             {
-                iv = new InstructionViewer(instructionSet);
+                iv = new InstructionViewer(Container.InstructionSet);
             }
+
             iv.Show();
+        }
+
+        private void btnAbout_Click(object sender, EventArgs e)
+        {
+            if (aboutForm == null || aboutForm.IsDisposed)
+            {
+                aboutForm = new AboutInfo();
+            }
+
+            aboutForm.Show();
+        }
+
+        private void cbBuildMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbBuildMode.SelectedItem.ToString() == "Debug")
+            {
+                for (int i = 0; i < lbOptimizations.Items.Count; i++)
+                {
+                    object lbOptimizationsItem = lbOptimizations.Items[i];
+                    FLProgramCheck pc = (FLProgramCheck)lbOptimizationsItem;
+                    lbOptimizations.SetItemChecked(i, pc.CheckType == FLProgramCheckType.Validation);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < lbOptimizations.Items.Count; i++)
+                {
+                    object lbOptimizationsItem = lbOptimizations.Items[i];
+                    lbOptimizations.SetItemChecked(i, true);
+                }
+            }
         }
     }
 }

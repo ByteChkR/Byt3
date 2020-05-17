@@ -263,7 +263,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.Constraints.TwoEntity.JointLimits
             float errorReduction;
             springSettings.ComputeErrorReductionAndSoftness(dt, 1 / dt, out errorReduction, out softness);
 
-            
+
             biasVelocity = MathHelper.Min(MathHelper.Max(0, Math.Abs(Error) - margin) * errorReduction,
                 maxCorrectiveVelocity);
             if (bounciness > 0)

@@ -18,7 +18,7 @@ namespace Byt3.ExtPP.Plugins
             typeof(ExceptionPlugin),
             typeof(BlankLineRemover),
             typeof(ChangeCharCase),
-            typeof(TextEncoderPlugin),
+            typeof(TextEncoderPlugin)
         };
     }
 }

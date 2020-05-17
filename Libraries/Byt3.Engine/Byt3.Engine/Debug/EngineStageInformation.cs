@@ -11,6 +11,21 @@ namespace Byt3.Engine.Debug
     public class EngineStageInformation
     {
         /// <summary>
+        /// Internal Constructor to create a Stage Information object.
+        /// </summary>
+        /// <param name="name"></param>
+        internal EngineStageInformation(string name)
+        {
+            Name = name;
+#if !TRACE_TIME_ONLY
+            Before = GC.GetTotalMemory(false) / 1024;
+#endif
+            SubStages = new List<EngineStageInformation>();
+            Timer = new Stopwatch();
+            Timer.Start();
+        }
+
+        /// <summary>
         /// The GC Collection at the end of the stage
         /// </summary>
         public long After { get; set; }
@@ -49,21 +64,6 @@ namespace Byt3.Engine.Debug
         /// The Timing information about the current stage
         /// </summary>
         public TimeSpan TimeSpentInStage { get; set; }
-
-        /// <summary>
-        /// Internal Constructor to create a Stage Information object.
-        /// </summary>
-        /// <param name="name"></param>
-        internal EngineStageInformation(string name)
-        {
-            Name = name;
-#if !TRACE_TIME_ONLY
-            Before = GC.GetTotalMemory(false) / 1024;
-#endif
-            SubStages = new List<EngineStageInformation>();
-            Timer = new Stopwatch();
-            Timer.Start();
-        }
 
         /// <summary>
         /// A property that indicates if the Current Stage info was finalized(e.g. it will not be updated again since the stage is over)

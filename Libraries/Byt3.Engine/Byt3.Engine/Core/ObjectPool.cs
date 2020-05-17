@@ -12,14 +12,14 @@ namespace Byt3.Engine.Core
     /// <typeparam name="T">Type of Object</typeparam>
     public class ObjectPool<T> : IDisposable where T : IDisposable
     {
-        private static readonly ADLLogger<DebugChannel> Logger =
-            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, $"ObjectPool<{typeof(T).Name}>");
-
         /// <summary>
         /// Delegate that serves as a "Factory" of Objects
         /// </summary>
         /// <returns>A new instance of an object of type T</returns>
         public delegate T CreateNew();
+
+        private static readonly ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(EngineDebugConfig.Settings, $"ObjectPool<{typeof(T).Name}>");
 
         /// <summary>
         /// The Factory that is creating new instances of type T
@@ -27,14 +27,14 @@ namespace Byt3.Engine.Core
         private readonly CreateNew factory;
 
         /// <summary>
-        /// The Maximum amount of items allowed
-        /// </summary>
-        private readonly int maxItems;
-
-        /// <summary>
         /// The internal list of pooled objects
         /// </summary>
         private readonly List<PooledObject<T>> internalList = new List<PooledObject<T>>();
+
+        /// <summary>
+        /// The Maximum amount of items allowed
+        /// </summary>
+        private readonly int maxItems;
 
         /// <summary>
         /// The last objects index + 1

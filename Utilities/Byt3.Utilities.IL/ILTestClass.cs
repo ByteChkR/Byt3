@@ -30,8 +30,6 @@ namespace Byt3.Utilities.IL
         }
 
 
-
-
         public static void Answer()
         {
             Console.WriteLine("Hi from Assembly Generator");

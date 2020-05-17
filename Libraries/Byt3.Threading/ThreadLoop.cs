@@ -4,12 +4,11 @@ namespace Byt3.Threading
 {
     public abstract class ThreadLoop
     {
-        public bool IsRunning { get; private set; }
-        public CancellationToken Token { get; private set; }
+        private bool stopServer;
 
         protected int Tick;
-
-        private bool stopServer;
+        public bool IsRunning { get; private set; }
+        public CancellationToken Token { get; private set; }
 
         public virtual void StartServer(int tick, CancellationToken token)
         {

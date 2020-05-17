@@ -8,9 +8,3 @@ __kernel void _arrange(__global uchar* image, __global uchar* source, int channe
 		image[dstChannelIndex] = source[srcChannelIndex];
 	}
 }
-
-__kernel void _arrange_copy(__global uchar* destination, __global uchar* source)
-{
-	int idx = get_global_id(0);	
-	destination[idx] = source[idx];
-}

@@ -76,6 +76,5 @@ namespace Byt3.Engine.Core
         /// The Game window flags
         /// </summary>
         public GameWindowFlags WindowFlags { get; set; }
-        
     }
 }

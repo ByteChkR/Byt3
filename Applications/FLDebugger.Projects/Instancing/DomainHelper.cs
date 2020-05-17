@@ -21,11 +21,12 @@ namespace FLDebugger.Projects.Instancing
             AppDomainSetup setup = new AppDomainSetup();
             setup.ApplicationBase = folder;
 
-            AppDomain domain = AppDomain.CreateDomain($"{AppDomain.CurrentDomain.FriendlyName}_{Path.GetFileName(folder)}");
+            AppDomain domain =
+                AppDomain.CreateDomain($"{AppDomain.CurrentDomain.FriendlyName}_{Path.GetFileName(folder)}");
 
             SubDomains.Add(domain);
 
-            domain.ExecuteAssembly(Assembly.GetExecutingAssembly().Location, new[] { "-no-update", folder });
+            domain.ExecuteAssembly(Assembly.GetExecutingAssembly().Location, new[] {"-no-update", folder});
         }
 
         private static void UnloadAllSubDomains()
@@ -36,6 +37,7 @@ namespace FLDebugger.Projects.Instancing
                 {
                     AppDomain.Unload(subDomain);
                 }
+
                 SubDomains.Clear();
             }
         }

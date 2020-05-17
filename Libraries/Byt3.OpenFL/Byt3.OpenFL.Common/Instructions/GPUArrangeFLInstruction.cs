@@ -8,33 +8,31 @@ namespace Byt3.OpenFL.Common.Instructions
     public class GPUArrangeFLInstruction : ArrangeFLInstruction
     {
         private readonly CLKernel ArrangeKernel;
-        private readonly CLKernel CopyKernel;
-        public GPUArrangeFLInstruction(List<FLInstructionArgument> arguments, CLKernel arrangeKernel, CLKernel copyKernel) : base(arguments)
+
+        public GPUArrangeFLInstruction(List<FLInstructionArgument> arguments, CLKernel arrangeKernel) : base(arguments)
         {
-            CopyKernel = copyKernel;
             ArrangeKernel = arrangeKernel;
         }
 
         protected override void Arrange(byte[] newOrder)
         {
-            MemoryBuffer mb = CLAPI.CreateBuffer(Root.Instance, newOrder, MemoryFlag.ReadOnly, "gpuarrange_neworder");
+            MemoryBuffer newOrderBuffer =
+                CLAPI.CreateBuffer(Root.Instance, newOrder, MemoryFlag.ReadOnly, "gpuarrange_neworder");
 
             //Copy Active Buffer
-            MemoryBuffer dst = CLAPI.CreateEmpty<byte>(Root.Instance, (int) Root.ActiveBuffer.Size, MemoryFlag.ReadWrite, "ActiveBufferCopy");
-            CopyKernel.SetBuffer(0, dst);
-            CopyKernel.SetBuffer(1, Root.ActiveBuffer.Buffer);
-            CLAPI.Run(Root.Instance, CopyKernel, (int)dst.Size);
+            MemoryBuffer source = CLAPI.Copy<byte>(Root.Instance, Root.ActiveBuffer.Buffer);
 
 
-            
             ArrangeKernel.SetBuffer(0, Root.ActiveBuffer.Buffer);
-            ArrangeKernel.SetBuffer(1, dst);
+            ArrangeKernel.SetBuffer(1, source);
             ArrangeKernel.SetArg(2, Root.ActiveChannels.Length);
-            ArrangeKernel.SetBuffer(3, mb);
-            CLAPI.Run(Root.Instance, ArrangeKernel, (int)Root.ActiveBuffer.Size / Root.ActiveChannels.Length);
-            //CLAPI.Run(Root.Instance, ArrangeKernel, Root.ActiveBuffer.Buffer, Root.Dimensions, GenMaxSize, Root.ActiveChannelBuffer, Root.ActiveChannels.Length);
-            mb.Dispose();
-            dst.Dispose();
+            ArrangeKernel.SetBuffer(3, newOrderBuffer);
+            CLAPI.Run(Root.Instance, ArrangeKernel,
+                (int) Root.ActiveBuffer.Size /
+                Root.ActiveChannels
+                    .Length); //Only iterating through the length as if it only has one channel. The cl kernel implementation will deal with that
+            newOrderBuffer.Dispose();
+            source.Dispose();
         }
     }
 }

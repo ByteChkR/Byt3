@@ -20,13 +20,13 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
     {
         private readonly Queue<ContainmentChange> containmentChanges = new Queue<ContainmentChange>();
 
-        private bool innerFacingIsClockwise;
-
 
         /// <summary>
         /// Used to protect against containment changes coming in from multithreaded narrowphase contexts.
         /// </summary>
         private readonly SpinLock locker = new SpinLock();
+
+        private bool innerFacingIsClockwise;
 
         internal Dictionary<Entity, DetectorVolumePairHandler> pairs =
             new Dictionary<Entity, DetectorVolumePairHandler>();

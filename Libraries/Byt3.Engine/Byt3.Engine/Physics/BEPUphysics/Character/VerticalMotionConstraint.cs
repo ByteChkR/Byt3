@@ -14,9 +14,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
     /// </summary>
     public class VerticalMotionConstraint : SolverUpdateable
     {
+        private readonly Entity characterBody;
+        private readonly SupportFinder supportFinder;
         private float accumulatedImpulse;
         private Vector3 angularJacobianB;
-        private readonly Entity characterBody;
         private Vector3 linearJacobianA;
         private Vector3 linearJacobianB;
 
@@ -28,7 +29,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
         private SupportData supportData;
 
         private Entity supportEntity;
-        private readonly SupportFinder supportFinder;
 
         private float supportForceFactor = 1f;
 

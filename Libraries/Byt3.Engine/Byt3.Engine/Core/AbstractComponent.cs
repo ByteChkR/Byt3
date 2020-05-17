@@ -14,14 +14,6 @@ namespace Byt3.Engine.Core
     /// </summary>
     public abstract class AbstractComponent : ALoggable<DebugChannel>, IDestroyable
     {
-        protected AbstractComponent() : base(EngineDebugConfig.Settings)
-        {
-        }
-
-        protected AbstractComponent(ProjectDebugConfig config) : base(config)
-        {
-        }
-
         /// <summary>
         /// A private flag indicating if the object is awake
         /// </summary>
@@ -31,6 +23,14 @@ namespace Byt3.Engine.Core
         /// Internal flag that is set to true if the Component or the owning game object is beeing destroyed
         /// </summary>
         internal bool DestructionPending;
+
+        protected AbstractComponent() : base(EngineDebugConfig.Settings)
+        {
+        }
+
+        protected AbstractComponent(ProjectDebugConfig config) : base(config)
+        {
+        }
 
         /// <summary>
         /// The Owner of the component(null if not attached to any Game object)

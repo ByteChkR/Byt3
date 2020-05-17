@@ -11,7 +11,7 @@ namespace Byt3.Utilities.TypeFinding
         {
             return GetAssignable(TypeAccumulator.GetTypesByName(name));
         }
-        
+
         public new static List<Type> GetTypesByFullName(string fullName)
         {
             return GetAssignable(TypeAccumulator.GetTypesByFullName(fullName));
@@ -37,58 +37,14 @@ namespace Byt3.Utilities.TypeFinding
 
             return types;
         }
-
     }
 
     public class TypeAccumulator
     {
-        protected TypeAccumulator() { }
-
         private static readonly List<AssemblyTypeInfo> infos = new List<AssemblyTypeInfo>();
 
-
-        protected class AssemblyTypeInfo
+        protected TypeAccumulator()
         {
-            public Assembly ContainingAssembly { get; }
-            public List<Type> ContainingTypes { get; } = new List<Type>();
-
-            public AssemblyTypeInfo(Assembly asm)
-            {
-                ContainingAssembly = asm;
-                ContainingTypes.AddRange(asm.GetExportedTypes());
-            }
-
-            public List<Type> GetTypesByName(string name)
-            {
-                List<Type> ret = new List<Type>();
-                foreach (Type containingType in ContainingTypes)
-                {
-                    if (containingType.Name == name) ret.Add(containingType);
-                }
-
-                return ret;
-            }
-
-            public List<Type> GetTypesByFullName(string fullName)
-            {
-                List<Type> ret = new List<Type>();
-                foreach (Type containingType in ContainingTypes)
-                {
-                    if (containingType.FullName == fullName) ret.Add(containingType);
-                }
-
-                return ret;
-            }
-            public Type GetTypeByAssemblyQualifiedName(string assemblyQualifiedName)
-            {
-                foreach (Type containingType in ContainingTypes)
-                {
-                    if (containingType.AssemblyQualifiedName == assemblyQualifiedName) return containingType;
-                }
-
-                return null;
-
-            }
         }
 
         public static List<Type> GetTypesByName(string name)
@@ -99,6 +55,7 @@ namespace Byt3.Utilities.TypeFinding
             {
                 ret.AddRange(assemblyTypeInfo.GetTypesByName(name));
             }
+
             return ret;
         }
 
@@ -113,12 +70,16 @@ namespace Byt3.Utilities.TypeFinding
 
             return ret;
         }
+
         public static Type GetTypeByAssemblyQualifiedName(string assemblyQualifiedName)
         {
             foreach (AssemblyTypeInfo assemblyTypeInfo in infos)
             {
                 Type r = assemblyTypeInfo.GetTypeByAssemblyQualifiedName(assemblyQualifiedName);
-                if (r != null) return r;
+                if (r != null)
+                {
+                    return r;
+                }
             }
 
             return null;
@@ -126,9 +87,66 @@ namespace Byt3.Utilities.TypeFinding
 
         public static void RegisterAssembly(Assembly asm)
         {
-            if (infos.Count(x => x.ContainingAssembly == asm) != 0) return;
+            if (infos.Count(x => x.ContainingAssembly == asm) != 0)
+            {
+                return;
+            }
+
             infos.Add(new AssemblyTypeInfo(asm));
         }
 
+
+        protected class AssemblyTypeInfo
+        {
+            public AssemblyTypeInfo(Assembly asm)
+            {
+                ContainingAssembly = asm;
+                ContainingTypes.AddRange(asm.GetExportedTypes());
+            }
+
+            public Assembly ContainingAssembly { get; }
+            public List<Type> ContainingTypes { get; } = new List<Type>();
+
+            public List<Type> GetTypesByName(string name)
+            {
+                List<Type> ret = new List<Type>();
+                foreach (Type containingType in ContainingTypes)
+                {
+                    if (containingType.Name == name)
+                    {
+                        ret.Add(containingType);
+                    }
+                }
+
+                return ret;
+            }
+
+            public List<Type> GetTypesByFullName(string fullName)
+            {
+                List<Type> ret = new List<Type>();
+                foreach (Type containingType in ContainingTypes)
+                {
+                    if (containingType.FullName == fullName)
+                    {
+                        ret.Add(containingType);
+                    }
+                }
+
+                return ret;
+            }
+
+            public Type GetTypeByAssemblyQualifiedName(string assemblyQualifiedName)
+            {
+                foreach (Type containingType in ContainingTypes)
+                {
+                    if (containingType.AssemblyQualifiedName == assemblyQualifiedName)
+                    {
+                        return containingType;
+                    }
+                }
+
+                return null;
+            }
+        }
     }
 }

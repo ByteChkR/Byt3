@@ -13,6 +13,25 @@ namespace Byt3Console.ExtPP.PluginManager
     public class PluginInformation
     {
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="prefixes">the prefixes of the plugin</param>
+        /// <param name="name">the name</param>
+        /// <param name="path">the path</param>
+        /// <param name="data">the meta data</param>
+        public PluginInformation(string[] prefixes, string name, string path, CommandMetaData[] data)
+        {
+            Path = path;
+            Prefixes = prefixes;
+            Name = name;
+            Data = data;
+        }
+
+        public PluginInformation()
+        {
+        }
+
+        /// <summary>
         /// All the prefixes used by the plugin
         /// </summary>
         [XmlElement]
@@ -35,25 +54,6 @@ namespace Byt3Console.ExtPP.PluginManager
         /// </summary>
         [XmlElement]
         public CommandMetaData[] Data { get; set; }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="prefixes">the prefixes of the plugin</param>
-        /// <param name="name">the name</param>
-        /// <param name="path">the path</param>
-        /// <param name="data">the meta data</param>
-        public PluginInformation(string[] prefixes, string name, string path, CommandMetaData[] data)
-        {
-            Path = path;
-            Prefixes = prefixes;
-            Name = name;
-            Data = data;
-        }
-
-        public PluginInformation()
-        {
-        }
 
         /// <summary>
         /// returns a description of the plugin

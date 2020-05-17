@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 
 namespace Byt3.ADL
 {
@@ -10,8 +8,7 @@ namespace Byt3.ADL
     public static class Utils
     {
         public static readonly int BitsPerByte = 8;
-        
-        
+
 
         /// <summary>
         ///     Current Time Stamp based on DateTime.Now [hh:mm:ss]

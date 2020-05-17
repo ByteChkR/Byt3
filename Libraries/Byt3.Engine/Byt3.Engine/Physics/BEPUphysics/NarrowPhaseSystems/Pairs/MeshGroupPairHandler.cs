@@ -17,14 +17,14 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     ///</summary>
     public abstract class MeshGroupPairHandler : CollidablePairHandler, IPairHandlerParent
     {
-        private int contactCount;
-
         private readonly HashSet<TriangleEntry> containedPairs = new HashSet<TriangleEntry>();
         private readonly ContactManifoldConstraintGroup manifoldConstraintGroup;
         private readonly RawList<TriangleEntry> pairsToRemove = new RawList<TriangleEntry>();
 
         private readonly Dictionary<TriangleEntry, MobileMeshPairHandler> subPairs =
             new Dictionary<TriangleEntry, MobileMeshPairHandler>();
+
+        private int contactCount;
 
         ///<summary>
         /// Constructs a new compound-convex pair handler.

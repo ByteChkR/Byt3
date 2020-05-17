@@ -15,9 +15,13 @@ namespace Byt3.Engine.Physics.BEPUphysics.CollisionTests.Manifolds
     ///</summary>
     public class TriangleConvexContactManifold : ContactManifold
     {
-        protected ConvexCollidable convex;
         private readonly TriangleShape localTriangleShape = new TriangleShape();
-        private readonly RawValueList<ContactSupplementData> supplementData = new RawValueList<ContactSupplementData>(4);
+
+        private readonly RawValueList<ContactSupplementData>
+            supplementData = new RawValueList<ContactSupplementData>(4);
+
+        protected ConvexCollidable convex;
+
         protected ConvexCollidable<TriangleShape> triangle;
 
         ///<summary>

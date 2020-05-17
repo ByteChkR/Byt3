@@ -13,9 +13,36 @@ namespace Byt3Console.Engine.Player
 {
     public class EnginePlayerConsole : AConsole
     {
+        public static List<string> EngineVersions = new List<string>();
+        public static bool ReadLine = true;
+        public static WebClient Wc = new WebClient();
+
+        public static string EngineVersion;
+
+        public static string PlayerPath =
+            Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
+
+        public static string EngineDir = Path.Combine(PlayerPath, "engine");
+        public static string GameTempDir = Path.Combine(PlayerPath, "_game");
+        public static string GameDir = Path.Combine(PlayerPath, "game");
+
+        private static Version[] _availableVersionsOnServer;
         public override string ConsoleKey => "eplay";
 
         public override string ConsoleTitle => "Engine Player";
+
+        public static Version[] AvailableVersionsOnServer
+        {
+            get
+            {
+                if (_availableVersionsOnServer == null)
+                {
+                    _availableVersionsOnServer = GetEngineServerVersion();
+                }
+
+                return _availableVersionsOnServer;
+            }
+        }
 
         public override bool Run(string[] args)
         {
@@ -36,34 +63,6 @@ namespace Byt3Console.Engine.Player
             bool ret = Runner.RunCommands(args);
             ConsoleReadLine();
             return ret;
-        }
-
-        public static List<string> EngineVersions = new List<string>();
-        public static bool ReadLine = true;
-        public static WebClient Wc = new WebClient();
-
-        public static string EngineVersion;
-
-        public static string PlayerPath =
-            Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).AbsolutePath);
-
-        public static string EngineDir = Path.Combine(PlayerPath, "engine");
-        public static string GameTempDir = Path.Combine(PlayerPath, "_game");
-        public static string GameDir = Path.Combine(PlayerPath, "game");
-
-        private static Version[] _availableVersionsOnServer;
-
-        public static Version[] AvailableVersionsOnServer
-        {
-            get
-            {
-                if (_availableVersionsOnServer == null)
-                {
-                    _availableVersionsOnServer = GetEngineServerVersion();
-                }
-
-                return _availableVersionsOnServer;
-            }
         }
 
 

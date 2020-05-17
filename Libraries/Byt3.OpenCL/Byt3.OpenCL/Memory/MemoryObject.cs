@@ -14,6 +14,19 @@ namespace Byt3.OpenCL.Memory
     /// </summary>
     public abstract class MemoryObject : HandleBase
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new <see cref="MemoryObject"/> instance.
+        /// </summary>
+        /// <param name="handle">The handle to the OpenCL memory object.</param>
+        protected MemoryObject(IntPtr handle, object handleIdentifier)
+            : base(handle, handleIdentifier, true)
+        {
+        }
+
+        #endregion
+
         #region Private Methods
 
         /// <summary>
@@ -65,19 +78,6 @@ namespace Byt3.OpenCL.Memory
 
             // Makes sure that the base class can execute its dispose logic
             base.Dispose();
-        }
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new <see cref="MemoryObject"/> instance.
-        /// </summary>
-        /// <param name="handle">The handle to the OpenCL memory object.</param>
-        protected MemoryObject(IntPtr handle, object handleIdentifier)
-            : base(handle, handleIdentifier, true)
-        {
         }
 
         #endregion

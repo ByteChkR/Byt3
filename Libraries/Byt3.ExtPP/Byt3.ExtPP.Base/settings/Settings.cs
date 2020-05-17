@@ -7,11 +7,6 @@ namespace Byt3.ExtPP.Base.settings
     public class Settings
     {
         /// <summary>
-        /// Settings with this prefix will be forwarded to any plugin in the chain
-        /// </summary>
-        public static string GlobalSettings { get; } = "glob";
-
-        /// <summary>
         /// Dictionary to store the settings for processing
         /// </summary>
         private readonly Dictionary<string, string[]> settings;
@@ -31,6 +26,11 @@ namespace Byt3.ExtPP.Base.settings
         public Settings() : this(null)
         {
         }
+
+        /// <summary>
+        /// Settings with this prefix will be forwarded to any plugin in the chain
+        /// </summary>
+        public static string GlobalSettings { get; } = "glob";
 
         /// <summary>
         /// Sets values in the settings

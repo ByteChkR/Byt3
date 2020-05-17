@@ -25,7 +25,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
 
         public override object Deserialize(PrimitiveValueWrapper s)
         {
-            string key =ResolveId(s.ReadInt());
+            string key = ResolveId(s.ReadInt());
 
             int argCount = s.ReadInt();
 
@@ -51,7 +51,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
             SerializableFLInstruction obj = (SerializableFLInstruction) input;
             s.Write(ResolveName(obj.InstructionKey));
             s.Write(obj.Arguments.Count);
-            
+
             for (int i = 0; i < obj.Arguments.Count; i++)
             {
                 MemoryStream temp = new MemoryStream();
@@ -64,7 +64,5 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                 s.Write(temp.GetBuffer(), (int) temp.Position);
             }
         }
-
-        
     }
 }

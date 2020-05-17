@@ -2,12 +2,12 @@
 {
     public abstract class SerializableNamedObject
     {
-        public string Name { get; }
-
         protected SerializableNamedObject(string name)
         {
             Name = name;
         }
+
+        public string Name { get; }
 
         public override string ToString()
         {

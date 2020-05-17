@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Byt3.ADL;
-using Byt3.ADL.Configs;
 using Byt3.Engine.Core;
 using Byt3.Engine.Debug;
 using Byt3.Engine.Tutorials.Tutorials;
@@ -17,8 +16,6 @@ namespace Byt3.Engine.Tutorials
         private static readonly ADLLogger<LogType> Logger =
             new ADLLogger<LogType>(EngineTutorialsDebugConfig.Settings, "Tutorial Console Starter");
 
-        private GameEngine ge;
-
         private readonly Dictionary<string, Type> scenes = new Dictionary<string, Type>
         {
             {"AI", typeof(AIScene)},
@@ -29,8 +26,10 @@ namespace Byt3.Engine.Tutorials
             {"GettingStarted", typeof(GettingStartedScene)},
             {"Physics", typeof(PhysicsScene)},
             {"RayCasting", typeof(RayCastingScene)},
-            {"RenderTargets", typeof(RenderTargetsScene)},
+            {"RenderTargets", typeof(RenderTargetsScene)}
         };
+
+        private GameEngine ge;
 
 
         public override string ConsoleKey => "tutorials";

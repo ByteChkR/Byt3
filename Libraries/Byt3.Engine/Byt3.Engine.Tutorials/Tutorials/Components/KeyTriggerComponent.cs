@@ -4,6 +4,7 @@ using Byt3.Engine.DataTypes;
 using Byt3.Engine.Debug;
 using Byt3.Engine.IO;
 using Byt3.OpenCL.Wrapper.TypeEnums;
+using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Threading;
@@ -19,9 +20,10 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
         private readonly Texture _tex;
         private readonly Texture _tex2;
 
-        private bool red = true;
+        private readonly FLScriptRunner flRunner =
+            new FlMultiThreadScriptRunner(null, DataVectorTypes.Uchar1, "assets/kernel/");
 
-        private readonly FLScriptRunner flRunner = new FlMultiThreadScriptRunner(null, DataVectorTypes.Uchar1, "assets/kernel/");
+        private bool red = true;
 
         public KeyTriggerComponent(Texture tex, Texture tex2)
         {
@@ -48,11 +50,11 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                     //In This example we could also use "in" as a key,
                     //but this can be wrong at times when the fl execution context starts with a different input texture
                     //than output texture
-                    {"in", _tex}
+                    {FLKeywords.InputBufferKey, _tex}
                 };
                 Dictionary<string, Texture> texMap2 = new Dictionary<string, Texture>
                 {
-                    {"in", _tex2}
+                    {FLKeywords.InputBufferKey, _tex2}
                 };
 
                 //We change the color every enqueue, to be able to see the change

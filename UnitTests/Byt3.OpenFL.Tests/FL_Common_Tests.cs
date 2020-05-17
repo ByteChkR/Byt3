@@ -12,7 +12,7 @@ namespace Byt3.OpenFL.Tests
 
         private static List<string> GetFiles()
         {
-            string[] dirs = new[] { "resources/filter/tests" };
+            string[] dirs = {"resources/filter/tests"};
             List<string> files = new List<string>();
             for (int i = 0; i < dirs.Length; i++)
             {
@@ -40,7 +40,7 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_Parser_Initialization_Test()
         {
             TestSetup.SetupTestingSession();
-            OpenFLBenchmarks.RunParserInitBenchmark("_test", IO_BENCHMARK_ITERATIONS, "performance", true, false);
+            OpenFLBenchmarks.RunParserInitBenchmark("_test", IO_BENCHMARK_ITERATIONS);
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace Byt3.OpenFL.Tests
         public void OpenFL_ParsedProgram_Execution_Test()
         {
             TestSetup.SetupTestingSession();
-            OpenFLBenchmarks.RunParsedFLExecutionBenchmark(true,"_test", GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
+            OpenFLBenchmarks.RunParsedFLExecutionBenchmark(true, "_test", GetFiles(), EXECUTION_BENCHMARK_ITERATIONS);
         }
 
         [Test]

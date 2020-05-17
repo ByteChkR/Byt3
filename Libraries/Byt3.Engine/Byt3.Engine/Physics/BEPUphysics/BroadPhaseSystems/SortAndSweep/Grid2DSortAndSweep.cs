@@ -20,9 +20,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.SortAndSweep
         //TODO: Try different values for this.
         internal static float cellSizeInverse = 1 / 8f;
 
-
-        internal SortedGrid2DSet cellSet = new SortedGrid2DSet();
-
         //TODO: Cell change operations take a while.  Spin lock can't efficiently wait that long.
         //This causes some pretty horrible scaling problems in some scenarios.
         //Improving the cell set operations directly should improve that problem and the query times noticeably.
@@ -34,8 +31,11 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseSystems.SortAndSweep
         private readonly RawList<Grid2DEntry> entries = new RawList<Grid2DEntry>();
 
         private readonly UnsafeResourcePool<Grid2DEntry> entryPool = new UnsafeResourcePool<Grid2DEntry>();
-        private readonly Action<int> updateEntry;
         private readonly Action<int> updateCell;
+        private readonly Action<int> updateEntry;
+
+
+        internal SortedGrid2DSet cellSet = new SortedGrid2DSet();
 
         /// <summary>
         /// Constructs a grid-based sort and sweep broad phase.

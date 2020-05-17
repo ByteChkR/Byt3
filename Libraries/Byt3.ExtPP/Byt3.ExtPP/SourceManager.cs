@@ -17,19 +17,21 @@ namespace Byt3.ExtPP
     public class SourceManager : ALoggable<LogType>, ISourceManager
     {
         /// <summary>
-        /// List of Scripts that are included in this Processing run
-        /// </summary>
-        private readonly List<ISourceScript> sources = new List<ISourceScript>();
-
-        /// <summary>
         /// The processing states of the scripts included.
         /// </summary>
         private readonly List<ProcessStage> doneState = new List<ProcessStage>();
 
         /// <summary>
+        /// List of Scripts that are included in this Processing run
+        /// </summary>
+        private readonly List<ISourceScript> sources = new List<ISourceScript>();
+
+        /// <summary>
         /// The compute scheme that is used to assign keys to scripts(or instances of scripts)
         /// </summary>
         private DelKeyComputingScheme computeScheme;
+
+        private bool lockScriptCreation = true;
 
         /// <summary>
         /// Empty Constructor
@@ -38,67 +40,6 @@ namespace Byt3.ExtPP
         public SourceManager(List<AbstractPlugin> pluginChain) : base(ExtPPDebugConfig.Settings)
         {
             SetComputingScheme(ComputeFileNameAndKey_Default);
-        }
-
-
-        /// <summary>
-        /// Sets the computing scheme to a custom scheme that will then be used to assign keys to scripts
-        /// </summary>
-        /// <param name="scheme">The delegate that will be used to determine the key and path in the source manager</param>
-        public void SetComputingScheme(DelKeyComputingScheme scheme)
-        {
-            if (scheme == null)
-            {
-                return;
-            }
-
-            computeScheme = scheme;
-        }
-
-        /// <summary>
-        /// Returns the Queued items that are waiting for computation
-        /// </summary>
-        /// <returns>Size of the internal queue</returns>
-        public int GetTodoCount()
-        {
-            return doneState.Count(x => x == ProcessStage.Queued);
-        }
-
-        /// <summary>
-        /// Returns the computing scheme
-        /// </summary>
-        /// <returns>the computing scheme</returns>
-        public DelKeyComputingScheme GetComputingScheme()
-        {
-            return computeScheme;
-        }
-
-        /// <summary>
-        /// The default implementation of the key matching calculation
-        /// </summary>
-        /// <param name="vars">The import string in a source script</param>
-        /// <param name="currentPath">the current path of the preprocessor</param>
-        /// <returns>A result object.</returns>
-        private ImportResult ComputeFileNameAndKey_Default(string[] vars, string currentPath)
-        {
-            ImportResult ret = new ImportResult();
-
-            if (!Utils.TryResolvePathIncludeParameter(vars))
-            {
-                return ret;
-            }
-
-            string rel = Path.Combine(currentPath, vars[0]);
-            string key = Path.GetFullPath(rel);
-
-            ret.SetValue("definedname", vars[0]);
-            ret.SetValue("filename", key);
-
-
-            ret.SetValue("key", key);
-            ret.SetResult(true);
-
-            return ret;
         }
 
         /// <summary>
@@ -119,6 +60,30 @@ namespace Byt3.ExtPP
 
                 return null;
             }
+        }
+
+
+        /// <summary>
+        /// Sets the computing scheme to a custom scheme that will then be used to assign keys to scripts
+        /// </summary>
+        /// <param name="scheme">The delegate that will be used to determine the key and path in the source manager</param>
+        public void SetComputingScheme(DelKeyComputingScheme scheme)
+        {
+            if (scheme == null)
+            {
+                return;
+            }
+
+            computeScheme = scheme;
+        }
+
+        /// <summary>
+        /// Returns the computing scheme
+        /// </summary>
+        /// <returns>the computing scheme</returns>
+        public DelKeyComputingScheme GetComputingScheme()
+        {
+            return computeScheme;
         }
 
         /// <summary>
@@ -162,6 +127,85 @@ namespace Byt3.ExtPP
                 AddFile(script, false);
                 doneState.Add(ProcessStage.Queued);
             }
+        }
+
+        /// <summary>
+        /// Returns the index of the file with the matching key
+        /// returns -1 when the key is not present
+        /// </summary>
+        /// <param name="key">the key to search for</param>
+        /// <returns>the index of the file or -1 if not found</returns>
+        public int IndexOfFile(string key)
+        {
+            for (int i = 0; i < sources.Count; i++)
+            {
+                if (sources[i].GetKey() == key)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Convenience wrapper to create a source script without knowing the actual type of the script.
+        /// </summary>
+        /// <param name="separator">the separator used.</param>
+        /// <param name="file">the path of the file</param>
+        /// <param name="key">the key of the file</param>
+        /// <param name="importInfo">the import info of the key and path importation</param>
+        /// <returns>the success state of the operation</returns>
+        public bool TryCreateScript(out ISourceScript script, string separator, IFileContent file,
+            ImportResult importInfo)
+        {
+            if (lockScriptCreation)
+            {
+                script = null;
+                Logger.Log(LogType.Warning,
+                    "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?", 3);
+                return false;
+            }
+
+            script = new SourceScript(separator, file, importInfo);
+            return true;
+        }
+
+        /// <summary>
+        /// Returns the Queued items that are waiting for computation
+        /// </summary>
+        /// <returns>Size of the internal queue</returns>
+        public int GetTodoCount()
+        {
+            return doneState.Count(x => x == ProcessStage.Queued);
+        }
+
+        /// <summary>
+        /// The default implementation of the key matching calculation
+        /// </summary>
+        /// <param name="vars">The import string in a source script</param>
+        /// <param name="currentPath">the current path of the preprocessor</param>
+        /// <returns>A result object.</returns>
+        private ImportResult ComputeFileNameAndKey_Default(string[] vars, string currentPath)
+        {
+            ImportResult ret = new ImportResult();
+
+            if (!Utils.TryResolvePathIncludeParameter(vars))
+            {
+                return ret;
+            }
+
+            string rel = Path.Combine(currentPath, vars[0]);
+            string key = Path.GetFullPath(rel);
+
+            ret.SetValue("definedname", vars[0]);
+            ret.SetValue("filename", key);
+
+
+            ret.SetValue("key", key);
+            ret.SetResult(true);
+
+            return ret;
         }
 
         /// <summary>
@@ -212,53 +256,9 @@ namespace Byt3.ExtPP
             return IndexOfFile(key) != -1;
         }
 
-        /// <summary>
-        /// Returns the index of the file with the matching key
-        /// returns -1 when the key is not present
-        /// </summary>
-        /// <param name="key">the key to search for</param>
-        /// <returns>the index of the file or -1 if not found</returns>
-        public int IndexOfFile(string key)
-        {
-            for (int i = 0; i < sources.Count; i++)
-            {
-                if (sources[i].GetKey() == key)
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
-        private bool lockScriptCreation = true;
-
         public void SetLock(bool state)
         {
             lockScriptCreation = state;
-        }
-
-        /// <summary>
-        /// Convenience wrapper to create a source script without knowing the actual type of the script.
-        /// </summary>
-        /// <param name="separator">the separator used.</param>
-        /// <param name="file">the path of the file</param>
-        /// <param name="key">the key of the file</param>
-        /// <param name="importInfo">the import info of the key and path importation</param>
-        /// <returns>the success state of the operation</returns>
-        public bool TryCreateScript(out ISourceScript script, string separator, IFileContent file,
-            ImportResult importInfo)
-        {
-            if (lockScriptCreation)
-            {
-                script = null;
-                Logger.Log(LogType.Warning,
-                    "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?", 3);
-                return false;
-            }
-
-            script = new SourceScript(separator, file, importInfo);
-            return true;
         }
     }
 }

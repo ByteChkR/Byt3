@@ -6,8 +6,9 @@
 
         public delegate byte[] DelSerialize(object obj);
 
-        private readonly DelSerialize serializer;
         private readonly DelDeserialize deserializer;
+
+        private readonly DelSerialize serializer;
 
         public DelegateSerializer(DelDeserialize deserialize, DelSerialize serialize)
         {

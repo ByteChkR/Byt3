@@ -80,6 +80,6 @@ namespace Byt3.Engine.Debug
         GameTextProcessor = Game | TextProcessor,
         GameUI = Game | UI,
         GameUIAnimations = GameUI | Animations,
-        GameWFC = Game | WFC,
+        GameWFC = Game | WFC
     }
 }

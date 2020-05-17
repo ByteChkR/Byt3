@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FLDebugger.Projects.Properties;
 
@@ -15,9 +9,11 @@ namespace FLDebugger.Projects.Forms
 {
     public partial class StartupDialog : Form
     {
-        public string SelectedPath { get; private set; }
+        private static readonly string RECENT_PROJECT_FILE =
+            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "configs", "projects.txt");
+
         public List<string> PreviousPaths = new List<string>();
-        private static readonly string RECENT_PROJECT_FILE = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "configs", "projects.txt");
+
         public StartupDialog()
         {
             InitializeComponent();
@@ -28,7 +24,9 @@ namespace FLDebugger.Projects.Forms
             flpLastProjects.HorizontalScroll.Enabled = flpLastProjects.HorizontalScroll.Visible = false;
 
             if (!Directory.Exists(Path.GetDirectoryName(RECENT_PROJECT_FILE)))
+            {
                 Directory.CreateDirectory(Path.GetDirectoryName(RECENT_PROJECT_FILE));
+            }
 
             if (File.Exists(RECENT_PROJECT_FILE))
             {
@@ -47,6 +45,8 @@ namespace FLDebugger.Projects.Forms
             }
         }
 
+        public string SelectedPath { get; private set; }
+
         private void RecentSizeChanged(Button btn)
         {
             btn.Width = btn.Parent.ClientRectangle.Width - btn.Margin.Horizontal;
@@ -57,7 +57,7 @@ namespace FLDebugger.Projects.Forms
         {
             Button ret = new Button();
             ret.MouseClick += (sender, args) => SelectPath(path);
-            ret.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            ret.FlatStyle = FlatStyle.Flat;
             ret.Location = new System.Drawing.Point(3, 3);
             ret.Name = path;
             ret.Size = new System.Drawing.Size(335, 23);
@@ -75,6 +75,7 @@ namespace FLDebugger.Projects.Forms
                 PreviousPaths.Add(p);
                 File.WriteAllLines(RECENT_PROJECT_FILE, PreviousPaths);
             }
+
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -89,6 +90,7 @@ namespace FLDebugger.Projects.Forms
                     PreviousPaths.Add(SelectedPath);
                     File.WriteAllLines(RECENT_PROJECT_FILE, PreviousPaths);
                 }
+
                 DialogResult = DialogResult.OK;
                 Close();
             }

@@ -7,16 +7,6 @@
     public class BasePacket
     {
         /// <summary>
-        /// Custom Key that is used to determine the type of the Packet
-        /// </summary>
-        public object PacketType { get; }
-
-        /// <summary>
-        /// Serialized Packet that this Base Packet is wrapping around
-        /// </summary>
-        public byte[] Payload { get; }
-
-        /// <summary>
         /// Public Constructor
         /// </summary>
         /// <param name="packetType">Custom Packet Key</param>
@@ -26,5 +16,15 @@
             PacketType = packetType;
             Payload = payload;
         }
+
+        /// <summary>
+        /// Custom Key that is used to determine the type of the Packet
+        /// </summary>
+        public object PacketType { get; }
+
+        /// <summary>
+        /// Serialized Packet that this Base Packet is wrapping around
+        /// </summary>
+        public byte[] Payload { get; }
     }
 }

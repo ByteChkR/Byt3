@@ -3,24 +3,24 @@ using System.Xml.Serialization;
 
 namespace Byt3.Utilities.Benchmarking
 {
-
     public class BenchmarkHelper
     {
         public static int RunNumber = 0;
 
+        protected readonly string PerformanceFolder;
+
 
         protected readonly string testName;
-
-        protected readonly string PerformanceFolder;
-        protected string RunResultPath => Path.Combine(PerformanceFolder, RunNumber.ToString());
-        protected string PerformanceOutputFile => Path.Combine(PerformanceFolder, $"{testName}.log");
-        protected string DataOutputDirectory => Path.Combine(RunResultPath, $"data");
 
         public BenchmarkHelper(string testName, string performance = "performance")
         {
             this.testName = testName;
             PerformanceFolder = performance;
         }
+
+        protected string RunResultPath => Path.Combine(PerformanceFolder, RunNumber.ToString());
+        protected string PerformanceOutputFile => Path.Combine(PerformanceFolder, $"{testName}.log");
+        protected string DataOutputDirectory => Path.Combine(RunResultPath, "data");
 
         public void WriteLog(string log)
         {

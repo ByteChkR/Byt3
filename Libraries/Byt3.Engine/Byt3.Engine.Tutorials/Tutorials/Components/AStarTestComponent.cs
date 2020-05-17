@@ -17,10 +17,15 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
 {
     public class AStarTestComponent : AbstractComponent
     {
-        private AiNode[,] Nodes; //Nodes we use
         private readonly Texture greenTex = TextureLoader.ColorToTexture(Color.Green); //Walkable Node
-        private readonly Texture redTex = TextureLoader.ColorToTexture(Color.Red); //"Wall" Node
         private readonly Texture purpleTex = TextureLoader.ColorToTexture(Color.Purple); //Selected Path
+        private readonly Texture redTex = TextureLoader.ColorToTexture(Color.Red); //"Wall" Node
+        private AiNode endNode;
+        private AiNode[,] Nodes; //Nodes we use
+
+
+        private List<AiNode> path;
+        private AiNode startNode;
 
         protected override void Awake()
         {
@@ -111,47 +116,6 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
             return nodes;
         }
 
-
-        //Taken from Raycasting Example
-
-        #region Raycast
-
-        private void ApplyTexture(LitMeshRendererComponent lmr, Texture tex)
-        {
-            for (int i = 0; i < lmr.Textures.Length; i++)
-            {
-                if (lmr.Textures[i].TexType == TextureType.Diffuse || lmr.Textures[i].TexType == TextureType.None)
-                {
-                    lmr.Textures[i] = tex;
-                    return;
-                }
-            }
-        }
-
-
-        private static bool ObjectUnderMouse(Vector3 cameraPosition, out KeyValuePair<Collider, RayHit> hit)
-        {
-            Ray r = ConstructRayFromMousePosition(cameraPosition);
-            bool ret = PhysicsEngine.RayCastFirst(r, 1000, LayerManager.NameToLayer("raycast"),
-                out hit); //Here we are doing the raycast.
-
-            return ret;
-        }
-
-        private static Ray ConstructRayFromMousePosition(Vector3 localPosition)
-        {
-            Vector2 mpos = GameEngine.Instance.MousePosition;
-            Vector3 mousepos = GameEngine.Instance.ConvertScreenToWorldCoords((int) mpos.X, (int) mpos.Y);
-            return new Ray(localPosition, (mousepos - localPosition).Normalized());
-        }
-
-        #endregion
-
-
-        private List<AiNode> path;
-        private AiNode startNode;
-        private AiNode endNode;
-
         protected override void Update(float deltaTime)
         {
             if (ObjectUnderMouse(Owner.LocalPosition, out KeyValuePair<Collider, RayHit> hit)
@@ -197,7 +161,7 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                     for (int i = 0; i < path.Count; i++)
                     {
                         LitMeshRendererComponent lmr =
-                            (path[i] as AiNode).Owner.GetComponent<LitMeshRendererComponent>();
+                            path[i].Owner.GetComponent<LitMeshRendererComponent>();
                         ApplyTexture(lmr, path[i].Walkable ? greenTex : redTex);
                     }
                 }
@@ -211,7 +175,7 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                     for (int i = 0; i < path.Count; i++)
                     {
                         LitMeshRendererComponent lmr =
-                            (path[i] as AiNode).Owner.GetComponent<LitMeshRendererComponent>();
+                            path[i].Owner.GetComponent<LitMeshRendererComponent>();
                         ApplyTexture(lmr, purpleTex);
                     }
                 }
@@ -238,7 +202,7 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                     for (int i = 0; i < path.Count; i++)
                     {
                         LitMeshRendererComponent lmr =
-                            (path[i] as AiNode).Owner.GetComponent<LitMeshRendererComponent>();
+                            path[i].Owner.GetComponent<LitMeshRendererComponent>();
                         ApplyTexture(lmr, path[i].Walkable ? greenTex : redTex);
                     }
                 }
@@ -246,5 +210,41 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                 path = null;
             }
         }
+
+
+        //Taken from Raycasting Example
+
+        #region Raycast
+
+        private void ApplyTexture(LitMeshRendererComponent lmr, Texture tex)
+        {
+            for (int i = 0; i < lmr.Textures.Length; i++)
+            {
+                if (lmr.Textures[i].TexType == TextureType.Diffuse || lmr.Textures[i].TexType == TextureType.None)
+                {
+                    lmr.Textures[i] = tex;
+                    return;
+                }
+            }
+        }
+
+
+        private static bool ObjectUnderMouse(Vector3 cameraPosition, out KeyValuePair<Collider, RayHit> hit)
+        {
+            Ray r = ConstructRayFromMousePosition(cameraPosition);
+            bool ret = PhysicsEngine.RayCastFirst(r, 1000, LayerManager.NameToLayer("raycast"),
+                out hit); //Here we are doing the raycast.
+
+            return ret;
+        }
+
+        private static Ray ConstructRayFromMousePosition(Vector3 localPosition)
+        {
+            Vector2 mpos = GameEngine.Instance.MousePosition;
+            Vector3 mousepos = GameEngine.Instance.ConvertScreenToWorldCoords((int) mpos.X, (int) mpos.Y);
+            return new Ray(localPosition, (mousepos - localPosition).Normalized());
+        }
+
+        #endregion
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Resources;
 using Byt3.Collections;
 using Byt3.Engine.Core;
 using Byt3.Engine.DataTypes;
@@ -15,37 +13,57 @@ using Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs;
 using Byt3.Engine.Rendering;
 using HorrorOfBindings.exceptions;
 using HorrorOfBindings.mapgenerator;
-using HorrorOfBindings.scenes;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
 
 namespace HorrorOfBindings.components
 {
     public class EnemyComponent : AbstractComponent
     {
-        private GameObject target;
-        private int bulletLayer;
+        public delegate void onEnemyKilled(int newEnemyCount, int maxCount);
+
         private static float MoveSpeed = 5;
-        private bool UseGlobalForward = true;
-        private Collider Collider;
-        private GameObject nozzle;
-        private Mesh bulletModel;
-        private ShaderProgram bulletShader;
         private static float BulletLaunchForce = 75;
         private static float BulletsPerSecond = 1;
         private static float BulletMass = 1;
         private static bool physicalBullets = true;
-        public static bool active = false;
-        private int hp = 3;
-        private float BulletThreshold => 1f / BulletsPerSecond;
+        public static bool active;
         public static int enemyCount = 5;
-
-        public delegate void onEnemyKilled(int newEnemyCount, int maxCount);
 
         public static onEnemyKilled OnEnemyKilled;
 
-        private static Random rnd = new Random();
+        private static readonly Random rnd = new Random();
+
+        private static readonly Mesh enemyhead_prefab = MeshLoader.FileToMesh("assets/models/cube_flat.obj");
+        private static readonly Mesh enemy_prefab = MeshLoader.FileToMesh("assets/models/sphere_smooth.obj");
+        private static readonly Mesh bullet_prefab = MeshLoader.FileToMesh("assets/models/cube_flat.obj");
+        private static Texture headTex, bulletTex;
+        private static bool init;
+
+        private static int enemiesAlive;
+        private readonly int bulletLayer;
+        private readonly Mesh bulletModel;
+        private readonly ShaderProgram bulletShader;
+        private Collider Collider;
+        private int hp = 3;
+        private readonly GameObject nozzle;
+        private GameObject target;
+
+
+        private float time;
+        private readonly bool UseGlobalForward = true;
+
+        public EnemyComponent(GameObject nozzle, Mesh bulletModel, ShaderProgram bulletShader, float speed,
+            bool useGlobalForward)
+        {
+            bulletLayer = LayerManager.NameToLayer("physics");
+            this.nozzle = nozzle;
+            this.bulletModel = bulletModel;
+            this.bulletShader = bulletShader;
+            MoveSpeed = speed;
+            UseGlobalForward = useGlobalForward;
+        }
+
+        private float BulletThreshold => 1f / BulletsPerSecond;
 
         public static void CreateEnemies(Vector2 bounds, bool[,] map, int count, int startLine)
         {
@@ -94,12 +112,6 @@ namespace HorrorOfBindings.components
             }
         }
 
-        private static Mesh enemyhead_prefab = MeshLoader.FileToMesh("assets/models/cube_flat.obj");
-        private static Mesh enemy_prefab = MeshLoader.FileToMesh("assets/models/sphere_smooth.obj");
-        private static Mesh bullet_prefab = MeshLoader.FileToMesh("assets/models/cube_flat.obj");
-        private static Texture headTex, bulletTex;
-        private static bool init;
-
         public static GameObject[] CreateEnemy(Vector3 position)
         {
             if (!init)
@@ -123,10 +135,10 @@ namespace HorrorOfBindings.components
 
 
             //Movement for Player Head
-            OffsetConstraint connection = new OffsetConstraint()
+            OffsetConstraint connection = new OffsetConstraint
             {
                 Damping = 0, //Directly over the moving collider, no inertia
-                MoveSpeed = 20, //Even less inertia by moving faster in general
+                MoveSpeed = 20 //Even less inertia by moving faster in general
             };
             connection.Attach(enemy, Vector3.UnitY * 1);
 
@@ -194,25 +206,12 @@ namespace HorrorOfBindings.components
             }
         }
 
-        private static int enemiesAlive;
-
-        public EnemyComponent(GameObject nozzle, Mesh bulletModel, ShaderProgram bulletShader, float speed,
-            bool useGlobalForward)
-        {
-            bulletLayer = LayerManager.NameToLayer("physics");
-            this.nozzle = nozzle;
-            this.bulletModel = bulletModel;
-            this.bulletShader = bulletShader;
-            MoveSpeed = speed;
-            UseGlobalForward = useGlobalForward;
-        }
-
         protected override void OnContactCreated(Collider other, CollidablePairHandler handler, ContactData contact)
         {
             if (other.Owner.Name == "BulletPlayer")
             {
                 hp--;
-                Logger.Log(DebugChannel.Log,"Current Enemy HP: " + hp, 5);
+                Logger.Log(DebugChannel.Log, "Current Enemy HP: " + hp, 5);
                 other.Owner.Destroy();
             }
         }
@@ -303,7 +302,7 @@ namespace HorrorOfBindings.components
             Collider = Owner.GetComponent<Collider>();
             if (Collider == null)
             {
-                Logger.Log(DebugChannel.Warning,"No Rigid body attached", 10);
+                Logger.Log(DebugChannel.Warning, "No Rigid body attached", 10);
             }
 
             GameObject dbg = Owner.Scene.GetChildWithName("Console");
@@ -324,9 +323,6 @@ namespace HorrorOfBindings.components
             }
         }
 
-
-        private float time;
-
         protected override void Update(float deltaTime)
         {
             GameLogic();
@@ -345,7 +341,7 @@ namespace HorrorOfBindings.components
                 }
 
                 Vector3 vec = vel * deltaTime * MoveSpeed;
-               Byt3.Engine.Physics.BEPUutilities.Vector3 v = new Vector3(vec.X, 0, vec.Z);
+                Byt3.Engine.Physics.BEPUutilities.Vector3 v = new Vector3(vec.X, 0, vec.Z);
                 Collider.PhysicsCollider.ApplyLinearImpulse(ref v);
             }
 
@@ -387,7 +383,7 @@ namespace HorrorOfBindings.components
         protected override void OnDestroy()
         {
             enemiesAlive--;
-            Logger.Log(DebugChannel.Log, "Enemies Alive: " + enemiesAlive,  5);
+            Logger.Log(DebugChannel.Log, "Enemies Alive: " + enemiesAlive, 5);
             return;
             if (enemiesAlive == 0)
             {
@@ -395,14 +391,12 @@ namespace HorrorOfBindings.components
                 GameEngine.Instance.CurrentScene.AddComponent(new GeneralTimer(5, activateEnemies));
                 PlayerController.wavesSurvived++;
                 enemyCount *= 2;
-                enemyCount = (int)MathF.Clamp(enemyCount, 0, 50);
+                enemyCount = (int) MathF.Clamp(enemyCount, 0, 50);
                 CreateEnemies(new Vector2(50, 50), enemyCount);
                 OnEnemyKilled?.Invoke(enemyCount, enemyCount);
             }
-            else
-            {
-                OnEnemyKilled?.Invoke(enemiesAlive, enemyCount);
-            }
+
+            OnEnemyKilled?.Invoke(enemiesAlive, enemyCount);
         }
     }
 }

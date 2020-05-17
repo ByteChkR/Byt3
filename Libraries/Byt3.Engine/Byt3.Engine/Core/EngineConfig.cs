@@ -346,7 +346,7 @@ namespace Byt3.Engine.Core
                 where t.Namespace != null && t.Namespace.Contains(nameSpace)
                 select new Tuple<string, Type>(t.FullName.Replace("+", "."), t);
 
-            
+
             Tuple<string, Type>[] types = namespaceTypes.ToArray();
             foreach (Tuple<string, Type> item in types)
             {

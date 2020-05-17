@@ -7,11 +7,6 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
 {
     public class SerializableFLProgram : FLPipelineResult
     {
-        public string FileName { get; }
-        public List<SerializableExternalFLFunction> ExternalFunctions { get; }
-        public List<SerializableFLFunction> Functions { get; }
-        public List<SerializableFLBuffer> DefinedBuffers { get; }
-
         public SerializableFLProgram(string filename, List<SerializableExternalFLFunction> externalFunctions,
             List<SerializableFLFunction> functions, List<SerializableFLBuffer> definedBuffers)
         {
@@ -20,6 +15,11 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
             Functions = functions;
             DefinedBuffers = definedBuffers;
         }
+
+        public string FileName { get; }
+        public List<SerializableExternalFLFunction> ExternalFunctions { get; }
+        public List<SerializableFLFunction> Functions { get; }
+        public List<SerializableFLBuffer> DefinedBuffers { get; }
 
 
         public Dictionary<SerializableNamedObject, Tuple<int, int>> ToString(out string s)
@@ -33,7 +33,7 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
             foreach (SerializableFLBuffer serializableFlBuffer in DefinedBuffers)
             {
                 string f = serializableFlBuffer.ToString();
-                ret.Add(serializableFlBuffer, new Tuple<int, int>(sb.Length, sb.Length+f.Length));
+                ret.Add(serializableFlBuffer, new Tuple<int, int>(sb.Length, sb.Length + f.Length));
                 sb.AppendLine(f);
                 lineCount++;
             }
@@ -54,7 +54,7 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
                 lineCount++;
             }
 
-            s= sb.ToString();
+            s = sb.ToString();
             return ret;
         }
 

@@ -4,11 +4,11 @@ namespace Byt3.ObjectPipeline
 {
     public class PipelineNotValidException : Byt3Exception
     {
-        public PipelineStage Pipeline { get; }
-
         public PipelineNotValidException(PipelineStage pipeline, string message) : base(message)
         {
             Pipeline = pipeline;
         }
+
+        public PipelineStage Pipeline { get; }
     }
 }

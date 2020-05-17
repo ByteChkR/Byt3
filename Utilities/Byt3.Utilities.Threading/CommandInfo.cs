@@ -4,6 +4,13 @@ namespace Byt3.Utilities.Threading
 {
     public class CommandInfo
     {
+        public CommandInfo(string command, string workingDirectory = ".\\", bool useShell = false)
+        {
+            UseShell = useShell;
+            WorkingDirectory = workingDirectory;
+            Command = command;
+        }
+
         public string Command { get; set; }
         public string WorkingDirectory { get; set; } = ".\\";
         public bool WaitForExit { get; set; } = true;
@@ -13,12 +20,5 @@ namespace Byt3.Utilities.Threading
         public bool CaptureConsoleOut { get; set; }
         public DataReceivedEventHandler OnErrorReceived { get; set; }
         public DataReceivedEventHandler OnOutputReceived { get; set; }
-
-        public CommandInfo(string command, string workingDirectory = ".\\", bool useShell = false)
-        {
-            UseShell = useShell;
-            WorkingDirectory = workingDirectory;
-            Command = command;
-        }
     }
 }

@@ -2,10 +2,7 @@
 {
     public class Range
     {
-        public int Min;
         public int Max;
+        public int Min;
     }
-
-    
-    
 }

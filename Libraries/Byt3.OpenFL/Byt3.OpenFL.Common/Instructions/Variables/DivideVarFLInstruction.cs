@@ -7,7 +7,6 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
 {
     public class DivideVarFLInstruction : FLInstruction
     {
-
         public DivideVarFLInstruction(List<FLInstructionArgument> arguments) : base(arguments)
         {
         }
@@ -15,7 +14,7 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
 
         public override void Process()
         {
-            decimal v = Parent.Variables.GetVariable(Arguments[0].Value.ToString());
+            decimal v = Parent.Variables.GetVariable(Arguments[0].GetValue().ToString());
             if (Arguments.Count > 1)
             {
                 for (int i = 1; i < Arguments.Count; i++)
@@ -23,7 +22,7 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
                     decimal div;
                     if (Arguments[i].Type == FLInstructionArgumentType.Number)
                     {
-                        div = (decimal)Arguments[i].Value;
+                        div = (decimal) Arguments[i].GetValue();
                     }
                     else if (Arguments[i].Type == FLInstructionArgumentType.Name)
                     {
@@ -31,13 +30,16 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
                     }
                     else
                     {
-                        throw new InvalidOperationException($"Can not Resolve type {Arguments[i].Type} to a decimal value");
+                        throw new InvalidOperationException(
+                            $"Can not Resolve type {Arguments[i].Type} to a decimal value");
                     }
 
                     if (div == 0)
                     {
-                        throw new DivideByZeroException("Divide by 0 on instruction: " + ToString() + "\nArgument Index: " + i);
+                        throw new DivideByZeroException("Divide by 0 on instruction: " + ToString() +
+                                                        "\nArgument Index: " + i);
                     }
+
                     v /= div;
                 }
             }
@@ -45,7 +47,8 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
             {
                 throw new InvalidOperationException("there has to be a value to multiply by.");
             }
-            Parent.Variables.ChangeVariable(Arguments[0].Value.ToString(), v);
+
+            Parent.Variables.ChangeVariable(Arguments[0].GetValue().ToString(), v);
         }
 
         public override string ToString()

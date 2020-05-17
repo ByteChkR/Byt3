@@ -8,42 +8,14 @@ namespace Byt3.ADL
 {
     public class ADLLogger
     {
-        private static readonly Dictionary<IProjectDebugConfig, List<ADLLogger>> LoggerMap = new Dictionary<IProjectDebugConfig, List<ADLLogger>>();
-
-        public static ReadOnlyDictionary<IProjectDebugConfig, List<ADLLogger>> GetReadOnlyLoggerMap() => new ReadOnlyDictionary<IProjectDebugConfig, List<ADLLogger>>(LoggerMap);
-
-
-        private static void Register(ADLLogger logger)
-        {
-            if (LoggerMap.ContainsKey(logger.ProjectDebugConfig)) LoggerMap[logger.ProjectDebugConfig].Add(logger);
-            else LoggerMap[logger.ProjectDebugConfig] = new List<ADLLogger> { logger };
-        }
-
-        //For completeness sake
-        private static void UnRegister(ADLLogger logger)
-        {
-            if (LoggerMap.ContainsKey(logger.ProjectDebugConfig))
-            {
-                LoggerMap[logger.ProjectDebugConfig].Remove(logger);
-            }
-        }
+        private static readonly Dictionary<IProjectDebugConfig, List<ADLLogger>> LoggerMap =
+            new Dictionary<IProjectDebugConfig, List<ADLLogger>>();
 
         private readonly IProjectDebugConfig ProjectDebugConfig;
         private readonly string SubProjectName;
+        private bool hasProcessedPrefixes;
 
         private Dictionary<int, string> prefixes = new Dictionary<int, string>();
-        private bool hasProcessedPrefixes;
-        public virtual string[] ProjectMaskPrefixes { get; } = new string[0];
-
-
-        internal Dictionary<int, string> Prefixes
-        {
-            get
-            {
-                if (!hasProcessedPrefixes) prefixes = ProcessPrefixes(ProjectMaskPrefixes);
-                return prefixes;
-            }
-        }
 
         /// <summary>
         ///     Dictionary of Prefixes for the corresponding Masks
@@ -54,6 +26,49 @@ namespace Byt3.ADL
             SubProjectName = subProjectName;
 
             Register(this);
+        }
+
+        public virtual string[] ProjectMaskPrefixes { get; } = new string[0];
+
+
+        internal Dictionary<int, string> Prefixes
+        {
+            get
+            {
+                if (!hasProcessedPrefixes)
+                {
+                    prefixes = ProcessPrefixes(ProjectMaskPrefixes);
+                }
+
+                return prefixes;
+            }
+        }
+
+        public static ReadOnlyDictionary<IProjectDebugConfig, List<ADLLogger>> GetReadOnlyLoggerMap()
+        {
+            return new ReadOnlyDictionary<IProjectDebugConfig, List<ADLLogger>>(LoggerMap);
+        }
+
+
+        private static void Register(ADLLogger logger)
+        {
+            if (LoggerMap.ContainsKey(logger.ProjectDebugConfig))
+            {
+                LoggerMap[logger.ProjectDebugConfig].Add(logger);
+            }
+            else
+            {
+                LoggerMap[logger.ProjectDebugConfig] = new List<ADLLogger> {logger};
+            }
+        }
+
+        //For completeness sake
+        private static void UnRegister(ADLLogger logger)
+        {
+            if (LoggerMap.ContainsKey(logger.ProjectDebugConfig))
+            {
+                LoggerMap[logger.ProjectDebugConfig].Remove(logger);
+            }
         }
 
         public void Log(int mask, string message, int severity)
@@ -135,9 +150,9 @@ namespace Byt3.ADL
     public class ADLLogger<T> : ADLLogger
         where T : struct
     {
-        protected bool IsPowerOfTwo(int value)
+        public ADLLogger(IProjectDebugConfig projectDebugConfig, string subProjectname = "") : base(projectDebugConfig,
+            subProjectname)
         {
-            return value != 0 && (value & (value - 1)) == 0;
         }
 
         public override string[] ProjectMaskPrefixes
@@ -147,7 +162,7 @@ namespace Byt3.ADL
                 List<string> names = Enum.GetNames(typeof(T)).ToList();
                 for (int i = names.Count - 1; i >= 0; i--)
                 {
-                    if (!IsPowerOfTwo((int)Enum.Parse(typeof(T), names[i])))
+                    if (!IsPowerOfTwo((int) Enum.Parse(typeof(T), names[i])))
                     {
                         names.RemoveAt(i);
                     }
@@ -157,9 +172,9 @@ namespace Byt3.ADL
             }
         }
 
-        public ADLLogger(IProjectDebugConfig projectDebugConfig, string subProjectname = "") : base(projectDebugConfig,
-            subProjectname)
+        protected bool IsPowerOfTwo(int value)
         {
+            return value != 0 && (value & (value - 1)) == 0;
         }
 
         public void Log(T mask, string message, int severity)

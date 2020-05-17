@@ -15,9 +15,10 @@ namespace Byt3.Engine.Core
         /// <returns></returns>
         public delegate T DelTask();
 
-        private T ret;
         private readonly Action<T> onFinish;
         private readonly Thread t;
+
+        private T ret;
 
         /// <summary>
         /// Internal Constructor

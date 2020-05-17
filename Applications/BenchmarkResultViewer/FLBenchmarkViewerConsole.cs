@@ -7,6 +7,7 @@ namespace BenchmarkResultViewer
     {
         public override string ConsoleKey => "benchview";
         public override string ConsoleTitle => "Open FL Benchmark Viewer GUI";
+
         public override bool Run(string[] args)
         {
             Application.EnableVisualStyles();

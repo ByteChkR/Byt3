@@ -8,61 +8,15 @@ namespace Byt3.OpenFL.Benchmarking
 {
     public static class FLScriptGenerator
     {
-        public struct FLInstructionInfo
-        {
-            public string Name;
-            public bool[] IsDecimal;
-
-            public static List<FLInstructionInfo> infos = new List<FLInstructionInfo>
-            {
-                A("setactive", "0"),
-                A("setactive", "00"),
-                A("setactive", "000"),
-                A("setactive", "D0"),
-                A("setactive", "D00"),
-                A("setactive", "D000"),
-                A("rnd", ""),
-                A("urnd", ""),
-                A("mulv", "0"),
-                A("mul", "D"),
-                A("modv", "0"),
-                A("mod", "D"),
-                A("mixt", "DD"),
-                A("mixv", "D0"),
-                A("invert", ""),
-                A("divv", "0"),
-                A("div", "D"),
-                A("adjustlevel", "00"),
-                A("adjustlevelrescale", "00"),
-                A("add", "D"),
-                A("addv", "0"),
-                A("addc", "D"),
-                A("addvc", "0"),
-                A("sub", "D"),
-                A("subv", "0"),
-                A("smooth", "0"),
-                A("perlin", "00"),
-                A("point", "0000"),
-                A("circle", "0000"),
-                A("set", "D"),
-                A("setv", "0"),
-            };
-
-            public static FLInstructionInfo A(string name, string isDecimal)
-            {
-                bool[] dec = isDecimal.Select(x => x == '0').ToArray();
-                return new FLInstructionInfo { Name = name, IsDecimal = dec };
-            }
-        }
-
         public static string GenerateRandomScript(int functionCount, int bufferCount, int additionalProgramTrees,
             int functionCountPerAdditionalTree)
         {
             Random rnd = new Random();
             List<string> buffers = GenerateElementNames("Buffer", bufferCount);
             StringBuilder ret = new StringBuilder();
-            buffers.ForEach(x => ret.AppendLine(GenerateBufferDefine(x, (GeneratableBufferType)rnd.Next(0, 3))));
-            ret.Append(GenerateRandomFLScript("Main", "", FLInstructionInfo.infos, functionCount, buffers));
+            buffers.ForEach(x => ret.AppendLine(GenerateBufferDefine(x, (GeneratableBufferType) rnd.Next(0, 3))));
+            ret.Append(GenerateRandomFLScript(FLKeywords.EntryFunctionKey, "", FLInstructionInfo.infos, functionCount,
+                buffers));
 
             for (int i = 0; i < additionalProgramTrees; i++)
             {
@@ -163,13 +117,6 @@ namespace Byt3.OpenFL.Benchmarking
             return ret;
         }
 
-        private enum GeneratableBufferType
-        {
-            Empty,
-            URnd,
-            Rnd
-        }
-
         private static string GenerateBufferDefine(string bufferName, GeneratableBufferType type)
         {
             string ret = $"{FLKeywords.DefineTextureKey} {bufferName}: ";
@@ -187,6 +134,60 @@ namespace Byt3.OpenFL.Benchmarking
             }
 
             return ret;
+        }
+
+        public struct FLInstructionInfo
+        {
+            public string Name;
+            public bool[] IsDecimal;
+
+            public static List<FLInstructionInfo> infos = new List<FLInstructionInfo>
+            {
+                A("setactive", "0"),
+                A("setactive", "00"),
+                A("setactive", "000"),
+                A("setactive", "D0"),
+                A("setactive", "D00"),
+                A("setactive", "D000"),
+                A("rnd", ""),
+                A("urnd", ""),
+                A("mulv", "0"),
+                A("mul", "D"),
+                A("modv", "0"),
+                A("mod", "D"),
+                A("mixt", "DD"),
+                A("mixv", "D0"),
+                A("invert", ""),
+                A("divv", "0"),
+                A("div", "D"),
+                A("adjustlevel", "00"),
+                A("adjustlevelrescale", "00"),
+                A("add", "D"),
+                A("addv", "0"),
+                A("addc", "D"),
+                A("addvc", "0"),
+                A("sub", "D"),
+                A("subv", "0"),
+                A("smooth", "0"),
+                A("perlin", "00"),
+                A("point", "0000"),
+                A("circle", "0000"),
+                A("set", "D"),
+                A("setv", "0")
+            };
+
+            public static FLInstructionInfo A(string name, string isDecimal)
+            {
+                bool[] dec = isDecimal.Select(x => x == '0').ToArray();
+                return new FLInstructionInfo {Name = name, IsDecimal = dec};
+            }
+        }
+
+        private enum GeneratableBufferType
+        {
+            Empty,
+            URnd,
+            Rnd
         }
     }
 }

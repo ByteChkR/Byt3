@@ -24,19 +24,6 @@ namespace Byt3.CommandRunner
         /// </summary>
         public static readonly string FilePathPrefix = "@";
 
-        public int CommandCount => values.Count;
-
-
-        /// <summary>
-        /// Returns True if the Text is a short or long command.
-        /// </summary>
-        /// <param name="text">The text to check</param>
-        /// <returns></returns>
-        public static bool HasCommandPrefix(string text)
-        {
-            return text.StartsWith(LongCommandPrefix) || text.StartsWith(ShortCommandPrefix);
-        }
-
         /// <summary>
         /// All Values/Arguments Ordered by First command key.
         /// Multiple Keys Possible.
@@ -92,6 +79,19 @@ namespace Byt3.CommandRunner
                     }
                 }
             }
+        }
+
+        public int CommandCount => values.Count;
+
+
+        /// <summary>
+        /// Returns True if the Text is a short or long command.
+        /// </summary>
+        /// <param name="text">The text to check</param>
+        /// <returns></returns>
+        public static bool HasCommandPrefix(string text)
+        {
+            return text.StartsWith(LongCommandPrefix) || text.StartsWith(ShortCommandPrefix);
         }
 
         /// <summary>

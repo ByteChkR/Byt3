@@ -12,34 +12,9 @@ namespace BenchmarkResultViewer
 {
     public partial class Form1 : Form
     {
-        public class PerformanceResult
-        {
-            public bool Matched => (!LowerIsBetter || TargetAndVariance >= Result) &&
-                                   (LowerIsBetter || TargetAndVariance <= Result);
-            public decimal TargetAndVariance => LowerIsBetter ? Target + Variance : Target - Variance;
-            public decimal DeltaFromTarget => Target - Result;
-            public decimal Percentage => Math.Round(Result / Target * 100, 4);
+        private List<Chart> charts = new List<Chart>();
 
-            [XmlIgnore]
-            public int Version;
-            [XmlIgnore]
-            public string PerformanceFolder;
-
-            public bool LowerIsBetter;
-            public string TestName;
-            public int N;
-            public decimal Result;
-            public decimal Target;
-            public decimal Variance;
-
-            public override string ToString()
-            {
-                return
-                    $"{TestName}: {Result}ms ({Percentage}%); Matched: {Matched}; Target: {Target}ms; Delta: {DeltaFromTarget}ms";
-            }
-        }
-
-        private string folder;
+        private readonly string folder;
 
         public Form1(string[] args)
         {
@@ -51,15 +26,14 @@ namespace BenchmarkResultViewer
             else
             {
                 if (fbdSelectDir.ShowDialog() == DialogResult.OK)
+                {
                     folder = fbdSelectDir.SelectedPath;
+                }
                 else
                 {
                     Application.Exit();
-                    return;
                 }
             }
-
-
         }
 
         private Chart CreateChart(string name)
@@ -107,7 +81,8 @@ namespace BenchmarkResultViewer
             Dictionary<string, List<PerformanceResult>> ret = new Dictionary<string, List<PerformanceResult>>();
             foreach (int version in vs)
             {
-                PerformanceResult[] results = LoadResultsFromVersionFolder(performanceFolder, Path.Combine(performanceFolder, version.ToString()));
+                PerformanceResult[] results = LoadResultsFromVersionFolder(performanceFolder,
+                    Path.Combine(performanceFolder, version.ToString()));
 
                 foreach (PerformanceResult performanceResult in results)
                 {
@@ -117,7 +92,7 @@ namespace BenchmarkResultViewer
                     }
                     else
                     {
-                        ret.Add(performanceResult.TestName, new List<PerformanceResult> { performanceResult });
+                        ret.Add(performanceResult.TestName, new List<PerformanceResult> {performanceResult});
                     }
                 }
             }
@@ -134,7 +109,7 @@ namespace BenchmarkResultViewer
             for (int i = 0; i < files.Length; i++)
             {
                 Stream s = File.OpenRead(files[i]);
-                ret[i] = (PerformanceResult)xs.Deserialize(s);
+                ret[i] = (PerformanceResult) xs.Deserialize(s);
                 ret[i].Version = v;
                 ret[i].PerformanceFolder = performanceFolder;
                 s.Close();
@@ -145,17 +120,15 @@ namespace BenchmarkResultViewer
 
         private void chart1_Click(object sender, EventArgs e)
         {
-
         }
 
-        private List<Chart> charts = new List<Chart>();
         private void Form1_Load(object sender, EventArgs e)
         {
             tabControl1.SelectedIndexChanged += TabControl1OnSelectedIndexChanged;
 
 
             Text = "Viewing: " + folder;
-            charts = new List<Chart> { chart1 };
+            charts = new List<Chart> {chart1};
             string[] versions = Directory.GetDirectories(folder, "*", SearchOption.TopDirectoryOnly);
 
             Dictionary<string, List<PerformanceResult>> tests = GetTests(folder, versions);
@@ -180,7 +153,8 @@ namespace BenchmarkResultViewer
                 int i = 1;
                 foreach (PerformanceResult performanceResult in test.Value)
                 {
-                    CustomLabel lbl = new CustomLabel(i - 0.5f, i + 0.5f, performanceResult.Version.ToString(), 2, LabelMarkStyle.None);
+                    CustomLabel lbl = new CustomLabel(i - 0.5f, i + 0.5f, performanceResult.Version.ToString(), 2,
+                        LabelMarkStyle.None);
 
                     chart.ChartAreas[0].AxisX.CustomLabels.Add(lbl);
                     chart1.ChartAreas[0].AxisX.CustomLabels.Add(lbl);
@@ -190,7 +164,6 @@ namespace BenchmarkResultViewer
                     seriesAllChart.Points.AddY(performanceResult.Result);
                     i++;
                 }
-
 
 
                 //chart.Series.Add(series);
@@ -204,7 +177,6 @@ namespace BenchmarkResultViewer
                 //list.ItemCheck += (sender, args) => VersionSelectionChanged(series, list, args);
 
                 tabControl1.TabPages.Add(page);
-
             }
 
             allList.ItemCheck += (s, args) => VersionSelectionChanged(allList, chart1, args);
@@ -239,7 +211,7 @@ namespace BenchmarkResultViewer
 
         private void btnScreen_Click(object sender, EventArgs e)
         {
-            Chart chart = charts.First(x=>x.Text== tabControl1.SelectedTab.Text);
+            Chart chart = charts.First(x => x.Text == tabControl1.SelectedTab.Text);
 
             if (sfdScreen.ShowDialog() == DialogResult.OK)
             {
@@ -256,6 +228,32 @@ namespace BenchmarkResultViewer
                 tabControl1.SelectedIndex = 0;
 
                 Size = originalSize;
+            }
+        }
+
+        public class PerformanceResult
+        {
+            public bool LowerIsBetter;
+            public int N;
+            [XmlIgnore] public string PerformanceFolder;
+            public decimal Result;
+            public decimal Target;
+            public string TestName;
+            public decimal Variance;
+
+            [XmlIgnore] public int Version;
+
+            public bool Matched => (!LowerIsBetter || TargetAndVariance >= Result) &&
+                                   (LowerIsBetter || TargetAndVariance <= Result);
+
+            public decimal TargetAndVariance => LowerIsBetter ? Target + Variance : Target - Variance;
+            public decimal DeltaFromTarget => Target - Result;
+            public decimal Percentage => Math.Round(Result / Target * 100, 4);
+
+            public override string ToString()
+            {
+                return
+                    $"{TestName}: {Result}ms ({Percentage}%); Matched: {Matched}; Target: {Target}ms; Delta: {DeltaFromTarget}ms";
             }
         }
     }

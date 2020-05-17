@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>2.4.55.308</AssemblyVersion>
-    <FileVersion>2.4.55.308</FileVersion>
+    <AssemblyVersion>2.6.20.943</AssemblyVersion>
+    <FileVersion>2.6.20.943</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj" />
@@ -23,7 +23,7 @@
       <DependentUpon>VectorTypes.tt</DependentUpon>
     </Compile>
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

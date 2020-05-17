@@ -14,11 +14,11 @@ namespace Byt3.Engine.Physics.BEPUutilities.ResourceManagement
         /// Defines the maximum buffer size. Maximum length is 2^MaximumPoolIndex.
         /// </summary>
         private const int MaximumPoolIndex = 30;
-
-        private readonly Stack<T[]>[] pools = new Stack<T[]>[MaximumPoolIndex + 1];
 #if DEBUG
         private readonly HashSet<T[]> outstandingResources = new HashSet<T[]>();
 #endif
+
+        private readonly Stack<T[]>[] pools = new Stack<T[]>[MaximumPoolIndex + 1];
 
         /// <summary>
         /// Constructs a new resource buffer pool.
@@ -30,6 +30,14 @@ namespace Byt3.Engine.Physics.BEPUutilities.ResourceManagement
                 pools[i] = new Stack<T[]>();
             }
         }
+
+
+#if DEBUG
+        /// <summary>
+        /// Gets or sets whether to check buffers for cleanliness when they are returned when compiled in debug mode. A clean buffer is defined as one that contains all default values.
+        /// </summary>
+        public bool CheckIfReturnedBuffersAreClean { get; set; }
+#endif
 
         /// <summary>
         /// Gets the exponent associated with the buffer pool which would hold the given count of elements.
@@ -125,7 +133,7 @@ namespace Byt3.Engine.Physics.BEPUutilities.ResourceManagement
             {
                 for (int i = 0; i < buffer.Length; ++i)
                 {
-                    System.Diagnostics.Debug.Assert(EqualityComparer<T>.Default.Equals(buffer[i], default(T)),
+                    System.Diagnostics.Debug.Assert(EqualityComparer<T>.Default.Equals(buffer[i], default),
                         "Buffers being returned to the pool should be clean. Every index should hold default(T).");
                 }
             }
@@ -165,13 +173,5 @@ namespace Byt3.Engine.Physics.BEPUutilities.ResourceManagement
                 pools[i].Clear();
             }
         }
-
-
-#if DEBUG
-        /// <summary>
-        /// Gets or sets whether to check buffers for cleanliness when they are returned when compiled in debug mode. A clean buffer is defined as one that contains all default values.
-        /// </summary>
-        public bool CheckIfReturnedBuffersAreClean { get; set; }
-#endif
     }
 }

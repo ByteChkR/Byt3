@@ -6,12 +6,15 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {
     public class RemoveUnusedFunctionsEarlyOptimization : FLProgramCheck<StaticInspectionResult>
     {
-        public override bool ChangesOutput => true;
+        public override int Priority => -1;
+        public override bool Recommended => true;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.Optimization;
+
         private Dictionary<string, bool> ParseFunctions(StaticInspectionResult input)
         {
             Dictionary<string, bool> funcs = new Dictionary<string, bool>();
-            input.Functions.ForEach(x => funcs.Add(x.Name, x.Name == "Main"));
-            Logger.Log(LogType.Log, $"Finding Unused Functions.", 2);
+            input.Functions.ForEach(x => funcs.Add(x.Name, x.Name == FLKeywords.EntryFunctionKey));
+            Logger.Log(LogType.Log, "Finding Unused Functions.", 2);
 
             foreach (StaticFunction serializableFlFunction in input.Functions)
             {

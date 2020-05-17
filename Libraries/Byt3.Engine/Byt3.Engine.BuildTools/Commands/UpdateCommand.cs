@@ -8,6 +8,11 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class UpdateCommand : AbstractCommand
     {
+        public UpdateCommand() : base(new[] {"--update"}, "--update Updates the Build Tools")
+        {
+            CommandAction = (info, strings) => Update();
+        }
+
         private static void Update()
         {
             WebClient wc = new WebClient();
@@ -17,11 +22,6 @@ namespace Byt3.Engine.BuildTools.Commands
             Process.Start(destination, "--silent --pid " + Process.GetCurrentProcess().Id);
             wc.Dispose();
             Console.WriteLine("Update Downloaded. Update will be applied when application exits.");
-        }
-
-        public UpdateCommand() : base( new[] {"--update"}, "--update Updates the Build Tools", false)
-        {
-            CommandAction = (info, strings) => Update();
         }
     }
 }

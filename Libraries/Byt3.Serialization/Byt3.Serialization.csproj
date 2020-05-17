@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.8.68.258</AssemblyVersion>
-    <FileVersion>1.8.68.258</FileVersion>
+    <AssemblyVersion>2.0.23.943</AssemblyVersion>
+    <FileVersion>2.0.23.943</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="AutoSerialization\**" />
@@ -13,7 +13,7 @@
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Serialization\Byt3.Utilities.Serialization.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

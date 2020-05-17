@@ -8,18 +8,6 @@ namespace Byt3.Engine.IO
     /// </summary>
     public static class Prefabs
     {
-        internal static void DisposeObjects()
-        {
-            _white?.Dispose();
-            _white = null;
-            _black?.Dispose();
-            _black = null;
-            _cube?.Dispose();
-            _cube = null;
-            _sphere?.Dispose();
-            _sphere = null;
-        }
-
         private static Texture _white;
         private static Texture _black;
 
@@ -98,6 +86,18 @@ namespace Byt3.Engine.IO
 
                 return _black.Copy();
             }
+        }
+
+        internal static void DisposeObjects()
+        {
+            _white?.Dispose();
+            _white = null;
+            _black?.Dispose();
+            _black = null;
+            _cube?.Dispose();
+            _cube = null;
+            _sphere?.Dispose();
+            _sphere = null;
         }
     }
 }

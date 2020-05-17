@@ -5,15 +5,9 @@ namespace Byt3.PackageHandling
 {
     public class Byt3Handler
     {
+        private readonly AHandler fallbackHandler;
         private readonly Dictionary<Type, AHandler> handlers = new Dictionary<Type, AHandler>();
         private readonly Dictionary<Type, AHandler> implicitHandlerMap = new Dictionary<Type, AHandler>();
-        private readonly AHandler fallbackHandler;
-
-        public Byt3HandlerLookupType LookupType { get; set; } = Byt3HandlerLookupType.TraverseUp;
-        private bool ExactOnly => LookupType == Byt3HandlerLookupType.None;
-        private bool UseFallback => (LookupType & Byt3HandlerLookupType.UseFallback) != 0;
-        private bool TraverseUp => (LookupType & Byt3HandlerLookupType.TraverseUp) != 0;
-        private bool IncludeInterfaces => (LookupType & Byt3HandlerLookupType.IncludeInterfaces) != 0;
 
         public Byt3Handler(Byt3HandlerLookupType lookupType = Byt3HandlerLookupType.TraverseUp,
             AHandler fallback = null)
@@ -21,6 +15,12 @@ namespace Byt3.PackageHandling
             LookupType = lookupType;
             fallbackHandler = fallback ?? new DefaultHandler();
         }
+
+        public Byt3HandlerLookupType LookupType { get; set; } = Byt3HandlerLookupType.TraverseUp;
+        private bool ExactOnly => LookupType == Byt3HandlerLookupType.None;
+        private bool UseFallback => (LookupType & Byt3HandlerLookupType.UseFallback) != 0;
+        private bool TraverseUp => (LookupType & Byt3HandlerLookupType.TraverseUp) != 0;
+        private bool IncludeInterfaces => (LookupType & Byt3HandlerLookupType.IncludeInterfaces) != 0;
 
         public void Handle(object objectToHandle, object context)
         {

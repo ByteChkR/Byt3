@@ -7,23 +7,6 @@ namespace Byt3Console.Runner
 {
     public class ConsoleItem
     {
-        public string LibPath { get; set; }
-        public string FileHash { get; set; }
-        public string TypeSignature { get; set; }
-        public string ConsoleKey { get; set; }
-        public string ConsoleTitle { get; set; }
-
-
-
-        public bool Run(string[] args)
-        {
-            AppDomainController adc = AppDomainController.Create(ConsoleTitle, new[] {Path.GetDirectoryName(LibPath)});
-            object ret = adc.LoadTypeAndRunFunction(LibPath, TypeSignature, "Run", new object[] {args});
-            adc.Dispose();
-            return ret == null || ret is bool b && b;
-
-        }
-
         public ConsoleItem()
         {
         }
@@ -45,6 +28,21 @@ namespace Byt3Console.Runner
             }
 
             ConsoleKey = (string) adc.GetPropertyValue(libPath, TypeSignature, "ConsoleKey");
+        }
+
+        public string LibPath { get; set; }
+        public string FileHash { get; set; }
+        public string TypeSignature { get; set; }
+        public string ConsoleKey { get; set; }
+        public string ConsoleTitle { get; set; }
+
+
+        public bool Run(string[] args)
+        {
+            AppDomainController adc = AppDomainController.Create(ConsoleTitle, new[] {Path.GetDirectoryName(LibPath)});
+            object ret = adc.LoadTypeAndRunFunction(LibPath, TypeSignature, "Run", new object[] {args});
+            adc.Dispose();
+            return ret == null || ret is bool b && b;
         }
 
         public static string GetHash(string File)

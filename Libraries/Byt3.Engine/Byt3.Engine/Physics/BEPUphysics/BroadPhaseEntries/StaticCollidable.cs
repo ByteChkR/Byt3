@@ -11,9 +11,8 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
     ///</summary>
     public abstract class StaticCollidable : Collidable, ISpaceObject, IMaterialOwner, IDeferredEventCreatorOwner
     {
-        internal Material material;
-
         private readonly Action<Material> materialChangedDelegate;
+        internal Material material;
 
         ///<summary>
         /// Performs common initialization.

@@ -11,11 +11,11 @@ namespace Byt3.Engine.UI.EventSystems
     /// </summary>
     public class EventSystem : ALoggable<DebugChannel>
     {
+        private readonly List<ISelectable> selectables = new List<ISelectable>();
+
         public EventSystem() : base(EngineDebugConfig.Settings)
         {
         }
-
-        private readonly List<ISelectable> selectables = new List<ISelectable>();
 
         /// <summary>
         /// Registers an element

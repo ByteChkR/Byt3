@@ -7,10 +7,10 @@ namespace FLDebugger.Utils
 {
     public static class FLDebugHelper
     {
-        public static Dictionary<FLParsedObject, int> ToString(this FLProgram prog, out string s)
+        public static Dictionary<IParsedObject, int> ToString(this FLProgram prog, out string s)
         {
-            Dictionary<FLParsedObject, int> ret =
-                new Dictionary<FLParsedObject, int>();
+            Dictionary<IParsedObject, int> ret =
+                new Dictionary<IParsedObject, int>();
             StringBuilder sb = new StringBuilder();
 
             int lineCount = 0;
@@ -24,7 +24,7 @@ namespace FLDebugger.Utils
             }
 
 
-            foreach (KeyValuePair<string, ExternalFlFunction> externalFlFunction in prog.DefinedScripts)
+            foreach (KeyValuePair<string, IFunction> externalFlFunction in prog.DefinedScripts)
             {
                 string f = externalFlFunction.Value.ToString();
                 ret.Add(externalFlFunction.Value, lineCount);
@@ -33,18 +33,21 @@ namespace FLDebugger.Utils
             }
 
 
-            foreach (KeyValuePair<string, FLFunction> keyValuePair in prog.FlFunctions)
+            foreach (KeyValuePair<string, IFunction> keyValuePair in prog.FlFunctions)
             {
                 ret.Add(keyValuePair.Value, lineCount);
                 sb.AppendLine(keyValuePair.Key + ":");
                 lineCount++;
-                foreach (FLInstruction valueInstruction in keyValuePair.Value.Instructions)
+                FLFunction func = keyValuePair.Value as FLFunction;
+                foreach (FLInstruction valueInstruction in func.Instructions)
                 {
-                    string f = "\t" + valueInstruction;
+                    string f = valueInstruction.ToString();
+                    f = "\t" + f;
                     ret.Add(valueInstruction, lineCount);
                     sb.AppendLine(f);
                     lineCount++;
                 }
+
                 sb.AppendLine();
                 lineCount++;
             }
@@ -52,6 +55,5 @@ namespace FLDebugger.Utils
             s = sb.ToString();
             return ret;
         }
-
     }
 }

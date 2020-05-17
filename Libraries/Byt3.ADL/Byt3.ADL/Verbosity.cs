@@ -36,6 +36,6 @@
         /// <summary>
         /// Highest Level of verbosity, you will get every log that gets sent.
         /// </summary>
-        Level20,
+        Level20
     }
 }

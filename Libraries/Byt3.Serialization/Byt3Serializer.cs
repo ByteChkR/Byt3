@@ -13,11 +13,23 @@ namespace Byt3.Serialization
     /// </summary>
     public class Byt3Serializer
     {
-        public static Byt3Serializer GetDefaultSerializer(ABaseSerializer baseSerializer=null)
-        {
-            Byt3Serializer r = new Byt3Serializer(new Dictionary<Type, ASerializer>(BaseSerializers.SerializableTypes), baseSerializer ?? new DefaultBaseSerializer());
-            return r;
-        }
+        private readonly Dictionary<object, Type> KeyTypeCache = new Dictionary<object, Type>();
+
+        /// <summary>
+        /// Serializer Dictionary of serializers with custom key
+        /// </summary>
+        private readonly Dictionary<Type, ASerializer> Serializers = new Dictionary<Type, ASerializer>();
+
+        /// <summary>
+        /// Cache that gets used to store the map from object => Type
+        /// that gets used during Deserialization
+        /// </summary>
+        private readonly Dictionary<Type, object> TypeKeyCache = new Dictionary<Type, object>();
+
+        /// <summary>
+        /// The Base Initializer that is beeing used.
+        /// </summary>
+        private ABaseSerializer BaseSerializer = new DefaultBaseSerializer();
 
         public Byt3Serializer()
         {
@@ -32,30 +44,64 @@ namespace Byt3.Serialization
             }
         }
 
-        /// <summary>
-        /// Serializer Dictionary of serializers with custom key
-        /// </summary>
-        private readonly Dictionary<Type, ASerializer> Serializers = new Dictionary<Type, ASerializer>();
-
         public int ContainedSerializers => Serializers.Count;
+
+        public static Byt3Serializer GetDefaultSerializer(ABaseSerializer baseSerializer = null)
+        {
+            Byt3Serializer r = new Byt3Serializer(new Dictionary<Type, ASerializer>(BaseSerializers.SerializableTypes),
+                baseSerializer ?? new DefaultBaseSerializer());
+            return r;
+        }
 
         public ASerializer GetSerializerAt(int index)
         {
             return Serializers.ElementAt(index).Value;
         }
 
-        /// <summary>
-        /// Cache that gets used to store the map from object => Type
-        /// that gets used during Deserialization
-        /// </summary>
-        private readonly Dictionary<Type, object> TypeKeyCache = new Dictionary<Type, object>();
-
-        private readonly Dictionary<object, Type> KeyTypeCache = new Dictionary<object, Type>();
 
         /// <summary>
-        /// The Base Initializer that is beeing used.
+        /// Returns the Type based on the Key.
         /// </summary>
-        private ABaseSerializer BaseSerializer = new DefaultBaseSerializer();
+        /// <param name="key">Key of the Type</param>
+        /// <returns>Type mapped to this key</returns>
+        /// <exception cref="Exception">Gets thrown when The KeyTypeCache does not contain the key.</exception>
+        private object GetKeyByType(Type type)
+        {
+            if (TypeKeyCache.ContainsKey(type))
+            {
+                return TypeKeyCache[type];
+            }
+
+            throw new KeyNotFoundException("Could not Find the Key for Type: " + type);
+        }
+
+        /// <summary>
+        /// Returns the Type based on the Key.
+        /// </summary>
+        /// <param name="key">Key of the Type</param>
+        /// <returns>Type mapped to this key</returns>
+        /// <exception cref="Exception">Gets thrown when The KeyTypeCache does not contain the key.</exception>
+        public Type GetTypeByKey(object key)
+        {
+            if (KeyTypeCache.ContainsKey(key))
+            {
+                return KeyTypeCache[key];
+            }
+
+            throw new KeyNotFoundException("Could not Find the Type with Key: " + key);
+        }
+
+
+        public ASerializer GetSerializerByType(Type key)
+        {
+            return Serializers[key];
+        }
+
+
+        public ASerializer GetSerializerByKey(object key)
+        {
+            return GetSerializerByType(GetTypeByKey(key));
+        }
 
 
         #region Serializer Add/Set/Remove
@@ -320,50 +366,5 @@ namespace Byt3.Serialization
         }
 
         #endregion
-
-
-        /// <summary>
-        /// Returns the Type based on the Key.
-        /// </summary>
-        /// <param name="key">Key of the Type</param>
-        /// <returns>Type mapped to this key</returns>
-        /// <exception cref="Exception">Gets thrown when The KeyTypeCache does not contain the key.</exception>
-        private object GetKeyByType(Type type)
-        {
-            if (TypeKeyCache.ContainsKey(type))
-            {
-                return TypeKeyCache[type];
-            }
-
-            throw new KeyNotFoundException("Could not Find the Key for Type: " + type);
-        }
-
-        /// <summary>
-        /// Returns the Type based on the Key.
-        /// </summary>
-        /// <param name="key">Key of the Type</param>
-        /// <returns>Type mapped to this key</returns>
-        /// <exception cref="Exception">Gets thrown when The KeyTypeCache does not contain the key.</exception>
-        public Type GetTypeByKey(object key)
-        {
-            if (KeyTypeCache.ContainsKey(key))
-            {
-                return KeyTypeCache[key];
-            }
-
-            throw new KeyNotFoundException("Could not Find the Type with Key: " + key);
-        }
-
-
-        public ASerializer GetSerializerByType(Type key)
-        {
-            return Serializers[key];
-        }
-
-
-        public ASerializer GetSerializerByKey(object key)
-        {
-            return GetSerializerByType(GetTypeByKey(key));
-        }
     }
 }

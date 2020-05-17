@@ -17,11 +17,12 @@
 
 #endregion
 
+using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+
 namespace Byt3.OpenCL.DataTypes
 {
-    using System;
-    using System.Diagnostics;
-    using System.Runtime.InteropServices;
     using uchar = System.Byte;
 
     public interface IVectorType

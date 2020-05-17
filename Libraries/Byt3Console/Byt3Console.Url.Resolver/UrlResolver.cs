@@ -6,8 +6,8 @@ namespace Byt3Console.Url.Resolver
 {
     public class UrlResolver : IResolver
     {
-        public string FileExtension => ".web";
         private static readonly string TempPath = Path.Combine(Path.GetTempPath(), "Byt3.Console.Url.Resolver");
+        public string FileExtension => ".web";
 
         public string ResolveLibrary(string libraryFile)
         {

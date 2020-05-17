@@ -7,13 +7,6 @@ namespace Byt3.ADL.Crash
 {
     public static class CrashHandler
     {
-        private enum CrashLogType
-        {
-            CrashShort,
-            Error,
-            Crash
-        }
-
         private static bool initialized;
 
         private static readonly CrashConfig Config = ConfigManager.GetDefault<CrashConfig>();
@@ -129,7 +122,7 @@ namespace Byt3.ADL.Crash
                     sb.Append(":");
                     if (!dictionaryEntry.Value.GetType().IsArray)
                     {
-                        sb.Append(dictionaryEntry.Value.ToString());
+                        sb.Append(dictionaryEntry.Value);
                     }
                     else
                     {
@@ -172,6 +165,13 @@ namespace Byt3.ADL.Crash
             }
 
             return ret.ToString();
+        }
+
+        private enum CrashLogType
+        {
+            CrashShort,
+            Error,
+            Crash
         }
     }
 }

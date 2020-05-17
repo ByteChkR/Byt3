@@ -10,6 +10,15 @@ namespace Byt3.CommandRunner.SetSettings
     {
         private readonly Dictionary<string, FieldInformations> RootNodes;
 
+
+        public SetSettingsCommand(Dictionary<string, FieldInformations> rootNodes, string[] keys = null) :
+            base(keys ?? new[] {"--set-settings", "-ss"}, "Sets the Settings")
+        {
+            CommandAction = (info, strings) => RunReflection(info);
+            RootNodes = rootNodes;
+            Logger.Log(LogType.Log, "Root Nodes: " + RootNodes.Count, 1);
+        }
+
         public List<string> AllPaths
         {
             get
@@ -20,13 +29,13 @@ namespace Byt3.CommandRunner.SetSettings
             }
         }
 
-
-        public SetSettingsCommand(Dictionary<string, FieldInformations> rootNodes) :
-            base(new[] { "--set-settings", "-ss" }, "Sets the Settings")
+        private void RunReflection(StartupArgumentInfo info)
         {
-            CommandAction = (info, strings) => ReflectData(strings);
-            RootNodes = rootNodes;
-            Logger.Log(LogType.Log, "Root Nodes: " + RootNodes.Count, 1);
+            int maxI = info.GetCommandEntries(CommandKeys[0]);
+            for (int i = 0; i < maxI; i++)
+            {
+                ReflectData(info.GetValues(CommandKeys[0], i).ToArray());
+            }
         }
 
         private void ReflectData(string[] args)
@@ -95,7 +104,7 @@ namespace Byt3.CommandRunner.SetSettings
             if (current.FieldType == typeof(float) || current.FieldType == typeof(string) ||
                 current.FieldType == typeof(int) || current.FieldType == typeof(bool))
             {
-                infos.Add(thisPath, new FieldInformation { reference = parentRef, info = current, path = thisPath });
+                infos.Add(thisPath, new FieldInformation {reference = parentRef, info = current, path = thisPath});
             }
             else
             {
@@ -138,22 +147,16 @@ namespace Byt3.CommandRunner.SetSettings
             return ret;
         }
 
-        public struct ObjectFieldContainer
-        {
-            public string RootName;
-            public Dictionary<string, FieldInformation> Fields;
-
-            public ObjectFieldContainer(string rootName, Dictionary<string, FieldInformation> fields)
-            {
-                Fields = fields;
-                RootName = rootName;
-            }
-        }
-
         public static SetSettingsCommand CreateSettingsCommand<T>(string rootName, params T[] o)
             where T : class
         {
             return new SetSettingsCommand(Create(Create(rootName, o)));
+        }
+
+        public static SetSettingsCommand CreateSettingsCommand<T>(string rootName, string[] keys, params T[] o)
+            where T : class
+        {
+            return new SetSettingsCommand(Create(Create(rootName, o)), keys);
         }
 
         public static ObjectFieldContainer Create<T>(string rootName, params T[] o)
@@ -170,6 +173,18 @@ namespace Byt3.CommandRunner.SetSettings
             }
 
             return new ObjectFieldContainer(rootName, ret);
+        }
+
+        public struct ObjectFieldContainer
+        {
+            public string RootName;
+            public Dictionary<string, FieldInformation> Fields;
+
+            public ObjectFieldContainer(string rootName, Dictionary<string, FieldInformation> fields)
+            {
+                Fields = fields;
+                RootName = rootName;
+            }
         }
     }
 }

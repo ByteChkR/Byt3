@@ -12,32 +12,60 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 {
     public class FLInstructionSet : IDisposable
     {
+        private readonly List<FLInstructionCreator> creators = new List<FLInstructionCreator>();
+        public int CreatorCount => creators.Count;
+
+        public void Dispose()
+        {
+            for (int i = 0; i < creators.Count; i++)
+            {
+                creators[i].Dispose();
+            }
+
+            creators.Clear();
+        }
+
         public static FLInstructionSet CreateWithBuiltInTypes(KernelDatabase db)
         {
             FLInstructionSet iset = new FLInstructionSet();
-            iset.AddInstructionWithDefaultCreator<JumpFLInstruction>("jmp", "X", "Jumps to a Script or Function and returns. The active channels and buffer will not be cleared");
+            iset.AddInstructionWithDefaultCreator<JumpFLInstruction>("jmp", "X",
+                "Jumps to a Script or Function and returns. The active channels and buffer will not be cleared");
             iset.AddInstructionWithDefaultCreator<SetActiveFLInstruction>("setactive",
                 "E|EV|EVV|EVVV|EVVVV|VVVV|VVV|VV|V", "Sets the active buffer and active channel states.");
-            iset.AddInstructionWithDefaultCreator<RandomFLInstruction>("rnd", "|B", "Writes random values to all active channels of the active buffer");
-            iset.AddInstructionWithDefaultCreator<URandomFLInstruction>("urnd", "|B", "Writes random values to all active channels of the active buffer, the channels of a pixel will have the same color(grayscale)");
-            iset.AddInstructionWithDefaultCreator<DefineVarFLInstruction>("def", "DV", "Defines a variable in the local scope and assigns a value to it");
-            iset.AddInstructionWithDefaultCreator<DefineGlobalVarFLInstruction>("gdef", "DV", "Defines a variable in global scope and assigns a value to it");
-            iset.AddInstructionWithDefaultCreator<DecrementVarFLInstruction>("dec", "D|DV|DD", "Decrements a variable by 1 if no arguments specified.");
-            iset.AddInstructionWithDefaultCreator<IncrementVarFLInstruction>("inc", "D|DV|DD", "Increments a variable by 1 if no arguments specified.");
-            iset.AddInstructionWithDefaultCreator<DecrementVarFLInstruction>("multiply", "DV|DD", "Multiplies a variable by the arguments Specified.");
-            iset.AddInstructionWithDefaultCreator<IncrementVarFLInstruction>("divide", "DV|DD", "Divides a variable by the arguments Specified.");
-            iset.AddInstructionWithDefaultCreator<BranchLessOrEqualFLInstruction>("ble", "DVX|VVX|DDX", "Branches to the Specified function or script when firstparameter <= secondparameter");
-            iset.AddInstructionWithDefaultCreator<BranchGreaterOrEqualFLInstruction>("bge", "DVX|VVX|DDX","Branches to the Specified function or script when firstparameter >= secondparameter");
-            iset.AddInstructionWithDefaultCreator<BranchLessThanFLInstruction>("blt", "DVX|VVX|DDX", "Branches to the Specified function or script when firstparameter < secondparameter");
-            iset.AddInstructionWithDefaultCreator<BranchGreaterThanFLInstruction>("bgt", "DVX|VVX|DDX", "Branches to the Specified function or script when firstparameter > secondparameter");
-            iset.AddInstructionWithDefaultCreator<PrintLineFLInstruction>("print", "A|AA|AAA|AAAA|AAAAA|AAAAAA|AAAAAAA|AAAAAAAA|AAAAAAAAA|AAAAAAAAAA|AAAAAAAAAAA|AAAAAAAAAAAA", "Prints text or all kinds of variables to the console.");
-            iset.AddInstructionWithDefaultCreator<CPUArrangeFLInstruction>("arrange", "V|VV|VVV|VVVV", "Swaps the channels based on the arguments provided");
+            iset.AddInstructionWithDefaultCreator<RandomFLInstruction>("rnd", "|B",
+                "Writes random values to all active channels of the active buffer");
+            iset.AddInstructionWithDefaultCreator<URandomFLInstruction>("urnd", "|B",
+                "Writes random values to all active channels of the active buffer, the channels of a pixel will have the same color(grayscale)");
+            iset.AddInstructionWithDefaultCreator<DefineVarFLInstruction>("def", "DV",
+                "Defines a variable in the local scope and assigns a value to it");
+            iset.AddInstructionWithDefaultCreator<DefineGlobalVarFLInstruction>("gdef", "DV",
+                "Defines a variable in global scope and assigns a value to it");
+            iset.AddInstructionWithDefaultCreator<DecrementVarFLInstruction>("dec", "D|DV|DD",
+                "Decrements a variable by 1 if no arguments specified.");
+            iset.AddInstructionWithDefaultCreator<IncrementVarFLInstruction>("inc", "D|DV|DD",
+                "Increments a variable by 1 if no arguments specified.");
+            iset.AddInstructionWithDefaultCreator<MultiplyVarFLInstruction>("multiply", "DV|DD",
+                "Multiplies a variable by the arguments Specified.");
+            iset.AddInstructionWithDefaultCreator<DivideVarFLInstruction>("divide", "DV|DD",
+                "Divides a variable by the arguments Specified.");
+            iset.AddInstructionWithDefaultCreator<BranchLessOrEqualFLInstruction>("ble", "DVX|VVX|DDX",
+                "Branches to the Specified function or script when firstparameter <= secondparameter");
+            iset.AddInstructionWithDefaultCreator<BranchGreaterOrEqualFLInstruction>("bge", "DVX|VVX|DDX",
+                "Branches to the Specified function or script when firstparameter >= secondparameter");
+            iset.AddInstructionWithDefaultCreator<BranchLessThanFLInstruction>("blt", "DVX|VVX|DDX",
+                "Branches to the Specified function or script when firstparameter < secondparameter");
+            iset.AddInstructionWithDefaultCreator<BranchGreaterThanFLInstruction>("bgt", "DVX|VVX|DDX",
+                "Branches to the Specified function or script when firstparameter > secondparameter");
+            iset.AddInstructionWithDefaultCreator<PrintLineFLInstruction>("print",
+                "A|AA|AAA|AAAA|AAAAA|AAAAAA|AAAAAAA|AAAAAAAA|AAAAAAAAA|AAAAAAAAAA|AAAAAAAAAAA|AAAAAAAAAAAA",
+                "Prints text or all kinds of variables to the console.");
+            iset.AddInstructionWithDefaultCreator<CPUArrangeFLInstruction>("arrange", "V|VV|VVV|VVVV",
+                "Swaps the channels based on the arguments provided");
             iset.AddInstruction(new KernelFLInstructionCreator(db));
 
-            if (db.TryGetClKernel("_arrange", out CLKernel arrangeKernel) &&
-                db.TryGetClKernel("_arrange_copy", out CLKernel copyKernel))
+            if (db.TryGetClKernel("_arrange", out CLKernel arrangeKernel))
             {
-                iset.AddInstruction(new GPUArrangeInstructionCreator(arrangeKernel, copyKernel));
+                iset.AddInstruction(new GPUArrangeInstructionCreator(arrangeKernel));
             }
 
             return iset;
@@ -51,22 +79,13 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             return CreateWithBuiltInTypes(db);
         }
 
-        public void Dispose()
-        {
-            for (int i = 0; i < creators.Count; i++)
-            {
-                creators[i].Dispose();
-
-            }
-            creators.Clear();
-        }
-
-        private readonly List<FLInstructionCreator> creators = new List<FLInstructionCreator>();
-        public int CreatorCount => creators.Count;
-
         public FLInstructionCreator GetCreatorAt(int idx)
         {
-            if (idx >= 0 && idx < creators.Count) return creators[idx];
+            if (idx >= 0 && idx < creators.Count)
+            {
+                return creators[idx];
+            }
+
             throw new IndexOutOfRangeException();
         }
 
@@ -94,9 +113,10 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             return false;
         }
 
-        public void AddInstructionWithDefaultCreator<T>(string key, string signature = null, string description=null) where T : FLInstruction
+        public void AddInstructionWithDefaultCreator<T>(string key, string signature = null, string description = null,
+            bool allowStaticUse = true) where T : FLInstruction
         {
-            AddInstruction(new DefaultInstructionCreator<T>(key, signature, description));
+            AddInstruction(new DefaultInstructionCreator<T>(key, signature, description, allowStaticUse));
         }
 
         public void AddInstruction(FLInstructionCreator creator)

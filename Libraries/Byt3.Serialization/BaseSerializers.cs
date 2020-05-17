@@ -70,7 +70,7 @@ namespace Byt3.Serialization
                 {
                     typeof(string),
                     new DelegateSerializer(ReadString, o => Write((string) o))
-                },
+                }
             };
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Byt3.Serialization
             PrimitiveValueWrapper pvw = new PrimitiveValueWrapper(ms);
             for (int i = 0; i < ret.Length; i++)
             {
-                ret[i] = (T)s.Deserialize(pvw);
+                ret[i] = (T) s.Deserialize(pvw);
             }
 
             return ret;
@@ -187,7 +187,7 @@ namespace Byt3.Serialization
 
         public static sbyte ReadSByte(byte[] input)
         {
-            return (sbyte)input[0];
+            return (sbyte) input[0];
         }
 
 
@@ -201,6 +201,7 @@ namespace Byt3.Serialization
             return BitConverter.GetBytes(value);
         }
 
+
         public static byte[] WriteArray<T>(T[] input)
         {
             int len = input.Length;
@@ -212,6 +213,7 @@ namespace Byt3.Serialization
             {
                 s.Serialize(pvw, input[i]);
             }
+
             pvw.CompleteWrite();
             byte[] ret = ms.ToArray();
             ms.Close();
@@ -275,7 +277,7 @@ namespace Byt3.Serialization
         /// <returns>Bytes Written</returns>
         public static byte[] Write(sbyte value)
         {
-            return new[] { (byte)value };
+            return new[] {(byte) value};
         }
 
         /// <summary>
@@ -285,7 +287,7 @@ namespace Byt3.Serialization
         /// <returns>Bytes Written</returns>
         public static byte[] Write(byte value)
         {
-            return new[] { value };
+            return new[] {value};
         }
 
         /// <summary>

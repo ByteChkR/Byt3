@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -78,7 +79,7 @@ namespace Byt3.ExtPP.Plugins
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
             new CommandInfo("set-separator", "s",
                 PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(Separator)),
-                "Sets the separator that is used to separate different generic types"),
+                "Sets the separator that is used to separate different generic types")
         };
 
 
@@ -125,16 +126,16 @@ namespace Byt3.ExtPP.Plugins
                         foundConditions = true;
                         expectEndOrIf = false;
                     }
-                    else if (elseIsValid && IsKeyWord(line, ElseIfCondition))
+                    else if (IsKeyWord(line, ElseIfCondition))
                     {
                         Logger.Log(LogType.Log, $"Found a {ElseIfCondition} Statement", PLUGIN_MIN_SEVERITY + 2);
                         if (!expectEndOrIf && openIf > 0)
                         {
                             KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(line, defs,
                                 lastPass, i,
-                                solvedFile);
+                                solvedFile, !elseIsValid);
 
-                            elseIsValid = prep.Key;
+                            elseIsValid &= prep.Key;
                             i += prep.Value;
                             foundConditions = true;
                         }
@@ -217,6 +218,12 @@ namespace Byt3.ExtPP.Plugins
                     }
                 }
 
+                if (openIf != 0)
+                {
+                    throw new InvalidOperationException(
+                        $"Can not find an appropriate closing tag for {openIf} {StartCondition} statements.");
+                }
+
                 if (ret)
                 {
                     lastPass = solvedFile;
@@ -239,13 +246,13 @@ namespace Byt3.ExtPP.Plugins
 
 
         private KeyValuePair<bool, int> PrepareForConditionalEvaluation(string line, IDefinitions defs,
-            IReadOnlyList<string> lastPass, int i, List<string> solvedFile)
+            IReadOnlyList<string> lastPass, int i, List<string> solvedFile, bool skipAdd = false)
         {
             bool r = EvaluateConditional(line, defs);
             Logger.Log(LogType.Log, $"Evaluation: {r}", PLUGIN_MIN_SEVERITY + 4);
             bool elseIsValid = !r;
             int size = GetBlockSize(lastPass, i);
-            if (r)
+            if (r && !skipAdd)
             {
                 solvedFile.AddRange(lastPass.SubArray(i + 1, size));
                 Logger.Log(LogType.Log, "Adding Branch To Solved File.", PLUGIN_MIN_SEVERITY + 3);
@@ -286,7 +293,8 @@ namespace Byt3.ExtPP.Plugins
                 }
             }
 
-            return -1; //Not getting here since it crashes in this.Crash
+            throw new InvalidOperationException("Can not determine Ending tag for Keyword:" + source[start] +
+                                                " at line " + start);
         }
 
         private bool EvaluateConditional(string expression, IDefinitions defs)

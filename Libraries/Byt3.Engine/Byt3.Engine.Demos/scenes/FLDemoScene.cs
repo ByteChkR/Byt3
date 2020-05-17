@@ -14,21 +14,21 @@ using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
-using Byt3.OpenFL.Parsing.Stages;
 using OpenTK;
 
 namespace Byt3.Engine.Demos.scenes
 {
     public class FlDemoScene : AbstractScene
     {
-        private RenderTarget splitCam;
+        private FLProgramCheckBuilder checkPipeline;
+        private BufferCreator creator;
 
         private FLInstructionSet iset;
-        private BufferCreator creator;
-        private FLProgramCheckBuilder checkPipeline;
         private FLParser parser;
+        private RenderTarget splitCam;
 
 
         private Texture GenerateGroundTexture()
@@ -45,7 +45,8 @@ namespace Byt3.Engine.Demos.scenes
                     128);
 
 
-            FLProgram program = parser.Process(new FLParserInput("assets/filter/examples/grass.fl")).Initialize(CLAPI.MainThread, iset);
+            FLProgram program = parser.Process(new FLParserInput("assets/filter/examples/grass.fl"))
+                .Initialize(CLAPI.MainThread, iset);
 
 
             program.Run(buffer, true);

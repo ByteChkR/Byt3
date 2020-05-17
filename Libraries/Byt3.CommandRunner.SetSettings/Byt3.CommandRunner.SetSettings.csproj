@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.2.91.258</AssemblyVersion>
-    <FileVersion>1.2.91.258</FileVersion>
+    <AssemblyVersion>1.4.55.943</AssemblyVersion>
+    <FileVersion>1.4.55.943</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.FastString\Byt3.Utilities.FastString.csproj" />
     <ProjectReference Include="..\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
   </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
 </Project>

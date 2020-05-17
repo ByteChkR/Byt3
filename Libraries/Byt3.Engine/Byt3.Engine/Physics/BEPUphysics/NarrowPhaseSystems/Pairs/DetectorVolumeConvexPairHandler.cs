@@ -13,10 +13,9 @@ namespace Byt3.Engine.Physics.BEPUphysics.NarrowPhaseSystems.Pairs
     /// </summary>
     public class DetectorVolumeConvexPairHandler : DetectorVolumePairHandler
     {
-        private ConvexCollidable convex;
-
         private readonly RawList<int> overlaps = new RawList<int>(8);
         private readonly TriangleShape triangle = new TriangleShape {collisionMargin = 0};
+        private ConvexCollidable convex;
 
         /// <summary>
         /// Gets or sets whether or not to check the convex object for total containment within the detector volume.

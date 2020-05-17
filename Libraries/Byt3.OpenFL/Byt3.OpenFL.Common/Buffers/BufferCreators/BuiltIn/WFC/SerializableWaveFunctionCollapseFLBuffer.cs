@@ -1,17 +1,21 @@
 ﻿using System.Drawing;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
+using Byt3.OpenFL.Common.ElementModifiers;
 using Byt3.OpenFL.Common.WFC;
 
 namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
 {
     public class SerializableWaveFunctionCollapseFLBuffer : SerializableFLBuffer
     {
-        public WFCParameterObject Parameter { get; }
         public readonly int Size;
-        public SerializableWaveFunctionCollapseFLBuffer(string name, WFCParameterObject parameter, bool isArray) : base(name, isArray)
+
+        public SerializableWaveFunctionCollapseFLBuffer(string name, WFCParameterObject parameter,
+            FLBufferModifiers modifiers) : base(name, modifiers)
         {
             Parameter = parameter;
         }
+
+        public WFCParameterObject Parameter { get; }
 
         public override FLBuffer GetBuffer()
         {
@@ -37,7 +41,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
 
                     Bitmap bmp = wfc.Graphics();
                     return new FLBuffer(root.Instance, bmp, "WFCBuffer." + Name);
-                });
+                }, Modifiers.InitializeOnStart);
             }
 
             LazyLoadingFLBuffer info = new LazyLoadingFLBuffer(root =>
@@ -51,7 +55,8 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
                     do
                     {
                         wfc.Run(Parameter.Limit);
-                        bmp = new Bitmap(wfc.Graphics(), new Size(root.Dimensions.x, root.Dimensions.y)); //Apply scaling
+                        bmp = new Bitmap(wfc.Graphics(),
+                            new Size(root.Dimensions.x, root.Dimensions.y)); //Apply scaling
                     } while (!wfc.Success);
                 }
                 else
@@ -59,16 +64,16 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
                     wfc.Run(Parameter.Limit);
                     bmp = new Bitmap(wfc.Graphics(), new Size(root.Dimensions.x, root.Dimensions.y)); //Apply scaling
                 }
-                
+
 
                 return new FLBuffer(root.Instance, bmp, "WFCBuffer." + Name);
-            });
+            }, Modifiers.InitializeOnStart);
             return info;
         }
 
         public override string ToString()
         {
-            return $"{FLKeywords.DefineTextureKey} {Name}: wfc{(Parameter.Force?"f":"")} {Parameter}";
+            return base.ToString() + $"wfc{(Parameter.Force ? "f" : "")} {Parameter}";
         }
     }
 }

@@ -20,8 +20,8 @@ namespace Byt3.OpenFL.Threading
 
         public FlScriptExecutionContext(string filename, Bitmap tex, Action<FLProgram> onFinishCallback)
         {
-            Width = (int) tex.Width;
-            Height = (int) tex.Height;
+            Width = tex.Width;
+            Height = tex.Height;
             Filename = filename;
             MemoryBuffer buf = CLAPI.CreateFromImage(CLAPI.MainThread, tex, MemoryFlag.AllocateHostPointer, filename);
             Input = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, buf, (int) buf.Size);

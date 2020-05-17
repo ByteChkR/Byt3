@@ -1,12 +1,10 @@
-﻿using System.Linq.Expressions;
+﻿using System.Drawing;
 using Byt3.Engine.Core;
 using Byt3.Engine.DataTypes;
 using Byt3.Engine.IO;
 using Byt3.Engine.UI;
 using HorrorOfBindings.components;
 using OpenTK;
-using Bitmap = System.Drawing.Bitmap;
-using Color = System.Drawing.Color;
 
 namespace HorrorOfBindings.ui
 {

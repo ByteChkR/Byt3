@@ -1,6 +1,4 @@
-﻿using OpenTK.Input;
-
-namespace HorrorOfBindings.components.Weapons
+﻿namespace HorrorOfBindings.components.Weapons
 {
     public class Pistol : AbstractWeapon
     {

@@ -13,13 +13,12 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
     ///</summary>
     public abstract class Collidable : BroadPhaseEntry
     {
+        private readonly Action<CollisionShape> shapeChangedDelegate;
         internal RawList<CollidablePairHandler> pairs = new RawList<CollidablePairHandler>();
 
 
         protected internal CollisionShape
             shape; //Having this non-private allows for some very special-casey stuff; see TriangleShape initialization.
-
-        private readonly Action<CollisionShape> shapeChangedDelegate;
 
         private bool shapeChangedHooked = true;
 

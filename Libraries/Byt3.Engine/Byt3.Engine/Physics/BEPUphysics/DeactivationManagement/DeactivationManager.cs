@@ -18,10 +18,8 @@ namespace Byt3.Engine.Physics.BEPUphysics.DeactivationManagement
 
         //Merges must be performed sequentially.
         private readonly SpinLock addLocker = new SpinLock();
-        private int deactivationIslandIndex;
 
         private readonly UnsafeResourcePool<SimulationIsland> islandPool = new UnsafeResourcePool<SimulationIsland>();
-        internal float lowVelocityTimeMinimum = 1f;
 
 
         //TryToSplit is NOT THREAD SAFE.  Only one TryToSplit should ever be run.
@@ -41,12 +39,17 @@ namespace Byt3.Engine.Physics.BEPUphysics.DeactivationManagement
         //-Simulation islands of different sizes won't load-balance well on the xbox360; it would be fine on the pc though.
         //TODO: Simulation Island Deactivation
 
-        private readonly RawList<SimulationIslandMember> simulationIslandMembers = new RawList<SimulationIslandMember>();
+        private readonly RawList<SimulationIslandMember>
+            simulationIslandMembers = new RawList<SimulationIslandMember>();
+
         private readonly RawList<SimulationIsland> simulationIslands = new RawList<SimulationIsland>();
 
 
         private readonly ConcurrentDeque<SimulationIslandConnection> splitAttempts =
             new ConcurrentDeque<SimulationIslandConnection>();
+
+        private int deactivationIslandIndex;
+        internal float lowVelocityTimeMinimum = 1f;
 
         internal bool useStabilization = true;
 

@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using Byt3.Utilities.Exceptions;
-using OpenTK.Graphics.Vulkan;
 
 namespace Byt3.OpenFL.Common.Instructions.Variables
 {
     public class VariableManager<T>
     {
-        private VariableManager<T> Parent = null;
+        private readonly Dictionary<string, T> Variables;
+        private readonly VariableManager<T> Parent;
+
         public VariableManager()
         {
             Variables = new Dictionary<string, T>();
@@ -22,8 +23,6 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
             Parent = parent;
         }
 
-        private readonly Dictionary<string, T> Variables;
-
         public void AddGlobal(string varName, T value)
         {
             if (Parent != null)
@@ -34,7 +33,6 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
             {
                 AddVariable(varName, value);
             }
-
         }
 
         public void AddVariable(string varName, T value)
@@ -49,7 +47,7 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
 
         public bool IsDefinedLocal(string varName)
         {
-          return  Variables.ContainsKey(varName);
+            return Variables.ContainsKey(varName);
         }
 
         public void ChangeVariable(string varName, T value)
@@ -71,7 +69,7 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
 
         public T GetVariable(string varName)
         {
-            if(Variables.ContainsKey(varName))
+            if (Variables.ContainsKey(varName))
             {
                 return Variables[varName];
             }
@@ -94,6 +92,4 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
             return new VariableManager<T>(this);
         }
     }
-
-
 }

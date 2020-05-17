@@ -13,6 +13,52 @@ namespace Byt3.Engine.Rendering
     /// </summary>
     public class RenderTargetMergeStage : IDisposable
     {
+        /// <summary>
+        /// Static Float Array that is used to create a screen space quad
+        /// </summary>
+        private static readonly float[] _screenQuadVertexData =
+        {
+            // positions   // texCoords
+            -1.0f, 1.0f, 0.0f, 1.0f,
+            -1.0f, -1.0f, 0.0f, 0.0f,
+            1.0f, -1.0f, 1.0f, 0.0f,
+
+            -1.0f, 1.0f, 0.0f, 1.0f,
+            1.0f, -1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, 1.0f, 1.0f
+        };
+
+        /// <summary>
+        /// The shaders used for the different merge types
+        /// </summary>
+        private readonly Dictionary<RenderTargetMergeType, ShaderProgram> _mergeTypes =
+            new Dictionary<RenderTargetMergeType, ShaderProgram>();
+
+        /// <summary>
+        /// flag to indicate if the MergeStage has been initialized
+        /// </summary>
+        private bool _init;
+
+        /// <summary>
+        /// Flag that indicates what is the next input buffer and what is the next output buffer
+        /// </summary>
+        private bool _isOne;
+
+        /// <summary>
+        /// Render target 0 for the pingpong rendering
+        /// </summary>
+        private RenderTarget _screenTarget0;
+
+        /// <summary>
+        /// Render target 1 for the pingpong rendering
+        /// </summary>
+        private RenderTarget _screenTarget1;
+
+        /// <summary>
+        /// The VAO of the Screen quad
+        /// </summary>
+        private int _screenVao;
+
         private bool isDisposed;
 
         public void Dispose()
@@ -31,52 +77,6 @@ namespace Byt3.Engine.Rendering
             _init = false;
             _isOne = false;
         }
-
-        /// <summary>
-        /// Static Float Array that is used to create a screen space quad
-        /// </summary>
-        private static readonly float[] _screenQuadVertexData =
-        {
-            // positions   // texCoords
-            -1.0f, 1.0f, 0.0f, 1.0f,
-            -1.0f, -1.0f, 0.0f, 0.0f,
-            1.0f, -1.0f, 1.0f, 0.0f,
-
-            -1.0f, 1.0f, 0.0f, 1.0f,
-            1.0f, -1.0f, 1.0f, 0.0f,
-            1.0f, 1.0f, 1.0f, 1.0f
-        };
-
-        /// <summary>
-        /// flag to indicate if the MergeStage has been initialized
-        /// </summary>
-        private bool _init;
-
-        /// <summary>
-        /// The VAO of the Screen quad
-        /// </summary>
-        private int _screenVao;
-
-        /// <summary>
-        /// Render target 0 for the pingpong rendering
-        /// </summary>
-        private RenderTarget _screenTarget0;
-
-        /// <summary>
-        /// Render target 1 for the pingpong rendering
-        /// </summary>
-        private RenderTarget _screenTarget1;
-
-        /// <summary>
-        /// The shaders used for the different merge types
-        /// </summary>
-        private readonly Dictionary<RenderTargetMergeType, ShaderProgram> _mergeTypes =
-            new Dictionary<RenderTargetMergeType, ShaderProgram>();
-
-        /// <summary>
-        /// Flag that indicates what is the next input buffer and what is the next output buffer
-        /// </summary>
-        private bool _isOne;
 
         /// <summary>
         /// Initialization method
@@ -183,7 +183,7 @@ namespace Byt3.Engine.Rendering
 
                 GL.ClearColor(dst.ClearColor);
                 GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-                
+
 
                 GL.ActiveTexture(TextureUnit.Texture0);
                 GL.Uniform1(_mergeTypes[renderTarget.MergeType].GetUniformLocation("destinationTexture"), 0);

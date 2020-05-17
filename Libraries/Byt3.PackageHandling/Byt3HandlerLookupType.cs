@@ -8,6 +8,6 @@ namespace Byt3.PackageHandling
         None = 0,
         TraverseUp = 1,
         UseFallback = 2,
-        IncludeInterfaces = 4,
+        IncludeInterfaces = 4
     }
 }

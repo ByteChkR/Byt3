@@ -11,29 +11,22 @@ namespace Byt3.OpenFL.Common.Buffers
     /// </summary>
     public class FLBuffer : FLParsedObject, IDisposable
     {
-        /// <summary>
-        /// The buffer
-        /// </summary>
-        public virtual MemoryBuffer Buffer { get; protected set; }
-
-        public int Width { get; protected set; }
-
-        public int Height { get; protected set; }
-        public long Size => Buffer.Size;
-
-        public FLBuffer(CLAPI instance, int width, int height, object handleIdentifier) : this(
-            CLAPI.CreateEmpty<byte>(instance, width * height * 4, MemoryFlag.ReadWrite, handleIdentifier), width,
+        public FLBuffer(CLAPI instance, int width, int height, object handleIdentifier,
+            MemoryFlag flag = MemoryFlag.ReadWrite) : this(
+            CLAPI.CreateEmpty<byte>(instance, width * height * 4, flag, handleIdentifier), width,
             height)
         {
         }
 
-        public FLBuffer(CLAPI instance, byte[] data, int width, int height, object handleIdentifier) : this(
-            CLAPI.CreateBuffer(instance, data, MemoryFlag.ReadWrite, handleIdentifier), width, height)
+        public FLBuffer(CLAPI instance, byte[] data, int width, int height, object handleIdentifier,
+            MemoryFlag flag = MemoryFlag.ReadWrite) : this(
+            CLAPI.CreateBuffer(instance, data, flag, handleIdentifier), width, height)
         {
         }
 
-        public FLBuffer(CLAPI instance, Bitmap bitmap, object handleIdentifier) : this(
-            CLAPI.CreateFromImage(instance, bitmap, MemoryFlag.ReadWrite, handleIdentifier), bitmap.Width,
+        public FLBuffer(CLAPI instance, Bitmap bitmap, object handleIdentifier,
+            MemoryFlag flag = MemoryFlag.ReadWrite) : this(
+            CLAPI.CreateFromImage(instance, bitmap, flag, handleIdentifier), bitmap.Width,
             bitmap.Height)
         {
         }
@@ -51,6 +44,16 @@ namespace Byt3.OpenFL.Common.Buffers
         }
 
         /// <summary>
+        /// The buffer
+        /// </summary>
+        public virtual MemoryBuffer Buffer { get; protected set; }
+
+        public int Width { get; protected set; }
+
+        public int Height { get; protected set; }
+        public long Size => Buffer.Size;
+
+        /// <summary>
         /// Flag that is used to keep track of memory buffers that stayed inside the engine code and can not possibly be changed or used by the user.
         /// </summary>
         public bool IsInternal { get; private set; }
@@ -59,6 +62,12 @@ namespace Byt3.OpenFL.Common.Buffers
         /// The Buffer name
         /// </summary>
         public string DefinedBufferName { get; private set; }
+
+
+        public virtual void Dispose()
+        {
+            Buffer.Dispose();
+        }
 
         /// <summary>
         /// Sets the IsInernal Flag to the specified state
@@ -93,12 +102,6 @@ namespace Byt3.OpenFL.Common.Buffers
             Height = height;
             Buffer?.Dispose();
             Buffer = buf;
-        }
-
-
-        public virtual void Dispose()
-        {
-            Buffer.Dispose();
         }
     }
 }

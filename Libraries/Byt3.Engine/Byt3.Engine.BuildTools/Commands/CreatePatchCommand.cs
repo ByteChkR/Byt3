@@ -6,6 +6,12 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class CreatePatchCommand : AbstractCommand
     {
+        public CreatePatchCommand() : base(new[] {"--create-patch", "-cpatch"},
+            "--create-patch <folder> <destinationFile>")
+        {
+            CommandAction = (a, b) => CreatePatch(b);
+        }
+
         private static void CreatePatch(string[] args)
         {
             if (args.Length != 2)
@@ -21,12 +27,6 @@ namespace Byt3.Engine.BuildTools.Commands
             {
                 throw new BuilderInputException("Input Error", e);
             }
-        }
-
-        public CreatePatchCommand() : base(new[] {"--create-patch", "-cpatch"},
-            "--create-patch <folder> <destinationFile>", false)
-        {
-            CommandAction = (a,b) => CreatePatch(b);
         }
     }
 }

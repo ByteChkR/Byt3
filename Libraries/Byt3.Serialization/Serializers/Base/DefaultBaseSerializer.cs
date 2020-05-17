@@ -9,6 +9,9 @@ namespace Byt3.Serialization.Serializers.Base
     /// </summary>
     public class DefaultBaseSerializer : ABaseSerializer
     {
+        private readonly Dictionary<string, byte> toIdMap = new Dictionary<string, byte>();
+        private byte nextID;
+
         /// <summary>
         /// Deserializes a BasePacket from the stream.
         /// </summary>
@@ -32,9 +35,6 @@ namespace Byt3.Serialization.Serializers.Base
             pvw.Write(obj.Payload);
         }
 
-        private readonly Dictionary<string, byte> toIdMap =new Dictionary<string, byte>();
-        private byte nextID = 0;
-
         /// <summary>
         /// Returns the Unique Key for each Type
         /// using t.AssemblyQualifiedName
@@ -48,7 +48,7 @@ namespace Byt3.Serialization.Serializers.Base
                 toIdMap.Add(t.AssemblyQualifiedName, nextID);
                 nextID++;
             }
-            
+
             return toIdMap[t.AssemblyQualifiedName];
         }
     }

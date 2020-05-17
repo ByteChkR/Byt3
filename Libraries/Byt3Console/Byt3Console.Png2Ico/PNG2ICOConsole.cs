@@ -11,13 +11,13 @@ namespace Byt3Console.Png2Ico
     {
         public override string ConsoleKey => "png2ico";
         public override string ConsoleTitle => "Converts Png Files to Icon Files";
+
         public override bool Run(string[] args)
         {
             Runner.AddCommand(new DefaultHelpCommand(true));
             Runner.AddCommand(new InputCommand());
             Runner.AddCommand(new OutputCommand());
             Runner.RunCommands(args);
-
 
 
             if (InputCommand.Input.Length != 0 && InputCommand.Input.Length == OutputCommand.Output.Length)
@@ -35,6 +35,7 @@ namespace Byt3Console.Png2Ico
                     {
                         bmp = new Bitmap(src, 256, 256);
                     }
+
                     Convert(bmp, OutputCommand.Output[i]);
                 }
 

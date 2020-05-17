@@ -31,7 +31,7 @@ namespace Byt3.Engine.AI
             if (startPoint == endPoint)
             {
                 sw.Stop();
-                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"A* Iteration Found Path: ", 9);
+                Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, "A* Iteration Found Path: ", 9);
 
                 WriteStatistics(nodesConsidered, iterations, sw.ElapsedMilliseconds, 0, 0);
 
@@ -61,7 +61,7 @@ namespace Byt3.Engine.AI
 
 
                     sw.Stop();
-                    Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"A* Iteration Found Path: ", 9);
+                    Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, "A* Iteration Found Path: ", 9);
 
                     WriteStatistics(nodesConsidered, iterations, sw.ElapsedMilliseconds, debugCurrentCost, ret.Count);
 
@@ -109,7 +109,7 @@ namespace Byt3.Engine.AI
             ResetNodes(todo, doneList);
             foundPath = false;
             sw.Stop();
-            Logger.Log(DebugChannel.EngineAI | DebugChannel.Warning, $"A* Iteration did NOT find Path: ", 9);
+            Logger.Log(DebugChannel.EngineAI | DebugChannel.Warning, "A* Iteration did NOT find Path: ", 9);
 
             WriteStatistics(nodesConsidered, iterations, sw.ElapsedMilliseconds, 0, 0);
             return new List<AiNode>();
@@ -118,7 +118,7 @@ namespace Byt3.Engine.AI
         private static void WriteStatistics(int nodesConsidered, int iterations, long ellapsedMilliseconds,
             float pathLength, int pathNodeCount)
         {
-            Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t Statistics:", 9);
+            Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, "\t Statistics:", 9);
             Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t\tNodes Considered: {nodesConsidered}", 9);
             Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t\tIterations: {iterations}", 9);
             Logger.Log(DebugChannel.EngineAI | DebugChannel.Log, $"\t\tTime: {ellapsedMilliseconds} ms", 9);

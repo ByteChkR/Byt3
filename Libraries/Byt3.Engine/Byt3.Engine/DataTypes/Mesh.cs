@@ -7,6 +7,36 @@ namespace Byt3.Engine.DataTypes
     /// </summary>
     public class Mesh : DisposableGLObjectBase
     {
+        private readonly long bytes;
+
+        /// <summary>
+        /// The amount of indices to draw(should be always indices.size)
+        /// </summary>
+        public readonly int DrawCount;
+
+        /// <summary>
+        /// Flag that is set to true by the Copy function which is used to not dispose the mesh data
+        /// </summary>
+        private bool dontDispose;
+
+        /// <summary>
+        /// Private flag that is used to prevent deleing the buffers more than once.
+        /// </summary>
+        public bool IsDisposed;
+
+        /// <summary>
+        /// Internal Constructor to create a Mesh Data object.
+        /// </summary>
+        internal Mesh(int ebo, int vbo, int vao, int drawCount, long bytes, bool isCopy, object handleIdentifier) :
+            base(isCopy, handleIdentifier)
+        {
+            this.bytes = bytes;
+            Ebo = ebo;
+            Vbo = vbo;
+            Vao = vao;
+            DrawCount = drawCount;
+        }
+
         /// <summary>
         /// Element Buffer Object used to store the Indices of the Mesh Vertexes
         /// </summary>
@@ -22,36 +52,6 @@ namespace Byt3.Engine.DataTypes
         /// The Buffer used to store the actual vertex data
         /// </summary>
         public int Vbo { get; private set; }
-
-        private readonly long bytes;
-
-        /// <summary>
-        /// The amount of indices to draw(should be always indices.size)
-        /// </summary>
-        public readonly int DrawCount;
-
-        /// <summary>
-        /// Private flag that is used to prevent deleing the buffers more than once.
-        /// </summary>
-        public bool IsDisposed;
-
-        /// <summary>
-        /// Flag that is set to true by the Copy function which is used to not dispose the mesh data
-        /// </summary>
-        private bool dontDispose;
-
-        /// <summary>
-        /// Internal Constructor to create a Mesh Data object.
-        /// </summary>
-        internal Mesh(int ebo, int vbo, int vao, int drawCount, long bytes, bool isCopy, object handleIdentifier) :
-            base(isCopy, handleIdentifier)
-        {
-            this.bytes = bytes;
-            Ebo = ebo;
-            Vbo = vbo;
-            Vao = vao;
-            DrawCount = drawCount;
-        }
 
 
         /// <summary>

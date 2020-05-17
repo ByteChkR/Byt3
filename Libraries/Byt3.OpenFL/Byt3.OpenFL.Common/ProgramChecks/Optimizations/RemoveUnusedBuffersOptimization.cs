@@ -6,12 +6,15 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {
     public class RemoveUnusedBuffersOptimization : FLProgramCheck<SerializableFLProgram>
     {
-        public override bool ChangesOutput => true;
+        public override int Priority => 3;
+        public override bool Recommended => true;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.Optimization;
+
         public override object Process(object o)
         {
-            SerializableFLProgram input = (SerializableFLProgram)o;
+            SerializableFLProgram input = (SerializableFLProgram) o;
             Dictionary<string, bool> buffers = new Dictionary<string, bool>();
-            input.DefinedBuffers.ForEach(x => buffers.Add(x.Name, x.Name == "in"));
+            input.DefinedBuffers.ForEach(x => buffers.Add(x.Name, x.Name == FLKeywords.InputBufferKey));
 
 
             foreach (SerializableFLFunction serializableFlFunction in input.Functions)
@@ -21,13 +24,10 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                     foreach (SerializableFLInstructionArgument serializableFlInstructionArgument in
                         serializableFlInstruction.Arguments)
                     {
-                        switch (serializableFlInstructionArgument.ArgumentCategory)
+                        if ((serializableFlInstructionArgument.ArgumentCategory &
+                             InstructionArgumentCategory.AnyBuffer) != 0)
                         {
-                            case InstructionArgumentCategory.Buffer:
-                                buffers[serializableFlInstructionArgument.Identifier] = true;
-                                break;
-                            default:
-                                break;
+                            buffers[serializableFlInstructionArgument.Identifier] = true;
                         }
                     }
                 }

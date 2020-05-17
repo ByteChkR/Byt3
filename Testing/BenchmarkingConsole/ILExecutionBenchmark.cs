@@ -8,37 +8,21 @@ namespace BenchmarkingConsole
     [MemoryDiagnoser]
     public class ILExecutionBenchmark
     {
-        public class ILTest
-        {
-            public string ValueField = "123";
-            public string PropertyField { get; set; } = "456";
-
-            public string WriteMessage()
-            {
-                return "";
-            }
-
-            public void TestMethod(int farg)
-            {
-
-            }
-        }
-
-
-        [Params(100_000, 10_000_000)]
-        public int Iterations { get; set; }
-        private Type TestType;
         private ILDelegates.TypeConstructor ctor;
+        private FieldInfo fi;
         private ILDelegates.MethodDel fv;
         private ILDelegates.MethodDel getPropVal;
-        private ILDelegates.MethodDel_v<string> setPropVal;
-        private ILDelegates.MethodDel paramLessDel;
+        private ILTest instance;
         private ILDelegates.MethodDel_v<int> paramDel;
-        private FieldInfo fi;
+        private ILDelegates.MethodDel paramLessDel;
         private MethodInfo paramLessMi;
         private MethodInfo paramMi;
         private PropertyInfo pi;
-        private ILTest instance;
+        private ILDelegates.MethodDel_v<string> setPropVal;
+        private Type TestType;
+
+
+        [Params(100_000, 10_000_000)] public int Iterations { get; set; }
 
         [GlobalSetup]
         public void Setup()
@@ -47,8 +31,9 @@ namespace BenchmarkingConsole
             ctor = ILTools.GetConstructor<ILDelegates.TypeConstructor>(TestType);
             fi = TestType.GetField("ValueField");
             fv = ILTools.GetFieldValue<ILDelegates.MethodDel>(TestType, fi);
-            instance = (ILTest)ctor();
-            pi = TestType.GetProperty("PropertyField"); getPropVal = ILTools.GetPropertyGet<ILDelegates.MethodDel>(TestType, pi);
+            instance = (ILTest) ctor();
+            pi = TestType.GetProperty("PropertyField");
+            getPropVal = ILTools.GetPropertyGet<ILDelegates.MethodDel>(TestType, pi);
             setPropVal = ILTools.GetPropertySet<ILDelegates.MethodDel_v<string>>(TestType, pi);
             paramLessMi = TestType.GetMethod("WriteMessage");
             paramLessDel = ILTools.GetMethodDel<ILDelegates.MethodDel>(TestType, paramLessMi);
@@ -126,7 +111,22 @@ namespace BenchmarkingConsole
         [Benchmark]
         public void ActivatorFunction()
         {
-            paramMi.Invoke(instance, new object[] { 100 });
+            paramMi.Invoke(instance, new object[] {100});
+        }
+
+        public class ILTest
+        {
+            public string ValueField = "123";
+            public string PropertyField { get; set; } = "456";
+
+            public string WriteMessage()
+            {
+                return "";
+            }
+
+            public void TestMethod(int farg)
+            {
+            }
         }
     }
 }

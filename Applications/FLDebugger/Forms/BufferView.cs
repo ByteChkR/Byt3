@@ -10,20 +10,19 @@ using Byt3.WindowsForms.CustomControls;
 
 namespace FLDebugger.Forms
 {
-
-
     public partial class BufferView : Form
     {
         private static readonly List<BufferView> OpenForms = new List<BufferView>();
 
-        private CLAPI Instance;
+        private readonly FLBuffer Buffer;
+        private readonly int height;
+        private readonly int width;
+
+        private readonly CLAPI Instance;
 
         private bool isRefreshing;
+        private readonly CustomPictureBox pbBufferContent;
 
-        private readonly FLBuffer Buffer;
-        private readonly int width;
-        private readonly int height;
-        private CustomPictureBox pbBufferContent;
         public BufferView(CLAPI instance, FLBuffer buffer, int width, int height)
         {
             Instance = instance;
@@ -34,7 +33,7 @@ namespace FLDebugger.Forms
             this.height = height;
             Text = buffer.DefinedBufferName + $"[{buffer.Buffer}]";
 
-            
+
             comboBox1.Items.AddRange(Enum.GetNames(typeof(InterpolationMode)));
             comboBox1.SelectedIndex = 0;
 
@@ -63,6 +62,7 @@ namespace FLDebugger.Forms
             {
                 throw new InvalidOperationException("Can not Use a Buffer that has been Disposed.");
             }
+
             pbBufferContent.Image?.Dispose();
             Bitmap bmp = new Bitmap(width, height);
             CLAPI.UpdateBitmap(instance, bmp, Buffer.Buffer);
@@ -83,7 +83,11 @@ namespace FLDebugger.Forms
 
         private void RefreshImage(CLAPI instance)
         {
-            if (isRefreshing) return;
+            if (isRefreshing)
+            {
+                return;
+            }
+
             isRefreshing = true;
             SetLoadingImage(true);
             Task t = new Task(() => { DisplayContent(instance); });
@@ -101,6 +105,7 @@ namespace FLDebugger.Forms
                 Close();
                 return;
             }
+
             SetLoadingImage(false);
             isRefreshing = false;
         }
@@ -112,7 +117,6 @@ namespace FLDebugger.Forms
             Closing += BufferView_Closing;
 
             Application.DoEvents();
-
         }
 
         private void BufferView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -122,14 +126,19 @@ namespace FLDebugger.Forms
 
         private void btnReload_Click(object sender, EventArgs e)
         {
-            if (isRefreshing) return;
+            if (isRefreshing)
+            {
+                return;
+            }
+
             RefreshImage(Instance);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             pbBufferContent.InterpolationMode =
-                (InterpolationMode)Enum.Parse(typeof(InterpolationMode), comboBox1.Items[comboBox1.SelectedIndex].ToString());
+                (InterpolationMode) Enum.Parse(typeof(InterpolationMode),
+                    comboBox1.Items[comboBox1.SelectedIndex].ToString());
             pbBufferContent.Invalidate();
         }
     }

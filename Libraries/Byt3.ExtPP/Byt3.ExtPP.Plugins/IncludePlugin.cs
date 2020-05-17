@@ -30,7 +30,7 @@ namespace Byt3.ExtPP.Plugins
                 "Sets the keyword that is used to insert other files directly into the current file"),
             new CommandInfo("set-separator", "s",
                 PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(Separator)),
-                "Sets the separator that is used to separate the include statement from the filepath"),
+                "Sets the separator that is used to separate the include statement from the filepath")
         };
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)

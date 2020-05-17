@@ -28,7 +28,7 @@ namespace Byt3.Engine.Audio
         /// </summary>
         public static void Initialize()
         {
-            Logger.Log(DebugChannel.EngineAudio | DebugChannel.Log, $"Initializing OpenAL", 10);
+            Logger.Log(DebugChannel.EngineAudio | DebugChannel.Log, "Initializing OpenAL", 10);
             _context = new AudioContext();
         }
     }

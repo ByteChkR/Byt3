@@ -4,7 +4,7 @@ namespace HorrorOfBindings.components
 {
     public class DestroyTimer : AbstractComponent
     {
-        private float _destroyTime;
+        private readonly float _destroyTime;
         private float _time;
 
         public DestroyTimer(float destroyTime)

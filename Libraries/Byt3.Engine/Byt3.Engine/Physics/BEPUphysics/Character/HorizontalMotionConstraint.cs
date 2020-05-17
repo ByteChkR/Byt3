@@ -13,10 +13,11 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
     /// </summary>
     public class HorizontalMotionConstraint : SolverUpdateable
     {
+        private readonly Entity characterBody;
+        private readonly SupportFinder supportFinder;
         private Vector2 accumulatedImpulse;
         private Vector3 angularJacobianB1;
         private Vector3 angularJacobianB2;
-        private readonly Entity characterBody;
         private bool hadTraction;
 
         private Vector3 horizontalForwardDirection;
@@ -47,7 +48,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.Character
 
         private SupportData supportData;
         private Entity supportEntity;
-        private readonly SupportFinder supportFinder;
 
         private float supportForceFactor = 1;
         private Vector2 targetVelocity;

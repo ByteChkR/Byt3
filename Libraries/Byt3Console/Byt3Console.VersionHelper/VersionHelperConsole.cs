@@ -39,7 +39,6 @@ namespace Byt3Console.VersionHelper
 
             if (s != null)
             {
-
                 for (int i = 0; i < s.ChildNodes.Count; i++)
                 {
                     if (s.ChildNodes[i].Name == "PropertyGroup")
@@ -67,10 +66,9 @@ namespace Byt3Console.VersionHelper
             XmlDocument doc = new XmlDocument();
             doc.Load(file);
 
-            
+
             if (IsNetFramework(doc))
             {
-
                 string dir = Path.GetDirectoryName(Path.GetFullPath(file));
                 string asmFile = Path.Combine(dir, "Properties", "AssemblyInfo.cs");
 
@@ -124,10 +122,11 @@ namespace Byt3Console.VersionHelper
                 {
                     if (src[i].Trim().StartsWith("[assembly: AssemblyVersion(\""))
                     {
-                        string[] v = src[i].Trim().Split(new[] { '\"' });
+                        string[] v = src[i].Trim().Split('\"');
                         return Version.Parse(v[1]);
                     }
                 }
+
                 return new Version(0, 0, 1, 0);
             }
 
@@ -137,8 +136,8 @@ namespace Byt3Console.VersionHelper
         public static Version ChangeVersion(Version version, string changeStr)
         {
             string[] subVersions = changeStr.Split('.');
-            int[] wrapValues = { ushort.MaxValue, 9, 99, ushort.MaxValue };
-            int[] versions = { version.Major, version.Minor, version.Build, version.Revision };
+            int[] wrapValues = {ushort.MaxValue, 9, 99, ushort.MaxValue};
+            int[] versions = {version.Major, version.Minor, version.Build, version.Revision};
             for (int i = 4 - 1; i >= 0; i--)
             {
                 string current = subVersions[i];
@@ -201,7 +200,7 @@ namespace Byt3Console.VersionHelper
 
                     if (long.TryParse(value, out long newValue))
                     {
-                        versions[i] = (int)(newValue % ushort.MaxValue);
+                        versions[i] = (int) (newValue % ushort.MaxValue);
                     }
                     else
                     {
@@ -242,7 +241,6 @@ namespace Byt3Console.VersionHelper
             XmlNode[] ret = new XmlNode[2];
             if (s != null)
             {
-
                 for (int i = 0; i < s.ChildNodes.Count; i++)
                 {
                     if (s.ChildNodes[i].Name == "PropertyGroup")

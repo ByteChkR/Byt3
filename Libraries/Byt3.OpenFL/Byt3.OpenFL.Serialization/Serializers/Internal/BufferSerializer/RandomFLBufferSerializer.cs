@@ -1,4 +1,5 @@
 ﻿using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Random;
+using Byt3.OpenFL.Common.ElementModifiers;
 using Byt3.Serialization;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
@@ -7,18 +8,19 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
     {
         public override object Deserialize(PrimitiveValueWrapper s)
         {
-            int name = s.ReadInt();
-            bool isArray = s.ReadBool();
-            return new SerializableRandomFLBuffer(ResolveId(name), isArray, isArray ? s.ReadInt() : 0);
+            string name = ResolveId(s.ReadInt());
+            FLBufferModifiers bmod = new FLBufferModifiers(name, s.ReadArray<string>());
+            return new SerializableRandomFLBuffer(name, bmod, bmod.IsArray ? s.ReadInt() : 0);
         }
 
         public override void Serialize(PrimitiveValueWrapper s, object obj)
         {
-            s.Write(ResolveName(((SerializableRandomFLBuffer)obj).Name));
-            s.Write(((SerializableRandomFLBuffer)obj).IsArray);
-            if (((SerializableRandomFLBuffer) obj).IsArray)
+            SerializableRandomFLBuffer input = (SerializableRandomFLBuffer) obj;
+            s.Write(ResolveName(input.Name));
+            s.WriteArray(input.Modifiers.GetModifiers().ToArray());
+            if (input.IsArray)
             {
-                s.Write(((SerializableRandomFLBuffer)obj).Size);
+                s.Write(input.Size);
             }
         }
     }

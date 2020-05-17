@@ -9,12 +9,12 @@ namespace Byt3.OpenFL.Common.Instructions
     {
         public CPUArrangeFLInstruction(List<FLInstructionArgument> arguments) : base(arguments)
         {
-
         }
 
         protected override void Arrange(byte[] newOrder)
         {
-            byte[] bytes = CLAPI.ReadBuffer<byte>(Root.Instance, Root.ActiveBuffer.Buffer, (int)Root.ActiveBuffer.Size);
+            byte[] bytes =
+                CLAPI.ReadBuffer<byte>(Root.Instance, Root.ActiveBuffer.Buffer, (int) Root.ActiveBuffer.Size);
             for (int i = 0; i < bytes.Length; i++)
             {
                 if (i % Root.ActiveChannels.Length == 0)

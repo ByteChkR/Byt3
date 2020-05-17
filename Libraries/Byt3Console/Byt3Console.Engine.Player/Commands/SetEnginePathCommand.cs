@@ -4,7 +4,13 @@ namespace Byt3Console.Engine.Player.Commands
 {
     public class SetEnginePathCommand : AbstractCommand
     {
-        private static void SetEnginePath( string[] args)
+        public SetEnginePathCommand() : base(new[] {"--engine-path", "-eP"},
+            "--engine-path <Path/To/File.game>\nSpecify a manual path to a .engine file")
+        {
+            CommandAction = (info, strings) => SetEnginePath(strings);
+        }
+
+        private static void SetEnginePath(string[] args)
         {
             if (args.Length == 0)
             {
@@ -15,12 +21,6 @@ namespace Byt3Console.Engine.Player.Commands
                 System.Console.WriteLine("Overriding Engine Path: " + args[0]);
                 EnginePlayerConsole.EngineVersion = "path:" + args[0];
             }
-        }
-
-        public SetEnginePathCommand() : base( new[] {"--engine-path", "-eP"},
-            "--engine-path <Path/To/File.game>\nSpecify a manual path to a .engine file", false)
-        {
-            CommandAction = (info, strings) => SetEnginePath(strings);
         }
     }
 }

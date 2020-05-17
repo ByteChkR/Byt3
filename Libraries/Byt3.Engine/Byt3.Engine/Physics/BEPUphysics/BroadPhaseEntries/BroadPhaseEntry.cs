@@ -12,11 +12,10 @@ namespace Byt3.Engine.Physics.BEPUphysics.BroadPhaseEntries
     /// </summary>
     public abstract class BroadPhaseEntry : IBoundingBoxOwner, ICollisionRulesOwner
     {
+        private readonly Action collisionRulesUpdatedDelegate;
         protected internal BoundingBox boundingBox;
 
         internal CollisionRules collisionRules;
-
-        private readonly Action collisionRulesUpdatedDelegate;
         internal int hashCode;
 
         protected BroadPhaseEntry()

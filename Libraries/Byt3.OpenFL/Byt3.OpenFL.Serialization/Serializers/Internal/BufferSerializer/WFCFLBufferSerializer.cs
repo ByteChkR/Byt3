@@ -3,6 +3,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC;
+using Byt3.OpenFL.Common.ElementModifiers;
 using Byt3.Serialization;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
@@ -12,7 +13,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
         public override object Deserialize(PrimitiveValueWrapper s)
         {
             string name = ResolveId(s.ReadInt());
-            bool isArray = s.ReadBool();
+            FLBufferModifiers bmod = new FLBufferModifiers(name, s.ReadArray<string>());
             bool force = s.ReadBool();
             int n = s.ReadInt();
             int width = s.ReadInt();
@@ -26,20 +27,21 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 
             MemoryStream ms = new MemoryStream(s.ReadBytes());
 
-            Bitmap bmp = (Bitmap)Image.FromStream(ms);
+            Bitmap bmp = (Bitmap) Image.FromStream(ms);
 
 
-            WFCParameterObject obj = new WFCParameterObject(new SerializableFromBitmapFLBuffer("wfc-bin", bmp, isArray, isArray ? s.ReadInt() : 0), n,
+            WFCParameterObject obj = new WFCParameterObject(
+                new SerializableFromBitmapFLBuffer("wfc-bin", bmp, bmod, bmod.IsArray ? s.ReadInt() : 0), n,
                 width, height, symmetry, ground, limit, pIn, pOut, force);
-            return new SerializableWaveFunctionCollapseFLBuffer(name, obj, isArray);
+            return new SerializableWaveFunctionCollapseFLBuffer(name, obj, bmod);
         }
 
 
         public override void Serialize(PrimitiveValueWrapper s, object input)
         {
-            SerializableWaveFunctionCollapseFLBuffer obj = (SerializableWaveFunctionCollapseFLBuffer)input;
+            SerializableWaveFunctionCollapseFLBuffer obj = (SerializableWaveFunctionCollapseFLBuffer) input;
             s.Write(ResolveName(obj.Name));
-            s.Write(obj.IsArray);
+            s.WriteArray(obj.Modifiers.GetModifiers().ToArray());
             s.Write(obj.Parameter.Force);
             s.Write(obj.Parameter.N);
             s.Write(obj.Parameter.Width);
@@ -56,9 +58,11 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.BufferSerializer
 
             bmp.Save(ms, ImageFormat.Png);
 
-            s.Write(ms.GetBuffer(), (int)ms.Position);
+            s.Write(ms.GetBuffer(), (int) ms.Position);
             if (obj.IsArray)
+            {
                 s.Write(obj.Parameter.SourceImage.Size);
+            }
 
             bmp.Dispose();
         }

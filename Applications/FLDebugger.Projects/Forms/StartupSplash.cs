@@ -13,19 +13,28 @@ namespace FLDebugger.Projects
 {
     public partial class StartupSplash : Form
     {
-        private object ProcessTextLock = new object();
-
-        public static readonly string EditorConfigPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "configs", "editors");
-
-        public bool Cancel { get; private set; }
-        private List<ExternalProgramEditor> Editors;
-        private string[] Args;
-        private Project project;
-        private bool onlyEditor;
+        public static readonly string EditorConfigPath =
+            Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "configs", "editors");
 
         private TreeView _tv;
+        private string[] Args;
+
+
+        private readonly StartupDialog dialog = new StartupDialog();
+        private List<ExternalProgramEditor> Editors;
 
         private Task LoadTask;
+        private bool onlyEditor;
+        private readonly object ProcessTextLock = new object();
+        private Project project;
+
+        public StartupSplash(string[] args)
+        {
+            Args = args;
+            InitializeComponent();
+        }
+
+        public bool Cancel { get; private set; }
 
         public Project GetProject()
         {
@@ -36,15 +45,6 @@ namespace FLDebugger.Projects
         {
             return Editors;
         }
-
-        public StartupSplash(string[] args)
-        {
-            Args = args;
-            InitializeComponent();
-        }
-
-
-        StartupDialog dialog = new StartupDialog();
 
         private void StartupSplash_Load(object sender, EventArgs e)
         {
@@ -67,8 +67,9 @@ namespace FLDebugger.Projects
                     }
                 }
 
-                Args = new[] { dialog.SelectedPath };
+                Args = new[] {dialog.SelectedPath};
             }
+
             LoadTask = new Task(Initialize);
             LoadTask.Start();
             startup.Start(); //Temporary timer for debugging purposes.
@@ -84,15 +85,19 @@ namespace FLDebugger.Projects
 
         private void LoadEditors()
         {
-
-
             string path = EditorConfigPath;
             XmlSerializer xs = new XmlSerializer(typeof(ExternalProgramEditor));
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
                 Stream newS = File.Create(Path.Combine(path, "fleditor.xml"));
-                xs.Serialize(newS, new ExternalProgramEditor(".fl") { Format = "{0} {1}", Target = @"D:\Users\Tim\Documents\Byt3\Applications\FLDebugger\bin\Debug\FLDebugger.exe", SetWorkingDir = false });
+                xs.Serialize(newS,
+                    new ExternalProgramEditor(".fl")
+                    {
+                        Format = "{0} {1}",
+                        Target = @"D:\Users\Tim\Documents\Byt3\Applications\FLDebugger\bin\Debug\FLDebugger.exe",
+                        SetWorkingDir = false
+                    });
                 newS.Close();
             }
 
@@ -105,7 +110,7 @@ namespace FLDebugger.Projects
                 SetText($"Loading Editor {i + 1}/{configs.Length}");
 
                 Stream s = File.OpenRead(config);
-                Editors.Add((ExternalProgramEditor)xs.Deserialize(s));
+                Editors.Add((ExternalProgramEditor) xs.Deserialize(s));
                 s.Close();
             }
 
@@ -144,9 +149,7 @@ namespace FLDebugger.Projects
                 throw new InvalidOperationException("Argument for Project Folder is required.");
             }
 
-            project = new Project() { ProjectDirectory = new WorkingDirectory(Path.GetFullPath(Args[0])) };
-
-
+            project = new Project {ProjectDirectory = new WorkingDirectory(Path.GetFullPath(Args[0]))};
 
 
             SetText("Loading Finished");
@@ -163,6 +166,7 @@ namespace FLDebugger.Projects
                 progressBar.Maximum = WorkingDirectory.FilesMax;
                 progressBar.Value = Math.Min(WorkingDirectory.FilesMax, FSEntry.Entries);
             }
+
             if (LoadTask.IsCompleted)
             {
                 FSEntry.Entries = WorkingDirectory.FilesMax = 0;

@@ -24,7 +24,7 @@ namespace Byt3.OpenFL.Common.Instructions.SignatureParsing
                     signature.Add(ParseArgument(overload[i]));
                 }
 
-                ret.Add(new InstructionArgumentSignature { Signature = signature });
+                ret.Add(new InstructionArgumentSignature {Signature = signature});
             }
 
             return true;
@@ -59,7 +59,6 @@ namespace Byt3.OpenFL.Common.Instructions.SignatureParsing
                 default:
                     return InstructionArgumentCategory.Invalid;
             }
-
         }
     }
 }

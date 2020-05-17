@@ -10,17 +10,20 @@ namespace Byt3.OpenFL.Common
 {
     public static class FLInitializationExtensions
     {
-        public static FLProgram Initialize(this SerializableFLProgram program, CLAPI instance, FLInstructionSet instructionSet)
+        public static FLProgram Initialize(this SerializableFLProgram program, CLAPI instance,
+            FLInstructionSet instructionSet)
         {
             Dictionary<string, FLBuffer> buffers = new Dictionary<string, FLBuffer>();
-            Dictionary<string, FLFunction> functions = new Dictionary<string, FLFunction>();
-            Dictionary<string, ExternalFlFunction> externalFunctions = new Dictionary<string, ExternalFlFunction>();
+            Dictionary<string, IFunction> functions = new Dictionary<string, IFunction>();
+            Dictionary<string, IFunction> externalFunctions = new Dictionary<string, IFunction>();
 
 
             for (int i = 0; i < program.ExternalFunctions.Count; i++)
             {
                 ExternalFlFunction extFunc = new ExternalFlFunction(program.ExternalFunctions[i].Name,
-                    program.ExternalFunctions[i].ExternalProgram, instructionSet);
+                    program.ExternalFunctions[i].ExternalProgram, instructionSet,
+                    program.ExternalFunctions[i].Modifiers);
+
                 externalFunctions.Add(program.ExternalFunctions[i].Name, extFunc);
             }
 
@@ -41,7 +44,8 @@ namespace Byt3.OpenFL.Common
             p.SetRoot();
             for (int i = 0; i < program.Functions.Count; i++)
             {
-                functions[program.Functions[i].Name].Initialize(program.Functions[i], p, instructionSet);
+                (functions[program.Functions[i].Name] as FLFunction).Initialize(program.Functions[i], p,
+                    instructionSet);
             }
 
             //TODO Resolve Functions first. then in a second step resolve the references of the arguments.
@@ -63,12 +67,12 @@ namespace Byt3.OpenFL.Common
                 programDefinedBuffer.Value.SetRoot(program);
             }
 
-            foreach (KeyValuePair<string, ExternalFlFunction> programDefinedScript in program.DefinedScripts)
+            foreach (KeyValuePair<string, IFunction> programDefinedScript in program.DefinedScripts)
             {
                 programDefinedScript.Value.SetRoot(program);
             }
 
-            foreach (KeyValuePair<string, FLFunction> programFlFunction in program.FlFunctions)
+            foreach (KeyValuePair<string, IFunction> programFlFunction in program.FlFunctions)
             {
                 programFlFunction.Value?.SetRoot(program);
             }

@@ -10,16 +10,14 @@ namespace Byt3.Serialization
     public class PrimitiveValueWrapper
     {
         /// <summary>
-        /// Underlaying Stream
-        /// </summary>
-        private readonly Stream stream;
-
-        public bool IsValid { get; private set; }
-
-        /// <summary>
         /// Packet Cache used to cache the written values
         /// </summary>
         private readonly List<byte> packetCache = new List<byte>();
+
+        /// <summary>
+        /// Underlaying Stream
+        /// </summary>
+        private readonly Stream stream;
 
         /// <summary>
         /// Public Constructor
@@ -30,6 +28,8 @@ namespace Byt3.Serialization
             IsValid = true;
             stream = s;
         }
+
+        public bool IsValid { get; private set; }
 
         /// <summary>
         /// Reads an int from the Underlaying Stream
@@ -53,6 +53,7 @@ namespace Byt3.Serialization
             {
                 throw new PrimitiveValueWrapperException("Trying to access an invalid PrimitiveValueWrapper.");
             }
+
             return BaseSerializers.ReadArray<T>(ReadBytes());
         }
 
@@ -198,7 +199,7 @@ namespace Byt3.Serialization
 
         public byte ReadByte()
         {
-            return (byte)stream.ReadByte();
+            return (byte) stream.ReadByte();
         }
 
         /// <summary>

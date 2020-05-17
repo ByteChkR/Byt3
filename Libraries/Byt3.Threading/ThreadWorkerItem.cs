@@ -2,8 +2,8 @@
 {
     internal class ThreadWorkerItem
     {
-        public object WorkItem;
         public OnThreadWorkerItemFinish OnFinishEvent;
+        public object WorkItem;
 
         public ThreadWorkerItem(object workItem, OnThreadWorkerItemFinish onFinishEvent = null)
         {
@@ -14,8 +14,8 @@
 
     internal class ThreadWorkerItem<TIn, TOut>
     {
-        public TIn WorkItem;
         public OnThreadWorkerItemFinish<TOut> OnFinishEvent;
+        public TIn WorkItem;
 
         public ThreadWorkerItem(TIn workItem, OnThreadWorkerItemFinish<TOut> onFinishEvent = null)
         {

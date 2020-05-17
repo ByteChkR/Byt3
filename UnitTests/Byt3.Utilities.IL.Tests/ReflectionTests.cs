@@ -6,26 +6,8 @@ using NUnit.Framework;
 
 namespace Byt3.Utilities.IL.Tests
 {
-
     public class ReflectionTests
     {
-        public class ILTest
-        {
-            public string ValueField = "123";
-            public string PropertyField { get; set; } = "456";
-
-            public string WriteMessage()
-            {
-                return "";
-            }
-
-            public void TestMethod(int farg)
-            {
-
-            }
-        }
-
-
         private static string RunTest(string testName, Action test, int iterations)
         {
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
@@ -38,18 +20,17 @@ namespace Byt3.Utilities.IL.Tests
 
             PerformanceTester.PerformanceResult result = PerformanceTester.Tester.RunTest(testName, iterations,
                 null,
-                (int its) => { test(); },
+                its => { test(); },
                 null);
             logOut.AppendLine("\t" + result);
             logOut.AppendLine($"------------------------Run {testName} Finished------------------------");
             helper.WriteResult(result);
             return logOut.ToString();
-
         }
 
-        public static string RunBenchmark(string testName, string testAName, string testBName, Action testA, Action testB)
+        public static string RunBenchmark(string testName, string testAName, string testBName, Action testA,
+            Action testB)
         {
-
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
             int[] iterations = new int[10];
 
@@ -75,7 +56,6 @@ namespace Byt3.Utilities.IL.Tests
                 logOut.AppendLine($"------------------------Run {testBName} Starting------------------------");
 
                 RunTest(itTestName + testBName, testB, iterations[i]);
-
             }
 
 
@@ -116,7 +96,10 @@ namespace Byt3.Utilities.IL.Tests
             object fieldSanityCheck = fi.GetValue(obj);
             if (fieldSanityCheck is string str)
             {
-                if (str != "123") throw new Exception();
+                if (str != "123")
+                {
+                    throw new Exception();
+                }
             }
 
             RunBenchmark("Getting Field Value", "Reflection", "IL",
@@ -128,7 +111,6 @@ namespace Byt3.Utilities.IL.Tests
                 {
                     object ret = fv(obj);
                 });
-
         }
 
         [Test]
@@ -143,7 +125,10 @@ namespace Byt3.Utilities.IL.Tests
             object getPropertySanityCheck = getPF(obj);
             if (getPropertySanityCheck is string propertyValue)
             {
-                if (propertyValue != "456") throw new Exception();
+                if (propertyValue != "456")
+                {
+                    throw new Exception();
+                }
             }
 
             RunBenchmark("Get Property Value", "Reflection", "IL",
@@ -155,7 +140,6 @@ namespace Byt3.Utilities.IL.Tests
                 {
                     object ret = getPF(obj);
                 });
-
         }
 
         [Test]
@@ -176,15 +160,8 @@ namespace Byt3.Utilities.IL.Tests
 
 
             RunBenchmark("Set Property Value", "Reflection", "IL",
-                () =>
-                {
-                    pi.SetValue(obj, "EEEEEEE");
-                },
-                () =>
-                {
-                    setPF(obj, "EEEEEEE");
-                });
-
+                () => { pi.SetValue(obj, "EEEEEEE"); },
+                () => { setPF(obj, "EEEEEEE"); });
         }
 
         [Test]
@@ -199,7 +176,10 @@ namespace Byt3.Utilities.IL.Tests
             object funcCallSanityCheck = write(obj);
             if (funcCallSanityCheck is string funcRet)
             {
-                if (funcRet != "") throw new Exception();
+                if (funcRet != "")
+                {
+                    throw new Exception();
+                }
             }
 
             RunBenchmark("Function Call", "Reflection", "IL",
@@ -211,8 +191,6 @@ namespace Byt3.Utilities.IL.Tests
                 {
                     object methRet = write(obj);
                 });
-
-
         }
 
         [Test]
@@ -223,21 +201,26 @@ namespace Byt3.Utilities.IL.Tests
             MethodInfo testMeth = type.GetMethod("TestMethod");
 
 
-
             ILDelegates.MethodDel_v<int> func = ILTools.GetMethodDel<ILDelegates.MethodDel_v<int>>(type, testMeth);
 
             RunBenchmark("Function Call with Parameter", "Reflection", "IL",
-                () =>
-                {
-                    testMeth.Invoke(obj, new object[] { 100 });
-                },
-                () =>
-                {
-                    func(obj, 100);
-                });
-
-
+                () => { testMeth.Invoke(obj, new object[] {100}); },
+                () => { func(obj, 100); });
         }
 
+        public class ILTest
+        {
+            public string ValueField = "123";
+            public string PropertyField { get; set; } = "456";
+
+            public string WriteMessage()
+            {
+                return "";
+            }
+
+            public void TestMethod(int farg)
+            {
+            }
+        }
     }
 }

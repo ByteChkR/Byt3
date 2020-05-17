@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Byt3.Callbacks;
 using Byt3.ExtPP.API;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Programs;
@@ -10,12 +8,19 @@ using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenCL.Wrapper
 {
-    public enum ErrorType { ProgramBuild, KernelBuild, }
+    public enum ErrorType
+    {
+        ProgramBuild,
+        KernelBuild
+    }
+
     public struct CLProgramBuildError
     {
         public readonly ErrorType Error;
         public readonly Exception Exception;
-        public string Message => Exception.InnerException != null ? Exception.InnerException.Message : Exception.Message;
+
+        public string Message =>
+            Exception.InnerException != null ? Exception.InnerException.Message : Exception.Message;
 
         public CLProgramBuildError(ErrorType error, Exception exception)
         {
@@ -31,7 +36,6 @@ namespace Byt3.OpenCL.Wrapper
 
     public struct CLProgramBuildResult
     {
-
         public readonly string TargetFile;
         public bool Success => BuildErrors.Count == 0;
         public readonly List<CLProgramBuildError> BuildErrors;
@@ -42,7 +46,10 @@ namespace Byt3.OpenCL.Wrapper
             BuildErrors = errors;
         }
 
-        public AggregateException GetAggregateException() => new AggregateException(BuildErrors.Select(x => x.Exception));
+        public AggregateException GetAggregateException()
+        {
+            return new AggregateException(BuildErrors.Select(x => x.Exception));
+        }
 
         public static implicit operator bool(CLProgramBuildResult result)
         {
@@ -84,6 +91,12 @@ namespace Byt3.OpenCL.Wrapper
         private CLProgram(string filePath, Dictionary<string, CLKernel> kernels)
         {
             this.filePath = filePath;
+            ContainedKernels = kernels;
+        }
+
+        private CLProgram(Dictionary<string, CLKernel> kernels, string source)
+        {
+            filePath = "";
             ContainedKernels = kernels;
         }
 
@@ -146,17 +159,10 @@ namespace Byt3.OpenCL.Wrapper
             return 0;
         }
 
-        public static CLProgramBuildResult TryBuildProgram(CLAPI instance, string filePath, out CLProgram program)
+        public static CLProgramBuildResult TryBuildProgram(CLAPI instance, string source, string filePath,
+            out CLProgram program)
         {
-            //string source = TextProcessorAPI.PreprocessSource(IOManager.ReadAllLines(filePath),
-            //    Path.GetDirectoryName(filePath), Path.GetExtension(filePath), new Dictionary<string, bool>());
-            string source = TextProcessorAPI.PreprocessSource(filePath, new Dictionary<string, bool>());
-
-            //            program = null;
-
             CLProgramBuildResult result = new CLProgramBuildResult(filePath, new List<CLProgramBuildError>());
-            
-
 
             string[] kernelNames = FindKernelNames(source);
             if (kernelNames.Length == 0)
@@ -194,7 +200,9 @@ namespace Byt3.OpenCL.Wrapper
                         source.Substring(kernelNameIndex, source.Length - kernelNameIndex).IndexOf(')') + 1);
                     if (k == null)
                     {
-                        result.BuildErrors.Add(new CLProgramBuildError(ErrorType.KernelBuild, new OpenClException($"Header parser completed on {kernelName} but the kernel could not be loaded.")));
+                        result.BuildErrors.Add(new CLProgramBuildError(ErrorType.KernelBuild,
+                            new OpenClException(
+                                $"Header parser completed on {kernelName} but the kernel could not be loaded.")));
                         kernels.Add(kernelName, new CLKernel(instance, null, kernelName, parameter));
                     }
                     else
@@ -211,6 +219,17 @@ namespace Byt3.OpenCL.Wrapper
 
             program = new CLProgram(filePath, kernels);
             return result;
+        }
+
+        public static CLProgramBuildResult TryBuildProgram(CLAPI instance, string filePath, out CLProgram program)
+        {
+            //string source = TextProcessorAPI.PreprocessSource(IOManager.ReadAllLines(filePath),
+            //    Path.GetDirectoryName(filePath), Path.GetExtension(filePath), new Dictionary<string, bool>());
+            string source = TextProcessorAPI.PreprocessSource(filePath, new Dictionary<string, bool>());
+
+            //            program = null;
+
+            return TryBuildProgram(instance, source, filePath, out program);
         }
 
 

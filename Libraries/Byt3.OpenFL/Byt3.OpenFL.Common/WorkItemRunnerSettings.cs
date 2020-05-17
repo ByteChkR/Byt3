@@ -4,8 +4,6 @@ namespace Byt3.OpenFL.Common
 {
     public class WorkItemRunnerSettings
     {
-        public static WorkItemRunnerSettings Default => new WorkItemRunnerSettings(false, 2);
-
         public readonly bool UseMultithread;
         public readonly int WorksizeMultiplier;
 
@@ -14,6 +12,8 @@ namespace Byt3.OpenFL.Common
             UseMultithread = useMultithread;
             WorksizeMultiplier = worksizeMultiplier;
         }
+
+        public static WorkItemRunnerSettings Default => new WorkItemRunnerSettings(false, 2);
 
         public int GetOptimalWorkSize(int itemCount)
         {

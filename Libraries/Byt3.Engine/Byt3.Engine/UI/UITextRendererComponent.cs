@@ -15,21 +15,6 @@ namespace Byt3.Engine.UI
     public class UiTextRendererComponent : UiElement
     {
         /// <summary>
-        /// The VBO of the Quad used to draw each character
-        /// </summary>
-        protected int Vbo;
-
-        /// <summary>
-        /// The VAO of the Quad used to draw each character
-        /// </summary>
-        protected int Vao;
-
-        /// <summary>
-        /// Initialization flag
-        /// </summary>
-        protected bool Init;
-
-        /// <summary>
         /// The Length of a single \t in UV coordinates
         /// </summary>
         public static float TabToSpaceCount = 0.1f;
@@ -39,16 +24,31 @@ namespace Byt3.Engine.UI
         /// </summary>
         private readonly GameFont font;
 
-        /// <summary>
-        /// the backing field for Text
-        /// </summary>
-        private string text = "HELLO";
-
         private bool cached;
 
         public bool Center;
 
         public Vector3 Color = Vector3.UnitX; // RED
+
+        /// <summary>
+        /// Initialization flag
+        /// </summary>
+        protected bool Init;
+
+        /// <summary>
+        /// the backing field for Text
+        /// </summary>
+        private string text = "HELLO";
+
+        /// <summary>
+        /// The VAO of the Quad used to draw each character
+        /// </summary>
+        protected int Vao;
+
+        /// <summary>
+        /// The VBO of the Quad used to draw each character
+        /// </summary>
+        protected int Vbo;
 
         /// <summary>
         /// Public Constructor

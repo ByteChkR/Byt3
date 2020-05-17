@@ -6,15 +6,16 @@ using Byt3.AutoUpdate.Helper;
 
 namespace FLDebugger.Projects
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            if (UpdateChecker.Check(args, "http://213.109.162.193/flrepo/", "FLDebugger_Projects", Assembly.GetExecutingAssembly()))
+            if (UpdateChecker.Check(args, "http://213.109.162.193/flrepo/", "FLDebugger_Projects",
+                Assembly.GetExecutingAssembly()))
             {
                 return;
             }
@@ -27,8 +28,4 @@ namespace FLDebugger.Projects
             Application.Run(new FLProjectExplorer(arg));
         }
     }
-
-
-
-
 }

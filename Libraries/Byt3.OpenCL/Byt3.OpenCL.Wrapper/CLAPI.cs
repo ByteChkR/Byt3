@@ -28,6 +28,16 @@ namespace Byt3.OpenCL.Wrapper
         /// <returns> a random value of type T</returns>
         public delegate T RandomFunc<out T>() where T : struct;
 
+        private const string COPY_KERNEL_SOURCE = @"
+__kernel void copy(__global uchar* destination, __global uchar* source)
+{
+	int idx = get_global_id(0);	
+	destination[idx] = source[idx];
+}";
+
+
+        private static readonly Dictionary<CLAPI, CLKernel> CopyKernels = new Dictionary<CLAPI, CLKernel>();
+
         /// <summary>
         /// Field that holds the instance of the CL wrapper
         /// </summary>
@@ -58,12 +68,6 @@ namespace Byt3.OpenCL.Wrapper
         /// </summary>
         public static CLAPI MainThread => Instance ?? (Instance = new CLAPI());
 
-        public static void DisposeInstance()
-        {
-            Instance.Dispose();
-            Instance = null;
-        }
-
         public void Dispose()
         {
             IsDisposed = true;
@@ -71,6 +75,12 @@ namespace Byt3.OpenCL.Wrapper
             context = null;
             commandQueue.Dispose();
             commandQueue = null;
+        }
+
+        public static void DisposeInstance()
+        {
+            Instance.Dispose();
+            Instance = null;
         }
 
         /// <summary>
@@ -194,6 +204,30 @@ namespace Byt3.OpenCL.Wrapper
         }
 
 
+        public static MemoryBuffer Copy<T>(CLAPI instance, MemoryBuffer input) where T : struct
+        {
+            CLKernel k = null;
+            if (CopyKernels.ContainsKey(instance))
+            {
+                k = CopyKernels[instance];
+            }
+            else
+            {
+                string clt = KernelParameter.GetDataString(KernelParameter.GetEnumFromType(typeof(T)));
+                string src = COPY_KERNEL_SOURCE.Replace("__TYPE__", clt);
+                CLProgram.TryBuildProgram(instance, src, "internal_copy_kernel.cl", out CLProgram prog);
+                k = prog.ContainedKernels["copy"];
+                CopyKernels[instance] = k;
+            }
+
+            MemoryBuffer mb = CreateEmpty<T>(instance, (int) input.Size, input.Flags,
+                "CopyOf:" + input.HandleIdentifier);
+            k.SetBuffer(0, mb);
+            k.SetBuffer(1, input);
+            Run(instance, k, (int) mb.Size);
+            return mb;
+        }
+
         /// <summary>
         /// Writes random values to an array
         /// </summary>
@@ -248,7 +282,7 @@ namespace Byt3.OpenCL.Wrapper
         {
             MemoryBuffer buffer = buf;
 
-            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int)buffer.Size);
+            T[] data = instance.commandQueue.EnqueueReadBuffer<T>(buffer, (int) buffer.Size);
 
 
             WriteRandom(data, enabledChannels, rnd, uniform);
@@ -368,7 +402,7 @@ namespace Byt3.OpenCL.Wrapper
         public static MemoryBuffer CreateBuffer<T>(CLAPI instance, T[] data, MemoryFlag flags, object handleIdentifier)
             where T : struct
         {
-            object[] arr = Array.ConvertAll(data, x => (object)x);
+            object[] arr = Array.ConvertAll(data, x => (object) x);
             return CreateBuffer(instance, arr, typeof(T), flags, handleIdentifier);
         }
 
@@ -376,7 +410,6 @@ namespace Byt3.OpenCL.Wrapper
         private static MemoryBuffer CreateEmptyOptimized<T>(CLAPI instance, int size, MemoryFlag flags,
             object handleIdentifier) where T : struct
         {
-
             //return CreateBuffer(instance, new byte[size], flags, handleIdentifier);
             int bufByteSize = Marshal.SizeOf<T>() * size;
             return instance.context.CreateBuffer(flags | MemoryFlag.AllocateHostPointer, bufByteSize, handleIdentifier);
@@ -448,7 +481,7 @@ namespace Byt3.OpenCL.Wrapper
 
         public static void UpdateBitmap(CLAPI instance, Bitmap target, MemoryBuffer buffer)
         {
-            byte[] bs = ReadBuffer<byte>(instance, buffer, (int)buffer.Size);
+            byte[] bs = ReadBuffer<byte>(instance, buffer, (int) buffer.Size);
             UpdateBitmap(instance, target, bs);
         }
 

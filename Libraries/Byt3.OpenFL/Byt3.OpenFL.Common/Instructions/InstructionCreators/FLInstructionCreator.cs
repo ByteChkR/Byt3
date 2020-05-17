@@ -6,9 +6,14 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
 {
     public abstract class FLInstructionCreator : IDisposable
     {
-        public abstract FLInstruction Create(FLProgram script, SerializableFLInstruction instruction);
+        public abstract string[] InstructionKeys { get; }
+        public virtual bool AllowStaticUse => true;
 
-        public abstract string[] InstructionKeys {get;}
+        public virtual void Dispose()
+        {
+        }
+
+        public abstract FLInstruction Create(FLProgram script, SerializableFLInstruction instruction);
 
         public virtual string GetArgumentSignatureForInstruction(string instruction)
         {
@@ -21,10 +26,5 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
         }
 
         public abstract bool IsInstruction(string key);
-
-        public virtual void Dispose()
-        {
-
-        }
     }
 }

@@ -10,20 +10,20 @@ using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
-using Byt3.OpenFL.Parsing.Stages;
 using OpenTK;
 
 namespace Byt3.Engine.Tutorials.Tutorials
 {
     public class FLScene : AbstractScene
     {
-        private FLInstructionSet iset;
-        private BufferCreator creator;
-        private FLProgramCheckBuilder checkPipeline;
-        private FLParser parser;
         private readonly Texture tex = TextureLoader.ParameterToTexture(128, 128, "FLScene+TextureForFLProgram");
+        private FLProgramCheckBuilder checkPipeline;
+        private BufferCreator creator;
+        private FLInstructionSet iset;
+        private FLParser parser;
 
         protected override void InitializeScene()
         {
@@ -61,7 +61,8 @@ namespace Byt3.Engine.Tutorials.Tutorials
                     128);
 
 
-            FLProgram program = parser.Process(new FLParserInput("assets/filter/red.fl")).Initialize(CLAPI.MainThread, iset);
+            FLProgram program = parser.Process(new FLParserInput("assets/filter/red.fl"))
+                .Initialize(CLAPI.MainThread, iset);
 
 
             program.Run(buffer, true);

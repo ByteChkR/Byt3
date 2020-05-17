@@ -12,14 +12,13 @@ namespace Byt3.Engine.Physics.BEPUphysics.EntityStateManagement
     ///</summary>
     public class InterpolatedStatesManager : MultithreadedProcessingStage
     {
+        private readonly BufferedStatesManager manager;
+
+        private readonly Action<int> multithreadedWithReadBuffersDelegate;
         private RigidTransform[] backBuffer;
 
 
         private float blendAmount;
-
-        private readonly BufferedStatesManager manager;
-
-        private readonly Action<int> multithreadedWithReadBuffersDelegate;
         private RigidTransform[] states = new RigidTransform[64];
 
         ///<summary>

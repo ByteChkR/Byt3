@@ -376,10 +376,8 @@ namespace Byt3.AssemblyGenerator
             {
                 throw new InvalidOperationException("Directory Already exists");
             }
-            else
-            {
-                Directory.CreateDirectory(ret);
-            }
+
+            Directory.CreateDirectory(ret);
 
             return ret;
         }

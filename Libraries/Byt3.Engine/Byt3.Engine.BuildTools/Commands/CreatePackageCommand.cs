@@ -10,6 +10,12 @@ namespace Byt3.Engine.BuildTools.Commands
 {
     public class CreatePackageCommand : AbstractCommand
     {
+        public CreatePackageCommand() : base(new[] {"--create-package", "-cp"},
+            "--create-package <BuildFolderOfGame> <GameName> <OutputFile> <CopyAssetsOnError> <CopyPacksOnError> <optional:FileList>\nCreates a Package from a build output of the --build command\n--packer-override-engine-version <Version> can be used to override the required engine version\n--packager-version <packagerVersion> overrides the packager version that is used.\n--set-start-args <args> can be used to specify the startup command manually.")
+        {
+            CommandAction = CreateGamePackage;
+        }
+
         private static void CreateGamePackage(StartupArgumentInfo info, string[] args)
         {
             //1 Directory of unpacked game build
@@ -83,18 +89,16 @@ namespace Byt3.Engine.BuildTools.Commands
                 throw new BuilderInputException("Input Error", e);
             }
         }
-
-        public CreatePackageCommand() : base( new[] {"--create-package", "-cp"},
-            "--create-package <BuildFolderOfGame> <GameName> <OutputFile> <CopyAssetsOnError> <CopyPacksOnError> <optional:FileList>\nCreates a Package from a build output of the --build command\n--packer-override-engine-version <Version> can be used to override the required engine version\n--packager-version <packagerVersion> overrides the packager version that is used.\n--set-start-args <args> can be used to specify the startup command manually.",
-            false)
-        {
-            CommandAction = CreateGamePackage;
-        }
     }
 
     public class BuilderInputException : Byt3Exception
     {
-        public BuilderInputException(string message) : base(message) { }
-        public BuilderInputException(string message, Exception inner) : base(message, inner) { }
+        public BuilderInputException(string message) : base(message)
+        {
+        }
+
+        public BuilderInputException(string message, Exception inner) : base(message, inner)
+        {
+        }
     }
 }

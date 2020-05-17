@@ -5,16 +5,17 @@ namespace Byt3.ExtPP.Base
 {
     public class FilePathContent : IFileContent
     {
+        private readonly string definedName;
         private readonly string filePath;
         private string key;
-        private readonly string definedName;
-        public bool HasValidFilepath => true;
 
         public FilePathContent(string filePath, string definedName)
         {
             this.definedName = definedName;
             key = this.filePath = filePath;
         }
+
+        public bool HasValidFilepath => true;
 
         public bool TryGetLines(out string[] lines)
         {

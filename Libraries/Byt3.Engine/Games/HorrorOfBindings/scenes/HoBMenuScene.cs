@@ -11,15 +11,12 @@ using Byt3.Engine.UI.Animations;
 using Byt3.Engine.UI.Animations.AnimationTypes;
 using Byt3.Engine.UI.Animations.Interpolators;
 using Byt3.Engine.UI.EventSystems;
-using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using HorrorOfBindings.components;
 using HorrorOfBindings.mapgenerator;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using Color = System.Drawing.Color;
 
 namespace HorrorOfBindings.scenes
 {
@@ -99,7 +96,7 @@ namespace HorrorOfBindings.scenes
             int texWidth = 128;
             int texHeight = 128;
             FLRunner runner = new FLRunner(CLAPI.MainThread, "resources/kernel");
-           FLProgram prog= runner.Run("assets/filter/game/menubg.fl", texWidth, texHeight);
+            FLProgram prog = runner.Run("assets/filter/game/menubg.fl", texWidth, texHeight);
             //Interpreter i = new Interpreter(Clapi.MainThread, "assets/filter/game/menubg.fl", DataTypes.Uchar1,
             //    Clapi.CreateEmpty<byte>(Clapi.MainThread, texWidth * texHeight * 4, MemoryFlag.ReadWrite), texWidth,
             //    texHeight, 1, 4, "assets/kernel/", true);
@@ -110,7 +107,7 @@ namespace HorrorOfBindings.scenes
             //} while (!i.Terminated);
 
             Texture tex = TextureLoader.ParameterToTexture(texWidth, texHeight, "MenugBG");
-            TextureLoader.Update(CLAPI.MainThread,  tex, prog.GetActiveBuffer(false).Buffer);
+            TextureLoader.Update(CLAPI.MainThread, tex, prog.GetActiveBuffer(false).Buffer);
             Logger.Log(DebugChannel.Log, "Time for Menu Background(ms): " + sw.ElapsedMilliseconds, 10);
             sw.Stop();
             prog.FreeResources();

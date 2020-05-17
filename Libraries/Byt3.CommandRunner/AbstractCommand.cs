@@ -11,7 +11,38 @@ namespace Byt3.CommandRunner
     public abstract class AbstractCommand : ALoggable<LogType>
     {
         protected const int MIN_COMMAND_SEVERITY = 3;
-        
+
+        /// <summary>
+        /// Protected Constructor
+        /// </summary>
+        /// <param name="action">Command Implementation</param>
+        /// <param name="keys">Keys of the Command</param>
+        /// <param name="helpText">Optional Help Text</param>
+        /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
+        protected AbstractCommand(Action<StartupArgumentInfo, string[]> action, string[] keys,
+            string helpText = "No Help Text Available", bool defaultCommand = false) : base(CommandRunnerDebugConfig
+            .Settings)
+        {
+            CommandAction = action;
+            CommandKeys = keys;
+            HelpText = helpText;
+            DefaultCommand = defaultCommand;
+        }
+
+        /// <summary>
+        /// Protected Constructor
+        /// </summary>
+        /// <param name="keys">Keys of the Command</param>
+        /// <param name="helpText">Optional Help Text</param>
+        /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
+        protected AbstractCommand(string[] keys, string helpText = "No Help Text Available",
+            bool defaultCommand = false) : base(CommandRunnerDebugConfig.Settings)
+        {
+            CommandKeys = keys;
+            HelpText = helpText;
+            DefaultCommand = defaultCommand;
+        }
+
         /// <summary>
         /// The Command Implementation that is getting called
         /// </summary>
@@ -31,36 +62,6 @@ namespace Byt3.CommandRunner
         /// When set to true, the parameters that do not have a command key infront of it will be passed to this command.
         /// </summary>
         public bool DefaultCommand { get; }
-
-        /// <summary>
-        /// Protected Constructor
-        /// </summary>
-        /// <param name="action">Command Implementation</param>
-        /// <param name="keys">Keys of the Command</param>
-        /// <param name="helpText">Optional Help Text</param>
-        /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
-        protected AbstractCommand(Action<StartupArgumentInfo, string[]> action, string[] keys,
-            string helpText = "No Help Text Available", bool defaultCommand = false): base(CommandRunnerDebugConfig.Settings)
-        {
-            CommandAction = action;
-            CommandKeys = keys;
-            HelpText = helpText;
-            DefaultCommand = defaultCommand;
-        }
-
-        /// <summary>
-        /// Protected Constructor
-        /// </summary>
-        /// <param name="keys">Keys of the Command</param>
-        /// <param name="helpText">Optional Help Text</param>
-        /// <param name="defaultCommand">Flag that indicates if this command is a default command.</param>
-        protected AbstractCommand(string[] keys, string helpText = "No Help Text Available",
-            bool defaultCommand = false):base(CommandRunnerDebugConfig.Settings)
-        {
-            CommandKeys = keys;
-            HelpText = helpText;
-            DefaultCommand = defaultCommand;
-        }
 
 
         public bool IsInterfering(AbstractCommand other)
@@ -89,7 +90,7 @@ namespace Byt3.CommandRunner
             }
 
             sb.AppendLine("\nDefault Command: " + DefaultCommand + "\n");
-            string[] helpText = HelpText.Split(new[] {'\n'});
+            string[] helpText = HelpText.Split('\n');
             for (int i = 0; i < helpText.Length; i++)
             {
                 sb.AppendLine($"\t{helpText[i]}");

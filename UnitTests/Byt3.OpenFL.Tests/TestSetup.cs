@@ -26,7 +26,6 @@ namespace Byt3.OpenFL.Tests
             ManifestReader.RegisterAssembly(typeof(KernelFLInstruction).Assembly);
             ManifestReader.PrepareManifestFiles(false);
             EmbeddedFileIOManager.Initialize();
-
         }
     }
 }

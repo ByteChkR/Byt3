@@ -3,7 +3,6 @@ using System.Reflection;
 using Byt3.OpenCL.Wrapper;
 using Byt3.Utilities.ManifestIO;
 
-
 namespace Byt3.OpenCL.Tests
 {
     public static class TestSetup

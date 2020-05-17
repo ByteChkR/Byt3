@@ -6,14 +6,14 @@ namespace Byt3.ObjectPipeline
 {
     public abstract class PipelineStage
     {
-        public Type InType { get; protected set; }
-        public Type OutType { get; protected set; }
-
         protected PipelineStage(Type inType, Type outType)
         {
             InType = inType;
             OutType = outType;
         }
+
+        public Type InType { get; protected set; }
+        public Type OutType { get; protected set; }
 
         public abstract object Process(object input);
     }
@@ -21,13 +21,14 @@ namespace Byt3.ObjectPipeline
     public abstract class PipelineStage<StageBase> : PipelineStage
         where StageBase : PipelineStage
     {
+        protected List<StageBase> Stages = new List<StageBase>();
+
         protected PipelineStage(Type inType, Type outType) : base(inType, outType)
         {
         }
 
 
         protected bool Verified { get; private set; }
-        protected List<StageBase> Stages = new List<StageBase>();
 
         public void RemoveSubStage(StageBase stage)
         {
@@ -61,7 +62,8 @@ namespace Byt3.ObjectPipeline
                         AddSubStage(stage); //If Empty or Last item we want to make sure that the 
                         return;
                     }
-                    else if (Stages[i + 1].InType.IsAssignableFrom(targetInput))
+
+                    if (Stages[i + 1].InType.IsAssignableFrom(targetInput))
                     {
                         Stages.Insert(i + 1, stage);
                         return;
@@ -88,10 +90,8 @@ namespace Byt3.ObjectPipeline
                     throw new PipelineNotValidException(this,
                         $"Can not Add stage with in type {stage.InType} as first element in the Pipeline. it has to be the same type as the pipeline in type({InType})");
                 }
-                else
-                {
-                    Stages.Add(stage);
-                }
+
+                Stages.Add(stage);
             }
             else
             {
@@ -101,10 +101,8 @@ namespace Byt3.ObjectPipeline
                     throw new PipelineNotValidException(this,
                         $"Can not Add stage with in type {stage.InType} in the pipeline. it has to be the same type as the previous pipeline out type({last.OutType})");
                 }
-                else
-                {
-                    Stages.Add(stage);
-                }
+
+                Stages.Add(stage);
             }
         }
 

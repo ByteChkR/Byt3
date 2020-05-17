@@ -9,16 +9,17 @@ namespace Byt3.Utilities.FastString
     {
         public static string CleanPath(string path)
         {
-            List<string> p = path.Replace("\\", "/").Split(new[] { '/' }).ToList();
+            List<string> p = path.Replace("\\", "/").Split('/').ToList();
             for (int i = p.Count - 1; i >= 0; i--)
             {
                 if (p[i] == "..")
                 {
-                    p.RemoveAt(i);//Remove the ..
+                    p.RemoveAt(i); //Remove the ..
                     if (i != 0)
                     {
-                        p.RemoveAt(i - 1);//Remove the previous part
+                        p.RemoveAt(i - 1); //Remove the previous part
                     }
+
                     i--;
                     continue;
                 }
@@ -40,9 +41,6 @@ namespace Byt3.Utilities.FastString
         /// String builder to be able to concat long arrays faster
         /// </summary>
         private static readonly StringBuilder Sb = new StringBuilder();
-
-
-        
 
 
         /// <summary>
@@ -85,7 +83,7 @@ namespace Byt3.Utilities.FastString
         /// <returns></returns>
         public static IEnumerable<string> Pack(this string arr, string separator)
         {
-            return arr.Split(new[] { separator }, StringSplitOptions.None);
+            return arr.Split(new[] {separator}, StringSplitOptions.None);
         }
 
 

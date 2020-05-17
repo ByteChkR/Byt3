@@ -8,14 +8,13 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
     public class GPUArrangeInstructionCreator : FLInstructionCreator
     {
         private readonly CLKernel ArrangeKernel;
-        private readonly CLKernel CopyKernel;
 
-        public override string[] InstructionKeys => new[] { "gpu_arrange" };
-        public GPUArrangeInstructionCreator(CLKernel arrangeKernel, CLKernel copyKernel)
+        public GPUArrangeInstructionCreator(CLKernel arrangeKernel)
         {
             ArrangeKernel = arrangeKernel;
-            CopyKernel = copyKernel;
         }
+
+        public override string[] InstructionKeys => new[] {"gpu_arrange"};
 
         public override string GetArgumentSignatureForInstruction(string instruction)
         {
@@ -31,7 +30,8 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 FLInstructionArgument arg = new FLInstructionArgument(instruction.Arguments[i].GetValue(script));
                 args.Add(arg);
             }
-            return new GPUArrangeFLInstruction(args, ArrangeKernel, CopyKernel);
+
+            return new GPUArrangeFLInstruction(args, ArrangeKernel);
         }
 
         public override string GetDescriptionForInstruction(string instruction)

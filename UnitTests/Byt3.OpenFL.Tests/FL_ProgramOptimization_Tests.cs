@@ -1,6 +1,6 @@
 ﻿using Byt3.OpenFL.Benchmarking;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
-using Byt3.OpenFL.Parsing.Stages;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 using NUnit.Framework;
 
 namespace Byt3.OpenFL.Tests

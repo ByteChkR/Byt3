@@ -181,7 +181,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
             return outputOverlappedElements.Count > 0;
         }
 
-       
+
         /// <summary>
         /// Gets the triangles whose bounding boxes are overlapped by the query.
         /// </summary>
@@ -231,7 +231,7 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
             internal abstract void GetOverlaps(ref BoundingBox boundingBox, IList<int> outputOverlappedElements);
 
             internal abstract void GetOverlaps(ref BoundingSphere boundingSphere, IList<int> outputOverlappedElements);
-            
+
             internal abstract void GetOverlaps(ref Ray ray, float maximumLength, IList<int> outputOverlappedElements);
 
 
@@ -304,9 +304,6 @@ namespace Byt3.Engine.Physics.BEPUphysics.DataStructures
 
             internal override bool TryToInsert(LeafNode node, out Node treeNode)
             {
-                
-
-
                 //Since we are an internal node, we know we have two children.
                 //Regardless of what kind of nodes they are, figure out which would be a better choice to merge the new node with.
 

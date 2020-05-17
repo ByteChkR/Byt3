@@ -87,6 +87,5 @@ namespace Byt3.Utilities.FastString
 
             return -1;
         }
-
     }
 }

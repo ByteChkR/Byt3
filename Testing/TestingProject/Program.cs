@@ -56,22 +56,6 @@ namespace TestingProject
             {"png2ico", new PNG2ICOConsole()}
         };
 
-        public class ILTest
-        {
-            public string ValueField = "LOL";
-            public string PropertyField { get; set; } = "Prop";
-
-            public string WriteMessage()
-            {
-                return "";
-            }
-
-            public void TestMethod(int farg)
-            {
-
-            }
-        }
-
         public static void ILConstructorTest(int iters)
         {
             Type type = typeof(ILTest);
@@ -134,8 +118,7 @@ namespace TestingProject
             MethodInfo testMeth = type.GetMethod("TestMethod");
 
 
-
-            ILTest obj = (ILTest)ctor();
+            ILTest obj = (ILTest) ctor();
             obj.ValueField = "123";
             obj.PropertyField = "456";
 
@@ -143,7 +126,10 @@ namespace TestingProject
             object fieldSanityCheck = fi.GetValue(obj);
             if (fieldSanityCheck is string str)
             {
-                if (str != "123") throw new Exception();
+                if (str != "123")
+                {
+                    throw new Exception();
+                }
             }
 
             RunTest("Getting Field Value", "Reflection", "IL",
@@ -168,7 +154,10 @@ namespace TestingProject
             object getPropertySanityCheck = getPF(obj);
             if (getPropertySanityCheck is string propertyValue)
             {
-                if (propertyValue != "456") throw new Exception();
+                if (propertyValue != "456")
+                {
+                    throw new Exception();
+                }
             }
 
             RunTest("Get Property Value", "Reflection", "IL",
@@ -186,7 +175,6 @@ namespace TestingProject
                         object ret = getPF(obj);
                     }
                 });
-
 
 
             ILDelegates.MethodDel_v<string> setPF = ILTools.GetPropertySet<ILDelegates.MethodDel_v<string>>(type, pi);
@@ -218,7 +206,10 @@ namespace TestingProject
             object funcCallSanityCheck = write(obj);
             if (funcCallSanityCheck is string funcRet)
             {
-                if (funcRet != "") throw new Exception();
+                if (funcRet != "")
+                {
+                    throw new Exception();
+                }
             }
 
             RunTest("Function Call", "Reflection", "IL",
@@ -245,7 +236,7 @@ namespace TestingProject
                 {
                     for (int i = 0; i < iters; i++)
                     {
-                        testMeth.Invoke(obj, new object[] { 100 });
+                        testMeth.Invoke(obj, new object[] {100});
                     }
                 },
                 () =>
@@ -255,13 +246,10 @@ namespace TestingProject
                         func(obj, 100);
                     }
                 });
-
-
         }
 
         private static void Main(string[] args)
         {
-
             //int[] iterations = new[] { 100, 100_000, 1_000_000, 10_000_000, 100_000_000 };
 
             //for (int i = 0; i < iterations.Length; i++)
@@ -309,7 +297,7 @@ namespace TestingProject
             {
                 Console.Write("root>");
                 string line = Console.ReadLine();
-                string[] command = line.Split(new[] { ' ' });
+                string[] command = line.Split(new[] {' '});
                 if (command[0] == "exit")
                 {
                     break;
@@ -318,7 +306,8 @@ namespace TestingProject
                 if (command[0] == "file")
                 {
                     command = File.ReadAllText(command[1])
-                        .Split(new[] { ' ', '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()).ToArray();
+                        .Split(new[] {' ', '\n'}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim())
+                        .ToArray();
                 }
 
                 if (Consoles.ContainsKey(command[0]))
@@ -339,6 +328,21 @@ namespace TestingProject
                 {
                     break;
                 }
+            }
+        }
+
+        public class ILTest
+        {
+            public string ValueField = "LOL";
+            public string PropertyField { get; set; } = "Prop";
+
+            public string WriteMessage()
+            {
+                return "";
+            }
+
+            public void TestMethod(int farg)
+            {
             }
         }
     }

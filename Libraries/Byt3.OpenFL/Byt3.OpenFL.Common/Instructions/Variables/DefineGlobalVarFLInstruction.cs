@@ -6,7 +6,6 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
 {
     public class DefineGlobalVarFLInstruction : FLInstruction
     {
-
         public DefineGlobalVarFLInstruction(List<FLInstructionArgument> arguments) : base(arguments)
         {
         }
@@ -14,7 +13,8 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
 
         public override void Process()
         {
-            Parent.Variables.AddGlobal(Arguments[0].Value.ToString(), decimal.Parse(Arguments[1].Value.ToString()));
+            Parent.Variables.AddGlobal(Arguments[0].GetValue().ToString(),
+                decimal.Parse(Arguments[1].GetValue().ToString()));
         }
 
         public override string ToString()

@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Net.Mime;
-using System.Resources;
-using System.Runtime.ExceptionServices;
 using Byt3.ADL;
-using Byt3.ADL.Configs;
 using Byt3.Collections;
 using Byt3.Engine.Core;
 using Byt3.Engine.DataTypes;
@@ -19,16 +15,17 @@ using Byt3.Engine.Rendering;
 using HorrorOfBindings.components;
 using HorrorOfBindings.exceptions;
 using OpenTK;
-using Vector2 = OpenTK.Vector2;
 
 namespace HorrorOfBindings.mapgenerator
 {
     public class TileCreator
     {
-        private static Random rnd = new Random();
-        private static ADLLogger<DebugChannel> Logger = new ADLLogger<DebugChannel>(HOBDebugConfig.Settings, "HoB_TileGenerator");
-
         public delegate GameObject CreateObject(Color input, Vector3 pos, Vector3 scale, ShaderProgram program);
+
+        private static readonly Random rnd = new Random();
+
+        private static ADLLogger<DebugChannel> Logger =
+            new ADLLogger<DebugChannel>(HOBDebugConfig.Settings, "HoB_TileGenerator");
 
         public static GameObject CreateObject_Box(Color input, Vector3 pos, Vector3 scale, ShaderProgram program)
         {
@@ -39,7 +36,8 @@ namespace HorrorOfBindings.mapgenerator
                 return CreateCube(pos, scale, Quaternion.Identity, TextureGenerator.GetTexture(r), program,
                     TextureGenerator.GetSTexture(r));
             }
-            else if (input.R == 255 && input.G == 0 && input.B == 0)
+
+            if (input.R == 255 && input.G == 0 && input.B == 0)
             {
                 return CreateBouncePad(pos - Vector3.UnitY * 2.5f, scale, TextureLoader.ColorToTexture(Color.Red),
                     program,
@@ -127,7 +125,7 @@ namespace HorrorOfBindings.mapgenerator
             List<GameObject> ret = CreateBounds((int) fieldSize.X, (int) fieldSize.Y + 50, program).ToList();
             if (width * height != data.Length)
             {
-              throw new GameException("Tilemap has the wrong format");
+                throw new GameException("Tilemap has the wrong format");
             }
 
             if (creator == null)

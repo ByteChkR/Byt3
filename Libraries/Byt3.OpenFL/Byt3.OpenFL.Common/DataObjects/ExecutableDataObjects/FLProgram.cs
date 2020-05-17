@@ -18,10 +18,14 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         private MemoryBuffer activeChannelBuffer;
         private byte[] activeChannels;
         private bool channelDirty = true;
+        public VariableManager<decimal> Variables = new VariableManager<decimal>();
 
 
-        public FLProgram(CLAPI instance, Dictionary<string, ExternalFlFunction> definedScripts,
-            Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, FLFunction> flFunctions) : base()
+        private bool warmed;
+
+
+        public FLProgram(CLAPI instance, Dictionary<string, IFunction> definedScripts,
+            Dictionary<string, FLBuffer> definedBuffers, Dictionary<string, IFunction> flFunctions)
         {
             Instance = instance;
             FlFunctions = flFunctions;
@@ -36,7 +40,14 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
         //Get set when calling Run/SetCLVariables
         public CLAPI Instance { get; }
-        internal FLBuffer ActiveBuffer { get; set; }
+
+        internal FLBuffer ActiveBuffer
+        {
+            get => DefinedBuffers.ContainsKey(FLKeywords.ActiveBufferKey)
+                ? DefinedBuffers[FLKeywords.ActiveBufferKey]
+                : null;
+            set => DefinedBuffers[FLKeywords.ActiveBufferKey] = value;
+        }
 
         public byte[] ActiveChannels
         {
@@ -101,12 +112,13 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public int InputSize => Dimensions.x * Dimensions.y * Dimensions.z;
 
         private Dictionary<string, bool> InternalState { get; }
-        
+
         public Dictionary<string, FLBuffer> DefinedBuffers { get; }
-        public VariableManager<decimal> Variables = new VariableManager<decimal>();
         public string[] BufferNames => DefinedBuffers.Keys.ToArray();
-        public Dictionary<string, FLFunction> FlFunctions { get; }
-        public Dictionary<string, ExternalFlFunction> DefinedScripts { get; }
+        public Dictionary<string, IFunction> FlFunctions { get; }
+        public Dictionary<string, IFunction> DefinedScripts { get; }
+
+        internal IFunction EntryPoint => FlFunctions.First(x => x.Key == FLKeywords.EntryFunctionKey).Value;
 
         public bool HasBufferWithName(string name)
         {
@@ -123,8 +135,6 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
             return ret;
         }
-
-        internal FLFunction EntryPoint => FlFunctions.First(x => x.Key == "Main").Value;
 
         public FLBuffer GetActiveBuffer(bool makeUnmanaged)
         {
@@ -163,6 +173,11 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         {
             foreach (KeyValuePair<string, FLBuffer> definedBuffer in DefinedBuffers)
             {
+                if (definedBuffer.Key == FLKeywords.ActiveBufferKey || !InternalState[definedBuffer.Key])
+                {
+                    continue;
+                }
+
                 definedBuffer.Value.Dispose();
             }
 
@@ -178,7 +193,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         public void PushContext()
         {
             ContextStack.Push(new FLExecutionContext(new List<byte>(ActiveChannels).ToArray(), ActiveBuffer));
-            ActiveChannels = new byte[] { 1, 1, 1, 1 };
+            ActiveChannels = new byte[] {1, 1, 1, 1};
             ActiveBuffer = null;
         }
 
@@ -193,62 +208,86 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         {
             internalBuffers.Add(buffer);
             buffer.SetKey(buffer.Buffer.HandleIdentifier.ToString());
-            Debugger?.OnAddInternalBuffer(this,buffer);
+            Debugger?.OnAddInternalBuffer(this, buffer);
             return buffer;
         }
 
 
         public void SetCLVariables(FLBuffer input, bool makeInputInternal)
         {
+            SetCLVars(input, makeInputInternal);
 
-            DefinedBuffers["in"].ReplaceUnderlyingBuffer(input.Buffer, input.Width, input.Height); //Making effectively a zombie object that has no own buffer(but this is needed in order to keep the script intact
-                                                                        //The Arguments that are referencing the IN buffer will otherwise have a different buffer as the input.
-            Input = ActiveBuffer = DefinedBuffers["in"];
-
-            InternalState["in"] = makeInputInternal;
+            WarmBuffers(false);
 
             warmed = true;
         }
 
+        private void SetCLVars(FLBuffer input, bool makeInputInternal)
+        {
+            DefinedBuffers[FLKeywords.InputBufferKey]
+                .ReplaceUnderlyingBuffer(input.Buffer, input.Width,
+                    input.Height); //Making effectively a zombie object that has no own buffer(but this is needed in order to keep the script intact
+            //The Arguments that are referencing the IN buffer will otherwise have a different buffer as the input.
+            Input = ActiveBuffer = DefinedBuffers[FLKeywords.InputBufferKey];
+            InternalState[FLKeywords.InputBufferKey] = makeInputInternal;
+        }
 
-        private bool warmed = false;
         public void SetCLVariablesAndWarm(FLBuffer input, bool makeInputInternal, bool warmBuffers)
         {
-            SetCLVariables(input, makeInputInternal);
+            SetCLVars(input, makeInputInternal);
+
+
+            WarmBuffers(warmBuffers);
+
             warmed = true;
-            if (!warmBuffers) return;
+
+            Logger.Log(LogType.Log, "Warming Buffers finished", 1);
+        }
+
+
+        private void WarmBuffers(bool force)
+        {
+            if (!warmed)
+            {
+                return;
+            }
+
             Logger.Log(LogType.Log, "Warming Buffers...", 1);
             foreach (KeyValuePair<string, FLBuffer> definedBuffer in DefinedBuffers)
             {
                 if (definedBuffer.Value is IWarmable warmable)
                 {
                     Debugger?.ProcessEvent(definedBuffer.Value);
-                    warmable.Warm();
+                    warmable.Warm(force);
                 }
             }
-            Logger.Log(LogType.Log, "Warming Buffers finished", 1);
         }
 
         public void Run(FLBuffer input, bool makeInputInternal, FLFunction entry = null, bool warmBuffers = false)
         {
-            FLFunction entryPoint = entry ?? EntryPoint;
-            if (entryPoint.Name == "Main")
+            IFunction entryPoint = entry ?? EntryPoint;
+            if (entryPoint.Name == FLKeywords.EntryFunctionKey)
+            {
                 Debugger?.ProgramStart(this);
+            }
+
             if (!warmed)
             {
                 SetCLVariablesAndWarm(input, makeInputInternal, warmBuffers);
             }
-            Input.SetKey("in");
+
+            Input.SetKey(FLKeywords.InputBufferKey);
             //Start Setup
-            ActiveChannels = new byte[] { 1, 1, 1, 1 };
+            ActiveChannels = new byte[] {1, 1, 1, 1};
 
             entryPoint.Process();
 
             warmed = false;
 
-            if (entryPoint.Name == "Main")
+            if (entryPoint.Name == FLKeywords.EntryFunctionKey)
+            {
                 Debugger?.ProgramExit(this);
+            }
         }
-
     }
 }

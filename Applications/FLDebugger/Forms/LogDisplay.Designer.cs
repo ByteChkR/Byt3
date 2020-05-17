@@ -54,6 +54,7 @@
             this.rtbLogOut.ForeColor = System.Drawing.Color.Maroon;
             this.rtbLogOut.Location = new System.Drawing.Point(0, 0);
             this.rtbLogOut.Name = "rtbLogOut";
+            this.rtbLogOut.ReadOnly = true;
             this.rtbLogOut.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.rtbLogOut.Size = new System.Drawing.Size(597, 475);
             this.rtbLogOut.TabIndex = 1;

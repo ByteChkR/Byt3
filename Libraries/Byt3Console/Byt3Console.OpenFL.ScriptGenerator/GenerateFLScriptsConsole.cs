@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Byt3.ADL;
-using Byt3.ADL.Configs;
 using Byt3.CommandRunner;
 using Byt3.CommandRunner.SetSettings;
 using Byt3.ExtPP.Base;
@@ -22,26 +21,9 @@ namespace Byt3Console.OpenFL.ScriptGenerator
             new ADLLogger<LogType>(OpenFLBenchmarkingDebugConfig.Settings, "FLScriptGen-Console");
 
         public static FLScriptGeneratorSettings Settings = FLScriptGeneratorSettings.Default;
+        internal static bool DoExecute = true;
         public override string ConsoleKey => "flgen";
         public override string ConsoleTitle => "FLScript Generator";
-        internal static bool DoExecute = true;
-
-        private class HelpCommand : AbstractCommand
-        {
-            private DefaultHelpCommand cmd;
-            internal HelpCommand(DefaultHelpCommand command) : base(command.CommandKeys, command.HelpText,
-                command.DefaultCommand)
-            {
-                cmd = command;
-                CommandAction = RunHelpCommand;
-            }
-
-            private void RunHelpCommand(StartupArgumentInfo info, string[] args)
-            {
-                DoExecute = false;
-                cmd.CommandAction(info, args);
-            }
-        }
 
         public override bool Run(string[] args)
         {
@@ -49,12 +31,15 @@ namespace Byt3Console.OpenFL.ScriptGenerator
             ManifestReader.RegisterAssembly(typeof(FLScriptGenerator).Assembly);
             ManifestReader.PrepareManifestFiles(false);
 
-            Runner.AddCommand( new HelpCommand(new DefaultHelpCommand(true)));
+            Runner.AddCommand(new HelpCommand(new DefaultHelpCommand(true)));
             Runner.AddCommand(SetSettingsCommand.CreateSettingsCommand("Settings", Settings));
 
             Runner.RunCommands(args);
 
-            if (!DoExecute) return true;
+            if (!DoExecute)
+            {
+                return true;
+            }
 
             Debug.DefaultInitialization();
 
@@ -82,6 +67,24 @@ namespace Byt3Console.OpenFL.ScriptGenerator
             }
 
             return true;
+        }
+
+        private class HelpCommand : AbstractCommand
+        {
+            private readonly DefaultHelpCommand cmd;
+
+            internal HelpCommand(DefaultHelpCommand command) : base(command.CommandKeys, command.HelpText,
+                command.DefaultCommand)
+            {
+                cmd = command;
+                CommandAction = RunHelpCommand;
+            }
+
+            private void RunHelpCommand(StartupArgumentInfo info, string[] args)
+            {
+                DoExecute = false;
+                cmd.CommandAction(info, args);
+            }
         }
     }
 }

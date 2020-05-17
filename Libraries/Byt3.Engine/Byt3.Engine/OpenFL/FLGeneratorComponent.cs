@@ -19,14 +19,6 @@ namespace Byt3.Engine.OpenFL
     public class FlGeneratorComponent : AbstractComponent
     {
         /// <summary>
-        /// List of previews
-        /// </summary>
-        private readonly List<LitMeshRendererComponent> previews;
-
-        private FLScriptRunner flRunner;
-
-
-        /// <summary>
         /// The height of the output texture
         /// </summary>
         private readonly int height = 512;
@@ -34,9 +26,16 @@ namespace Byt3.Engine.OpenFL
         private readonly bool multiThread;
 
         /// <summary>
+        /// List of previews
+        /// </summary>
+        private readonly List<LitMeshRendererComponent> previews;
+
+        /// <summary>
         /// The width of the output texture
         /// </summary>
         private readonly int width = 512;
+
+        private FLScriptRunner flRunner;
 
 
         /// <summary>

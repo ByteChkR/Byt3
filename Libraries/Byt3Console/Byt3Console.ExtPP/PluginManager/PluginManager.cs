@@ -16,30 +16,20 @@ namespace Byt3Console.ExtPP.PluginManager
     public class PluginManager : ALoggable<LogType>
     {
         /// <summary>
+        /// Serializer for loading/saving the cache to disk.
+        /// </summary>
+        private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(PluginManagerDatabase));
+
+        /// <summary>
         /// Directory of the ext_pp_cli.dll library
         /// </summary>
         private readonly string rootDir =
             Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
 
         /// <summary>
-        /// Config path for the cache
-        /// </summary>
-        private string ConfigPath => Path.Combine(rootDir, "plugin_manager.xml");
-
-        /// <summary>
-        /// Default folder for plugins.
-        /// </summary>
-        private string DefaultPluginFolder => Path.Combine(rootDir, "plugins");
-
-        /// <summary>
         /// The Database of all plugins.
         /// </summary>
         private PluginManagerDatabase info;
-
-        /// <summary>
-        /// Serializer for loading/saving the cache to disk.
-        /// </summary>
-        private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(PluginManagerDatabase));
 
 
         /// <summary>
@@ -61,6 +51,16 @@ namespace Byt3Console.ExtPP.PluginManager
                 FirstStart();
             }
         }
+
+        /// <summary>
+        /// Config path for the cache
+        /// </summary>
+        private string ConfigPath => Path.Combine(rootDir, "plugin_manager.xml");
+
+        /// <summary>
+        /// Default folder for plugins.
+        /// </summary>
+        private string DefaultPluginFolder => Path.Combine(rootDir, "plugins");
 
         /// <summary>
         /// Initializes the PluginManager by loading the cache from file.
@@ -93,7 +93,7 @@ namespace Byt3Console.ExtPP.PluginManager
                 Logger.Log(LogType.Log, $"\n\n{info.Cache[i].Name}", 1);
                 for (int j = 0; j < info.Cache[i].Data.Length; j++)
                 {
-                    Logger.Log(LogType.Log, $"\t{info.Cache[i].Data[j].ToString()}", 1);
+                    Logger.Log(LogType.Log, $"\t{info.Cache[i].Data[j]}", 1);
                 }
             }
         }

@@ -41,16 +41,17 @@ namespace Byt3.OpenFL.Serialization
             UnifiedRandomFLBufferSerializer urbuf = new UnifiedRandomFLBufferSerializer();
             FromImageFLBufferSerializer fibuf = new FromImageFLBufferSerializer(true);
             WFCFLBufferSerializer wfcbuf = new WFCFLBufferSerializer();
-            Dictionary<Type, Serializers.Internal.FLBaseSerializer> bufferParser = new Dictionary<Type, Serializers.Internal.FLBaseSerializer>
-            {
-                {typeof(SerializableExternalFLFunction), exfunc},
-                {typeof(SerializableFLFunction), efunc},
-                {typeof(SerializableEmptyFLBuffer), ebuf},
-                {typeof(SerializableRandomFLBuffer), rbuf},
-                {typeof(SerializableUnifiedRandomFLBuffer), urbuf},
-                {typeof(SerializableFromFileFLBuffer), fibuf},
-                {typeof(SerializableWaveFunctionCollapseFLBuffer), wfcbuf},
-            };
+            Dictionary<Type, FLBaseSerializer> bufferParser =
+                new Dictionary<Type, FLBaseSerializer>
+                {
+                    {typeof(SerializableExternalFLFunction), exfunc},
+                    {typeof(SerializableFLFunction), efunc},
+                    {typeof(SerializableEmptyFLBuffer), ebuf},
+                    {typeof(SerializableRandomFLBuffer), rbuf},
+                    {typeof(SerializableUnifiedRandomFLBuffer), urbuf},
+                    {typeof(SerializableFromFileFLBuffer), fibuf},
+                    {typeof(SerializableWaveFunctionCollapseFLBuffer), wfcbuf}
+                };
 
             SerializableFLProgramSerializer prog = new SerializableFLProgramSerializer(bufferParser, iset);
             Byt3Serializer main = Byt3Serializer.GetDefaultSerializer();
@@ -79,7 +80,8 @@ namespace Byt3.OpenFL.Serialization
             return program;
         }
 
-        public static void SaveProgram(Stream s, SerializableFLProgram program, FLInstructionSet iset, string[] extraSteps,
+        public static void SaveProgram(Stream s, SerializableFLProgram program, FLInstructionSet iset,
+            string[] extraSteps,
             FLProgramHeader programHeader = null)
         {
             Byt3Serializer main = CreateLoader(iset);
