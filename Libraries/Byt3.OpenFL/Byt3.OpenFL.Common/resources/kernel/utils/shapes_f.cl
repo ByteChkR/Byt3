@@ -1,0 +1,40 @@
+#include indexconversion.cl
+#include shapes_uv.cl
+#include gconvert.cl int float
+
+
+float Rectanglef(int idx, int channelCount, int width, int height, float x, float y, float w, float h, float v)
+{
+	int2 idx2d = Get2DIndex(idx/channelCount, width);
+	return UVRectangle(int2TOfloat2(idx2d) / int2TOfloat2((int2)(width, height)),(float2)(x, y), (float2)(w, h), v);
+}
+
+float Boxf(int idx, int channelCount, int3 dimensions, float x, float y, float z, float w, float h, float d,float v)
+{
+	int3 idx3d = Get3DimensionalIndex(dimensions.x, dimensions.y, idx / channelCount);
+	return UVBox(int3TOfloat3(idx3d) / int3TOfloat3(dimensions), (float3)(x,y,z), (float3)(w,h,d), v);
+}
+
+float Point3Df(int idx, int channelCount, int3 dimensions, float x, float y, float z, float radius)
+{
+	int3 idx3d = Get3DimensionalIndex(dimensions.x, dimensions.y, idx/channelCount);
+	return UVPoint3D(int3TOfloat3(idx3d) / int3TOfloat3(dimensions),(float3)(x, y, z), radius);
+}
+
+float Point2Df(int idx, int channelCount, int3 dimensions, float x, float y, float radius)
+{
+	int2 idx2d = Get2DIndex(idx/channelCount, dimensions.x);
+	return UVPoint2D(int2TOfloat2(idx2d) / int2TOfloat2((int2)(dimensions.x, dimensions.y)), (float2)(x, y), radius);
+}
+
+float Spheref(int idx, int channelCount, int3 dimensions, float x, float y, float z, float radius, float v)
+{
+	int3 idx3d = Get3DimensionalIndex(dimensions.x, dimensions.y, idx/channelCount);
+	return UVSphere(int3TOfloat3(idx3d) / int3TOfloat3(dimensions),(float3)(x, y, z), radius, v);
+}
+
+float Circlef(int idx, int channelCount, int width, int height, float x, float y, float radius, float v)
+{
+	int2 idx2d = Get2DIndex(idx/channelCount, width);
+	return UVCircle(int2TOfloat2(idx2d) / int2TOfloat2((int2)(width, height)),(float2)(x, y), radius, v);
+}

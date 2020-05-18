@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace FLDebugger.Projects
+namespace FLDebugger.Projects.Forms
 {
     public partial class AddEditorDialog : Form
     {

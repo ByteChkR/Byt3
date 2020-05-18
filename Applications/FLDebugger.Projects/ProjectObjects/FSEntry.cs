@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Windows.Forms;
 
-namespace FLDebugger.Projects
+namespace FLDebugger.Projects.ProjectObjects
 {
     public abstract class FSEntry : TreeNode
     {

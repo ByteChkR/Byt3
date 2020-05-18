@@ -8,7 +8,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Checking.Modifiers
     public class NoJumpAccessValidator : AModifierValidator
     {
         protected override InstructionArgumentCategory InvalidArguments => InstructionArgumentCategory.DefinedFunction;
-        protected string[] InvalidInstructions => new[] {"jmp"};
+        protected string[] InvalidInstructions => new[] {"jmp", "bge", "bgt", "ble", "blt" };
         public override int Priority => 2;
 
         protected override void Validate(SerializableFLProgram prog, SerializableFLFunction func,

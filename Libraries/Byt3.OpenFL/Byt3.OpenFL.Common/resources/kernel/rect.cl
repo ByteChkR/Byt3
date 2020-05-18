@@ -1,5 +1,5 @@
-#include utils.cl
-#include shapes.cl
+#include utils/indexconversion.cl
+#include utils/shapes.cl
 
 
 
@@ -36,7 +36,9 @@ __kernel void rectc(__global uchar* image, int3 dimensions, int channelCount, fl
 		return;
 	}
 
-	image[idx] = RectangleC(idx, channelCount, dimensions.x, dimensions.y, x, y, w, h, v, maxValue);
+	uchar retv = RectangleC(idx, channelCount, dimensions.x, dimensions.y, x, y, w, h, v, maxValue);
+	float ret = clamp((float)(retv + image[idx]), 0.0f, maxValue);
+	image[idx] += ret;
 }
 
 __kernel void rect1c(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, float x, float y, float w, float h)
@@ -48,7 +50,9 @@ __kernel void rect1c(__global uchar* image, int3 dimensions, int channelCount, f
 		return;
 	}
 
-	image[idx] = RectangleC(idx, channelCount, dimensions.x, dimensions.y, x, y, w, h, 1, maxValue);
+	uchar retv = RectangleC(idx, channelCount, dimensions.x, dimensions.y, x, y, w, h, 1, maxValue);
+	float ret = clamp((float)(retv + image[idx]), 0.0f, maxValue);
+	image[idx] += ret;
 }
 
 __kernel void box(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, float x, float y, float z, float w, float h, float d, float v)
@@ -84,7 +88,9 @@ __kernel void boxc(__global uchar* image, int3 dimensions, int channelCount, flo
 		return;
 	}
 
-	image[idx] = BoxC(idx, channelCount, dimensions, x, y, z, w, h, d, v, maxValue);
+	uchar retv = BoxC(idx, channelCount, dimensions, x, y, z, w, h, d, v, maxValue);
+	float ret = clamp((float)(retv + image[idx]), 0.0f, maxValue);
+	image[idx] += ret;
 }
 
 __kernel void box1c(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, float x, float y, float z, float w, float h, float d, float v)
@@ -96,5 +102,7 @@ __kernel void box1c(__global uchar* image, int3 dimensions, int channelCount, fl
 		return;
 	}
 
-	image[idx] = BoxC(idx, channelCount, dimensions, x, y, z, w, h, d, 1, maxValue);
+	uchar retv = BoxC(idx, channelCount, dimensions, x, y, z, w, h, d, 1, maxValue);
+	float ret = clamp((float)(retv + image[idx]), 0.0f, maxValue);
+	image[idx] += ret;
 }

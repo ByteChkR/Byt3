@@ -7,7 +7,7 @@ namespace Byt3.OpenFL.Common.Instructions
 {
     public abstract class ArrangeFLInstruction : FLInstruction
     {
-        protected ArrangeFLInstruction(List<FLInstructionArgument> arguments) : base(arguments)
+        protected ArrangeFLInstruction( List<FLInstructionArgument> arguments) : base(arguments)
         {
         }
 

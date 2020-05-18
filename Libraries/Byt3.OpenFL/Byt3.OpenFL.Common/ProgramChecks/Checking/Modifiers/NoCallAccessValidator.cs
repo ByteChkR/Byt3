@@ -7,7 +7,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Checking.Modifiers
 {
     public class NoCallAccessValidator : AModifierValidator
     {
-        protected string[] InvalidInstructions => new[] {"jmp"};
+        protected string[] ValidInstructions => new[] { "jmp", "bge", "bgt", "ble", "blt" };
         protected override InstructionArgumentCategory InvalidArguments => InstructionArgumentCategory.DefinedFunction;
 
         protected override void Validate(SerializableFLProgram prog, SerializableFLFunction func,
@@ -25,7 +25,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Checking.Modifiers
 
         protected override bool AppliesOnInstruction(SerializableFLInstruction instr)
         {
-            return !InvalidInstructions.Contains(instr.InstructionKey);
+            return !ValidInstructions.Contains(instr.InstructionKey);
         }
     }
 }

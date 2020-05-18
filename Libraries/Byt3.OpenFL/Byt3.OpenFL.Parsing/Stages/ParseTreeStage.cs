@@ -6,14 +6,13 @@ using Byt3.ADL;
 using Byt3.Callbacks;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common;
+using Byt3.OpenFL.Common.Arguments;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty;
 using Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
-using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn;
 using Byt3.OpenFL.Common.ElementModifiers;
 using Byt3.OpenFL.Common.Exceptions;
 using Byt3.OpenFL.Common.Parsing.StageResults;
-using Byt3.OpenFL.Parsing.StageResults;
 using Byt3.Utilities.Exceptions;
 using Byt3.Utilities.FastString;
 
@@ -210,7 +209,7 @@ namespace Byt3.OpenFL.Parsing.Stages
 
                 return new SerializeBufferArgument(argument);
             }
-
+            
             if (arrayBufferNames.Contains(argument))
             {
                 //if (currentFunction.Modifiers.IsStatic)
@@ -219,6 +218,10 @@ namespace Byt3.OpenFL.Parsing.Stages
                 //}
 
                 return new SerializeArrayBufferArgument(argument);
+            }
+            else if (SerializeArrayElementArgument.TryParse(arrayBufferNames, argument, out SerializeArrayElementArgument arg))
+            {
+                return arg;
             }
 
             if (scriptNames.Contains(argument))

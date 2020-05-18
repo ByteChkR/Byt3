@@ -1,5 +1,3 @@
-#include interpolation/interpolation.cl
-
 uchar Lerp(uchar a, uchar b, float weightB)
 {   
     float w = clamp(weightB, 0.0f, 1.0f);
@@ -25,8 +23,8 @@ int3 Get3DimensionalIndex(int width, int height, int index)
 
 int2 Get2DIndex(int index, int width)
 {
-	int x = (int)fmod((float)index,(float)width);
-	int y = index / width;
-	int2 ret = (int2)(x, y);
-	return ret;
+    int x = (int)fmod((float)index,(float)width);
+    int y = index / width;
+    int2 ret = (int2)(x, y);
+    return ret;
 }

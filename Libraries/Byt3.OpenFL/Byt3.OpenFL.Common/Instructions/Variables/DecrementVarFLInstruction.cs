@@ -24,7 +24,8 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
                     }
                     else if (Arguments[i].Type == FLInstructionArgumentType.Name)
                     {
-                        v -= Parent.Variables.GetVariable(Arguments[i].ToString());
+                        object o = Arguments[i].GetValue();
+                        v -= Parent.Variables.GetVariable(o.ToString());
                     }
                 }
             }

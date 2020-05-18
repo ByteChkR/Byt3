@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using FLDebugger.Projects.Instancing;
 using FLDebugger.Projects.ProjectObjects;
 
-namespace FLDebugger.Projects
+namespace FLDebugger.Projects.Forms
 {
     public partial class FLProjectExplorer : Form
     {

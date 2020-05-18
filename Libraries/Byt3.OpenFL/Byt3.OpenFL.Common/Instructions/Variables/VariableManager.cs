@@ -23,23 +23,6 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
             Parent = parent;
         }
 
-        public void AddGlobal(string varName, T value)
-        {
-            if (Parent != null)
-            {
-                Parent.AddGlobal(varName, value);
-            }
-            else
-            {
-                AddVariable(varName, value);
-            }
-        }
-
-        public void AddVariable(string varName, T value)
-        {
-            Variables.Add(varName, value);
-        }
-
         public bool IsDefined(string varName)
         {
             return IsDefinedLocal(varName) || Parent != null && Parent.IsDefined(varName);
@@ -48,6 +31,17 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
         public bool IsDefinedLocal(string varName)
         {
             return Variables.ContainsKey(varName);
+        }
+
+        public void ChangeLocalVariable(string varName, T value)
+        {
+            Variables[varName] = value;
+        }
+
+        public void ChangeGlobalVariable(string varName, T value)
+        {
+            if(Parent != null)Parent.ChangeGlobalVariable(varName, value);
+            else ChangeLocalVariable(varName, value);
         }
 
         public void ChangeVariable(string varName, T value)

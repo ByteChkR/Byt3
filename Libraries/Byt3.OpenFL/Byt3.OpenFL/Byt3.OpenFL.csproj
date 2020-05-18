@@ -1,14 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.4.18.1107</AssemblyVersion>
-    <FileVersion>1.4.18.1107</FileVersion>
+    <AssemblyVersion>1.4.29.215</AssemblyVersion>
+    <FileVersion>1.4.29.215</FileVersion>
   </PropertyGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
   <ItemGroup>
     <ProjectReference Include="..\Byt3.OpenFL.Parsing\Byt3.OpenFL.Parsing.csproj" />
-    <ProjectReference Include="..\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
   </ItemGroup>
 </Project>

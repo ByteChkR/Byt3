@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Byt3.ADL;
-using Byt3.OpenFL.Parsing.StageResults;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 
 namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {

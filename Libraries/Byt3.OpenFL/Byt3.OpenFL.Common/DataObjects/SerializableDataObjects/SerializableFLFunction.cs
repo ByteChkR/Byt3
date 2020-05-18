@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Byt3.OpenFL.Common.ElementModifiers;
-using Byt3.OpenFL.Parsing.StageResults;
+using Byt3.OpenFL.Common.Parsing.StageResults;
 
 namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
 {

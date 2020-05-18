@@ -1,0 +1,42 @@
+--define array test: rnd 100 #Create Array with 100 random numbers
+
+#~define NOCALL
+
+
+Main:
+  gdef i 0 #Define Counter
+  jmp Descending
+
+  gdef i 0 #Define Counter
+~if NOCALL
+  jmp Print #Jump to loop
+~else
+  set Print
+~endif
+
+#Performance Improvement by using "nocall" modifier that will enforce the use of jmp with this function.
+#This is not needed but it prevents the developer from accidentially allocating a lot more buffers than needed.
+#When calling this function the parser will create a new buffer with the size of the input image. When jumping this is not happening
+
+~if NOCALL
+Print: nocall 
+~else
+Print:
+~endif
+  print test[i] #Print the random number at index i
+  inc i #increment the Counter
+  blt i ~test Print #When i < ~test then jump to Print
+
+
+Ascending: nocall
+  arrset test i i
+  inc i #increment the Counter
+  blt i ~test Ascending
+
+Descending: nocall
+  def helper ~test #Array Length
+  dec helper i #Length - current index
+  dec helper 1 #Zero based index
+  arrset test i helper
+  inc i #increment the Counter
+  blt i ~test Descending

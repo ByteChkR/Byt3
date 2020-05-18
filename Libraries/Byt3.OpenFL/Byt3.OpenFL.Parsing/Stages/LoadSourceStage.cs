@@ -5,7 +5,6 @@ using Byt3.ExtPP.API;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Parsing.StageResults;
-using Byt3.OpenFL.Parsing.StageResults;
 
 namespace Byt3.OpenFL.Parsing.Stages
 {

@@ -7,32 +7,12 @@ using Byt3.CommandRunner;
 using Byt3.CommandRunner.SetSettings;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common;
-using Byt3.OpenFL.Common.Exceptions;
 using Byt3.OpenFL.Common.Parsing;
 using Byt3.OpenFL.Common.Parsing.StageResults;
-using Byt3.OpenFL.Parsing.StageResults;
 using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenFL.Parsing.Stages
 {
-    internal class StaticFunctionHeader
-    {
-        public readonly string FunctionName;
-        public readonly string[] Modifiers;
-
-        public StaticFunctionHeader(string functionHeader)
-        {
-            string[] f = functionHeader.Split(new[] {':'}, StringSplitOptions.None);
-            if (f.Length == 1)
-            {
-                throw new FLInvalidFunctionUseException(functionHeader, "Invalid line.");
-            }
-
-            FunctionName = f[0];
-            Modifiers = f[1].Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-        }
-    }
-
     public class StaticInspectionStage : PipelineStage<LoadSourceStageResult, StaticInspectionResult>
     {
         private static readonly ADLLogger<LogType> Logger =

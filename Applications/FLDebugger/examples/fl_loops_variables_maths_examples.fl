@@ -1,0 +1,8 @@
+Main:
+	def variable 0
+	inc variable 10
+	multiply variable 10 #Variable = 100
+	dec variable #Implicit Parameter: 1
+	divide variable 3 #Variable = 99 / 3
+	print 33 = variable
+	

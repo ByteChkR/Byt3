@@ -116,11 +116,11 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             return new string(arg);
         }
 
-        public override FLInstruction Create(FLProgram script, SerializableFLInstruction instruction)
+        public override FLInstruction Create(FLProgram script, FLFunction func, SerializableFLInstruction instruction)
         {
             return new KernelFLInstruction(KernelParameter.GetDataMaxSize(KernelList.GenDataType),
                 KernelList.GetClKernel(instruction.InstructionKey),
-                instruction.Arguments.Select(x => new FLInstructionArgument(x.GetValue(script))).ToList());
+                instruction.Arguments.Select(x => new FLInstructionArgument(x.GetValue(script, func))).ToList());
         }
 
         public override bool IsInstruction(string key)

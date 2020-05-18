@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <ExternalProgramEditor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Extension>.fl</Extension>
-  <Target>D:\Users\Tim\Documents\Byt3\Applications\FLDebugger\bin\Debug\FLDebugger.exe</Target>
-  <Format>{0} {1}</Format>
+  <Extension>.md</Extension>
+  <Target>D:\Program Files\Sublime Text 3\sublime_text.exe</Target>
+  <SetWorkingDir>false</SetWorkingDir>
+  <Format>{0}</Format>
 </ExternalProgramEditor>

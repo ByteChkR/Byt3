@@ -6,9 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.Demos\Byt3.Engine.Demos.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.Tutorials\Byt3.Engine.Tutorials.csproj" />
-    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Benchmarking\Byt3.OpenFL.Benchmarking.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.VersionHelper\Byt3Console.VersionHelper.csproj" />
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using System;
 using Byt3.Utilities.FastString;
 
-namespace Byt3.OpenFL.Parsing.StageResults
+namespace Byt3.OpenFL.Common.Parsing.StageResults
 {
     public class StaticInstruction
     {

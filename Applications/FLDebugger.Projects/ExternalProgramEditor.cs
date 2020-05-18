@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
+using FLDebugger.Projects.ProjectObjects;
 
 namespace FLDebugger.Projects
 {

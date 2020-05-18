@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
-using Byt3.OpenFL.Common.Parsing;
-using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
 
-namespace Byt3.OpenFL.Parsing.StageResults
+namespace Byt3.OpenFL.Common.Parsing.StageResults
 {
     public class StaticInspectionResult : FLPipelineResult
     {

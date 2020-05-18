@@ -1,4 +1,4 @@
-﻿using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn;
+﻿using Byt3.OpenFL.Common.Arguments;
 using Byt3.Serialization;
 
 namespace Byt3.OpenFL.Serialization.Serializers.Internal.ArgumentSerializer

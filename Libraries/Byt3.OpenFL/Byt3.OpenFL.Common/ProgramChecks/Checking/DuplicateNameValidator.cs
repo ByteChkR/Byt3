@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 
-namespace Byt3.OpenFL.Common.ProgramChecks
+namespace Byt3.OpenFL.Common.ProgramChecks.Checking
 {
     public class DuplicateNameValidator : FLProgramCheck<SerializableFLProgram>
     {

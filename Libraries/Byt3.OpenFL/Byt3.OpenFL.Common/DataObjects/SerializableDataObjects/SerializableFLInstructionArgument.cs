@@ -1,5 +1,4 @@
 ﻿using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
-using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn;
 
 namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
 {
@@ -7,7 +6,7 @@ namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
     {
         public abstract InstructionArgumentCategory ArgumentCategory { get; }
         public abstract string Identifier { get; }
-        public abstract ImplicitCastBox GetValue(FLProgram script);
+        public abstract ImplicitCastBox GetValue(FLProgram script,FLFunction func);
 
         public override string ToString()
         {

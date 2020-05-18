@@ -1,4 +1,4 @@
-#include utils.cl
+#include utils/indexconversion.cl
 
 
 __kernel void adjustlevelrescale(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, float minVal, float maxVal)

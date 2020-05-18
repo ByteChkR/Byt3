@@ -1,0 +1,72 @@
+#include shapes_f.cl
+
+
+uchar Rectangle(int idx, int channelCount, int width, int height, float x, float y, float w, float h, float v, float maxValue)
+{
+	return (uchar)(Rectanglef(idx, channelCount, width, height, x,y,w,h,v) * maxValue);
+}
+
+uchar RectangleC(int idx, int channelCount, int width, int height, float x, float y, float w, float h, float v, float maxValue)
+{
+	return (uchar)(clamp(Rectanglef(idx, channelCount, width, height, x,y,w,h,v) * maxValue, 0.0f, maxValue));
+}
+
+
+
+uchar Box(int idx, int channelCount, int3 dimensions, float x, float y, float z, float w, float h, float d,float v, float maxValue)
+{
+	return (uchar)(Boxf(idx, channelCount, dimensions, x,y,z,w,h,d,v) * maxValue);
+}
+
+uchar BoxC(int idx, int channelCount, int3 dimensions, float x, float y, float z, float w, float h, float d,float v, float maxValue)
+{
+	return (uchar)(clamp(Boxf(idx, channelCount, dimensions, x,y,z,w,h,d,v) * maxValue, 0.0f, maxValue));
+}
+
+
+
+uchar Point3D(int idx, int channelCount, int3 dimensions, float x, float y, float z, float radius, float maxValue)
+{
+	return (uchar)(Point3Df(idx, channelCount, dimensions, x,y,z,radius) * maxValue);
+}
+
+uchar Point3DC(int idx, int channelCount, int3 dimensions, float x, float y, float z, float radius, float maxValue)
+{
+	return (uchar)(clamp(Point3Df(idx, channelCount, dimensions, x,y,z,radius) * maxValue, 0.0f, maxValue));
+}
+
+
+
+uchar Point2D(int idx, int channelCount, int3 dimensions, float x, float y, float radius, float maxValue)
+{
+	return (uchar)(Point2Df(idx, channelCount, dimensions, x,y,radius) * maxValue);
+}
+
+uchar Point2DC(int idx, int channelCount, int3 dimensions, float x, float y, float radius, float maxValue)
+{
+	return (uchar)(clamp(Point2Df(idx, channelCount, dimensions, x,y,radius) * maxValue, 0.0f, maxValue));
+}
+
+
+
+uchar Sphere(int idx, int channelCount, int3 dimensions, float x, float y, float z, float radius, float v, float maxValue)
+{
+	return (uchar)(Spheref(idx, channelCount, dimensions, x,y,z,radius,v)* maxValue);
+}
+
+uchar SphereC(int idx, int channelCount, int3 dimensions, float x, float y, float z, float radius, float v, float maxValue)
+{
+	return (uchar)(clamp(Spheref(idx, channelCount, dimensions, x,y,z,radius,v)* maxValue, 0.0f, maxValue));
+}
+
+
+
+uchar Circle(int idx, int channelCount, int width, int height, float x, float y, float radius, float v, float maxValue)
+{
+	return (uchar)(Circlef(idx, channelCount, width, height, x,y,radius, v) * maxValue);
+}
+
+uchar CircleC(int idx, int channelCount, int width, int height, float x, float y, float radius, float v, float maxValue)
+{
+	return (uchar)(clamp(Circlef(idx, channelCount, width, height, x,y,radius, v) * maxValue, 0.0f, maxValue));
+}

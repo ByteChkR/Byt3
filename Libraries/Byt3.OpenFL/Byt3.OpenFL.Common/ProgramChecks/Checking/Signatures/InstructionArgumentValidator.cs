@@ -6,7 +6,7 @@ using Byt3.OpenFL.Common.Exceptions;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.OpenFL.Common.Instructions.SignatureParsing;
 
-namespace Byt3.OpenFL.Common.ProgramChecks
+namespace Byt3.OpenFL.Common.ProgramChecks.Checking.Signatures
 {
     public class InstructionArgumentValidator : FLProgramCheck<SerializableFLProgram>
     {

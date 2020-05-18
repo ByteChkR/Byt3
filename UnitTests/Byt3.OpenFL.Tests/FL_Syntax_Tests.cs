@@ -11,6 +11,7 @@ using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
+using Byt3.OpenFL.Common.ProgramChecks.Checking;
 using Byt3.OpenFL.Parsing;
 using Byt3.Utilities.Exceptions;
 using NUnit.Framework;

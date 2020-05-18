@@ -1,4 +1,4 @@
-﻿namespace FLDebugger.Projects
+﻿namespace FLDebugger.Projects.Forms
 {
     partial class AddEditorDialog
     {

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.OpenFL.Common.Instructions.SignatureParsing;
 using Byt3.OpenFL.Common.ProgramChecks;
+using Byt3.OpenFL.Common.ProgramChecks.Checking.Signatures;
 using FLDebugger.Properties;
 
 namespace FLDebugger.Forms

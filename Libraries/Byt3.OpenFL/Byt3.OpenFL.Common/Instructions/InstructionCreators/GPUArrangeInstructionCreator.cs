@@ -14,20 +14,20 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             ArrangeKernel = arrangeKernel;
         }
 
-        public override string[] InstructionKeys => new[] {"gpu_arrange"};
+        public override string[] InstructionKeys => new[] { "gpu_arrange" };
 
         public override string GetArgumentSignatureForInstruction(string instruction)
         {
             return "V|VV|VVV|VVVV";
         }
 
-        public override FLInstruction Create(FLProgram script, SerializableFLInstruction instruction)
+        public override FLInstruction Create(FLProgram script, FLFunction func, SerializableFLInstruction instruction)
         {
             List<FLInstructionArgument> args = new List<FLInstructionArgument>();
 
             for (int i = 0; i < instruction.Arguments.Count; i++)
             {
-                FLInstructionArgument arg = new FLInstructionArgument(instruction.Arguments[i].GetValue(script));
+                FLInstructionArgument arg = new FLInstructionArgument(instruction.Arguments[i].GetValue(script, func));
                 args.Add(arg);
             }
 

@@ -1,5 +1,5 @@
-#include utils.cl
-#include gconvert.cl int float
+#include utils/indexconversion.cl
+#include utils/gconvert.cl int float
 
 float GetWorleyDistance(float3 point, float3 worleypoint, float pmax)
 {

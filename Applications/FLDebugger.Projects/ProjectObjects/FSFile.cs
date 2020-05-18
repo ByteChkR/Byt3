@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace FLDebugger.Projects
+namespace FLDebugger.Projects.ProjectObjects
 {
     public class FSFile : FSEntry
     {

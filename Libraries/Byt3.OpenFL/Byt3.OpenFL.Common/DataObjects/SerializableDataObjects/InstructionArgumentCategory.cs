@@ -1,5 +1,8 @@
-﻿namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
+﻿using System;
+
+namespace Byt3.OpenFL.Common.DataObjects.SerializableDataObjects
 {
+    [Flags]
     public enum InstructionArgumentCategory
     {
         Invalid = 0,

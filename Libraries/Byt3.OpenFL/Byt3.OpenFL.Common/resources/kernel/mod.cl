@@ -1,4 +1,4 @@
-#include utils.cl
+#include utils/indexconversion.cl
 
 __kernel void mod(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, __global uchar* overlay)
 {

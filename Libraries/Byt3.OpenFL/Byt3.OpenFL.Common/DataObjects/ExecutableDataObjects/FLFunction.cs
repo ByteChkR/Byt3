@@ -32,10 +32,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
         public override void SetRoot(FLProgram root)
         {
-            //if (root == Root)
-            //{
-            //    return;
-            //}
+            
 
             base.SetRoot(root);
 
@@ -48,6 +45,8 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 
             for (int i = 0; i < Instructions.Count; i++)
             {
+                if(Instructions[i].Root == root)continue;
+
                 Instructions[i].SetRoot(root);
                 Instructions[i].SetParent(this);
             }

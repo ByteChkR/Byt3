@@ -3,7 +3,7 @@ using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common.Buffers;
 using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 
-namespace Byt3.OpenFL.Parsing.StageResults
+namespace Byt3.OpenFL.Common.Parsing.StageResults
 {
     public class ParseTreeStageResult
     {

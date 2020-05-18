@@ -11,7 +11,7 @@ using Byt3.OpenFL.Benchmarking;
 using Byt3.OpenFL.Common;
 using Byt3.Utilities.ConsoleInternals;
 using Byt3.Utilities.ManifestIO;
-using Byt3Console.OpenFL.ScriptGenerator.Commands;
+using Byt3Console.OpenFL.ScriptGenerator.Settings;
 
 namespace Byt3Console.OpenFL.ScriptGenerator
 {

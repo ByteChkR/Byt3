@@ -61,6 +61,8 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 "Prints text or all kinds of variables to the console.");
             iset.AddInstructionWithDefaultCreator<CPUArrangeFLInstruction>("arrange", "V|VV|VVV|VVVV",
                 "Swaps the channels based on the arguments provided");
+            iset.AddInstructionWithDefaultCreator<ArraySetFLInstruction>("arrset", "CVV", "sets the specified value at the specified index.");
+
             iset.AddInstruction(new KernelFLInstructionCreator(db));
 
             if (db.TryGetClKernel("_arrange", out CLKernel arrangeKernel))
@@ -143,9 +145,9 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                                                             instruction.InstructionKey);
         }
 
-        public FLInstruction Create(FLProgram script, SerializableFLInstruction instruction)
+        public FLInstruction Create(FLProgram script, FLFunction func, SerializableFLInstruction instruction)
         {
-            return GetCreator(instruction).Create(script, instruction);
+            return GetCreator(instruction).Create(script, func, instruction);
         }
 
 

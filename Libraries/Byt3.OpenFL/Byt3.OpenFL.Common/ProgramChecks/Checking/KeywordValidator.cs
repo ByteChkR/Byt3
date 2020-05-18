@@ -2,7 +2,7 @@
 using System.Linq;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 
-namespace Byt3.OpenFL.Common.ProgramChecks
+namespace Byt3.OpenFL.Common.ProgramChecks.Checking
 {
     public class KeywordValidator : FLProgramCheck<SerializableFLProgram>
     {

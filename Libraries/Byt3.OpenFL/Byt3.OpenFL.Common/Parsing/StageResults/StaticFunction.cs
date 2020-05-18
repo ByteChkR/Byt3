@@ -2,7 +2,7 @@
 using System.Linq;
 using Byt3.OpenFL.Common.ElementModifiers;
 
-namespace Byt3.OpenFL.Parsing.StageResults
+namespace Byt3.OpenFL.Common.Parsing.StageResults
 {
     public class StaticFunction
     {

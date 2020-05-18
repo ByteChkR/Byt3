@@ -23,7 +23,6 @@
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Base\Byt3.ExtPP.Base.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.Plugins\Byt3.ExtPP.Plugins.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP\Byt3.ExtPP.csproj" />
-    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

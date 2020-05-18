@@ -1,5 +1,3 @@
-#include utils.cl
-
 __kernel void invert(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState)
 {
 	int idx = get_global_id(0);

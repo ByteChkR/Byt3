@@ -6,10 +6,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using FLDebugger.Projects.Forms;
 using FLDebugger.Projects.ProjectObjects;
 
-namespace FLDebugger.Projects
+namespace FLDebugger.Projects.Forms
 {
     public partial class StartupSplash : Form
     {

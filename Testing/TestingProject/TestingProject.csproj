@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Byt3.Engine\Byt3.Engine.Demos\Byt3.Engine.Demos.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3.Engine\Games\HorrorOfBindings\HorrorOfBindings.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.AssemblyGenerator\Byt3Console.AssemblyGenerator.csproj" />
     <ProjectReference Include="..\..\Libraries\Byt3Console\Byt3Console.Engine.BuildTools\Byt3Console.Engine.BuildTools.csproj" />

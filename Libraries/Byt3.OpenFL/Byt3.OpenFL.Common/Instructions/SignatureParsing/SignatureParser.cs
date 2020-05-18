@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.ProgramChecks;
+using Byt3.OpenFL.Common.ProgramChecks.Checking.Signatures;
 
 namespace Byt3.OpenFL.Common.Instructions.SignatureParsing
 {

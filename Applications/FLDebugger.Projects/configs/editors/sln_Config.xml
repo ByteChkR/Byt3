@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <ExternalProgramEditor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Extension>.csproj</Extension>
-  <Target>cmd.exe</Target>
-  <Format>{0}</Format>
+  <Extension>.sln</Extension>
+  <Target>C:\Windows\SysWOW64\cmd.exe</Target>
+  <SetWorkingDir>true</SetWorkingDir>
+  <Format>/C {0}</Format>
 </ExternalProgramEditor>

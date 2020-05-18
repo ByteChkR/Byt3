@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Byt3.AutoUpdate.Helper;
+using FLDebugger.Projects.Forms;
 
 namespace FLDebugger.Projects
 {

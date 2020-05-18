@@ -1,4 +1,4 @@
-﻿namespace Byt3Console.OpenFL.ScriptGenerator.Commands
+﻿namespace Byt3Console.OpenFL.ScriptGenerator.Settings
 {
     public class FLScriptGeneratorSettings
     {

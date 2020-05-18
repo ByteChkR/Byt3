@@ -1,6 +1,5 @@
 ﻿using System;
 using Byt3.OpenFL.Common.Buffers;
-using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects.BuiltIn;
 
 namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
 {
@@ -8,6 +7,8 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
     {
         private static readonly Type[] PossibleValueTypes =
             {typeof(decimal), typeof(FLBuffer), typeof(IFunction), typeof(string)};
+
+        private FLFunction Parent;
 
         public FLInstructionArgument(ImplicitCastBox value)
         {
@@ -40,6 +41,11 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
             return Value.GetValue();
         }
 
+        public void SetParent(FLFunction func)
+        {
+            Parent = func;
+        }
+
         public override void SetRoot(FLProgram root)
         {
             base.SetRoot(root);
@@ -70,12 +76,12 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
                 return (obj as FLBuffer).DefinedBufferName;
             }
 
-            if (Type == FLInstructionArgumentType.Name && Root != null && Root.Variables.IsDefined(Value.ToString()))
+            if (Type == FLInstructionArgumentType.Name && Parent != null && Parent.Variables.IsDefined(Value.ToString()))
             {
-                return Root.Variables.GetVariable(Value.ToString()).ToString();
+                return Parent.Variables.GetVariable(Value.ToString()).ToString();
             }
 
-            if (Type == FLInstructionArgumentType.Name && (Root == null || !Root.Variables.IsDefined(Value.ToString())))
+            if (Type == FLInstructionArgumentType.Name && (Parent == null || !Parent.Variables.IsDefined(Value.ToString())))
             {
                 return Value.ToString();
             }
