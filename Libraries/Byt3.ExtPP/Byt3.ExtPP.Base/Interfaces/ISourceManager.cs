@@ -55,6 +55,6 @@
         /// <param name="pluginCache"></param>
         /// <returns></returns>
         bool TryCreateScript(out ISourceScript script, string separator, IFileContent file,
-            ImportResult importInfo);
+            ImportResult importInfo, bool isInline);
     }
 }

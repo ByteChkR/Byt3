@@ -40,6 +40,7 @@
             this.lblDefaultProgram = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tvWorkingDir = new System.Windows.Forms.TreeView();
+            this.btnAddFile = new System.Windows.Forms.Button();
             this.panelTop.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -50,6 +51,7 @@
             // 
             // panelTop
             // 
+            this.panelTop.Controls.Add(this.btnAddFile);
             this.panelTop.Controls.Add(this.lblVersion);
             this.panelTop.Controls.Add(this.btnCollapse);
             this.panelTop.Controls.Add(this.btnExpand);
@@ -59,7 +61,7 @@
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(347, 103);
+            this.panelTop.Size = new System.Drawing.Size(347, 111);
             this.panelTop.TabIndex = 2;
             // 
             // lblVersion
@@ -130,9 +132,9 @@
             // 
             this.panel1.Controls.Add(this.tvWorkingDir);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 103);
+            this.panel1.Location = new System.Drawing.Point(0, 111);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(347, 408);
+            this.panel1.Size = new System.Drawing.Size(347, 400);
             this.panel1.TabIndex = 3;
             // 
             // tvWorkingDir
@@ -141,9 +143,21 @@
             this.tvWorkingDir.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvWorkingDir.Location = new System.Drawing.Point(0, 0);
             this.tvWorkingDir.Name = "tvWorkingDir";
-            this.tvWorkingDir.Size = new System.Drawing.Size(347, 408);
+            this.tvWorkingDir.Size = new System.Drawing.Size(347, 400);
             this.tvWorkingDir.TabIndex = 0;
             this.tvWorkingDir.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvWorkingDir_AfterSelect);
+            // 
+            // btnAddFile
+            // 
+            this.btnAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddFile.Location = new System.Drawing.Point(267, 82);
+            this.btnAddFile.Name = "btnAddFile";
+            this.btnAddFile.Size = new System.Drawing.Size(75, 23);
+            this.btnAddFile.TabIndex = 6;
+            this.btnAddFile.Text = "New..";
+            this.btnAddFile.UseVisualStyleBackColor = true;
+            this.btnAddFile.Click += new System.EventHandler(this.btnAddFile_Click);
             // 
             // FLProjectExplorer
             // 
@@ -176,6 +190,7 @@
         private System.Windows.Forms.Button btnCollapse;
         private System.Windows.Forms.Button btnExpand;
         private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.Button btnAddFile;
     }
 }
 

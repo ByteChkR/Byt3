@@ -46,12 +46,27 @@
       <HintPath>..\..\packages\Costura.Fody.3.3.3\lib\net40\Costura.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\AboutInfo.cs">
@@ -65,6 +80,24 @@
     </Compile>
     <Compile Include="Forms\BuildExceptionViewer.Designer.cs">
       <DependentUpon>BuildExceptionViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\KernelLoader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\KernelLoader.Designer.cs">
+      <DependentUpon>KernelLoader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MiniBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MiniBrowser.Designer.cs">
+      <DependentUpon>MiniBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SettingsDialog.Designer.cs">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\FLDataContainer.cs" />
     <Compile Include="Forms\FLDebuggerWindow.cs">
@@ -107,6 +140,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\FLEditorTheme.cs" />
+    <Compile Include="Utils\XMLColor.cs" />
     <EmbeddedResource Include="Forms\AboutInfo.resx">
       <DependentUpon>AboutInfo.cs</DependentUpon>
     </EmbeddedResource>
@@ -125,8 +160,17 @@
     <EmbeddedResource Include="Forms\InstructionViewer.resx">
       <DependentUpon>InstructionViewer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\KernelLoader.resx">
+      <DependentUpon>KernelLoader.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\LogDisplay.resx">
       <DependentUpon>LogDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MiniBrowser.resx">
+      <DependentUpon>MiniBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SettingsDialog.resx">
+      <DependentUpon>SettingsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -138,16 +182,40 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="examples\fl_clip_crop_cut_examples.fl">
+    <None Include="examples\instructions\clip_example.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="examples\fl_loops_variables_arrays_examples.fl">
+    <None Include="examples\instructions\crop_example.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="examples\fl_loops_variables_maths_examples.fl">
+    <None Include="examples\instructions\cut_example.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="examples\fl_modifier_examples.fl">
+    <None Include="examples\instructions\setup\input_test.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="examples\misc\steelie_tire_example.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="examples\modifiers\array_modifiers.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="examples\modifiers\buffer_modifiers.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="examples\modifiers\function_modifiers.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="examples\variables\arrays_loops_example.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="examples\variables\global_variable_examples.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="examples\variables\local_variables_examples.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="examples\variables\variable_maths_examples.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
@@ -162,12 +230,22 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj">
       <Project>{a509590e-6992-4b18-a5e0-f839a42da31c}</Project>
       <Name>Byt3.ADL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Byt3.CommandRunner.SetSettings\Byt3.CommandRunner.SetSettings.csproj">
+      <Project>{4d333722-4862-4828-8e72-7f73b6198b6e}</Project>
+      <Name>Byt3.CommandRunner.SetSettings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Byt3.CommandRunner\Byt3.CommandRunner.csproj">
+      <Project>{9d91988d-6fa8-4968-b967-ce9746a0a0fc}</Project>
+      <Name>Byt3.CommandRunner</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj">
       <Project>{b456a960-ddcb-4937-a1f8-6aa963dd561a}</Project>
@@ -197,6 +275,10 @@
       <Project>{4c8a3949-a01e-4d5f-8d60-7e2ab8153632}</Project>
       <Name>Byt3.AutoUpdate.Helper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj">
+      <Project>{07fbeeed-bfb0-4622-aa56-9419c2007c61}</Project>
+      <Name>Byt3.Callbacks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj">
       <Project>{ff1c8442-5210-4458-ab9c-469f0cdbaa68}</Project>
       <Name>Byt3.DisposableManagement</Name>
@@ -208,6 +290,10 @@
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.Exceptions\Byt3.Utilities.Exceptions.csproj">
       <Project>{610d3371-b0cd-4638-9bd9-d76c07f6589c}</Project>
       <Name>Byt3.Utilities.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.FastString\Byt3.Utilities.FastString.csproj">
+      <Project>{c254dc4d-cd80-4190-aa8c-0c0b24ce7984}</Project>
+      <Name>Byt3.Utilities.FastString</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.ManifestIO\Byt3.Utilities.ManifestIO.csproj">
       <Project>{fa81ec2c-ecf3-4126-a396-7505413fd34d}</Project>
@@ -222,6 +308,18 @@
     <None Include="Resources\loading_pac.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="configs\fl_editor\themes\default.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="configs\fl_editor\themes\default_dark.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="configs\fl_editor\themes\default_dark_small.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="configs\fl_editor\themes\default_small.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="OpenFL.ico" />
     <Content Include="Resources\OpenFL.png" />
   </ItemGroup>

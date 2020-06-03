@@ -17,7 +17,32 @@ namespace Byt3.Utilities.FastString
                     p.RemoveAt(i); //Remove the ..
                     if (i != 0)
                     {
-                        p.RemoveAt(i - 1); //Remove the previous part
+                        if (p[i - 1] != "..")
+                        {
+                            p.RemoveAt(i - 1); //Remove the previous part
+                        }
+                        else
+                        {
+                            int remamount = 1;
+                            for (int j = i - 1; j > 0; j--)
+                            {
+                                if (p[j] == "..")
+                                {
+                                    remamount++;
+                                    p.RemoveAt(j);
+                                }
+                                else
+                                {
+                                    for (int k = j; k > j-remamount; k--)
+                                    {
+                                        p.RemoveAt(k);
+                                    }
+
+                                    i -= remamount;
+                                    break;
+                                }
+                            }
+                        }
                     }
 
                     i--;
@@ -83,7 +108,7 @@ namespace Byt3.Utilities.FastString
         /// <returns></returns>
         public static IEnumerable<string> Pack(this string arr, string separator)
         {
-            return arr.Split(new[] {separator}, StringSplitOptions.None);
+            return arr.Split(new[] { separator }, StringSplitOptions.None);
         }
 
 

@@ -28,14 +28,14 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.Empty
                     new FLBuffer(
                         CLAPI.CreateEmpty<byte>(root.Instance, root.InputSize, flag,
                             "EmptySerializableBuffer." + Name),
-                        root.Dimensions.x, root.Dimensions.y), Modifiers.InitializeOnStart);
+                        root.Dimensions.x, root.Dimensions.y, root.Dimensions.z), Modifiers.InitializeOnStart);
             }
 
             return new LazyLoadingFLBuffer(root =>
                 new FLBuffer(
                     CLAPI.CreateEmpty<byte>(root.Instance, Size, flag,
                         "EmptySerializableBuffer." + Name),
-                    Size, 1), Modifiers.InitializeOnStart);
+                    Size, 1, 1), Modifiers.InitializeOnStart);
         }
 
         public override string ToString()

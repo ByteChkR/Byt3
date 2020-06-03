@@ -35,7 +35,7 @@ namespace Byt3.OpenFL.Common.Instructions
                     {
                         FLBuffer buffer =
                             Root.RegisterUnmanagedBuffer(new FLBuffer(Root.Instance, Root.Dimensions.x,
-                                Root.Dimensions.y, "FunctionInputBuffer_Registered"));
+                                Root.Dimensions.y, Root.Dimensions.z, "FunctionInputBuffer_Registered"));
                         IFunction source = (IFunction) Arguments[i].GetValue();
 
 

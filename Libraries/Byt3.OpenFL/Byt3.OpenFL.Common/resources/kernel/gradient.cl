@@ -1,4 +1,4 @@
-#include utils/interpolation/finterpolation.cl
+#include interpolator/finterpolation.cl
 #include utils/indexconversion.cl
 
 __kernel void gradient_v(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, float top, float bottom)

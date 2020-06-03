@@ -94,14 +94,18 @@ namespace Byt3.ExtPP
         public void FixOrder(ISourceScript script)
         {
             Logger.Log(LogType.Log,
-                "Fixing Build Order of file: {Path.GetFileName(script.GetFileInterface().GetKey())}", 3);
+                $"Fixing Build Order of file: {Path.GetFileName(script.GetFileInterface().GetKey())}", 3);
             int idx = IndexOfFile(script.GetKey());
             ISourceScript a = sources[idx];
+
             ProcessStage ab = doneState[idx];
-            doneState.RemoveAt(idx);
-            doneState.Add(ab);
-            sources.RemoveAt(idx);
-            AddFile(a, true);
+            if (!a.IsInline)
+            {
+                doneState.RemoveAt(idx);
+                doneState.Add(ab);
+                sources.RemoveAt(idx);
+                AddFile(a, true);
+            }
         }
 
 
@@ -124,7 +128,7 @@ namespace Byt3.ExtPP
         {
             if (!IsIncluded(script))
             {
-                AddFile(script, false);
+                AddFile(script, false, script.IsInline);
                 doneState.Add(ProcessStage.Queued);
             }
         }
@@ -157,7 +161,7 @@ namespace Byt3.ExtPP
         /// <param name="importInfo">the import info of the key and path importation</param>
         /// <returns>the success state of the operation</returns>
         public bool TryCreateScript(out ISourceScript script, string separator, IFileContent file,
-            ImportResult importInfo)
+            ImportResult importInfo, bool isInline)
         {
             if (lockScriptCreation)
             {
@@ -167,7 +171,7 @@ namespace Byt3.ExtPP
                 return false;
             }
 
-            script = new SourceScript(separator, file, importInfo);
+            script = new SourceScript(separator, file, importInfo, isInline);
             return true;
         }
 
@@ -236,13 +240,18 @@ namespace Byt3.ExtPP
         /// </summary>
         /// <param name="script">The file to be added.</param>
         /// <param name="checkForExistingKey">A flag to optionally check if the key of the file is already existing</param>
-        private void AddFile(ISourceScript script, bool checkForExistingKey)
+        private void AddFile(ISourceScript script, bool checkForExistingKey, bool atFront = false)
         {
             if (checkForExistingKey && ContainsFile(script.GetKey()))
             {
                 return;
             }
 
+            if (atFront)
+            {
+                sources.Insert(0, script);
+                return;
+            }
             sources.Add(script);
         }
 

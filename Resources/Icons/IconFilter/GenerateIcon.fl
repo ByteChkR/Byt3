@@ -1,66 +1,71 @@
 --define texture logo: "Resources/Icons/OpenFL.png"
 --define texture temp: empty
+--define texture out: empty
 --define array worleypoints: rnd 900
 
 
 Worley:
 	worley worleypoints ~worleypoints 1
-	mulv 25
+	dMul_v 25
 
 Main:
-	addc Background
-	addc Logo
+	setactive out 0 1 2 3
+	dAdd_c_t Background
+	dAdd_c_t Logo
+	setactive 3
+	blur_xy out 6
+	setactive in 0 1 2 3
+	dAdd_c_t out
+	
 
 PlainPerlin:
 	rnd
 	perlin 0.8 7
 
 Perlin:
-	set PlainPerlin
-	add PlainPerlin
+	dSet_t PlainPerlin
+	dAdd_t PlainPerlin
 
 Logo:
 	#Shape:
-	set logo
+	dSet_t logo
 	#subc CreateMask
 	#Colors:
 	setactive 0 1 2
-	mul PlainPerlin
+	dMul_t PlainPerlin
 
 Background:
 	#Shape:
-	addc CreateMask
-	subc logo
+	dAdd_c_t CreateMask
+	dSub_c_t logo
 	#Colors:
 	setactive 0
-	mul PlainPerlin
+	dMul_t PlainPerlin
 	setactive 1
-	mul Worley
+	dMul_t Worley
 	setactive 2
-	mul Perlin
+	dMul_t Perlin
 
 CreateMask:
 	setactive 0 3
 	circle1 0.5 0.5 0.4
-	invert
+	dFlip
 	circle1 0.5 0.5 0.3
-	invert
+	dFlip
 	
 	setactive 1 3
 	circle1 0.5 0.5 0.3
-	invert
+	dFlip
 	circle1 0.5 0.5 0.2
-	invert
+	dFlip
 
 	
 	setactive 2 3
 	circle1 0.5 0.5 0.2
-	invert
+	dFlip
 	circle1 0.5 0.5 0.1
-	invert
+	dFlip
 
 	
 	setactive 3
 	circle1 0.5 0.5 0.1
-
-	

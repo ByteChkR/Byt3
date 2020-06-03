@@ -13,9 +13,9 @@ namespace Byt3.ExtPP.Plugins
 {
     public class IncludePlugin : AbstractFullScriptPlugin
     {
-        public override string[] Cleanup => new[] {IncludeKeyword};
+        public override string[] Cleanup => new[] { IncludeKeyword };
         public override ProcessStage ProcessStages => ProcessStage.OnMain;
-        public override string[] Prefix => new[] {"inc", "Include"};
+        public override string[] Prefix => new[] { "inc", "Include" };
         public string IncludeKeyword { get; set; } = "#include";
         public string IncludeInlineKeyword { get; set; } = "#includeinl";
         public string Separator { get; set; } = " ";
@@ -44,48 +44,82 @@ namespace Byt3.ExtPP.Plugins
             Logger.Log(LogType.Log, "Disovering Include Statments...", PLUGIN_MIN_SEVERITY);
             List<string> source = script.GetSource().ToList();
             string currentPath = Path.GetDirectoryName(script.GetFileInterface().GetFilePath());
-            bool hasIncludedInline;
-            do
+            //bool hasIncludedInline;
+            //do
+            //{
+            //    hasIncludedInline = false;
+            //    for (int i = source.Count - 1; i >= 0; i--)
+            //    {
+            //        if (Utils.IsStatement(source[i], IncludeInlineKeyword))
+            //        {
+            //            Logger.Log(LogType.Log, "Found Inline Include Statement...", PLUGIN_MIN_SEVERITY + 1);
+            //            string[] args = Utils.SplitAndRemoveFirst(source[i], Separator);
+            //            if (args.Length == 0)
+            //            {
+            //                Logger.Log(LogType.Error, "No File Specified", 1);
+            //                continue;
+            //            }
+
+            //            if (Utils.FileExistsRelativeTo(currentPath, args[0]))
+            //            {
+            //                Logger.Log(LogType.Log, "Replacing Inline Keyword with file content",
+            //                    PLUGIN_MIN_SEVERITY + 2);
+            //                source.RemoveAt(i);
+
+            //                source.InsertRange(i, IOManager.ReadAllLines(Path.Combine(currentPath, args[0])));
+            //                hasIncludedInline = true;
+            //            }
+            //            else
+            //            {
+            //                Logger.Log(LogType.Error, $"File does not exist: {args[0]}", 1);
+            //            }
+            //        }
+            //    }
+
+            //    script.SetSource(source.ToArray());
+            //} while (hasIncludedInline);
+
+
+            string[] inlIncs = Utils.FindStatements(source.ToArray(), IncludeInlineKeyword);
+
+            foreach (string inlInc in inlIncs)
             {
-                hasIncludedInline = false;
-                for (int i = source.Count - 1; i >= 0; i--)
+
+                Logger.Log(LogType.Log, $"Processing Statement: {inlInc}", PLUGIN_MIN_SEVERITY + 1);
+                bool tmp = GetISourceScript(sourceManager, inlInc, currentPath, true, out List<ISourceScript> sources);
+
+                if (tmp)
                 {
-                    if (Utils.IsStatement(source[i], IncludeInlineKeyword))
+                    foreach (ISourceScript sourceScript in sources)
                     {
-                        Logger.Log(LogType.Log, "Found Inline Include Statement...", PLUGIN_MIN_SEVERITY + 1);
-                        string[] args = Utils.SplitAndRemoveFirst(source[i], Separator);
-                        if (args.Length == 0)
-                        {
-                            Logger.Log(LogType.Error, "No File Specified", 1);
-                            continue;
-                        }
+                        Logger.Log(LogType.Log,
+                            $"Processing Inline Include: {Path.GetFileName(sourceScript.GetFileInterface().GetKey())}",
+                            PLUGIN_MIN_SEVERITY + 2);
 
-                        if (Utils.FileExistsRelativeTo(currentPath, args[0]))
+                        if (!sourceManager.IsIncluded(sourceScript))
                         {
-                            Logger.Log(LogType.Log, "Replacing Inline Keyword with file content",
-                                PLUGIN_MIN_SEVERITY + 2);
-                            source.RemoveAt(i);
-
-                            source.InsertRange(i, IOManager.ReadAllLines(Path.Combine(currentPath, args[0])));
-                            hasIncludedInline = true;
+                            sourceManager.AddToTodo(sourceScript);
                         }
                         else
                         {
-                            Logger.Log(LogType.Error, $"File does not exist: {args[0]}", 1);
+                            sourceManager.FixOrder(sourceScript);
                         }
                     }
                 }
+                else
+                {
+                    return
+                        false; //We crash if we didnt find the file. but if the user forgets to specify the path we will just log the error
 
-                script.SetSource(source.ToArray());
-            } while (hasIncludedInline);
-
+                }
+            }
 
             string[] incs = Utils.FindStatements(source.ToArray(), IncludeKeyword);
 
             foreach (string includes in incs)
             {
                 Logger.Log(LogType.Log, $"Processing Statement: {includes}", PLUGIN_MIN_SEVERITY + 1);
-                bool tmp = GetISourceScript(sourceManager, includes, currentPath, out List<ISourceScript> sources);
+                bool tmp = GetISourceScript(sourceManager, includes, currentPath, false, out List<ISourceScript> sources);
                 if (tmp)
                 {
                     foreach (ISourceScript sourceScript in sources)
@@ -116,7 +150,7 @@ namespace Byt3.ExtPP.Plugins
         }
 
 
-        private bool GetISourceScript(ISourceManager manager, string statement, string currentPath,
+        private bool GetISourceScript(ISourceManager manager, string statement, string currentPath, bool isInline,
             out List<ISourceScript> scripts)
         {
             string[] vars = Utils.SplitAndRemoveFirst(statement, Separator);
@@ -141,7 +175,7 @@ namespace Byt3.ExtPP.Plugins
 
                 IFileContent cont = new FilePathContent(filepath, originalDefinedName);
                 cont.SetKey(key);
-                if (manager.TryCreateScript(out ISourceScript iss, Separator, cont, importInfo))
+                if (manager.TryCreateScript(out ISourceScript iss, Separator, cont, importInfo, isInline))
                 {
                     scripts.Add(iss);
                 }

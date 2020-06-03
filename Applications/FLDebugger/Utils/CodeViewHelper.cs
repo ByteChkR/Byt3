@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using FLDebugger.Forms;
 
 namespace FLDebugger.Utils
 {
@@ -10,8 +11,14 @@ namespace FLDebugger.Utils
             Color.FromArgb((byte) (Color.DimGray.R / 1.3f), (byte) (Color.DimGray.G / 1.3f),
                 (byte) (Color.DimGray.B / 1.3f));
 
+        public static void AppendLine(this RichTextBox box, string text, Color color, Color backColor)
+        {
+            AppendText(box, text+'\n', color, backColor);
+        }
+
         public static void AppendText(this RichTextBox box, string text, Color color, Color backColor)
         {
+            float zoom = box.ZoomFactor;
             box.SelectionStart = box.TextLength;
             box.SelectionLength = 0;
 
@@ -19,6 +26,7 @@ namespace FLDebugger.Utils
             box.SelectionBackColor = backColor;
             box.AppendText(text);
             box.SelectionColor = box.ForeColor;
+            box.ZoomFactor = zoom;
         }
 
         public static void WriteSource(this RichTextBox rtb, string source)
@@ -39,19 +47,19 @@ namespace FLDebugger.Utils
 
                 if (trimmedSourcePart.StartsWith("--")) //Define and Set Declaration
                 {
-                    rtb.AppendText(parts[0], Color.Orange, SourceBackColor);
+                    rtb.AppendText(parts[0], FLScriptEditor.Theme.FLDefines, FLScriptEditor.Theme.PrimaryBackgroundColor);
                 }
                 else if (trimmedSourcePart.StartsWith("~")) //PP Directives
                 {
-                    rtb.AppendText(parts[0], Color.Green, SourceBackColor);
+                    rtb.AppendText(parts[0], FLScriptEditor.Theme.PPKeys, FLScriptEditor.Theme.PrimaryBackgroundColor);
                 }
                 else if (isFunction) //Function Declaration
                 {
-                    rtb.AppendText(parts[0], Color.Crimson, SourceBackColor);
+                    rtb.AppendText(parts[0], FLScriptEditor.Theme.FLFunctions, FLScriptEditor.Theme.PrimaryBackgroundColor);
                 }
                 else if (!string.IsNullOrWhiteSpace(parts[0])) //Some Instructions
                 {
-                    rtb.AppendText(parts[0], Color.Black, SourceBackColor);
+                    rtb.AppendText(parts[0], FLScriptEditor.Theme.PrimaryFontColor, FLScriptEditor.Theme.PrimaryBackgroundColor);
                 }
                 else
                 {
@@ -76,12 +84,12 @@ namespace FLDebugger.Utils
                             text += "\n";
                         }
 
-                        rtb.AppendText(text, Color.Aqua, SourceBackColor);
+                        rtb.AppendText(text, FLScriptEditor.Theme.FLComments, FLScriptEditor.Theme.PrimaryBackgroundColor);
                     }
                 }
                 else if (appendNewL)
                 {
-                    rtb.AppendText("\n", Color.Black, SourceBackColor);
+                    rtb.AppendText("\n", FLScriptEditor.Theme.PrimaryFontColor, FLScriptEditor.Theme.PrimaryBackgroundColor);
                 }
             }
 

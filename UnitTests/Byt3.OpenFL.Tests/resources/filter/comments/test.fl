@@ -5,8 +5,8 @@ Main: #here
 #there
 
   setactive 3 #there
-  setv 1 #there
+  dSet_v 1 #there
   setactive 0 1 2#even here
   rnd #there
-  perlin 0.8 6 #there #there
+  perlin 0.8 6 #there there
   #there

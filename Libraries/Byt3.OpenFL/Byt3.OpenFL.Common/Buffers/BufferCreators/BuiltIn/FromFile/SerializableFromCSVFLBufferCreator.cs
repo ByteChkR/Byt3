@@ -19,7 +19,7 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.FromFile
             }
 
             byte[] csvData = ParseCSV(args[0].Replace("\"", ""));
-            return new SerializableFromBinaryFLBuffer(name, csvData, csvData.Length, 1, modifiers);
+            return new SerializableFromBinaryFLBuffer(name, csvData, csvData.Length, 1, 1, modifiers);
         }
 
         private static byte[] ParseCSV(string file)

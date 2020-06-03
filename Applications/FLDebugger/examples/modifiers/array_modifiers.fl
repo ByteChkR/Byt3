@@ -1,0 +1,20 @@
+#Initializes an Array Buffer with a length of 10
+--define array MyArray: empty 10
+
+#Initializes an Array Buffer with a length of 10
+--define array MyRandomArray: rnd 10
+
+#Buffers are "readwrite" by default.
+
+
+#Arrays can be readonly
+--define array readonly MyReadonlyArray: rnd 10
+
+#Arrays can be Initialized on program start like functions
+--define array init MyReadonlyArray1: rnd 10
+
+Main:
+	print MyArray
+	print MyRandomArray
+	print MyReadonlyArray
+	print MyReadonlyArray1

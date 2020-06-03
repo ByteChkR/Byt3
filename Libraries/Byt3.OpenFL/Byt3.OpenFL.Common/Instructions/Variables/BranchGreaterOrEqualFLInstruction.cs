@@ -36,7 +36,7 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
                 r = Parent.Variables.GetVariable(right.GetValue().ToString());
             }
 
-            if (l < r)
+            if (l >= r)
             {
                 base.Process();
             }

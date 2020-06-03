@@ -1,1 +1,0 @@
-#include internal/allginterpolation.cl double

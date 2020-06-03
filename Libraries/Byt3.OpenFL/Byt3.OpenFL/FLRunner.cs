@@ -64,22 +64,22 @@ namespace Byt3.OpenFL
         public CLAPI Instance { get; }
 
 
-        public FLProgram Run(string file, int width, int height)
+        public FLProgram Run(string file, int width, int height, int depth)
         {
-            return Run(Parser.Process(new FLParserInput(file)), width, height);
+            return Run(Parser.Process(new FLParserInput(file)), width, height, depth);
         }
 
-        public FLProgram Run(SerializableFLProgram file, int width, int height)
+        public FLProgram Run(SerializableFLProgram file, int width, int height, int depth)
         {
-            return Run(file.Initialize(Instance, InstructionSet), width, height);
+            return Run(file.Initialize(Instance, InstructionSet), width, height, depth);
         }
 
-        public FLProgram Run(FLProgram file, int width, int height)
+        public FLProgram Run(FLProgram file, int width, int height, int depth)
         {
             FLBuffer buffer =
                 new FLBuffer(
-                    CLAPI.CreateEmpty<byte>(Instance, height * width * 4, MemoryFlag.ReadWrite,
-                        "FLRunnerExecutionCreatedBuffer"), width, height);
+                    CLAPI.CreateEmpty<byte>(Instance, height * width * depth * 4, MemoryFlag.ReadWrite,
+                        "FLRunnerExecutionCreatedBuffer"), width, height, depth);
             return Run(file, buffer, true);
         }
 

@@ -21,6 +21,20 @@ namespace FLDebugger.Forms
             InitializeComponent();
             cbMinSeverity.Items.AddRange(Enum.GetNames(typeof(Verbosity)));
             Closing += LogDisplay_Closing;
+
+            FLScriptEditor.RegisterLogTheme(rtbLogOut);
+            FLScriptEditor.RegisterDefaultTheme(btnClear);
+            FLScriptEditor.RegisterDefaultTheme(panelSide);
+            FLScriptEditor.RegisterDefaultTheme(lbLogger);
+            FLScriptEditor.RegisterDefaultTheme(cbProjects);
+            FLScriptEditor.RegisterDefaultTheme(panelMain);
+            FLScriptEditor.RegisterDefaultTheme(btnRefreshProjects);
+            FLScriptEditor.RegisterDefaultTheme(cbMinSeverity);
+            FLScriptEditor.RegisterDefaultTheme(lblLogSeverity);
+            FLScriptEditor.RegisterDefaultTheme(panelSideMain);
+            FLScriptEditor.RegisterDefaultTheme(panelSideTop);
+
+
         }
 
         private void LogDisplay_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -61,12 +75,12 @@ namespace FLDebugger.Forms
             if (cbProjects.SelectedIndex != -1)
             {
                 ReadOnlyDictionary<IProjectDebugConfig, List<ADLLogger>> map = ADLLogger.GetReadOnlyLoggerMap();
-                IProjectDebugConfig config = (IProjectDebugConfig) cbProjects.SelectedItem;
+                IProjectDebugConfig config = (IProjectDebugConfig)cbProjects.SelectedItem;
                 lbLogger.Items.Clear();
                 lbLogger.Items.AddRange(map[config].ToArray());
                 ignoreSeveritySet = true;
                 cbMinSeverity.SelectedIndex =
-                    cbMinSeverity.Items.IndexOf(((Verbosity) config.GetMinSeverity()).ToString());
+                    cbMinSeverity.Items.IndexOf(((Verbosity)config.GetMinSeverity()).ToString());
                 ignoreSeveritySet = false;
             }
         }
@@ -80,8 +94,8 @@ namespace FLDebugger.Forms
         {
             if (!ignoreSeveritySet && cbProjects.SelectedIndex != -1)
             {
-                IProjectDebugConfig config = (IProjectDebugConfig) cbProjects.SelectedItem;
-                config.SetMinSeverity((int) Enum.Parse(typeof(Verbosity), cbMinSeverity.SelectedItem.ToString()));
+                IProjectDebugConfig config = (IProjectDebugConfig)cbProjects.SelectedItem;
+                config.SetMinSeverity((int)Enum.Parse(typeof(Verbosity), cbMinSeverity.SelectedItem.ToString()));
             }
         }
 

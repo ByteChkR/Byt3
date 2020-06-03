@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Byt3.ADL</AssemblyName>
-    <AssemblyVersion>2.6.94.209</AssemblyVersion>
-    <FileVersion>2.6.94.209</FileVersion>
+    <AssemblyVersion>2.7.3.1506</AssemblyVersion>
+    <FileVersion>2.7.3.1506</FileVersion>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
@@ -12,6 +12,5 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Callbacks\Byt3.Callbacks.csproj" />
     <ProjectReference Include="..\..\Byt3.Collections\Byt3.Collections.csproj" />
-    <ProjectReference Include="..\..\Byt3.MAssert\Byt3.MAssert.csproj" />
   </ItemGroup>
 </Project>

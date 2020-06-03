@@ -16,6 +16,7 @@ namespace Byt3.AutoUpdate
         public static string ProjectName { get; private set; }
         public static string DestinationFolder => Path.GetDirectoryName(DestinationFile);
         public static Process WaitProcess { get; private set; }
+        public static Version TargetVersion { get; private set; }
 
         public static bool IsInDestinationFolder =>
             Assembly.GetExecutingAssembly().Location.StartsWith(Path.GetFullPath(DestinationFolder));
@@ -23,15 +24,30 @@ namespace Byt3.AutoUpdate
         [STAThread]
         private static void Main(string[] args)
         {
+            
             try
             {
-                TargetURL = args[0];
-                ProjectName = args[1];
-                CurrentVersion = Version.Parse(args[2]);
-                DestinationFile = Path.GetFullPath(args[3]);
-                int pid = int.Parse(args[4]);
-                Args = args.Reverse().Take(Math.Max(0, args.Length - 5)).Reverse().ToArray();
-                WaitProcess = Process.GetProcessById(pid);
+                if (args[0] == "-direct")
+                {
+                    TargetURL = args[1];
+                    ProjectName = args[2];
+                    CurrentVersion = Version.Parse(args[3]);
+                    DestinationFile = Path.GetFullPath(args[4]);
+                    int pid = int.Parse(args[5]);
+                    TargetVersion = Version.Parse(args[6]);
+                    Args = args.Reverse().Take(Math.Max(0, args.Length - 7)).Reverse().ToArray();
+                    WaitProcess = Process.GetProcessById(pid);
+                }
+                else
+                {
+                    TargetURL = args[0];
+                    ProjectName = args[1];
+                    CurrentVersion = Version.Parse(args[2]);
+                    DestinationFile = Path.GetFullPath(args[3]);
+                    int pid = int.Parse(args[4]);
+                    Args = args.Reverse().Take(Math.Max(0, args.Length - 5)).Reverse().ToArray();
+                    WaitProcess = Process.GetProcessById(pid);
+                }
             }
             catch (Exception e)
             {

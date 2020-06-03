@@ -90,9 +90,9 @@
             // 
             this.panelSideMain.Controls.Add(this.lbLogger);
             this.panelSideMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelSideMain.Location = new System.Drawing.Point(0, 119);
+            this.panelSideMain.Location = new System.Drawing.Point(0, 113);
             this.panelSideMain.Name = "panelSideMain";
-            this.panelSideMain.Size = new System.Drawing.Size(220, 356);
+            this.panelSideMain.Size = new System.Drawing.Size(220, 362);
             this.panelSideMain.TabIndex = 9;
             // 
             // lbLogger
@@ -103,7 +103,7 @@
             this.lbLogger.FormattingEnabled = true;
             this.lbLogger.Location = new System.Drawing.Point(0, 0);
             this.lbLogger.Name = "lbLogger";
-            this.lbLogger.Size = new System.Drawing.Size(220, 356);
+            this.lbLogger.Size = new System.Drawing.Size(220, 362);
             this.lbLogger.TabIndex = 4;
             // 
             // panelSideTop
@@ -116,7 +116,7 @@
             this.panelSideTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelSideTop.Location = new System.Drawing.Point(0, 0);
             this.panelSideTop.Name = "panelSideTop";
-            this.panelSideTop.Size = new System.Drawing.Size(220, 119);
+            this.panelSideTop.Size = new System.Drawing.Size(220, 113);
             this.panelSideTop.TabIndex = 8;
             // 
             // cbMinSeverity

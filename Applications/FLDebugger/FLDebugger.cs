@@ -103,10 +103,10 @@ namespace FLDebugger
             });
         }
 
-        public static void Start(CLAPI instance, FLProgram program)
+        public static void Start(CLAPI instance, FLProgram program, int width, int height, int depth)
         {
             FLProgram.Debugger?.Register(program);
-            program.Run(new FLBuffer(instance, 512, 512, "DebugInput"), true);
+            program.Run(new FLBuffer(instance, width, height, depth, "DebugInput"), true);
             program.FreeResources();
         }
     }

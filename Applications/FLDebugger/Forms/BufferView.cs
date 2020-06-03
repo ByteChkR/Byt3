@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Byt3.OpenCL.Memory;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common.Buffers;
 using Byt3.WindowsForms.CustomControls;
@@ -27,6 +28,19 @@ namespace FLDebugger.Forms
         {
             Instance = instance;
             InitializeComponent();
+
+            MemoryBuffer buf = buffer.Buffer;
+
+            if (buffer.Depth == 1)
+            {
+                nudFrame.Enabled = false;
+            }
+            else
+            {
+                nudFrame.Minimum = 0;
+                nudFrame.Maximum = buffer.Depth - 1;
+            }
+
             pbBufferContent = CreatePreviewBox(panelImage);
             Buffer = buffer;
             this.width = width;
@@ -37,6 +51,13 @@ namespace FLDebugger.Forms
             comboBox1.Items.AddRange(Enum.GetNames(typeof(InterpolationMode)));
             comboBox1.SelectedIndex = 0;
 
+            FLScriptEditor.RegisterDefaultTheme(panelSide);
+            FLScriptEditor.RegisterDefaultTheme(btnReload);
+            FLScriptEditor.RegisterDefaultTheme(panelImage);
+            FLScriptEditor.RegisterDefaultTheme(comboBox1);
+            FLScriptEditor.RegisterDefaultTheme(pbLoading);
+            FLScriptEditor.RegisterDefaultTheme(pbIdle);
+            FLScriptEditor.RegisterPreviewTheme(pbBufferContent);
 
             RefreshImage(Instance);
         }
@@ -64,8 +85,18 @@ namespace FLDebugger.Forms
             }
 
             pbBufferContent.Image?.Dispose();
+
             Bitmap bmp = new Bitmap(width, height);
-            CLAPI.UpdateBitmap(instance, bmp, Buffer.Buffer);
+
+
+            byte[] data = CLAPI.ReadBuffer<byte>(instance, Buffer.Buffer, (int)Buffer.Size);
+
+            int start = 4 * Buffer.Width * Buffer.Height * (int) nudFrame.Value;
+            int length = 4 * Buffer.Width * Buffer.Height;
+
+            Span<byte> s = new Span<byte>(data, start, length);
+
+            CLAPI.UpdateBitmap(instance, bmp, s.ToArray());
             pbBufferContent.Image = bmp;
         }
 
@@ -137,9 +168,17 @@ namespace FLDebugger.Forms
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             pbBufferContent.InterpolationMode =
-                (InterpolationMode) Enum.Parse(typeof(InterpolationMode),
+                (InterpolationMode)Enum.Parse(typeof(InterpolationMode),
                     comboBox1.Items[comboBox1.SelectedIndex].ToString());
             pbBufferContent.Invalidate();
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            if (sfdExport.ShowDialog() == DialogResult.OK)
+            {
+                pbBufferContent.Image.Save(sfdExport.FileName);
+            }
         }
     }
 }

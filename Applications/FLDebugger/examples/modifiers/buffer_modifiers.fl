@@ -1,0 +1,36 @@
+#The Simplest Way to define a buffer
+--define texture MyEmptyBuffer: empty
+
+#Defining a buffer with random values
+--define texture MyRandomBuffer: rnd
+
+#Defining a buffer with random values where the values are the same for all channels of a pixel. (Static Noise)
+--define texture MyStaticNoise: urnd
+
+#Implicitly all Buffers which are not marked as "readonly"are automatically "readwrite"
+
+#Buffers can be declared as Readonly
+--define texture readonly MyReadonlyBuffer: rnd
+
+#The buffer data will be created on program start instead of when it is first used
+--define texture init MyInitBuffer: rnd
+
+
+Main:
+	# Make Not transparent
+	setactive 3 1 2 #Make yellow to proove that the examples below do change the output of the program
+	dSet_v 1
+	setactive 0 1 2
+
+	#Show Empty Buffer
+	dSet_t MyEmptyBuffer
+	# Show Random Buffer
+	dSet_t MyRandomBuffer
+	#Show Static Noise
+	dSet_t MyStaticNoise
+	# Show Readonly Buffer
+	dSet_t MyReadonlyBuffer
+	#Show Init Buffer
+	dSet_t MyInitBuffer
+
+

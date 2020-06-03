@@ -24,7 +24,9 @@ namespace FLDebugger
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
+
             new DebugConsole().Run(args.Reverse().Take(Math.Max(args.Length - 1, 0)).Reverse().ToArray());
+
         }
     }
 }

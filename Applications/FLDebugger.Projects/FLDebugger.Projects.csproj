@@ -65,6 +65,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -77,6 +78,12 @@
       <DependentUpon>AddEditorDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="ExternalProgramEditor.cs" />
+    <Compile Include="Forms\CreateFileDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CreateFileDialog.Designer.cs">
+      <DependentUpon>CreateFileDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\FLProjectExplorer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +112,9 @@
     <Compile Include="ProjectObjects\WorkingDirectory.cs" />
     <EmbeddedResource Include="Forms\AddEditorDialog.resx">
       <DependentUpon>AddEditorDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CreateFileDialog.resx">
+      <DependentUpon>CreateFileDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FLProjectExplorer.resx">
       <DependentUpon>FLProjectExplorer.cs</DependentUpon>
@@ -185,9 +195,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="configs\editors\yml_Config.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="configs\projects.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="OpenFL.ico" />

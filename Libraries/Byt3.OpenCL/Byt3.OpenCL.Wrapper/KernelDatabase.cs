@@ -67,7 +67,7 @@ namespace Byt3.OpenCL.Wrapper
         /// <param name="instance">CLAPI Instance for the current thread</param>
         /// <param name="folderName">Folder name where the kernels are located</param>
         /// <param name="genDataVectorType">The DataVectorTypes used to compile the FL Database</param>
-        public KernelDatabase(CLAPI instance, TypeEnums.DataVectorTypes genDataVectorType) : base(
+        public KernelDatabase(TypeEnums.DataVectorTypes genDataVectorType) : base(
             OpenCLDebugConfig.Settings)
         {
             GenDataType = KernelParameter.GetDataString(genDataVectorType);
@@ -121,7 +121,7 @@ namespace Byt3.OpenCL.Wrapper
         }
 
 
-        private void AddProgram(CLAPI instance, string file, bool throwEx, out CLProgramBuildResult ex)
+        public void AddProgram(CLAPI instance, string file, bool throwEx, out CLProgramBuildResult ex)
         {
             ex = new CLProgramBuildResult(file, new List<CLProgramBuildError>());
             if (!IOManager.FileExists(file))

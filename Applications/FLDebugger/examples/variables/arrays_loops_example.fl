@@ -1,0 +1,32 @@
+--define array MyArray: empty 100
+
+Main:
+	print Buffer Length ~MyArray #Print length of array
+	jmp FillWithAscending #Fill Buffer with values
+	jmp PrintArrayContent #Print Content
+	
+
+PrintArrayContent:
+	gdef i 0
+	jmp InnerPrintLoop
+
+InnerPrintLoop:
+	print Index i has value MyArray[i]
+	inc i
+	blt i ~MyArray InnerPrintLoop
+
+FillWithAscending:
+	gdef i 0 #Define Counter Variable
+	jmp InnerDescLoop
+	
+InnerDescLoop: nocall
+	def helper ~MyArray #Helper = MyArray.Length
+
+	dec helper i #Helper -= current index
+	dec helper 1 #Helper -= 1
+
+	arrset MyArray i helper #MyBuffer[i] = helper
+	inc i #i++
+	blt i ~MyArray InnerDescLoop #i < MyArray.Length
+
+  	

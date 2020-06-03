@@ -43,7 +43,7 @@ namespace Byt3.OpenFL.Common.Buffers
         }
         
 
-        public LazyLoadingFLBuffer(BufferLoader loader, bool warmOnStart) : base(default(MemoryBuffer), -1, -1)
+        public LazyLoadingFLBuffer(BufferLoader loader, bool warmOnStart) : base(default(MemoryBuffer), -1, -1, -1)
         {
             WarmOnStart = warmOnStart;
             Loader = loader;
@@ -88,13 +88,15 @@ namespace Byt3.OpenFL.Common.Buffers
                 _buffer = i.Buffer;
                 Width = i.Width;
                 Height = i.Height;
+                Depth = i.Depth;
             }
         }
 
-        internal override void ReplaceUnderlyingBuffer(MemoryBuffer buf, int width, int height)
+        internal override void ReplaceUnderlyingBuffer(MemoryBuffer buf, int width, int height, int depth)
         {
             Width = width;
             Height = height;
+            Depth = depth;
             Buffer = buf;
         }
     }

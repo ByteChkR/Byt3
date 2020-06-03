@@ -11,23 +11,23 @@ namespace Byt3.OpenFL.Common.Buffers
     /// </summary>
     public class FLBuffer : FLParsedObject, IDisposable
     {
-        public FLBuffer(CLAPI instance, int width, int height, object handleIdentifier,
+        public FLBuffer(CLAPI instance, int width, int height, int depth, object handleIdentifier,
             MemoryFlag flag = MemoryFlag.ReadWrite) : this(
-            CLAPI.CreateEmpty<byte>(instance, width * height * 4, flag, handleIdentifier), width,
-            height)
+            CLAPI.CreateEmpty<byte>(instance, width * height * depth * 4, flag, handleIdentifier), width,
+            height, depth)
         {
         }
 
-        public FLBuffer(CLAPI instance, byte[] data, int width, int height, object handleIdentifier,
+        public FLBuffer(CLAPI instance, byte[] data, int width, int height, int depth, object handleIdentifier,
             MemoryFlag flag = MemoryFlag.ReadWrite) : this(
-            CLAPI.CreateBuffer(instance, data, flag, handleIdentifier), width, height)
+            CLAPI.CreateBuffer(instance, data, flag, handleIdentifier), width, height, depth)
         {
         }
 
         public FLBuffer(CLAPI instance, Bitmap bitmap, object handleIdentifier,
             MemoryFlag flag = MemoryFlag.ReadWrite) : this(
             CLAPI.CreateFromImage(instance, bitmap, flag, handleIdentifier), bitmap.Width,
-            bitmap.Height)
+            bitmap.Height, 1)
         {
         }
 
@@ -35,10 +35,11 @@ namespace Byt3.OpenFL.Common.Buffers
         /// The Internal Constructor
         /// </summary>
         /// <param name="buffer">The inner buffer</param>
-        public FLBuffer(MemoryBuffer buffer, int width, int height)
+        public FLBuffer(MemoryBuffer buffer, int width, int height, int depth)
         {
             Width = width;
             Height = height;
+            Depth = depth;
             Buffer = buffer;
             DefinedBufferName = "UnnamedBuffer";
         }
@@ -49,8 +50,9 @@ namespace Byt3.OpenFL.Common.Buffers
         public virtual MemoryBuffer Buffer { get; protected set; }
 
         public int Width { get; protected set; }
-
         public int Height { get; protected set; }
+        public int Depth { get; protected set; }
+
         public long Size => Buffer.Size;
 
         /// <summary>
@@ -96,10 +98,11 @@ namespace Byt3.OpenFL.Common.Buffers
             return DefinedBufferName;
         }
 
-        internal virtual void ReplaceUnderlyingBuffer(MemoryBuffer buf, int width, int height)
+        internal virtual void ReplaceUnderlyingBuffer(MemoryBuffer buf, int width, int height, int depth)
         {
             Width = width;
             Height = height;
+            Depth = Depth;
             Buffer?.Dispose();
             Buffer = buf;
         }

@@ -2,6 +2,6 @@
 
 Main:
 	setactive 3
-	setv 1
+	dSet_v 1
 	setactive 0 1 2
-	add other
+	dAdd_t other

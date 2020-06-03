@@ -1,0 +1,19 @@
+Main:
+	#Defining Global Variables
+	gdef MyVar 0 #MyVar = 0
+	gdef MyOtherVar MyVar #MyOtherVar = MyVar
+
+	#Logic Instructions:
+	#<instruction> <variable> <variable> <script/function>
+	bge MyVar MyOtherVar ComputeStuffGreaterOrEqual #TRUE
+	blt MyVar MyOtherVar ComputeStuffLess #FALSE
+
+ComputeStuffGreaterOrEqual:
+	setactive 0 1 2 3
+	dSet_v 1
+	print MyVar is Greater or Equal to MyOtherVar
+
+ComputeStuffLess:
+	setactive 0 1 3
+	dSet_v 1
+	print MyVar is Less than MyOtherVar

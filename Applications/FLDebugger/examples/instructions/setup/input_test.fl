@@ -1,0 +1,33 @@
+--define texture InputCopy: empty
+
+Main:
+	setactive 3
+	dSet_v 1
+	jmp MakeInputTexture
+
+	#Copy the Input Texture to the example output
+	setactive InputCopy 0 1 2 3
+	dSet_t in
+
+	setactive in 0 1 2
+	jmp Example
+
+# Small Hack to have "virtual" functions
+~if !EXAMPLE
+
+Example:
+
+~endif
+
+MakeInputTexture:
+	setactive 0 1 2
+	cut_point2d MakeBaseInputTexture 0.5 0.5 0.3
+	
+
+MakeBaseInputTexture:
+	setactive 0 1 2
+	circle1c 0.5 0.5 0.4 #Centered White Circle
+	setactive 1 2 #Set active B[GR]A
+	dFlip  #Flip all Values of the active channels
+	#Circle is blue, Background is yellow
+	setactive 0 1 2

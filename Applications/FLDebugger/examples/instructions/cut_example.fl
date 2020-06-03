@@ -1,0 +1,5 @@
+~include setup/input_test.fl
+~define EXAMPLE
+
+Example:
+	cut_box InputCopy 0.1 0.1 0 0.5 0.5 1

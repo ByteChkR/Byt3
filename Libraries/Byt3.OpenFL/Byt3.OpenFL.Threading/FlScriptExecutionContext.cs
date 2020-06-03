@@ -17,11 +17,13 @@ namespace Byt3.OpenFL.Threading
         public byte[] Input;
         public int Width;
         public int Height;
+        public int Depth;
 
         public FlScriptExecutionContext(string filename, Bitmap tex, Action<FLProgram> onFinishCallback)
         {
             Width = tex.Width;
             Height = tex.Height;
+            Depth = 1;
             Filename = filename;
             MemoryBuffer buf = CLAPI.CreateFromImage(CLAPI.MainThread, tex, MemoryFlag.AllocateHostPointer, filename);
             Input = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, buf, (int) buf.Size);
@@ -29,11 +31,12 @@ namespace Byt3.OpenFL.Threading
             OnFinishCallback = onFinishCallback;
         }
 
-        public FlScriptExecutionContext(string filename, byte[] input, int width, int height,
+        public FlScriptExecutionContext(string filename, byte[] input, int width, int height, int depth,
             Action<FLProgram> onFinishCallback)
         {
             Width = width;
             Height = height;
+            Depth = depth;
             Filename = filename;
             Input = input;
             OnFinishCallback = onFinishCallback;

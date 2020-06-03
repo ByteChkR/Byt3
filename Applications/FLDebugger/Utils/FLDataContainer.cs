@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Windows.Forms;
 using Byt3.OpenCL.Wrapper;
-using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
@@ -11,7 +11,7 @@ using FLDebugger.Forms;
 
 namespace FLDebugger.Utils
 {
-    internal class FLDataContainer
+    internal class FLDataContainer : IDisposable
     {
         public readonly BufferCreator BufferCreator;
         public readonly FLProgramCheckBuilder CheckBuilder;
@@ -21,40 +21,31 @@ namespace FLDebugger.Utils
         public readonly FLParser Parser;
         public SerializableFLProgram SerializedProgram;
 
-        public FLDataContainer()
+        public FLDataContainer(string path)
         {
             Instance = CLAPI.GetInstance();
 
 
-            bool crash = false;
-            do
+            KernelLoader kl = new KernelLoader(Instance, path);
+
+            if (kl.ShowDialog() == DialogResult.Abort)
             {
-                try
-                {
-                    crash = false;
-                    KernelDB = new KernelDatabase(Instance, "resources/kernel", DataVectorTypes.Uchar1);
-                }
-                catch (Exception exception)
-                {
-                    crash = true;
-                    if (exception is CLBuildException buildException
-                    ) //Display the Compile errors in a more convenient dialog
-                    {
-                        BuildExceptionViewer bev = new BuildExceptionViewer(buildException);
-                        bev.ShowDialog();
-                    }
-                    else
-                    {
-                        throw exception; //Let the Exception Viewer Catch that
-                    }
-                }
-            } while (crash);
+                Application.Exit();
+                return;
+            }
 
-
+            KernelDB = kl.Database;
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(KernelDB);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
             Parser = new FLParser(InstructionSet, BufferCreator, new WorkItemRunnerSettings(true, 2));
             CheckBuilder = new FLProgramCheckBuilder(InstructionSet, BufferCreator);
+        }
+
+        public void Dispose()
+        {
+            KernelDB.Dispose();
+            InstructionSet.Dispose();
+            Instance.Dispose();
         }
     }
 }

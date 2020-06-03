@@ -6,22 +6,22 @@ Perlin: #Creates perlin noise
   perlin 0.9 4
 
 Main:
-  setv 1
+  dSet_v 1
   setactive 0 1 2
-  set Perlin
-  adjustlevelrescale 0.5 0.6
+  dSet_t Perlin
+  dClampRescale_vv 0.5 0.6
 
   setactive temp 0 1 2
-  set in
-  invert
+  dSet_t in
+  dFlip
   setactive 0 2
-  setv 0
+  dSet_v 0
   setactive 0 1 2
-  mulv 0.1
+  dMul_v 0.1
 
   setactive in 0 2
-  setv 0
+  dSet_v 0
   setactive 0 1 2 
   setactive 0 1 2
-  mulv 0.3
-  add temp
+  dMul_v 0.3
+  dAdd_t temp

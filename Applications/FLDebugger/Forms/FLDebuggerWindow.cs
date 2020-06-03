@@ -31,12 +31,7 @@ namespace FLDebugger.Forms
             marks = Program.ToString(out string source);
             Source = source;
             InitializeComponent();
-        }
 
-
-        private void CodeView_Load(object sender, EventArgs e)
-        {
-            Icon = Properties.Resources.OpenFL_Icon;
             clbCode = new CustomCheckedListBox(GetCodeItemBackColor, GetCodeItemForeColor);
             Controls.Add(clbCode);
             clbCode.BackColor = Color.DimGray;
@@ -44,6 +39,27 @@ namespace FLDebugger.Forms
             clbCode.CheckOnClick = true;
             clbCode.Dock = DockStyle.Fill;
             Closing += CodeView_Closing;
+
+            FLScriptEditor.RegisterDefaultTheme(btnContinue);
+            FLScriptEditor.RegisterDefaultTheme(panelSidePanel);
+            FLScriptEditor.RegisterDefaultTheme(lblActiveBuffer);
+            FLScriptEditor.RegisterDefaultTheme(lblActiveChannels);
+            FLScriptEditor.RegisterDefaultTheme(lbBuffers);
+            FLScriptEditor.RegisterDefaultTheme(btnHideSidePanel);
+            FLScriptEditor.RegisterDefaultTheme(btnShowSidePanel);
+            FLScriptEditor.RegisterDefaultTheme(btnRunToEnd);
+            FLScriptEditor.RegisterDefaultTheme(cbFollowScripts);
+            FLScriptEditor.RegisterDefaultTheme(lblInternalBuffers);
+            FLScriptEditor.RegisterDefaultTheme(lbInternalBuffers);
+            FLScriptEditor.RegisterDefaultTheme(clbCode);
+
+        }
+
+
+        private void CodeView_Load(object sender, EventArgs e)
+        {
+            Icon = Properties.Resources.OpenFL_Icon;
+            
 
             lbInternalBuffers.MouseDoubleClick += LbInternalBuffersOnMouseDoubleClick;
             lbBuffers.MouseDoubleClick += LbBuffers_MouseDoubleClick;
@@ -79,12 +95,12 @@ namespace FLDebugger.Forms
         {
             if (e.Index == selectedLine)
             {
-                return Color.Orange;
+                return FLScriptEditor.Theme.DebuggerBreakpointHitColor;
             }
 
             if (listbox.GetItemChecked(e.Index))
             {
-                return Color.DarkRed;
+                return FLScriptEditor.Theme.DebuggerBreakpointColor;
             }
 
             return listbox.BackColor;

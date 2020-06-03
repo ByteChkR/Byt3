@@ -1,5 +1,5 @@
 
-CreateMask: static
+CreateMask:
   setactive 3
   setv 1
   setactive 0 1 2
@@ -11,14 +11,14 @@ CreateMaskInv:
   jmp CreateMask
   invert
 
-Perlin: static
+Perlin:
   setactive 3
   setv 1
   setactive 0 1 2
   urnd
   perlin 0.8 7
 
-YPerlin: static
+YPerlin:
   setactive 3
   setv 1
   setactive 1 2
@@ -28,11 +28,12 @@ YPerlin: static
 
 YellowPerlin:
   jmp YPerlin
-  adjustlevelrescale 0.4 0.6
+  dAdjustLevelRescale_c_vv 0.4 0.6
+  #adjustlevelrescale 0.4 0.6
   adjustlevel 0.9 1
 
 
-White: static
+White:
   setactive 0 1 2
   setv 1
 

@@ -2,15 +2,15 @@
 
 Func: #Makes White Transparent Texture
   setactive 0 1 2
-  setv 1
+  dSet_v 1
 
 Main:
   setactive 3
-  setv 1 #Make opaque
+  dSet_v 1 #Make opaque
   
   setactive 0 1 2 #Activate color channels
-  set Func #Jump to the function
+  dSet_t Func #Jump to the function
 
   setactive temp 0 1 2 3 #Set temp active with all channels enabled
-  set in #Effectively copying the contents of in
+  dSet_t in #Effectively copying the contents of in
   #Output should be pure white if 'in' and 'temp' are pointing to the same buffers during the whole execution

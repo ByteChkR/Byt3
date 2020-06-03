@@ -1,0 +1,45 @@
+Main:
+	#Make Opaque
+	setactive 3
+	dSet_v 1
+
+	setactive 0 1 2
+	jmp MyDefaultFunction
+	dSet_t MyStaticFunction
+	dSet_t MyOnceFunction
+	dSet_t MyInitFunction
+	dSet_t MyNoJumpFunction
+	jmp MyNoCallFunction
+
+#Functions are declared "dynamic" by default
+#This means that this function will get evaluated every time it gets called
+MyDefaultFunction:
+	dSet_v 1
+
+
+#A Modifier that is used at compile time to enable optimizations
+#Doing this will implicitly also add the "nojump" modifier which prevents this function to be called with a jump statement
+MyStaticFunction: static
+	dSet_v 1
+
+
+#Tells the compiler that the return of this function can be precomputed
+#This modifier is only valid if the function is also marked as "static"
+MyOnceFunction: once static
+	dSet_v 1
+
+
+#Continuation of the "once" keyword.
+#Tells the compiler that this function should be computed once at the start of the program.
+#Implicitly adds the "static/once/nojump" modifiers
+MyInitFunction: init
+	dSet_v 1
+
+#The "nojump" keyword can also be declared independently
+MyNoJumpFunction: nojump
+	dSet_v 1
+
+#The "nocall" keyword can be used to enforce that this function only can be used by "jmp" statements
+#Declaring "nocall" and "nojump" on the same function is illegal
+MyNoCallFunction: nocall
+	dSet_v 1

@@ -64,7 +64,7 @@ namespace Byt3.OpenFL.Common.Instructions
 
             FLBuffer buffer =
                 Root.RegisterUnmanagedBuffer(new FLBuffer(Root.Instance, Root.Dimensions.x,
-                    Root.Dimensions.y, $"{flFunction.Name}_InputBuffer"));
+                    Root.Dimensions.y, Root.Dimensions.z, $"{flFunction.Name}_InputBuffer"));
 
             Logger.Log(LogType.Log, "Storing Current Execution Context", MIN_INSTRUCTION_SEVERITY + 3);
             Root.PushContext(); //Store Dynamic Variables

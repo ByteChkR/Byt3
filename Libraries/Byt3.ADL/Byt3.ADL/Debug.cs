@@ -4,7 +4,6 @@ using System.Text;
 using Byt3.ADL.Configs;
 using Byt3.ADL.Streams;
 using Byt3.Collections;
-using Byt3.MAssert;
 
 /// <summary>
 /// Namespace ADL is the "Root" namespace of ADL. It contains the Code needed to use ADL. But also in sub namespaces you will find other helpful tools.
@@ -126,8 +125,6 @@ namespace Byt3.ADL
         /// <param name="stream">The stream you want to add</param>
         public static void AddOutputStream(LogStream stream)
         {
-            Assert.NotNull(stream);
-            Assert.True(AdlEnabled);
 
             if (!initialized)
             {
@@ -153,8 +150,7 @@ namespace Byt3.ADL
             {
                 contains = Streams.Contains(stream);
             }
-
-            Assert.False(contains);
+            
 
             if (contains)
             {
@@ -177,17 +173,12 @@ namespace Byt3.ADL
         /// <param name="closeStream">If streams should be closed upon removal from the system</param>
         public static void RemoveOutputStream(LogStream stream, bool closeStream = true)
         {
-            Assert.True(AdlEnabled);
-            Assert.NotNull(stream);
-
             bool contains = false;
             lock (Streams)
             {
                 contains = Streams.Contains(stream);
             }
-
-            Assert.True(contains);
-
+            
             if (!contains)
             {
                 InternalLogger.Log(LogType.Warning,
@@ -245,7 +236,6 @@ namespace Byt3.ADL
         /// <param name="prefix">desired prefix</param>
         internal static void AddPrefixForMask(Dictionary<int, string> prefixes, BitMask mask, string prefix)
         {
-            Assert.True(AdlEnabled);
 
             if (!AdlEnabled)
             {
@@ -281,7 +271,6 @@ namespace Byt3.ADL
         /// <param name="mask"></param>
         internal static void RemovePrefixForMask(Dictionary<int, string> prefixes, BitMask mask)
         {
-            Assert.True(AdlEnabled);
             if (!AdlEnabled)
             {
                 InternalLogger.Log(LogType.Warning,
@@ -319,7 +308,6 @@ namespace Byt3.ADL
         /// <param name="prefixes">List of prefixes</param>
         internal static void SetAllPrefixes(Dictionary<int, string> prefixes, params string[] prefixNames)
         {
-            Assert.True(AdlEnabled);
             if (!AdlEnabled)
             {
                 string info = "";
@@ -343,7 +331,6 @@ namespace Byt3.ADL
         /// <returns></returns>
         internal static Dictionary<int, string> GetAllPrefixes(Dictionary<int, string> prefixes)
         {
-            Assert.True(AdlEnabled);
             if (!AdlEnabled)
             {
                 InternalLogger.Log(LogType.Warning,
@@ -367,8 +354,6 @@ namespace Byt3.ADL
         /// <param name="message">the message</param>
         internal static void Log(ADLLogger logger, int mask, string message)
         {
-            Assert.True(AdlEnabled);
-            Assert.NotNull(message);
             if (!AdlEnabled)
             {
                 return;

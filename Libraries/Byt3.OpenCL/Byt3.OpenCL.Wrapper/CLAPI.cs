@@ -447,7 +447,7 @@ __kernel void copy(__global uchar* destination, __global uchar* source)
             return mb;
         }
 
-        private static void ARGBtoBGRA(byte[] bytes)
+        private static void ARGBtoBGRA(Span<byte> bytes)
         {
             byte[] ret = new byte[bytes.Length];
             for (int i = 0; i < bytes.Length / 4; i++)
@@ -463,7 +463,7 @@ __kernel void copy(__global uchar* destination, __global uchar* source)
             }
         }
 
-        private static void BGRAtoARGB(byte[] bytes)
+        private static void BGRAtoARGB(Span<byte> bytes)
         {
             byte[] ret = new byte[bytes.Length];
             for (int i = 0; i < bytes.Length / 4; i++)
@@ -493,6 +493,16 @@ __kernel void copy(__global uchar* destination, __global uchar* source)
             Marshal.Copy(data.Scan0, buffer, 0, buffer.Length);
             bmp.UnlockBits(data);
             return buffer;
+        }
+
+        public static void UpdateBitmap(CLAPI instance, Bitmap target, Span<byte> bytes)
+        {
+            BGRAtoARGB(bytes);
+            BitmapData data = target.LockBits(new Rectangle(0, 0, target.Width, target.Height), ImageLockMode.WriteOnly,
+                PixelFormat.Format32bppArgb);
+
+            Marshal.Copy(bytes.ToArray(), 0, data.Scan0, bytes.Length);
+            target.UnlockBits(data);
         }
 
         public static void UpdateBitmap(CLAPI instance, Bitmap target, byte[] bytes)

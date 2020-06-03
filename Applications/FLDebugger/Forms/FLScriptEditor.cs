@@ -6,9 +6,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Byt3.ADL.Streams;
+using Byt3.Callbacks;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Buffers;
@@ -16,6 +18,7 @@ using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
+using Byt3.Utilities.FastString;
 using Byt3.Utilities.ManifestIO;
 using Byt3.Utilities.TypeFinding;
 using Byt3.WindowsForms.CustomControls;
@@ -28,42 +31,157 @@ namespace FLDebugger.Forms
 {
     public partial class FLScriptEditor : Form
     {
+        internal static string ConfigPath => System.IO.Path.Combine(Application.StartupPath, "configs", "fl_editor");
+        internal static FLDebuggerSettings Settings = new FLDebuggerSettings();
+        public class FLDebuggerSettings
+        {
+            public string KernelPath = "resources/kernel";
+            public string ScriptPath;
+            public string WorkingDir;
+            public string Theme;
+            public bool LogParserStacktrace;
+            public bool LogProgramStacktrace;
+            public int ResX = 512;
+            public int ResY = 512;
+            public int ResZ = 1;
+        }
+
+        public static FLEditorTheme Theme = new FLEditorTheme();
+
         private static readonly string TempEditorContentPath = System.IO.Path.Combine(
             System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
             "tempeditorcontent_" + System.IO.Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName()) +
             ".fl");
 
         private static readonly string DEFAULT_SCRIPT =
-            $"{FLKeywords.EntryFunctionKey}:\n\tsetactive 3\n\tsetv 1\n\tsetactive 0 1 2\n\tsetv 1";
+            $"{FLKeywords.EntryFunctionKey}:\n\tsetactive 3\n\tdSet_v 1\n\tsetactive 0 1 2\n\tdSet_v 1";
 
 
         private AboutInfo aboutForm;
-        private bool allowLogUpdate;
-        private FLDataContainer Container;
+        private LogDisplay logDisplay;
+        private InstructionViewer iv;
 
+        private FLDataContainer Container;
 
         private bool ControlMod;
 
         private bool ignoreChanged;
 
-        private InstructionViewer iv;
-        private LogDisplay logDisplay;
 
-        private string logOut = "";
         private readonly Stream ms = new PipeStream();
         private bool optimizationsDirty;
         private bool outputDirty = true;
-        private string Path;
+
+        private string _path;
+        private string Path
+        {
+            get
+            {
+                if (_path == null)
+                {
+                    _path = TempEditorContentPath;
+                }
+
+                return _path;
+            }
+            set => _path = value;
+        }
+
         private ContainerForm previewForm;
 
         private PictureBox previewPicture;
+
+
+
         private Task previewTask;
 
+
+
         private TextReader tr;
+
+        private static void DefaultOnThemeChange(FLEditorTheme theme, Control c)
+        {
+            c.BackColor = theme.PrimaryBackgroundColor;
+            c.ForeColor = theme.PrimaryFontColor;
+        }
+
+
+        private static void CodeTextOnThemeChange(FLEditorTheme theme, RichTextBox c)
+        {
+            c.Font = new Font(c.Font.FontFamily, theme.CodeFontSize, c.Font.Style);
+        }
+
+        private static void LogTextOnThemeChange(FLEditorTheme theme, RichTextBox c)
+        {
+            c.Font = new Font(c.Font.FontFamily, theme.LogFontSize, c.Font.Style);
+        }
+
+
+        private static void PreviewOnThemeChange(FLEditorTheme theme, PictureBox c)
+        {
+            c.BackColor = theme.BufferViewBackgroundColor;
+        }
+
+
+        public static void RegisterDefaultTheme(Control c)
+        {
+            Action<FLEditorTheme> a = theme => DefaultOnThemeChange(theme, c);
+            Theme.Register(a);
+        }
+
+        public static void RegisterCodeTheme(RichTextBox c)
+        {
+            Action<FLEditorTheme> a = theme => DefaultOnThemeChange(theme, c);
+            a += theme => CodeTextOnThemeChange(theme, c);
+            Theme.Register(a);
+        }
+
+        public static void RegisterLogTheme(RichTextBox c)
+        {
+            Action<FLEditorTheme> a = theme => DefaultOnThemeChange(theme, c);
+            a += theme => LogTextOnThemeChange(theme, c);
+            Theme.Register(a);
+        }
+
+        public static void RegisterPreviewTheme(PictureBox c)
+        {
+            Action<FLEditorTheme> a = theme => DefaultOnThemeChange(theme, c);
+            a += theme => PreviewOnThemeChange(theme, c);
+            Theme.Register(a);
+        }
 
         public FLScriptEditor()
         {
             InitializeComponent();
+
+            RegisterDefaultTheme(panelInput);
+            RegisterDefaultTheme(panelToolbar);
+            RegisterDefaultTheme(btnOpen);
+            RegisterCodeTheme(rtbIn);
+            RegisterCodeTheme(rtbOut);
+            RegisterDefaultTheme(panelConsoleOut);
+            RegisterDefaultTheme(panelCodeArea);
+            RegisterDefaultTheme(panelOutput);
+            RegisterLogTheme(rtbParserOutput);
+            RegisterDefaultTheme(lbOptimizations);
+            RegisterDefaultTheme(btnUpdate);
+            RegisterDefaultTheme(btnDebug);
+            RegisterDefaultTheme(btnSwitchDockSide);
+            RegisterDefaultTheme(btnSave);
+            RegisterDefaultTheme(btnShowLog);
+            RegisterDefaultTheme(btnPopOutBuildLog);
+            RegisterDefaultTheme(btnPopOutInput);
+            RegisterDefaultTheme(btnPopOutOutput);
+            RegisterDefaultTheme(cbLiveView);
+            RegisterDefaultTheme(cbAutoBuild);
+            RegisterDefaultTheme(btnShowInstructions);
+            RegisterDefaultTheme(lblBuildMode);
+            RegisterDefaultTheme(cbBuildMode);
+            RegisterDefaultTheme(btnSettings);
+            RegisterDefaultTheme(btnClear);
+
+            lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             rtbIn.WriteSource(DEFAULT_SCRIPT);
             cbBuildMode.SelectedIndex = 0;
             CheckForIllegalCrossThreadCalls = false;
@@ -78,6 +196,15 @@ namespace FLDebugger.Forms
         public FLScriptEditor(string path, string workingDir) : this(path)
         {
             Directory.SetCurrentDirectory(workingDir);
+        }
+
+
+
+        public void SetResolution(int width, int height, int depth)
+        {
+            Settings.ResX = width;
+            Settings.ResY = height;
+            Settings.ResZ = depth;
         }
 
 
@@ -119,6 +246,60 @@ namespace FLDebugger.Forms
             return ex is AggregateException ag ? GetInnerIfAggregate(ag.InnerExceptions.First()) : ex;
         }
 
+
+        public void UnpackResources()
+        {
+
+            ProgressBar pb = new ProgressBar();
+            pb.Dock = DockStyle.Fill;
+            Size size = new Size(50, 200);
+
+            Enabled = false;
+            ContainerForm loading = ContainerForm.CreateContainer(pb, (control, args) =>
+            {
+                pb.Dispose();
+                Enabled = true;
+            }, "Unpacking Kernels...", Resources.OpenFL_Icon, FormBorderStyle.None, size, size);
+
+            Task t = new Task(() =>
+            {
+
+                string workingDir = Settings.WorkingDir ?? Directory.GetCurrentDirectory();
+                Directory.SetCurrentDirectory(Application.StartupPath);
+                string[] files = IOManager.GetFiles("resources");
+                pb.Minimum = 0;
+                pb.Value = 0;
+                pb.Maximum = files.Length;
+
+                foreach (string file in files)
+                {
+                    string dir = System.IO.Path.GetDirectoryName(file);
+                    if (!Directory.Exists(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+                    if (!File.Exists(file))
+                    {
+                        Stream s = IOManager.GetStream(file);
+                        Stream dst = File.Create(file);
+                        s.CopyTo(dst);
+                        s.Dispose();
+                        dst.Dispose();
+                    }
+
+                    pb.Value++;
+                }
+
+                Directory.SetCurrentDirectory(workingDir);
+                loading.Close();
+                loading.Dispose();
+            });
+            t.Start();
+
+
+        }
+
+
         private void InitializeViewer()
         {
             if (Container.CheckBuilder.IsAttached)
@@ -141,15 +322,19 @@ namespace FLDebugger.Forms
             {
                 rtbOut.Text = source;
 
+                Container.SerializedProgram = null;
+
                 string s = $"Errors: {loadT.Exception.InnerExceptions.Count}\n";
 
                 foreach (Exception exceptionInnerException in loadT.Exception.InnerExceptions)
                 {
                     Exception ex = GetInnerIfAggregate(exceptionInnerException);
-                    s += "PARSE ERROR:\n\t" + ex.Message + "\n";
+                    s += $"PARSE ERROR:\n\t{ex.Message}\n";
+                    if (Settings.LogParserStacktrace)
+                        s += $"\t\t{ex.StackTrace.Split(new[] { '\n' }).Unpack("\n\t\t")}\n";
                 }
 
-                SetLogOutput(s);
+                SetLogOutput(s, Theme.ErrorColor);
             }
             else
             {
@@ -163,7 +348,7 @@ namespace FLDebugger.Forms
                 }
 
                 rtbOut.WriteSource(s);
-                SetLogOutput("Build Succeeded.\n");
+                SetLogOutput("Build Succeeded.\n", Theme.SuccessColor);
             }
         }
 
@@ -219,15 +404,13 @@ namespace FLDebugger.Forms
             Debug.DefaultInitialization();
             Debug.AddOutputStream(ls);
             tr = new StreamReader(ms);
-
             TypeAccumulator.RegisterAssembly(typeof(OpenFLDebugConfig).Assembly);
             ManifestReader.RegisterAssembly(typeof(OpenFLDebugConfig).Assembly);
             ManifestReader.PrepareManifestFiles(false);
             ManifestReader.PrepareManifestFiles(true);
             EmbeddedFileIOManager.Initialize();
 
-
-            Container = new FLDataContainer();
+            Container = new FLDataContainer(Settings.KernelPath);
 
 
             List<FLProgramCheck> types = typeof(OpenFLDebugConfig).Assembly.GetExportedTypes()
@@ -259,16 +442,13 @@ namespace FLDebugger.Forms
             Application.Exit();
         }
 
-        private void SetLogOutput(string r)
+        private void SetLogOutput(string r, Color color)
         {
-            allowLogUpdate = true;
             string pr = "";
             pr += $"Parse Result: {Path}\n";
             pr += r;
             pr += "____________________________________________________\n";
-            logOut += pr;
-            rtbParserOutput.AppendText(pr);
-            allowLogUpdate = false;
+            rtbParserOutput.AppendText(pr, color, rtbParserOutput.BackColor);
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
@@ -295,14 +475,7 @@ namespace FLDebugger.Forms
 
         private void RtbParserOutputTextChanged(object sender, EventArgs e)
         {
-            if (allowLogUpdate)
-            {
-                rtbParserOutput.ScrollToCaret();
-            }
-            else
-            {
-                rtbParserOutput.Text = logOut;
-            }
+            rtbParserOutput.ScrollToCaret();
         }
 
         private void LbOptimizationsOnItemCheck(object sender, ItemCheckEventArgs e)
@@ -314,6 +487,7 @@ namespace FLDebugger.Forms
         {
             if (previewPicture != null && (previewTask == null || previewTask.IsCompleted))
             {
+
                 previewTask = new Task(() =>
                 {
                     if (Container.SerializedProgram == null)
@@ -326,10 +500,10 @@ namespace FLDebugger.Forms
                     {
                         pro = Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet);
 
-                        pro.Run(new FLBuffer(Container.Instance, 512, 512, "Preview Buffer"), true);
+                        pro.Run(new FLBuffer(Container.Instance, Settings.ResX, Settings.ResY, Settings.ResZ, "Preview Buffer"), true);
                         if (previewPicture != null)
                         {
-                            Bitmap bmp = new Bitmap(512, 512);
+                            Bitmap bmp = new Bitmap(Settings.ResX, Settings.ResY);
                             CLAPI.UpdateBitmap(Container.Instance, bmp, pro.GetActiveBuffer(false).Buffer);
                             previewPicture.Image = bmp;
                         }
@@ -343,9 +517,35 @@ namespace FLDebugger.Forms
                         {
                             previewPicture.Image = SystemIcons.Error.ToBitmap();
                         }
+
+                        throw ex;
+                    }
+                });
+                Task t = new Task(() =>
+                {
+                    while (!previewTask.IsCompleted)
+                    {
+                        Thread.Sleep(100);
+                    }
+
+                    if (previewTask.IsFaulted)
+                    {
+                        string s = $"Errors: {previewTask.Exception.InnerExceptions.Count}\n";
+
+                        foreach (Exception exceptionInnerException in previewTask.Exception.InnerExceptions)
+                        {
+                            Exception ex = GetInnerIfAggregate(exceptionInnerException);
+                            s +=
+                                $"PROGRAM ERROR:\n\t{ex.Message}\n";
+                            if (Settings.LogProgramStacktrace)
+                                s += $"\t\t{ex.StackTrace.Split(new[] { '\n' }).Unpack("\n\t\t")}\n";
+                        }
+
+                        SetLogOutput(s, Theme.ErrorColor);
                     }
                 });
                 previewTask.Start();
+                t.Start();
             }
         }
 
@@ -357,13 +557,7 @@ namespace FLDebugger.Forms
 
         private void InitProgram()
         {
-            if (string.IsNullOrEmpty(Path))
-            {
-                string path = TempEditorContentPath;
-                File.WriteAllText(path, rtbIn.Text);
-                Path = path;
-            }
-
+            File.WriteAllText(Path, rtbIn.Text);
             InitializeViewer();
         }
 
@@ -379,7 +573,7 @@ namespace FLDebugger.Forms
             }
 
             rtbIn.WriteSource(src);
-            Path = "";
+            //Path = "";
             ignoreChanged = false;
 
             if (cbAutoBuild.Checked)
@@ -396,14 +590,19 @@ namespace FLDebugger.Forms
                 InitProgram();
             }
 
+            if (Container.SerializedProgram == null)
+            {
+                return;
+            }
+
             Enabled = false;
             FLDebugger.Start(Container.Instance,
-                Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet));
+                Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet), Settings.ResX, Settings.ResY, Settings.ResZ);
             Enabled = true;
         }
 
 
-        private void btnSetHomeDir_Click(object sender, EventArgs e)
+        public void SetWorkingDirectory()
         {
             if (fbdSelectHomeDir.ShowDialog() == DialogResult.OK)
             {
@@ -473,14 +672,24 @@ namespace FLDebugger.Forms
             container.Height = 0;
         }
 
-        private void btnRestartDebugger_Click(object sender, EventArgs e)
+        public void ReloadKernels()
         {
-            string path = TempEditorContentPath + ".restart.fl";
-            File.WriteAllText(path, rtbIn.Text);
+            foreach (Form openForm in Application.OpenForms.Cast<Form>().ToList())
+            {
+                if (openForm != this && openForm != logDisplay)
+                {
+                    openForm.Close();
+                    openForm.Dispose();
+                }
+            }
 
-            Process.Start(Assembly.GetExecutingAssembly().Location,
-                $"-no-update {path} {Directory.GetCurrentDirectory()}");
-            Application.Exit();
+            Hide();
+            Container.Dispose();
+            string workingDir = Settings.WorkingDir ?? Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(Application.StartupPath);
+            Container = new FLDataContainer(Settings.KernelPath);
+            Directory.SetCurrentDirectory(workingDir);
+            Show();
         }
 
         private void cbLiveView_CheckedChanged(object sender, EventArgs e)
@@ -499,6 +708,10 @@ namespace FLDebugger.Forms
                     previewPicture.Dock = DockStyle.Fill;
                     previewPicture.Image = Resources.OpenFL;
                     previewPicture.SizeMode = PictureBoxSizeMode.Zoom;
+
+
+                    RegisterPreviewTheme(previewPicture);
+
                     previewForm = ContainerForm.CreateContainer(previewPicture, null, "Preview: ",
                         Resources.OpenFL_Icon, FormBorderStyle.SizableToolWindow);
                     CheckForIllegalCrossThreadCalls = false;
@@ -519,7 +732,7 @@ namespace FLDebugger.Forms
             iv.Show();
         }
 
-        private void btnAbout_Click(object sender, EventArgs e)
+        public void ShowAbout()
         {
             if (aboutForm == null || aboutForm.IsDisposed)
             {
@@ -548,6 +761,17 @@ namespace FLDebugger.Forms
                     lbOptimizations.SetItemChecked(i, true);
                 }
             }
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            SettingsDialog diag = new SettingsDialog(this);
+            diag.ShowDialog();
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            rtbParserOutput.Text = "";
         }
     }
 }

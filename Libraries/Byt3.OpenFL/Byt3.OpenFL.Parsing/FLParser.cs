@@ -39,7 +39,6 @@ namespace Byt3.OpenFL.Parsing
             AddSubStage(new StaticInspectionStage(this));
             AddSubStage(new ParseTreeStage(this));
 
-
             Verify();
         }
 

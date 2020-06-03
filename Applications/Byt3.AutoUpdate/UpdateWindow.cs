@@ -5,6 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Byt3.Utilities.FastString;
@@ -48,6 +49,7 @@ namespace Byt3.AutoUpdate
         {
             return new Task<Version>(() =>
             {
+                if (Program.TargetVersion != null) return Program.TargetVersion;
                 WebClient wc = new WebClient();
                 Version v = Version.Parse(wc.DownloadString($"{Program.TargetURL}{Program.ProjectName}/newest.ver"));
                 wc.Dispose();
@@ -130,6 +132,8 @@ namespace Byt3.AutoUpdate
                     Application.DoEvents();
                 }
 
+                Thread.Sleep(1000); //Give some time to drop filehandles etc..
+
                 if (waitTask.IsFaulted)
                 {
                     throw waitTask.Exception.InnerException;
@@ -144,6 +148,7 @@ namespace Byt3.AutoUpdate
 
                 if (extractTask.IsFaulted)
                 {
+                    MessageBox.Show(extractTask.Exception.ToString());
                     throw extractTask.Exception.InnerException;
                 }
             }

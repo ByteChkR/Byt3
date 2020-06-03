@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.OpenFL.Common.Instructions.SignatureParsing;
-using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Common.ProgramChecks.Checking.Signatures;
 using FLDebugger.Properties;
 
@@ -31,6 +30,24 @@ namespace FLDebugger.Forms
             InitializeComponent();
             Text = $"Viewing {InstructionKeys.Count} Instructions";
             Icon = Resources.OpenFL_Icon;
+
+            FLScriptEditor.RegisterDefaultTheme(panelInstructions);
+            FLScriptEditor.RegisterDefaultTheme(gbInstructions);
+            FLScriptEditor.RegisterDefaultTheme(lbInstructions);
+            FLScriptEditor.RegisterDefaultTheme(panelMainInstructionView);
+            FLScriptEditor.RegisterDefaultTheme(panelOverloads);
+            FLScriptEditor.RegisterDefaultTheme(gbOverloads);
+            FLScriptEditor.RegisterDefaultTheme(lbOverloads);
+            FLScriptEditor.RegisterDefaultTheme(panelHeaderInfo);
+            FLScriptEditor.RegisterDefaultTheme(lblInstructionName);
+            FLScriptEditor.RegisterDefaultTheme(panelLegend);
+            FLScriptEditor.RegisterDefaultTheme(gbLegend);
+            FLScriptEditor.RegisterDefaultTheme(lbLegend);
+            FLScriptEditor.RegisterDefaultTheme(panelInstructionInfo);
+            FLScriptEditor.RegisterDefaultTheme(panelInstructionDescription);
+            FLScriptEditor.RegisterDefaultTheme(gbInstructionDescription);
+            FLScriptEditor.RegisterDefaultTheme(rtbInstructionDescription);
+            FLScriptEditor.RegisterDefaultTheme(panelInstructionName);
         }
 
         private void InstructionViewer_Load(object sender, EventArgs e)

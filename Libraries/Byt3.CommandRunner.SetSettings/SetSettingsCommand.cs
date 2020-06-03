@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Byt3.ADL;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.CommandRunner.SetSettings
 {
@@ -46,9 +47,14 @@ namespace Byt3.CommandRunner.SetSettings
                 string[] parts = args[i].Split(':');
                 string fullpath = parts[0];
                 Logger.Log(LogType.Log, "Trying to Find Field: " + fullpath, 3);
-                if (parts.Length != 2 || fullpath.IndexOf('.') == -1)
+                if (parts.Length < 2 || fullpath.IndexOf('.') == -1)
                 {
                     continue;
+                }
+
+                if (parts.Length > 2)
+                {
+                    parts[1] = parts.Reverse().Take(parts.Length - 2).Reverse().Unpack(":");
                 }
 
                 string root = fullpath.Substring(0, fullpath.IndexOf('.'));

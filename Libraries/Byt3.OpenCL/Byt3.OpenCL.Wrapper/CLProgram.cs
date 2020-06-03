@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Byt3.ExtPP.API;
+using Byt3.OpenCL.Interop.Kernels;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Programs;
+using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenCL.Wrapper
@@ -221,6 +223,7 @@ namespace Byt3.OpenCL.Wrapper
             return result;
         }
 
+
         public static CLProgramBuildResult TryBuildProgram(CLAPI instance, string filePath, out CLProgram program)
         {
             //string source = TextProcessorAPI.PreprocessSource(IOManager.ReadAllLines(filePath),
@@ -232,13 +235,13 @@ namespace Byt3.OpenCL.Wrapper
             return TryBuildProgram(instance, source, filePath, out program);
         }
 
+        public static string[] FindFunctions(string source, DataVectorTypes returnType, string[] prefixes)
+        {
+            return FindFunctions(source, prefixes, KernelParameter.GetDataString(returnType));
+        }
 
-        /// <summary>
-        /// Extracts the kernel names from the program source
-        /// </summary>
-        /// <param name="source">The complete source of the program</param>
-        /// <returns>A list of kernel names</returns>
-        private static string[] FindKernelNames(string source)
+
+        private static string[] FindFunctions(string source, string[] prefixes, string returnType)
         {
             List<string> kernelNames = new List<string>();
             string[] s = source.Split(' ');
@@ -250,9 +253,9 @@ namespace Byt3.OpenCL.Wrapper
 
             for (int i = 0; i < parts.Count; i++)
             {
-                if (parts[i] == "__kernel" || parts[i] == "kernel")
+                if (prefixes.Contains(parts[i]))
                 {
-                    if (i < parts.Count - 2 && parts[i + 1] == "void")
+                    if (i < parts.Count - 2 && parts[i + 1] == returnType)
                     {
                         if (parts[i + 2].Contains('('))
                         {
@@ -272,6 +275,16 @@ namespace Byt3.OpenCL.Wrapper
             }
 
             return kernelNames.ToArray();
+        }
+
+        /// <summary>
+        /// Extracts the kernel names from the program source
+        /// </summary>
+        /// <param name="source">The complete source of the program</param>
+        /// <returns>A list of kernel names</returns>
+        private static string[] FindKernelNames(string source)
+        {
+            return FindFunctions(source, new[] {"__kernel", "kernel"}, "void");
         }
     }
 }

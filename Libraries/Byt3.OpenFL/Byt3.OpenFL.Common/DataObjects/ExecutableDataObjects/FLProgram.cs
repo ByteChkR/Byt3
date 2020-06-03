@@ -226,7 +226,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         {
             DefinedBuffers[FLKeywords.InputBufferKey]
                 .ReplaceUnderlyingBuffer(input.Buffer, input.Width,
-                    input.Height); //Making effectively a zombie object that has no own buffer(but this is needed in order to keep the script intact
+                    input.Height, input.Depth); //Making effectively a zombie object that has no own buffer(but this is needed in order to keep the script intact
             //The Arguments that are referencing the IN buffer will otherwise have a different buffer as the input.
             Input = ActiveBuffer = DefinedBuffers[FLKeywords.InputBufferKey];
             InternalState[FLKeywords.InputBufferKey] = makeInputInternal;

@@ -96,7 +96,8 @@ namespace Byt3.ExtPP.Base
         /// <returns>true if the relative path is pointing towards a valid file.</returns>
         public static bool FileExistsRelativeTo(string currentPath, string file)
         {
-            string s = PathTools.CleanPath(Path.Combine(currentPath, file));
+            string combined = Path.Combine(currentPath, file.Replace('/', '\\'));
+            string s = PathTools.CleanPath(combined);
 
             bool ret1 = IOManager.FileExists(s /*Path.Combine(currentPath, file)*/);
 

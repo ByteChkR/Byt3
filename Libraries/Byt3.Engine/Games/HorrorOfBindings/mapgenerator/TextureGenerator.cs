@@ -158,7 +158,7 @@ namespace HorrorOfBindings.mapgenerator
             //Dictionary<string, Texture> otherTex = new Dictionary<string, Texture>()
             //    {{"result", dest}, {"specularOut", specular}};
             return new FlScriptExecutionContext(file, TextureLoader.TextureToByteArray(dest), (int) dest.Width,
-                (int) dest.Height, program => Apply(dest, specular, program));
+                (int) dest.Height, 1, program => Apply(dest, specular, program));
         }
 
         private static void Apply(Texture dest, Texture spec, FLProgram prog)

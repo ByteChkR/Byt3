@@ -1,0 +1,6 @@
+~include setup/input_test.fl
+
+~define EXAMPLE
+
+Example:
+	clip_circle InputCopy 0.5 0.5 0.45

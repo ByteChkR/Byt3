@@ -14,7 +14,17 @@ namespace FLDebugger.Forms
             exception = ex;
             InitializeComponent();
             Icon = Properties.Resources.OpenFL_Icon;
-        }
+
+
+
+            FLScriptEditor.RegisterDefaultTheme(lbEx);
+            FLScriptEditor.RegisterDefaultTheme(panel1);
+            FLScriptEditor.RegisterDefaultTheme(panel2);
+            FLScriptEditor.RegisterDefaultTheme(rtbExText);
+            FLScriptEditor.RegisterDefaultTheme(gbLoadedKernels);
+            FLScriptEditor.RegisterDefaultTheme(gbBuildOut);
+            FLScriptEditor.RegisterDefaultTheme(btnRetry);
+    }
 
         private void BuildExceptionViewer_Load(object sender, EventArgs e)
         {
@@ -35,6 +45,12 @@ namespace FLDebugger.Forms
 
                 rtbExText.Text = txt;
             }
+        }
+
+        private void btnRetry_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Retry;
+            Close();
         }
     }
 }

@@ -17,6 +17,8 @@
         /// <returns>the key of the file/source</returns>
         string GetKey();
 
+        bool IsInline { get; }
+
         /// <summary>
         /// returns the source that is cached
         /// if the source was not loaded before it will load it from the file path specified

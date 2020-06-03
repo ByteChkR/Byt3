@@ -116,7 +116,7 @@ namespace Byt3.OpenCL.Wrapper
         internal void Run(CommandQueue cq, MemoryBuffer image, int3 dimensions, float genTypeMaxVal,
             MemoryBuffer enabledChannels, int channelCount)
         {
-            int size = dimensions.x * dimensions.y * channelCount;
+            int size = dimensions.x * dimensions.y * dimensions.z * channelCount;
 
 
             SetArg(0, image);

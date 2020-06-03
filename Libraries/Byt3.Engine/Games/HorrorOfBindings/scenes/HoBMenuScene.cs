@@ -96,7 +96,7 @@ namespace HorrorOfBindings.scenes
             int texWidth = 128;
             int texHeight = 128;
             FLRunner runner = new FLRunner(CLAPI.MainThread, "resources/kernel");
-            FLProgram prog = runner.Run("assets/filter/game/menubg.fl", texWidth, texHeight);
+            FLProgram prog = runner.Run("assets/filter/game/menubg.fl", texWidth, texHeight, 1);
             //Interpreter i = new Interpreter(Clapi.MainThread, "assets/filter/game/menubg.fl", DataTypes.Uchar1,
             //    Clapi.CreateEmpty<byte>(Clapi.MainThread, texWidth * texHeight * 4, MemoryFlag.ReadWrite), texWidth,
             //    texHeight, 1, 4, "assets/kernel/", true);

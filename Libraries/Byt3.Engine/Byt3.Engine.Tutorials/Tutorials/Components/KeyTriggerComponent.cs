@@ -66,10 +66,10 @@ namespace Byt3.Engine.Tutorials.Tutorials.Components
                 byte[] tex2Buf = TextureLoader.TextureToByteArray(_tex2);
                 //Creating the Execution Context
 
-                FlScriptExecutionContext fle = new FlScriptExecutionContext(path, texBuf, (int) _tex.Width,
-                    (int) _tex.Height, program => OnFinishCallback(program, texMap));
-                FlScriptExecutionContext fle2 = new FlScriptExecutionContext(path, tex2Buf, (int) _tex2.Width,
-                    (int) _tex2.Height, program => OnFinishCallback(program, texMap2));
+                FlScriptExecutionContext fle = new FlScriptExecutionContext(path, texBuf, (int)_tex.Width,
+                    (int)_tex.Height, 1, program => OnFinishCallback(program, texMap));
+                FlScriptExecutionContext fle2 = new FlScriptExecutionContext(path, tex2Buf, (int)_tex2.Width,
+                    (int)_tex2.Height, 1, program => OnFinishCallback(program, texMap2));
 
                 //Enqueuing the Contexts
                 flRunner.Enqueue(fle);

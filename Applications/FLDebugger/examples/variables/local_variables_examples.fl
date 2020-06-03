@@ -1,0 +1,10 @@
+Main:
+	def MyFunctionVar 0
+	jmp TestFunc
+	print _Main has value MyFunctionVar 
+
+	
+
+TestFunc:
+	def MyFunctionVar 1000
+	print TestFunc has value MyFunctionVar

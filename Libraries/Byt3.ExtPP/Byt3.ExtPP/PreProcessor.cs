@@ -185,7 +185,7 @@ namespace Byt3.ExtPP
             foreach (IFileContent file in files)
             {
                 sm.SetLock(false);
-                sm.TryCreateScript(out ISourceScript sss, sep, file, new ImportResult());
+                sm.TryCreateScript(out ISourceScript sss, sep, file, new ImportResult(), false);
                 sm.SetLock(true);
                 sm.AddToTodo(sss);
             }

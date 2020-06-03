@@ -161,7 +161,7 @@ namespace Byt3.Engine.OpenFL
 
             byte[] buf = CLAPI.ReadBuffer<byte>(CLAPI.MainThread, b, (int) b.Size);
             FlScriptExecutionContext exec = new FlScriptExecutionContext(filename, buf, (int) Tex.Width,
-                (int) Tex.Height, program => OnFinishCallback(program, otherTex));
+                (int) Tex.Height, 1, program => OnFinishCallback(program, otherTex));
 
             flRunner.Enqueue(exec);
             flRunner.Process();

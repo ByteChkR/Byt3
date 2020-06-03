@@ -58,7 +58,7 @@ namespace Byt3.Engine.Tutorials.Tutorials
 
             FLBuffer buffer =
                 new FLBuffer(TextureLoader.TextureToMemoryBuffer(CLAPI.MainThread, tex, "BufferForFLProgram"), 128,
-                    128);
+                    128, 1);
 
 
             FLProgram program = parser.Process(new FLParserInput("assets/filter/red.fl"))
