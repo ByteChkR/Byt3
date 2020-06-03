@@ -7,7 +7,6 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
     public class RemoveUnusedFunctionsOptimization : FLProgramCheck<SerializableFLProgram>
     {
         public override int Priority => 3;
-        public override bool Recommended => true;
         public override FLProgramCheckType CheckType => FLProgramCheckType.Optimization;
 
         private Dictionary<string, bool> ParseFunctions(SerializableFLProgram input)

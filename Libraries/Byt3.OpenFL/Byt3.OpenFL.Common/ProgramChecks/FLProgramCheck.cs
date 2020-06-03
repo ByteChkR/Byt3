@@ -30,7 +30,6 @@ namespace Byt3.OpenFL.Common.ProgramChecks
         protected FLInstructionSet InstructionSet { get; private set; }
         protected BufferCreator BufferCreator { get; private set; }
         protected Pipeline Target { get; private set; }
-        public virtual bool Recommended => false;
         public virtual int Priority => 0;
         public abstract FLProgramCheckType CheckType { get; }
 

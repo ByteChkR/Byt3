@@ -22,7 +22,7 @@ namespace Byt3Console.OpenFL
         public string KernelFolder;
 
         public bool MultiThread;
-        public string ProgramChecks;
+        public FLProgramCheckType ProgramChecks;
 
         public Resolution Resolution;
         public int Verbosity;
@@ -43,22 +43,6 @@ namespace Byt3Console.OpenFL
             }
         }
 
-        public List<Type> ProgramCheckTypes
-        {
-            get
-            {
-                string[] creators = ProgramChecks.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
-                List<Type> ret = new List<Type>();
-                for (int i = 0; i < creators.Length; i++)
-                {
-                    ret.AddRange(TypeAccumulator<FLProgramCheck>.GetTypesByName(creators[i]));
-                    //ret.Add(Type.GetType(creators[i], true, true));
-                }
-
-                return ret;
-            }
-        }
-
 
         public static FLConsoleSettings Default
         {
@@ -68,7 +52,7 @@ namespace Byt3Console.OpenFL
                 {
                     MultiThread = false,
                     WorkSizeMultiplier = 2,
-                    ProgramChecks = FLProgramCheckBuilder.Default.Select(x => x.GetType().Name).Unpack(";"),
+                    ProgramChecks = FLProgramCheckType.InputValidation,
                     BufferCreators = GetBuiltInTypesAssignableFrom(typeof(ASerializableBufferCreator))
                         .Select(x => x.AssemblyQualifiedName).Unpack(";"),
                     KernelFolder = "resources/kernel",

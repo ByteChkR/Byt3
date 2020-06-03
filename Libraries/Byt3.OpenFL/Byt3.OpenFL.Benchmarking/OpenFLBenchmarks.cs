@@ -84,12 +84,12 @@ namespace Byt3.OpenFL.Benchmarking
 
         public static string RunParsedFLExecutionBenchmark(bool warm, string testAdd, List<string> files,
             int iterations,
-            string performanceFolder = "performance", Type[] checkPipeline = null, bool useMultiThreading = false,
+            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_ParsedExecution_Performance" + testAdd, "resources/kernel",
                 performanceFolder,
-                checkPipeline, useMultiThreading, workSizeMultiplier);
+                checkProfile, useMultiThreading, workSizeMultiplier);
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
             for (int i = 0; i < files.Count; i++)
@@ -146,12 +146,12 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunDeserializedFLExecutionBenchmark(string testAdd, List<string> files, int iterations,
-            string performanceFolder = "performance", Type[] checkPipeline = null, bool useMultiThreading = false,
+            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_DeserializedExecution_Performance" + testAdd, "resources/kernel",
                 performanceFolder,
-                checkPipeline, useMultiThreading, workSizeMultiplier);
+                checkProfile, useMultiThreading, workSizeMultiplier);
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
             for (int i = 0; i < files.Count; i++)
@@ -208,12 +208,12 @@ namespace Byt3.OpenFL.Benchmarking
 
         public static string RunProgramSerializationBenchmark(string testAdd, List<string> files, int iterations,
             string[] extraSteps = null,
-            string performanceFolder = "performance", Type[] checkPipeline = null, bool useMultiThreading = false,
+            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_SerializationProcess_Performance" + testAdd, "resources/kernel",
                 performanceFolder,
-                checkPipeline, useMultiThreading, workSizeMultiplier);
+                checkProfile, useMultiThreading, workSizeMultiplier);
 
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
@@ -250,12 +250,12 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunProgramDeserializationBenchmark(string testAdd, List<string> files, int iterations,
-            string performanceFolder = "performance", Type[] checkPipeline = null, bool useMultiThreading = false,
+            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_DeserializationProcess_Performance" + testAdd, "resources/kernel",
                 performanceFolder,
-                checkPipeline, useMultiThreading, workSizeMultiplier);
+                checkProfile, useMultiThreading, workSizeMultiplier);
 
 
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
@@ -286,11 +286,11 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunProgramInitBenchmark(string testAdd, List<string> files, int iterations,
-            string performanceFolder = "performance", Type[] checkPipeline = null, bool useMultiThreading = false,
+            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_ProgramInit_Performance" + testAdd, "resources/kernel", performanceFolder,
-                checkPipeline,
+                checkProfile,
                 useMultiThreading, workSizeMultiplier);
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
@@ -319,11 +319,11 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunParserProcessBenchmark(string testAdd, List<string> files, int iterations,
-            string performanceFolder = "performance", Type[] checkPipeline = null, bool useMultiThreading = false,
+            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_ParserProcess_Performance" + testAdd, "resources/kernel", performanceFolder,
-                checkPipeline, useMultiThreading, workSizeMultiplier);
+                checkProfile, useMultiThreading, workSizeMultiplier);
             StringBuilder logOut = new StringBuilder($"Performance Tests: {DateTime.Now:HH:mm:ss}\n");
 
             for (int i = 0; i < files.Count; i++)

@@ -1,4 +1,6 @@
-﻿using Byt3.CommandRunner;
+﻿using System;
+using Byt3.CommandRunner;
+using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.Utilities.FastString;
 
 namespace Byt3Console.OpenFL.Benchmarks.Commands
@@ -13,7 +15,13 @@ namespace Byt3Console.OpenFL.Benchmarks.Commands
 
         private void SetFlag(string[] args)
         {
-            FLBenchmarkConsole.Settings.CheckPipeline += ";" + args.Unpack(";");
+            FLProgramCheckType flag = FLProgramCheckType.None;
+            for (int i = 0; i < args.Length; i++)
+            {
+                flag |= (FLProgramCheckType)Enum.Parse(typeof(FLProgramCheckType), args[i], true);
+            }
+
+            FLBenchmarkConsole.Settings.CheckProfile = flag;
         }
     }
 }

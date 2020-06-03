@@ -6,8 +6,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Checking
 {
     public class DuplicateNameValidator : FLProgramCheck<SerializableFLProgram>
     {
-        public override FLProgramCheckType CheckType => FLProgramCheckType.Validation;
-        public override bool Recommended => true;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.InputValidation;
 
 
         public override object Process(object o)

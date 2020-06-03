@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
@@ -8,6 +11,9 @@ using Byt3.OpenFL.Common.ProgramChecks.Optimizations;
 
 namespace Byt3.OpenFL.Common.ProgramChecks
 {
+
+
+
     public class FLProgramCheckBuilder
     {
         public FLProgramCheckBuilder(FLInstructionSet iset, BufferCreator bc)
@@ -17,6 +23,23 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             BufferCreator = bc;
         }
 
+        public FLProgramCheckBuilder(FLInstructionSet iset, BufferCreator bc, Assembly[] assemblies,
+            FLProgramCheckType profile = FLProgramCheckType.InputValidation)
+        {
+            ProgramChecks = new List<FLProgramCheck>();
+            //Add all Program checks with the right profile in the assemblies.
+            assemblies.ToList().ForEach(x =>
+                ProgramChecks.AddRange(x.GetTypes()
+                    .Where(y => !y.IsAbstract && typeof(FLProgramCheck).IsAssignableFrom(y) && y != typeof(FLProgramCheck))
+                    .Select(y => (FLProgramCheck) Activator.CreateInstance(y))
+                    .Where(y => (y.CheckType & profile) != 0)));
+            ProgramChecks.Sort((x, y) => y.Priority.CompareTo(x.Priority));
+            InstructionSet = iset;
+            BufferCreator = bc;
+
+
+        }
+
         public FLInstructionSet InstructionSet { get; }
         public BufferCreator BufferCreator { get; }
 
@@ -24,25 +47,9 @@ namespace Byt3.OpenFL.Common.ProgramChecks
         public bool IsAttached { get; private set; }
         public Pipeline AttachedPipeline { get; private set; }
 
-        public static FLProgramCheck[] Default => new FLProgramCheck[]
+        public static FLProgramCheckBuilder CreateDefaultCheckBuilder(FLInstructionSet iset, BufferCreator bc, FLProgramCheckType profile = FLProgramCheckType.InputValidation)
         {
-            new RemoveUnusedScriptsOptimization(),
-            new RemoveUnusedBuffersOptimization(),
-            new RemoveUnusedFunctionsEarlyOptimization(),
-            new InstructionArgumentValidator(),
-            new FilePathValidator()
-        };
-
-        public static FLProgramCheckBuilder CreateDefaultCheckBuilder(FLInstructionSet iset, BufferCreator bc)
-        {
-            FLProgramCheckBuilder pipeline = new FLProgramCheckBuilder(iset, bc);
-            FLProgramCheck[] checks = Default;
-            for (int i = 0; i < checks.Length; i++)
-            {
-                pipeline.AddProgramCheck(checks[i]);
-            }
-
-            return pipeline;
+            return new FLProgramCheckBuilder(iset, bc, new [] { typeof(FLProgramCheck).Assembly }, profile);
         }
 
         public void AddProgramCheck(FLProgramCheck check)

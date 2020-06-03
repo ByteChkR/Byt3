@@ -10,7 +10,6 @@ using Byt3.OpenCL.Wrapper;
 using Byt3.OpenFL.Benchmarking;
 using Byt3.OpenFL.Common;
 using Byt3.OpenFL.Common.Instructions;
-using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.Utilities.ConsoleInternals;
 using Byt3.Utilities.ManifestIO;
 using Byt3.Utilities.TypeFinding;
@@ -51,19 +50,6 @@ namespace Byt3Console.OpenFL.Benchmarks
                 return true;
             }
 
-            string[] checkTypesStr = Settings.CheckPipeline.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries);
-            List<Type> checkTypes = new List<Type>();
-            foreach (string s in checkTypesStr)
-            {
-                List<Type> r = TypeAccumulator<FLProgramCheck>.GetTypesByName(s);
-                if (r.Count != 1)
-                {
-                    Console.Write("");
-                }
-
-                checkTypes.AddRange(r);
-            }
-
 
             ExtPPDebugConfig.Settings.MinSeverity = Verbosity.Silent;
             OpenFLDebugConfig.Settings.MinSeverity = Verbosity.Level1;
@@ -84,26 +70,26 @@ namespace Byt3Console.OpenFL.Benchmarks
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunParserProcessBenchmark("_run" + i, files, Settings.ParsingIterations,
                         Settings.PerformanceFolder,
-                        checkTypes.ToArray(), UseMultiThread), 1);
+                        Settings.CheckProfile, UseMultiThread), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunProgramInitBenchmark("_run" + i, files, Settings.InitIterations,
                         Settings.PerformanceFolder,
-                        checkTypes.ToArray(), true), 1);
+                        Settings.CheckProfile, true), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunProgramSerializationBenchmark("_run" + i, files, Settings.IOIterations,
                         Settings.ExtraSteps.Split(';'),
-                        Settings.PerformanceFolder, checkTypes.ToArray(), true), 1);
+                        Settings.PerformanceFolder, Settings.CheckProfile, true), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunProgramDeserializationBenchmark("_run" + i, files, Settings.IOIterations,
-                        Settings.PerformanceFolder, checkTypes.ToArray(), true), 1);
+                        Settings.PerformanceFolder, Settings.CheckProfile, true), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunParsedFLExecutionBenchmark(Settings.WarmProgram, "_run" + i, files,
                         Settings.ExecutionIterations,
-                        Settings.PerformanceFolder, checkTypes.ToArray(), true), 1);
+                        Settings.PerformanceFolder, Settings.CheckProfile, true), 1);
                 Logger.Log(LogType.Log,
                     OpenFLBenchmarks.RunDeserializedFLExecutionBenchmark("_run" + i, files,
                         Settings.ExecutionIterations,
-                        Settings.PerformanceFolder, checkTypes.ToArray(), true), 1);
+                        Settings.PerformanceFolder, Settings.CheckProfile, true), 1);
                 OpenFLBenchmarks.FinalizeTestRun(Settings.PerformanceFolder);
                 Logger.Log(LogType.Log, $"------------------------Run {i} Finished------------------------", 1);
             }

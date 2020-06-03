@@ -6,7 +6,7 @@ namespace Byt3Console.OpenFL.Benchmarks.Commands
 {
     public class FLBenchmarkSettings
     {
-        public string CheckPipeline;
+        public FLProgramCheckType CheckProfile;
         public int ExecutionIterations;
         public string ExtraSteps;
         public int InitIterations;
@@ -30,7 +30,7 @@ namespace Byt3Console.OpenFL.Benchmarks.Commands
                 ExtraSteps = "",
                 ScriptDirectories = "resources/filter/tests",
                 TotalRepetitions = 5,
-                CheckPipeline = FLProgramCheckBuilder.Default.Select(x => x.GetType().Name).Unpack(";")
+                CheckProfile = FLProgramCheckType.InputValidation
             };
     }
 }

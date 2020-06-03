@@ -31,9 +31,8 @@ namespace Byt3Console.OpenFL.Commands
             KernelDatabase db = new KernelDatabase(CLAPI.MainThread, FLConsole.Settings.KernelFolder,
                 DataVectorTypes.Uchar1);
             FLInstructionSet iset = FLInstructionSet.CreateWithBuiltInTypes(db);
-            FLProgramCheckBuilder programCheckBuilder = new FLProgramCheckBuilder(iset, creator);
-            FLConsole.Settings.ProgramCheckTypes.ForEach(x =>
-                programCheckBuilder.AddProgramCheck((FLProgramCheck) Activator.CreateInstance(x)));
+            FLProgramCheckBuilder programCheckBuilder = FLProgramCheckBuilder.CreateDefaultCheckBuilder(iset, creator, FLConsole.Settings.ProgramChecks);
+            
 
 
             FLScriptRunner runner =

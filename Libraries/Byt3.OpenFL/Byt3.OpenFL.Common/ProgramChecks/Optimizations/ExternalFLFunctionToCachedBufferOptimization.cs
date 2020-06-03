@@ -9,7 +9,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 {
     public class ExternalFLFunctionToCachedBufferOptimization : FLProgramCheck<SerializableFLProgram>
     {
-        public override FLProgramCheckType CheckType => FLProgramCheckType.Optimization;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.AggressiveOptimization;
         public override int Priority => 4;
 
         public override object Process(object o)

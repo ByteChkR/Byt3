@@ -165,9 +165,6 @@
             // 
             this.cbBuildMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBuildMode.FormattingEnabled = true;
-            this.cbBuildMode.Items.AddRange(new object[] {
-            "Debug",
-            "Release"});
             this.cbBuildMode.Location = new System.Drawing.Point(81, 70);
             this.cbBuildMode.Name = "cbBuildMode";
             this.cbBuildMode.Size = new System.Drawing.Size(149, 21);

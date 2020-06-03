@@ -183,7 +183,6 @@ namespace FLDebugger.Forms
             lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             rtbIn.WriteSource(DEFAULT_SCRIPT);
-            cbBuildMode.SelectedIndex = 0;
             CheckForIllegalCrossThreadCalls = false;
         }
 
@@ -425,11 +424,9 @@ namespace FLDebugger.Forms
             {
                 FLProgramCheck type = types[i];
                 lbOptimizations.Items.Add(type);
-                if (type.Recommended)
-                {
-                    lbOptimizations.SetItemChecked(i, true);
-                }
             }
+            cbBuildMode.Items.AddRange(Enum.GetNames(typeof(FLProgramCheckType)).Select(x=>x.Trim('[',']')).ToArray());
+            cbBuildMode.SelectedIndex = 0;
         }
 
         private void FLScriptEditor_Closing(object sender, CancelEventArgs e)
@@ -744,22 +741,11 @@ namespace FLDebugger.Forms
 
         private void cbBuildMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbBuildMode.SelectedItem.ToString() == "Debug")
+            for (int i = 0; i < lbOptimizations.Items.Count; i++)
             {
-                for (int i = 0; i < lbOptimizations.Items.Count; i++)
-                {
-                    object lbOptimizationsItem = lbOptimizations.Items[i];
-                    FLProgramCheck pc = (FLProgramCheck)lbOptimizationsItem;
-                    lbOptimizations.SetItemChecked(i, pc.CheckType == FLProgramCheckType.Validation);
-                }
-            }
-            else
-            {
-                for (int i = 0; i < lbOptimizations.Items.Count; i++)
-                {
-                    object lbOptimizationsItem = lbOptimizations.Items[i];
-                    lbOptimizations.SetItemChecked(i, true);
-                }
+                object lbOptimizationsItem = lbOptimizations.Items[i];
+                FLProgramCheck pc = (FLProgramCheck)lbOptimizationsItem;
+                lbOptimizations.SetItemChecked(i, (pc.CheckType & (FLProgramCheckType)Enum.Parse(typeof(FLProgramCheckType), cbBuildMode.SelectedItem.ToString())) != 0);
             }
         }
 

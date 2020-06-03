@@ -7,7 +7,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
     public class ConvIRndCPU2GPUOptimization : FLProgramCheck<SerializableFLProgram>
     {
         public override int Priority => 0;
-        public override FLProgramCheckType CheckType => FLProgramCheckType.Optimization;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.AggressiveOptimization;
 
         public override object Process(object o)
         {

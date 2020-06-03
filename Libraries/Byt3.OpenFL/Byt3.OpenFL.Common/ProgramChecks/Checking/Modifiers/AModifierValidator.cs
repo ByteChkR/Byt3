@@ -4,8 +4,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Checking.Modifiers
 {
     public abstract class AModifierValidator : FLProgramCheck<SerializableFLProgram>
     {
-        public override FLProgramCheckType CheckType => FLProgramCheckType.Validation;
-        public override bool Recommended => true;
+        public override FLProgramCheckType CheckType => FLProgramCheckType.InputValidation;
         protected abstract InstructionArgumentCategory InvalidArguments { get; }
 
         protected abstract void Validate(SerializableFLProgram prog, SerializableFLFunction func,

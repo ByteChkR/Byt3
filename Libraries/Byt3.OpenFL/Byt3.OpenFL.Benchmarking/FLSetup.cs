@@ -20,25 +20,13 @@ namespace Byt3.OpenFL.Benchmarking
         public FLParser Parser;
 
         public FLSetup(string testName, string kernelPath, string performance = "performance",
-            Type[] checkPipeline = null,
+            FLProgramCheckType checkProfile=FLProgramCheckType.InputValidationOptimized,
             bool useMultiThreading = false, int workSizeMultiplier = 2) : base(testName, performance)
         {
             KernelDatabase = new KernelDatabase(CLAPI.MainThread, kernelPath, DataVectorTypes.Uchar1);
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(KernelDatabase);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
-            CheckBuilder = null;
-            if (checkPipeline == null)
-            {
-                CheckBuilder = FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator);
-            }
-            else
-            {
-                CheckBuilder = new FLProgramCheckBuilder(InstructionSet, BufferCreator);
-                foreach (Type useCheck in checkPipeline)
-                {
-                    CheckBuilder.AddProgramCheck((FLProgramCheck) Activator.CreateInstance(useCheck));
-                }
-            }
+            CheckBuilder =FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator, checkProfile);
 
 
             Parser = new FLParser(InstructionSet, BufferCreator,
