@@ -108,8 +108,8 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         }
 
         internal FLBuffer Input { get; set; }
-        public int3 Dimensions => new int3(Input.Width, Input.Height, 4);
-        public int InputSize => Dimensions.x * Dimensions.y * Dimensions.z;
+        public int3 Dimensions => new int3(Input.Width, Input.Height, 1);
+        public int InputSize => Dimensions.x * Dimensions.y * Dimensions.z * ActiveChannels.Length;
 
         private Dictionary<string, bool> InternalState { get; }
 
