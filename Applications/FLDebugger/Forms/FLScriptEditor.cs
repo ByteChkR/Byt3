@@ -18,6 +18,8 @@ using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
+using Byt3.OpenFL.Serialization;
+using Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer;
 using Byt3.Utilities.FastString;
 using Byt3.Utilities.ManifestIO;
 using Byt3.Utilities.TypeFinding;
@@ -99,6 +101,7 @@ namespace FLDebugger.Forms
             RegisterDefaultTheme(cbBuildMode);
             RegisterDefaultTheme(btnSettings);
             RegisterDefaultTheme(btnClear);
+            Theme.Register(theme => btnExport.BackColor = theme.PrimaryBackgroundColor);
 
             lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
@@ -560,7 +563,9 @@ namespace FLDebugger.Forms
                 return;
             }
 
+            rtbIn.Enabled = false;
             rtbIn.WriteSource(src);
+            rtbIn.Enabled = true;
             //Path = "";
             ignoreChanged = false;
 
@@ -765,6 +770,19 @@ namespace FLDebugger.Forms
             public string ScriptPath;
             public string Theme;
             public string WorkingDir;
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            string file = "./test.flc";
+
+
+            InitializeViewer();
+
+            Stream stream = File.OpenWrite(file);
+            FLSerializer.SaveProgram(stream, Container.SerializedProgram, Container.InstructionSet, new string[0]);
+            stream.Close();
+
         }
     }
 }
