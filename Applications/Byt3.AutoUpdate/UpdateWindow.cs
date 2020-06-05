@@ -33,7 +33,7 @@ namespace Byt3.AutoUpdate
             int totalKB = (int) (e.TotalBytesToReceive / 1024);
             int currentKB = (int) (e.BytesReceived / 1024);
             SetStatus(
-                $"Downloading.. {Math.Round(currentKB / 1024f, 2)} MB ({Math.Round(currentKB / (float) totalKB, 2)}%)",
+                $"Downloading.. {Math.Round(currentKB / 1024f, 2)} MB ({Math.Round(100 * currentKB / (float) totalKB, 2)}%)",
                 currentKB, totalKB); //Prevent overflow of integer by having slightly less granular progress percentage
         }
 

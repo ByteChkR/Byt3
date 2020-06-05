@@ -37,7 +37,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="CustomControls\CustomCheckedListBox.cs">
       <SubType>Component</SubType>
     </Compile>
