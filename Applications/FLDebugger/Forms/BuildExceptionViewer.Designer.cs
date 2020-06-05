@@ -34,9 +34,9 @@
             this.gbLoadedKernels = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.gbBuildOut = new System.Windows.Forms.GroupBox();
+            this.btnShowSource = new System.Windows.Forms.Button();
             this.btnRetry = new System.Windows.Forms.Button();
             this.rtbExText = new System.Windows.Forms.RichTextBox();
-            this.btnShowSource = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.gbLoadedKernels.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -99,8 +99,21 @@
             this.gbBuildOut.TabStop = false;
             this.gbBuildOut.Text = "Build Output:";
             // 
+            // btnShowSource
+            // 
+            this.btnShowSource.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnShowSource.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShowSource.Location = new System.Drawing.Point(88, 421);
+            this.btnShowSource.Name = "btnShowSource";
+            this.btnShowSource.Size = new System.Drawing.Size(75, 23);
+            this.btnShowSource.TabIndex = 2;
+            this.btnShowSource.Text = "Source";
+            this.btnShowSource.UseVisualStyleBackColor = true;
+            this.btnShowSource.Click += new System.EventHandler(this.btnShowSource_Click);
+            // 
             // btnRetry
             // 
+            this.btnRetry.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRetry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRetry.Location = new System.Drawing.Point(7, 421);
             this.btnRetry.Name = "btnRetry";
@@ -121,17 +134,6 @@
             this.rtbExText.Size = new System.Drawing.Size(464, 431);
             this.rtbExText.TabIndex = 0;
             this.rtbExText.Text = "";
-            // 
-            // btnShowSource
-            // 
-            this.btnShowSource.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowSource.Location = new System.Drawing.Point(88, 421);
-            this.btnShowSource.Name = "btnShowSource";
-            this.btnShowSource.Size = new System.Drawing.Size(75, 23);
-            this.btnShowSource.TabIndex = 2;
-            this.btnShowSource.Text = "Source";
-            this.btnShowSource.UseVisualStyleBackColor = true;
-            this.btnShowSource.Click += new System.EventHandler(this.btnShowSource_Click);
             // 
             // BuildExceptionViewer
             // 

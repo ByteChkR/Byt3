@@ -132,6 +132,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "KernelLoader";
             this.Text = "KernelLoader";
+            this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.Gray;
             this.Load += new System.EventHandler(this.KernelLoader_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbSplash)).EndInit();

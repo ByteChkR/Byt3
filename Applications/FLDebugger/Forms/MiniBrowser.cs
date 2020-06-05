@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using Byt3.AutoUpdate.Helper;
 
@@ -31,6 +32,8 @@ namespace FLDebugger.Forms
                     UpdateChecker.Direct("http://213.109.162.193/flrepo/", "FLDebugger",
                         Assembly.GetExecutingAssembly().Location, Version.Parse("0.0.0.0"),
                         Version.Parse(Path.GetFileNameWithoutExtension(e.Url.AbsolutePath)));
+                    Thread.Sleep(1000);
+                    Application.Exit();
                 }
                 else
                 {

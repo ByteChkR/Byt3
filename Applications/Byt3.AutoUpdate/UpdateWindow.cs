@@ -166,7 +166,7 @@ namespace Byt3.AutoUpdate
 
         private void WaitForProcessTask()
         {
-            if (Program.WaitProcess != null)
+            if (Program.WaitProcess != null && !Program.WaitProcess.HasExited)
             {
                 pbProgress.Style = ProgressBarStyle.Marquee;
                 lblStatus.Text = $"Waiting for Process: {Program.WaitProcess.ProcessName}({Program.WaitProcess.Id})";
