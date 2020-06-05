@@ -167,6 +167,9 @@
     <Content Include="configs\editors\bat_Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="configs\editors\cle_Config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="configs\editors\cl_Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

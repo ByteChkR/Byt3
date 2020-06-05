@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.6.52.2036</AssemblyVersion>
-    <FileVersion>1.6.52.2036</FileVersion>
+    <AssemblyVersion>1.6.53.2206</AssemblyVersion>
+    <FileVersion>1.6.53.2206</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="assets\filter\tests\**" />

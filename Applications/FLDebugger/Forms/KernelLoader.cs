@@ -101,14 +101,15 @@ namespace FLDebugger.Forms
             int kernelCount = 0;
             foreach (string file in files)
             {
-                rtbLog.AppendLine("Loading File: " + file, Color.White, rtbLog.BackColor);
                 pbProgress.Value++;
+                rtbLog.AppendLine("Loading File: " + file, Color.White, rtbLog.BackColor);
                 try
                 {
                     CLProgram prog = Database.AddProgram(Instance, file, false, out CLProgramBuildResult res);
                     kernelCount += prog.ContainedKernels.Count;
                     throwEx |= !res;
                     results.Add(res);
+                    lblStatus.Text = $"Files Loaded(Kernels Loaded): {pbProgress.Value}({kernelCount})";
                 }
                 catch (Exception e)
                 {
@@ -117,7 +118,6 @@ namespace FLDebugger.Forms
                     throw e; //Let the Exception Viewer Catch that
                 }
 
-                lblStatus.Text = $"Kernels Loaded: {kernelCount}";
             }
 
             lblStatus.Text = "Loading Finished";
