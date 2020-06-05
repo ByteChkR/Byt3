@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Byt3.ExtPP.API;
-using Byt3.OpenCL.Interop.Kernels;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Programs;
 using Byt3.OpenCL.Wrapper.TypeEnums;

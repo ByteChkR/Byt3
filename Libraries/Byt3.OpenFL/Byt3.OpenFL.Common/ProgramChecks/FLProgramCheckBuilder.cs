@@ -5,9 +5,6 @@ using System.Reflection;
 using Byt3.ObjectPipeline;
 using Byt3.OpenFL.Common.Buffers.BufferCreators;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
-using Byt3.OpenFL.Common.ProgramChecks.Checking;
-using Byt3.OpenFL.Common.ProgramChecks.Checking.Signatures;
-using Byt3.OpenFL.Common.ProgramChecks.Optimizations;
 
 namespace Byt3.OpenFL.Common.ProgramChecks
 {

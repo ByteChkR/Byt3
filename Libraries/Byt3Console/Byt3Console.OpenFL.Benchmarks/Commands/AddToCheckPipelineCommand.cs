@@ -1,7 +1,6 @@
 ﻿using System;
 using Byt3.CommandRunner;
 using Byt3.OpenFL.Common.ProgramChecks;
-using Byt3.Utilities.FastString;
 
 namespace Byt3Console.OpenFL.Benchmarks.Commands
 {

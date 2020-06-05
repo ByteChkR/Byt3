@@ -122,7 +122,7 @@ namespace Byt3.OpenCL.Wrapper
         }
 
 
-        public void AddProgram(CLAPI instance, string file, bool throwEx, out CLProgramBuildResult ex)
+        public CLProgram AddProgram(CLAPI instance, string file, bool throwEx, out CLProgramBuildResult ex)
         {
             ex = new CLProgramBuildResult(file, "", new List<CLProgramBuildError>());
             if (!IOManager.FileExists(file))
@@ -150,7 +150,7 @@ namespace Byt3.OpenCL.Wrapper
                 }
 
                 ex.BuildErrors.AddRange(br.BuildErrors);
-                return;
+                return null;
             }
             
             loadedPrograms.Add(program);
@@ -167,6 +167,8 @@ namespace Byt3.OpenCL.Wrapper
                         "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...", 5);
                 }
             }
+
+            return program;
         }
 
         /// <summary>

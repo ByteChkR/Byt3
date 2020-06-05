@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Byt3.Callbacks;
@@ -12,7 +11,6 @@ using Byt3.OpenFL.Common;
 using Byt3.Utilities.ManifestIO;
 using Byt3.Utilities.TypeFinding;
 using FLDebugger.Utils;
-using Exception = System.Exception;
 
 namespace FLDebugger.Forms
 {
@@ -33,18 +31,18 @@ namespace FLDebugger.Forms
             InitializeComponent();
 
             Icon = Properties.Resources.OpenFL_Icon;
-            
+
             CheckForIllegalCrossThreadCalls = false;
             LoadTask = new Task(InitializeDatabase);
 
-            
+
             FLScriptEditor.RegisterDefaultTheme(rtbLog);
             FLScriptEditor.RegisterDefaultTheme(panelLog);
             FLScriptEditor.RegisterDefaultTheme(pbProgress);
             FLScriptEditor.RegisterDefaultTheme(lblStatus);
             FLScriptEditor.RegisterDefaultTheme(lblLoad);
             FLScriptEditor.RegisterDefaultTheme(panel1);
-    }
+        }
 
         private void KernelLoader_Load(object sender, EventArgs e)
         {
@@ -99,28 +97,30 @@ namespace FLDebugger.Forms
             Database = new KernelDatabase(DataVectorTypes.Uchar1);
             List<CLProgramBuildResult> results = new List<CLProgramBuildResult>();
             bool throwEx = false;
+            int kernelCount = 0;
             foreach (string file in files)
             {
-                lblStatus.Text = "Loading File: " + file;
                 rtbLog.AppendLine("Loading File: " + file, Color.White, rtbLog.BackColor);
                 pbProgress.Value++;
                 try
                 {
-
-                    Database.AddProgram(Instance, file, false, out CLProgramBuildResult res);
+                    CLProgram prog = Database.AddProgram(Instance, file, false, out CLProgramBuildResult res);
+                    kernelCount += prog.ContainedKernels.Count;
                     throwEx |= !res;
                     results.Add(res);
                 }
                 catch (Exception e)
-                { 
+                {
                     rtbLog.AppendLine("ERROR: " + e.Message, Color.Red, rtbLog.BackColor);
 
                     throw e; //Let the Exception Viewer Catch that
                 }
+                lblStatus.Text = $"Kernels Loaded: {kernelCount}";
             }
 
             lblStatus.Text = "Loading Finished";
             rtbLog.AppendLine("Loading Finished", Color.White, rtbLog.BackColor);
+            rtbLog.AppendLine("Kernels Loaded: " + kernelCount, Color.White, rtbLog.BackColor);
 
             if (throwEx)
             {
