@@ -1,6 +1,5 @@
-#include utils/indexconversion.cl
-#include utils/gconvert.cl int float
-#include utils/gconvert.cl float int
+#include utils/indexconversion.cle
+#include convert/gconvert_all.cle
 
 uchar GetSmoothNoise(__global uchar* image, int idx, int channel, int width, int height, int depth, int samplePeriod, float sampleFrequency)
 {

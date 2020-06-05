@@ -1,5 +1,5 @@
 Main:
 	setactive 3
-	dSet_v 1
+	Set_v 1
 	setactive 0 1 2
-	dFlip
+	Flip

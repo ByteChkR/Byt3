@@ -1,38 +1,41 @@
 
-#include flmath.cl
+#include flmath/flmath.cle
 
-#includeinl ../dynamic/dyn_2_arg.cl ClampRescale
-#includeinl ../dynamic/dyn_2_arg.cl Clamp
+#includeinl dynamic/dyn_2_arg.cle ClampRescale clamprescale
+#includeinl dynamic/dyn_2_arg.cle Clamp _clamp
 
-#includeinl ../dynamic/dyn_1_arg.cl Sub
-#includeinl ../dynamic/dyn_1_arg_c.cl Sub
+#includeinl dynamic/dyn_1_arg.cle Sub sub
+#includeinl dynamic/dyn_1_arg_c.cle Sub sub
 
-#includeinl ../dynamic/dyn_1_arg.cl Set
-#includeinl ../dynamic/dyn_1_arg_c.cl Set
+#includeinl dynamic/dyn_1_arg.cle Set set
+#includeinl dynamic/dyn_1_arg_c.cle Set set
 
-#includeinl ../dynamic/dyn_1_arg.cl Mul
-#includeinl ../dynamic/dyn_1_arg_c.cl Mul
+#includeinl dynamic/dyn_1_arg.cle Mul mul
+#includeinl dynamic/dyn_1_arg_c.cle Mul mul
 
-#includeinl ../dynamic/dyn_1_arg.cl Div
-#includeinl ../dynamic/dyn_1_arg_c.cl Div
+#includeinl dynamic/dyn_1_arg.cle Div div
+#includeinl dynamic/dyn_1_arg_c.cle Div div
 
-#includeinl ../dynamic/dyn_1_arg.cl Add
-#includeinl ../dynamic/dyn_1_arg_c.cl Add
+#includeinl dynamic/dyn_1_arg.cle Add add
+#includeinl dynamic/dyn_1_arg_c.cle Add add
 
-#includeinl ../dynamic/dyn_1_arg.cl Mod
-#includeinl ../dynamic/dyn_1_arg_c.cl Mod
+#includeinl dynamic/dyn_1_arg.cle Mod mod
+#includeinl dynamic/dyn_1_arg_c.cle Mod mod
 
-#includeinl ../dynamic/dyn_1_arg.cl Max
-#includeinl ../dynamic/dyn_1_arg_c.cl Max
+#includeinl dynamic/dyn_1_arg.cle Max _max
+#includeinl dynamic/dyn_1_arg_c.cle Max _max
 
-#includeinl ../dynamic/dyn_1_arg.cl Min
-#includeinl ../dynamic/dyn_1_arg_c.cl Min
+#includeinl dynamic/dyn_1_arg.cle Min _min
+#includeinl dynamic/dyn_1_arg_c.cle Min _min
 
-#includeinl ../dynamic/dyn_no_arg.cl SelfAdd
-#includeinl ../dynamic/dyn_no_arg_c.cl SelfAdd
+#includeinl dynamic/dyn_1_arg.cle Sin _sin
+#includeinl dynamic/dyn_1_arg_c.cle Sin _sin
 
-#includeinl ../dynamic/dyn_no_arg.cl SelfMul
-#includeinl ../dynamic/dyn_no_arg_c.cl SelfMul
+#includeinl dynamic/dyn_no_arg.cle SelfAdd selfadd
+#includeinl dynamic/dyn_no_arg_c.cle SelfAdd selfadd
 
-#includeinl ../dynamic/dyn_no_arg.cl SelfSin
-#includeinl ../dynamic/dyn_no_arg_c.cl SelfSin
+#includeinl dynamic/dyn_no_arg.cle SelfMul selfmul
+#includeinl dynamic/dyn_no_arg_c.cle SelfMul selfmul
+
+#includeinl dynamic/dyn_no_arg.cle SelfSin selfsin
+#includeinl dynamic/dyn_no_arg_c.cle SelfSin selfsin

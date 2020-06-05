@@ -1,20 +1,20 @@
 Main:
 	#Make Opaque
 	setactive 3
-	dSet_v 1
+	Set_v 1
 
 	setactive 0 1 2
 	jmp MyDefaultFunction
-	dSet_t MyStaticFunction
-	dSet_t MyOnceFunction
-	dSet_t MyInitFunction
-	dSet_t MyNoJumpFunction
+	Set_t MyStaticFunction
+	Set_t MyOnceFunction
+	Set_t MyInitFunction
+	Set_t MyNoJumpFunction
 	jmp MyNoCallFunction
 
 #Functions are declared "dynamic" by default
 #This means that this function will get evaluated every time it gets called
 MyDefaultFunction:
-	dSet_v 1
+	Set_v 1
 
 
 #A Modifier that is used at compile time to enable optimizations

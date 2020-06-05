@@ -3,22 +3,22 @@
 # Creates the ring for the white seams
 CreateMask: static
   setactive 3
-  dSet_v 1
+  Set_v 1
   setactive 0 1 2
   circle1 0.5 0.5 0.4
-  dFlip
+  Flip
   circle1 0.5 0.5 0.3
 
 #Inverse of the CreateMask Function
 CreateMaskInv:
-  dSet_t CreateMask
-  dFlip
+  Set_t CreateMask
+  Flip
 
 
 # Unused function for testing
 Perlin: static
   setactive 3
-  dSet_v 1
+  Set_v 1
   setactive 0 1 2
   urnd
   perlin 0.8 7
@@ -26,7 +26,7 @@ Perlin: static
 # Creates Yellow perlin Noise
 YPerlin: static
   setactive 3
-  dSet_v 1
+  Set_v 1
   setactive 1 2
   urnd
   perlin 0.8 7
@@ -34,21 +34,21 @@ YPerlin: static
 
 # Creates a Yellow Texture with some noise and scales it to look more like a tennis ball
 YellowPerlin:
-  dSet_t YPerlin
-  dClampRescale_vv 0.4 0.6
-  dClamp_vv 0.9 1
+  Set_t YPerlin
+  ClampRescale_vv 0.4 0.6
+  Clamp_vv 0.9 1
 
 
 # Creates White Texture
 White: static
   setactive 0 1 2
-  dSet_v 1
+  Set_v 1
 
 Main:  
   setactive 3 #Set active Alpha
-  dSet_v 1 #Set value to 1(opaque)
+  Set_v 1 #Set value to 1(opaque)
   setactive 1 2 #Set active Green(1) and Red(2)
-  dMix_tt YellowPerlin CreateMask #Add the output of the YellowPerlin function to the return image using the values in the output of the function CreateMask
-  dMul_v 2 #Multiply every pixel(Green and red) value by 2
+  Mix_tt YellowPerlin CreateMask #Add the output of the YellowPerlin function to the return image using the values in the output of the function CreateMask
+  Mul_v 2 #Multiply every pixel(Green and red) value by 2
   setactive 0 1 2 #Activate all color channels
-  dMix_tt White CreateMaskInv #Do the mixing but with the inverse of the CreateMask function
+  Mix_tt White CreateMaskInv #Do the mixing but with the inverse of the CreateMask function

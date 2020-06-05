@@ -34,8 +34,9 @@
             this.gbLoadedKernels = new System.Windows.Forms.GroupBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.gbBuildOut = new System.Windows.Forms.GroupBox();
-            this.rtbExText = new System.Windows.Forms.RichTextBox();
             this.btnRetry = new System.Windows.Forms.Button();
+            this.rtbExText = new System.Windows.Forms.RichTextBox();
+            this.btnShowSource = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.gbLoadedKernels.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -87,6 +88,7 @@
             // gbBuildOut
             // 
             this.gbBuildOut.BackColor = System.Drawing.Color.DimGray;
+            this.gbBuildOut.Controls.Add(this.btnShowSource);
             this.gbBuildOut.Controls.Add(this.btnRetry);
             this.gbBuildOut.Controls.Add(this.rtbExText);
             this.gbBuildOut.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -96,6 +98,17 @@
             this.gbBuildOut.TabIndex = 1;
             this.gbBuildOut.TabStop = false;
             this.gbBuildOut.Text = "Build Output:";
+            // 
+            // btnRetry
+            // 
+            this.btnRetry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRetry.Location = new System.Drawing.Point(7, 421);
+            this.btnRetry.Name = "btnRetry";
+            this.btnRetry.Size = new System.Drawing.Size(75, 23);
+            this.btnRetry.TabIndex = 1;
+            this.btnRetry.Text = "Retry";
+            this.btnRetry.UseVisualStyleBackColor = true;
+            this.btnRetry.Click += new System.EventHandler(this.btnRetry_Click);
             // 
             // rtbExText
             // 
@@ -109,16 +122,16 @@
             this.rtbExText.TabIndex = 0;
             this.rtbExText.Text = "";
             // 
-            // btnRetry
+            // btnShowSource
             // 
-            this.btnRetry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRetry.Location = new System.Drawing.Point(7, 421);
-            this.btnRetry.Name = "btnRetry";
-            this.btnRetry.Size = new System.Drawing.Size(75, 23);
-            this.btnRetry.TabIndex = 1;
-            this.btnRetry.Text = "Retry";
-            this.btnRetry.UseVisualStyleBackColor = true;
-            this.btnRetry.Click += new System.EventHandler(this.btnRetry_Click);
+            this.btnShowSource.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnShowSource.Location = new System.Drawing.Point(88, 421);
+            this.btnShowSource.Name = "btnShowSource";
+            this.btnShowSource.Size = new System.Drawing.Size(75, 23);
+            this.btnShowSource.TabIndex = 2;
+            this.btnShowSource.Text = "Source";
+            this.btnShowSource.UseVisualStyleBackColor = true;
+            this.btnShowSource.Click += new System.EventHandler(this.btnShowSource_Click);
             // 
             // BuildExceptionViewer
             // 
@@ -148,5 +161,6 @@
         private System.Windows.Forms.GroupBox gbLoadedKernels;
         private System.Windows.Forms.GroupBox gbBuildOut;
         private System.Windows.Forms.Button btnRetry;
+        private System.Windows.Forms.Button btnShowSource;
     }
 }

@@ -5,4 +5,4 @@
 
 Main:
 	setactive PlainPerlin
-	dSet_t wfctest
+	Set_t wfctest

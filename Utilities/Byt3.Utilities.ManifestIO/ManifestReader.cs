@@ -334,7 +334,7 @@ namespace Byt3.Utilities.ManifestIO
             string[] files = _assemblyFiles.Keys.ToArray();
             string p = SanitizeFilename(path);
             List<string> ret = new List<string>();
-            string[] searchParts = searchPattern.Split(new[] {'*'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] searchParts = searchPattern.Split(new[] {'*'});
             for (int i = 0; i < files.Length; i++)
             {
                 if (files[i].StartsWith(p) /* && (files[i].EndsWith(searchPattern) || searchPattern == "*")*/)
@@ -344,6 +344,12 @@ namespace Byt3.Utilities.ManifestIO
                     bool valid = true;
                     for (int j = 0; j < searchParts.Length; j++)
                     {
+                        if (searchParts.Length == j + 1 && !string.IsNullOrEmpty(searchParts[j]))
+                        {
+                            valid = filePart.EndsWith(searchParts[j]);
+                            break;
+                        }
+                        if (string.IsNullOrEmpty(searchParts[j])) continue;
                         int idx = FString.FastIndexOf(ref filePart, searchParts[j], lastIdx);
                         if (lastIdx > idx)
                         {

@@ -54,7 +54,7 @@ namespace FLDebugger.Forms
             ".fl");
 
         private static readonly string DEFAULT_SCRIPT =
-            $"{FLKeywords.EntryFunctionKey}:\n\tsetactive 3\n\tdSet_v 1\n\tsetactive 0 1 2\n\tdSet_v 1";
+            $"{FLKeywords.EntryFunctionKey}:\n\tsetactive 3\n\tSet_v 1\n\tsetactive 0 1 2\n\tSet_v 1";
 
 
         private AboutInfo aboutForm;

@@ -1,6 +1,6 @@
 --define texture other: "resources/textures/TEST.png"
 
 Main:
-	dSet_v 1
+	Set_v 1
 	setactive 0 1 2
-	dMul_v 0.5
+	Mul_v 0.5

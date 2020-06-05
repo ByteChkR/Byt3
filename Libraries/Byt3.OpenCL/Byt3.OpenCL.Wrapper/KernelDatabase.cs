@@ -39,6 +39,7 @@ namespace Byt3.OpenCL.Wrapper
         static KernelDatabase()
         {
             TextProcessorAPI.Configs[".cl"] = new CLPreProcessorConfig();
+            TextProcessorAPI.Configs[".cle"] = new CLPreProcessorConfig();
         }
 
         /// <summary>
@@ -123,7 +124,7 @@ namespace Byt3.OpenCL.Wrapper
 
         public void AddProgram(CLAPI instance, string file, bool throwEx, out CLProgramBuildResult ex)
         {
-            ex = new CLProgramBuildResult(file, new List<CLProgramBuildError>());
+            ex = new CLProgramBuildResult(file, "", new List<CLProgramBuildError>());
             if (!IOManager.FileExists(file))
             {
                 Exception e = new FileNotFoundException("File not found: " + file);
@@ -140,6 +141,7 @@ namespace Byt3.OpenCL.Wrapper
 
             Logger.Log(LogType.Log, "Creating CLProgram from file: " + file, 3);
             CLProgramBuildResult br = CLProgram.TryBuildProgram(instance, path, out CLProgram program);
+            ex.Source = br.Source;
             if (!br)
             {
                 if (throwEx)
@@ -150,8 +152,7 @@ namespace Byt3.OpenCL.Wrapper
                 ex.BuildErrors.AddRange(br.BuildErrors);
                 return;
             }
-
-            //CLProgram program = new CLProgram(instance, path);
+            
             loadedPrograms.Add(program);
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
             {

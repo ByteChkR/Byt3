@@ -1,6 +1,6 @@
-#include indexconversion.cl
-#include shapes_uv.cl
-#include gconvert.cl int float
+#include ../utils/indexconversion.cle
+#include shapes_uv.cle
+#include ../convert/gconvert_all.cle
 
 
 float Rectanglef(int idx, int channelCount, int width, int height, float x, float y, float w, float h, float v)

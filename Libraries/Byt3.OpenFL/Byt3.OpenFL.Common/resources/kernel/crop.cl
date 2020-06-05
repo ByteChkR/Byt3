@@ -1,6 +1,5 @@
-#include utils/indexconversion.cl
-#include utils/gconvert.cl float int
-#include utils/gconvert.cl int float
+#include utils/indexconversion.cle
+#include convert/gconvert_all.cle
 
 __kernel void crop(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, __global uchar* input, float startx, float starty, float startz,float boundsx, float boundsy, float boundsz)
 {

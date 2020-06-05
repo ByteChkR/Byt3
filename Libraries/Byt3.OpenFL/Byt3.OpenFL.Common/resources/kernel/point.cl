@@ -1,5 +1,5 @@
-#include utils/indexconversion.cl
-#include utils/shapes.cl
+#include utils/indexconversion.cle
+#include shapes/shapes.cle
 
 __kernel void point3d(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, float positionX, float positionY, float positionZ, float radius)
 {

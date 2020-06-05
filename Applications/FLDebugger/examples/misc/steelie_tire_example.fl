@@ -1,19 +1,19 @@
 Main:	
-	dAdd_t Tire
+	Add_t Tire
 
 	jmp Steelie #Make Steelie wheel
 ~if DEBUG
 	#In Debug mode we do not optimize out the jump to Bolts.
 	#So when this is not optimized we can not jump to a Function that is marked as "init static once nojump"
 	setactive 0 1 2 3
-	dAdd_t Bolts
+	Add_t Bolts
 ~else
 	jmp Bolts
 ~endif
 
 
 	setactive 0 1 2
-	dMul_t SteelieOverlay #Add More Metal like look
+	Mul_t SteelieOverlay #Add More Metal like look
 	#Also covers the artifacts in the outer regions of the tire.
 
 	
@@ -22,10 +22,10 @@ SteelieOverlay:
 
 ClippedSteelie: init
 	setactive 3
-	dSet_v 1
+	Set_v 1
 	setactive 0 1 2 3
 	urnd
-	dMul_v 0.6
+	Mul_v 0.6
 	perlin 0.7 10
 
 Tire: init
@@ -37,17 +37,17 @@ Steelie:
 	#dSet_v 1
 	#dFlip
 	point2dc 0.5 0.5 0.5
-	dArch2
-	dMul_c_v 2
-	dAdd_t in
-	dAdd_t in
+	Arch2
+	Mul_c_v 2
+	Add_t in
+	Add_t in
 	#clip_circle in 0.5 0.5 0.35
-	dAdd_t in
-	dClampRescale_vv 0 0.5
+	Add_t in
+	ClampRescale_vv 0 0.5
 	
 Bolts: init
 	setactive 0 1 2
-	dFlip
+	Flip
 	
 	circle 0.25 0.5 0.05 0.5
 
@@ -65,4 +65,4 @@ Bolts: init
 
 	circle 0.68 0.68 0.05 0.5
 
-	dFlip
+	Flip

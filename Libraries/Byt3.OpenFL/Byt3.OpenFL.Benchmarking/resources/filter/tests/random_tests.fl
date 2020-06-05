@@ -1,6 +1,6 @@
 --define texture random: rnd
 Main:
   setactive 0 1 2
-  dSet_t random
+  Set_t random
   setactive 3
-  dSet_v 1
+  Set_v 1

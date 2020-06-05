@@ -1,4 +1,4 @@
-#include utils/shapes_f.cl
+#include shapes/shapes_f.cle
 
 __kernel void cut_box(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, __global uchar* input, float startx, float starty, float startz,float boundsx, float boundsy, float boundsz)
 {

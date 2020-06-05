@@ -33,17 +33,32 @@ namespace FLDebugger.Forms
 
         private void lbEx_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lbEx.SelectedIndex != -1)
-            {
-                CLProgramBuildResult br = (CLProgramBuildResult) lbEx.SelectedItem;
-                string txt = $"File: {br.TargetFile} Errors: {br.BuildErrors.Count}\n";
-                for (int i = 0; i < br.BuildErrors.Count; i++)
-                {
-                    txt +=
-                        $"\t{i} [{br.BuildErrors[i].Error}] {br.BuildErrors[i].Exception.GetType().Name} : {br.BuildErrors[i].Message}";
-                }
+            UpdateOutput(lbEx.SelectedIndex);
+        }
 
-                rtbExText.Text = txt;
+        private void UpdateOutput(int id)
+        {
+            if (id != -1)
+            {
+                CLProgramBuildResult br = (CLProgramBuildResult)lbEx.SelectedItem;
+                if (ShowSource)
+                {
+                    string txt = br.Source;
+                    
+                    rtbExText.Text = txt;
+                }
+                else
+                {
+                    string txt = $"File: {br.TargetFile} Errors: {br.BuildErrors.Count}\n";
+                    for (int i = 0; i < br.BuildErrors.Count; i++)
+                    {
+                        txt +=
+                            $"\t{i} [{br.BuildErrors[i].Error}] {br.BuildErrors[i].Exception.GetType().Name} : {br.BuildErrors[i].Message}";
+                    }
+
+                    rtbExText.Text = txt;
+                }
+                
             }
         }
 
@@ -51,6 +66,22 @@ namespace FLDebugger.Forms
         {
             DialogResult = DialogResult.Retry;
             Close();
+        }
+
+        private bool ShowSource;
+        private void btnShowSource_Click(object sender, EventArgs e)
+        {
+            ShowSource = !ShowSource;
+            if (ShowSource)
+            {
+                btnShowSource.Text = "Errors";
+
+            }
+            else
+            {
+                btnShowSource.Text = "Source";
+            }
+            UpdateOutput(lbEx.SelectedIndex);
         }
     }
 }

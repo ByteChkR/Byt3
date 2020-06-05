@@ -2,7 +2,7 @@
 
 Main:
 	setactive 3
-	dSet_v 1 #Opaque
+	Set_v 1 #Opaque
 	setactive 0 1 2
-	dSet_v 0.5 #Make Grey
-	dMul_t other #Multiply the image on the gray texture
+	Set_v 0.5 #Make Grey
+	Mul_t other #Multiply the image on the gray texture

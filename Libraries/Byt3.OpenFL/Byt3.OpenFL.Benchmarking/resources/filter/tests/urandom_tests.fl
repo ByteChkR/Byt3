@@ -1,6 +1,6 @@
 --define texture urandom: urnd
 Main:
   setactive 0 1 2
-  dSet_t urandom
+  Set_t urandom
   setactive 3
-  dSet_v 1
+  Set_v 1

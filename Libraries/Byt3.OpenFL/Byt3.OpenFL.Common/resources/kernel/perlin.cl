@@ -1,5 +1,5 @@
 #include smooth.cl
-#include utils/indexconversion.cl
+#include utils/indexconversion.cle
 
 uchar GetPerlinNoise(__global uchar* image, int idx, int channel, int width, int height, int depth, float persistence, int octaves)
 {

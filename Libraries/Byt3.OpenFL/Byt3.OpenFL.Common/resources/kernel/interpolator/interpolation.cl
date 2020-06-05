@@ -1,41 +1,41 @@
 //Empty Second parameter
-#include internal/ginterpolation.cl float 
+#include internal/ginterpolation.cle float 
 
 //No arguments
-#includeinl ../../dynamic/dyn_no_arg.cl Flip
-#includeinl ../../dynamic/dyn_no_arg.cl Slerp
-#includeinl ../../dynamic/dyn_no_arg.cl Arch2
-#includeinl ../../dynamic/dyn_no_arg.cl SmoothStopArch3
-#includeinl ../../dynamic/dyn_no_arg.cl SmoothStartArch3
-#includeinl ../../dynamic/dyn_no_arg.cl SmoothStepArch4
+#includeinl ../dynamic/dyn_no_arg.cle Flip flip
+#includeinl ../dynamic/dyn_no_arg.cle Slerp slerp
+#includeinl ../dynamic/dyn_no_arg.cle Arch2 arch2
+#includeinl ../dynamic/dyn_no_arg.cle SmoothStopArch3 smoothstoparch3
+#includeinl ../dynamic/dyn_no_arg.cle SmoothStartArch3 smoothstartarch3
+#includeinl ../dynamic/dyn_no_arg.cle SmoothStepArch4 smoothsteparch4
 
 //One Argument
-#includeinl ../../dynamic/dyn_1_arg.cl Scale
-#includeinl ../../dynamic/dyn_1_arg.cl SmoothStartf
-#includeinl ../../dynamic/dyn_1_arg.cl SmoothStopf
-#includeinl ../../dynamic/dyn_1_arg.cl BellCurve
+#includeinl ../dynamic/dyn_1_arg.cle Scale scale
+#includeinl ../dynamic/dyn_1_arg.cle SmoothStartf smoothstartf
+#includeinl ../dynamic/dyn_1_arg.cle SmoothStopf smoothstopf
+#includeinl ../dynamic/dyn_1_arg.cle BellCurve bellcurve
 
 //Two arguments
-#includeinl ../../dynamic/dyn_2_arg.cl Mix
-#includeinl ../../dynamic/dyn_2_arg.cl SmoothStep
-#includeinl ../../dynamic/dyn_2_arg.cl NormalizedBezier
+#includeinl ../dynamic/dyn_2_arg.cle Mix _mix
+#includeinl ../dynamic/dyn_2_arg.cle SmoothStep _smoothstep
+#includeinl ../dynamic/dyn_2_arg.cle NormalizedBezier normalizedbezier
 
 //No arguments
-#includeinl ../../dynamic/dyn_no_arg_c.cl Flip
-#includeinl ../../dynamic/dyn_no_arg_c.cl Slerp
-#includeinl ../../dynamic/dyn_no_arg_c.cl Arch2
-#includeinl ../../dynamic/dyn_no_arg_c.cl SmoothStopArch3
-#includeinl ../../dynamic/dyn_no_arg_c.cl SmoothStartArch3
-#includeinl ../../dynamic/dyn_no_arg_c.cl SmoothStepArch4
+#includeinl ../dynamic/dyn_no_arg_c.cle Flip flip
+#includeinl ../dynamic/dyn_no_arg_c.cle Slerp slerp
+#includeinl ../dynamic/dyn_no_arg_c.cle Arch2 arch2
+#includeinl ../dynamic/dyn_no_arg_c.cle SmoothStopArch3 smoothstoparch3
+#includeinl ../dynamic/dyn_no_arg_c.cle SmoothStartArch3 smoothstartarch3
+#includeinl ../dynamic/dyn_no_arg_c.cle SmoothStepArch4 smoothsteparch4
 
 //One Argument
-#includeinl ../../dynamic/dyn_1_arg_c.cl Scale
-#includeinl ../../dynamic/dyn_1_arg_c.cl SmoothStartf
-#includeinl ../../dynamic/dyn_1_arg_c.cl SmoothStopf
-#includeinl ../../dynamic/dyn_1_arg_c.cl BellCurve
+#includeinl ../dynamic/dyn_1_arg_c.cle Scale scale
+#includeinl ../dynamic/dyn_1_arg_c.cle SmoothStartf smoothstartf
+#includeinl ../dynamic/dyn_1_arg_c.cle SmoothStopf smoothstopf
+#includeinl ../dynamic/dyn_1_arg_c.cle BellCurve bellcurve
 
 //Two arguments
-#includeinl ../../dynamic/dyn_2_arg_c.cl Mix
-#includeinl ../../dynamic/dyn_2_arg_c.cl SmoothStep
-#includeinl ../../dynamic/dyn_2_arg_c.cl NormalizedBezier
+#includeinl ../dynamic/dyn_2_arg_c.cle Mix _mix
+#includeinl ../dynamic/dyn_2_arg_c.cle SmoothStep _smoothstep
+#includeinl ../dynamic/dyn_2_arg_c.cle NormalizedBezier normalizedbezier
 

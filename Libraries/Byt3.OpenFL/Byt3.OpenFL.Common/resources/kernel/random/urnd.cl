@@ -1,4 +1,4 @@
-#include random.cl
+#include random.cle
 
 __kernel void urnd_gpu(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState)
 {

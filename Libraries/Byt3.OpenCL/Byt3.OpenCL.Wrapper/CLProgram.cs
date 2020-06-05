@@ -41,9 +41,11 @@ namespace Byt3.OpenCL.Wrapper
         public readonly string TargetFile;
         public bool Success => BuildErrors.Count == 0;
         public readonly List<CLProgramBuildError> BuildErrors;
+        public string Source;
 
-        public CLProgramBuildResult(string targetFile, List<CLProgramBuildError> errors)
+        public CLProgramBuildResult(string targetFile, string source, List<CLProgramBuildError> errors)
         {
+            Source = source;
             TargetFile = targetFile;
             BuildErrors = errors;
         }
@@ -164,7 +166,7 @@ namespace Byt3.OpenCL.Wrapper
         public static CLProgramBuildResult TryBuildProgram(CLAPI instance, string source, string filePath,
             out CLProgram program)
         {
-            CLProgramBuildResult result = new CLProgramBuildResult(filePath, new List<CLProgramBuildError>());
+            CLProgramBuildResult result = new CLProgramBuildResult(filePath, source, new List<CLProgramBuildError>());
 
             string[] kernelNames = FindKernelNames(source);
             if (kernelNames.Length == 0)

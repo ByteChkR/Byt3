@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Byt3.Callbacks;
@@ -111,7 +112,7 @@ namespace FLDebugger.Forms
                     results.Add(res);
                 }
                 catch (Exception e)
-                {
+                { 
                     rtbLog.AppendLine("ERROR: " + e.Message, Color.Red, rtbLog.BackColor);
 
                     throw e; //Let the Exception Viewer Catch that

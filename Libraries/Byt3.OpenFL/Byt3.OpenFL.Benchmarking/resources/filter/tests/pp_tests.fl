@@ -7,4 +7,4 @@ Main:
 	#random noisetextemp
 	jmp PlainPerlin
 	setactive 0 1 2
-	dMul_t wfctest
+	Mul_t wfctest

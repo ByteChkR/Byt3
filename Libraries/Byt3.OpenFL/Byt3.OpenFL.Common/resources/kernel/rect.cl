@@ -1,5 +1,5 @@
-#include utils/indexconversion.cl
-#include utils/shapes.cl
+#include utils/indexconversion.cle
+#include shapes/shapes.cle
 
 
 

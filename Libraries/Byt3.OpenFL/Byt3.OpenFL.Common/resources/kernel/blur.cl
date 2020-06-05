@@ -1,4 +1,4 @@
-#include utils/indexconversion.cl
+#include utils/indexconversion.cle
 
 __kernel void blur_x(__global uchar* image, int3 dimensions, int channelCount, float maxValue, __global uchar* channelEnableState, __global uchar* source, float strength)
 {

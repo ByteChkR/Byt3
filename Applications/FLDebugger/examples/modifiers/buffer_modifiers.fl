@@ -19,18 +19,18 @@
 Main:
 	# Make Not transparent
 	setactive 3 1 2 #Make yellow to proove that the examples below do change the output of the program
-	dSet_v 1
+	Set_v 1
 	setactive 0 1 2
 
 	#Show Empty Buffer
-	dSet_t MyEmptyBuffer
+	Set_t MyEmptyBuffer
 	# Show Random Buffer
-	dSet_t MyRandomBuffer
+	Set_t MyRandomBuffer
 	#Show Static Noise
-	dSet_t MyStaticNoise
+	Set_t MyStaticNoise
 	# Show Readonly Buffer
-	dSet_t MyReadonlyBuffer
+	Set_t MyReadonlyBuffer
 	#Show Init Buffer
-	dSet_t MyInitBuffer
+	Set_t MyInitBuffer
 
 

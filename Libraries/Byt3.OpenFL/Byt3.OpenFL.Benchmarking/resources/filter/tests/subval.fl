@@ -1,6 +1,6 @@
 Main:
   setactive 3
-  dSet_v 1
+  Set_v 1
   setactive 0 1 2
-  dSet_v 1
-  dSub_v 0.5
+  Set_v 1
+  Sub_v 0.5

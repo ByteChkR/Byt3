@@ -1,42 +1,53 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>3.2.58.2240</AssemblyVersion>
-    <FileVersion>3.2.58.2240</FileVersion>
+    <AssemblyVersion>3.2.72.1959</AssemblyVersion>
+    <FileVersion>3.2.72.1959</FileVersion>
   </PropertyGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
   <ItemGroup>
+    <Compile Remove="resources\dynamic\**" />
     <Compile Remove="resources\kernel\utils\interpolation\**" />
+    <EmbeddedResource Remove="resources\dynamic\**" />
     <EmbeddedResource Remove="resources\kernel\utils\interpolation\**" />
+    <None Remove="resources\dynamic\**" />
     <None Remove="resources\kernel\utils\interpolation\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="resources\dynamic\dyn_1_arg.cl" />
-    <None Remove="resources\dynamic\dyn_1_arg_c.cl" />
-    <None Remove="resources\dynamic\dyn_2_arg.cl" />
-    <None Remove="resources\dynamic\dyn_2_arg_c.cl" />
-    <None Remove="resources\dynamic\dyn_no_arg.cl" />
-    <None Remove="resources\dynamic\dyn_no_arg_c.cl" />
-    <None Remove="resources\dynamic\helper.cl" />
     <None Remove="resources\kernel\add.cl" />
     <None Remove="resources\kernel\adjustlevel.cl" />
     <None Remove="resources\kernel\arrange.cl" />
     <None Remove="resources\kernel\blur.cl" />
     <None Remove="resources\kernel\circle.cl" />
     <None Remove="resources\kernel\clip.cl" />
+    <None Remove="resources\kernel\convert\gconvert.cle" />
+    <None Remove="resources\kernel\convert\gconvert_all.cle" />
+    <None Remove="resources\kernel\convert\gconvert_one.cle" />
     <None Remove="resources\kernel\crop.cl" />
     <None Remove="resources\kernel\crush.cl" />
     <None Remove="resources\kernel\cut.cl" />
     <None Remove="resources\kernel\div.cl" />
+    <None Remove="resources\kernel\dynamic\dyn_1_arg.cle" />
+    <None Remove="resources\kernel\dynamic\dyn_1_arg_c.cle" />
+    <None Remove="resources\kernel\dynamic\dyn_2_arg.cle" />
+    <None Remove="resources\kernel\dynamic\dyn_2_arg_c.cle" />
+    <None Remove="resources\kernel\dynamic\dyn_no_arg.cle" />
+    <None Remove="resources\kernel\dynamic\dyn_no_arg_c.cle" />
+    <None Remove="resources\kernel\dynamic\helper.cle" />
     <None Remove="resources\kernel\flmath.cl" />
+    <None Remove="resources\kernel\flmath\flmath.cle" />
     <None Remove="resources\kernel\flmath_kernels.cl" />
     <None Remove="resources\kernel\gradient.cl" />
     <None Remove="resources\kernel\interpolator\finterpolation.cl" />
+    <None Remove="resources\kernel\interpolator\finterpolation.cle" />
     <None Remove="resources\kernel\interpolator\internal\allginterpolation.cl" />
+    <None Remove="resources\kernel\interpolator\internal\allginterpolation.cle" />
     <None Remove="resources\kernel\interpolator\internal\ginterpolation.cl" />
+    <None Remove="resources\kernel\interpolator\internal\ginterpolation.cle" />
     <None Remove="resources\kernel\interpolator\interpolation.cl" />
+    <None Remove="resources\kernel\interpolator\interpolation.cle" />
     <None Remove="resources\kernel\invert.cl" />
     <None Remove="resources\kernel\mix.cl" />
     <None Remove="resources\kernel\mod.cl" />
@@ -44,10 +55,14 @@
     <None Remove="resources\kernel\perlin.cl" />
     <None Remove="resources\kernel\point.cl" />
     <None Remove="resources\kernel\random\random.cl" />
+    <None Remove="resources\kernel\random\random.cle" />
     <None Remove="resources\kernel\random\rnd.cl" />
     <None Remove="resources\kernel\random\urnd.cl" />
     <None Remove="resources\kernel\rect.cl" />
     <None Remove="resources\kernel\set.cl" />
+    <None Remove="resources\kernel\shapes\shapes.cle" />
+    <None Remove="resources\kernel\shapes\shapes_f.cle" />
+    <None Remove="resources\kernel\shapes\shapes_uv.cle" />
     <None Remove="resources\kernel\smooth.cl" />
     <None Remove="resources\kernel\sub.cl" />
     <None Remove="resources\kernel\subclamp.cl" />
@@ -55,51 +70,53 @@
     <None Remove="resources\kernel\utils\gconvert_all.cl" />
     <None Remove="resources\kernel\utils\gconvert_one.cl" />
     <None Remove="resources\kernel\utils\indexconversion.cl" />
+    <None Remove="resources\kernel\utils\indexconversion.cle" />
     <None Remove="resources\kernel\utils\sample.cl" />
+    <None Remove="resources\kernel\utils\sample.cle" />
     <None Remove="resources\kernel\utils\shapes.cl" />
     <None Remove="resources\kernel\utils\shapes_f.cl" />
     <None Remove="resources\kernel\utils\shapes_uv.cl" />
     <None Remove="resources\kernel\worley.cl" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\dynamic\dyn_1_arg.cl" />
-    <EmbeddedResource Include="resources\dynamic\dyn_1_arg_c.cl" />
-    <EmbeddedResource Include="resources\dynamic\dyn_2_arg.cl" />
-    <EmbeddedResource Include="resources\dynamic\dyn_2_arg_c.cl" />
-    <EmbeddedResource Include="resources\dynamic\dyn_no_arg.cl" />
-    <EmbeddedResource Include="resources\dynamic\dyn_no_arg_c.cl" />
-    <EmbeddedResource Include="resources\dynamic\helper.cl" />
     <EmbeddedResource Include="resources\kernel\arrange.cl" />
     <EmbeddedResource Include="resources\kernel\blur.cl">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="resources\kernel\circle.cl" />
     <EmbeddedResource Include="resources\kernel\clip.cl" />
+    <EmbeddedResource Include="resources\kernel\convert\gconvert.cle" />
+    <EmbeddedResource Include="resources\kernel\convert\gconvert_all.cle" />
+    <EmbeddedResource Include="resources\kernel\convert\gconvert_one.cle" />
     <EmbeddedResource Include="resources\kernel\crop.cl" />
     <EmbeddedResource Include="resources\kernel\crush.cl" />
     <EmbeddedResource Include="resources\kernel\cut.cl" />
-    <EmbeddedResource Include="resources\kernel\flmath.cl" />
+    <EmbeddedResource Include="resources\kernel\dynamic\dyn_1_arg.cle" />
+    <EmbeddedResource Include="resources\kernel\dynamic\dyn_1_arg_c.cle" />
+    <EmbeddedResource Include="resources\kernel\dynamic\dyn_2_arg.cle" />
+    <EmbeddedResource Include="resources\kernel\dynamic\dyn_2_arg_c.cle" />
+    <EmbeddedResource Include="resources\kernel\dynamic\dyn_no_arg.cle" />
+    <EmbeddedResource Include="resources\kernel\dynamic\dyn_no_arg_c.cle" />
+    <EmbeddedResource Include="resources\kernel\dynamic\helper.cle" />
+    <EmbeddedResource Include="resources\kernel\flmath\flmath.cle" />
     <EmbeddedResource Include="resources\kernel\flmath_kernels.cl" />
     <EmbeddedResource Include="resources\kernel\gradient.cl" />
-    <EmbeddedResource Include="resources\kernel\interpolator\finterpolation.cl" />
-    <EmbeddedResource Include="resources\kernel\interpolator\internal\allginterpolation.cl" />
-    <EmbeddedResource Include="resources\kernel\interpolator\internal\ginterpolation.cl" />
+    <EmbeddedResource Include="resources\kernel\interpolator\finterpolation.cle" />
+    <EmbeddedResource Include="resources\kernel\interpolator\internal\allginterpolation.cle" />
+    <EmbeddedResource Include="resources\kernel\interpolator\internal\ginterpolation.cle" />
     <EmbeddedResource Include="resources\kernel\interpolator\interpolation.cl" />
     <EmbeddedResource Include="resources\kernel\perlin.cl" />
     <EmbeddedResource Include="resources\kernel\point.cl" />
-    <EmbeddedResource Include="resources\kernel\random\random.cl" />
+    <EmbeddedResource Include="resources\kernel\random\random.cle" />
     <EmbeddedResource Include="resources\kernel\random\rnd.cl" />
     <EmbeddedResource Include="resources\kernel\random\urnd.cl" />
     <EmbeddedResource Include="resources\kernel\rect.cl" />
+    <EmbeddedResource Include="resources\kernel\shapes\shapes.cle" />
+    <EmbeddedResource Include="resources\kernel\shapes\shapes_f.cle" />
+    <EmbeddedResource Include="resources\kernel\shapes\shapes_uv.cle" />
     <EmbeddedResource Include="resources\kernel\smooth.cl" />
-    <EmbeddedResource Include="resources\kernel\utils\gconvert.cl" />
-    <EmbeddedResource Include="resources\kernel\utils\gconvert_all.cl" />
-    <EmbeddedResource Include="resources\kernel\utils\gconvert_one.cl" />
-    <EmbeddedResource Include="resources\kernel\utils\indexconversion.cl" />
-    <EmbeddedResource Include="resources\kernel\utils\sample.cl" />
-    <EmbeddedResource Include="resources\kernel\utils\shapes.cl" />
-    <EmbeddedResource Include="resources\kernel\utils\shapes_f.cl" />
-    <EmbeddedResource Include="resources\kernel\utils\shapes_uv.cl" />
+    <EmbeddedResource Include="resources\kernel\utils\indexconversion.cle" />
+    <EmbeddedResource Include="resources\kernel\utils\sample.cle" />
     <EmbeddedResource Include="resources\kernel\worley.cl" />
   </ItemGroup>
   <ItemGroup>

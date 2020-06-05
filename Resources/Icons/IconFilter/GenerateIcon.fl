@@ -6,16 +6,16 @@
 
 Worley:
 	worley worleypoints ~worleypoints 1
-	dMul_v 25
+	Mul_v 25
 
 Main:
 	setactive out 0 1 2 3
-	dAdd_c_t Background
-	dAdd_c_t Logo
+	Add_c_t Background
+	Add_c_t Logo
 	setactive 3
 	blur_xy out 6
 	setactive in 0 1 2 3
-	dAdd_c_t out
+	Add_c_t out
 	
 
 PlainPerlin:
@@ -23,48 +23,48 @@ PlainPerlin:
 	perlin 0.8 7
 
 Perlin:
-	dSet_t PlainPerlin
-	dAdd_t PlainPerlin
+	Set_t PlainPerlin
+	Add_t PlainPerlin
 
 Logo:
 	#Shape:
-	dSet_t logo
+	Set_t logo
 	#subc CreateMask
 	#Colors:
 	setactive 0 1 2
-	dMul_t PlainPerlin
+	Mul_t PlainPerlin
 
 Background:
 	#Shape:
-	dAdd_c_t CreateMask
-	dSub_c_t logo
+	Add_c_t CreateMask
+	Sub_c_t logo
 	#Colors:
 	setactive 0
-	dMul_t PlainPerlin
+	Mul_t PlainPerlin
 	setactive 1
-	dMul_t Worley
+	Mul_t Worley
 	setactive 2
-	dMul_t Perlin
+	Mul_t Perlin
 
 CreateMask:
 	setactive 0 3
 	circle1 0.5 0.5 0.4
-	dFlip
+	Flip
 	circle1 0.5 0.5 0.3
-	dFlip
+	Flip
 	
 	setactive 1 3
 	circle1 0.5 0.5 0.3
-	dFlip
+	Flip
 	circle1 0.5 0.5 0.2
-	dFlip
+	Flip
 
 	
 	setactive 2 3
 	circle1 0.5 0.5 0.2
-	dFlip
+	Flip
 	circle1 0.5 0.5 0.1
-	dFlip
+	Flip
 
 	
 	setactive 3

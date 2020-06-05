@@ -1,5 +1,5 @@
 Main:
-  dSet_t Function1 #Using Function 1
+  Set_t Function1 #Using Function 1
 Function1:
   rnd
 Function2: #Not Using Function 2
