@@ -17,7 +17,7 @@ namespace Byt3Console.OpenFL.Benchmarks.Commands
             FLProgramCheckType flag = FLProgramCheckType.None;
             for (int i = 0; i < args.Length; i++)
             {
-                flag |= (FLProgramCheckType)Enum.Parse(typeof(FLProgramCheckType), args[i], true);
+                flag |= (FLProgramCheckType) Enum.Parse(typeof(FLProgramCheckType), args[i], true);
             }
 
             FLBenchmarkConsole.Settings.CheckProfile = flag;

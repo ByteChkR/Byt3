@@ -10,9 +10,8 @@ namespace Byt3.OpenFL.Common.Arguments
         public override InstructionArgumentCategory ArgumentCategory => InstructionArgumentCategory.Value;
 
 
-
-
-        public static bool TryParse(IEnumerable<string> arrayBufferNames, string line, out SerializeArrayElementArgument arg)
+        public static bool TryParse(IEnumerable<string> arrayBufferNames, string line,
+            out SerializeArrayElementArgument arg)
         {
             int openBracket = line.IndexOf('[');
             int closeBracket = line.LastIndexOf(']');
@@ -40,24 +39,19 @@ namespace Byt3.OpenFL.Common.Arguments
                     arg = new SerializeArrayElementArgumentValueIndex(name, id);
                     return true;
                 }
-                if(TryParse(arrayBufferNames, index, out SerializeArrayElementArgument innerArgument))
+
+                if (TryParse(arrayBufferNames, index, out SerializeArrayElementArgument innerArgument))
                 {
                     arg = new SerializeArrayElementArgumentEnclosedIndex(name, innerArgument);
                     //Allows setting variables as index.
                     return true;
                 }
-                else
-                {
-                    arg = new SerializeArrayElementArgumentVariableIndex(name, index);
-                    return true;
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException("Wrong use of array Accessor: " + line);
+
+                arg = new SerializeArrayElementArgumentVariableIndex(name, index);
+                return true;
             }
 
+            throw new InvalidOperationException("Wrong use of array Accessor: " + line);
         }
-
     }
 }

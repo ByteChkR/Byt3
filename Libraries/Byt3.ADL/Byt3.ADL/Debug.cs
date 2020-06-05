@@ -125,7 +125,6 @@ namespace Byt3.ADL
         /// <param name="stream">The stream you want to add</param>
         public static void AddOutputStream(LogStream stream)
         {
-
             if (!initialized)
             {
                 initialized = true;
@@ -150,7 +149,7 @@ namespace Byt3.ADL
             {
                 contains = Streams.Contains(stream);
             }
-            
+
 
             if (contains)
             {
@@ -178,7 +177,7 @@ namespace Byt3.ADL
             {
                 contains = Streams.Contains(stream);
             }
-            
+
             if (!contains)
             {
                 InternalLogger.Log(LogType.Warning,
@@ -236,7 +235,6 @@ namespace Byt3.ADL
         /// <param name="prefix">desired prefix</param>
         internal static void AddPrefixForMask(Dictionary<int, string> prefixes, BitMask mask, string prefix)
         {
-
             if (!AdlEnabled)
             {
                 InternalLogger.Log(LogType.Warning,

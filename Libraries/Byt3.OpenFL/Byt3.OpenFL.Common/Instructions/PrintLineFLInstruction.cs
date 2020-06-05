@@ -14,7 +14,6 @@ namespace Byt3.OpenFL.Common.Instructions
 
         public override void Process()
         {
-
             string log = "FLSCRIPT:";
             for (int i = 0; i < Arguments.Count; i++)
             {
@@ -32,6 +31,7 @@ namespace Byt3.OpenFL.Common.Instructions
                     log += " " + Arguments[i];
                 }
             }
+
             Logger.Log(LogType.Log, log, 1);
         }
 

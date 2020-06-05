@@ -6,7 +6,8 @@ namespace FLDebugger.Projects.Forms
 {
     public partial class CreateFileDialog : Form
     {
-        private string Path;
+        private readonly string Path;
+
         public CreateFileDialog(string path)
         {
             InitializeComponent();

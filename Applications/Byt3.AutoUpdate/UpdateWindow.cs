@@ -49,7 +49,11 @@ namespace Byt3.AutoUpdate
         {
             return new Task<Version>(() =>
             {
-                if (Program.TargetVersion != null) return Program.TargetVersion;
+                if (Program.TargetVersion != null)
+                {
+                    return Program.TargetVersion;
+                }
+
                 WebClient wc = new WebClient();
                 Version v = Version.Parse(wc.DownloadString($"{Program.TargetURL}{Program.ProjectName}/newest.ver"));
                 wc.Dispose();

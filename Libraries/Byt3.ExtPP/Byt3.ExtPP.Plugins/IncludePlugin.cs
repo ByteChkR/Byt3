@@ -12,9 +12,9 @@ namespace Byt3.ExtPP.Plugins
 {
     public class IncludePlugin : AbstractFullScriptPlugin
     {
-        public override string[] Cleanup => new[] { IncludeKeyword };
+        public override string[] Cleanup => new[] {IncludeKeyword};
         public override ProcessStage ProcessStages => ProcessStage.OnMain;
-        public override string[] Prefix => new[] { "inc", "Include" };
+        public override string[] Prefix => new[] {"inc", "Include"};
         public string IncludeKeyword { get; set; } = "#include";
         public string IncludeInlineKeyword { get; set; } = "#includeinl";
         public string Separator { get; set; } = " ";
@@ -83,7 +83,6 @@ namespace Byt3.ExtPP.Plugins
 
             foreach (string inlInc in inlIncs)
             {
-
                 Logger.Log(LogType.Log, $"Processing Statement: {inlInc}", PLUGIN_MIN_SEVERITY + 1);
                 bool tmp = GetISourceScript(sourceManager, inlInc, currentPath, true, out List<ISourceScript> sources);
 
@@ -109,7 +108,6 @@ namespace Byt3.ExtPP.Plugins
                 {
                     return
                         false; //We crash if we didnt find the file. but if the user forgets to specify the path we will just log the error
-
                 }
             }
 
@@ -118,7 +116,8 @@ namespace Byt3.ExtPP.Plugins
             foreach (string includes in incs)
             {
                 Logger.Log(LogType.Log, $"Processing Statement: {includes}", PLUGIN_MIN_SEVERITY + 1);
-                bool tmp = GetISourceScript(sourceManager, includes, currentPath, false, out List<ISourceScript> sources);
+                bool tmp = GetISourceScript(sourceManager, includes, currentPath, false,
+                    out List<ISourceScript> sources);
                 if (tmp)
                 {
                     foreach (ISourceScript sourceScript in sources)

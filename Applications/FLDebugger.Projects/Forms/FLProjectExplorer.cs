@@ -177,8 +177,11 @@ namespace FLDebugger.Projects.Forms
         private void btnAddFile_Click(object sender, EventArgs e)
         {
             FSDir dir = tvWorkingDir.SelectedNode as FSDir;
-            if(tvWorkingDir.SelectedNode is FSFile file)dir = file.Parent as FSDir;
-            
+            if (tvWorkingDir.SelectedNode is FSFile file)
+            {
+                dir = file.Parent as FSDir;
+            }
+
             CreateFileDialog dialog = new CreateFileDialog(dir.EntryPath);
             dialog.ShowDialog();
         }

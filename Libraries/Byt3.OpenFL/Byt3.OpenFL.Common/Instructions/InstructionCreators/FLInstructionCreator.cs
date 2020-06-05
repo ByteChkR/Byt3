@@ -13,7 +13,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
         {
         }
 
-        public abstract FLInstruction Create(FLProgram script, FLFunction func,SerializableFLInstruction instruction);
+        public abstract FLInstruction Create(FLProgram script, FLFunction func, SerializableFLInstruction instruction);
 
         public virtual string GetArgumentSignatureForInstruction(string instruction)
         {

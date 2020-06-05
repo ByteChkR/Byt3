@@ -36,7 +36,7 @@ namespace Byt3.OpenFL.Common.Instructions
                         new FLInvalidArgumentType("Argument: " + obj.GetValue(), "MemoyBuffer/Image");
                 }
 
-                FLBuffer func = (FLBuffer)obj.GetValue();
+                FLBuffer func = (FLBuffer) obj.GetValue();
 
                 Logger.Log(LogType.Log, "Writing Unified Random Data to Active Buffer:" + func.DefinedBufferName,
                     MIN_INSTRUCTION_SEVERITY);
@@ -54,8 +54,9 @@ namespace Byt3.OpenFL.Common.Instructions
                 info = new LazyLoadingFLBuffer(root =>
                 {
                     FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(root.InputSize,
-                            new byte[] { 1, 1, 1, 1 },
-                            RandomInstructionHelper.Randombytesource, true), root.Dimensions.x, root.Dimensions.y, root.Dimensions.z,
+                            new byte[] {1, 1, 1, 1},
+                            RandomInstructionHelper.Randombytesource, true), root.Dimensions.x, root.Dimensions.y,
+                        root.Dimensions.z,
                         "RandomBuffer");
                     buf.SetRoot(root);
                     return buf;
@@ -66,7 +67,7 @@ namespace Byt3.OpenFL.Common.Instructions
                 info = new LazyLoadingFLBuffer(root =>
                 {
                     FLBuffer buf = new FLBuffer(root.Instance, CLAPI.CreateRandom(size,
-                            new byte[] { 1, 1, 1, 1 },
+                            new byte[] {1, 1, 1, 1},
                             RandomInstructionHelper.Randombytesource, true), size, 1, 1,
                         "RandomBuffer");
                     buf.SetRoot(root);

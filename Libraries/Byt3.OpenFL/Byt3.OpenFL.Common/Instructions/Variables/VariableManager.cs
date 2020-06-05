@@ -5,8 +5,8 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
 {
     public class VariableManager<T>
     {
-        private readonly Dictionary<string, T> Variables;
         private readonly VariableManager<T> Parent;
+        private readonly Dictionary<string, T> Variables;
 
         public VariableManager()
         {
@@ -40,8 +40,14 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
 
         public void ChangeGlobalVariable(string varName, T value)
         {
-            if(Parent != null)Parent.ChangeGlobalVariable(varName, value);
-            else ChangeLocalVariable(varName, value);
+            if (Parent != null)
+            {
+                Parent.ChangeGlobalVariable(varName, value);
+            }
+            else
+            {
+                ChangeLocalVariable(varName, value);
+            }
         }
 
         public void ChangeVariable(string varName, T value)

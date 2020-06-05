@@ -22,7 +22,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             type = instructionType;
         }
 
-        public override string[] InstructionKeys => new[] { instructionKey };
+        public override string[] InstructionKeys => new[] {instructionKey};
         public override bool AllowStaticUse { get; }
 
         public override string GetArgumentSignatureForInstruction(string instruction)
@@ -50,7 +50,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 args.Add(arg);
             }
 
-            return (FLInstruction)Activator.CreateInstance(type, args);
+            return (FLInstruction) Activator.CreateInstance(type, args);
         }
     }
 

@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Byt3.ADL;
 using Byt3.ADL.Streams;
 using Byt3.Callbacks;
 using Byt3.OpenCL.Wrapper;
@@ -24,26 +25,12 @@ using Byt3.WindowsForms.CustomControls;
 using Byt3.WindowsForms.Forms;
 using FLDebugger.Properties;
 using FLDebugger.Utils;
-using Debug = Byt3.ADL.Debug;
 
 namespace FLDebugger.Forms
 {
     public partial class FLScriptEditor : Form
     {
-        internal static string ConfigPath => System.IO.Path.Combine(Application.StartupPath, "configs", "fl_editor");
         internal static FLDebuggerSettings Settings = new FLDebuggerSettings();
-        public class FLDebuggerSettings
-        {
-            public string KernelPath = "resources/kernel";
-            public string ScriptPath;
-            public string WorkingDir;
-            public string Theme;
-            public bool LogParserStacktrace;
-            public bool LogProgramStacktrace;
-            public int ResX = 512;
-            public int ResY = 512;
-            public int ResZ = 1;
-        }
 
         public static FLEditorTheme Theme = new FLEditorTheme();
 
@@ -56,22 +43,82 @@ namespace FLDebugger.Forms
             $"{FLKeywords.EntryFunctionKey}:\n\tsetactive 3\n\tSet_v 1\n\tsetactive 0 1 2\n\tSet_v 1";
 
 
+        private readonly Stream ms = new PipeStream();
+
+        private string _path;
+
+
         private AboutInfo aboutForm;
-        private LogDisplay logDisplay;
-        private InstructionViewer iv;
 
         private FLDataContainer Container;
 
         private bool ControlMod;
 
         private bool ignoreChanged;
-
-
-        private readonly Stream ms = new PipeStream();
+        private InstructionViewer iv;
+        private LogDisplay logDisplay;
         private bool optimizationsDirty;
         private bool outputDirty = true;
 
-        private string _path;
+        private ContainerForm previewForm;
+
+        private PictureBox previewPicture;
+
+
+        private Task previewTask;
+
+
+        private TextReader tr;
+
+        public FLScriptEditor()
+        {
+            InitializeComponent();
+
+            RegisterDefaultTheme(panelInput);
+            RegisterDefaultTheme(panelToolbar);
+            RegisterDefaultTheme(btnOpen);
+            RegisterCodeTheme(rtbIn);
+            RegisterCodeTheme(rtbOut);
+            RegisterDefaultTheme(panelConsoleOut);
+            RegisterDefaultTheme(panelCodeArea);
+            RegisterDefaultTheme(panelOutput);
+            RegisterLogTheme(rtbParserOutput);
+            RegisterDefaultTheme(lbOptimizations);
+            RegisterDefaultTheme(btnUpdate);
+            RegisterDefaultTheme(btnDebug);
+            RegisterDefaultTheme(btnSwitchDockSide);
+            RegisterDefaultTheme(btnSave);
+            RegisterDefaultTheme(btnShowLog);
+            RegisterDefaultTheme(btnPopOutBuildLog);
+            RegisterDefaultTheme(btnPopOutInput);
+            RegisterDefaultTheme(btnPopOutOutput);
+            RegisterDefaultTheme(cbLiveView);
+            RegisterDefaultTheme(cbAutoBuild);
+            RegisterDefaultTheme(btnShowInstructions);
+            RegisterDefaultTheme(lblBuildMode);
+            RegisterDefaultTheme(cbBuildMode);
+            RegisterDefaultTheme(btnSettings);
+            RegisterDefaultTheme(btnClear);
+
+            lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            rtbIn.WriteSource(DEFAULT_SCRIPT);
+            CheckForIllegalCrossThreadCalls = false;
+        }
+
+        public FLScriptEditor(string path) : this()
+        {
+            Path = path;
+            rtbIn.WriteSource(File.ReadAllText(Path));
+        }
+
+        public FLScriptEditor(string path, string workingDir) : this(path)
+        {
+            Directory.SetCurrentDirectory(workingDir);
+        }
+
+        internal static string ConfigPath => System.IO.Path.Combine(Application.StartupPath, "configs", "fl_editor");
+
         private string Path
         {
             get
@@ -85,18 +132,6 @@ namespace FLDebugger.Forms
             }
             set => _path = value;
         }
-
-        private ContainerForm previewForm;
-
-        private PictureBox previewPicture;
-
-
-
-        private Task previewTask;
-
-
-
-        private TextReader tr;
 
         private static void DefaultOnThemeChange(FLEditorTheme theme, Control c)
         {
@@ -149,54 +184,6 @@ namespace FLDebugger.Forms
             Theme.Register(a);
         }
 
-        public FLScriptEditor()
-        {
-            InitializeComponent();
-
-            RegisterDefaultTheme(panelInput);
-            RegisterDefaultTheme(panelToolbar);
-            RegisterDefaultTheme(btnOpen);
-            RegisterCodeTheme(rtbIn);
-            RegisterCodeTheme(rtbOut);
-            RegisterDefaultTheme(panelConsoleOut);
-            RegisterDefaultTheme(panelCodeArea);
-            RegisterDefaultTheme(panelOutput);
-            RegisterLogTheme(rtbParserOutput);
-            RegisterDefaultTheme(lbOptimizations);
-            RegisterDefaultTheme(btnUpdate);
-            RegisterDefaultTheme(btnDebug);
-            RegisterDefaultTheme(btnSwitchDockSide);
-            RegisterDefaultTheme(btnSave);
-            RegisterDefaultTheme(btnShowLog);
-            RegisterDefaultTheme(btnPopOutBuildLog);
-            RegisterDefaultTheme(btnPopOutInput);
-            RegisterDefaultTheme(btnPopOutOutput);
-            RegisterDefaultTheme(cbLiveView);
-            RegisterDefaultTheme(cbAutoBuild);
-            RegisterDefaultTheme(btnShowInstructions);
-            RegisterDefaultTheme(lblBuildMode);
-            RegisterDefaultTheme(cbBuildMode);
-            RegisterDefaultTheme(btnSettings);
-            RegisterDefaultTheme(btnClear);
-
-            lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
-            rtbIn.WriteSource(DEFAULT_SCRIPT);
-            CheckForIllegalCrossThreadCalls = false;
-        }
-
-        public FLScriptEditor(string path) : this()
-        {
-            Path = path;
-            rtbIn.WriteSource(File.ReadAllText(Path));
-        }
-
-        public FLScriptEditor(string path, string workingDir) : this(path)
-        {
-            Directory.SetCurrentDirectory(workingDir);
-        }
-
-
 
         public void SetResolution(int width, int height, int depth)
         {
@@ -235,7 +222,8 @@ namespace FLDebugger.Forms
 
 
             Task<SerializableFLProgram> loadT =
-                new Task<SerializableFLProgram>(() => Container.Parser.Process(new FLParserInput(Path, cbBuildMode.SelectedItem.ToString().ToUpper())));
+                new Task<SerializableFLProgram>(() =>
+                    Container.Parser.Process(new FLParserInput(Path, cbBuildMode.SelectedItem.ToString().ToUpper())));
             return loadT;
         }
 
@@ -247,7 +235,6 @@ namespace FLDebugger.Forms
 
         public void UnpackResources()
         {
-
             ProgressBar pb = new ProgressBar();
             pb.Dock = DockStyle.Fill;
             Size size = new Size(50, 200);
@@ -261,7 +248,6 @@ namespace FLDebugger.Forms
 
             Task t = new Task(() =>
             {
-
                 string workingDir = Settings.WorkingDir ?? Directory.GetCurrentDirectory();
                 Directory.SetCurrentDirectory(Application.StartupPath);
                 string[] files = IOManager.GetFiles("resources");
@@ -276,6 +262,7 @@ namespace FLDebugger.Forms
                     {
                         Directory.CreateDirectory(dir);
                     }
+
                     if (!File.Exists(file))
                     {
                         Stream s = IOManager.GetStream(file);
@@ -293,8 +280,6 @@ namespace FLDebugger.Forms
                 loading.Dispose();
             });
             t.Start();
-
-
         }
 
 
@@ -329,7 +314,9 @@ namespace FLDebugger.Forms
                     Exception ex = GetInnerIfAggregate(exceptionInnerException);
                     s += $"PARSE ERROR:\n\t{ex.Message}\n";
                     if (Settings.LogParserStacktrace)
-                        s += $"\t\t{ex.StackTrace.Split(new[] { '\n' }).Unpack("\n\t\t")}\n";
+                    {
+                        s += $"\t\t{ex.StackTrace.Split('\n').Unpack("\n\t\t")}\n";
+                    }
                 }
 
                 SetLogOutput(s, Theme.ErrorColor);
@@ -413,7 +400,7 @@ namespace FLDebugger.Forms
 
             List<FLProgramCheck> types = typeof(OpenFLDebugConfig).Assembly.GetExportedTypes()
                 .Where(x => typeof(FLProgramCheck).IsAssignableFrom(x) && !x.IsAbstract && x != typeof(FLProgramCheck))
-                .Select(x => (FLProgramCheck)Activator.CreateInstance(x)).ToList();
+                .Select(x => (FLProgramCheck) Activator.CreateInstance(x)).ToList();
 
             types.Sort((x, y) => x.Priority.CompareTo(y.Priority));
 
@@ -424,7 +411,9 @@ namespace FLDebugger.Forms
                 FLProgramCheck type = types[i];
                 lbOptimizations.Items.Add(type);
             }
-            cbBuildMode.Items.AddRange(Enum.GetNames(typeof(FLProgramCheckType)).Select(x=>x.Trim('[',']')).ToArray());
+
+            cbBuildMode.Items.AddRange(
+                Enum.GetNames(typeof(FLProgramCheckType)).Select(x => x.Trim('[', ']')).ToArray());
             cbBuildMode.SelectedIndex = 0;
         }
 
@@ -483,7 +472,6 @@ namespace FLDebugger.Forms
         {
             if (previewPicture != null && (previewTask == null || previewTask.IsCompleted))
             {
-
                 previewTask = new Task(() =>
                 {
                     if (Container.SerializedProgram == null)
@@ -496,7 +484,9 @@ namespace FLDebugger.Forms
                     {
                         pro = Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet);
 
-                        pro.Run(new FLBuffer(Container.Instance, Settings.ResX, Settings.ResY, Settings.ResZ, "Preview Buffer"), true);
+                        pro.Run(
+                            new FLBuffer(Container.Instance, Settings.ResX, Settings.ResY, Settings.ResZ,
+                                "Preview Buffer"), true);
                         if (previewPicture != null)
                         {
                             Bitmap bmp = new Bitmap(Settings.ResX, Settings.ResY);
@@ -534,7 +524,9 @@ namespace FLDebugger.Forms
                             s +=
                                 $"PROGRAM ERROR:\n\t{ex.Message}\n";
                             if (Settings.LogProgramStacktrace)
-                                s += $"\t\t{ex.StackTrace.Split(new[] { '\n' }).Unpack("\n\t\t")}\n";
+                            {
+                                s += $"\t\t{ex.StackTrace.Split('\n').Unpack("\n\t\t")}\n";
+                            }
                         }
 
                         SetLogOutput(s, Theme.ErrorColor);
@@ -593,7 +585,8 @@ namespace FLDebugger.Forms
 
             Enabled = false;
             FLDebugger.Start(Container.Instance,
-                Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet), Settings.ResX, Settings.ResY, Settings.ResZ);
+                Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet), Settings.ResX,
+                Settings.ResY, Settings.ResZ);
             Enabled = true;
         }
 
@@ -743,8 +736,10 @@ namespace FLDebugger.Forms
             for (int i = 0; i < lbOptimizations.Items.Count; i++)
             {
                 object lbOptimizationsItem = lbOptimizations.Items[i];
-                FLProgramCheck pc = (FLProgramCheck)lbOptimizationsItem;
-                lbOptimizations.SetItemChecked(i, (pc.CheckType & (FLProgramCheckType)Enum.Parse(typeof(FLProgramCheckType), cbBuildMode.SelectedItem.ToString())) != 0);
+                FLProgramCheck pc = (FLProgramCheck) lbOptimizationsItem;
+                lbOptimizations.SetItemChecked(i,
+                    (pc.CheckType & (FLProgramCheckType) Enum.Parse(typeof(FLProgramCheckType),
+                         cbBuildMode.SelectedItem.ToString())) != 0);
             }
         }
 
@@ -757,6 +752,19 @@ namespace FLDebugger.Forms
         private void btnClear_Click(object sender, EventArgs e)
         {
             rtbParserOutput.Text = "";
+        }
+
+        public class FLDebuggerSettings
+        {
+            public string KernelPath = "resources/kernel";
+            public bool LogParserStacktrace;
+            public bool LogProgramStacktrace;
+            public int ResX = 512;
+            public int ResY = 512;
+            public int ResZ = 1;
+            public string ScriptPath;
+            public string Theme;
+            public string WorkingDir;
         }
     }
 }

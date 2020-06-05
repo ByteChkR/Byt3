@@ -252,6 +252,7 @@ namespace Byt3.ExtPP
                 sources.Insert(0, script);
                 return;
             }
+
             sources.Add(script);
         }
 

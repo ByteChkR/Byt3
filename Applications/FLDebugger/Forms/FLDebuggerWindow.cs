@@ -13,16 +13,16 @@ namespace FLDebugger.Forms
 {
     public partial class FLDebuggerWindow : Form
     {
-        private CustomCheckedListBox clbCode;
+        private readonly Dictionary<IParsedObject, int> marks;
+        private readonly string Source;
+        private readonly CustomCheckedListBox clbCode;
 
 
         private bool continueEx;
         private bool exitDirect;
-        private readonly Dictionary<IParsedObject, int> marks;
         private bool nohalt;
         private FLProgram Program;
         private int selectedLine;
-        private readonly string Source;
         private bool started;
 
         public FLDebuggerWindow(FLProgram program)
@@ -52,14 +52,13 @@ namespace FLDebugger.Forms
             FLScriptEditor.RegisterDefaultTheme(lblInternalBuffers);
             FLScriptEditor.RegisterDefaultTheme(lbInternalBuffers);
             FLScriptEditor.RegisterDefaultTheme(clbCode);
-
         }
 
 
         private void CodeView_Load(object sender, EventArgs e)
         {
             Icon = Properties.Resources.OpenFL_Icon;
-            
+
 
             lbInternalBuffers.MouseDoubleClick += LbInternalBuffersOnMouseDoubleClick;
             lbBuffers.MouseDoubleClick += LbBuffers_MouseDoubleClick;

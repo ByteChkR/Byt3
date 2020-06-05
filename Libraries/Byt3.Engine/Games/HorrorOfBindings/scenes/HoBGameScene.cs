@@ -29,10 +29,10 @@ namespace HorrorOfBindings.scenes
         internal static bool ComesFromMenu = true;
         private static GameObject bg;
         private static GameObject loading;
+        private readonly object finishedLock = new object();
         private BasicCamera camera;
 
         private bool finished;
-        private readonly object finishedLock = new object();
         private GameObject groundObj;
 
         private Stopwatch LoadTime;

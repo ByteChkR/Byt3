@@ -61,7 +61,8 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
                 "Prints text or all kinds of variables to the console.");
             iset.AddInstructionWithDefaultCreator<CPUArrangeFLInstruction>("arrange", "V|VV|VVV|VVVV",
                 "Swaps the channels based on the arguments provided");
-            iset.AddInstructionWithDefaultCreator<ArraySetFLInstruction>("arrset", "CVV", "sets the specified value at the specified index.");
+            iset.AddInstructionWithDefaultCreator<ArraySetFLInstruction>("arrset", "CVV",
+                "sets the specified value at the specified index.");
 
             iset.AddInstruction(new KernelFLInstructionCreator(db));
 

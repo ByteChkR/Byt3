@@ -42,7 +42,7 @@ namespace Byt3.Engine.Demos.scenes
 
             FLBuffer buffer =
                 new FLBuffer(TextureLoader.TextureToMemoryBuffer(CLAPI.MainThread, tex, "BufferForFLProgram"), 128,
-                    128,1);
+                    128, 1);
 
 
             FLProgram program = parser.Process(new FLParserInput("assets/filter/examples/grass.fl"))

@@ -26,7 +26,6 @@ namespace FLDebugger
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
 
             new DebugConsole().Run(args.Reverse().Take(Math.Max(args.Length - 1, 0)).Reverse().ToArray());
-
         }
     }
 }

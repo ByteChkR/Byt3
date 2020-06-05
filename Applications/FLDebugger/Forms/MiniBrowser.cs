@@ -9,7 +9,8 @@ namespace FLDebugger.Forms
 {
     public partial class MiniBrowser : Form
     {
-        private bool DirectInstall;
+        private readonly bool DirectInstall;
+
         public MiniBrowser(string url, bool directInstall)
         {
             DirectInstall = directInstall;
@@ -27,9 +28,9 @@ namespace FLDebugger.Forms
             {
                 if (DirectInstall && UpdateChecker.UpdaterPresent)
                 {
-                    UpdateChecker.Direct("http://213.109.162.193/flrepo/", "FLDebugger", Assembly.GetExecutingAssembly().Location, Version.Parse("0.0.0.0"),
+                    UpdateChecker.Direct("http://213.109.162.193/flrepo/", "FLDebugger",
+                        Assembly.GetExecutingAssembly().Location, Version.Parse("0.0.0.0"),
                         Version.Parse(Path.GetFileNameWithoutExtension(e.Url.AbsolutePath)));
-                    return;
                 }
                 else
                 {

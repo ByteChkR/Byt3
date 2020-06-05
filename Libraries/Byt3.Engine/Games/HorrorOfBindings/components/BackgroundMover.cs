@@ -8,10 +8,10 @@ namespace HorrorOfBindings.components
 {
     public class BackgroundMover : AbstractComponent
     {
-        private float _timer;
-        private UiImageRendererComponent image;
         private readonly float MoveSpeed = 0.15f;
         private readonly float TimeScale = 0.15f;
+        private float _timer;
+        private UiImageRendererComponent image;
         private float xYDelta;
 
         protected override void Awake()

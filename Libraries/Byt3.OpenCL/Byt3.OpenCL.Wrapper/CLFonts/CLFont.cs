@@ -21,8 +21,13 @@ namespace Byt3.OpenCL.Wrapper.CLFonts
 
     public class CLFont
     {
-        public readonly Font Font;
         private readonly Dictionary<char, CLChar> bufferCache = new Dictionary<char, CLChar>();
+        public readonly Font Font;
+
+        public CLFont(Font font)
+        {
+            Font = font;
+        }
 
         private int Ascend => Font.FontFamily.GetCellAscent(FontStyle.Regular);
         private int Descend => Font.FontFamily.GetCellDescent(FontStyle.Regular);
@@ -30,14 +35,12 @@ namespace Byt3.OpenCL.Wrapper.CLFonts
 
         public string Name => Font.Name;
 
-        public CLFont(Font font)
+        public CLChar LoadCharBuffer(CLAPI instance, char character)
         {
-            Font = font;
-        }
-
-        public CLChar LoadCharBuffer(CLAPI instance,char character)
-        {
-            if (bufferCache.ContainsKey(character)) return bufferCache[character];
+            if (bufferCache.ContainsKey(character))
+            {
+                return bufferCache[character];
+            }
 
             Bitmap bmp = RenderToBitmap(character, out Size charSize);
             MemoryBuffer buf = CLAPI.CreateFromImage(instance, bmp, MemoryFlag.ReadOnly, Name + "_" + character);
@@ -45,23 +48,22 @@ namespace Byt3.OpenCL.Wrapper.CLFonts
             bufferCache[character] = ret;
             return ret;
         }
-        
+
 
         private Bitmap RenderToBitmap(char character, out Size charSize)
         {
-            Bitmap ret = new Bitmap((int)Font.Size, (int)Font.Size);
+            Bitmap ret = new Bitmap((int) Font.Size, (int) Font.Size);
             Graphics g = Graphics.FromImage(ret);
             SizeF charwidth = g.MeasureString(character.ToString(), Font);
-            ret = new Bitmap((int)charwidth.Width, (int)charwidth.Height);
+            ret = new Bitmap((int) charwidth.Width, (int) charwidth.Height);
             g.DrawString(character.ToString(), Font, Brushes.Black, 0, 0);
             g.Flush();
 
             g.Dispose();
 
-            charSize = new Size((int)charwidth.Width, (int)charwidth.Height);
+            charSize = new Size((int) charwidth.Width, (int) charwidth.Height);
 
             return ret;
         }
-
     }
 }

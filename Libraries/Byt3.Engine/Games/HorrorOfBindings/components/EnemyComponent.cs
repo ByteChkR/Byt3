@@ -43,14 +43,14 @@ namespace HorrorOfBindings.components
         private readonly int bulletLayer;
         private readonly Mesh bulletModel;
         private readonly ShaderProgram bulletShader;
+        private readonly GameObject nozzle;
+        private readonly bool UseGlobalForward = true;
         private Collider Collider;
         private int hp = 3;
-        private readonly GameObject nozzle;
         private GameObject target;
 
 
         private float time;
-        private readonly bool UseGlobalForward = true;
 
         public EnemyComponent(GameObject nozzle, Mesh bulletModel, ShaderProgram bulletShader, float speed,
             bool useGlobalForward)

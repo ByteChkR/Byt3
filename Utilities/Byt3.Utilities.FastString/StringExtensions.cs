@@ -33,7 +33,7 @@ namespace Byt3.Utilities.FastString
                                 }
                                 else
                                 {
-                                    for (int k = j; k > j-remamount; k--)
+                                    for (int k = j; k > j - remamount; k--)
                                     {
                                         p.RemoveAt(k);
                                     }
@@ -108,7 +108,7 @@ namespace Byt3.Utilities.FastString
         /// <returns></returns>
         public static IEnumerable<string> Pack(this string arr, string separator)
         {
-            return arr.Split(new[] { separator }, StringSplitOptions.None);
+            return arr.Split(new[] {separator}, StringSplitOptions.None);
         }
 
 

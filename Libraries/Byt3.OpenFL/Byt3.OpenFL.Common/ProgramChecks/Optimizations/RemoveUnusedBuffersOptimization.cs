@@ -12,7 +12,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
 
         public override object Process(object o)
         {
-            SerializableFLProgram input = (SerializableFLProgram)o;
+            SerializableFLProgram input = (SerializableFLProgram) o;
             Dictionary<string, bool> buffers = new Dictionary<string, bool>();
             input.DefinedBuffers.ForEach(x => buffers.Add(x.Name, x.Name == FLKeywords.InputBufferKey));
 
@@ -24,7 +24,8 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                     foreach (SerializableFLInstructionArgument serializableFlInstructionArgument in
                         serializableFlInstruction.Arguments)
                     {
-                        if ((serializableFlInstructionArgument.ArgumentCategory & InstructionArgumentCategory.AnyBuffer) != 0)
+                        if ((serializableFlInstructionArgument.ArgumentCategory &
+                             InstructionArgumentCategory.AnyBuffer) != 0)
                         {
                             buffers[serializableFlInstructionArgument.Identifier] = true;
                         }
@@ -33,8 +34,11 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                             string bufferName = serializableFlInstructionArgument.Identifier.Remove(0, 1);
                             if (!buffers.ContainsKey(bufferName))
                             {
-                                throw new FLProgramCheckException("Possible wrong variable name: " + bufferName + " in Instruction: " + serializableFlFunction, this);
+                                throw new FLProgramCheckException(
+                                    "Possible wrong variable name: " + bufferName + " in Instruction: " +
+                                    serializableFlFunction, this);
                             }
+
                             buffers[bufferName] = true;
                         }
                     }

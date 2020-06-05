@@ -9,12 +9,13 @@ namespace FLDebugger.Forms
     {
         private readonly CLBuildException exception;
 
+        private bool ShowSource;
+
         public BuildExceptionViewer(CLBuildException ex)
         {
             exception = ex;
             InitializeComponent();
             Icon = Properties.Resources.OpenFL_Icon;
-
 
 
             FLScriptEditor.RegisterDefaultTheme(lbEx);
@@ -24,7 +25,7 @@ namespace FLDebugger.Forms
             FLScriptEditor.RegisterDefaultTheme(gbLoadedKernels);
             FLScriptEditor.RegisterDefaultTheme(gbBuildOut);
             FLScriptEditor.RegisterDefaultTheme(btnRetry);
-    }
+        }
 
         private void BuildExceptionViewer_Load(object sender, EventArgs e)
         {
@@ -40,11 +41,11 @@ namespace FLDebugger.Forms
         {
             if (id != -1)
             {
-                CLProgramBuildResult br = (CLProgramBuildResult)lbEx.SelectedItem;
+                CLProgramBuildResult br = (CLProgramBuildResult) lbEx.SelectedItem;
                 if (ShowSource)
                 {
                     string txt = br.Source;
-                    
+
                     rtbExText.Text = txt;
                 }
                 else
@@ -58,7 +59,6 @@ namespace FLDebugger.Forms
 
                     rtbExText.Text = txt;
                 }
-                
             }
         }
 
@@ -68,19 +68,18 @@ namespace FLDebugger.Forms
             Close();
         }
 
-        private bool ShowSource;
         private void btnShowSource_Click(object sender, EventArgs e)
         {
             ShowSource = !ShowSource;
             if (ShowSource)
             {
                 btnShowSource.Text = "Errors";
-
             }
             else
             {
                 btnShowSource.Text = "Source";
             }
+
             UpdateOutput(lbEx.SelectedIndex);
         }
     }

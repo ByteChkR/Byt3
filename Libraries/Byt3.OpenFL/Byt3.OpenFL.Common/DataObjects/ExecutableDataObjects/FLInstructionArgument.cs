@@ -76,12 +76,14 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
                 return (obj as FLBuffer).DefinedBufferName;
             }
 
-            if (Type == FLInstructionArgumentType.Name && Parent != null && Parent.Variables.IsDefined(Value.ToString()))
+            if (Type == FLInstructionArgumentType.Name && Parent != null &&
+                Parent.Variables.IsDefined(Value.ToString()))
             {
                 return Parent.Variables.GetVariable(Value.ToString()).ToString();
             }
 
-            if (Type == FLInstructionArgumentType.Name && (Parent == null || !Parent.Variables.IsDefined(Value.ToString())))
+            if (Type == FLInstructionArgumentType.Name &&
+                (Parent == null || !Parent.Variables.IsDefined(Value.ToString())))
             {
                 return Value.ToString();
             }

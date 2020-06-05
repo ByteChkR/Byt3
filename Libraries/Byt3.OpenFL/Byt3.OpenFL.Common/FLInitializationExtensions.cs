@@ -82,11 +82,13 @@ namespace Byt3.OpenFL.Common
             FLProgram script,
             FLInstructionSet instructionSet)
         {
-            function.SetInstructions(serializableFunction.Instructions.Select(x => x.Initialize(script, function, instructionSet))
+            function.SetInstructions(serializableFunction.Instructions
+                .Select(x => x.Initialize(script, function, instructionSet))
                 .ToList());
         }
 
-        public static FLInstruction Initialize(this SerializableFLInstruction instruction, FLProgram script, FLFunction func,
+        public static FLInstruction Initialize(this SerializableFLInstruction instruction, FLProgram script,
+            FLFunction func,
             FLInstructionSet instructionSet)
         {
             FLInstruction i = instructionSet.Create(script, func, instruction);

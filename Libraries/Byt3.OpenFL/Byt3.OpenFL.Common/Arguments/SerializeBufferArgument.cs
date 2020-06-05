@@ -4,8 +4,6 @@ using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 
 namespace Byt3.OpenFL.Common.Arguments
 {
-    
-
     public class SerializeBufferArgument : SerializableFLInstructionArgument
     {
         public SerializeBufferArgument(string index)

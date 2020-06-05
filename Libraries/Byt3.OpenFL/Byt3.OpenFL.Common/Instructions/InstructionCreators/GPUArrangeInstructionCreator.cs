@@ -14,7 +14,7 @@ namespace Byt3.OpenFL.Common.Instructions.InstructionCreators
             ArrangeKernel = arrangeKernel;
         }
 
-        public override string[] InstructionKeys => new[] { "gpu_arrange" };
+        public override string[] InstructionKeys => new[] {"gpu_arrange"};
 
         public override string GetArgumentSignatureForInstruction(string instruction)
         {

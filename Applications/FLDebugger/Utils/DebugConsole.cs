@@ -29,7 +29,7 @@ namespace FLDebugger.Utils
 
             Runner r = new Runner();
             SetSettingsCommand ss = SetSettingsCommand.CreateSettingsCommand("Debugger",
-                new[] { "--set-settings", "-ss" }, FLScriptEditor.Settings);
+                new[] {"--set-settings", "-ss"}, FLScriptEditor.Settings);
             r._AddCommand(ss);
             r._RunCommands(args);
 
@@ -37,7 +37,7 @@ namespace FLDebugger.Utils
 
             if (FLScriptEditor.Settings.Theme == null)
             {
-                if(!File.Exists(Path.Combine(Application.StartupPath, "configs", "fl_editor", "last_theme.txt")))
+                if (!File.Exists(Path.Combine(Application.StartupPath, "configs", "fl_editor", "last_theme.txt")))
                 {
                     FLScriptEditor.Settings.Theme = Path.Combine(Application.StartupPath, "configs", "fl_editor",
                         "themes", "default.xml");
@@ -45,7 +45,9 @@ namespace FLDebugger.Utils
                 else
                 {
                     FLScriptEditor.Settings.Theme = Path.Combine(Application.StartupPath, "configs", "fl_editor",
-                        "themes", File.ReadAllText(Path.Combine(Application.StartupPath, "configs", "fl_editor", "last_theme.txt")));
+                        "themes",
+                        File.ReadAllText(
+                            Path.Combine(Application.StartupPath, "configs", "fl_editor", "last_theme.txt")));
                 }
             }
 
@@ -57,7 +59,7 @@ namespace FLDebugger.Utils
             {
                 XmlSerializer xs = new XmlSerializer(typeof(FLEditorTheme));
                 Stream s = File.OpenRead(themePath);
-                FLScriptEditor.Theme = (FLEditorTheme)xs.Deserialize(s);
+                FLScriptEditor.Theme = (FLEditorTheme) xs.Deserialize(s);
                 s.Close();
             }
 
@@ -71,12 +73,13 @@ namespace FLDebugger.Utils
             FLScriptEditor ed = null;
 
 
-            if (string.IsNullOrEmpty(FLScriptEditor.Settings.WorkingDir) && !string.IsNullOrEmpty(FLScriptEditor.Settings.ScriptPath))
+            if (string.IsNullOrEmpty(FLScriptEditor.Settings.WorkingDir) &&
+                !string.IsNullOrEmpty(FLScriptEditor.Settings.ScriptPath))
             {
                 ed = new FLScriptEditor(FLScriptEditor.Settings.ScriptPath);
             }
             else if (!string.IsNullOrEmpty(FLScriptEditor.Settings.ScriptPath) &&
-                !string.IsNullOrEmpty(FLScriptEditor.Settings.WorkingDir))
+                     !string.IsNullOrEmpty(FLScriptEditor.Settings.WorkingDir))
             {
                 ed = new FLScriptEditor(FLScriptEditor.Settings.ScriptPath, FLScriptEditor.Settings.WorkingDir);
             }

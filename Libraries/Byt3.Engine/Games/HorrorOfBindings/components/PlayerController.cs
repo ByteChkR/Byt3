@@ -37,32 +37,32 @@ namespace HorrorOfBindings.components
         public static onHpChange OnHPChange;
         private readonly AudioSourceComponent AudioSource;
         private readonly Key Back = Key.S;
-        private float BulletLaunchForce = 100;
         private readonly int bulletLayer;
         private readonly Mesh bulletModel;
         private readonly ShaderProgram bulletShader;
         private readonly Texture bulletTexture;
-        private Collider Collider;
-        private float CurrentGravity;
         private readonly Key Forward = Key.W;
         private readonly float GravityIncUngrounded = 5;
-        private bool Grounded;
-        private int hp = 15;
         private readonly Key Jump = Key.Space;
         private readonly float JumpForce = 200;
+        private readonly Key Left = Key.A;
+        private readonly int maxHP = 15;
+        private readonly GameObject nozzle;
+        private readonly Key Right = Key.D;
+        private readonly Random rnd = new Random();
+        private readonly bool UseGlobalForward = true;
+        private float BulletLaunchForce = 100;
+        private Collider Collider;
+        private float CurrentGravity;
+        private bool Grounded;
+        private int hp = 15;
 
         private int lastEnemySpawn;
         private bool left, right, fwd, back, jump;
-        private readonly Key Left = Key.A;
-        private readonly int maxHP = 15;
         private float MoveSpeed = 10;
-        private readonly GameObject nozzle;
         private int raycastLayer;
-        private readonly Key Right = Key.D;
-        private readonly Random rnd = new Random();
 
         private float time;
-        private readonly bool UseGlobalForward = true;
 
         public PlayerController(GameObject nozzle, Mesh bulletModel, Texture bulletTexture, ShaderProgram bulletShader,
             float speed, bool useGlobalForward, AudioSourceComponent audioSource)

@@ -209,7 +209,7 @@ namespace Byt3.OpenFL.Parsing.Stages
 
                 return new SerializeBufferArgument(argument);
             }
-            
+
             if (arrayBufferNames.Contains(argument))
             {
                 //if (currentFunction.Modifiers.IsStatic)
@@ -219,7 +219,9 @@ namespace Byt3.OpenFL.Parsing.Stages
 
                 return new SerializeArrayBufferArgument(argument);
             }
-            else if (SerializeArrayElementArgument.TryParse(arrayBufferNames, argument, out SerializeArrayElementArgument arg))
+
+            if (SerializeArrayElementArgument.TryParse(arrayBufferNames, argument,
+                out SerializeArrayElementArgument arg))
             {
                 return arg;
             }

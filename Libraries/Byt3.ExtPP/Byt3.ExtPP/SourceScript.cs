@@ -22,8 +22,6 @@ namespace Byt3.ExtPP
         /// </summary>
         private string[] source;
 
-        public bool IsInline { get; }
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -31,8 +29,9 @@ namespace Byt3.ExtPP
         /// <param name="path">the path to the file</param>
         /// <param name="key">the key of the source file</param>
         /// <param name="pluginCache">the plugin cache that is used.</param>
-        public SourceScript(string separator, IFileContent path, ImportResult importInfo, bool isInline) : base(ExtPPDebugConfig
-            .Settings)
+        public SourceScript(string separator, IFileContent path, ImportResult importInfo, bool isInline) : base(
+            ExtPPDebugConfig
+                .Settings)
         {
             this.importInfo = importInfo;
             IsInline = isInline;
@@ -49,6 +48,8 @@ namespace Byt3.ExtPP
         /// The key that will get assigned to this script.
         /// </summary>
         private string Key => filepath.GetKey();
+
+        public bool IsInline { get; }
 
         /// <summary>
         /// Returns the full filepath of this script.

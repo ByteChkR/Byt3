@@ -23,6 +23,8 @@ namespace Byt3.WindowsForms.CustomControls
             //BottomRight = 128,
         }
 
+        private readonly int mWidth = 10;
+
         private Control _mControl;
 
         public bool DrawOutline;
@@ -30,7 +32,6 @@ namespace Byt3.WindowsForms.CustomControls
         private EdgeEnum mEdge = EdgeEnum.None;
         private bool mMouseDown;
         private bool mOutlineDrawn;
-        private readonly int mWidth = 10;
         public Color OutlineColor;
 
         public ResizeableControl(Control Control, params Control[] dockedChildren)

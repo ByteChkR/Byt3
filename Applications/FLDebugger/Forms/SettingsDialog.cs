@@ -11,10 +11,12 @@ namespace FLDebugger.Forms
 {
     public partial class SettingsDialog : Form
     {
-        private FLScriptEditor Editor;
-        private Dictionary<string, FieldInfo> ThemeSettings;
+        private readonly FLScriptEditor Editor;
 
-        private FileSystemWatcher fswThemes = new FileSystemWatcher(Path.Combine(FLScriptEditor.ConfigPath, "themes"));
+        private readonly FileSystemWatcher fswThemes =
+            new FileSystemWatcher(Path.Combine(FLScriptEditor.ConfigPath, "themes"));
+
+        private Dictionary<string, FieldInfo> ThemeSettings;
 
 
         public SettingsDialog(FLScriptEditor editor)
@@ -50,7 +52,8 @@ namespace FLDebugger.Forms
 
         private void InitializeThemes()
         {
-            IEnumerable<FieldInfo> infos = FLScriptEditor.Theme.GetType().GetFields().Where(x => x.FieldType == typeof(XMLColor));
+            IEnumerable<FieldInfo> infos = FLScriptEditor.Theme.GetType().GetFields()
+                .Where(x => x.FieldType == typeof(XMLColor));
             ThemeSettings = new Dictionary<string, FieldInfo>();
             foreach (FieldInfo fieldInfo in infos)
             {
@@ -102,12 +105,12 @@ namespace FLDebugger.Forms
 
         private void nudWidth_ValueChanged(object sender, EventArgs e)
         {
-            Editor.SetResolution((int)nudWidth.Value, (int)nudHeight.Value, (int)nudDepth.Value);
+            Editor.SetResolution((int) nudWidth.Value, (int) nudHeight.Value, (int) nudDepth.Value);
         }
 
         private void nudHeight_ValueChanged(object sender, EventArgs e)
         {
-            Editor.SetResolution((int)nudWidth.Value, (int)nudHeight.Value, (int)nudDepth.Value);
+            Editor.SetResolution((int) nudWidth.Value, (int) nudHeight.Value, (int) nudDepth.Value);
         }
 
         private void btnAbout_Click(object sender, EventArgs e)
@@ -117,16 +120,18 @@ namespace FLDebugger.Forms
 
         private void cbEditorColorSetting_SelectedIndexChanged(object sender, EventArgs e)
         {
-            panelColorPreview.BackColor = (XMLColor)ThemeSettings[cbEditorColorSetting.SelectedItem.ToString()].GetValue(FLScriptEditor.Theme);
+            panelColorPreview.BackColor = (XMLColor) ThemeSettings[cbEditorColorSetting.SelectedItem.ToString()]
+                .GetValue(FLScriptEditor.Theme);
         }
 
         private void btnChangeColor_Click(object sender, EventArgs e)
         {
-            cdChangeThemeColor.Color = (XMLColor)ThemeSettings[cbEditorColorSetting.SelectedItem.ToString()]
+            cdChangeThemeColor.Color = (XMLColor) ThemeSettings[cbEditorColorSetting.SelectedItem.ToString()]
                 .GetValue(FLScriptEditor.Theme);
             if (cdChangeThemeColor.ShowDialog() == DialogResult.OK)
             {
-                FLScriptEditor.Theme.SetValue(ThemeSettings[cbEditorColorSetting.SelectedItem.ToString()], (XMLColor)cdChangeThemeColor.Color);
+                FLScriptEditor.Theme.SetValue(ThemeSettings[cbEditorColorSetting.SelectedItem.ToString()],
+                    (XMLColor) cdChangeThemeColor.Color);
             }
         }
 
@@ -151,12 +156,14 @@ namespace FLDebugger.Forms
 
         private void nudLogFontSize_ValueChanged(object sender, EventArgs e)
         {
-            FLScriptEditor.Theme.SetValue(FLScriptEditor.Theme.GetType().GetField("LogFontSize"), (float)nudLogFontSize.Value);
+            FLScriptEditor.Theme.SetValue(FLScriptEditor.Theme.GetType().GetField("LogFontSize"),
+                (float) nudLogFontSize.Value);
         }
 
         private void nudCodeFontSize_ValueChanged(object sender, EventArgs e)
         {
-            FLScriptEditor.Theme.SetValue(FLScriptEditor.Theme.GetType().GetField("CodeFontSize"), (float)nudCodeFontSize.Value);
+            FLScriptEditor.Theme.SetValue(FLScriptEditor.Theme.GetType().GetField("CodeFontSize"),
+                (float) nudCodeFontSize.Value);
         }
 
         private void btnLoadTheme_Click(object sender, EventArgs e)
@@ -164,11 +171,13 @@ namespace FLDebugger.Forms
             if (cbThemes.SelectedIndex != -1)
             {
                 XmlSerializer xs = new XmlSerializer(typeof(FLEditorTheme));
-                Stream s = File.OpenRead(Path.Combine(FLScriptEditor.ConfigPath, "themes", cbThemes.SelectedItem + ".xml"));
-                FLEditorTheme theme = (FLEditorTheme)xs.Deserialize(s);
+                Stream s = File.OpenRead(Path.Combine(FLScriptEditor.ConfigPath, "themes",
+                    cbThemes.SelectedItem + ".xml"));
+                FLEditorTheme theme = (FLEditorTheme) xs.Deserialize(s);
                 FLEditorTheme.TransferEvents(FLScriptEditor.Theme, theme);
                 FLScriptEditor.Theme = theme;
-                File.WriteAllText(Path.Combine(FLScriptEditor.ConfigPath, "last_theme.txt"), cbThemes.SelectedItem + ".xml");
+                File.WriteAllText(Path.Combine(FLScriptEditor.ConfigPath, "last_theme.txt"),
+                    cbThemes.SelectedItem + ".xml");
             }
         }
 
@@ -184,7 +193,7 @@ namespace FLDebugger.Forms
 
         private void nudDepth_ValueChanged(object sender, EventArgs e)
         {
-            Editor.SetResolution((int)nudWidth.Value, (int)nudHeight.Value, (int)nudDepth.Value);
+            Editor.SetResolution((int) nudWidth.Value, (int) nudHeight.Value, (int) nudDepth.Value);
         }
     }
 }

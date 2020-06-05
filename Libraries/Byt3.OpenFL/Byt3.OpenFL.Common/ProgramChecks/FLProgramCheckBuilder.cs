@@ -8,9 +8,6 @@ using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 
 namespace Byt3.OpenFL.Common.ProgramChecks
 {
-
-
-
     public class FLProgramCheckBuilder
     {
         public FLProgramCheckBuilder(FLInstructionSet iset, BufferCreator bc)
@@ -27,14 +24,13 @@ namespace Byt3.OpenFL.Common.ProgramChecks
             //Add all Program checks with the right profile in the assemblies.
             assemblies.ToList().ForEach(x =>
                 ProgramChecks.AddRange(x.GetTypes()
-                    .Where(y => !y.IsAbstract && typeof(FLProgramCheck).IsAssignableFrom(y) && y != typeof(FLProgramCheck))
+                    .Where(y => !y.IsAbstract && typeof(FLProgramCheck).IsAssignableFrom(y) &&
+                                y != typeof(FLProgramCheck))
                     .Select(y => (FLProgramCheck) Activator.CreateInstance(y))
                     .Where(y => (y.CheckType & profile) != 0)));
             ProgramChecks.Sort((x, y) => y.Priority.CompareTo(x.Priority));
             InstructionSet = iset;
             BufferCreator = bc;
-
-
         }
 
         public FLInstructionSet InstructionSet { get; }
@@ -44,9 +40,10 @@ namespace Byt3.OpenFL.Common.ProgramChecks
         public bool IsAttached { get; private set; }
         public Pipeline AttachedPipeline { get; private set; }
 
-        public static FLProgramCheckBuilder CreateDefaultCheckBuilder(FLInstructionSet iset, BufferCreator bc, FLProgramCheckType profile = FLProgramCheckType.InputValidation)
+        public static FLProgramCheckBuilder CreateDefaultCheckBuilder(FLInstructionSet iset, BufferCreator bc,
+            FLProgramCheckType profile = FLProgramCheckType.InputValidation)
         {
-            return new FLProgramCheckBuilder(iset, bc, new [] { typeof(FLProgramCheck).Assembly }, profile);
+            return new FLProgramCheckBuilder(iset, bc, new[] {typeof(FLProgramCheck).Assembly}, profile);
         }
 
         public void AddProgramCheck(FLProgramCheck check)

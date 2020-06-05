@@ -5,6 +5,8 @@
     /// </summary>
     public interface ISourceScript
     {
+        bool IsInline { get; }
+
         /// <summary>
         /// Returns the full filepath of this script.
         /// </summary>
@@ -16,8 +18,6 @@
         /// </summary>
         /// <returns>the key of the file/source</returns>
         string GetKey();
-
-        bool IsInline { get; }
 
         /// <summary>
         /// returns the source that is cached

@@ -84,7 +84,9 @@ namespace Byt3.OpenFL.Benchmarking
 
         public static string RunParsedFLExecutionBenchmark(bool warm, string testAdd, List<string> files,
             int iterations,
-            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
+            string performanceFolder = "performance",
+            FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized,
+            bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_ParsedExecution_Performance" + testAdd, "resources/kernel",
@@ -146,7 +148,9 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunDeserializedFLExecutionBenchmark(string testAdd, List<string> files, int iterations,
-            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
+            string performanceFolder = "performance",
+            FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized,
+            bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_DeserializedExecution_Performance" + testAdd, "resources/kernel",
@@ -208,7 +212,9 @@ namespace Byt3.OpenFL.Benchmarking
 
         public static string RunProgramSerializationBenchmark(string testAdd, List<string> files, int iterations,
             string[] extraSteps = null,
-            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
+            string performanceFolder = "performance",
+            FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized,
+            bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_SerializationProcess_Performance" + testAdd, "resources/kernel",
@@ -250,7 +256,9 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunProgramDeserializationBenchmark(string testAdd, List<string> files, int iterations,
-            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
+            string performanceFolder = "performance",
+            FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized,
+            bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_DeserializationProcess_Performance" + testAdd, "resources/kernel",
@@ -286,7 +294,9 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunProgramInitBenchmark(string testAdd, List<string> files, int iterations,
-            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
+            string performanceFolder = "performance",
+            FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized,
+            bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_ProgramInit_Performance" + testAdd, "resources/kernel", performanceFolder,
@@ -319,7 +329,9 @@ namespace Byt3.OpenFL.Benchmarking
         }
 
         public static string RunParserProcessBenchmark(string testAdd, List<string> files, int iterations,
-            string performanceFolder = "performance", FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized, bool useMultiThreading = false,
+            string performanceFolder = "performance",
+            FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized,
+            bool useMultiThreading = false,
             int workSizeMultiplier = 2)
         {
             FLSetup setup = new FLSetup("FL_ParserProcess_Performance" + testAdd, "resources/kernel", performanceFolder,

@@ -15,16 +15,16 @@ namespace FLDebugger.Projects.Forms
         public static readonly string EditorConfigPath =
             Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "configs", "editors");
 
-        private TreeView _tv;
-        private string[] Args;
-
 
         private readonly StartupDialog dialog = new StartupDialog();
+        private readonly object ProcessTextLock = new object();
+
+        private TreeView _tv;
+        private string[] Args;
         private List<ExternalProgramEditor> Editors;
 
         private Task LoadTask;
         private bool onlyEditor;
-        private readonly object ProcessTextLock = new object();
         private Project project;
 
         public StartupSplash(string[] args)

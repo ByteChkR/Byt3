@@ -11,9 +11,9 @@ namespace FLDebugger.Forms
 {
     public partial class LogDisplay : Form
     {
+        private readonly StringBuilder logOut = new StringBuilder();
         private bool allowLogEdit;
         private bool ignoreSeveritySet;
-        private readonly StringBuilder logOut = new StringBuilder();
 
 
         public LogDisplay()
@@ -33,8 +33,6 @@ namespace FLDebugger.Forms
             FLScriptEditor.RegisterDefaultTheme(lblLogSeverity);
             FLScriptEditor.RegisterDefaultTheme(panelSideMain);
             FLScriptEditor.RegisterDefaultTheme(panelSideTop);
-
-
         }
 
         private void LogDisplay_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -75,12 +73,12 @@ namespace FLDebugger.Forms
             if (cbProjects.SelectedIndex != -1)
             {
                 ReadOnlyDictionary<IProjectDebugConfig, List<ADLLogger>> map = ADLLogger.GetReadOnlyLoggerMap();
-                IProjectDebugConfig config = (IProjectDebugConfig)cbProjects.SelectedItem;
+                IProjectDebugConfig config = (IProjectDebugConfig) cbProjects.SelectedItem;
                 lbLogger.Items.Clear();
                 lbLogger.Items.AddRange(map[config].ToArray());
                 ignoreSeveritySet = true;
                 cbMinSeverity.SelectedIndex =
-                    cbMinSeverity.Items.IndexOf(((Verbosity)config.GetMinSeverity()).ToString());
+                    cbMinSeverity.Items.IndexOf(((Verbosity) config.GetMinSeverity()).ToString());
                 ignoreSeveritySet = false;
             }
         }
@@ -94,8 +92,8 @@ namespace FLDebugger.Forms
         {
             if (!ignoreSeveritySet && cbProjects.SelectedIndex != -1)
             {
-                IProjectDebugConfig config = (IProjectDebugConfig)cbProjects.SelectedItem;
-                config.SetMinSeverity((int)Enum.Parse(typeof(Verbosity), cbMinSeverity.SelectedItem.ToString()));
+                IProjectDebugConfig config = (IProjectDebugConfig) cbProjects.SelectedItem;
+                config.SetMinSeverity((int) Enum.Parse(typeof(Verbosity), cbMinSeverity.SelectedItem.ToString()));
             }
         }
 

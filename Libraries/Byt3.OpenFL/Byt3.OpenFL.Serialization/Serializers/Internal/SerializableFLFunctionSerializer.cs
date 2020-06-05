@@ -9,8 +9,8 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
 {
     public class SerializableFLFunctionSerializer : FLBaseSerializer
     {
-        private readonly SerializableInstructionSerializer instructionSerializer;
         private readonly Dictionary<Type, FLBaseSerializer> argSerializers;
+        private readonly SerializableInstructionSerializer instructionSerializer;
 
         public SerializableFLFunctionSerializer(Dictionary<Type, FLBaseSerializer> argumentSerializers)
         {

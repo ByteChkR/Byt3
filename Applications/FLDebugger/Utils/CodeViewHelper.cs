@@ -13,7 +13,7 @@ namespace FLDebugger.Utils
 
         public static void AppendLine(this RichTextBox box, string text, Color color, Color backColor)
         {
-            AppendText(box, text+'\n', color, backColor);
+            AppendText(box, text + '\n', color, backColor);
         }
 
         public static void AppendText(this RichTextBox box, string text, Color color, Color backColor)
@@ -47,7 +47,8 @@ namespace FLDebugger.Utils
 
                 if (trimmedSourcePart.StartsWith("--")) //Define and Set Declaration
                 {
-                    rtb.AppendText(parts[0], FLScriptEditor.Theme.FLDefines, FLScriptEditor.Theme.PrimaryBackgroundColor);
+                    rtb.AppendText(parts[0], FLScriptEditor.Theme.FLDefines,
+                        FLScriptEditor.Theme.PrimaryBackgroundColor);
                 }
                 else if (trimmedSourcePart.StartsWith("~")) //PP Directives
                 {
@@ -55,11 +56,13 @@ namespace FLDebugger.Utils
                 }
                 else if (isFunction) //Function Declaration
                 {
-                    rtb.AppendText(parts[0], FLScriptEditor.Theme.FLFunctions, FLScriptEditor.Theme.PrimaryBackgroundColor);
+                    rtb.AppendText(parts[0], FLScriptEditor.Theme.FLFunctions,
+                        FLScriptEditor.Theme.PrimaryBackgroundColor);
                 }
                 else if (!string.IsNullOrWhiteSpace(parts[0])) //Some Instructions
                 {
-                    rtb.AppendText(parts[0], FLScriptEditor.Theme.PrimaryFontColor, FLScriptEditor.Theme.PrimaryBackgroundColor);
+                    rtb.AppendText(parts[0], FLScriptEditor.Theme.PrimaryFontColor,
+                        FLScriptEditor.Theme.PrimaryBackgroundColor);
                 }
                 else
                 {
@@ -84,12 +87,14 @@ namespace FLDebugger.Utils
                             text += "\n";
                         }
 
-                        rtb.AppendText(text, FLScriptEditor.Theme.FLComments, FLScriptEditor.Theme.PrimaryBackgroundColor);
+                        rtb.AppendText(text, FLScriptEditor.Theme.FLComments,
+                            FLScriptEditor.Theme.PrimaryBackgroundColor);
                     }
                 }
                 else if (appendNewL)
                 {
-                    rtb.AppendText("\n", FLScriptEditor.Theme.PrimaryFontColor, FLScriptEditor.Theme.PrimaryBackgroundColor);
+                    rtb.AppendText("\n", FLScriptEditor.Theme.PrimaryFontColor,
+                        FLScriptEditor.Theme.PrimaryBackgroundColor);
                 }
             }
 

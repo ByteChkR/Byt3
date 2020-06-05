@@ -14,14 +14,11 @@ using FLDebugger.Utils;
 
 namespace FLDebugger.Forms
 {
-
     public partial class KernelLoader : Form
     {
-        private readonly string Path;
         private readonly CLAPI Instance;
         private readonly Task LoadTask;
-
-        public KernelDatabase Database { get; private set; }
+        private readonly string Path;
 
         public KernelLoader(CLAPI instance, string path)
         {
@@ -43,6 +40,8 @@ namespace FLDebugger.Forms
             FLScriptEditor.RegisterDefaultTheme(lblLoad);
             FLScriptEditor.RegisterDefaultTheme(panel1);
         }
+
+        public KernelDatabase Database { get; private set; }
 
         private void KernelLoader_Load(object sender, EventArgs e)
         {
@@ -82,13 +81,15 @@ namespace FLDebugger.Forms
                     InitializeDatabase();
                     return;
                 }
-                else if (res == DialogResult.Abort)
+
+                if (res == DialogResult.Abort)
                 {
                     DialogResult = DialogResult.Abort;
                     Close();
                     return;
                 }
-                else if (res == DialogResult.Ignore)
+
+                if (res == DialogResult.Ignore)
                 {
                     DialogResult = DialogResult.OK;
                 }
@@ -115,6 +116,7 @@ namespace FLDebugger.Forms
 
                     throw e; //Let the Exception Viewer Catch that
                 }
+
                 lblStatus.Text = $"Kernels Loaded: {kernelCount}";
             }
 
@@ -140,7 +142,6 @@ namespace FLDebugger.Forms
                     {
                         Database.Dispose();
                         InitializeDatabase();
-                        return;
                     }
                 }
             }

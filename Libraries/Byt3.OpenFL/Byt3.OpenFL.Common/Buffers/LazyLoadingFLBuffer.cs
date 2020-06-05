@@ -15,34 +15,6 @@ namespace Byt3.OpenFL.Common.Buffers
         protected BufferLoader Loader;
 
 
-        public int DataSize => (int)Buffer.Size;
-        public void SetData(byte[] data)
-        {
-            MemoryBuffer buf = Buffer;
-
-            if (data.Length != buf.Size)
-            {
-                throw new InvalidOperationException("The passed data has not the same size as the buffer has.");
-            }
-
-            if ((buf.Flags & MemoryFlag.ReadOnly) != 0)
-            {
-                throw new InvalidOperationException("Can not write to a ReadOnly Buffer");
-            }
-            
-            CLAPI.WriteToBuffer(Root.Instance, buf, data);
-        }
-
-        public byte[] GetData()
-        {
-            if ((Buffer.Flags & MemoryFlag.WriteOnly) != 0)
-            {
-                throw new InvalidOperationException("Can not read a WriteOnly Buffer");
-            }
-            return CLAPI.ReadBuffer<byte>(Root.Instance, Buffer, (int) Buffer.Size);
-        }
-        
-
         public LazyLoadingFLBuffer(BufferLoader loader, bool warmOnStart) : base(default(MemoryBuffer), -1, -1, -1)
         {
             WarmOnStart = warmOnStart;
@@ -68,6 +40,36 @@ namespace Byt3.OpenFL.Common.Buffers
             _buffer?.Dispose();
             _buffer = null;
             Loader = null;
+        }
+
+
+        public int DataSize => (int) Buffer.Size;
+
+        public void SetData(byte[] data)
+        {
+            MemoryBuffer buf = Buffer;
+
+            if (data.Length != buf.Size)
+            {
+                throw new InvalidOperationException("The passed data has not the same size as the buffer has.");
+            }
+
+            if ((buf.Flags & MemoryFlag.ReadOnly) != 0)
+            {
+                throw new InvalidOperationException("Can not write to a ReadOnly Buffer");
+            }
+
+            CLAPI.WriteToBuffer(Root.Instance, buf, data);
+        }
+
+        public byte[] GetData()
+        {
+            if ((Buffer.Flags & MemoryFlag.WriteOnly) != 0)
+            {
+                throw new InvalidOperationException("Can not read a WriteOnly Buffer");
+            }
+
+            return CLAPI.ReadBuffer<byte>(Root.Instance, Buffer, (int) Buffer.Size);
         }
 
         public void Warm(bool force)

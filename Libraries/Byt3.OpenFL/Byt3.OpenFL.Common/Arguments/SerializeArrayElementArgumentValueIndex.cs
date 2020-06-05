@@ -6,7 +6,8 @@ namespace Byt3.OpenFL.Common.Arguments
 {
     public class SerializeArrayElementArgumentValueIndex : SerializeArrayElementArgument
     {
-        private int Index;
+        private readonly int Index;
+
         public SerializeArrayElementArgumentValueIndex(string value, int index)
         {
             Index = index;
@@ -23,6 +24,7 @@ namespace Byt3.OpenFL.Common.Arguments
             {
                 return new ImplicitCastBox<decimal>(() => buffer.GetData()[Index]); //really slow
             }
+
             throw new InvalidOperationException($"{script.DefinedBuffers[Value]} does not implement IEditableBuffer");
         }
 

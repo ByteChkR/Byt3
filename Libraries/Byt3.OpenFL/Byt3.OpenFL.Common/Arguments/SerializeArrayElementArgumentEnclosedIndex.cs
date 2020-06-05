@@ -6,7 +6,8 @@ namespace Byt3.OpenFL.Common.Arguments
 {
     public class SerializeArrayElementArgumentEnclosedIndex : SerializeArrayElementArgument
     {
-        private SerializeArrayElementArgument Index;
+        private readonly SerializeArrayElementArgument Index;
+
         public SerializeArrayElementArgumentEnclosedIndex(string value, SerializeArrayElementArgument index)
         {
             Index = index;
@@ -27,6 +28,7 @@ namespace Byt3.OpenFL.Common.Arguments
                     return buffer.GetData()[idx];
                 }); //really slow
             }
+
             throw new InvalidOperationException($"{script.DefinedBuffers[Value]} does not implement IEditableBuffer");
         }
 

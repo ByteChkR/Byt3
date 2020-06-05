@@ -24,7 +24,6 @@ namespace Byt3.AutoUpdate
         [STAThread]
         private static void Main(string[] args)
         {
-            
             try
             {
                 if (args[0] == "-direct")

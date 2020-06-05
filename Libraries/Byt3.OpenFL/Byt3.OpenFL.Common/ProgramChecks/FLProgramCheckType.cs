@@ -5,7 +5,7 @@ namespace Byt3.OpenFL.Common.ProgramChecks
     [Flags]
     public enum FLProgramCheckType
     {
-        None=0,
+        None = 0,
         InputValidation = 1,
         Optimization = 2,
         AggressiveOptimization = 4,

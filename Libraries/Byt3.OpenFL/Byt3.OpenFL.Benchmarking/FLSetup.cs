@@ -20,13 +20,13 @@ namespace Byt3.OpenFL.Benchmarking
         public FLParser Parser;
 
         public FLSetup(string testName, string kernelPath, string performance = "performance",
-            FLProgramCheckType checkProfile=FLProgramCheckType.InputValidationOptimized,
+            FLProgramCheckType checkProfile = FLProgramCheckType.InputValidationOptimized,
             bool useMultiThreading = false, int workSizeMultiplier = 2) : base(testName, performance)
         {
             KernelDatabase = new KernelDatabase(CLAPI.MainThread, kernelPath, DataVectorTypes.Uchar1);
             InstructionSet = FLInstructionSet.CreateWithBuiltInTypes(KernelDatabase);
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
-            CheckBuilder =FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator, checkProfile);
+            CheckBuilder = FLProgramCheckBuilder.CreateDefaultCheckBuilder(InstructionSet, BufferCreator, checkProfile);
 
 
             Parser = new FLParser(InstructionSet, BufferCreator,

@@ -93,7 +93,8 @@ namespace Byt3.OpenFL.Threading
 
         protected FLProgram Process(FlScriptExecutionContext context)
         {
-            FLBuffer input = new FLBuffer(Instance, context.Input, context.Width, context.Height, context.Depth, context.Filename);
+            FLBuffer input = new FLBuffer(Instance, context.Input, context.Width, context.Height, context.Depth,
+                context.Filename);
 
             FLProgram program;
             if (context.IsCompiled)

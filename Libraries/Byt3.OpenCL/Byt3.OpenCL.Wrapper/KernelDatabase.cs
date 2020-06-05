@@ -152,7 +152,7 @@ namespace Byt3.OpenCL.Wrapper
                 ex.BuildErrors.AddRange(br.BuildErrors);
                 return null;
             }
-            
+
             loadedPrograms.Add(program);
             foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
             {

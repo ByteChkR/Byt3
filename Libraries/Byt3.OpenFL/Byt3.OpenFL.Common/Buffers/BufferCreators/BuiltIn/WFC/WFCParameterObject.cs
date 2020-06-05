@@ -43,7 +43,6 @@ namespace Byt3.OpenFL.Common.Buffers.BufferCreators.BuiltIn.WFC
         }
 
 
-
         public static SerializableFLBuffer CreateBuffer(string name, string[] args, bool force,
             FLBufferModifiers modifiers, int size)
         {

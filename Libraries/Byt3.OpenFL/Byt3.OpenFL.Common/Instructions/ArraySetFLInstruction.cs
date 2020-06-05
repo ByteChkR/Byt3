@@ -14,12 +14,13 @@ namespace Byt3.OpenFL.Common.Instructions
 
         public override void Process()
         {
-            IEditableBuffer buffer = (IEditableBuffer)Arguments[0].GetValue();
+            IEditableBuffer buffer = (IEditableBuffer) Arguments[0].GetValue();
 
             int index;
-            if (Arguments[1].Type == FLInstructionArgumentType.Name && Parent.Variables.IsDefined(Arguments[1].GetValue().ToString()))
+            if (Arguments[1].Type == FLInstructionArgumentType.Name &&
+                Parent.Variables.IsDefined(Arguments[1].GetValue().ToString()))
             {
-                index = (int)Parent.Variables.GetVariable(Arguments[1].GetValue().ToString());
+                index = (int) Parent.Variables.GetVariable(Arguments[1].GetValue().ToString());
             }
             else
             {
@@ -27,14 +28,15 @@ namespace Byt3.OpenFL.Common.Instructions
             }
 
             byte value;
-            if (Arguments[2].Type == FLInstructionArgumentType.Name && Parent.Variables.IsDefined(Arguments[2].GetValue().ToString()))
+            if (Arguments[2].Type == FLInstructionArgumentType.Name &&
+                Parent.Variables.IsDefined(Arguments[2].GetValue().ToString()))
             {
-                value = (byte)Parent.Variables.GetVariable(Arguments[2].GetValue().ToString());
+                value = (byte) Parent.Variables.GetVariable(Arguments[2].GetValue().ToString());
             }
             else
             {
                 object o = Arguments[2].GetValue();
-                value = (byte)(decimal)o;
+                value = (byte) (decimal) o;
             }
 
             byte[] bytes = buffer.GetData();

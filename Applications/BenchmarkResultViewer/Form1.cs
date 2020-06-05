@@ -12,9 +12,8 @@ namespace BenchmarkResultViewer
 {
     public partial class Form1 : Form
     {
-        private List<Chart> charts = new List<Chart>();
-
         private readonly string folder;
+        private List<Chart> charts = new List<Chart>();
 
         public Form1(string[] args)
         {

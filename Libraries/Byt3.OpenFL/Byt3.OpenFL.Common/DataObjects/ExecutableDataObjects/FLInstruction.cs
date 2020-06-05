@@ -7,7 +7,7 @@ namespace Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects
         protected const int MIN_INSTRUCTION_SEVERITY = 4;
         protected FLFunction Parent;
 
-        protected FLInstruction( List<FLInstructionArgument> arguments)
+        protected FLInstruction(List<FLInstructionArgument> arguments)
         {
             Arguments = arguments;
         }

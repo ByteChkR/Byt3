@@ -17,7 +17,7 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
             decimal d;
             if (Arguments[1].Type == FLInstructionArgumentType.Number)
             {
-                d = (decimal)Arguments[1].GetValue();
+                d = (decimal) Arguments[1].GetValue();
             }
             else if (Arguments[1].Type == FLInstructionArgumentType.Name)
             {
@@ -27,6 +27,7 @@ namespace Byt3.OpenFL.Common.Instructions.Variables
             {
                 throw new InvalidOperationException("Can not get value from Argument: " + Arguments[1]);
             }
+
             Parent.Variables.ChangeLocalVariable(Arguments[0].GetValue().ToString(), d);
         }
 

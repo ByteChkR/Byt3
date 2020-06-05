@@ -14,13 +14,12 @@ namespace FLDebugger.Forms
             InitializeComponent();
 
 
-
             FLScriptEditor.RegisterDefaultTheme(panelTop);
             FLScriptEditor.RegisterDefaultTheme(lblVersionInfo);
             FLScriptEditor.RegisterDefaultTheme(gbLoadedAssemblies);
             FLScriptEditor.RegisterDefaultTheme(lbLoadedAssemblies);
 
-            
+
             lblVersionInfo.Text = "Debugger Version: " + Assembly.GetExecutingAssembly().GetName().Version;
             InitializeLibraryList();
         }
@@ -34,7 +33,8 @@ namespace FLDebugger.Forms
             foreach (Assembly assembly in asm)
             {
                 AssemblyName name = assembly.GetName();
-                if (name.Name.StartsWith("System") || name.Name == "mscorlib" || name.Name == "netstandard" || name.Name == "Accessibility")
+                if (name.Name.StartsWith("System") || name.Name == "mscorlib" || name.Name == "netstandard" ||
+                    name.Name == "Accessibility")
                 {
                     continue;
                 }

@@ -33,7 +33,8 @@ namespace Byt3.OpenFL.Common.ProgramChecks.Optimizations
                     {
                         FLProgram prog =
                             serializableExternalFlFunction.ExternalProgram.Initialize(root.Instance, InstructionSet);
-                        FLBuffer b = new FLBuffer(root.Instance, root.Dimensions.x, root.Dimensions.y, root.Dimensions.z,
+                        FLBuffer b = new FLBuffer(root.Instance, root.Dimensions.x, root.Dimensions.y,
+                            root.Dimensions.z,
                             "CachedBuffer" + serializableExternalFlFunction.Name);
                         prog.Run(b, true);
 

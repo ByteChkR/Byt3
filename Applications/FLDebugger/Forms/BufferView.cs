@@ -17,12 +17,12 @@ namespace FLDebugger.Forms
 
         private readonly FLBuffer Buffer;
         private readonly int height;
-        private readonly int width;
 
         private readonly CLAPI Instance;
+        private readonly CustomPictureBox pbBufferContent;
+        private readonly int width;
 
         private bool isRefreshing;
-        private readonly CustomPictureBox pbBufferContent;
 
         public BufferView(CLAPI instance, FLBuffer buffer, int width, int height)
         {
@@ -89,7 +89,7 @@ namespace FLDebugger.Forms
             Bitmap bmp = new Bitmap(width, height);
 
 
-            byte[] data = CLAPI.ReadBuffer<byte>(instance, Buffer.Buffer, (int)Buffer.Size);
+            byte[] data = CLAPI.ReadBuffer<byte>(instance, Buffer.Buffer, (int) Buffer.Size);
 
             int start = 4 * Buffer.Width * Buffer.Height * (int) nudFrame.Value;
             int length = 4 * Buffer.Width * Buffer.Height;
@@ -168,7 +168,7 @@ namespace FLDebugger.Forms
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             pbBufferContent.InterpolationMode =
-                (InterpolationMode)Enum.Parse(typeof(InterpolationMode),
+                (InterpolationMode) Enum.Parse(typeof(InterpolationMode),
                     comboBox1.Items[comboBox1.SelectedIndex].ToString());
             pbBufferContent.Invalidate();
         }
