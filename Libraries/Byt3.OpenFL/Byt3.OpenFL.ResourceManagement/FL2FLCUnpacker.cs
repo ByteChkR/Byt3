@@ -13,9 +13,9 @@ namespace Byt3.OpenFL.ResourceManagement
     public class FL2FLCUnpacker : ResourceTypeUnpacker
     {
         private FLRunner runner;
-        public FL2FLCUnpacker(FLInstructionSet iset, BufferCreator bc)
+        public FL2FLCUnpacker(CLAPI instance, FLInstructionSet iset, BufferCreator bc)
         {
-            runner = new FLRunner(CLAPI.MainThread, iset, bc, FLProgramCheckBuilder.CreateDefaultCheckBuilder(iset, bc, FLProgramCheckType.InputValidationOptimized));
+            runner = new FLRunner(instance, iset, bc, FLProgramCheckBuilder.CreateDefaultCheckBuilder(iset, bc, FLProgramCheckType.InputValidationOptimized));
         }
 
         public override string UnpackerName => "fl2flc";

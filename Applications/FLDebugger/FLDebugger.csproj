@@ -202,6 +202,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="examples\ExamplesPrecompiled.flres">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="examples\instructions\clip_example.fl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -41,9 +41,9 @@ namespace FLDebugger.Utils
             Parser = new FLParser(InstructionSet, BufferCreator, new WorkItemRunnerSettings(true, 2));
             CheckBuilder = new FLProgramCheckBuilder(InstructionSet, BufferCreator);
 
-            ResourceManager.AddUnpacker(new FL2FLCUnpacker(InstructionSet, BufferCreator));
-            ResourceManager.AddUnpacker(new FL2TexUnpacker(InstructionSet, BufferCreator));
-            ResourceManager.AddUnpacker(new FLC2TexUnpacker(InstructionSet, BufferCreator));
+            ResourceManager.AddUnpacker(new FL2FLCUnpacker(Instance, InstructionSet, BufferCreator));
+            ResourceManager.AddUnpacker(new FL2TexUnpacker(Instance, InstructionSet, BufferCreator));
+            ResourceManager.AddUnpacker(new FLC2TexUnpacker(Instance, InstructionSet, BufferCreator));
             ResourceManager.AddUnpacker(new FLRESUnpacker());
 
         }
