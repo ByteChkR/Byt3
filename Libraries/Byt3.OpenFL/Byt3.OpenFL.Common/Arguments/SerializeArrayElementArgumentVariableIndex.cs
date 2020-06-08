@@ -6,7 +6,7 @@ namespace Byt3.OpenFL.Common.Arguments
 {
     public class SerializeArrayElementArgumentVariableIndex : SerializeArrayElementArgument
     {
-        private readonly string Index;
+        public readonly string Index;
 
         public SerializeArrayElementArgumentVariableIndex(string value, string index)
         {

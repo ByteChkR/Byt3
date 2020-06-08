@@ -23,15 +23,30 @@ namespace Byt3.OpenFL.Serialization
         private static Byt3Serializer CreateLoader(FLInstructionSet iset)
         {
             SerializableBufferArgumentSerializer bbuf = new SerializableBufferArgumentSerializer();
+            SerializableArrayArgumentSerializer abuf = new SerializableArrayArgumentSerializer();
             SerializableDecimalArgumentSerializer debuf = new SerializableDecimalArgumentSerializer();
             SerializableFunctionArgumentSerializer fabuf = new SerializableFunctionArgumentSerializer();
             SerializableExternalFunctionArgumentSerializer exbuf = new SerializableExternalFunctionArgumentSerializer();
+            SerializableArrayLengthSerializer arLen = new SerializableArrayLengthSerializer();
+            SerializableNameArgumentSerializer nArg = new SerializableNameArgumentSerializer();
+            SerializableArrayElementArgumentVariableIndexSerializer arEVI = new SerializableArrayElementArgumentVariableIndexSerializer();
+            SerializableArrayElementArgumentValueIndexSerializer arEVaI = new SerializableArrayElementArgumentValueIndexSerializer();
+            SerializableArrayElementArgumentEnclosedIndexSerializer arEI = new SerializableArrayElementArgumentEnclosedIndexSerializer();
             Dictionary<Type, FLBaseSerializer> argumentParser = new Dictionary<Type, FLBaseSerializer>
             {
                 {typeof(SerializeBufferArgument), bbuf},
+                {typeof(SerializeArrayBufferArgument), abuf},
                 {typeof(SerializeDecimalArgument), debuf},
                 {typeof(SerializeFunctionArgument), fabuf},
-                {typeof(SerializeExternalFunctionArgument), exbuf}
+                {typeof(SerializeExternalFunctionArgument), exbuf},
+                {typeof(SerializeArrayLengthArgument), arLen },
+                {typeof(SerializeNameArgument), nArg },
+                {typeof(SerializeArrayElementArgumentVariableIndex), arEVI },
+                {typeof(SerializeArrayElementArgumentValueIndex), arEVaI },
+                {typeof(SerializeArrayElementArgumentEnclosedIndex), arEI }
+
+
+
             };
 
             SerializableFLFunctionSerializer efunc = new SerializableFLFunctionSerializer(argumentParser);

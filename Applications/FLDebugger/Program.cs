@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Byt3.AutoUpdate.Helper;
+using FLDebugger.Forms;
 using FLDebugger.Utils;
 
 namespace FLDebugger
@@ -24,8 +26,15 @@ namespace FLDebugger
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.ThrowException);
+            string[] argss = args.Length > 0 && args[0] == "-no-update" ? args.Reverse().Take(Math.Max(args.Length - 1, 0)).Reverse().ToArray() : args;
+            if (argss.Length == 1 && File.Exists(argss[0]) && (argss[0].EndsWith(".flc") || argss[0].EndsWith(".fl") || argss[0].EndsWith(".flres")))
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), argss[0]);
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(Application.ExecutablePath));
+                argss = new[] {"-ss", "Debugger.ScriptPath:" + path};
+            }
+            new DebugConsole().Run(argss);
 
-            new DebugConsole().Run(args.Reverse().Take(Math.Max(args.Length - 1, 0)).Reverse().ToArray());
         }
     }
 }

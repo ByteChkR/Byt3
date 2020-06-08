@@ -68,20 +68,34 @@ namespace FLDebugger.Utils
             return true;
         }
 
-        private FLScriptEditor GetEditor()
+        private Form GetEditor()
         {
-            FLScriptEditor ed = null;
+            Form ed = null;
 
 
             if (string.IsNullOrEmpty(FLScriptEditor.Settings.WorkingDir) &&
                 !string.IsNullOrEmpty(FLScriptEditor.Settings.ScriptPath))
             {
-                ed = new FLScriptEditor(FLScriptEditor.Settings.ScriptPath);
+                if (FLScriptEditor.Settings.ScriptPath.EndsWith(".flc"))
+                {
+                    ed = new ExportViewer(FLScriptEditor.Settings.ScriptPath);
+                }
+                else
+                {
+                    ed = new FLScriptEditor(FLScriptEditor.Settings.ScriptPath);
+                }
             }
             else if (!string.IsNullOrEmpty(FLScriptEditor.Settings.ScriptPath) &&
                      !string.IsNullOrEmpty(FLScriptEditor.Settings.WorkingDir))
             {
-                ed = new FLScriptEditor(FLScriptEditor.Settings.ScriptPath, FLScriptEditor.Settings.WorkingDir);
+                if (FLScriptEditor.Settings.ScriptPath.EndsWith(".flc"))
+                {
+                    ed = new ExportViewer(FLScriptEditor.Settings.ScriptPath);
+                }
+                else
+                {
+                    ed = new FLScriptEditor(FLScriptEditor.Settings.ScriptPath, FLScriptEditor.Settings.WorkingDir);
+                }
             }
             else
             {

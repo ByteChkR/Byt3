@@ -179,6 +179,12 @@
     <Content Include="configs\editors\cs_Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="configs\editors\flc_Config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="configs\editors\flres_Config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="configs\editors\fl_Config.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

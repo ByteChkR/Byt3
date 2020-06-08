@@ -2,6 +2,7 @@
 
 Main:
 	print Buffer Length ~MyArray #Print length of array
+	print Buffer MyArray[MyArray[0]]
 	jmp FillWithAscending #Fill Buffer with values
 	jmp PrintArrayContent #Print Content
 	

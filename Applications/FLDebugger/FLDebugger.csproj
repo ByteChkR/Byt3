@@ -81,6 +81,12 @@
     <Compile Include="Forms\BuildExceptionViewer.Designer.cs">
       <DependentUpon>BuildExceptionViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ExportViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ExportViewer.Designer.cs">
+      <DependentUpon>ExportViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\KernelLoader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +98,12 @@
     </Compile>
     <Compile Include="Forms\MiniBrowser.Designer.cs">
       <DependentUpon>MiniBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PackageCreator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PackageCreator.Designer.cs">
+      <DependentUpon>PackageCreator.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SettingsDialog.cs">
       <SubType>Form</SubType>
@@ -148,6 +160,9 @@
     <EmbeddedResource Include="Forms\BuildExceptionViewer.resx">
       <DependentUpon>BuildExceptionViewer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ExportViewer.resx">
+      <DependentUpon>ExportViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FLDebuggerWindow.resx">
       <DependentUpon>FLDebuggerWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -168,6 +183,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MiniBrowser.resx">
       <DependentUpon>MiniBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PackageCreator.resx">
+      <DependentUpon>PackageCreator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SettingsDialog.resx">
       <DependentUpon>SettingsDialog.cs</DependentUpon>
@@ -204,6 +222,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="examples\modifiers\function_modifiers.fl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="examples\UnitTestPrecompiledPackage.flres">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="examples\variables\arrays_loops_example.fl">
@@ -267,6 +288,10 @@
       <Project>{48b0b6c3-b010-4766-9f43-22b11d7d06f2}</Project>
       <Name>Byt3.OpenFL.Parsing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.ResourceManagement\Byt3.OpenFL.ResourceManagement.csproj">
+      <Project>{184d1351-0705-46ad-911e-0174570bbc50}</Project>
+      <Name>Byt3.OpenFL.ResourceManagement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Byt3.OpenFL\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj">
       <Project>{0adb2995-2d63-4bbd-987d-1fcd818042f9}</Project>
       <Name>Byt3.OpenFL.Serialization</Name>
@@ -302,6 +327,10 @@
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.ManifestIO\Byt3.Utilities.ManifestIO.csproj">
       <Project>{fa81ec2c-ecf3-4126-a396-7505413fd34d}</Project>
       <Name>Byt3.Utilities.ManifestIO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Byt3.Utilities.ProgressFeedback\Byt3.Utilities.ProgressFeedback.csproj">
+      <Project>{f1f600e3-ee9e-4215-affc-b983d9990bd6}</Project>
+      <Name>Byt3.Utilities.ProgressFeedback</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utilities\Byt3.Utilities.TypeFinding\Byt3.Utilities.TypeFinding.csproj">
       <Project>{54dbd3c3-7914-4641-99cd-eaa8e4653922}</Project>

@@ -14,5 +14,20 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal.ArgumentSerializer
         {
             s.Write(ResolveName((obj as SerializeBufferArgument).Value));
         }
+
+    }
+
+    public class SerializableArrayArgumentSerializer : FLBaseSerializer
+    {
+        public override object Deserialize(PrimitiveValueWrapper s)
+        {
+            return new SerializeArrayBufferArgument(ResolveId(s.ReadInt()));
+        }
+
+        public override void Serialize(PrimitiveValueWrapper s, object obj)
+        {
+            s.Write(ResolveName((obj as SerializeArrayBufferArgument).Value));
+        }
+
     }
 }

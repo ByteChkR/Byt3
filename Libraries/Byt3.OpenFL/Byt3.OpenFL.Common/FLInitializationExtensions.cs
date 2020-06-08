@@ -57,6 +57,8 @@ namespace Byt3.OpenFL.Common
             //for functions
             //initialize function
             p.SetRoot();
+
+
             return p;
         }
 

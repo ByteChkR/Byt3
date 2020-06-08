@@ -11,7 +11,7 @@ using FLDebugger.Forms;
 
 namespace FLDebugger.Utils
 {
-    internal class FLDataContainer : IDisposable
+    public class FLDataContainer : IDisposable
     {
         public readonly BufferCreator BufferCreator;
         public readonly FLProgramCheckBuilder CheckBuilder;

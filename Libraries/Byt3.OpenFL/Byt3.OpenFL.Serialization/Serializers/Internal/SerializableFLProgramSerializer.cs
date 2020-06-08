@@ -12,10 +12,11 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
 {
     public abstract class FLBaseSerializer : ASerializer
     {
-        private List<string> idMap;
+        protected List<string> idMap { get; private set; }
 
         public virtual void SetIdMap(string[] map)
         {
+
             idMap = map.ToList();
         }
 
@@ -163,7 +164,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                         $"Can not Deserialize Serializable Defined buffer: {obj.DefinedBuffers[i].Name} ID: {i}");
                 }
 
-                s.Write(temp.GetBuffer(), (int) temp.Position);
+                s.Write(temp.GetBuffer(), (int)temp.Position);
             }
 
             for (int i = 0; i < obj.Functions.Count; i++)
@@ -175,7 +176,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                         $"Can not Deserialize Serializable Function: {obj.Functions[i].Name} ID: {i}");
                 }
 
-                s.Write(temp.GetBuffer(), (int) temp.Position);
+                s.Write(temp.GetBuffer(), (int)temp.Position);
             }
 
             for (int i = 0; i < obj.ExternalFunctions.Count; i++)
@@ -187,7 +188,7 @@ namespace Byt3.OpenFL.Serialization.Serializers.Internal
                         $"Can not Deserialize Serializable External Function: {obj.ExternalFunctions[i].Name} ID: {i}");
                 }
 
-                s.Write(temp.GetBuffer(), (int) temp.Position);
+                s.Write(temp.GetBuffer(), (int)temp.Position);
             }
         }
     }

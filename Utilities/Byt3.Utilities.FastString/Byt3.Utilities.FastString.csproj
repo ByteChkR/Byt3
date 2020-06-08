@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>2.5.15.2036</AssemblyVersion>
-    <FileVersion>2.5.15.2036</FileVersion>
+    <AssemblyVersion>2.5.22.1553</AssemblyVersion>
+    <FileVersion>2.5.22.1553</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

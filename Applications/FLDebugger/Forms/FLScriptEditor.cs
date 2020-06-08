@@ -18,10 +18,11 @@ using Byt3.OpenFL.Common.DataObjects.ExecutableDataObjects;
 using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Parsing.StageResults;
 using Byt3.OpenFL.Common.ProgramChecks;
+using Byt3.OpenFL.ResourceManagement;
 using Byt3.OpenFL.Serialization;
-using Byt3.OpenFL.Serialization.Serializers.Internal.FileFormatSerializer;
 using Byt3.Utilities.FastString;
 using Byt3.Utilities.ManifestIO;
+using Byt3.Utilities.ProgressFeedback;
 using Byt3.Utilities.TypeFinding;
 using Byt3.WindowsForms.CustomControls;
 using Byt3.WindowsForms.Forms;
@@ -52,7 +53,7 @@ namespace FLDebugger.Forms
 
         private AboutInfo aboutForm;
 
-        private FLDataContainer Container;
+        public FLDataContainer FLContainer;
 
         private bool ControlMod;
 
@@ -101,7 +102,8 @@ namespace FLDebugger.Forms
             RegisterDefaultTheme(cbBuildMode);
             RegisterDefaultTheme(btnSettings);
             RegisterDefaultTheme(btnClear);
-            Theme.Register(theme => btnExport.BackColor = theme.PrimaryBackgroundColor);
+            Theme.Register(theme => btnCreateWorkingDirPackage.BackColor = theme.PrimaryBackgroundColor);
+            Theme.Register(theme => btnUnpackPackage.BackColor = theme.PrimaryBackgroundColor);
 
             lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
@@ -112,17 +114,26 @@ namespace FLDebugger.Forms
         public FLScriptEditor(string path) : this()
         {
             Path = path;
-            rtbIn.WriteSource(File.ReadAllText(Path));
+            if (path.EndsWith(".fl"))
+            {
+                rtbIn.WriteSource(File.ReadAllText(Path));
+            }
         }
 
         public FLScriptEditor(string path, string workingDir) : this(path)
         {
             Directory.SetCurrentDirectory(workingDir);
         }
+        private void Unpack(string path, string workingDir)
+        {
+            Directory.SetCurrentDirectory(workingDir);
+            UnpackPackage(path, true);
+            Application.Exit();
+        }
 
         internal static string ConfigPath => System.IO.Path.Combine(Application.StartupPath, "configs", "fl_editor");
 
-        private string Path
+        public string Path
         {
             get
             {
@@ -218,15 +229,15 @@ namespace FLDebugger.Forms
 
         private Task<SerializableFLProgram> ParseProgram()
         {
-            Container.CheckBuilder.RemoveAllProgramChecks();
+            FLContainer.CheckBuilder.RemoveAllProgramChecks();
             List<FLProgramCheck> si = lbOptimizations.CheckedItems.Cast<FLProgramCheck>().ToList();
-            si.ForEach(x => Container.CheckBuilder.AddProgramCheck(x));
-            Container.CheckBuilder.Attach(Container.Parser, true);
+            si.ForEach(x => FLContainer.CheckBuilder.AddProgramCheck(x));
+            FLContainer.CheckBuilder.Attach(FLContainer.Parser, true);
 
 
             Task<SerializableFLProgram> loadT =
                 new Task<SerializableFLProgram>(() =>
-                    Container.Parser.Process(new FLParserInput(Path, cbBuildMode.SelectedItem.ToString().ToUpper())));
+                    FLContainer.Parser.Process(new FLParserInput(Path, cbBuildMode.SelectedItem.ToString().ToUpper())));
             return loadT;
         }
 
@@ -235,62 +246,48 @@ namespace FLDebugger.Forms
             return ex is AggregateException ag ? GetInnerIfAggregate(ag.InnerExceptions.First()) : ex;
         }
 
+        private void UnpackResources(IProgressIndicator indicator)
+        {
+
+            string workingDir = Settings.WorkingDir ?? Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(Application.StartupPath);
+            string[] files = IOManager.GetFiles("resources");
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                string file = files[i];
+                indicator.SetProgress("Unpacking file: " + file, i, files.Length - 1);
+                string dir = System.IO.Path.GetDirectoryName(file);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+
+                if (!File.Exists(file))
+                {
+                    Stream s = IOManager.GetStream(file);
+                    Stream dst = File.Create(file);
+                    s.CopyTo(dst);
+                    s.Dispose();
+                    dst.Dispose();
+                }
+                
+            }
+
+            Directory.SetCurrentDirectory(workingDir);
+        }
 
         public void UnpackResources()
         {
-            ProgressBar pb = new ProgressBar();
-            pb.Dock = DockStyle.Fill;
-            Size size = new Size(50, 200);
-
-            Enabled = false;
-            ContainerForm loading = ContainerForm.CreateContainer(pb, (control, args) =>
-            {
-                pb.Dispose();
-                Enabled = true;
-            }, "Unpacking Kernels...", Resources.OpenFL_Icon, FormBorderStyle.None, size, size);
-
-            Task t = new Task(() =>
-            {
-                string workingDir = Settings.WorkingDir ?? Directory.GetCurrentDirectory();
-                Directory.SetCurrentDirectory(Application.StartupPath);
-                string[] files = IOManager.GetFiles("resources");
-                pb.Minimum = 0;
-                pb.Value = 0;
-                pb.Maximum = files.Length;
-
-                foreach (string file in files)
-                {
-                    string dir = System.IO.Path.GetDirectoryName(file);
-                    if (!Directory.Exists(dir))
-                    {
-                        Directory.CreateDirectory(dir);
-                    }
-
-                    if (!File.Exists(file))
-                    {
-                        Stream s = IOManager.GetStream(file);
-                        Stream dst = File.Create(file);
-                        s.CopyTo(dst);
-                        s.Dispose();
-                        dst.Dispose();
-                    }
-
-                    pb.Value++;
-                }
-
-                Directory.SetCurrentDirectory(workingDir);
-                loading.Close();
-                loading.Dispose();
-            });
-            t.Start();
+            ProgressIndicator.RunTask(UnpackResources, Application.DoEvents);
         }
 
 
-        private void InitializeViewer()
+        public void InitializeViewer()
         {
-            if (Container.CheckBuilder.IsAttached)
+            if (FLContainer.CheckBuilder.IsAttached)
             {
-                Container.CheckBuilder.Detach(false);
+                FLContainer.CheckBuilder.Detach(false);
             }
 
 
@@ -308,7 +305,7 @@ namespace FLDebugger.Forms
             {
                 rtbOut.Text = source;
 
-                Container.SerializedProgram = null;
+                FLContainer.SerializedProgram = null;
 
                 string s = $"Errors: {loadT.Exception.InnerExceptions.Count}\n";
 
@@ -327,8 +324,8 @@ namespace FLDebugger.Forms
             else
             {
                 outputDirty = false;
-                Container.SerializedProgram = loadT.Result;
-                string s = Container.SerializedProgram.ToString();
+                FLContainer.SerializedProgram = loadT.Result;
+                string s = FLContainer.SerializedProgram.ToString();
                 if (s.Count(x => x == '\n') > 100)
                 {
                     rtbOut.Text = s;
@@ -369,7 +366,6 @@ namespace FLDebugger.Forms
             Closing += FLScriptEditor_Closing;
             logDisplay = new LogDisplay();
 
-
             FLDebugger.Initialize();
             DoubleBuffered = true;
 
@@ -398,12 +394,16 @@ namespace FLDebugger.Forms
             ManifestReader.PrepareManifestFiles(true);
             EmbeddedFileIOManager.Initialize();
 
-            Container = new FLDataContainer(Settings.KernelPath);
-
+            FLContainer = new FLDataContainer(Settings.KernelPath);
+            if (Path.EndsWith(".flres"))
+            {
+                UnpackPackage(Path, true);
+                Path = TempEditorContentPath;
+            }
 
             List<FLProgramCheck> types = typeof(OpenFLDebugConfig).Assembly.GetExportedTypes()
                 .Where(x => typeof(FLProgramCheck).IsAssignableFrom(x) && !x.IsAbstract && x != typeof(FLProgramCheck))
-                .Select(x => (FLProgramCheck) Activator.CreateInstance(x)).ToList();
+                .Select(x => (FLProgramCheck)Activator.CreateInstance(x)).ToList();
 
             types.Sort((x, y) => x.Priority.CompareTo(y.Priority));
 
@@ -477,7 +477,7 @@ namespace FLDebugger.Forms
             {
                 previewTask = new Task(() =>
                 {
-                    if (Container.SerializedProgram == null)
+                    if (FLContainer.SerializedProgram == null)
                     {
                         throw new InvalidOperationException();
                     }
@@ -485,15 +485,15 @@ namespace FLDebugger.Forms
                     FLProgram pro = null;
                     try
                     {
-                        pro = Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet);
+                        pro = FLContainer.SerializedProgram.Initialize(FLContainer.Instance, FLContainer.InstructionSet);
 
                         pro.Run(
-                            new FLBuffer(Container.Instance, Settings.ResX, Settings.ResY, Settings.ResZ,
+                            new FLBuffer(FLContainer.Instance, Settings.ResX, Settings.ResY, Settings.ResZ,
                                 "Preview Buffer"), true);
                         if (previewPicture != null)
                         {
                             Bitmap bmp = new Bitmap(Settings.ResX, Settings.ResY);
-                            CLAPI.UpdateBitmap(Container.Instance, bmp, pro.GetActiveBuffer(false).Buffer);
+                            CLAPI.UpdateBitmap(FLContainer.Instance, bmp, pro.GetActiveBuffer(false).Buffer);
                             previewPicture.Image = bmp;
                         }
 
@@ -546,7 +546,7 @@ namespace FLDebugger.Forms
             ComputePreview();
         }
 
-        private void InitProgram()
+        public void InitProgram()
         {
             File.WriteAllText(Path, rtbIn.Text);
             InitializeViewer();
@@ -578,19 +578,19 @@ namespace FLDebugger.Forms
 
         private void btnDebug_Click(object sender, EventArgs e)
         {
-            if (Container.SerializedProgram == null || optimizationsDirty || outputDirty)
+            if (FLContainer.SerializedProgram == null || optimizationsDirty || outputDirty)
             {
                 InitProgram();
             }
 
-            if (Container.SerializedProgram == null)
+            if (FLContainer.SerializedProgram == null)
             {
                 return;
             }
 
             Enabled = false;
-            FLDebugger.Start(Container.Instance,
-                Container.SerializedProgram.Initialize(Container.Instance, Container.InstructionSet), Settings.ResX,
+            FLDebugger.Start(FLContainer.Instance,
+                FLContainer.SerializedProgram.Initialize(FLContainer.Instance, FLContainer.InstructionSet), Settings.ResX,
                 Settings.ResY, Settings.ResZ);
             Enabled = true;
         }
@@ -627,8 +627,36 @@ namespace FLDebugger.Forms
         {
             if (sfdScript.ShowDialog() == DialogResult.OK)
             {
-                Path = sfdScript.FileName;
-                File.WriteAllText(Path, rtbIn.Text);
+                if (sfdScript.FileName.EndsWith(".fl"))
+                {
+                    Path = sfdScript.FileName;
+                    File.WriteAllText(Path, rtbIn.Text);
+                }
+                else if (sfdScript.FileName.EndsWith(".flc"))
+                {
+                    FLContainer.SerializedProgram = null;
+                    InitProgram();
+                    InitializeViewer();
+                    if (FLContainer.SerializedProgram == null) return;
+                    Stream stream = File.OpenWrite(sfdScript.FileName);
+                    FLSerializer.SaveProgram(stream, FLContainer.SerializedProgram, FLContainer.InstructionSet, new string[0]);
+                    stream.Close();
+                }
+                else if (sfdScript.FileName.EndsWith(".png"))
+                {
+                    FLContainer.SerializedProgram = null;
+                    InitProgram();
+                    InitializeViewer();
+                    if (FLContainer.SerializedProgram == null) return;
+                    Bitmap bmp = new Bitmap(Settings.ResX, Settings.ResY);
+                    FLBuffer input = new FLBuffer(FLContainer.Instance, Settings.ResX, Settings.ResY, 1, "ImageExportInput");
+                    FLProgram prog = FLContainer.SerializedProgram.Initialize(FLContainer.Instance, FLContainer.InstructionSet);
+                    prog.Run(input, true);
+                    CLAPI.UpdateBitmap(FLContainer.Instance, bmp, prog.GetActiveBuffer(false).Buffer);
+                    prog.FreeResources();
+                    bmp.Save(sfdScript.FileName);
+                    bmp.Dispose();
+                }
             }
         }
 
@@ -678,10 +706,10 @@ namespace FLDebugger.Forms
             }
 
             Hide();
-            Container.Dispose();
+            FLContainer.Dispose();
             string workingDir = Settings.WorkingDir ?? Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(Application.StartupPath);
-            Container = new FLDataContainer(Settings.KernelPath);
+            FLContainer = new FLDataContainer(Settings.KernelPath);
             Directory.SetCurrentDirectory(workingDir);
             Show();
         }
@@ -720,7 +748,7 @@ namespace FLDebugger.Forms
         {
             if (iv == null || iv.IsDisposed)
             {
-                iv = new InstructionViewer(Container.InstructionSet);
+                iv = new InstructionViewer(FLContainer.InstructionSet);
             }
 
             iv.Show();
@@ -741,9 +769,9 @@ namespace FLDebugger.Forms
             for (int i = 0; i < lbOptimizations.Items.Count; i++)
             {
                 object lbOptimizationsItem = lbOptimizations.Items[i];
-                FLProgramCheck pc = (FLProgramCheck) lbOptimizationsItem;
+                FLProgramCheck pc = (FLProgramCheck)lbOptimizationsItem;
                 lbOptimizations.SetItemChecked(i,
-                    (pc.CheckType & (FLProgramCheckType) Enum.Parse(typeof(FLProgramCheckType),
+                    (pc.CheckType & (FLProgramCheckType)Enum.Parse(typeof(FLProgramCheckType),
                          cbBuildMode.SelectedItem.ToString())) != 0);
             }
         }
@@ -772,17 +800,42 @@ namespace FLDebugger.Forms
             public string WorkingDir;
         }
 
-        private void btnExport_Click(object sender, EventArgs e)
+
+        private void btnCreateWorkingDirPackage_Click(object sender, EventArgs e)
         {
-            string file = "./test.flc";
+            new PackageCreator(this).ShowDialog();
+        }
 
+        private void btnUnpackPackage_Click(object sender, EventArgs e)
+        {
+            if (ofdPackageTarget.ShowDialog() == DialogResult.OK)
+            {
+                UnpackPackage(ofdPackageTarget.FileName);
+            }
+        }
 
-            InitializeViewer();
+        private void UnpackPackage(IProgressIndicator indicator, string filename, bool createSubfolder = false)
+        {
+            indicator.SetProgress("Loading Package: " + filename, 1, 2);
 
-            Stream stream = File.OpenWrite(file);
-            FLSerializer.SaveProgram(stream, Container.SerializedProgram, Container.InstructionSet, new string[0]);
-            stream.Close();
+            string name = ResourceManager.Load(filename);
+            if (name == null) return;
+            string path = Directory.GetCurrentDirectory();
+            if (createSubfolder)
+            {
+                Directory.CreateDirectory(name);
+                path = System.IO.Path.Combine(path, name);
+            }
 
+            IProgressIndicator sub = indicator.CreateSubTask();
+            ResourceManager.Activate(name, sub, path);
+            indicator.SetProgress("Activating Package: " + name, 2, 2);
+            indicator.Dispose();
+        }
+        private void UnpackPackage(string filename, bool createSubfolder = false)
+        {
+            ProgressIndicator.RunTask(indicator => UnpackPackage(indicator, filename, createSubfolder),
+                    Application.DoEvents);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Byt3.Callbacks;
 using Byt3.OpenFL.Benchmarking;
 using NUnit.Framework;
@@ -12,11 +13,23 @@ namespace Byt3.OpenFL.Tests
 
         private static List<string> GetFiles()
         {
-            string[] dirs = {"resources/filter/tests"};
+            string[] dirs = {"resources/filter/tests",
+                "resources/filter/array_defines/defines/test_array_correct_empty.fl",
+                "resources/filter/array_defines/defines/test_array_correct_rnd.fl",
+                "resources/filter/array_defines/defines/test_array_correct_urnd.fl",
+                "resources/filter/array_defines/length_operator/test_length_on_array.fl"
+            };
             List<string> files = new List<string>();
             for (int i = 0; i < dirs.Length; i++)
             {
-                files.AddRange(IOManager.GetFiles(dirs[i], "*.fl"));
+                if (IOManager.FileExists(dirs[i]))
+                {
+                    files.Add(dirs[i]);
+                }
+                else
+                {
+                    files.AddRange(IOManager.GetFiles(dirs[i], "*.fl"));
+                }
             }
 
             return files;

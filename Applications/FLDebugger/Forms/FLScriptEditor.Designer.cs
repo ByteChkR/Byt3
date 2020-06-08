@@ -34,6 +34,8 @@
             this.btnPopOutInput = new System.Windows.Forms.Button();
             this.rtbIn = new System.Windows.Forms.RichTextBox();
             this.panelToolbar = new System.Windows.Forms.Panel();
+            this.btnUnpackPackage = new System.Windows.Forms.Button();
+            this.btnCreateWorkingDirPackage = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
             this.btnSettings = new System.Windows.Forms.Button();
             this.lblBuildMode = new System.Windows.Forms.Label();
@@ -61,7 +63,8 @@
             this.tmrConsoleColors = new System.Windows.Forms.Timer(this.components);
             this.fbdSelectHomeDir = new System.Windows.Forms.FolderBrowserDialog();
             this.sfdScript = new System.Windows.Forms.SaveFileDialog();
-            this.btnExport = new System.Windows.Forms.Button();
+            this.sfdExport = new System.Windows.Forms.SaveFileDialog();
+            this.ofdPackageTarget = new System.Windows.Forms.OpenFileDialog();
             this.panelInput.SuspendLayout();
             this.panelToolbar.SuspendLayout();
             this.panelConsoleOut.SuspendLayout();
@@ -77,7 +80,7 @@
             this.panelInput.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelInput.Location = new System.Drawing.Point(0, 0);
             this.panelInput.Name = "panelInput";
-            this.panelInput.Size = new System.Drawing.Size(334, 280);
+            this.panelInput.Size = new System.Drawing.Size(334, 313);
             this.panelInput.TabIndex = 0;
             // 
             // btnPopOutInput
@@ -85,7 +88,7 @@
             this.btnPopOutInput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPopOutInput.BackColor = System.Drawing.Color.DimGray;
             this.btnPopOutInput.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPopOutInput.Location = new System.Drawing.Point(247, 254);
+            this.btnPopOutInput.Location = new System.Drawing.Point(247, 287);
             this.btnPopOutInput.Name = "btnPopOutInput";
             this.btnPopOutInput.Size = new System.Drawing.Size(84, 23);
             this.btnPopOutInput.TabIndex = 14;
@@ -102,7 +105,7 @@
             this.rtbIn.ForeColor = System.Drawing.Color.Black;
             this.rtbIn.Location = new System.Drawing.Point(0, 0);
             this.rtbIn.Name = "rtbIn";
-            this.rtbIn.Size = new System.Drawing.Size(334, 280);
+            this.rtbIn.Size = new System.Drawing.Size(334, 313);
             this.rtbIn.TabIndex = 0;
             this.rtbIn.Text = "";
             this.rtbIn.TextChanged += new System.EventHandler(this.rtbIn_TextChanged);
@@ -110,7 +113,8 @@
             // panelToolbar
             // 
             this.panelToolbar.BackColor = System.Drawing.Color.DimGray;
-            this.panelToolbar.Controls.Add(this.btnExport);
+            this.panelToolbar.Controls.Add(this.btnUnpackPackage);
+            this.panelToolbar.Controls.Add(this.btnCreateWorkingDirPackage);
             this.panelToolbar.Controls.Add(this.lblVersion);
             this.panelToolbar.Controls.Add(this.btnSettings);
             this.panelToolbar.Controls.Add(this.lblBuildMode);
@@ -128,15 +132,41 @@
             this.panelToolbar.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelToolbar.Location = new System.Drawing.Point(0, 0);
             this.panelToolbar.Name = "panelToolbar";
-            this.panelToolbar.Size = new System.Drawing.Size(236, 456);
+            this.panelToolbar.Size = new System.Drawing.Size(236, 489);
             this.panelToolbar.TabIndex = 0;
+            // 
+            // btnUnpackPackage
+            // 
+            this.btnUnpackPackage.BackColor = System.Drawing.Color.DimGray;
+            this.btnUnpackPackage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnUnpackPackage.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnUnpackPackage.Location = new System.Drawing.Point(0, 423);
+            this.btnUnpackPackage.Name = "btnUnpackPackage";
+            this.btnUnpackPackage.Size = new System.Drawing.Size(236, 23);
+            this.btnUnpackPackage.TabIndex = 23;
+            this.btnUnpackPackage.Text = "Unpack Package";
+            this.btnUnpackPackage.UseVisualStyleBackColor = false;
+            this.btnUnpackPackage.Click += new System.EventHandler(this.btnUnpackPackage_Click);
+            // 
+            // btnCreateWorkingDirPackage
+            // 
+            this.btnCreateWorkingDirPackage.BackColor = System.Drawing.Color.DimGray;
+            this.btnCreateWorkingDirPackage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCreateWorkingDirPackage.ForeColor = System.Drawing.Color.DarkRed;
+            this.btnCreateWorkingDirPackage.Location = new System.Drawing.Point(0, 394);
+            this.btnCreateWorkingDirPackage.Name = "btnCreateWorkingDirPackage";
+            this.btnCreateWorkingDirPackage.Size = new System.Drawing.Size(236, 23);
+            this.btnCreateWorkingDirPackage.TabIndex = 22;
+            this.btnCreateWorkingDirPackage.Text = "Create Package";
+            this.btnCreateWorkingDirPackage.UseVisualStyleBackColor = false;
+            this.btnCreateWorkingDirPackage.Click += new System.EventHandler(this.btnCreateWorkingDirPackage_Click);
             // 
             // lblVersion
             // 
             this.lblVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lblVersion.AutoSize = true;
             this.lblVersion.ForeColor = System.Drawing.Color.Silver;
-            this.lblVersion.Location = new System.Drawing.Point(-2, 443);
+            this.lblVersion.Location = new System.Drawing.Point(-2, 476);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(42, 13);
             this.lblVersion.TabIndex = 20;
@@ -146,7 +176,7 @@
             // 
             this.btnSettings.BackColor = System.Drawing.Color.DimGray;
             this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSettings.Location = new System.Drawing.Point(0, 394);
+            this.btnSettings.Location = new System.Drawing.Point(0, 365);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(236, 23);
             this.btnSettings.TabIndex = 19;
@@ -157,7 +187,7 @@
             // lblBuildMode
             // 
             this.lblBuildMode.AutoSize = true;
-            this.lblBuildMode.Location = new System.Drawing.Point(12, 93);
+            this.lblBuildMode.Location = new System.Drawing.Point(12, 64);
             this.lblBuildMode.Name = "lblBuildMode";
             this.lblBuildMode.Size = new System.Drawing.Size(63, 13);
             this.lblBuildMode.TabIndex = 18;
@@ -167,7 +197,7 @@
             // 
             this.cbBuildMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBuildMode.FormattingEnabled = true;
-            this.cbBuildMode.Location = new System.Drawing.Point(81, 90);
+            this.cbBuildMode.Location = new System.Drawing.Point(81, 61);
             this.cbBuildMode.Name = "cbBuildMode";
             this.cbBuildMode.Size = new System.Drawing.Size(149, 21);
             this.cbBuildMode.TabIndex = 17;
@@ -177,7 +207,7 @@
             // 
             this.btnShowInstructions.BackColor = System.Drawing.Color.DimGray;
             this.btnShowInstructions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowInstructions.Location = new System.Drawing.Point(0, 307);
+            this.btnShowInstructions.Location = new System.Drawing.Point(0, 278);
             this.btnShowInstructions.Name = "btnShowInstructions";
             this.btnShowInstructions.Size = new System.Drawing.Size(236, 23);
             this.btnShowInstructions.TabIndex = 15;
@@ -189,7 +219,7 @@
             // 
             this.cbAutoBuild.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbAutoBuild.AutoSize = true;
-            this.cbAutoBuild.Location = new System.Drawing.Point(136, 423);
+            this.cbAutoBuild.Location = new System.Drawing.Point(136, 456);
             this.cbAutoBuild.Name = "cbAutoBuild";
             this.cbAutoBuild.Size = new System.Drawing.Size(74, 17);
             this.cbAutoBuild.TabIndex = 14;
@@ -200,7 +230,7 @@
             // 
             this.cbLiveView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbLiveView.AutoSize = true;
-            this.cbLiveView.Location = new System.Drawing.Point(15, 423);
+            this.cbLiveView.Location = new System.Drawing.Point(15, 456);
             this.cbLiveView.Name = "cbLiveView";
             this.cbLiveView.Size = new System.Drawing.Size(64, 17);
             this.cbLiveView.TabIndex = 13;
@@ -212,7 +242,7 @@
             // 
             this.btnShowLog.BackColor = System.Drawing.Color.DimGray;
             this.btnShowLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnShowLog.Location = new System.Drawing.Point(0, 365);
+            this.btnShowLog.Location = new System.Drawing.Point(0, 336);
             this.btnShowLog.Name = "btnShowLog";
             this.btnShowLog.Size = new System.Drawing.Size(236, 23);
             this.btnShowLog.TabIndex = 11;
@@ -236,7 +266,7 @@
             // 
             this.btnSwitchDockSide.BackColor = System.Drawing.Color.DimGray;
             this.btnSwitchDockSide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSwitchDockSide.Location = new System.Drawing.Point(0, 336);
+            this.btnSwitchDockSide.Location = new System.Drawing.Point(0, 307);
             this.btnSwitchDockSide.Name = "btnSwitchDockSide";
             this.btnSwitchDockSide.Size = new System.Drawing.Size(236, 23);
             this.btnSwitchDockSide.TabIndex = 7;
@@ -248,7 +278,7 @@
             // 
             this.btnDebug.BackColor = System.Drawing.Color.DimGray;
             this.btnDebug.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDebug.Location = new System.Drawing.Point(120, 278);
+            this.btnDebug.Location = new System.Drawing.Point(120, 249);
             this.btnDebug.Name = "btnDebug";
             this.btnDebug.Size = new System.Drawing.Size(116, 23);
             this.btnDebug.TabIndex = 3;
@@ -260,7 +290,7 @@
             // 
             this.btnUpdate.BackColor = System.Drawing.Color.DimGray;
             this.btnUpdate.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUpdate.Location = new System.Drawing.Point(0, 278);
+            this.btnUpdate.Location = new System.Drawing.Point(0, 249);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(116, 23);
             this.btnUpdate.TabIndex = 2;
@@ -274,7 +304,7 @@
             this.lbOptimizations.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lbOptimizations.CheckOnClick = true;
             this.lbOptimizations.FormattingEnabled = true;
-            this.lbOptimizations.Location = new System.Drawing.Point(0, 120);
+            this.lbOptimizations.Location = new System.Drawing.Point(0, 91);
             this.lbOptimizations.Name = "lbOptimizations";
             this.lbOptimizations.Size = new System.Drawing.Size(236, 152);
             this.lbOptimizations.TabIndex = 1;
@@ -305,7 +335,7 @@
             this.rtbOut.Location = new System.Drawing.Point(0, 0);
             this.rtbOut.Name = "rtbOut";
             this.rtbOut.ReadOnly = true;
-            this.rtbOut.Size = new System.Drawing.Size(350, 280);
+            this.rtbOut.Size = new System.Drawing.Size(350, 313);
             this.rtbOut.TabIndex = 0;
             this.rtbOut.Text = "";
             // 
@@ -316,7 +346,7 @@
             this.panelConsoleOut.Controls.Add(this.btnClear);
             this.panelConsoleOut.Controls.Add(this.rtbParserOutput);
             this.panelConsoleOut.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelConsoleOut.Location = new System.Drawing.Point(236, 280);
+            this.panelConsoleOut.Location = new System.Drawing.Point(236, 313);
             this.panelConsoleOut.Name = "panelConsoleOut";
             this.panelConsoleOut.Size = new System.Drawing.Size(684, 176);
             this.panelConsoleOut.TabIndex = 1;
@@ -369,7 +399,7 @@
             this.panelCodeArea.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelCodeArea.Location = new System.Drawing.Point(236, 0);
             this.panelCodeArea.Name = "panelCodeArea";
-            this.panelCodeArea.Size = new System.Drawing.Size(684, 280);
+            this.panelCodeArea.Size = new System.Drawing.Size(684, 313);
             this.panelCodeArea.TabIndex = 2;
             // 
             // panelOutput
@@ -380,7 +410,7 @@
             this.panelOutput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelOutput.Location = new System.Drawing.Point(334, 0);
             this.panelOutput.Name = "panelOutput";
-            this.panelOutput.Size = new System.Drawing.Size(350, 280);
+            this.panelOutput.Size = new System.Drawing.Size(350, 313);
             this.panelOutput.TabIndex = 1;
             // 
             // btnPopOutOutput
@@ -388,7 +418,7 @@
             this.btnPopOutOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPopOutOutput.BackColor = System.Drawing.Color.DimGray;
             this.btnPopOutOutput.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPopOutOutput.Location = new System.Drawing.Point(249, 254);
+            this.btnPopOutOutput.Location = new System.Drawing.Point(249, 287);
             this.btnPopOutOutput.Name = "btnPopOutOutput";
             this.btnPopOutOutput.Size = new System.Drawing.Size(84, 23);
             this.btnPopOutOutput.TabIndex = 13;
@@ -413,33 +443,31 @@
             // sfdScript
             // 
             this.sfdScript.DefaultExt = "fl";
-            this.sfdScript.FileName = "script";
-            this.sfdScript.Filter = "FLScript|*.fl";
+            this.sfdScript.FileName = "FLFile";
+            this.sfdScript.Filter = "FLScript|*.fl|Exported FL Script|*.flc|Exported Image|*.png";
             this.sfdScript.Title = "Save FL Script";
             // 
-            // btnExport
+            // sfdExport
             // 
-            this.btnExport.BackColor = System.Drawing.Color.DimGray;
-            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExport.ForeColor = System.Drawing.Color.DarkRed;
-            this.btnExport.Location = new System.Drawing.Point(0, 61);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(236, 23);
-            this.btnExport.TabIndex = 21;
-            this.btnExport.Text = "Export";
-            this.btnExport.UseVisualStyleBackColor = false;
-            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            this.sfdExport.DefaultExt = "flc";
+            this.sfdExport.FileName = "ExportedScript";
+            this.sfdExport.Filter = "Exported FL Scripts|*.flc";
+            this.sfdExport.Title = "Select Export Destination";
+            // 
+            // ofdPackageTarget
+            // 
+            this.ofdPackageTarget.FileName = "openFileDialog1";
             // 
             // FLScriptEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(920, 456);
+            this.ClientSize = new System.Drawing.Size(920, 489);
             this.Controls.Add(this.panelCodeArea);
             this.Controls.Add(this.panelConsoleOut);
             this.Controls.Add(this.panelToolbar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(252, 495);
+            this.MinimumSize = new System.Drawing.Size(252, 528);
             this.Name = "FLScriptEditor";
             this.Text = "FL Parse Output Viewer";
             this.Load += new System.EventHandler(this.frmOptimizationView_Load);
@@ -486,7 +514,10 @@
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Button btnClear;
-        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.SaveFileDialog sfdExport;
+        private System.Windows.Forms.Button btnCreateWorkingDirPackage;
+        private System.Windows.Forms.Button btnUnpackPackage;
+        private System.Windows.Forms.OpenFileDialog ofdPackageTarget;
     }
 }
 

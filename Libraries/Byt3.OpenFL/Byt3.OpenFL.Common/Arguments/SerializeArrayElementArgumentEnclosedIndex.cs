@@ -6,7 +6,7 @@ namespace Byt3.OpenFL.Common.Arguments
 {
     public class SerializeArrayElementArgumentEnclosedIndex : SerializeArrayElementArgument
     {
-        private readonly SerializeArrayElementArgument Index;
+        public readonly SerializeArrayElementArgument Index;
 
         public SerializeArrayElementArgumentEnclosedIndex(string value, SerializeArrayElementArgument index)
         {
