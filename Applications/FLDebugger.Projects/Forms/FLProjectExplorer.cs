@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
+using Byt3.AutoUpdate.Helper;
+using Byt3.WindowsForms.Forms;
 using FLDebugger.Projects.Instancing;
 using FLDebugger.Projects.ProjectObjects;
 
@@ -11,6 +15,8 @@ namespace FLDebugger.Projects.Forms
 {
     public partial class FLProjectExplorer : Form
     {
+        internal static FLProjectExplorer instance = null;
+
         private readonly string[] Args;
         private List<ExternalProgramEditor> Editors;
         private Project Project;
@@ -19,11 +25,25 @@ namespace FLDebugger.Projects.Forms
 
         public FLProjectExplorer(string[] args)
         {
+            instance = this;
             Args = args;
 
             InitializeComponent();
         }
 
+
+        public void KillSubprocesses()
+        {
+            if (Editors == null) return;
+            foreach (ExternalProgramEditor externalProgramEditor in Editors)
+            {
+                foreach (KeyValuePair<string, Process> keyValuePair in externalProgramEditor.processes)
+                {
+                    keyValuePair.Value.Kill();
+                }
+                externalProgramEditor.processes.Clear();
+            }
+        }
 
         private bool RefreshWorkingDirectory(string[] args)
         {
@@ -127,7 +147,7 @@ namespace FLDebugger.Projects.Forms
         {
             if (Project != null && Project.ProjectDirectory.IsDirty)
             {
-                RefreshWorkingDirectory(new[] {Project.ProjectDirectory.Directory});
+                RefreshWorkingDirectory(new[] { Project.ProjectDirectory.Directory });
             }
         }
 
@@ -184,6 +204,36 @@ namespace FLDebugger.Projects.Forms
 
             CreateFileDialog dialog = new CreateFileDialog(dir.EntryPath);
             dialog.ShowDialog();
+        }
+
+        private void lblVersion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MiniBrowser mb = new MiniBrowser("http://213.109.162.193/flrepo/FLDebugger_Projects", args => BrowserNavigate(args, true));
+            mb.ShowDialog();
+            mb.Dispose();
+        }
+
+        private void BrowserNavigate(WebBrowserNavigatingEventArgs e, bool directInstall)
+        {
+            e.Cancel = true;
+            if (!e.Url.AbsolutePath.EndsWith("/"))
+            {
+                if (directInstall && UpdateChecker.UpdaterPresent)
+                {
+                    UpdateChecker.Direct("http://213.109.162.193/flrepo/", "FLDebugger_Projects",
+                        Assembly.GetExecutingAssembly().Location, Version.Parse("0.0.0.0"),
+                        Version.Parse(Path.GetFileNameWithoutExtension(e.Url.AbsolutePath)));
+                    Thread.Sleep(1000);
+                    KillSubprocesses();
+
+
+                    Application.Exit();
+                }
+                else
+                {
+                    Process.Start(e.Url.ToString());
+                }
+            }
         }
     }
 }

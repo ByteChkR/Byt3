@@ -38,6 +38,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>AutoUpdate.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=3.3.3.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Costura.Fody.3.3.3\lib\net40\Costura.dll</HintPath>
@@ -92,6 +95,9 @@
       <Project>{c254dc4d-cd80-4190-aa8c-0c0b24ce7984}</Project>
       <Name>Byt3.Utilities.FastString</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AutoUpdate.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.4.0.2\build\Fody.targets" Condition="Exists('..\..\packages\Fody.4.0.2\build\Fody.targets')" />

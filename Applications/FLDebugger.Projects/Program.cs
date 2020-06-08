@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -15,6 +16,7 @@ namespace FLDebugger.Projects
         [STAThread]
         private static void Main(string[] args)
         {
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
             if (UpdateChecker.Check(args, "http://213.109.162.193/flrepo/", "FLDebugger_Projects",
                 Assembly.GetExecutingAssembly()))
             {

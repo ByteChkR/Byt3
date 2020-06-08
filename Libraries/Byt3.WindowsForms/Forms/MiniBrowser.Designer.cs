@@ -1,4 +1,4 @@
-﻿namespace FLDebugger.Forms
+﻿namespace Byt3.WindowsForms.Forms
 {
     partial class MiniBrowser
     {

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
+using Byt3.AutoUpdate.Helper;
+using Byt3.WindowsForms.Forms;
 using FLDebugger.Projects.Properties;
 
 namespace FLDebugger.Projects.Forms
@@ -93,6 +97,39 @@ namespace FLDebugger.Projects.Forms
 
                 DialogResult = DialogResult.OK;
                 Close();
+            }
+        }
+
+        private void btnOtherVersions_Click(object sender, EventArgs e)
+        {
+            MiniBrowser mb = new MiniBrowser("http://213.109.162.193/flrepo/FLDebugger_Projects", args => BrowserNavigate(args, true));
+            mb.ShowDialog();
+            mb.Dispose();
+        }
+
+        private void BrowserNavigate(WebBrowserNavigatingEventArgs e, bool directInstall)
+        {
+            e.Cancel = true;
+            if (!e.Url.AbsolutePath.EndsWith("/"))
+            {
+                if (directInstall && UpdateChecker.UpdaterPresent)
+                {
+                    UpdateChecker.Direct("http://213.109.162.193/flrepo/", "FLDebugger_Projects",
+                        Assembly.GetExecutingAssembly().Location, Version.Parse("0.0.0.0"),
+                        Version.Parse(Path.GetFileNameWithoutExtension(e.Url.AbsolutePath)));
+                    Thread.Sleep(1000);
+
+                    if (FLProjectExplorer.instance != null)
+                    {
+                        FLProjectExplorer.instance.KillSubprocesses();
+                    }
+
+                    Application.Exit();
+                }
+                else
+                {
+                    Process.Start(e.Url.ToString());
+                }
             }
         }
     }

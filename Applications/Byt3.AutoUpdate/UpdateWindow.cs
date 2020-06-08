@@ -30,10 +30,10 @@ namespace Byt3.AutoUpdate
 
         private void FileDownloadClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            int totalKB = (int) (e.TotalBytesToReceive / 1024);
-            int currentKB = (int) (e.BytesReceived / 1024);
+            int totalKB = (int)(e.TotalBytesToReceive / 1024);
+            int currentKB = (int)(e.BytesReceived / 1024);
             SetStatus(
-                $"Downloading.. {Math.Round(currentKB / 1024f, 2)} MB ({Math.Round(100 * currentKB / (float) totalKB, 2)}%)",
+                $"Downloading.. {Math.Round(currentKB / 1024f, 2)} MB ({Math.Round(100 * currentKB / (float)totalKB, 2)}%)",
                 currentKB, totalKB); //Prevent overflow of integer by having slightly less granular progress percentage
         }
 
@@ -120,7 +120,11 @@ namespace Byt3.AutoUpdate
                 throw v.Exception.InnerException;
             }
 
-            if (v.Result > Program.CurrentVersion)
+            if (v.Result > Program.CurrentVersion &&
+                (Program.Direct ||
+                    MessageBox.Show(
+                     $"Update Found!\n\tOld Version: {Program.CurrentVersion}\n\tNew Version: {v.Result}\nUpdate Now?",
+                     "Update Found", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
             {
                 Task d = DownloadUpdate(v.Result, out string tempFile);
                 //d.Start();
@@ -143,18 +147,7 @@ namespace Byt3.AutoUpdate
                     throw waitTask.Exception.InnerException;
                 }
 
-                Task extractTask = ExtractUpdate(tempFile, Program.DestinationFolder, SetStatus);
-                extractTask.Start();
-                while (!extractTask.IsCompleted)
-                {
-                    Application.DoEvents();
-                }
-
-                if (extractTask.IsFaulted)
-                {
-                    MessageBox.Show(extractTask.Exception.ToString());
-                    throw extractTask.Exception.InnerException;
-                }
+                RunExtractTask(tempFile);
             }
 
             ProcessStartInfo psi = new ProcessStartInfo(Program.DestinationFile, Program.Args.Unpack(" "));
@@ -162,6 +155,30 @@ namespace Byt3.AutoUpdate
             Process.Start(psi);
             Close();
             Application.Exit();
+        }
+
+        private void RunExtractTask(string file)
+        {
+            Task extractTask = ExtractUpdate(file, Program.DestinationFolder, SetStatus);
+            extractTask.Start();
+            while (!extractTask.IsCompleted)
+            {
+                Application.DoEvents();
+            }
+
+            if (extractTask.IsFaulted)
+            {
+                DialogResult res = MessageBox.Show(extractTask.Exception.ToString(), "Error", MessageBoxButtons.RetryCancel);
+                if (res == DialogResult.Cancel)
+                {
+                    Application.Exit();
+                    return;
+                }
+                else
+                {
+                    RunExtractTask(file);
+                }
+            }
         }
 
         private void WaitForProcessTask()

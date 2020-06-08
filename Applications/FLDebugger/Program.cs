@@ -18,6 +18,8 @@ namespace FLDebugger
         [STAThread]
         private static void Main(string[] args)
         {
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            
             ProgressIndicator.OnCreate = ProgressIndicatorThemeHelper.ApplyTheme;
 
             if (UpdateChecker.Check(args, "http://213.109.162.193/flrepo/", "FLDebugger",

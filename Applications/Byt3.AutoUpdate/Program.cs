@@ -17,6 +17,7 @@ namespace Byt3.AutoUpdate
         public static string DestinationFolder => Path.GetDirectoryName(DestinationFile);
         public static Process WaitProcess { get; private set; }
         public static Version TargetVersion { get; private set; }
+        public static bool Direct;
 
         public static bool IsInDestinationFolder =>
             Assembly.GetExecutingAssembly().Location.StartsWith(Path.GetFullPath(DestinationFolder));
@@ -28,6 +29,7 @@ namespace Byt3.AutoUpdate
             {
                 if (args[0] == "-direct")
                 {
+                    Direct = true;
                     TargetURL = args[1];
                     ProjectName = args[2];
                     CurrentVersion = Version.Parse(args[3]);

@@ -210,6 +210,10 @@
     <None Include="Resources\OpenFL.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Byt3.WindowsForms\Byt3.WindowsForms.csproj">
+      <Project>{f3682da2-6228-4afb-a269-3f6eadbf07bd}</Project>
+      <Name>Byt3.WindowsForms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Utilities\Byt3.AutoUpdate.Helper\Byt3.AutoUpdate.Helper.csproj">
       <Project>{4c8a3949-a01e-4d5f-8d60-7e2ab8153632}</Project>
       <Name>Byt3.AutoUpdate.Helper</Name>

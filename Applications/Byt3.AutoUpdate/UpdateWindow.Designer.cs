@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateWindow));
             this.pbProgress = new System.Windows.Forms.ProgressBar();
             this.lblStatus = new System.Windows.Forms.Label();
             this.tmrStartup = new System.Windows.Forms.Timer(this.components);
@@ -74,6 +75,7 @@
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.pbProgress);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "UpdateWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Updater Window";

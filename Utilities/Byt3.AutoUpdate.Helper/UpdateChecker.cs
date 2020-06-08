@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Mime;
 using System.Reflection;
 using Byt3.Utilities.FastString;
 
@@ -8,7 +9,7 @@ namespace Byt3.AutoUpdate.Helper
 {
     public static class UpdateChecker
     {
-        public static bool UpdaterPresent => File.Exists("Byt3.AutoUpdate.exe");
+        public static bool UpdaterPresent => File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Byt3.AutoUpdate.exe"));
 
         public static bool Check(string[] args, string url, string projectName, Assembly asm)
         {
@@ -36,6 +37,7 @@ namespace Byt3.AutoUpdate.Helper
             Version targetVersion)
         {
             string tempUpdater = Path.Combine(Path.GetTempPath(), "Byt3.AutoUpdate.exe");
+            if(File.Exists(tempUpdater))File.Delete(tempUpdater);
             File.Copy("Byt3.AutoUpdate.exe", tempUpdater, true);
             string arg =
                 $"-direct {url} {projectName} {version} {location} {Process.GetCurrentProcess().Id} {targetVersion} -no-update";

@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FLProjectExplorer));
             this.tmrTreeViewRefresh = new System.Windows.Forms.Timer(this.components);
             this.panelTop = new System.Windows.Forms.Panel();
-            this.lblVersion = new System.Windows.Forms.Label();
+            this.btnAddFile = new System.Windows.Forms.Button();
             this.btnCollapse = new System.Windows.Forms.Button();
             this.btnExpand = new System.Windows.Forms.Button();
             this.lblShortcuts = new System.Windows.Forms.Label();
@@ -40,7 +40,7 @@
             this.lblDefaultProgram = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tvWorkingDir = new System.Windows.Forms.TreeView();
-            this.btnAddFile = new System.Windows.Forms.Button();
+            this.lblVersion = new System.Windows.Forms.LinkLabel();
             this.panelTop.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -51,8 +51,8 @@
             // 
             // panelTop
             // 
-            this.panelTop.Controls.Add(this.btnAddFile);
             this.panelTop.Controls.Add(this.lblVersion);
+            this.panelTop.Controls.Add(this.btnAddFile);
             this.panelTop.Controls.Add(this.btnCollapse);
             this.panelTop.Controls.Add(this.btnExpand);
             this.panelTop.Controls.Add(this.lblShortcuts);
@@ -64,14 +64,17 @@
             this.panelTop.Size = new System.Drawing.Size(347, 111);
             this.panelTop.TabIndex = 2;
             // 
-            // lblVersion
+            // btnAddFile
             // 
-            this.lblVersion.AutoSize = true;
-            this.lblVersion.Location = new System.Drawing.Point(12, 87);
-            this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(45, 13);
-            this.lblVersion.TabIndex = 5;
-            this.lblVersion.Text = "Version:";
+            this.btnAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddFile.Location = new System.Drawing.Point(267, 82);
+            this.btnAddFile.Name = "btnAddFile";
+            this.btnAddFile.Size = new System.Drawing.Size(75, 23);
+            this.btnAddFile.TabIndex = 6;
+            this.btnAddFile.Text = "New..";
+            this.btnAddFile.UseVisualStyleBackColor = true;
+            this.btnAddFile.Click += new System.EventHandler(this.btnAddFile_Click);
             // 
             // btnCollapse
             // 
@@ -147,17 +150,16 @@
             this.tvWorkingDir.TabIndex = 0;
             this.tvWorkingDir.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvWorkingDir_AfterSelect);
             // 
-            // btnAddFile
+            // lblVersion
             // 
-            this.btnAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddFile.Location = new System.Drawing.Point(267, 82);
-            this.btnAddFile.Name = "btnAddFile";
-            this.btnAddFile.Size = new System.Drawing.Size(75, 23);
-            this.btnAddFile.TabIndex = 6;
-            this.btnAddFile.Text = "New..";
-            this.btnAddFile.UseVisualStyleBackColor = true;
-            this.btnAddFile.Click += new System.EventHandler(this.btnAddFile_Click);
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.Location = new System.Drawing.Point(12, 87);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(55, 13);
+            this.lblVersion.TabIndex = 7;
+            this.lblVersion.TabStop = true;
+            this.lblVersion.Text = "linkLabel1";
+            this.lblVersion.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblVersion_LinkClicked);
             // 
             // FLProjectExplorer
             // 
@@ -189,8 +191,8 @@
         private System.Windows.Forms.TreeView tvWorkingDir;
         private System.Windows.Forms.Button btnCollapse;
         private System.Windows.Forms.Button btnExpand;
-        private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Button btnAddFile;
+        private System.Windows.Forms.LinkLabel lblVersion;
     }
 }
 

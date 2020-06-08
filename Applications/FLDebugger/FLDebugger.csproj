@@ -94,12 +94,6 @@
     <Compile Include="Forms\KernelLoader.Designer.cs">
       <DependentUpon>KernelLoader.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MiniBrowser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MiniBrowser.Designer.cs">
-      <DependentUpon>MiniBrowser.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\PackageCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,9 +176,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\LogDisplay.resx">
       <DependentUpon>LogDisplay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MiniBrowser.resx">
-      <DependentUpon>MiniBrowser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PackageCreator.resx">
       <DependentUpon>PackageCreator.cs</DependentUpon>

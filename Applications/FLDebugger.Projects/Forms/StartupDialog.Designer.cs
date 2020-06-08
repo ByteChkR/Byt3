@@ -35,7 +35,9 @@
             this.panelButtons = new System.Windows.Forms.Panel();
             this.btnOpen = new System.Windows.Forms.Button();
             this.fbdProjectFolder = new System.Windows.Forms.FolderBrowserDialog();
+            this.btnOtherVersions = new System.Windows.Forms.Button();
             this.gbLastProjects.SuspendLayout();
+            this.panelHeader.SuspendLayout();
             this.panelMain.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +48,7 @@
             this.gbLastProjects.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbLastProjects.Location = new System.Drawing.Point(0, 31);
             this.gbLastProjects.Name = "gbLastProjects";
-            this.gbLastProjects.Size = new System.Drawing.Size(482, 457);
+            this.gbLastProjects.Size = new System.Drawing.Size(482, 444);
             this.gbLastProjects.TabIndex = 0;
             this.gbLastProjects.TabStop = false;
             this.gbLastProjects.Text = "Last Projects:";
@@ -58,16 +60,17 @@
             this.flpLastProjects.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpLastProjects.Location = new System.Drawing.Point(3, 16);
             this.flpLastProjects.Name = "flpLastProjects";
-            this.flpLastProjects.Size = new System.Drawing.Size(476, 438);
+            this.flpLastProjects.Size = new System.Drawing.Size(476, 425);
             this.flpLastProjects.TabIndex = 0;
             this.flpLastProjects.WrapContents = false;
             // 
             // panelHeader
             // 
+            this.panelHeader.Controls.Add(this.btnOtherVersions);
             this.panelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelHeader.Location = new System.Drawing.Point(0, 0);
             this.panelHeader.Name = "panelHeader";
-            this.panelHeader.Size = new System.Drawing.Size(482, 10);
+            this.panelHeader.Size = new System.Drawing.Size(482, 23);
             this.panelHeader.TabIndex = 1;
             // 
             // panelMain
@@ -75,9 +78,9 @@
             this.panelMain.Controls.Add(this.gbLastProjects);
             this.panelMain.Controls.Add(this.panelButtons);
             this.panelMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMain.Location = new System.Drawing.Point(0, 10);
+            this.panelMain.Location = new System.Drawing.Point(0, 23);
             this.panelMain.Name = "panelMain";
-            this.panelMain.Size = new System.Drawing.Size(482, 488);
+            this.panelMain.Size = new System.Drawing.Size(482, 475);
             this.panelMain.TabIndex = 2;
             // 
             // panelButtons
@@ -105,6 +108,18 @@
             // 
             this.fbdProjectFolder.Description = "Select Project Directory";
             // 
+            // btnOtherVersions
+            // 
+            this.btnOtherVersions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOtherVersions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOtherVersions.Location = new System.Drawing.Point(0, 0);
+            this.btnOtherVersions.Name = "btnOtherVersions";
+            this.btnOtherVersions.Size = new System.Drawing.Size(482, 23);
+            this.btnOtherVersions.TabIndex = 1;
+            this.btnOtherVersions.Text = "Check out other Versions";
+            this.btnOtherVersions.UseVisualStyleBackColor = true;
+            this.btnOtherVersions.Click += new System.EventHandler(this.btnOtherVersions_Click);
+            // 
             // StartupDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -118,6 +133,7 @@
             this.Name = "StartupDialog";
             this.Text = "StartupDialog";
             this.gbLastProjects.ResumeLayout(false);
+            this.panelHeader.ResumeLayout(false);
             this.panelMain.ResumeLayout(false);
             this.panelButtons.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -133,5 +149,6 @@
         private System.Windows.Forms.Panel panelButtons;
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.FolderBrowserDialog fbdProjectFolder;
+        private System.Windows.Forms.Button btnOtherVersions;
     }
 }
