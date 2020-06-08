@@ -87,6 +87,7 @@
     <Compile Include="Forms\ExportViewer.Designer.cs">
       <DependentUpon>ExportViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\FLDebuggerSettings.cs" />
     <Compile Include="Forms\KernelLoader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,6 +154,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\FLEditorTheme.cs" />
+    <Compile Include="Utils\ProgressIndicatorThemeHelper.cs" />
     <Compile Include="Utils\XMLColor.cs" />
     <EmbeddedResource Include="Forms\AboutInfo.resx">
       <DependentUpon>AboutInfo.cs</DependentUpon>
@@ -267,6 +269,10 @@
     <ProjectReference Include="..\..\Libraries\Byt3.CommandRunner\Byt3.CommandRunner.csproj">
       <Project>{9d91988d-6fa8-4968-b967-ce9746a0a0fc}</Project>
       <Name>Byt3.CommandRunner</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Byt3.ExtPP\Byt3.ExtPP.API\Byt3.ExtPP.API.csproj">
+      <Project>{4ad90956-586b-4383-bc91-d1b9eb8308d7}</Project>
+      <Name>Byt3.ExtPP.API</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Byt3.ObjectPipeline\Byt3.ObjectPipeline\Byt3.ObjectPipeline.csproj">
       <Project>{b456a960-ddcb-4937-a1f8-6aa963dd561a}</Project>

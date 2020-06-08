@@ -7,6 +7,7 @@ using Byt3.OpenFL.Common.DataObjects.SerializableDataObjects;
 using Byt3.OpenFL.Common.Instructions.InstructionCreators;
 using Byt3.OpenFL.Common.ProgramChecks;
 using Byt3.OpenFL.Parsing;
+using Byt3.OpenFL.ResourceManagement;
 using FLDebugger.Forms;
 
 namespace FLDebugger.Utils
@@ -39,6 +40,12 @@ namespace FLDebugger.Utils
             BufferCreator = BufferCreator.CreateWithBuiltInTypes();
             Parser = new FLParser(InstructionSet, BufferCreator, new WorkItemRunnerSettings(true, 2));
             CheckBuilder = new FLProgramCheckBuilder(InstructionSet, BufferCreator);
+
+            ResourceManager.AddUnpacker(new FL2FLCUnpacker(InstructionSet, BufferCreator));
+            ResourceManager.AddUnpacker(new FL2TexUnpacker(InstructionSet, BufferCreator));
+            ResourceManager.AddUnpacker(new FLC2TexUnpacker(InstructionSet, BufferCreator));
+            ResourceManager.AddUnpacker(new FLRESUnpacker());
+
         }
 
         public void Dispose()

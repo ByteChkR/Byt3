@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using Byt3.AutoUpdate.Helper;
+using Byt3.WindowsForms.CustomControls;
 using FLDebugger.Forms;
 using FLDebugger.Utils;
 
@@ -17,6 +18,8 @@ namespace FLDebugger
         [STAThread]
         private static void Main(string[] args)
         {
+            ProgressIndicator.OnCreate = ProgressIndicatorThemeHelper.ApplyTheme;
+
             if (UpdateChecker.Check(args, "http://213.109.162.193/flrepo/", "FLDebugger",
                 Assembly.GetExecutingAssembly()))
             {

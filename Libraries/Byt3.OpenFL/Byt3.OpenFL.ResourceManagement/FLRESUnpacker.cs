@@ -1,22 +1,25 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Byt3.Utilities.ProgressFeedback;
 
 namespace Byt3.OpenFL.ResourceManagement
 {
-    public class DefaultUnpacker : ResourceTypeUnpacker
+    public class FLRESUnpacker : ResourceTypeUnpacker
     {
-        public override string UnpackerName => "default";
+        public FLRESUnpacker()
+        {
+
+        }
+
+        public override string UnpackerName => "flres";
         public override void Unpack(string targetDir, string name, Stream stream, IProgressIndicator progressIndicator)
         {
             progressIndicator.SetProgress($"[{UnpackerName}]Preparing Target Directory...", 1, 2);
             string filePath = Path.Combine(targetDir, name.Replace("/", "\\").StartsWith("\\") ? name.Replace("/", "\\").Substring(1) : name.Replace("/", "\\"));
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-            Stream s = File.OpenWrite(filePath);
+            Directory.CreateDirectory(filePath);
             progressIndicator.SetProgress($"[{UnpackerName}]Unpacking: {name}", 2, 2);
-            stream.CopyTo(s);
-            s.Close();
-            stream.Close();
+
+            string packname = ResourceManager.Load(name);
+            ResourceManager.Activate(packname, progressIndicator.CreateSubTask(), filePath);
             progressIndicator.Dispose();
         }
     }

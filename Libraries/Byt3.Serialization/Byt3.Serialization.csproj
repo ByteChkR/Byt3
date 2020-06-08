@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>2.0.50.1553</AssemblyVersion>
-    <FileVersion>2.0.50.1553</FileVersion>
+    <AssemblyVersion>2.0.51.1717</AssemblyVersion>
+    <FileVersion>2.0.51.1717</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="AutoSerialization\**" />

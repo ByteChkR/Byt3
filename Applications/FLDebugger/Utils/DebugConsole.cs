@@ -15,6 +15,10 @@ using FLDebugger.Forms;
 
 namespace FLDebugger.Utils
 {
+    public class SoftException : Exception
+    {
+        public SoftException(Exception ex) : base(ex.Message, ex) { }
+    }
     public class DebugConsole : AConsole
     {
         public override string ConsoleKey => "fldbg";
@@ -107,16 +111,23 @@ namespace FLDebugger.Utils
 
         private void InnerRun()
         {
-            Application.Run(GetEditor());
             try
             {
+                Application.Run(GetEditor());
             }
             catch (Exception e)
             {
-                ExceptionViewer ev = new ExceptionViewer(e);
-                if (ev.ShowDialog() == DialogResult.Retry)
+                if(e is SoftException)
                 {
-                    InnerRunWarm();
+                    ExceptionViewer ev = new ExceptionViewer(e);
+                    if (ev.ShowDialog() == DialogResult.Retry)
+                    {
+                        InnerRunWarm();
+                    }
+                }
+                else
+                {
+                    throw;
                 }
             }
         }
@@ -136,10 +147,17 @@ namespace FLDebugger.Utils
             }
             catch (Exception e)
             {
-                ExceptionViewer ev = new ExceptionViewer(e);
-                if (ev.ShowDialog() == DialogResult.Retry)
+                if (e is SoftException)
                 {
-                    InnerRunWarm();
+                    ExceptionViewer ev = new ExceptionViewer(e);
+                    if (ev.ShowDialog() == DialogResult.Retry)
+                    {
+                        InnerRunWarm();
+                    }
+                }
+                else
+                {
+                    throw;
                 }
             }
         }

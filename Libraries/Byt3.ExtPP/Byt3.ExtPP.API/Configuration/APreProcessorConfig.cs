@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Byt3.ADL;
 using Byt3.ExtPP.API.Exceptions;
 using Byt3.ExtPP.Base;
@@ -21,7 +22,7 @@ namespace Byt3.ExtPP.API.Configuration
         protected abstract List<AbstractPlugin> Plugins { get; }
         public abstract string GetGenericInclude(string filename, string[] genType);
 
-        public string[] Preprocess(IFileContent filename, Dictionary<string, bool> defs)
+        public string[] Preprocess(IFileContent[] filenames, Dictionary<string, bool> defs)
         {
             PreProcessor pp = new PreProcessor();
 
@@ -41,12 +42,12 @@ namespace Byt3.ExtPP.API.Configuration
             string[] ret;
             try
             {
-                ret = pp.Run(new[] {filename}, new Settings(), definitions);
+                ret = pp.Run(filenames, new Settings(), definitions);
             }
             catch (ProcessorException ex)
             {
                 throw
-                    new TextProcessingException("Could not preprocess file: " + filename.GetFilePath(), ex);
+                    new TextProcessingException("Could not preprocess file: " + filenames.FirstOrDefault()?.GetFilePath(), ex);
             }
 
             return ret;

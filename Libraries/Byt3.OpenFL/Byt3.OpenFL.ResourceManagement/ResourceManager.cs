@@ -15,7 +15,12 @@ namespace Byt3.OpenFL.ResourceManagement
         private static string ResourceDirectory = Path.Combine(Directory.GetCurrentDirectory());
 
         private static Dictionary<string, ResourcePackInfo> LoadedPacks = new Dictionary<string, ResourcePackInfo>();
-        private static List<ResourceTypeUnpacker> Unpacker = new List<ResourceTypeUnpacker>() { new DefaultUnpacker(), new FLC2TextureUnpacker() };
+        private static List<ResourceTypeUnpacker> Unpacker = new List<ResourceTypeUnpacker>() { new DefaultUnpacker()};
+
+        public static void AddUnpacker(ResourceTypeUnpacker unpacker)
+        {
+            Unpacker.Add(unpacker);
+        }
 
         public static string Load(string packPath)
         {

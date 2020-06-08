@@ -6,9 +6,10 @@ namespace Byt3.WindowsForms.Forms
 {
     public partial class ExceptionViewer : Form
     {
-        public ExceptionViewer(Exception ex)
+        public ExceptionViewer(Exception ex, bool retryPossible = true)
         {
             InitializeComponent();
+            if (!retryPossible) btnRestart.Visible = btnRestart.Enabled = false;
 
             Icon = SystemIcons.Error;
             DialogResult = DialogResult.Cancel;
@@ -20,12 +21,12 @@ namespace Byt3.WindowsForms.Forms
         {
             if (tvExceptionView.SelectedNode != null)
             {
-                ExceptionTreeNode tn = (ExceptionTreeNode) tvExceptionView.SelectedNode;
+                ExceptionTreeNode tn = (ExceptionTreeNode)tvExceptionView.SelectedNode;
                 lblExeptionType.Text = "Exception Type: " + tn.Exception.GetType().Name;
                 lblHResult.Text = "HResult: " + tn.Exception.HResult;
                 lblHelpLink.Text = "Help Link: " + (tn.Exception.HelpLink ?? "null");
                 lblSource.Text = "Source: " + tn.Exception.Source;
-                lblTargetSite.Text = "Target Site: " + tn.Exception.TargetSite.Name;
+                lblTargetSite.Text = "Target Site: " + tn.Exception.TargetSite?.Name;
                 rtbCallStack.Text = tn.Exception.StackTrace ?? "null";
                 rtbMessage.Text = tn.Exception.Message ?? "null";
             }

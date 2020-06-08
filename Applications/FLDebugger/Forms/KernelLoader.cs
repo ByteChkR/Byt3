@@ -5,11 +5,13 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Byt3.Callbacks;
+using Byt3.ExtPP.API;
 using Byt3.OpenCL.Wrapper;
 using Byt3.OpenCL.Wrapper.TypeEnums;
 using Byt3.OpenFL.Common;
 using Byt3.Utilities.ManifestIO;
 using Byt3.Utilities.TypeFinding;
+using Byt3.WindowsForms.Forms;
 using FLDebugger.Utils;
 
 namespace FLDebugger.Forms
@@ -70,6 +72,7 @@ namespace FLDebugger.Forms
         {
             lblStatus.Text = "Discovering Files in Path: " + Path;
             string[] files = IOManager.GetFiles(Path, "*.cl");
+
             pbProgress.Maximum = files.Length;
             pbProgress.Value = 0;
             if (files.Length == 0)
@@ -99,13 +102,12 @@ namespace FLDebugger.Forms
             List<CLProgramBuildResult> results = new List<CLProgramBuildResult>();
             bool throwEx = false;
             int kernelCount = 0;
-            foreach (string file in files)
+            if (FLScriptEditor.Settings.ExperimentalKernelLoading)
             {
-                pbProgress.Value++;
-                rtbLog.AppendLine("Loading File: " + file, Color.White, rtbLog.BackColor);
                 try
                 {
-                    CLProgram prog = Database.AddProgram(Instance, file, false, out CLProgramBuildResult res);
+                    string source = TextProcessorAPI.PreprocessSource(files, new Dictionary<string, bool>());
+                    CLProgram prog = Database.AddProgram(Instance, source, "./", false, out CLProgramBuildResult res);
                     kernelCount += prog.ContainedKernels.Count;
                     throwEx |= !res;
                     results.Add(res);
@@ -113,12 +115,33 @@ namespace FLDebugger.Forms
                 }
                 catch (Exception e)
                 {
-                    rtbLog.AppendLine("ERROR: " + e.Message, Color.Red, rtbLog.BackColor);
-
-                    throw e; //Let the Exception Viewer Catch that
+                    throw new SoftException(e);
                 }
-
             }
+            else
+            {
+                foreach (string file in files)
+                {
+                    pbProgress.Value++;
+                    rtbLog.AppendLine("Loading File: " + file, Color.White, rtbLog.BackColor);
+                    try
+                    {
+                        CLProgram prog = Database.AddProgram(Instance, file, false, out CLProgramBuildResult res);
+                        kernelCount += prog.ContainedKernels.Count;
+                        throwEx |= !res;
+                        results.Add(res);
+                        lblStatus.Text = $"Files Loaded(Kernels Loaded): {pbProgress.Value}({kernelCount})";
+                    }
+                    catch (Exception e)
+                    {
+                        rtbLog.AppendLine("ERROR: " + e.Message, Color.Red, rtbLog.BackColor);
+
+                        throw e; //Let the Exception Viewer Catch that
+                    }
+
+                }
+            }
+            
 
             lblStatus.Text = "Loading Finished";
             rtbLog.AppendLine("Loading Finished", Color.White, rtbLog.BackColor);
@@ -145,6 +168,8 @@ namespace FLDebugger.Forms
                     }
                 }
             }
+
+
         }
 
         private void checkFinishTimer_Tick(object sender, EventArgs e)
@@ -154,7 +179,18 @@ namespace FLDebugger.Forms
                 checkFinishTimer.Stop();
                 if (LoadTask.IsFaulted)
                 {
-                    throw LoadTask.Exception;
+                    if (LoadTask.Exception.InnerException is SoftException)
+                    {
+                        ExceptionViewer ev = new ExceptionViewer(LoadTask.Exception, false);
+                        ev.ShowDialog();
+                        FLScriptEditor.Settings.Abort = true;
+                        Application.Exit();
+                        return;
+                    }
+                    else
+                    {
+                        throw LoadTask.Exception;
+                    }
                 }
 
                 DialogResult = DialogResult.OK;

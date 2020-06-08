@@ -17,15 +17,16 @@ namespace Byt3.WindowsForms.CustomControls
 
         private ProgressIndicator SuperTask;
         private Control parent;
-        private System.Windows.Forms.FlowLayoutPanel panelMain;
-        private System.Windows.Forms.ProgressBar pbProgress;
-        private System.Windows.Forms.Label lblStatus;
-        private System.Windows.Forms.GroupBox gbSubTask;
-        private System.Windows.Forms.Panel subTaskPanel;
-        private System.Windows.Forms.Panel mainProgressPanel;
+        public System.Windows.Forms.FlowLayoutPanel panelMain;
+        public System.Windows.Forms.ProgressBar pbProgress;
+        public System.Windows.Forms.Label lblStatus;
+        public System.Windows.Forms.GroupBox gbSubTask;
+        public System.Windows.Forms.Panel subTaskPanel;
+        public System.Windows.Forms.Panel mainProgressPanel;
         private List<ProgressIndicator> Subtasks = new List<ProgressIndicator>();
         private Action<Task<ProgressIndicator>> SubCreator = null;
 
+        public static Action<ProgressIndicator> OnCreate;
 
         public IProgressIndicator CreateSubTask(bool asTask = true)
         {
@@ -162,6 +163,7 @@ namespace Byt3.WindowsForms.CustomControls
             i.mainProgressPanel.ResumeLayout(false);
             i.mainProgressPanel.PerformLayout();
             Parent_SizeChanged(i, EventArgs.Empty);
+            OnCreate?.Invoke(i);
             return i;
         }
 

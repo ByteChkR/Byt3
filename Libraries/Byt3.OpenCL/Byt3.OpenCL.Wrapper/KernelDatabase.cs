@@ -122,6 +122,40 @@ namespace Byt3.OpenCL.Wrapper
         }
 
 
+        public CLProgram AddProgram(CLAPI instance, string source, string filePath, bool throwEx, out CLProgramBuildResult ex)
+        {
+            ex = new CLProgramBuildResult(filePath, "", new List<CLProgramBuildError>());
+            CLProgramBuildResult br = CLProgram.TryBuildProgram(instance, source, filePath, out CLProgram program);
+            ex.Source = br.Source;
+            if (!br)
+            {
+                if (throwEx)
+                {
+                    throw br.GetAggregateException();
+                }
+
+                ex.BuildErrors.AddRange(br.BuildErrors);
+                return null;
+            }
+
+            loadedPrograms.Add(program);
+            foreach (KeyValuePair<string, CLKernel> containedKernel in program.ContainedKernels)
+            {
+                if (!loadedKernels.ContainsKey(containedKernel.Key))
+                {
+                    Logger.Log(LogType.Log, "Adding Kernel: " + containedKernel.Key, 4);
+                    loadedKernels.Add(containedKernel.Key, containedKernel.Value);
+                }
+                else
+                {
+                    Logger.Log(LogType.Log,
+                        "Kernel with name: " + containedKernel.Key + " is already loaded. Skipping...", 5);
+                }
+            }
+
+            return program;
+        }
+
         public CLProgram AddProgram(CLAPI instance, string file, bool throwEx, out CLProgramBuildResult ex)
         {
             ex = new CLProgramBuildResult(file, "", new List<CLProgramBuildError>());
