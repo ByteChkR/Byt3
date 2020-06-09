@@ -91,7 +91,10 @@ namespace FLDebugger.Forms
                         Editor.FLContainer.SerializedProgram = null;
                         //Editor.InitProgram();
                         Editor.InitializeViewer();
-                        if (Editor.FLContainer.SerializedProgram == null) return;
+                        if (Editor.FLContainer.SerializedProgram == null)
+                        {
+                            return;
+                        }
 
                         fl2flcf.SetProgress("Exporting..", 1, 1);
                         string f = file + "c";

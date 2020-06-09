@@ -81,6 +81,12 @@
     <Compile Include="Forms\BuildExceptionViewer.Designer.cs">
       <DependentUpon>BuildExceptionViewer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\DevelopmentWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DevelopmentWindow.Designer.cs">
+      <DependentUpon>DevelopmentWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ExportViewer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +161,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BuildExceptionViewer.resx">
       <DependentUpon>BuildExceptionViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DevelopmentWindow.resx">
+      <DependentUpon>DevelopmentWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ExportViewer.resx">
       <DependentUpon>ExportViewer.cs</DependentUpon>

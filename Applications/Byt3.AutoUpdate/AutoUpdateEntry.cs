@@ -7,23 +7,23 @@ using System.Windows.Forms;
 
 namespace Byt3.AutoUpdate
 {
-    internal static class Program
+    public static class AutoUpdateEntry
     {
         public static string[] Args;
-        public static string TargetURL { get; private set; }
-        public static Version CurrentVersion { get; private set; }
-        public static string DestinationFile { get; private set; }
-        public static string ProjectName { get; private set; }
+        public static string TargetURL { get;  set; }
+        public static Version CurrentVersion { get;  set; }
+        public static string DestinationFile { get;  set; }
+        public static string ProjectName { get;  set; }
         public static string DestinationFolder => Path.GetDirectoryName(DestinationFile);
-        public static Process WaitProcess { get; private set; }
-        public static Version TargetVersion { get; private set; }
+        public static Process WaitProcess { get;  set; }
+        public static Version TargetVersion { get;  set; }
         public static bool Direct;
 
         public static bool IsInDestinationFolder =>
             Assembly.GetExecutingAssembly().Location.StartsWith(Path.GetFullPath(DestinationFolder));
 
         [STAThread]
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             try
             {

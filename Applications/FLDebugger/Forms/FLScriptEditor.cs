@@ -362,6 +362,12 @@ namespace FLDebugger.Forms
 
         private void frmOptimizationView_Load(object sender, EventArgs e)
         {
+            if (Settings.EnableDevTools)
+            {
+                DevelopmentWindow dev = new DevelopmentWindow(this);
+                dev.Show();
+            }
+
             Icon = Resources.OpenFL_Icon;
             Closing += FLScriptEditor_Closing;
             logDisplay = new LogDisplay();

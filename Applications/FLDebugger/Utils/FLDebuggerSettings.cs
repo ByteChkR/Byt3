@@ -12,7 +12,7 @@
         public string Theme;
         public string WorkingDir;
         public bool ExperimentalKernelLoading;
-
+        public bool EnableDevTools;
         public bool Abort;
     }
 }

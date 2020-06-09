@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>2.6.46.1827</AssemblyVersion>
-    <FileVersion>2.6.46.1827</FileVersion>
+    <AssemblyVersion>2.6.48.34</AssemblyVersion>
+    <FileVersion>2.6.48.34</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.DisposableManagement\Byt3.DisposableManagement.csproj" />

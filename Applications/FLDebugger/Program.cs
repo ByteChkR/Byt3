@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using Byt3.AutoUpdate.Helper;
 using Byt3.WindowsForms.CustomControls;
-using FLDebugger.Forms;
 using FLDebugger.Utils;
 
 namespace FLDebugger

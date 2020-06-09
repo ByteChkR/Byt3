@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.8.89.1721</AssemblyVersion>
-    <FileVersion>1.8.89.1721</FileVersion>
+    <AssemblyVersion>1.8.90.1957</AssemblyVersion>
+    <FileVersion>1.8.90.1957</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="kernel\**" />

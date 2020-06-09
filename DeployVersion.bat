@@ -22,3 +22,7 @@ del ..\Byt3\Applications\FLDebugger.Projects\bin\Debug\FLDebugger.Projects.pdb
 call upload.bat FLDebugger_Projects ..\Byt3\Applications\FLDebugger.Projects\bin\Debug FLDebugger.Projects
 
 del ..\Byt3\Applications\FLDebugger.Projects\bin\Debug\Byt3.AutoUpdate.exe
+
+del ..\Byt3\Applications\ProgramInstaller\bin\Debug\ProgramInstaller.exe.config
+del ..\Byt3\Applications\ProgramInstaller\bin\Debug\ProgramInstaller.pdb
+call upload.bat ProgramInstaller ..\Byt3\Applications\ProgramInstaller\bin\Debug ProgramInstaller

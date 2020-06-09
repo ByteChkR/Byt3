@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading;
@@ -19,13 +21,7 @@ namespace Byt3.AutoUpdate
         public UpdateWindow()
         {
             InitializeComponent();
-            CheckForIllegalCrossThreadCalls = false;
-            fileDownloadClient.DownloadProgressChanged += FileDownloadClient_DownloadProgressChanged;
-            tmrStartup.Start();
-            lblVersion.Text = "Updater Version: " + Assembly.GetExecutingAssembly().GetName().Version;
-            Point pos = Screen.PrimaryScreen.Bounds.Location + new Size(Screen.PrimaryScreen.Bounds.Width / 2,
-                            Screen.PrimaryScreen.Bounds.Height / 2) - new Size(Bounds.Width / 2, Bounds.Height / 2);
-            Location = pos;
+
         }
 
         private void FileDownloadClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -49,22 +45,46 @@ namespace Byt3.AutoUpdate
         {
             return new Task<Version>(() =>
             {
-                if (Program.TargetVersion != null)
+                if (AutoUpdateEntry.TargetVersion != null)
                 {
-                    return Program.TargetVersion;
+                    return AutoUpdateEntry.TargetVersion;
                 }
 
                 WebClient wc = new WebClient();
-                Version v = Version.Parse(wc.DownloadString($"{Program.TargetURL}{Program.ProjectName}/newest.ver"));
-                wc.Dispose();
-                return v;
+                List<Version> vers = GetAllVersions();
+                return vers.Last();
+                //Version v = Version.Parse(wc.DownloadString($"{Program.TargetURL}{Program.ProjectName}/newest.ver"));
+                //wc.Dispose();
+                //return v;
             });
+        }
+
+        private List<Version> GetAllVersions()
+        {
+            WebClient wc = new WebClient();
+            string[] vers = wc.DownloadString($"{AutoUpdateEntry.TargetURL}{AutoUpdateEntry.ProjectName}/listing.php")
+                .Split(' ').Where(x => x.EndsWith(".zip")).Select(ver => ver.Replace(".zip", "")).ToArray();
+            wc.Dispose();
+
+            List<Version> versions = new List<Version>();
+            for (int i = 0; i < vers.Length; i++)
+            {
+                try
+                {
+                    versions.Add(Version.Parse(vers[i]));
+                }
+                catch (Exception e)
+                {
+                }
+            }
+            versions.Sort();
+            return versions;
         }
 
         private Task DownloadUpdate(Version version, out string tempFile)
         {
             tempFile = Path.GetRandomFileName();
-            return fileDownloadClient.DownloadFileTaskAsync($"{Program.TargetURL}{Program.ProjectName}/{version}.zip",
+            return fileDownloadClient.DownloadFileTaskAsync($"{AutoUpdateEntry.TargetURL}{AutoUpdateEntry.ProjectName}/{version}.zip",
                 tempFile);
             //return new Task<string>(() =>
             //{
@@ -89,14 +109,20 @@ namespace Byt3.AutoUpdate
                         Directory.CreateDirectory(destinationDir);
                     }
 
+
                     waitAction?.Invoke($"[{i + 1}/{file.Entries.Count}] Extracting File: {zipArchiveEntry.Name}", i + 1,
                         file.Entries.Count);
                     if (File.Exists(Path.Combine(destinationDir, zipArchiveEntry.Name)))
                     {
                         File.Delete(Path.Combine(destinationDir, zipArchiveEntry.Name));
                     }
-
-                    zipArchiveEntry.ExtractToFile(Path.Combine(destinationDir, zipArchiveEntry.Name));
+                    try
+                    {
+                        zipArchiveEntry.ExtractToFile(Path.Combine(destinationDir, zipArchiveEntry.Name));
+                    }
+                    catch (Exception e)
+                    {
+                    }
                 }
 
                 file.Dispose();
@@ -120,10 +146,10 @@ namespace Byt3.AutoUpdate
                 throw v.Exception.InnerException;
             }
 
-            if (v.Result > Program.CurrentVersion &&
-                (Program.Direct ||
+            if (v.Result > AutoUpdateEntry.CurrentVersion &&
+                (AutoUpdateEntry.Direct ||
                     MessageBox.Show(
-                     $"Update Found!\n\tOld Version: {Program.CurrentVersion}\n\tNew Version: {v.Result}\nUpdate Now?",
+                     $"Update Found!\n\tOld Version: {AutoUpdateEntry.CurrentVersion}\n\tNew Version: {v.Result}\nUpdate Now?",
                      "Update Found", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
             {
                 Task d = DownloadUpdate(v.Result, out string tempFile);
@@ -150,16 +176,19 @@ namespace Byt3.AutoUpdate
                 RunExtractTask(tempFile);
             }
 
-            ProcessStartInfo psi = new ProcessStartInfo(Program.DestinationFile, Program.Args.Unpack(" "));
-            psi.WorkingDirectory = Program.DestinationFolder;
+
+            ProcessStartInfo psi = new ProcessStartInfo(AutoUpdateEntry.DestinationFile, AutoUpdateEntry.Args.Unpack(" "));
+            psi.WorkingDirectory = AutoUpdateEntry.DestinationFolder;
             Process.Start(psi);
-            Close();
             Application.Exit();
+
+            Close();
+
         }
 
         private void RunExtractTask(string file)
         {
-            Task extractTask = ExtractUpdate(file, Program.DestinationFolder, SetStatus);
+            Task extractTask = ExtractUpdate(file, AutoUpdateEntry.DestinationFolder, SetStatus);
             extractTask.Start();
             while (!extractTask.IsCompleted)
             {
@@ -171,6 +200,7 @@ namespace Byt3.AutoUpdate
                 DialogResult res = MessageBox.Show(extractTask.Exception.ToString(), "Error", MessageBoxButtons.RetryCancel);
                 if (res == DialogResult.Cancel)
                 {
+                    throw extractTask.Exception;
                     Application.Exit();
                     return;
                 }
@@ -183,15 +213,26 @@ namespace Byt3.AutoUpdate
 
         private void WaitForProcessTask()
         {
-            if (Program.WaitProcess != null && !Program.WaitProcess.HasExited)
+            if (AutoUpdateEntry.WaitProcess != null && !AutoUpdateEntry.WaitProcess.HasExited)
             {
                 pbProgress.Style = ProgressBarStyle.Marquee;
-                lblStatus.Text = $"Waiting for Process: {Program.WaitProcess.ProcessName}({Program.WaitProcess.Id})";
-                while (!Program.WaitProcess.HasExited)
+                lblStatus.Text = $"Waiting for Process: {AutoUpdateEntry.WaitProcess.ProcessName}({AutoUpdateEntry.WaitProcess.Id})";
+                while (!AutoUpdateEntry.WaitProcess.HasExited)
                 {
                     Application.DoEvents();
                 }
             }
+        }
+
+        private void UpdateWindow_Load(object sender, EventArgs e)
+        {
+            CheckForIllegalCrossThreadCalls = false;
+            fileDownloadClient.DownloadProgressChanged += FileDownloadClient_DownloadProgressChanged;
+            tmrStartup.Start();
+            lblVersion.Text = "Updater Version: " + Assembly.GetExecutingAssembly().GetName().Version;
+            Point pos = Screen.PrimaryScreen.Bounds.Location + new Size(Screen.PrimaryScreen.Bounds.Width / 2,
+                            Screen.PrimaryScreen.Bounds.Height / 2) - new Size(Bounds.Width / 2, Bounds.Height / 2);
+            Location = pos;
         }
     }
 }

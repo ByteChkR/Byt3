@@ -69,7 +69,7 @@ namespace FLDebugger.Forms
         private void BrowserNavigate(WebBrowserNavigatingEventArgs e, bool directInstall, string projectName)
         {
             e.Cancel = true;
-            if (!e.Url.AbsolutePath.EndsWith("/"))
+            if (e.Url.AbsolutePath.EndsWith(".zip"))
             {
                 if (directInstall && UpdateChecker.UpdaterPresent)
                 {

@@ -1,19 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyVersion>0.0.2.34</AssemblyVersion>
+    <FileVersion>0.0.2.34</FileVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="System.IO.Compression" Version="4.3.0" />
     <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
   </ItemGroup>
-
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
+  </Target>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.ManifestIO\Byt3.Utilities.ManifestIO.csproj" />
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.ProgressFeedback\Byt3.Utilities.ProgressFeedback.csproj" />
     <ProjectReference Include="..\Byt3.OpenFL.Serialization\Byt3.OpenFL.Serialization.csproj" />
     <ProjectReference Include="..\Byt3.OpenFL\Byt3.OpenFL.csproj" />
   </ItemGroup>
-
 </Project>
