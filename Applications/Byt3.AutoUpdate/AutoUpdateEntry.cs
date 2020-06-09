@@ -17,6 +17,7 @@ namespace Byt3.AutoUpdate
         public static string DestinationFolder => Path.GetDirectoryName(DestinationFile);
         public static Process WaitProcess { get;  set; }
         public static Version TargetVersion { get;  set; }
+        public static bool CloseOnFinish = true;
         public static bool Direct;
 
         public static bool IsInDestinationFolder =>

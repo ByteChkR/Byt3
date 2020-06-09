@@ -180,7 +180,11 @@ namespace Byt3.AutoUpdate
             ProcessStartInfo psi = new ProcessStartInfo(AutoUpdateEntry.DestinationFile, AutoUpdateEntry.Args.Unpack(" "));
             psi.WorkingDirectory = AutoUpdateEntry.DestinationFolder;
             Process.Start(psi);
-            Application.Exit();
+
+            if (AutoUpdateEntry.CloseOnFinish)
+            {
+                Application.Exit();
+            }
 
             Close();
 

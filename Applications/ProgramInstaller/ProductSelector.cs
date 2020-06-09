@@ -115,6 +115,7 @@ namespace ProgramInstaller
             AutoUpdateEntry.DestinationFile = Path.Combine(tbInstallDir.Text, Products[cbProduct.Items[cbProduct.SelectedIndex].ToString()].startFile);
             AutoUpdateEntry.TargetURL = Products[cbProduct.Items[cbProduct.SelectedIndex].ToString()].repo;
             AutoUpdateEntry.Direct = true;
+            AutoUpdateEntry.CloseOnFinish = false;
             AutoUpdateEntry.Args = new [] {"-no-update"};
 
             if (!Directory.Exists(AutoUpdateEntry.DestinationFolder))
