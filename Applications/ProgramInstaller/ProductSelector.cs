@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using IWshRuntimeLibrary;
 using Byt3.AutoUpdate;
 
 namespace ProgramInstaller
@@ -45,6 +46,7 @@ namespace ProgramInstaller
             tbInstallDir.Enabled = false;
             btnInstall.Enabled = false;
             btnSelectInstallDir.Enabled = false;
+            cbAfterInstallAction.SelectedIndex = 0;
         }
 
         private void InitializeRepos()
@@ -116,13 +118,21 @@ namespace ProgramInstaller
             AutoUpdateEntry.TargetURL = Products[cbProduct.Items[cbProduct.SelectedIndex].ToString()].repo;
             AutoUpdateEntry.Direct = true;
             AutoUpdateEntry.CloseOnFinish = false;
-            AutoUpdateEntry.Args = new [] {"-no-update"};
+            AutoUpdateEntry.Args = new[] { "-no-update" };
+            AutoUpdateEntry.StartAfter = (AutoUpdateEntry.StartAction) cbAfterInstallAction.SelectedIndex;
+
+
 
             if (!Directory.Exists(AutoUpdateEntry.DestinationFolder))
                 Directory.CreateDirectory(AutoUpdateEntry.DestinationFolder);
 
             UpdateWindow window = new UpdateWindow();
             window.ShowDialog();
+
+            if (cbCreateShortcut.Checked)
+            {
+                CreateShortcut(cbProduct.SelectedItem.ToString(), "", AutoUpdateEntry.DestinationFile, AutoUpdateEntry.DestinationFolder, "Shortcut to " + cbProduct.SelectedItem);
+            }
         }
 
         private void btnSelectInstallDir_Click(object sender, EventArgs e)
@@ -174,8 +184,27 @@ namespace ProgramInstaller
             else
             {
                 tbInstallDir.Enabled = true;
+                DriveInfo di = DriveInfo.GetDrives().Last(x => x.DriveType == DriveType.Fixed);
+                tbInstallDir.Text = di.Name + Path.Combine("Byt3Apps", cbProduct.SelectedItem.ToString());
+
                 btnSelectInstallDir.Enabled = true;
             }
+        }
+
+
+
+
+        private void CreateShortcut(string name, string args, string targetFile, string workingDir, string description)
+        {
+            object shDesktop = (object)"Desktop";
+            WshShell shell = new WshShell();
+            string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + $@"\{name}.lnk";
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+            shortcut.Description = description;
+            shortcut.WorkingDirectory = workingDir;
+            shortcut.Arguments = args;
+            shortcut.TargetPath = targetFile;
+            shortcut.Save();
         }
     }
 }

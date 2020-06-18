@@ -38,6 +38,9 @@
             this.tbInstallDir = new System.Windows.Forms.TextBox();
             this.btnSelectInstallDir = new System.Windows.Forms.Button();
             this.fbdInstallDir = new System.Windows.Forms.FolderBrowserDialog();
+            this.cbCreateShortcut = new System.Windows.Forms.CheckBox();
+            this.cbAfterInstallAction = new System.Windows.Forms.ComboBox();
+            this.lblAfterInstallAction = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // cbProduct
@@ -80,7 +83,7 @@
             // 
             // btnInstall
             // 
-            this.btnInstall.Location = new System.Drawing.Point(12, 98);
+            this.btnInstall.Location = new System.Drawing.Point(12, 116);
             this.btnInstall.Name = "btnInstall";
             this.btnInstall.Size = new System.Drawing.Size(447, 23);
             this.btnInstall.TabIndex = 4;
@@ -119,11 +122,48 @@
             // 
             this.fbdInstallDir.Description = "Select Installation Destination";
             // 
+            // cbCreateShortcut
+            // 
+            this.cbCreateShortcut.AutoSize = true;
+            this.cbCreateShortcut.Checked = true;
+            this.cbCreateShortcut.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbCreateShortcut.Location = new System.Drawing.Point(359, 93);
+            this.cbCreateShortcut.Name = "cbCreateShortcut";
+            this.cbCreateShortcut.Size = new System.Drawing.Size(100, 17);
+            this.cbCreateShortcut.TabIndex = 8;
+            this.cbCreateShortcut.Text = "Create Shortcut";
+            this.cbCreateShortcut.UseVisualStyleBackColor = true;
+            // 
+            // cbAfterInstallAction
+            // 
+            this.cbAfterInstallAction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbAfterInstallAction.FormattingEnabled = true;
+            this.cbAfterInstallAction.Items.AddRange(new object[] {
+            "None",
+            "Start Program",
+            "Open Folder"});
+            this.cbAfterInstallAction.Location = new System.Drawing.Point(79, 91);
+            this.cbAfterInstallAction.Name = "cbAfterInstallAction";
+            this.cbAfterInstallAction.Size = new System.Drawing.Size(265, 21);
+            this.cbAfterInstallAction.TabIndex = 10;
+            // 
+            // lblAfterInstallAction
+            // 
+            this.lblAfterInstallAction.AutoSize = true;
+            this.lblAfterInstallAction.Location = new System.Drawing.Point(9, 94);
+            this.lblAfterInstallAction.Name = "lblAfterInstallAction";
+            this.lblAfterInstallAction.Size = new System.Drawing.Size(62, 13);
+            this.lblAfterInstallAction.TabIndex = 11;
+            this.lblAfterInstallAction.Text = "After Install:";
+            // 
             // SelectProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(471, 133);
+            this.ClientSize = new System.Drawing.Size(471, 142);
+            this.Controls.Add(this.lblAfterInstallAction);
+            this.Controls.Add(this.cbAfterInstallAction);
+            this.Controls.Add(this.cbCreateShortcut);
             this.Controls.Add(this.btnSelectInstallDir);
             this.Controls.Add(this.tbInstallDir);
             this.Controls.Add(this.label1);
@@ -154,6 +194,9 @@
         private System.Windows.Forms.TextBox tbInstallDir;
         private System.Windows.Forms.Button btnSelectInstallDir;
         private System.Windows.Forms.FolderBrowserDialog fbdInstallDir;
+        private System.Windows.Forms.CheckBox cbCreateShortcut;
+        private System.Windows.Forms.ComboBox cbAfterInstallAction;
+        private System.Windows.Forms.Label lblAfterInstallAction;
     }
 }
 

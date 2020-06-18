@@ -176,10 +176,18 @@ namespace Byt3.AutoUpdate
                 RunExtractTask(tempFile);
             }
 
-
-            ProcessStartInfo psi = new ProcessStartInfo(AutoUpdateEntry.DestinationFile, AutoUpdateEntry.Args.Unpack(" "));
-            psi.WorkingDirectory = AutoUpdateEntry.DestinationFolder;
-            Process.Start(psi);
+            if (AutoUpdateEntry.StartAfter == AutoUpdateEntry.StartAction.StartProduct)
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(AutoUpdateEntry.DestinationFile, AutoUpdateEntry.Args.Unpack(" "));
+                psi.WorkingDirectory = AutoUpdateEntry.DestinationFolder;
+                Process.Start(psi);
+            }
+            else if (AutoUpdateEntry.StartAfter == AutoUpdateEntry.StartAction.OpenFolder)
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(Path.GetDirectoryName(AutoUpdateEntry.DestinationFile), AutoUpdateEntry.Args.Unpack(" "));
+                psi.WorkingDirectory = AutoUpdateEntry.DestinationFolder;
+                Process.Start(psi);
+            }
 
             if (AutoUpdateEntry.CloseOnFinish)
             {

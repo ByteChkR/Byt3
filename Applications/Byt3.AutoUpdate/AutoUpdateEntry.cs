@@ -19,6 +19,8 @@ namespace Byt3.AutoUpdate
         public static Version TargetVersion { get;  set; }
         public static bool CloseOnFinish = true;
         public static bool Direct;
+        public enum StartAction { None, StartProduct, OpenFolder}
+        public static StartAction StartAfter = StartAction.StartProduct;
 
         public static bool IsInDestinationFolder =>
             Assembly.GetExecutingAssembly().Location.StartsWith(Path.GetFullPath(DestinationFolder));
