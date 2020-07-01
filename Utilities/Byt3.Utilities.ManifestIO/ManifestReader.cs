@@ -111,7 +111,7 @@ namespace Byt3.Utilities.ManifestIO
                 string dir = Path.GetDirectoryName(UnSanitizeFilename(file));
                 for (int i = 0; i < files.Length; i++)
                 {
-                    files[i] = dir + "/" + (ptr.PackageId + i) + ".pack";
+                    files[i] = $"{dir}/{ptr.PackageId + i}.pack";
                 }
 
                 return new IoPackedAssemblyFile(compression, files, ptr);
@@ -121,7 +121,7 @@ namespace Byt3.Utilities.ManifestIO
             string d = Path.GetDirectoryName(UnSanitizeFilename(file));
             for (int i = 0; i < f.Length; i++)
             {
-                f[i] = SanitizeFilename(d + "/" + (ptr.PackageId + i) + ".pack");
+                f[i] = SanitizeFilename($"{d}/{ptr.PackageId + i}.pack");
             }
 
             return new PackedAssemblyFile(compression, f, asm, ptr);
@@ -166,8 +166,7 @@ namespace Byt3.Utilities.ManifestIO
             List<Tuple<string, AssetPointer>> packedFiles =
                 AssetPacker.GetPointers(idxStream, packs, out bool compression);
             Logger.Log(LogType.Log,
-                "Parsing " + packedFiles.Count + " File from " + files[indexList] + " in " + packs.Length +
-                " Packages.", 10);
+                $"Parsing {packedFiles.Count} File from {files[indexList]} in {packs.Length} Packages.", 10);
 
             foreach (Tuple<string, AssetPointer> assetPointer in packedFiles)
             {
@@ -175,7 +174,7 @@ namespace Byt3.Utilities.ManifestIO
                 string virtualPath = SanitizeFilename(assetPointer.Item2.Path);
                 if (_assemblyFiles.ContainsKey(virtualPath))
                 {
-                    Logger.Log(LogType.Log, "Overwriting File: " + assemblyPath + " => " + virtualPath, 10);
+                    Logger.Log(LogType.Log, $"Overwriting File: {assemblyPath} => {virtualPath}", 10);
                     _assemblyFiles[virtualPath] =
                         factory(assemblyPath, compression, asm,
                             assetPointer.Item2);
@@ -192,10 +191,10 @@ namespace Byt3.Utilities.ManifestIO
 
         private static void PrepareManifestFiles(Assembly loadedAssembly)
         {
-            if (IOManager.DirectoryExists(loadedAssembly.GetName().Name + "/packs"))
+            if (IOManager.DirectoryExists($"{loadedAssembly.GetName().Name}/packs"))
             {
                 PrepareAssemblyFiles(loadedAssembly.GetName().Name,
-                    IOManager.GetFiles(loadedAssembly.GetName().Name + "/packs", "*"), loadedAssembly, FileFactory);
+                    IOManager.GetFiles($"{loadedAssembly.GetName().Name}/packs", "*"), loadedAssembly, FileFactory);
             }
         }
 
@@ -224,7 +223,7 @@ namespace Byt3.Utilities.ManifestIO
 
         private static void UnpackAssets(Dictionary<string, Tuple<int, MemoryStream>> files)
         {
-            Logger.Log(LogType.Log, $"Parparing to unpack {files.Count} Assets.. ", 10);
+            Logger.Log(LogType.Log, $"Preparing to unpack {files.Count} Assets.. ", 10);
             foreach (KeyValuePair<string, Tuple<int, MemoryStream>> memoryStream in files)
             {
                 bool hasUnpackedVersion = _unpackedFiles.Contains(memoryStream.Key);

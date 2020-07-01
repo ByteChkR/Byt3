@@ -91,7 +91,7 @@ namespace Byt3.Collections.Smoothing
             return Scale(Arch2(t), 1 - t);
         }
 
-        public static float NormalitedBezier(float b, float c, float t)
+        public static float NormalizedBezier(float b, float c, float t)
         {
             float s = 1f - t;
             float t2 = t * t;
