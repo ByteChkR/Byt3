@@ -8,4 +8,4 @@
 #include gconvert_one.cle ulong
 #include gconvert_one.cle float
 #include gconvert_one.cle double
-#include gconvert_one.cle half
+//#include gconvert_one.cle half //Not supported by the CPU of the Travis Build Server.
