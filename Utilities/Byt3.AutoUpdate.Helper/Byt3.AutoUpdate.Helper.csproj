@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>0.0.48.2000</AssemblyVersion>
-    <FileVersion>0.0.48.2000</FileVersion>
+    <AssemblyVersion>0.0.50.931</AssemblyVersion>
+    <FileVersion>0.0.50.931</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Byt3.Utilities.FastString\Byt3.Utilities.FastString.csproj" />
