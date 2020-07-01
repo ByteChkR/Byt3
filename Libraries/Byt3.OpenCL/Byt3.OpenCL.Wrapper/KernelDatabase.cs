@@ -28,13 +28,7 @@ namespace Byt3.OpenCL.Wrapper
         {
             string text = "";
 
-            foreach (CLProgramBuildResult clProgramBuildResult in results)
-            {
-                if (!clProgramBuildResult.Success)
-                {
-                    text += "\n\t" + clProgramBuildResult.BuildErrors.Select(x => x.Message).Unpack("\n\t, ");
-                }
-            }
+            text += results.Select(x => x.ToString()).Unpack("\n\t, ");
 
             return text;
         }
