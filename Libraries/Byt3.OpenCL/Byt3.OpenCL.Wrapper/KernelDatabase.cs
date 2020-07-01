@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Byt3.ADL;
 using Byt3.Callbacks;
 using Byt3.ExtPP.API;
 using Byt3.OpenCL.Wrapper.ExtPP.API;
 using Byt3.Utilities.Exceptions;
+using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenCL.Wrapper
 {
@@ -17,9 +19,24 @@ namespace Byt3.OpenCL.Wrapper
         {
         }
 
-        public CLBuildException(List<CLProgramBuildResult> results) : base("")
+        public CLBuildException(List<CLProgramBuildResult> results) : base(GetErrorText(results))
         {
             BuildResults = results;
+        }
+
+        private static string GetErrorText(List<CLProgramBuildResult> results)
+        {
+            string text = "";
+
+            foreach (CLProgramBuildResult clProgramBuildResult in results)
+            {
+                if (!clProgramBuildResult.Success)
+                {
+                    text += "\n\t" + clProgramBuildResult.BuildErrors.Select(x => x.Message).Unpack("\n\t, ");
+                }
+            }
+
+            return text;
         }
     }
 
