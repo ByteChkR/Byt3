@@ -1,24 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using Byt3.OpenCL.DataTypes;
 using Byt3.OpenCL.Memory;
 
 namespace Byt3.OpenCL.Wrapper.CLFonts
 {
-    public class CLChar
-    {
-        public readonly MemoryBuffer Buffer;
-        public readonly char Character;
-        public readonly int2 Size;
-
-        internal CLChar(char character, MemoryBuffer buf, int width, int height)
-        {
-            Character = character;
-            Buffer = buf;
-            Size = new int2(width, height);
-        }
-    }
-
     public class CLFont
     {
         private readonly Dictionary<char, CLChar> bufferCache = new Dictionary<char, CLChar>();

@@ -5,66 +5,9 @@ using Byt3.ExtPP.API;
 using Byt3.OpenCL.Kernels;
 using Byt3.OpenCL.Programs;
 using Byt3.OpenCL.Wrapper.TypeEnums;
-using Byt3.Utilities.FastString;
 
 namespace Byt3.OpenCL.Wrapper
 {
-    public enum ErrorType
-    {
-        ProgramBuild,
-        KernelBuild
-    }
-
-    public struct CLProgramBuildError
-    {
-        public readonly ErrorType Error;
-        public readonly Exception Exception;
-
-        public string Message =>
-            Exception.InnerException != null ? Exception.InnerException.Message : Exception.Message;
-
-        public CLProgramBuildError(ErrorType error, Exception exception)
-        {
-            Error = error;
-            Exception = exception;
-        }
-
-        public override string ToString()
-        {
-            return $"[{Error}] {Exception.GetType().Name} {Message}";
-        }
-    }
-
-    public struct CLProgramBuildResult
-    {
-        public readonly string TargetFile;
-        public bool Success => BuildErrors.Count == 0;
-        public readonly List<CLProgramBuildError> BuildErrors;
-        public string Source;
-
-        public CLProgramBuildResult(string targetFile, string source, List<CLProgramBuildError> errors)
-        {
-            Source = source;
-            TargetFile = targetFile;
-            BuildErrors = errors;
-        }
-
-        public AggregateException GetAggregateException()
-        {
-            return new AggregateException(BuildErrors.Select(x => x.Exception));
-        }
-
-        public static implicit operator bool(CLProgramBuildResult result)
-        {
-            return result.Success;
-        }
-
-        public override string ToString()
-        {
-            return $"{TargetFile}: \n\t{BuildErrors.Select(x => x.ToString()).Unpack("\n\t")}";
-        }
-    }
-
     /// <summary>
     /// A wrapper class for a OpenCL Program.
     /// </summary>
