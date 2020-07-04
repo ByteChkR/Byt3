@@ -63,6 +63,21 @@ namespace Byt3Console.VersionHelper
 
         public static void ChangeVersionInFile(string file, Version newVersion)
         {
+            if (file.EndsWith("ProjectSettings.asset"))
+            {
+                string source = File.ReadAllText(file);
+                int start = source.IndexOf("bundleVersion: ") + "bundleVersion: ".Length;
+                int end = source.IndexOf('\n', start);
+
+                source = source.Remove(start, end - start);
+
+                source = source.Insert(start, newVersion.ToString());
+
+                File.WriteAllText(file, source);
+
+                return;
+            }
+
             XmlDocument doc = new XmlDocument();
             doc.Load(file);
 
@@ -109,6 +124,14 @@ namespace Byt3Console.VersionHelper
 
         public static Version GetVersionFromFile(string file)
         {
+            if (file.EndsWith("ProjectSettings.asset"))
+            {
+                string source = File.ReadAllText(file);
+                int start = source.IndexOf("bundleVersion: ") + "bundleVersion: ".Length;
+                int end = source.IndexOf('\n', start);
+                string v = source.Substring(start, end - start);
+                return Version.Parse(v);
+            }
             XmlDocument doc = new XmlDocument();
             doc.Load(file);
             if (IsNetFramework(doc))
@@ -136,8 +159,8 @@ namespace Byt3Console.VersionHelper
         public static Version ChangeVersion(Version version, string changeStr)
         {
             string[] subVersions = changeStr.Split('.');
-            int[] wrapValues = {ushort.MaxValue, 9, 99, ushort.MaxValue};
-            int[] versions = {version.Major, version.Minor, version.Build, version.Revision};
+            int[] wrapValues = { ushort.MaxValue, 9, 99, ushort.MaxValue };
+            int[] versions = { version.Major, version.Minor, version.Build, version.Revision };
             for (int i = 4 - 1; i >= 0; i--)
             {
                 string current = subVersions[i];
@@ -200,7 +223,7 @@ namespace Byt3Console.VersionHelper
 
                     if (long.TryParse(value, out long newValue))
                     {
-                        versions[i] = (int) (newValue % ushort.MaxValue);
+                        versions[i] = (int)(newValue % ushort.MaxValue);
                     }
                     else
                     {
@@ -213,7 +236,7 @@ namespace Byt3Console.VersionHelper
                 }
             }
 
-            return new Version(versions[0], versions[1], versions[2], versions[3]);
+            return new Version(versions[0], versions[1] < 0 ? 0 : versions[1], versions[2] < 0 ? 0 : versions[2], versions[3] < 0 ? 0 : versions[3]);
         }
 
         private static Version FindVersion(XmlDocument doc)
