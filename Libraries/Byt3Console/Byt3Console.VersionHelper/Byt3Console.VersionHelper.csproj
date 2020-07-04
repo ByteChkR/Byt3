@@ -1,12 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>1.7.87.935</AssemblyVersion>
-    <FileVersion>1.7.87.935</FileVersion>
+    <AssemblyVersion>1.8.2.2303</AssemblyVersion>
+    <FileVersion>1.8.2.2303</FileVersion>
   </PropertyGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="call $(SolutionDir)BuildUtilities\PreBuild\RunPreBuildScript.bat $(ProjectPath) $(SolutionDir)BuildUtilities\Console\" />
   </Target>
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="8.1.2" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Byt3.Utilities.Console.Internals\Byt3.Utilities.ConsoleInternals.csproj" />
     <ProjectReference Include="..\..\Byt3.CommandRunner\Byt3.CommandRunner.csproj" />

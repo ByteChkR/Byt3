@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Byt3.ADL;
 using Byt3.CommandRunner;
@@ -7,7 +8,7 @@ namespace Byt3Console.VersionHelper.Commands
 {
     public class ChangeVersionCommand : AbstractCommand
     {
-        public ChangeVersionCommand() : base(new[] {"--increase", "-i"},
+        public ChangeVersionCommand() : base(new[] { "--increase", "-i" },
             "Increases the last number in the version string 0.0.0.1 => 0.0.0.2", true)
         {
             CommandAction = (info, strings) => ChangeVersion(strings);

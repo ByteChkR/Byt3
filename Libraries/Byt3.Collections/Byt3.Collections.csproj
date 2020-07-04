@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>2.1.33.941</AssemblyVersion>
-    <FileVersion>2.1.33.941</FileVersion>
+    <AssemblyVersion>2.1.34.2302</AssemblyVersion>
+    <FileVersion>2.1.34.2302</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Algorithms\" />
