@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,11 +11,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using IWshRuntimeLibrary;
 using Byt3.AutoUpdate;
+using ProgramInstaller.Properties;
 
 namespace ProgramInstaller
 {
     public partial class SelectProductForm : Form
     {
+        private ImageProvider provider;
         private readonly WebClient client = new WebClient();
         private struct Product
         {
@@ -53,15 +54,22 @@ namespace ProgramInstaller
         {
             string[] repos = LoadRepos();
             Products.Clear();
+
+            Dictionary<string, string> productMap = new Dictionary<string, string>();
+
             foreach (string repo in repos)
             {
                 string[] products = GetProducts(repo);
                 foreach (string product in products)
                 {
+                    productMap.Add(product, repo + product);
+
                     Version[] vers = GetVersionsForProduct(repo, product);
                     Products.Add(product, new Product(product, repo, GetStartFileForProduct(repo, product), vers));
                 }
             }
+
+            provider = new ImageProvider(productMap);
 
             List<string> prds = Products.Keys.ToList();
             prds.Sort();
@@ -119,7 +127,7 @@ namespace ProgramInstaller
             AutoUpdateEntry.Direct = true;
             AutoUpdateEntry.CloseOnFinish = false;
             AutoUpdateEntry.Args = new[] { "-no-update" };
-            AutoUpdateEntry.StartAfter = (AutoUpdateEntry.StartAction) cbAfterInstallAction.SelectedIndex;
+            AutoUpdateEntry.StartAfter = (AutoUpdateEntry.StartAction)cbAfterInstallAction.SelectedIndex;
 
 
 
@@ -165,9 +173,11 @@ namespace ProgramInstaller
                 tbInstallDir.Enabled = false;
                 btnInstall.Enabled = false;
                 btnSelectInstallDir.Enabled = false;
+                pbProductIcon.Image = Resources.defaultImage;
             }
             else
             {
+                pbProductIcon.Image = provider.GetImage(cbProduct.Items[cbProduct.SelectedIndex].ToString());
                 cbVersion.Items.Clear();
                 cbVersion.Items.AddRange(Products[cbProduct.Items[cbProduct.SelectedIndex].ToString()].versions.Cast<object>().ToArray());
                 if (cbVersion.Items.Count > 0) cbVersion.SelectedIndex = 0;

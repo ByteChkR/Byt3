@@ -41,6 +41,8 @@
             this.cbCreateShortcut = new System.Windows.Forms.CheckBox();
             this.cbAfterInstallAction = new System.Windows.Forms.ComboBox();
             this.lblAfterInstallAction = new System.Windows.Forms.Label();
+            this.pbProductIcon = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pbProductIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // cbProduct
@@ -156,11 +158,22 @@
             this.lblAfterInstallAction.TabIndex = 11;
             this.lblAfterInstallAction.Text = "After Install:";
             // 
+            // pbProductIcon
+            // 
+            this.pbProductIcon.Image = global::ProgramInstaller.Properties.Resources.defaultImage;
+            this.pbProductIcon.Location = new System.Drawing.Point(465, 10);
+            this.pbProductIcon.Name = "pbProductIcon";
+            this.pbProductIcon.Size = new System.Drawing.Size(129, 129);
+            this.pbProductIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbProductIcon.TabIndex = 12;
+            this.pbProductIcon.TabStop = false;
+            // 
             // SelectProductForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(471, 142);
+            this.ClientSize = new System.Drawing.Size(598, 142);
+            this.Controls.Add(this.pbProductIcon);
             this.Controls.Add(this.lblAfterInstallAction);
             this.Controls.Add(this.cbAfterInstallAction);
             this.Controls.Add(this.cbCreateShortcut);
@@ -178,6 +191,7 @@
             this.MinimizeBox = false;
             this.Name = "SelectProductForm";
             this.Text = "Select Product";
+            ((System.ComponentModel.ISupportInitialize)(this.pbProductIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,6 +211,7 @@
         private System.Windows.Forms.CheckBox cbCreateShortcut;
         private System.Windows.Forms.ComboBox cbAfterInstallAction;
         private System.Windows.Forms.Label lblAfterInstallAction;
+        private System.Windows.Forms.PictureBox pbProductIcon;
     }
 }
 
