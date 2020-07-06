@@ -106,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AutoUpdate.ico" />
-    <None Include="Resources\icons8-softwarehülle-80%281%29.png" />
+    <None Include="Resources\DefaultProductImage.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
