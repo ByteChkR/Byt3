@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>2.3.45.402</AssemblyVersion>
-    <FileVersion>2.3.45.402</FileVersion>
+    <AssemblyVersion>2.3.48.25</AssemblyVersion>
+    <FileVersion>2.3.48.25</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Byt3.ADL\Byt3.ADL\Byt3.ADL.csproj" />

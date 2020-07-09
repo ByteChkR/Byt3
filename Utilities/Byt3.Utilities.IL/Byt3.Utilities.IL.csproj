@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Byt3.Utilities.IL</AssemblyName>
-    <AssemblyVersion>1.7.59.402</AssemblyVersion>
-    <FileVersion>1.7.59.402</FileVersion>
+    <AssemblyVersion>1.7.60.22</AssemblyVersion>
+    <FileVersion>1.7.60.22</FileVersion>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
